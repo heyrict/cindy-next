@@ -1,0 +1,43 @@
+{
+  "name": "cindy-next",
+  "version": "0.0.1",
+  "description": "packaging site for lateral thinking",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/heyrict/cindy-realtime.git"
+  },
+  "engines": {
+    "npm": ">=5",
+    "node": ">=8"
+  },
+  "author": "heyrict<github.com/heyrict>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "NODE_ENV=development node server",
+    "build": "next build",
+    "start": "NODE_ENV=production node server",
+    "extract-intl": "NODE_ENV=development node scripts/extract-intl.js"
+  },
+  "dependencies": {
+    "apollo-boost": "^0.3.1",
+    "express": "4.16.4",
+    "fnv-plus": "^1.2.12",
+    "graphql": "^14.2.1",
+    "hoist-non-react-statics": "^3.3.0",
+    "intl": "^1.2.5",
+    "isomorphic-unfetch": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "next": "^8.0.4",
+    "pg": "^7.9.0",
+    "rasha": "^1.2.5",
+    "react": "^16.8.6",
+    "react-apollo": "^2.5.4",
+    "react-dom": "^16.8.6",
+    "react-intl": "^2.8.0",
+    "sequelize": "^5.3.2"
+  },
+  "devDependencies": {
+    "babel-plugin-react-intl": "^3.0.1",
+    "prettier": "^1.16.4"
+  }
+}
