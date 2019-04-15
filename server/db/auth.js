@@ -10,7 +10,7 @@ const jwtConfig = require('../config/jwt');
 const { User, AuthGroup } = require('./schema');
 const { comparePassword } = require('./encode');
 
-const getRole = (user) => {
+const getRole = user => {
   if (user.isSuperuser) {
     return 'admin';
   } else if (user.isStaff) {
@@ -22,10 +22,10 @@ const getRole = (user) => {
 const getClaims = (user, reqRole) => {
   let defaultRole = getRole(user);
   const authGroups = user.auth_groups;
-  const roles = authGroups.map((ag) => ag.name);
+  const roles = authGroups.map(ag => ag.name);
   roles.push(defaultRole);
 
-  if (reqRole && roles.find((v) => v === reqRole)) {
+  if (reqRole && roles.find(v => v === reqRole)) {
     defaultRole = reqRole;
   }
 
@@ -36,7 +36,7 @@ const getClaims = (user, reqRole) => {
   };
 };
 
-const getUser = (user) => {
+const getUser = user => {
   const claim = {
     name: user.username,
     // iat: Math.floor(Date.now() / 1000),
@@ -51,6 +51,7 @@ const getUser = (user) => {
   return {
     id: user.id,
     username: user.username,
+    nickname: user.nickname,
     token: JWT,
   };
 };
@@ -61,7 +62,7 @@ async function localAuth(username, password) {
     include: [AuthGroup],
   });
   if (!user) {
-    throw Error('Unknown User');
+    throw Error('User not existing');
   }
   if (!user.isActive) {
     throw Error('User is inactive');

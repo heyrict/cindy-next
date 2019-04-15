@@ -5,6 +5,7 @@ node_modules
 build
 stats.json
 schema.json
+*.log
 # Nextjs build output
 dist
 .next

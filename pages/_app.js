@@ -2,8 +2,13 @@ import React from 'react';
 import App, { Container } from 'next/app';
 import { ApolloProvider } from 'react-apollo';
 import { IntlProvider, addLocaleData } from 'react-intl';
+import { ThemeProvider } from 'emotion-theming';
+import { Provider as UnstatedProvider } from 'unstated';
 
-import { withApolloClient } from 'lib';
+//import Chat from 'components/Chat';
+import GlobalLayout from 'components/Layout';
+
+import { withApolloClient, theme } from '../lib';
 
 // Register React Intl's locale data for the user's locale in the browser. This
 // locale data was added to the page by `pages/_document.js`. This only happens
@@ -43,15 +48,21 @@ class MyApp extends App {
 
     return (
       <Container>
-        <IntlProvider
-          locale={locale}
-          messages={messages}
-          initialNow={initialNow}
-        >
+        <ThemeProvider theme={theme}>
           <ApolloProvider client={apolloClient}>
-            <Component {...pageProps} />
+            <IntlProvider
+              locale={locale}
+              messages={messages}
+              initialNow={initialNow}
+            >
+              <UnstatedProvider>
+                <GlobalLayout>
+                  <Component {...pageProps} />
+                </GlobalLayout>
+              </UnstatedProvider>
+            </IntlProvider>
           </ApolloProvider>
-        </IntlProvider>
+        </ThemeProvider>
       </Container>
     );
   }

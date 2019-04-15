@@ -11,7 +11,7 @@ const { parse } = require('url');
 const accepts = require('accepts');
 const next = require('next');
 const express = require('express');
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 const dev = process.env.NODE_ENV !== 'production';
 const { DEFAULT_LOCALE } = require('../settings');
@@ -37,10 +37,11 @@ app.prepare().then(() => {
   const server = express();
 
   // If you need a backend, e.g. an API, add your custom backend-specific middleware here
-  // server.use(bodyParser.json());
+  server.use(bodyParser.json());
   // JWT Authorization
   server.use('/webhook/login', userController.postLogin);
   server.use('/webhook/signup', userController.postSignup);
+  server.get('/webhook/getcurrent', userController.getCurrentUser);
   server.get('/webhook/webhook', userController.getWebhook);
   server.get('/webhook/jwks', userController.getJwks);
   server.get('*', (req, res) => {
