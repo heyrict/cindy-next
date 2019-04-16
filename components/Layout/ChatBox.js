@@ -1,16 +1,92 @@
 import styled from '@emotion/styled';
+import { Subscribe } from 'unstated';
+import { Button, Img } from 'components/General';
+import AsideContainer from 'containers/global/Aside';
 
-const ChatBox = styled.div`
+import ChatIcon from 'svgs/chat.svg';
+
+const FixedButton = styled(Button)`
+  display: none;
+  border-width: 0;
+  ${p => p.theme.mediaQueries.medium} {
+    display: block;
+    position: fixed;
+    border-radius: 9999px;
+    width: 5em;
+    height: 5em;
+    left: 2em;
+    bottom: 2em;
+    background-color: ${p => p.theme.colors.kogecha};
+    color: ${p => p.theme.colors.haizakura};
+    z-index: 180;
+  }
+`;
+
+const ChatBoxShader = styled.div`
+  display: none;
+  ${p => p.theme.mediaQueries.medium} {
+    display: ${p => (p.open ? 'flex' : 'none')};
+    opacity: ${p => (p.open ? 1 : 0)};
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    transition-property: opacity;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
+    z-index: 190;
+  }
+`;
+
+const ChatBoxBase = styled.aside`
   position: fixed;
   top: 0;
-  bottom: 0;
   left: 0;
   width: ${p => p.theme.sizes.chat};
   overflow-x: hidden;
   overflow-y: auto;
-  min-height: 100%;
+  flex-shrink: 0;
+  border-right: 2px solid ${p => p.theme.colors.edocha};
+  height: 100%;
   z-index: 200;
-  border: 2px solid ${p => p.theme.colors.edocha};
 `;
+
+const ResponsiveChatBox = styled(ChatBoxBase)`
+  ${p => p.theme.mediaQueries.medium} {
+    width: 62%;
+    background-color: ${p => p.theme.colors.white};
+    opacity: ${p => (p.open ? 1 : 0)}
+    visibility: ${p => (p.open ? 'visible' : 'hidden')};
+    transform: ${p => (p.open ? 'none' : 'translateX(-100%)')};
+    transition-property: transform, opacity, visibility;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
+  }
+  ${p => p.theme.mediaQueries.small} {
+    width: 80%;
+  }
+`;
+
+if (process.browser) {
+  window.asideCont = AsideContainer;
+}
+
+const ChatBox = ({ open, children }) => (
+  <Subscribe to={[AsideContainer]}>
+    {cont => (
+      <div>
+        <ResponsiveChatBox open={cont.state.show}>
+          {children}
+        </ResponsiveChatBox>
+        <ChatBoxShader open={cont.state.show} onClick={() => cont.hide()} />
+        <FixedButton chatOpen={cont.state.show} onClick={() => cont.show()}>
+          <Img size="sm" src={ChatIcon} />
+        </FixedButton>
+      </div>
+    )}
+  </Subscribe>
+)
 
 export default ChatBox;

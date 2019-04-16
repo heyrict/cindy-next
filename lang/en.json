@@ -1,8 +1,23 @@
 {
+  "auth.login": "Login",
+  "auth.logout": "Logout",
+  "auth.nickname": "Nickname",
+  "auth.password": "Password",
+  "auth.signup": "Signup",
+  "auth.username": "Username",
+  "common.close": "Close",
   "home.bestPuzzleOfLastMonth": "Most Valuable Puzzles of the Last Month",
   "home.body": "Cindy is an active community for chatting lateral thinking problems.",
   "home.description": "Find interesting lateral thinking puzzles here, share with your friends, and even create your own lateral thinking puzzle in minites!",
   "home.header": "Welcome to {cindy}!",
   "home.start": "Start",
-  "home.title": "Cindy: A lateral thinking salon for every one!"
+  "home.title": "Cindy: A lateral thinking salon for every one!",
+  "puzzle.all": "All",
+  "puzzle.description": "Playing lateral thinking puzzles online, and browsering all kinds of lateral thinking puzzles. Tons of lateral thinking puzzles are waiting for you!",
+  "puzzle.header": "Puzzle List",
+  "puzzle.newPuzzle": "New puzzle",
+  "puzzle.title": "Puzzles",
+  "toolbar.home": "Home",
+  "toolbar.puzzle": "Puzzle",
+  "toolbar.wiki": "Wiki"
 }

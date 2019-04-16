@@ -63,15 +63,30 @@ exports.postLogin = async (req, res) => {
  * Create a new local account
  */
 exports.postSignup = async (req, res) => {
-  const { username, password } = req.body;
+  const { nickname, username, password } = req.body;
   const errors = [];
+  if (!nickname) {
+    errors.push({ type: 'InvalidField', message: 'Username is not valid' });
+  }
   if (!username) {
     errors.push({ type: 'InvalidField', message: 'Username is not valid' });
   }
   if (!password) {
     errors.push({ type: 'InvalidField', message: 'Password cannot be blank' });
   }
-  if (password.length < 6) {
+  if (nickname.length >= 32) {
+    errors.push({
+      type: 'InvalidField',
+      message: 'Nickname should be at most 32 characters',
+    });
+  }
+  if (username.length >= 32) {
+    errors.push({
+      type: 'InvalidField',
+      message: 'Username should be at most 32 characters',
+    });
+  }
+  if (password.length <= 6) {
     errors.push({
       type: 'InvalidField',
       message: 'Password must be at least 6 characters long',
@@ -82,17 +97,22 @@ exports.postSignup = async (req, res) => {
     return res.status(400).json({ errors });
   }
 
-  const salt = randomSalt();
-  const encoded = await encodePassword(req.body.password, salt, 100000);
-  const user = await User.create({
-    username: req.body.username,
-    nickname: req.body.nickname,
-    password: encoded,
-  });
+  try {
+    const salt = randomSalt();
+    const encoded = await encodePassword(req.body.password, salt, 100000);
+    const user = await User.create({
+      username: req.body.username,
+      nickname: req.body.nickname,
+      password: encoded,
+    });
 
-  const userHeader = getUser(user);
-
-  return userHeader;
+    const userHeader = getUser(user);
+    return handleResponse(res, 200, userHeader);
+  } catch (error) {
+    return handleResponse(res, 400, {
+      errors: [{ type: 'DBError', message: error.message }],
+    });
+  }
 };
 
 exports.getCurrentUser = async (req, res) => {

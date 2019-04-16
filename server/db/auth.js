@@ -21,7 +21,7 @@ const getRole = user => {
 
 const getClaims = (user, reqRole) => {
   let defaultRole = getRole(user);
-  const authGroups = user.auth_groups;
+  const authGroups = user.auth_groups || [];
   const roles = authGroups.map(ag => ag.name);
   roles.push(defaultRole);
 

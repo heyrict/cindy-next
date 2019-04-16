@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { space, color, width, fontSize, borders, height } from 'styled-system';
 
-const Button = styled.button`
+const LinkButton = styled.a`
+  display: block;
   background-color: ${p => p.theme.colors.usuki};
-  overflow: hidden;
   ${space}
   ${color}
   ${width}
@@ -12,7 +12,7 @@ const Button = styled.button`
   ${borders}
 `;
 
-Button.propTypes = {
+LinkButton.propTypes = {
   ...space.propTypes,
   ...color.propTypes,
   ...width.propTypes,
@@ -21,4 +21,4 @@ Button.propTypes = {
   ...borders.propTypes,
 };
 
-export default Button;
+export default LinkButton;

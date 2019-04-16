@@ -1,49 +1,106 @@
 import React from 'react';
 import Head from 'next/head';
-import { FormattedMessage } from 'react-intl';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
-import { Box, Button } from 'components/General';
-import { withLogout } from 'components/Auth';
+import Link from 'next/link';
+import styled from '@emotion/styled';
+import { FormattedMessage, intlShape } from 'react-intl';
+import { line2md } from 'common';
+import { Flex, Box, LinkButton, ButtonTransparent } from 'components/General';
 
 import messages from 'messages/pages/home';
 
-const TESTQUERY = gql`
-  query testquery {
-    sui_hei_user(limit: 5, order_by: [{ id: asc }]) {
-      id
-      username
-      nickname
-      password
-    }
+const PurpleBg = styled(Flex)`
+  background: linear-gradient(#5f293e, #330617);
+`;
+
+const H1 = styled.h1`
+  color: burlywood;
+  font-family: inconsolata, consolas, arial;
+  font-size: 3.8em;
+  ${p => p.theme.mediaQueries.medium} {
+    font-size: 3.2em;
+  }
+  ${p => p.theme.mediaQueries.small} {
+    font-size: 2.6em;
   }
 `;
 
-function Home(props) {
-  return (
-    <div>
-      <Head>
-        <title>Title</title>
-      </Head>
-      <FormattedMessage {...messages.title}>
-        {msg => <h1>{msg}</h1>}
-      </FormattedMessage>
-      <Query query={TESTQUERY} ssr={false}>
-        {({ loading, error, data }) => {
-          if (loading) return 'Loading...';
-          if (error) return JSON.stringify(error);
-          return JSON.stringify(data.sui_hei_user);
-        }}
-      </Query>
-      <Button
-        borderColor="yamabukicha"
-        borderWidth={1}
-        onClick={() => props.logout()}
-      >
-        Logout
-      </Button>
-    </div>
-  );
-}
+const IntroBox = styled(Box)`
+  border-radius: 10px;
+  background: burlywood;
+  line-height: 1.5em;
+  font-size: 1.8em;
+  align-self: center;
+  ${p => p.theme.mediaQueries.medium} {
+    font-size: 1.5em;
+  }
+  ${p => p.theme.mediaQueries.small} {
+    font-size: 1.3em;
+  }
+`;
 
-export default withLogout(Home);
+const StartBox = styled(LinkButton)`
+  font-weight: bold;
+  width: 100%;
+  margin: 0 1em;
+  color: #4e182d;
+  background: burlywood;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 3em;
+  &:active,
+  &:hover {
+    color: burlywood;
+    background: #4e182d;
+  }
+  ${p => p.theme.mediaQueries.medium} {
+    font-size: 2.6em;
+  }
+  ${p => p.theme.mediaQueries.small} {
+    font-size: 2em;
+  }
+`;
+
+const HomePage = (props, context) => {
+  const _ = context.intl.formatMessage;
+  return (
+    <PurpleBg flexWrap="wrap" pb={4}>
+      <Head>
+        <title>{_(messages.title)}</title>
+        <meta name="description" content={_(messages.description)} />
+      </Head>
+      <Flex width={1} justifyContent="center">
+        <H1>
+          <FormattedMessage
+            {...messages.header}
+            values={{ cindy: <b>Cindy</b> }}
+          />
+        </H1>
+      </Flex>
+      <Flex width={1} mx={1} pt={20} pb={20}>
+        <IntroBox width={[0.7, 0.75, 0.78]} m={20} p={10}>
+          <FormattedMessage {...messages.body}>
+            {msg => <div dangerouslySetInnerHTML={{ __html: line2md(msg) }} />}
+          </FormattedMessage>
+        </IntroBox>
+        <Flex alignItems="center" width={[0.3, 0.25, 0.22]}>
+          <img
+            style={{ width: '100%' }}
+            src="/static/images/cindychan.png"
+            alt="Mrs. Cindy"
+          />
+        </Flex>
+      </Flex>
+      <Link href="/puzzle">
+        <StartBox>
+          <FormattedMessage {...messages.start} />
+        </StartBox>
+      </Link>
+    </PurpleBg>
+  );
+};
+
+HomePage.contextTypes = {
+  intl: intlShape,
+};
+
+export default HomePage;

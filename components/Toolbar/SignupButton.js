@@ -2,7 +2,7 @@ import React from 'react';
 import { Subscribe } from 'unstated';
 import { FormattedMessage } from 'react-intl';
 import { Box, ButtonTransparent } from 'components/General';
-import { withLogin } from 'components/Auth';
+import { withSignup } from 'components/Auth';
 import {
   Modal,
   ModalHeader,
@@ -12,15 +12,16 @@ import {
   FooterButton,
 } from 'components/Modal';
 import OnlyShowContainer from 'containers/reusable/OnlyShow';
-import LoginFormContainer from 'containers/forms/LoginForm';
+import SignupFormContainer from 'containers/forms/SignupForm';
+
 import messages from 'messages/components/auth';
 import commonMessages from 'messages/common';
 
-import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 
 const container = new OnlyShowContainer();
 
-const LoginButton = ({ login }) => (
+const SignupButton = ({ signup }) => (
   <Subscribe to={[container]}>
     {cont => (
       <Box height={1} width={1}>
@@ -34,37 +35,37 @@ const LoginButton = ({ login }) => (
           }}
           onClick={() => cont.show()}
         >
-          <FormattedMessage {...messages.login} />
+          <FormattedMessage {...messages.signup} />
         </ButtonTransparent>
-        <Modal show={cont.state.show} closefn={() => cont.hide()}>
+        <Modal show={cont.state.show}>
           <ModalHeader>
-            <FormattedMessage {...messages.login} />
+            <FormattedMessage {...messages.signup} />
             <ModalCloseBtn onClick={() => cont.hide()} />
           </ModalHeader>
           <ModalBody>
-            <LoginForm />
+            <SignupForm />
           </ModalBody>
           <ModalFooter>
-            <Subscribe to={[LoginFormContainer]}>
-              {lfcont => (
+            <Subscribe to={[SignupFormContainer]}>
+              {sfcont => (
                 <FooterButton
                   bg="chigusa"
                   color="hakuren"
                   onClick={() => {
-                    const { username, password } = lfcont.state;
-                    login(username, password)
+                    const { nickname, username, password } = sfcont.state;
+                    signup(nickname, username, password)
                       .then(res => {
                         const { errors } = res;
                         if (errors) {
-                          lfcont.setErrors(errors);
+                          sfcont.setErrors(errors);
                         } else {
-                          lfcont.resetState();
+                          sfcont.resetState();
                           cont.hide();
                         }
                       })
                       .catch(error => {
                         console.log(error);
-                        lfcont.setErrors([
+                        sfcont.setErrors([
                           {
                             type: 'InternalServerError',
                             message: error.message,
@@ -73,7 +74,7 @@ const LoginButton = ({ login }) => (
                       });
                   }}
                 >
-                  <FormattedMessage {...messages.login} />
+                  <FormattedMessage {...messages.signup} />
                 </FooterButton>
               )}
             </Subscribe>
@@ -87,4 +88,4 @@ const LoginButton = ({ login }) => (
   </Subscribe>
 );
 
-export default withLogin(LoginButton);
+export default withSignup(SignupButton);

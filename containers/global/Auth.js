@@ -42,4 +42,4 @@ class AuthContainer extends Container {
   };
 }
 
-export default AuthContainer;
+export default new AuthContainer();

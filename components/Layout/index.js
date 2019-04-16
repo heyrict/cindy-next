@@ -14,6 +14,7 @@ const globalStyle = theme => css`
   body {
     height: 100%;
     width: 100%;
+    margin: 0;
     font-size: ${theme.fontSizes[1]}px;
     line-height: 1.4;
     overscroll-behavior: contain;

@@ -1,12 +1,28 @@
 import React from 'react';
-import { Box, Button } from 'components/General';
+import { FormattedMessage } from 'react-intl';
+import { Box, ButtonTransparent } from 'components/General';
 import { withLogout } from 'components/Auth';
+
+import messages from 'messages/components/auth';
 
 const LoginButton = ({ logout }) => (
   <Box height={1} width={1}>
-    <Button width={1} height={1} p={0} borderWidth={0} onClick={logout}>
-      Logout
-    </Button>
+    <FormattedMessage {...messages.logout}>
+      {msg => (
+        <ButtonTransparent
+          width={1}
+          height={1}
+          p={0}
+          color="taikoh"
+          style={{
+            fontWeight: 'bold',
+          }}
+          onClick={logout}
+        >
+          Logout
+        </ButtonTransparent>
+      )}
+    </FormattedMessage>
   </Box>
 );
 

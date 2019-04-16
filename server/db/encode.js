@@ -8,7 +8,7 @@
 const crypto = require('crypto');
 
 function randomSalt() {
-  crypto
+  return crypto
     .randomBytes(10)
     .toString('base64')
     .slice(0, 12);
@@ -32,13 +32,8 @@ function comparePasswordSync(password, secret) {
 
 async function encodePassword(password, salt, iterations) {
   const secret = await new Promise((resolve, reject) => {
-    crypto.pbkdf2(
-      password,
-      salt,
-      iterations,
-      32,
-      'sha256',
-      (err, key) => (err ? reject(err) : resolve(key)),
+    crypto.pbkdf2(password, salt, iterations, 32, 'sha256', (err, key) =>
+      err ? reject(err) : resolve(key),
     );
   });
   return `pbkdf2_sha256$${iterations}$${salt}$${secret.toString('base64')}`;

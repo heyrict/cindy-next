@@ -22,7 +22,7 @@ const Shader = styled.div`
 
 const ModalContainer = styled.div`
   position: fixed;
-  z-index: 9999;
+  z-index: 600;
   right: 0;
   left: 0;
   top: 0;
@@ -49,10 +49,14 @@ const Container = styled.div`
 `;
 
 class Modal extends React.PureComponent {
+  static propTypes = {
+    show: PropTypes.bool.isRequired,
+    children: PropTypes.any,
+  };
   render() {
     return (
       <Portal>
-        <div style={{ display: 'inline-block' }}>
+        <div>
           <Shader className="modal-shade" show={this.props.show} />
           <ModalContainer className="modal-container" show={this.props.show}>
             <Container className="modal" show={this.props.show}>
@@ -64,10 +68,5 @@ class Modal extends React.PureComponent {
     );
   }
 }
-
-Modal.propTypes = {
-  show: PropTypes.bool.isRequired,
-  children: PropTypes.any,
-};
 
 export default Modal;

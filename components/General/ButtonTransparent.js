@@ -1,24 +1,29 @@
 import styled from '@emotion/styled';
 import { space, color, width, fontSize, borders, height } from 'styled-system';
 
-const Button = styled.button`
-  background-color: ${p => p.theme.colors.usuki};
+const ButtonTransparent = styled.button`
+  background-color: transparent;
   overflow: hidden;
+  border: none;
   ${space}
-  ${color}
   ${width}
   ${height}
+  ${color}
   ${fontSize}
   ${borders}
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 `;
 
-Button.propTypes = {
+ButtonTransparent.propTypes = {
   ...space.propTypes,
-  ...color.propTypes,
   ...width.propTypes,
   ...height.propTypes,
+  ...color.propTypes,
   ...fontSize.propTypes,
   ...borders.propTypes,
 };
 
-export default Button;
+export default ButtonTransparent;

@@ -2,15 +2,32 @@ import React from 'react';
 import { Subscribe } from 'unstated';
 import { FormattedMessage } from 'react-intl';
 import { Flex, Box, Input } from 'components/General';
-import LoginFormContainer from 'containers/forms/LoginForm';
+import SignupFormContainer from 'containers/forms/SignupForm';
 
 import messages from 'messages/components/auth';
 
-const LoginForm = () => {
+const SignupForm = () => {
   return (
-    <Subscribe to={[LoginFormContainer]}>
+    <Subscribe to={[SignupFormContainer]}>
       {cont => (
         <Flex flexWrap="wrap" alignItems="center">
+          <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
+            <FormattedMessage {...messages.nickname}>
+              {msg => (
+                <label>{msg}</label>
+              )}
+            </FormattedMessage>
+          </Box>
+          <Box width={[1, 2 / 3, 4 / 5]} mb={2}>
+            <Input
+              name="nickname"
+              type="text"
+              value={cont.state.nickname}
+              onChange={e => cont.handleNicknameChange(e.target.value)}
+              width={[1, 0.9]}
+              borderRadius={1}
+            />
+          </Box>
           <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
             <FormattedMessage {...messages.username}>
               {msg => (
@@ -62,4 +79,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;

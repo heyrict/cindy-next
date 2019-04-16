@@ -58,11 +58,47 @@ const User = sequelize.define(
       defaultValue: true,
       allowNull: false,
     },
+    firstName: {
+      type: Sequelize.STRING(30),
+      field: 'first_name',
+      defaultValue: '',
+      allowNull: false,
+    },
+    lastName: {
+      type: Sequelize.STRING(150),
+      field: 'last_name',
+      defaultValue: '',
+      allowNull: false,
+    },
+    email: {
+      type: Sequelize.STRING(254),
+      field: 'email',
+      defaultValue: '',
+      allowNull: false,
+    },
+    profile: {
+      type: Sequelize.TEXT,
+      field: 'profile',
+      defaultValue: '',
+      allowNull: false,
+    },
+    credit: {
+      type: Sequelize.INTEGER,
+      field: 'credit',
+      defaultValue: 0,
+      allowNull: false,
+    },
+    hideBookmark: {
+      type: Sequelize.BOOLEAN,
+      field: 'hide_bookmark',
+      defaultValue: true,
+      allowNull: false,
+    },
   },
   {
     timestamps: true,
     createdAt: 'date_joined',
-    updatedAt: false,
+    updatedAt: 'last_login',
     freezeTableName: true,
   },
 );

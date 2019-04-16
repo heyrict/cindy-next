@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "babel-plugin-react-intl": "^3.0.1",
-    "prettier": "^1.16.4"
+    "prettier": "^1.16.4",
+    "svg-url-loader": "^2.3.2"
   }
 }
