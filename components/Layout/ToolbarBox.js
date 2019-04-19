@@ -6,7 +6,13 @@ const ToolbarBoxBase = styled.nav`
   left: calc(${p => p.theme.sizes.chat});
   height: ${p => p.theme.sizes.toolbar};
   width: ${p => `calc(100% - ${p.theme.sizes.chat} - 4px)`};
-  background-color: ${p => p.theme.colors.white};
+  background: repeating-linear-gradient(
+    -30deg,
+    ${p => p.theme.colors.kigaracha},
+    ${p => p.theme.colors.edocha} 8px,
+    ${p => p.theme.colors.edocha} 12px,
+    ${p => p.theme.colors.kigaracha} 20px
+  );
   border: 2px solid ${p => p.theme.colors.edocha};
   overflow-x: auto;
   overflow-y: hidden;

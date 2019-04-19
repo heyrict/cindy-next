@@ -7,6 +7,14 @@ export const messages = defineMessages({
     id: `${scope}.close`,
     defaultMessage: 'Close',
   },
+  change: {
+    id: `${scope}.change`,
+    defaultMessage: 'Change',
+  },
+  default: {
+    id: `${scope}.default`,
+    defaultMessage: 'Default',
+  },
 });
 
 export default messages;

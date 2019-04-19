@@ -135,7 +135,7 @@ exports.getCurrentUser = async (req, res) => {
       parsed['https://www.cindythink.com/jwt/claims']['x-hasura-user-id'];
     const user = await User.findByPk(userId);
     return handleResponse(res, 200, {
-      id: `${user.id}`,
+      id: user.id,
       username: user.username,
       nickname: user.nickname,
     });

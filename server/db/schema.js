@@ -7,9 +7,9 @@
 
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('cindy', 'cindy', 'cindy', {
-  host: 'localhost',
-  dialect: 'postgres',
+const PGDB = process.env.PGDB || 'postgres://cindy:cindy@localhost:5432/cindy';
+
+const sequelize = new Sequelize(PGDB, {
   pool: {
     max: 5,
     min: 0,

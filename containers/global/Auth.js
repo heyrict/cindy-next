@@ -7,7 +7,7 @@ class AuthContainer extends Container {
   };
   constructor() {
     super();
-    if (process.browser) {
+    if (process.browser && document.cookie) {
       const authToken = cookie.parse(document.cookie)['cindy-jwt-token'];
       if (authToken) {
         fetch('/webhook/getcurrent', {

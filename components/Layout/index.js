@@ -30,7 +30,8 @@ const globalStyle = theme => css`
     cursor: pointer;
   }
   button {
-    border-style: solid;
+    border: none;
+    padding: 0.2em;
   }
 `;
 

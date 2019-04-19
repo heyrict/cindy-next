@@ -2,8 +2,10 @@ import styled from '@emotion/styled';
 import {
   alignItems,
   flexWrap,
+  flexDirection,
   justifyContent,
   space,
+  color,
   width,
   height,
 } from 'styled-system';
@@ -14,8 +16,10 @@ const Flex = styled.div`
   display: flex;
   ${alignItems}
   ${flexWrap}
+  ${flexDirection}
   ${justifyContent}
   ${space}
+  ${color}
   ${width}
   ${height}
 `;
@@ -23,8 +27,10 @@ const Flex = styled.div`
 Flex.propTypes = {
   ...alignItems.propTypes,
   ...flexWrap.propTypes,
+  ...flexDirection.propTypes,
   ...justifyContent.propTypes,
   ...space.propTypes,
+  ...color.propTypes,
   ...width.propTypes,
   ...height.propTypes,
 };

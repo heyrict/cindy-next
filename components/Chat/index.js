@@ -1,7 +1,16 @@
 import React from 'react';
+import { withRouter } from 'next/router';
+import { Subscribe } from 'unstated';
 
-const Chat = () => {
-  return <div>Chat</div>;
+import ChannelContainer from 'containers/global/Channel';
+import ChatRoom from './ChatRoom';
+
+const Chat = ({ router }) => {
+  return (
+    <Subscribe to={[ChannelContainer]}>
+      {cont => <ChatRoom chatroom={cont.getChannelWithPath(router.pathname)} />}
+    </Subscribe>
+  );
 };
 
-export default Chat;
+export default withRouter(Chat);
