@@ -45,7 +45,7 @@ const Toolbar = () => {
               </Link>
             </ToolbarButton>
             <ToolbarButton bg="karashi">
-              <Link href="/puzzle">
+              <Link href="/puzzles">
                 <a>
                   <ButtonTransparent
                     height={1}

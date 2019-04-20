@@ -90,7 +90,7 @@ const HomePage = (props, context) => {
           />
         </Flex>
       </Flex>
-      <Link href="/puzzle">
+      <Link href="/puzzles">
         <StartBox>
           <FormattedMessage {...messages.start} />
         </StartBox>

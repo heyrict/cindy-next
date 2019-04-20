@@ -6,6 +6,11 @@ const Heading = styled.div`
   margin-left: 1.2em;
   margin-bottom: 1em;
   padding-top: 0.8em;
+  ${p => p.theme.mediaQueries.small} {
+    margin-left: 0.6em;
+    padding-top: 0.4em;
+    margin-bottom: 0.5em;
+  }
   ${fontSize}
 `;
 

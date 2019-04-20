@@ -1,35 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { space, color, fontSize } from 'styled-system';
-import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { Img, Flex } from 'components/General';
+import { Img, Flex, Anchor } from 'components/General';
+
+import { PTUserInlineUser } from './PropTypes';
 
 const UserInlineBase = styled.div`
   display: inline-flex;
+  overflow: hidden;
   align-items: center;
   ${space}
   ${color}
   ${fontSize}
 `;
 
-const LinkBase = styled.a`
-  display: inline-block;
-  color: ${p => p.theme.colors.ruri};
-  margin-right: ${p => p.theme.space[1]}px;
-  &:hover,
-  &:active {
-    color: ${p => p.theme.colors.chigusa};
-  }
-`;
-
 const UserInline = ({ user, timestamp, ...props }) => {
   const NicknameBlock = user.id ? (
-    <Link href={`/user/${user.id}`}>
-      <LinkBase>{user.nickname}</LinkBase>
+    <Link href={`/user/${user.id}`} passHref>
+      <Anchor maxWidth="12em" mr={1}>
+        {user.nickname}
+      </Anchor>
     </Link>
   ) : (
-    <LinkBase as="div">{user.nickname}</LinkBase>
+    <Anchor mr={1} as="div">
+      {user.nickname}
+    </Anchor>
   );
 
   return user.icon ? (
@@ -59,21 +56,7 @@ const UserInline = ({ user, timestamp, ...props }) => {
 };
 
 UserInline.propTypes = {
-  user: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    icon: PropTypes.string,
-    nickname: PropTypes.string.isRequired,
-    username: PropTypes.string,
-    sui_hei_current_useraward: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      created: PropTypes.string.isRequired,
-      sui_hei_award: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-      }),
-    }),
-  }).isRequired,
+  user: PTUserInlineUser,
   timestamp: PropTypes.node,
 };
 

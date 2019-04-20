@@ -6,3 +6,5 @@ export { default as Input } from './Input';
 export { default as Img } from './Img';
 export { default as LinkButton } from './LinkButton';
 export { default as Heading } from './Heading';
+export { default as Panel } from './Panel';
+export { default as Anchor } from './Anchor';
