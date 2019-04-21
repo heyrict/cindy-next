@@ -10,20 +10,19 @@ const jwtConfig = require('../config/jwt');
 const { User, AuthGroup } = require('./schema');
 const { comparePassword } = require('./encode');
 
-const getRole = user => {
+const getRoles = user => {
   if (user.isSuperuser) {
-    return 'admin';
+    return ['admin', 'user'];
   } else if (user.isStaff) {
-    return 'staff';
+    return ['staff', 'user'];
   }
-  return 'user';
+  return ['user'];
 };
 
 const getClaims = (user, reqRole) => {
-  let defaultRole = getRole(user);
+  let defaultRole = 'user';
   const authGroups = user.auth_groups || [];
-  const roles = authGroups.map(ag => ag.name);
-  roles.push(defaultRole);
+  const roles = getRoles(user).concat(authGroups.map(ag => ag.name));
 
   if (reqRole && roles.find(v => v === reqRole)) {
     defaultRole = reqRole;

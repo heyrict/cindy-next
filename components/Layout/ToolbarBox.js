@@ -37,9 +37,9 @@ class ToolbarBox extends React.Component {
   handleScroll = e => {
     const scrollY = window.pageYOffset || document.documentElement.scrollTop;
     if (scrollY > this.lastScrollTop && scrollY > 50) {
-      this.setState({ showToolbar: false });
+      this.state.showToolbar === true && this.setState({ showToolbar: false });
     } else {
-      this.setState({ showToolbar: true });
+      this.state.showToolbar === false && this.setState({ showToolbar: true });
     }
     this.lastScrollTop = scrollY <= 0 ? 0 : scrollY;
   };

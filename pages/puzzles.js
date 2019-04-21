@@ -2,34 +2,11 @@ import React from 'react';
 import Head from 'next/head';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { PuzzlesUnsolvedQuery } from 'graphql/Queries/Puzzles';
 import { Heading } from 'components/General';
-import { UserBriefFragment } from 'components/User/Fragments';
 import PuzzleBrief from 'components/Puzzle/Brief';
 
 import messages from 'messages/pages/puzzle';
-
-const PuzzleQuery = gql`
-  query PuzzleQuery {
-    sui_hei_puzzle(
-      order_by: { modified: desc }
-      where: { status: { _eq: 0 } }
-    ) {
-      id
-      genre
-      title
-      status
-      yami
-      anonymous
-      created
-      dazed_on
-      sui_hei_user {
-        ...UserBrief
-      }
-    }
-  }
-  ${UserBriefFragment}
-`;
 
 const Puzzle = (props, context) => {
   const _ = context.intl.formatMessage;
@@ -42,7 +19,7 @@ const Puzzle = (props, context) => {
       <Heading>
         <FormattedMessage {...messages.header} />
       </Heading>
-      <Query query={PuzzleQuery}>
+      <Query query={PuzzlesUnsolvedQuery}>
         {({ loading, error, data }) => {
           return (
             <div>

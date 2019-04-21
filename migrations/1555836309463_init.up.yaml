@@ -1,0 +1,878 @@
+- args:
+    functions: []
+    query_templates: []
+    remote_schemas: []
+    tables:
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_chatroom
+        using:
+          foreign_key_constraint_on: chatroom_id
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - chatroom_id
+          - user_id
+          filter:
+            user_id:
+              _eq: X-Hasura-User-Id
+        role: user
+      table: sui_hei_favoritechatroom
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - content
+          - created
+          - scheduled
+          - user_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - content
+          - created
+          - scheduled
+          - user_id
+          filter: {}
+        role: user
+      table: sui_hei_schedule
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          check:
+            user_id:
+              _eq: X-Hasura-User-Id
+          columns:
+          - chatroom_id
+          - content
+          set:
+            editTimes: "0"
+            user_id: x-hasura-User-Id
+        role: user
+      object_relationships:
+      - comment: null
+        name: sui_hei_chatroom
+        using:
+          foreign_key_constraint_on: chatroom_id
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - content
+          - created
+          - editTimes
+          - chatroom_id
+          - user_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - chatroom_id
+          - content
+          - created
+          - editTimes
+          - id
+          - user_id
+          filter: {}
+        role: user
+      table: sui_hei_chatmessage
+      update_permissions:
+      - comment: null
+        permission:
+          columns:
+          - content
+          - editTimes
+          filter:
+            user_id:
+              _eq: X-Hasura-User-Id
+          set: {}
+        role: user
+    - array_relationships:
+      - comment: null
+        name: sui_hei_users
+        using:
+          foreign_key_constraint_on:
+            column: current_award_id
+            table: sui_hei_user
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_award
+        using:
+          foreign_key_constraint_on: award_id
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - created
+          - award_id
+          - user_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - created
+          - award_id
+          - user_id
+          filter: {}
+        role: user
+      table: sui_hei_useraward
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_puzzle
+        using:
+          foreign_key_constraint_on: puzzle_id
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - question
+          - questionEditTimes
+          - answer
+          - answerEditTimes
+          - good
+          - "true"
+          - created
+          - answeredtime
+          - puzzle_id
+          - user_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - question
+          - questionEditTimes
+          - answer
+          - answerEditTimes
+          - good
+          - "true"
+          - created
+          - answeredtime
+          - puzzle_id
+          - user_id
+          filter: {}
+        role: user
+      table: sui_hei_dialogue
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: sui_hei_awardapplications
+        using:
+          foreign_key_constraint_on:
+            column: reviewer_id
+            table: sui_hei_awardapplication
+      - comment: null
+        name: sui_hei_bookmarks
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: sui_hei_bookmark
+      - comment: null
+        name: sui_hei_chatmessages
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: sui_hei_chatmessage
+      - comment: null
+        name: sui_hei_chatrooms
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: sui_hei_chatroom
+      - comment: null
+        name: sui_hei_comments
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: sui_hei_comment
+      - comment: null
+        name: sui_hei_dialogues
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: sui_hei_dialogue
+      - comment: null
+        name: sui_hei_directmessages
+        using:
+          foreign_key_constraint_on:
+            column: receiver_id
+            table: sui_hei_directmessage
+      - comment: null
+        name: sui_hei_events
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: sui_hei_event
+      - comment: null
+        name: sui_hei_favoritechatrooms
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: sui_hei_favoritechatroom
+      - comment: null
+        name: sui_hei_puzzles
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: sui_hei_puzzle
+      - comment: null
+        name: sui_hei_schedules
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: sui_hei_schedule
+      - comment: null
+        name: sui_hei_stars
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: sui_hei_star
+      - comment: null
+        name: sui_hei_userawards
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: sui_hei_useraward
+      - comment: null
+        name: sui_hei_awardapplications_by_applierId
+        using:
+          foreign_key_constraint_on:
+            column: applier_id
+            table: sui_hei_awardapplication
+      - comment: null
+        name: sui_hei_directmessages_by_sender_id
+        using:
+          foreign_key_constraint_on:
+            column: sender_id
+            table: sui_hei_directmessage
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          check: {}
+          columns:
+          - credit
+          - current_award_id
+          - date_joined
+          - email
+          - first_name
+          - hide_bookmark
+          - id
+          - is_active
+          - is_staff
+          - is_superuser
+          - last_login
+          - last_name
+          - last_read_dm_id
+          - nickname
+          - password
+          - profile
+          - username
+          set: {}
+        role: anonymous
+      object_relationships:
+      - comment: null
+        name: sui_hei_directmessage
+        using:
+          foreign_key_constraint_on: last_read_dm_id
+      - comment: null
+        name: sui_hei_current_useraward
+        using:
+          foreign_key_constraint_on: current_award_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - password
+          - last_login
+          - is_superuser
+          - username
+          - first_name
+          - last_name
+          - email
+          - is_staff
+          - is_active
+          - date_joined
+          - nickname
+          - profile
+          - credit
+          - hide_bookmark
+          - current_award_id
+          - last_read_dm_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - credit
+          - current_award_id
+          - date_joined
+          - email
+          - first_name
+          - hide_bookmark
+          - id
+          - is_active
+          - is_staff
+          - is_superuser
+          - last_login
+          - last_name
+          - last_read_dm_id
+          - nickname
+          - profile
+          - username
+          filter: {}
+        role: user
+      table: sui_hei_user
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_puzzle
+        using:
+          foreign_key_constraint_on: puzzle_id
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - puzzle_id
+          - user_id
+          - value
+          filter: {}
+        role: user
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - puzzle_id
+          - user_id
+          - value
+          filter: {}
+        role: anonymous
+      table: sui_hei_star
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_puzzle
+        using:
+          foreign_key_constraint_on: puzzle_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - content
+          - created
+          - puzzle_id
+          filter: {}
+        role: user
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - content
+          - created
+          - puzzle_id
+          filter: {}
+        role: anonymous
+      table: sui_hei_hint
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: reviewer_id
+      - comment: null
+        name: suiHeiUserByApplierId
+        using:
+          foreign_key_constraint_on: applier_id
+      - comment: null
+        name: sui_hei_award
+        using:
+          foreign_key_constraint_on: award_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - status
+          - comment
+          - reason
+          - created
+          - reviewed
+          - applier_id
+          - award_id
+          - reviewer_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - status
+          - comment
+          - reason
+          - created
+          - reviewed
+          - applier_id
+          - award_id
+          - reviewer_id
+          filter: {}
+        role: user
+      table: sui_hei_awardapplication
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: sui_hei_users
+        using:
+          foreign_key_constraint_on:
+            column: last_read_dm_id
+            table: sui_hei_user
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: receiver_id
+      - comment: null
+        name: suiHeiUserBySenderId
+        using:
+          foreign_key_constraint_on: sender_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - content
+          - created
+          - receiver_id
+          - sender_id
+          filter:
+            _or:
+            - receiver_id:
+                _eq: X-Hasura-User-Id
+            - sender_id:
+                _eq: X-Hasura-User-Id
+        role: user
+      table: sui_hei_directmessage
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_award
+        using:
+          foreign_key_constraint_on: award_id
+      - comment: null
+        name: sui_hei_event
+        using:
+          foreign_key_constraint_on: event_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - award_id
+          - event_id
+          filter: {}
+        role: user
+      table: sui_hei_eventaward
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: sui_hei_awardapplications
+        using:
+          foreign_key_constraint_on:
+            column: award_id
+            table: sui_hei_awardapplication
+      - comment: null
+        name: sui_hei_eventawards
+        using:
+          foreign_key_constraint_on:
+            column: award_id
+            table: sui_hei_eventaward
+      - comment: null
+        name: sui_hei_userawards
+        using:
+          foreign_key_constraint_on:
+            column: award_id
+            table: sui_hei_useraward
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships: []
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - name
+          - groupName
+          - description
+          - requisition
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - name
+          - groupName
+          - description
+          - requisition
+          filter: {}
+        role: user
+      table: sui_hei_award
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: sui_hei_chatmessages
+        using:
+          foreign_key_constraint_on:
+            column: chatroom_id
+            table: sui_hei_chatmessage
+      - comment: null
+        name: sui_hei_favoritechatrooms
+        using:
+          foreign_key_constraint_on:
+            column: chatroom_id
+            table: sui_hei_favoritechatroom
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - name
+          - description
+          - created
+          - user_id
+          - private
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - name
+          - description
+          - created
+          - user_id
+          - private
+          filter: {}
+        role: user
+      table: sui_hei_chatroom
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: sui_hei_bookmarks
+        using:
+          foreign_key_constraint_on:
+            column: puzzle_id
+            table: sui_hei_bookmark
+      - comment: null
+        name: sui_hei_comments
+        using:
+          foreign_key_constraint_on:
+            column: puzzle_id
+            table: sui_hei_comment
+      - comment: null
+        name: sui_hei_dialogues
+        using:
+          foreign_key_constraint_on:
+            column: puzzle_id
+            table: sui_hei_dialogue
+      - comment: null
+        name: sui_hei_hints
+        using:
+          foreign_key_constraint_on:
+            column: puzzle_id
+            table: sui_hei_hint
+      - comment: null
+        name: sui_hei_stars
+        using:
+          foreign_key_constraint_on:
+            column: puzzle_id
+            table: sui_hei_star
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - title
+          - yami
+          - genre
+          - content
+          - solution
+          - content_safe
+          - created
+          - modified
+          - status
+          - memo
+          - user_id
+          - anonymous
+          - dazed_on
+          - grotesque
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - title
+          - yami
+          - genre
+          - content
+          - solution
+          - content_safe
+          - created
+          - modified
+          - status
+          - memo
+          - user_id
+          - anonymous
+          - dazed_on
+          - grotesque
+          filter: {}
+        role: user
+      table: sui_hei_puzzle
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: sui_hei_eventawards
+        using:
+          foreign_key_constraint_on:
+            column: event_id
+            table: sui_hei_eventaward
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - title
+          - status
+          - start_time
+          - end_time
+          - page_link
+          - page_src
+          - user_id
+          - banner_img_url
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - title
+          - status
+          - start_time
+          - end_time
+          - page_link
+          - page_src
+          - user_id
+          - banner_img_url
+          filter: {}
+        role: user
+      table: sui_hei_event
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_puzzle
+        using:
+          foreign_key_constraint_on: puzzle_id
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - value
+          - puzzle_id
+          - user_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - value
+          - puzzle_id
+          - user_id
+          filter: {}
+        role: user
+      table: sui_hei_bookmark
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: sui_hei_puzzle
+        using:
+          foreign_key_constraint_on: puzzle_id
+      - comment: null
+        name: sui_hei_user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - content
+          - spoiler
+          - puzzle_id
+          - user_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - content
+          - spoiler
+          - puzzle_id
+          - user_id
+          filter: {}
+        role: user
+      table: sui_hei_comment
+      update_permissions: []
+  type: replace_metadata

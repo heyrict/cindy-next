@@ -4,6 +4,7 @@ import { ApolloProvider } from 'react-apollo';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import { ThemeProvider } from 'emotion-theming';
 import { Provider as UnstatedProvider } from 'unstated';
+import { changeTabularTab } from 'common/plugin-tabs';
 
 //import Chat from 'components/Chat';
 import GlobalLayout from 'components/Layout';
@@ -34,6 +35,28 @@ class MyApp extends App {
     const initialNow = Date.now();
 
     return { pageProps, locale, messages, initialNow };
+  }
+
+  componentDidMount() {
+    window.addEventListener('click', this.eventDelegation);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('click', this.eventDelegation);
+  }
+  eventDelegation(e) {
+    const attr = e.target.attributes;
+    if ('data-toggle' in attr && 'data-target' in attr) {
+      if (attr['data-toggle'].value === 'tab') {
+        changeTabularTab(attr['data-target'].value.replace(/^#/, ''));
+      }
+    }
+    if (typeof e.target.onclick !== 'function' && 'href' in attr) {
+      const { selfDomain, url } = domainFilter(attr.href.value);
+      if (selfDomain && e.button === 0 /* left cick */) {
+        // this.props.goto(url);
+        e.preventDefault();
+      }
+    }
   }
 
   render() {

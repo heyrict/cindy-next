@@ -1,5 +1,13 @@
 import styled from '@emotion/styled';
-import { space, color, width, fontSize, borders, height } from 'styled-system';
+import {
+  space,
+  color,
+  width,
+  fontSize,
+  fontWeight,
+  borders,
+  height,
+} from 'styled-system';
 
 const ButtonTransparent = styled.button`
   background-color: transparent;
@@ -10,6 +18,7 @@ const ButtonTransparent = styled.button`
   ${height}
   ${color}
   ${fontSize}
+  ${fontWeight}
   ${borders}
 
   &:hover {
@@ -23,6 +32,7 @@ ButtonTransparent.propTypes = {
   ...height.propTypes,
   ...color.propTypes,
   ...fontSize.propTypes,
+  ...fontWeight.propTypes,
   ...borders.propTypes,
 };
 

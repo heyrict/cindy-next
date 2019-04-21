@@ -17,7 +17,7 @@ import DescriptionModal from './DescriptionModal';
 const descModalContainer = new OnlyShowContainer();
 const changeModalContainer = new OnlyShowContainer();
 
-const ChannelBar = ({ router }) => (
+const ChannelBar = ({ router, chatroomId }) => (
   <Subscribe to={[ChannelContainer, descModalContainer, changeModalContainer]}>
     {(channelCont, descModalCont, changeModalCont) => {
       const currentChannel = channelCont.getChannelWithPath(router.pathname);
@@ -28,7 +28,7 @@ const ChannelBar = ({ router }) => (
               color="lightyellow"
               height="channelbar"
               width={2 / 3}
-              onClick={() => descModalCont.show()}
+              onClick={() => chatroomId && descModalCont.show()}
             >
               {channelCont.state.channel ? (
                 currentChannel
@@ -49,11 +49,15 @@ const ChannelBar = ({ router }) => (
             </ButtonTransparent>
           </Flex>
           <ChannelChangeModal cont={changeModalCont} />
-          <DescriptionModal channel={currentChannel} cont={descModalCont} />
+          <DescriptionModal chatroomId={chatroomId} cont={descModalCont} />
         </Box>
       );
     }}
   </Subscribe>
 );
+
+ChannelBar.propTypes = {
+  chatroomId: PropTypes.number,
+};
 
 export default withRouter(ChannelBar);

@@ -46,7 +46,7 @@ export const line2md = string => {
     });
 
   const rendered = mdEscape
-    .render(PreNorm(string))
+    .render(string)
     .replace(/<p>/g, '')
     .replace(/<\/p>\s*$/g, '')
     .replace(/<\/p>/g, '<br style="margin-bottom: 10px" />');

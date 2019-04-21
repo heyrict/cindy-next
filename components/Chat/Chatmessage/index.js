@@ -15,12 +15,14 @@ const Chatmessage = ({ chatmessage, orientation, anonymous }) => (
         <AnonymousUserInline
           px={1}
           timestamp={
-            <FormattedTime
-              value={chatmessage.created}
-              year="numeric"
-              month="short"
-              day="numeric"
-            />
+            chatmessage.created && (
+              <FormattedTime
+                value={chatmessage.created}
+                year="numeric"
+                month="short"
+                day="numeric"
+              />
+            )
           }
         />
       ) : (
@@ -28,12 +30,14 @@ const Chatmessage = ({ chatmessage, orientation, anonymous }) => (
           px={1}
           user={chatmessage.sui_hei_user}
           timestamp={
-            <FormattedTime
-              value={chatmessage.created}
-              year="numeric"
-              month="short"
-              day="numeric"
-            />
+            chatmessage.created && (
+              <FormattedTime
+                value={chatmessage.created}
+                year="numeric"
+                month="short"
+                day="numeric"
+              />
+            )
           }
         />
       )}
