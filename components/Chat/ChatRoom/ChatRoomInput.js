@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 import { Mutation } from 'react-apollo';
+import { ChatRoomChatmessagesQuery } from 'graphql/Queries/Chat';
 import { ChatRoomSendMessageMutation } from 'graphql/Mutations/Chat';
 
 import { Subscribe } from 'unstated';
