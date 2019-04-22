@@ -45,8 +45,7 @@ const ChatBoxBase = styled.aside`
   top: 0;
   left: 0;
   width: ${p => p.theme.sizes.chat};
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   flex-shrink: 0;
   border-right: 2px solid ${p => p.theme.colors.edocha};
   height: 100%;
@@ -77,9 +76,7 @@ const ChatBox = ({ open, children }) => (
   <Subscribe to={[AsideContainer]}>
     {cont => (
       <div>
-        <ResponsiveChatBox open={cont.state.show}>
-          {children}
-        </ResponsiveChatBox>
+        <ResponsiveChatBox open={cont.state.show}>{children}</ResponsiveChatBox>
         <ChatBoxShader open={cont.state.show} onClick={() => cont.hide()} />
         <FixedButton chatOpen={cont.state.show} onClick={() => cont.show()}>
           <Img size="sm" src={ChatIcon} />
@@ -87,6 +84,6 @@ const ChatBox = ({ open, children }) => (
       </div>
     )}
   </Subscribe>
-)
+);
 
 export default ChatBox;

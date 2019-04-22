@@ -17,8 +17,8 @@ export const ChatRoomChatmessagesQuery = gql`
 `;
 
 export const ChatRoomPuzzleQuery = gql`
-  query ChatRoomPuzzle($puzzleId: Int) {
-    sui_hei_puzzle(where: { id: { _eq: $puzzleId } }, limit: 1) {
+  query ChatRoomPuzzle($puzzleId: Int!) {
+    sui_hei_puzzle_by_pk(id: $puzzleId) {
       id
       anonymous
       sui_hei_user {
