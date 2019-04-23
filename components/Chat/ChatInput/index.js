@@ -16,6 +16,8 @@ import {
 import { Subscribe } from 'unstated';
 import OnlyShowContainer from 'containers/reusable/OnlyShow';
 
+import 'styles/cindy-easymde.css';
+
 const modalContainer = new OnlyShowContainer();
 
 const ChatInputBase = styled.div`
@@ -35,9 +37,6 @@ const ChatInput = ({ cont, onSend }) => {
     <Subscribe to={[modalContainer, cont]}>
       {(modalCont, inputCont) => (
         <ChatInputBase>
-          <Head>
-            <link href="/static/css/easymde.min.css" rel="stylesheet" />
-          </Head>
           <ButtonTransparent
             width={1}
             height={1}
