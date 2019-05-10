@@ -31,14 +31,14 @@ class ChatRoom extends React.Component {
             chatroomId = data.sui_hei_chatroom[0].id;
           }
           return (
-            <div>
+            <React.Fragment>
               <ChannelBar chatroomId={chatroomId} />
               <ChatRoomMessages
                 chatroomId={chatroomId}
                 relatedPuzzleId={relatedPuzzleId}
               />
               {chatroomId && <ChatRoomInput chatroomId={chatroomId} />}
-            </div>
+            </React.Fragment>
           );
         }}
       </Query>

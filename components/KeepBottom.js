@@ -22,13 +22,17 @@ class KeepBottom extends React.Component {
   static defaultProps = {
     waitForRender: 300,
     watch: [],
+    stay: [],
   };
   static propTypes = {
     waitForRender: PropTypes.number,
     watch: PropTypes.array,
+    stay: PropTypes.array,
   };
 
   firstTimeAtTop = true;
+  prevScrollHeight = 0;
+  pendingTimeout = null;
   scrollerRef = React.createRef();
   componentDidMount() {
     this._judgeHeight();
@@ -41,17 +45,39 @@ class KeepBottom extends React.Component {
       this.firstTimeAtTop = true;
       return true;
     }
+    if (!arrayEquals(nextProps.stay, this.props.stay)) {
+      // Store previous scrollHeight before rendering
+      this.prevScrollHeight = this.scrollerRef.current.scrollHeight;
+      return true;
+    }
     return false;
   }
   _judgeHeight() {
+    // In case there is a pending scroll timeout,
+    // Do not mess up the scroll event.
+    if (this.pendingTimeout) {
+      return false;
+    }
     if (process.browser) {
-      window.setTimeout(() => {
+      const { scrollHeight } = this.scrollerRef.current;
+
+      // Wait for the content to render its contents to DOM
+      this.pendingTimeout = window.setTimeout(() => {
         if (this.firstTimeAtTop) {
+          // Scroll to bottom on `watch` update
           this.firstTimeAtTop = false;
           if (this.scrollerRef.current) {
-            this.scrollerRef.current.scrollTop = this.scrollerRef.current.scrollHeight;
+            this.scrollerRef.current.scrollTop = scrollHeight;
+          }
+        } else {
+          // Restore previous scrollTop on `stay` update.
+          // Useful for reversed infinite scrolling
+          if (this.scrollerRef.current) {
+            this.scrollerRef.current.scrollTop =
+              scrollHeight - this.prevScrollHeight;
           }
         }
+        this.pendingTimeout = null;
       }, this.props.waitForRender);
     }
   }

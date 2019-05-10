@@ -7,6 +7,12 @@ import { PTUserInlineUser } from 'components/User/PropTypes';
 import UserCol from 'components/User/UserCol';
 import { AnonymousUserCol } from 'components/User/Anonymous';
 
+import Genre from './Genre';
+
+const Hr = styled.hr`
+  color: ${p => p.theme.colors.sakuranezumi};
+`;
+
 const Brief = ({ puzzle }) => {
   return (
     <div>
@@ -18,7 +24,14 @@ const Brief = ({ puzzle }) => {
             <UserCol width={[1 / 4, 1 / 6]} user={puzzle.sui_hei_user} />
           )}
           <Box width={[3 / 4, 5 / 6]} px={2}>
-            {puzzle.title}
+            <Box p={1}>
+              <Genre genre={puzzle.genre} />
+              {puzzle.title}
+            </Box>
+            <Hr />
+            <Box p={1}>
+              {puzzle.status}
+            </Box>
           </Box>
         </Flex>
       </Panel>

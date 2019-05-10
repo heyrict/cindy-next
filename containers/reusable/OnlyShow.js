@@ -1,9 +1,12 @@
 import { Container } from 'unstated';
 
 class OnlyShowContainer extends Container {
-  state = {
-    show: false,
-  };
+  constructor(props = {}) {
+    super(props);
+    this.state = {
+      show: props.show || false,
+    };
+  }
   toggle() {
     this.setState(p => ({ show: !p.show }));
   }
