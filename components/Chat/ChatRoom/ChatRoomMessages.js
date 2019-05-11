@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import KeepBottom from 'components/KeepBottom';
-import LoadMoreVis from 'components/LoadMoreVis';
+import KeepBottom from 'components/Hoc/KeepBottom';
+import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import { Flex, Box } from 'components/General';
 import { mergeList } from 'common';
 
