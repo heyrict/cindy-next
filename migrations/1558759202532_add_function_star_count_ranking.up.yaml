@@ -1,0 +1,32 @@
+- args:
+    cascade: true
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.star_count_ranking(
+        created_gte timestamp without time zone,
+        created_lt timestamp without time zone
+      ) RETURNS SETOF hasura_user_ranking_trigger LANGUAGE sql STABLE AS $$
+      select
+        id as user_id,
+        star_count as value
+      from
+        sui_hei_user
+        left join (
+          select
+            count(sui_hei_star) as star_count,
+            sui_hei_puzzle.user_id as user_id
+          from
+            sui_hei_puzzle
+            left join sui_hei_star on sui_hei_puzzle.id = sui_hei_star.puzzle_id
+          where
+            sui_hei_puzzle.created >= created_gte
+            and sui_hei_puzzle.created < created_lt
+          group by
+            sui_hei_puzzle.user_id
+        ) as user_stars on sui_hei_user.id = user_stars.user_id
+      order by
+        star_count desc nulls last $$
+  type: run_sql
+- args:
+    name: star_count_ranking
+    schema: public
+  type: track_function

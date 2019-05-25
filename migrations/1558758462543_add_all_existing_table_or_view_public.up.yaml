@@ -1,0 +1,76 @@
+- args:
+    name: sui_hei_award
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_awardapplication
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_bookmark
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_chatmessage
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_chatroom
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_comment
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_dialogue
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_directmessage
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_event
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_eventaward
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_favoritechatroom
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_hint
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_puzzle
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_schedule
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_star
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_user
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_user_groups
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_user_user_permissions
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: sui_hei_useraward
+    schema: public
+  type: add_existing_table_or_view

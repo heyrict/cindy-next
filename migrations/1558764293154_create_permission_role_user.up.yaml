@@ -1,0 +1,711 @@
+# sui_hei_award
+- args:
+    permission:
+      columns: "*"
+      check: {}
+    role: user
+    table:
+      name: sui_hei_award
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      columns: "*"
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: sui_hei_award
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_award
+      schema: public
+  type: create_update_permission
+
+# sui_hei_awardapplication
+- args:
+    permission:
+      columns:
+        - status
+        - comment
+        - created
+        - award_id
+      check: {}
+      set:
+        applier_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_awardapplication
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      columns: "*"
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: sui_hei_awardapplication
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_awardapplication
+      schema: public
+  type: create_update_permission
+
+# sui_hei_bookmark
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns:
+        - puzzle_id
+        - value
+    role: user
+    table:
+      name: sui_hei_bookmark
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 1000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_bookmark
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      columns: "*"
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_bookmark
+      schema: public
+  type: create_update_permission
+- args:
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_bookmark
+      schema: public
+  type: create_delete_permission
+
+# sui_hei_chatmessage
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 2000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      columns: "*"
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: create_update_permission
+
+# sui_hei_chatroom
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_chatroom
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: false
+      limit: 2000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_chatroom
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_chatroom
+      schema: public
+  type: create_update_permission  
+- args:
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_chatroom
+      schema: public
+  type: create_delete_permission
+
+# sui_hei_comment
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_comment
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: false
+      limit: 1000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_comment
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_comment
+      schema: public
+  type: create_update_permission  
+- args:
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_comment
+      schema: public
+  type: create_delete_permission
+
+# sui_hei_dialogue
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      limit: null
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        $or:
+          - sui_hei_puzzle:
+              user_id:
+                $eq: X-HASURA-USER-ID
+          - user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: create_update_permission  
+
+# sui_hei_directmessage
+- args:
+    permission:
+      check:
+        sender_id: X-HASURA-USER-ID
+      set:
+        sender_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 2000
+      filter:
+        $or:
+          - sender_id: X-HASURA-USER-ID
+          - receiver_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        sender_id: X-HASURA-USER-ID
+      set:
+        sender_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: create_update_permission  
+
+# sui_hei_event
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_event
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: false
+      limit: 2000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_event
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_event
+      schema: public
+  type: create_update_permission  
+- args:
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_event
+      schema: public
+  type: create_delete_permission
+
+# sui_hei_eventaward
+- args:
+    permission:
+      columns: "*"
+      check: {}
+    role: user
+    table:
+      name: sui_hei_eventaward
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: false
+      limit: 2000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_eventaward
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_eventaward
+      schema: public
+  type: create_update_permission  
+- args:
+    permission:
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_eventaward
+      schema: public
+  type: create_delete_permission
+
+# sui_hei_favoritechatroom
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_favoritechatroom
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: false
+      limit: 2000
+      filter:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_favoritechatroom
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_favoritechatroom
+      schema: public
+  type: create_update_permission  
+- args:
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_favoritechatroom
+      schema: public
+  type: create_delete_permission
+
+# sui_hei_hint
+- args:
+    permission:
+      check:
+        sui_hei_puzzle:
+          user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_hint
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 2000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_hint
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        sui_hei_puzzle:
+          user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_hint
+      schema: public
+  type: create_update_permission  
+- args:
+    permission:
+      filter:
+        sui_hei_puzzle:
+          user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_hint
+      schema: public
+  type: create_delete_permission
+
+# sui_hei_puzzle
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_puzzle
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 2000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_puzzle
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_puzzle
+      schema: public
+  type: create_update_permission  
+
+# sui_hei_schedule
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_schedule
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: false
+      limit: 2000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_schedule
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_schedule
+      schema: public
+  type: create_update_permission  
+- args:
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_schedule
+      schema: public
+  type: create_delete_permission
+
+# sui_hei_star
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_star
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 2000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_star
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_star
+      schema: public
+  type: create_update_permission  
+- args:
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_star
+      schema: public
+  type: create_delete_permission
+
+# sui_hei_user
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 2000
+      filter: {}
+      columns:
+        - id
+        - last_login
+        - username
+        - email
+        - date_joined
+        - nickname
+        - profile
+        - credit
+        - hide_bookmark
+        - current_award_id
+        - last_read_dm_id
+    role: user
+    table:
+      name: sui_hei_user
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns:
+        - last_login
+        - username
+        - email
+        - profile
+        - credit
+        - hide_bookmark
+        - current_award_id
+        - last_read_dm_id
+      filter:
+        id: X-HASURA-USER-ID
+      set:
+        id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_user
+      schema: public
+  type: create_update_permission  
+
+# sui_hei_useraward
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 2000
+      filter: {}
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_useraward
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter: {}
+      set: {}
+    role: user
+    table:
+      name: sui_hei_useraward
+      schema: public
+  type: create_update_permission  
+
+# hasura_user_ranking_trigger
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+        - user_id
+        - value
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: hasura_user_ranking_trigger
+      schema: public
+  type: create_select_permission

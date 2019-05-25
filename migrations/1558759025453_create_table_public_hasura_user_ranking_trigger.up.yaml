@@ -1,0 +1,11 @@
+- args:
+    sql: CREATE TABLE "public"."hasura_user_ranking_trigger"("user_id" integer NOT
+      NULL, "value" bigint NOT NULL, PRIMARY KEY ("user_id") , FOREIGN KEY ("user_id")
+      REFERENCES "public"."sui_hei_user"("id") ON UPDATE restrict ON DELETE restrict);
+      COMMENT ON TABLE "public"."hasura_user_ranking_trigger" IS 'Trigger table to
+      rank users'
+  type: run_sql
+- args:
+    name: hasura_user_ranking_trigger
+    schema: public
+  type: add_existing_table_or_view

@@ -1,0 +1,6 @@
+- args:
+    relationship: sui_hei_user
+    table:
+      name: hasura_user_ranking_trigger
+      schema: public
+  type: drop_relationship

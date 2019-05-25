@@ -1,0 +1,3 @@
+- args:
+    sql: DROP TABLE "public"."hasura_user_ranking_trigger"
+  type: run_sql

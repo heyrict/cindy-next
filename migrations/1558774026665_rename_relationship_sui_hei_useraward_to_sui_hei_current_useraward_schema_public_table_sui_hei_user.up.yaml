@@ -1,0 +1,7 @@
+- args:
+    name: sui_hei_useraward
+    new_name: sui_hei_current_useraward
+    table:
+      name: sui_hei_user
+      schema: public
+  type: rename_relationship

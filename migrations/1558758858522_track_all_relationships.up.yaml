@@ -1,0 +1,600 @@
+- args:
+    name: sui_hei_awardapplications
+    table:
+      name: sui_hei_award
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: award_id
+        table:
+          name: sui_hei_awardapplication
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_eventawards
+    table:
+      name: sui_hei_award
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: award_id
+        table:
+          name: sui_hei_eventaward
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_userawards
+    table:
+      name: sui_hei_award
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: award_id
+        table:
+          name: sui_hei_useraward
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_award
+    table:
+      name: sui_hei_awardapplication
+      schema: public
+    using:
+      foreign_key_constraint_on: award_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_awardapplication
+      schema: public
+    using:
+      foreign_key_constraint_on: applier_id
+  type: create_object_relationship
+- args:
+    name: suiHeiUserByReviewerId
+    table:
+      name: sui_hei_awardapplication
+      schema: public
+    using:
+      foreign_key_constraint_on: reviewer_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_puzzle
+    table:
+      name: sui_hei_bookmark
+      schema: public
+    using:
+      foreign_key_constraint_on: puzzle_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_bookmark
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_chatroom
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+    using:
+      foreign_key_constraint_on: chatroom_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_chatroom
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_chatmessages
+    table:
+      name: sui_hei_chatroom
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: chatroom_id
+        table:
+          name: sui_hei_chatmessage
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_favoritechatrooms
+    table:
+      name: sui_hei_chatroom
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: chatroom_id
+        table:
+          name: sui_hei_favoritechatroom
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_puzzle
+    table:
+      name: sui_hei_comment
+      schema: public
+    using:
+      foreign_key_constraint_on: puzzle_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_comment
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_puzzle
+    table:
+      name: sui_hei_dialogue
+      schema: public
+    using:
+      foreign_key_constraint_on: puzzle_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_dialogue
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_directmessage
+      schema: public
+    using:
+      foreign_key_constraint_on: receiver_id
+  type: create_object_relationship
+- args:
+    name: suiHeiUserBySenderId
+    table:
+      name: sui_hei_directmessage
+      schema: public
+    using:
+      foreign_key_constraint_on: sender_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_users
+    table:
+      name: sui_hei_directmessage
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: last_read_dm_id
+        table:
+          name: sui_hei_user
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_event
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_eventawards
+    table:
+      name: sui_hei_event
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: event_id
+        table:
+          name: sui_hei_eventaward
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_award
+    table:
+      name: sui_hei_eventaward
+      schema: public
+    using:
+      foreign_key_constraint_on: award_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_event
+    table:
+      name: sui_hei_eventaward
+      schema: public
+    using:
+      foreign_key_constraint_on: event_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_chatroom
+    table:
+      name: sui_hei_favoritechatroom
+      schema: public
+    using:
+      foreign_key_constraint_on: chatroom_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_favoritechatroom
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_puzzle
+    table:
+      name: sui_hei_hint
+      schema: public
+    using:
+      foreign_key_constraint_on: puzzle_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_puzzle
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_bookmarks
+    table:
+      name: sui_hei_puzzle
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: puzzle_id
+        table:
+          name: sui_hei_bookmark
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_comments
+    table:
+      name: sui_hei_puzzle
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: puzzle_id
+        table:
+          name: sui_hei_comment
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_dialogues
+    table:
+      name: sui_hei_puzzle
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: puzzle_id
+        table:
+          name: sui_hei_dialogue
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_hints
+    table:
+      name: sui_hei_puzzle
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: puzzle_id
+        table:
+          name: sui_hei_hint
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_stars
+    table:
+      name: sui_hei_puzzle
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: puzzle_id
+        table:
+          name: sui_hei_star
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_schedule
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_puzzle
+    table:
+      name: sui_hei_star
+      schema: public
+    using:
+      foreign_key_constraint_on: puzzle_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_star
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_directmessage
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on: last_read_dm_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_useraward
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on: current_award_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_awardapplications
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: applier_id
+        table:
+          name: sui_hei_awardapplication
+          schema: public
+  type: create_array_relationship
+- args:
+    name: suiHeiAwardapplicationsByReviewerId
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: reviewer_id
+        table:
+          name: sui_hei_awardapplication
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_bookmarks
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_bookmark
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_chatmessages
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_chatmessage
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_chatrooms
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_chatroom
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_comments
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_comment
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_dialogues
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_dialogue
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_directmessages
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: receiver_id
+        table:
+          name: sui_hei_directmessage
+          schema: public
+  type: create_array_relationship
+- args:
+    name: suiHeiDirectmessagesBySenderId
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: sender_id
+        table:
+          name: sui_hei_directmessage
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_events
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_event
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_favoritechatrooms
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_favoritechatroom
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_puzzles
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_puzzle
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_schedules
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_schedule
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_stars
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_star
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_userawards
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_useraward
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_user_groups
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_user_groups
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_user_user_permissions
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: sui_hei_user_user_permissions
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_award
+    table:
+      name: sui_hei_useraward
+      schema: public
+    using:
+      foreign_key_constraint_on: award_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_useraward
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_users
+    table:
+      name: sui_hei_useraward
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: current_award_id
+        table:
+          name: sui_hei_user
+          schema: public
+  type: create_array_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_user_groups
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_user_user_permissions
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship

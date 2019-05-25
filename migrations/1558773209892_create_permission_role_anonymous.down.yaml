@@ -1,0 +1,127 @@
+# sui_hei_award
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_award
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_awardapplication
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_awardapplication
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_bookmark
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_bookmark
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_chatmessage
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_chatroom
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_chatroom
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_comment
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_comment
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_dialogue
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_event
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_event
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_eventaward
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_eventaward
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_hint
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_hint
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_puzzle
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_puzzle
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_schedule
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_schedule
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_star
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_star
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_user
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_user
+      schema: public
+  type: drop_select_permission
+
+# sui_hei_useraward
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_useraward
+      schema: public
+  type: drop_select_permission
+
+# hasura_user_ranking_trigger
+- args:
+    role: anonymous
+    table:
+      name: hasura_user_ranking_trigger
+      schema: public
+  type: drop_select_permission

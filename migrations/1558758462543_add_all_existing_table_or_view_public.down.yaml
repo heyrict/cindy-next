@@ -1,0 +1,95 @@
+- args:
+    table:
+      name: sui_hei_award
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_awardapplication
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_bookmark
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_chatroom
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_comment
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_event
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_eventaward
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_favoritechatroom
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_hint
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_puzzle
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_schedule
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_star
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_user
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_user_groups
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_user_user_permissions
+      schema: public
+  type: untrack_table
+- args:
+    table:
+      name: sui_hei_useraward
+      schema: public
+  type: untrack_table
