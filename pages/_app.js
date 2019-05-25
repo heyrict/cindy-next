@@ -1,15 +1,16 @@
 import React from 'react';
 import App, { Container } from 'next/app';
+import { compose } from 'redux';
 import { ApolloProvider } from 'react-apollo';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import { ThemeProvider } from 'emotion-theming';
-import { Provider as UnstatedProvider } from 'unstated';
+import { Provider as ReduxProvider } from 'react-redux';
 import { changeTabularTab } from 'common/plugin-tabs';
 
 //import Chat from 'components/Chat';
 import GlobalLayout from 'components/Layout';
 
-import { withApolloClient, theme } from '../lib';
+import { withApolloClient, withReduxStore, theme } from '../lib';
 
 // Register React Intl's locale data for the user's locale in the browser. This
 // locale data was added to the page by `pages/_document.js`. This only happens
@@ -63,6 +64,7 @@ class MyApp extends App {
     const {
       Component,
       apolloClient,
+      reduxStore,
       initialNow,
       locale,
       messages,
@@ -78,11 +80,11 @@ class MyApp extends App {
               messages={messages}
               initialNow={initialNow}
             >
-              <UnstatedProvider>
+              <ReduxProvider store={reduxStore}>
                 <GlobalLayout>
                   <Component {...pageProps} />
                 </GlobalLayout>
-              </UnstatedProvider>
+              </ReduxProvider>
             </IntlProvider>
           </ApolloProvider>
         </ThemeProvider>
@@ -91,4 +93,7 @@ class MyApp extends App {
   }
 }
 
-export default withApolloClient(MyApp);
+export default compose(
+  withApolloClient,
+  withReduxStore,
+)(MyApp);

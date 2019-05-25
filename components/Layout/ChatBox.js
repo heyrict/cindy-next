@@ -1,7 +1,10 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { Subscribe } from 'unstated';
 import { Button, Img } from 'components/General';
-import AsideContainer from 'containers/global/Aside';
+
+import { connect } from 'react-redux';
+import * as globalReducer from 'reducers/global';
 
 import ChatIcon from 'svgs/chat.svg';
 
@@ -68,22 +71,35 @@ const ResponsiveChatBox = styled(ChatBoxBase)`
   }
 `;
 
-if (process.browser) {
-  window.asideCont = AsideContainer;
-}
-
-const ChatBox = ({ open, children }) => (
-  <Subscribe to={[AsideContainer]}>
-    {cont => (
-      <div>
-        <ResponsiveChatBox open={cont.state.show}>{children}</ResponsiveChatBox>
-        <ChatBoxShader open={cont.state.show} onClick={() => cont.hide()} />
-        <FixedButton chatOpen={cont.state.show} onClick={() => cont.show()}>
-          <Img size="sm" src={ChatIcon} />
-        </FixedButton>
-      </div>
-    )}
-  </Subscribe>
+const ChatBox = ({ children, aside, setTrueAside, setFalseAside }) => (
+  <div>
+    <ResponsiveChatBox open={aside}>{children}</ResponsiveChatBox>
+    <ChatBoxShader open={aside} onClick={() => setFalseAside()} />
+    <FixedButton chatOpen={aside} onClick={() => setTrueAside()}>
+      <Img size="sm" src={ChatIcon} />
+    </FixedButton>
+  </div>
 );
 
-export default ChatBox;
+ChatBox.propTypes = {
+  children: PropTypes.node,
+  aside: PropTypes.bool.isRequired,
+  setTrueAside: PropTypes.func.isRequired,
+  setFalseAside: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  aside: globalReducer.rootSelector(state).aside,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setTrueAside: () => dispatch(globalReducer.actions.setTrueAside()),
+  setFalseAside: () => dispatch(globalReducer.actions.setFalseAside()),
+});
+
+const withRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default withRedux(ChatBox);

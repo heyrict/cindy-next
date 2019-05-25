@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { Subscribe } from 'unstated';
 import { Flex, Button, Input } from 'components/General';
 import {
   Modal,
@@ -12,64 +12,87 @@ import {
   FooterButton,
 } from 'components/Modal';
 
-import ChannelContainer from 'containers/global/Channel';
-import OnlyOneTextContainer from 'containers/reusable/OnlyOneText';
+import * as chatReducer from 'reducers/chat';
+import * as globalReducer from 'reducers/global';
 
 import commonMessages from 'messages/common';
 import chatMessages from 'messages/components/chat';
 
-const inputContainer = new OnlyOneTextContainer();
-
-const ChannelChangeModal = ({ cont }) => (
-  <Subscribe to={[ChannelContainer, inputContainer]}>
-    {(channelCont, inputCont) => {
-      return (
-        <Modal show={cont.state.show} closefn={() => cont.hide()}>
-          <ModalHeader>
-            <FormattedMessage {...chatMessages.changeChannel} />
-            <ModalCloseBtn onClick={() => cont.hide()} />
-          </ModalHeader>
-          <ModalBody>
-            <Flex mb={1}>
-              <FormattedMessage {...commonMessages.default}>
-                {msg => (
-                  <Input
-                    type="text"
-                    placeholder={msg}
-                    width={3 / 4}
-                    value={inputCont.state.content}
-                    onChange={e => inputCont.handleChange(e.target.value)}
-                  />
-                )}
-              </FormattedMessage>
-              <Button
-                width={1 / 4}
-                onClick={() => {
-                  channelCont.setChannel(inputCont.state.content);
-                  cont.hide();
-                }}
-              >
-                <FormattedMessage {...commonMessages.change} />
-              </Button>
-            </Flex>
-            <Button
-              width={1}
-              onClick={() => {
-                channelCont.setChannel('');
-                cont.hide();
-              }}
-            >
-              <FormattedMessage {...chatMessages.changeToDefaultChannel} />
-            </Button>
-          </ModalBody>
-        </Modal>
-      );
-    }}
-  </Subscribe>
+const ChannelChangeModal = ({
+  channel,
+  channelChangeInput,
+  channelChangeModal,
+  setChannel,
+  setChannelChangeInput,
+  setFalseChannelChangeModal,
+}) => (
+  <Modal show={channelChangeModal} closefn={() => setFalseChannelChangeModal()}>
+    <ModalHeader>
+      <FormattedMessage {...chatMessages.changeChannel} />
+      <ModalCloseBtn onClick={() => setFalseChannelChangeModal()} />
+    </ModalHeader>
+    <ModalBody>
+      <Flex mb={1}>
+        <FormattedMessage {...commonMessages.default}>
+          {msg => (
+            <Input
+              type="text"
+              placeholder={msg}
+              width={3 / 4}
+              value={channelChangeInput}
+              onChange={e => setChannelChangeInput(e.target.value)}
+            />
+          )}
+        </FormattedMessage>
+        <Button
+          width={1 / 4}
+          onClick={() => {
+            setChannel(channelChangeInput);
+            setFalseChannelChangeModal();
+          }}
+        >
+          <FormattedMessage {...commonMessages.change} />
+        </Button>
+      </Flex>
+      <Button
+        width={1}
+        onClick={() => {
+          setChannel('');
+          setFalseChannelChangeModal();
+        }}
+      >
+        <FormattedMessage {...chatMessages.changeToDefaultChannel} />
+      </Button>
+    </ModalBody>
+  </Modal>
 );
 
 ChannelChangeModal.propTypes = {
-  cont: PropTypes.object.isRequired,
+  channel: PropTypes.string.isRequired,
+  channelChangeInput: PropTypes.string.isRequired,
+  channelChangeModal: PropTypes.bool.isRequired,
+  setChannelChangeInput: PropTypes.func.isRequired,
+  setChannel: PropTypes.func.isRequired,
+  setFalseChannelChangeModal: PropTypes.func.isRequired,
 };
 
-export default ChannelChangeModal;
+const mapStateToProps = state => ({
+  channel: globalReducer.rootSelector(state).channel,
+  channelChangeInput: chatReducer.rootSelector(state).channelChangeInput,
+  channelChangeModal: chatReducer.rootSelector(state).channelChangeModal,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setChannelChangeInput: value =>
+    dispatch(chatReducer.actions.setChannelChangeInput(value)),
+  setChannel: value => dispatch(globalReducer.actions.setChannel(value)),
+  setFalseChannelChangeModal: () =>
+    dispatch(chatReducer.actions.setFalseChannelChangeModal()),
+});
+
+const withRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default withRedux(ChannelChangeModal);

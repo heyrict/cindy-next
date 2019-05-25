@@ -1,16 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
-import { Subscribe } from 'unstated';
+import { getChannelWithPath } from 'common';
 
-import ChannelContainer from 'containers/global/Channel';
+import * as globalReducer from 'reducers/global';
+
 import ChatRoom from './ChatRoom';
 
-const Chat = ({ router }) => {
-  return (
-    <Subscribe to={[ChannelContainer]}>
-      {cont => <ChatRoom chatroom={cont.getChannelWithPath(router.pathname)} />}
-    </Subscribe>
-  );
+const Chat = ({ channel, router }) => (
+  <ChatRoom chatroom={getChannelWithPath(channel, router.pathname)} />
+);
+
+Chat.propTypes = {
+  channel: PropTypes.string.isRequired,
+  router: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
-export default withRouter(Chat);
+const mapStateToProps = state => ({
+  channel: globalReducer.rootSelector(state).channel,
+});
+
+const withRedux = connect(mapStateToProps);
+
+export default compose(
+  withRedux,
+  withRouter,
+)(Chat);

@@ -1,37 +1,44 @@
 import { ApolloConsumer } from 'react-apollo';
-import { Subscribe } from 'unstated';
-import AuthContainer from 'containers/global/Auth';
+import { connect } from 'react-redux';
+
+import * as globalReducer from 'reducers/global';
 
 import { webhookPost } from './webhook';
 
-const withSignup = Wrapped => props => (
-  <ApolloConsumer>
-    {apolloClient => (
-      <Subscribe to={[AuthContainer]}>
-        {cont => (
-          <Wrapped
-            signup={(nickname, username, password) =>
-              webhookPost('/webhook/signup', {
-                nickname,
-                username,
-                password,
-              }).then(res => {
-                const { id, username, nickname, token, errors } = res;
-                if (!errors) {
-                  document.cookie = `cindy-jwt-token=${token}`;
-                  cont.auth({ id, username, nickname });
-                  apolloClient.resetStore();
-                }
-                return res;
-              })
-            }
-            {...props}
-          />
-        )}
-      </Subscribe>
-    )}
-  </ApolloConsumer>
+const mapDispatchToProps = dispatch => ({
+  auth: user => dispatch(globalReducer.actions.auth(user)),
+});
+
+const withRedux = connect(
+  null,
+  mapDispatchToProps,
 );
+
+const withSignup = Wrapped =>
+  withRedux(props => (
+    <ApolloConsumer>
+      {apolloClient => (
+        <Wrapped
+          signup={(nickname, username, password) =>
+            webhookPost('/webhook/signup', {
+              nickname,
+              username,
+              password,
+            }).then(res => {
+              const { id, username, nickname, token, errors } = res;
+              if (!errors) {
+                document.cookie = `cindy-jwt-token=${token}`;
+                props.auth({ id, username, nickname });
+                apolloClient.resetStore();
+              }
+              return res;
+            })
+          }
+          {...props}
+        />
+      )}
+    </ApolloConsumer>
+  ));
 withSignup.displayName = 'withSignup(Component)';
 
 export default withSignup;

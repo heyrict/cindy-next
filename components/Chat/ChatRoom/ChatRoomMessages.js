@@ -13,8 +13,8 @@ import {
 } from 'graphql/Queries/Chat';
 import { ChatRoomChatmessagesSubscription } from 'graphql/Subscriptions/Chat';
 
-import { Subscribe } from 'unstated';
-import AuthContainer from 'containers/global/Auth';
+import { connect } from 'react-redux';
+import * as globalReducer from 'reducers/global';
 
 import Chatmessage from '../Chatmessage';
 
@@ -39,18 +39,22 @@ const ChatRoomMessagesBody = ({
   fetchMore,
   subscribeToMore,
   chatroomId,
+  user,
   relatedPuzzleId,
 }) => {
   if (error) return <div>Error</div>;
   if (!data) return <div>No messages</div>;
   const { sui_hei_chatmessage: chatmessages } = data;
 
+  if (!chatmessages) {
+    return null;
+  }
+
   useEffect(() => {
     subscribeToMore({
       document: ChatRoomChatmessagesSubscription,
       variables: { chatroomId },
       updateQuery: (prev, { subscriptionData }) => {
-        console.log(subscriptionData);
         if (!subscriptionData.data) return prev;
         return Object.assign({}, prev, {
           sui_hei_chatmessage: mergeList(
@@ -64,99 +68,88 @@ const ChatRoomMessagesBody = ({
   }, []);
 
   return (
-    <Subscribe to={[AuthContainer]}>
-      {cont => (
-        <KeepBottom watch={[chatroomId]} stay={[chatmessages.length]}>
-          {({ scrollerRef }) => (
-            <ChannelContentWrapper ref={scrollerRef}>
-              <ChannelContent>
-                {relatedPuzzleId ? (
-                  <Query
-                    query={ChatRoomPuzzleQuery}
-                    variables={{
-                      puzzleId: relatedPuzzleId,
-                    }}
-                  >
-                    {res => {
-                      if (res.loading) return <div>Loading...</div>;
-                      if (res.error) return <div>Error</div>;
-                      if (!res.data) return <div>No messages</div>;
+    <KeepBottom watch={[chatroomId]} stay={[chatmessages.length]}>
+      {({ scrollerRef }) => (
+        <ChannelContentWrapper ref={scrollerRef}>
+          <ChannelContent>
+            {relatedPuzzleId ? (
+              <Query
+                query={ChatRoomPuzzleQuery}
+                variables={{
+                  puzzleId: relatedPuzzleId,
+                }}
+              >
+                {res => {
+                  if (res.loading) return <div>Loading...</div>;
+                  if (res.error) return <div>Error</div>;
+                  if (!res.data) return <div>No messages</div>;
 
-                      const { sui_hei_puzzle_by_pk: relatedPuzzle } = res.data;
-                      if (relatedPuzzle.anonymous) {
-                        return chatmessages.map(cm => (
-                          <Chatmessage
-                            key={`chatmessage-${cm.id}`}
-                            chatmessage={cm}
-                            anonymous={
-                              relatedPuzzle.sui_hei_user.id ===
-                              cm.sui_hei_user.id
-                            }
-                            orientation={
-                              cont.state.user.id === cm.sui_hei_user.id
-                                ? 'right'
-                                : 'left'
-                            }
-                          />
-                        ));
-                      }
-                      return chatmessages.map(cm => (
-                        <Chatmessage
-                          key={`chatmessage-${cm.id}`}
-                          chatmessage={cm}
-                          orientation={
-                            cont.state.user.id === cm.sui_hei_user.id
-                              ? 'right'
-                              : 'left'
-                          }
-                        />
-                      ));
-                    }}
-                  </Query>
-                ) : (
-                  chatmessages.map(cm => (
+                  const { sui_hei_puzzle_by_pk: relatedPuzzle } = res.data;
+                  if (relatedPuzzle.anonymous) {
+                    return chatmessages.map(cm => (
+                      <Chatmessage
+                        key={`chatmessage-${cm.id}`}
+                        chatmessage={cm}
+                        anonymous={
+                          relatedPuzzle.sui_hei_user.id === cm.sui_hei_user.id
+                        }
+                        orientation={
+                          user.id === cm.sui_hei_user.id ? 'right' : 'left'
+                        }
+                      />
+                    ));
+                  }
+                  return chatmessages.map(cm => (
                     <Chatmessage
                       key={`chatmessage-${cm.id}`}
                       chatmessage={cm}
                       orientation={
-                        cont.state.user.id === cm.sui_hei_user.id
-                          ? 'right'
-                          : 'left'
+                        user.id === cm.sui_hei_user.id ? 'right' : 'left'
                       }
                     />
-                  ))
-                )}
-                {loading && <div>Loading...</div>}
-                <LoadMoreVis
-                  loadMore={() => {
-                    fetchMore({
-                      variables: {
-                        offset: chatmessages.length,
-                      },
-                      updateQuery: (prev, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) return prev;
-                        if (fetchMoreResult.sui_hei_chatmessage.length === 0)
-                          loadMoreCont.hide();
-                        return Object.assign({}, prev, {
-                          sui_hei_chatmessage: [
-                            ...prev.sui_hei_chatmessage,
-                            ...fetchMoreResult.sui_hei_chatmessage,
-                          ],
-                        });
-                      },
-                    });
-                  }}
+                  ));
+                }}
+              </Query>
+            ) : (
+              chatmessages.map(cm => (
+                <Chatmessage
+                  key={`chatmessage-${cm.id}`}
+                  chatmessage={cm}
+                  orientation={
+                    user.id === cm.sui_hei_user.id ? 'right' : 'left'
+                  }
                 />
-              </ChannelContent>
-            </ChannelContentWrapper>
-          )}
-        </KeepBottom>
+              ))
+            )}
+            {loading && <div>Loading...</div>}
+            <LoadMoreVis
+              loadMore={() => {
+                fetchMore({
+                  variables: {
+                    offset: chatmessages.length,
+                  },
+                  updateQuery: (prev, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) return prev;
+                    if (fetchMoreResult.sui_hei_chatmessage.length === 0)
+                      loadMoreCont.hide();
+                    return Object.assign({}, prev, {
+                      sui_hei_chatmessage: [
+                        ...prev.sui_hei_chatmessage,
+                        ...fetchMoreResult.sui_hei_chatmessage,
+                      ],
+                    });
+                  },
+                });
+              }}
+            />
+          </ChannelContent>
+        </ChannelContentWrapper>
       )}
-    </Subscribe>
+    </KeepBottom>
   );
 };
 
-const ChatRoomMessages = ({ chatroomId, relatedPuzzleId }) =>
+const ChatRoomMessages = ({ chatroomId, relatedPuzzleId, user }) =>
   chatroomId ? (
     <Query
       query={ChatRoomChatmessagesQuery}
@@ -169,6 +162,7 @@ const ChatRoomMessages = ({ chatroomId, relatedPuzzleId }) =>
         <ChatRoomMessagesBody
           chatroomId={chatroomId}
           relatedPuzzleId={relatedPuzzleId}
+          user={user}
           {...queryParams}
         />
       )}
@@ -182,6 +176,13 @@ const ChatRoomMessages = ({ chatroomId, relatedPuzzleId }) =>
 ChatRoomMessages.propTypes = {
   chatroomId: PropTypes.number,
   relatedPuzzleId: PropTypes.number,
+  user: PropTypes.object.isRequired,
 };
 
-export default ChatRoomMessages;
+const mapStateToProps = state => ({
+  user: globalReducer.rootSelector(state).user,
+});
+
+const withRedux = connect(mapStateToProps);
+
+export default withRedux(ChatRoomMessages);

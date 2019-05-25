@@ -27,7 +27,7 @@ class ChatRoom extends React.Component {
       >
         {({ data }) => {
           let chatroomId = null;
-          if (data && data.sui_hei_chatroom[0]) {
+          if (data && data.sui_hei_chatroom && data.sui_hei_chatroom[0]) {
             chatroomId = data.sui_hei_chatroom[0].id;
           }
           return (

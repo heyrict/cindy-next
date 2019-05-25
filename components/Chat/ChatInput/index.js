@@ -13,12 +13,11 @@ import {
   ModalFooter,
   FooterButton,
 } from 'components/Modal';
-import { Subscribe } from 'unstated';
-import OnlyShowContainer from 'containers/reusable/OnlyShow';
+
+import { connect } from 'react-redux';
+import * as chatReducer from 'reducers/chat';
 
 import 'styles/cindy-easymde.css';
-
-const modalContainer = new OnlyShowContainer();
 
 const ChatInputBase = styled.div`
   display: flex;
@@ -32,53 +31,79 @@ const ChatInputBase = styled.div`
   left: 0;
 `;
 
-const ChatInput = ({ cont, onSend }) => {
+const ChatInput = ({
+  cont,
+  onSend,
+  chatInputModal,
+  chatInput,
+  setChatInput,
+  setTrueChatInputModal,
+  setFalseChatInputModal,
+}) => {
   return (
-    <Subscribe to={[modalContainer, cont]}>
-      {(modalCont, inputCont) => (
-        <ChatInputBase>
-          <ButtonTransparent
-            width={1}
-            height={1}
-            color="hakuren"
-            fontWeight="bold"
-            onClick={() => modalCont.show()}
+    <ChatInputBase>
+      <ButtonTransparent
+        width={1}
+        height={1}
+        color="hakuren"
+        fontWeight="bold"
+        onClick={() => setTrueChatInputModal()}
+      >
+        Send Chat Message
+      </ButtonTransparent>
+      <Modal show={chatInputModal} closefn={() => setFalseChatInputModal()}>
+        <ModalHeader>
+          Send Chat Message
+          <ModalCloseBtn onClick={() => setFalseChatInputModal()} />
+        </ModalHeader>
+        <ModalBody>
+          <SimpleMDE
+            onChange={v => setChatInput(v)}
+            options={{
+              previewRender: line2md,
+            }}
+          />
+        </ModalBody>
+        <ModalFooter>
+          <FooterButton
+            onClick={() => {
+              onSend(chatInput);
+              setFalseChatInputModal();
+            }}
           >
-            Send Chat Message
-          </ButtonTransparent>
-          <Modal show={modalCont.state.show} closefn={() => modalCont.hide()}>
-            <ModalHeader>
-              Send Chat Message
-              <ModalCloseBtn onClick={() => modalCont.hide()} />
-            </ModalHeader>
-            <ModalBody>
-              <SimpleMDE
-                onChange={v => inputCont.handleChange(v)}
-                options={{
-                  previewRender: line2md,
-                }}
-              />
-            </ModalBody>
-            <ModalFooter>
-              <FooterButton
-                onClick={() => {
-                  onSend(inputCont.state.content);
-                  modalCont.hide();
-                }}
-              >
-                Send
-              </FooterButton>
-            </ModalFooter>
-          </Modal>
-        </ChatInputBase>
-      )}
-    </Subscribe>
+            Send
+          </FooterButton>
+        </ModalFooter>
+      </Modal>
+    </ChatInputBase>
   );
 };
 
 ChatInput.propTypes = {
   onSend: PropTypes.func.isRequired,
-  cont: PropTypes.object.isRequired,
+  chatInputModal: PropTypes.bool.isRequired,
+  chatInput: PropTypes.string.isRequired,
+  setChatInput: PropTypes.func.isRequired,
+  setTrueChatInputModal: PropTypes.func.isRequired,
+  setFalseChatInputModal: PropTypes.func.isRequired,
 };
 
-export default ChatInput;
+const mapStateToProps = state => ({
+  chatInputModal: chatReducer.rootSelector(state).chatInputModal,
+  chatInput: chatReducer.rootSelector(state).chatInput,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setChatInput: value => dispatch(chatReducer.actions.setChatInput(value)),
+  setTrueChatInputModal: () =>
+    dispatch(chatReducer.actions.setTrueChatInputModal()),
+  setFalseChatInputModal: () =>
+    dispatch(chatReducer.actions.setFalseChatInputModal()),
+});
+
+const withRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default withRedux(ChatInput);

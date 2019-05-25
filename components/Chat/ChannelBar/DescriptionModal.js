@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Query } from 'react-apollo';
 import { ChatRoomDescriptionQuery } from 'graphql/Queries/Chat';
@@ -14,6 +15,9 @@ import {
   FooterButton,
 } from 'components/Modal';
 
+import * as chatReducer from 'reducers/chat';
+import * as globalReducer from 'reducers/global';
+
 import commonMessages from 'messages/common';
 import chatMessages from 'messages/components/chat';
 
@@ -25,8 +29,12 @@ const defaultData = {
   private: false,
 };
 
-const DescriptionModal = ({ cont, chatroomId }) =>
-  cont.state.show && (
+const DescriptionModal = ({
+  descriptionModal,
+  setFalseDescriptionModal,
+  chatroomId,
+}) =>
+  descriptionModal ? (
     <Query
       query={ChatRoomDescriptionQuery}
       variables={{
@@ -44,10 +52,13 @@ const DescriptionModal = ({ cont, chatroomId }) =>
         }
 
         return (
-          <Modal show={cont.state.show} closefn={() => cont.hide()}>
+          <Modal
+            show={descriptionModal}
+            closefn={() => setFalseDescriptionModal()}
+          >
             <ModalHeader>
               {chatroom.name}
-              <ModalCloseBtn onClick={() => cont.hide()} />
+              <ModalCloseBtn onClick={() => setFalseDescriptionModal()} />
             </ModalHeader>
             <ModalBody>
               <div
@@ -60,11 +71,26 @@ const DescriptionModal = ({ cont, chatroomId }) =>
         );
       }}
     </Query>
-  );
+  ) : null;
 
 DescriptionModal.propTypes = {
-  cont: PropTypes.object.isRequired,
   chatroomId: PropTypes.number,
+  descriptionModal: PropTypes.bool.isRequired,
+  setFalseDescriptionModal: PropTypes.func.isRequired,
 };
 
-export default DescriptionModal;
+const mapStateToProps = state => ({
+  descriptionModal: chatReducer.rootSelector(state).descriptionModal,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setFalseDescriptionModal: () =>
+    dispatch(chatReducer.actions.setFalseDescriptionModal()),
+});
+
+const withRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default withRedux(DescriptionModal);

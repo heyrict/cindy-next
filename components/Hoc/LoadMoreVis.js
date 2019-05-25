@@ -9,7 +9,7 @@ class LoadMoreVis extends React.Component {
     loadMore: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    wait: 600,
+    wait: 1500,
   };
 
   state = {
