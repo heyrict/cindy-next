@@ -15,9 +15,18 @@ export const PuzzlesUnsolvedQuery = gql`
       yami
       anonymous
       created
+      modified
       dazed_on
       sui_hei_user {
         ...UserBrief
+      }
+      sui_hei_dialogues_aggregate {
+        aggregate {
+          count
+          max {
+            answeredtime
+          }
+        }
       }
     }
   }

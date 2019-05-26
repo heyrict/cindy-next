@@ -19,6 +19,46 @@ export const messages = defineMessages({
     id: `${scope}.genre_others`,
     defaultMessage: 'Others',
   },
+  yami_yami: {
+    id: `${scope}.yami_yami`,
+    defaultMessage: 'Yami',
+  },
+  yami_longtermYami: {
+    id: `${scope}.yami_longtermYami`,
+    defaultMessage: 'Long-term Yami',
+  },
+  status_undergoing: {
+    id: `${scope}.status_undergoing`,
+    defaultMessage: 'undergoing',
+  },
+  status_solved: {
+    id: `${scope}.status_solved`,
+    defaultMessage: 'solved',
+  },
+  status_dazed: {
+    id: `${scope}.status_dazed`,
+    defaultMessage: 'dazed',
+  },
+  status_hidden: {
+    id: `${scope}.status_hidden`,
+    defaultMessage: 'hidden',
+  },
+  status_forbidden: {
+    id: `${scope}.status_forbidden`,
+    defaultMessage: 'forbidden',
+  },
+  lastupdate: {
+    id: `${scope}.lastupdate`,
+    defaultMessage: 'Last Update',
+  },
+  createdAt: {
+    id: `${scope}.createdAt`,
+    defaultMessage: 'Created At',
+  },
+  solvedAt: {
+    id: `${scope}.solvedAt`,
+    defaultMessage: 'Solved At',
+  },
 });
 
 export default messages;

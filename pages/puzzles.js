@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Query } from 'react-apollo';
 import { PuzzlesUnsolvedQuery } from 'graphql/Queries/Puzzles';
-import { Heading } from 'components/General';
+import { Heading, Flex, Box } from 'components/General';
 import PuzzleBrief from 'components/Puzzle/Brief';
 
 import messages from 'messages/pages/puzzle';
@@ -25,14 +25,18 @@ const Puzzle = (props, context) => {
             <div>
               {loading && 'Loading...'}
               {error && `Error: ${error.message}`}
-              {data &&
-                data.sui_hei_puzzle &&
-                data.sui_hei_puzzle.map(puzzle => (
-                  <PuzzleBrief
-                    key={`puzzle-brief-${puzzle.id}`}
-                    puzzle={puzzle}
-                  />
-                ))}
+              {data && data.sui_hei_puzzle && (
+                <Flex flexWrap="wrap">
+                  {data.sui_hei_puzzle.map(puzzle => (
+                    <Box width={[1, 1 / 2, 1 / 2, 1 / 2, 1 / 3]}>
+                      <PuzzleBrief
+                        key={`puzzle-brief-${puzzle.id}`}
+                        puzzle={puzzle}
+                      />
+                    </Box>
+                  ))}
+                </Flex>
+              )}
             </div>
           );
         }}
