@@ -76,7 +76,7 @@ const ChatBox = ({ children, aside, setTrueAside, setFalseAside }) => (
     <ResponsiveChatBox open={aside}>{children}</ResponsiveChatBox>
     <ChatBoxShader open={aside} onClick={() => setFalseAside()} />
     <FixedButton chatOpen={aside} onClick={() => setTrueAside()}>
-      <Img size="sm" src={ChatIcon} />
+      <Img size="3em" src={ChatIcon} />
     </FixedButton>
   </div>
 );
