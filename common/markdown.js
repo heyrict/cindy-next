@@ -2,6 +2,9 @@ import MarkdownIt from 'markdown-it';
 import mdEmoji from 'markdown-it-emoji/light';
 import mdEmojiLight from 'markdown-it-emoji/lib/data/light.json';
 import DOMPurify from 'dompurify';
+
+import stampDefs from 'stamps';
+
 import normTabs from './plugin-tabs';
 import normLink from './plugin-link';
 import normCountdown from './plugin-countdown';
@@ -15,8 +18,6 @@ const DOMPurifyParams = {
 
 const HtmlPurify = (html, config) =>
   DOMPurify.sanitize ? DOMPurify.sanitize(html, config) : html;
-
-const stampDefs = {};
 
 const md = MarkdownIt({
   html: true,

@@ -61,6 +61,18 @@ const tabsStyle = css`
   }
 `;
 
+const stampStyle = css`
+  .cindy-stamp-middle {
+    height: 4em;
+  }
+
+  .cindy-frame-icon {
+    display: inline-block;
+    float: left;
+    margin: 0 5px;
+  }
+`;
+
 const globalStyle = theme => css`
   body {
     height: 100%;
@@ -85,6 +97,7 @@ const globalStyle = theme => css`
     padding: 0.2em;
   }
   ${tabsStyle}
+  ${stampStyle}
 `;
 
 const Layout = ({ children, ...props }) => {

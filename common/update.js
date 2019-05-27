@@ -6,7 +6,7 @@
 export const concatList = (listA, listB) => [...listA, ...listB];
 
 /*
- * function mergeList(listA, listB)
+ * function mergeList(listA, listB, sort = 'asc')
  *
  * Merging listA with listB (newer)
  * All items in both lists should be an object containing
