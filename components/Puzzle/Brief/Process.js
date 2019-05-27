@@ -16,7 +16,7 @@ const ProcessBase = styled.div`
   border: 1px solid ${p => p.theme.colors.ruri};
 `;
 
-const Process = ({ count }) => <ProcessBase>{count}</ProcessBase>;
+const Process = ({ count }) => <ProcessBase>Q : {count}</ProcessBase>;
 
 Process.propTypes = {
   count: PropTypes.number.isRequired,
