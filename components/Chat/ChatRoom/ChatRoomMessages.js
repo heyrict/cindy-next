@@ -68,7 +68,20 @@ const ChatRoomMessagesBody = ({
   }, []);
 
   return (
-    <KeepBottom watch={[chatroomId]} stay={[chatmessages.length]}>
+    <KeepBottom
+      watch={[
+        {
+          name: 'chatroomId',
+          value: chatroomId,
+          action: 'toBottom',
+        },
+        {
+          name: 'messageLength',
+          value: chatmessages.length,
+          action: 'stayOrBottom',
+        },
+      ]}
+    >
       {({ scrollerRef }) => (
         <ChannelContentWrapper ref={scrollerRef}>
           <ChannelContent>

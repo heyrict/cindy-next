@@ -28,11 +28,11 @@ const Puzzle = (props, context) => {
               {data && data.sui_hei_puzzle && (
                 <Flex flexWrap="wrap">
                   {data.sui_hei_puzzle.map(puzzle => (
-                    <Box width={[1, 1 / 2, 1 / 2, 1 / 2, 1 / 3]}>
-                      <PuzzleBrief
-                        key={`puzzle-brief-${puzzle.id}`}
-                        puzzle={puzzle}
-                      />
+                    <Box
+                      width={[1, 1 / 2, 1, 1 / 2, 1 / 3]}
+                      key={`puzzle-brief-${puzzle.id}`}
+                    >
+                      <PuzzleBrief puzzle={puzzle} />
                     </Box>
                   ))}
                 </Flex>

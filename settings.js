@@ -1,5 +1,7 @@
 const isDev = process.env.NODE_ENV !== 'production';
 
+exports.isDev = isDev;
+
 exports.GRAPHQL_ENDPOINT = isDev
   ? 'http://localhost:8080/v1/graphql'
   : 'http://165.227.21.196:8311/v1/graphql';
