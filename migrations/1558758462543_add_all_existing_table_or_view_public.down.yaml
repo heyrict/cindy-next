@@ -80,16 +80,6 @@
   type: untrack_table
 - args:
     table:
-      name: sui_hei_user_groups
-      schema: public
-  type: untrack_table
-- args:
-    table:
-      name: sui_hei_user_user_permissions
-      schema: public
-  type: untrack_table
-- args:
-    table:
       name: sui_hei_useraward
       schema: public
   type: untrack_table

@@ -63,14 +63,6 @@
     schema: public
   type: add_existing_table_or_view
 - args:
-    name: sui_hei_user_groups
-    schema: public
-  type: add_existing_table_or_view
-- args:
-    name: sui_hei_user_user_permissions
-    schema: public
-  type: add_existing_table_or_view
-- args:
     name: sui_hei_useraward
     schema: public
   type: add_existing_table_or_view

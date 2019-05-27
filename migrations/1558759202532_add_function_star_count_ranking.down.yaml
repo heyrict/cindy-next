@@ -1,1 +1,8 @@
-[]
+- args:
+    name: star_count_ranking
+    schema: public
+  type: untrack_function
+- args:
+    sql: |-
+      DROP FUNCTION public.star_count_ranking
+  type: run_sql

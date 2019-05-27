@@ -1,0 +1,66 @@
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_chatmessage" ALTER COLUMN "editTimes" SET DEFAULT 0;
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_chatmessage" ALTER COLUMN "created" SET DEFAULT now();
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_awardapplication" ALTER COLUMN "created" SET DEFAULT now();
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_chatroom" ALTER COLUMN "created" SET DEFAULT now();
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_chatroom" ALTER COLUMN "private" SET DEFAULT TRUE;
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_comment" ALTER COLUMN "spoiler" SET DEFAULT FALSE;
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_dialogue" ALTER COLUMN "questionEditTimes" SET DEFAULT 0;
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_dialogue" ALTER COLUMN "answerEditTimes" SET DEFAULT 0;
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_dialogue" ALTER COLUMN "created" SET DEFAULT now();
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_dialogue" ALTER COLUMN "answer" SET DEFAULT '';
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_dialogue" ALTER COLUMN "good" SET DEFAULT FALSE;
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_dialogue" ALTER COLUMN "true" SET DEFAULT FALSE;
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_directmessage" ALTER COLUMN "created" SET DEFAULT now();
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_hint" ALTER COLUMN "created" SET DEFAULT now();
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_puzzle" ALTER COLUMN "created" SET DEFAULT now();
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_puzzle" ALTER COLUMN "modified" SET DEFAULT now();
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_puzzle" ALTER COLUMN "status" SET DEFAULT 0;
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_puzzle" ALTER COLUMN "memo" SET DEFAULT '';
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_puzzle" ALTER COLUMN "anonymous" SET DEFAULT FALSE;
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_puzzle" ALTER COLUMN "grotesque" SET DEFAULT FALSE;
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_schedule" ALTER COLUMN "created" SET DEFAULT now();
+  type: run_sql
+- args:
+    sql: ALTER TABLE ONLY "public"."sui_hei_useraward" ALTER COLUMN "created" SET DEFAULT now();
+  type: run_sql

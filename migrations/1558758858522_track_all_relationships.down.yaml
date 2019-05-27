@@ -317,18 +317,6 @@
       schema: public
   type: drop_relationship
 - args:
-    relationship: sui_hei_user_groups
-    table:
-      name: sui_hei_user
-      schema: public
-  type: drop_relationship
-- args:
-    relationship: sui_hei_user_user_permissions
-    table:
-      name: sui_hei_user
-      schema: public
-  type: drop_relationship
-- args:
     relationship: sui_hei_award
     table:
       name: sui_hei_useraward
@@ -344,17 +332,5 @@
     relationship: sui_hei_users
     table:
       name: sui_hei_useraward
-      schema: public
-  type: drop_relationship
-- args:
-    relationship: sui_hei_user
-    table:
-      name: sui_hei_user_groups
-      schema: public
-  type: drop_relationship
-- args:
-    relationship: sui_hei_user
-    table:
-      name: sui_hei_user_user_permissions
       schema: public
   type: drop_relationship
