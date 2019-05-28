@@ -22,7 +22,7 @@ ModalCloseBtn.defaultProps = {
 };
 
 export const ModalHeader = styled.div`
-  background: ${p => p.theme.colors.karashi};
+  background: ${p => p.theme.colors.orange[5]};
   border-radius: 5px 5px 0 0;
   font-size: 1.6em;
   padding: 10px 20px;
@@ -33,7 +33,7 @@ export const ModalBody = styled.div`
 `;
 
 export const ModalFooter = styled.div`
-  border-top: 2px solid ${p => p.theme.colors.karashi};
+  border-top: 2px solid ${p => p.theme.colors.orange[5]};
   padding: 5px 10px;
   text-align: right;
 `;

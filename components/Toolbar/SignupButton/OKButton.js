@@ -16,8 +16,8 @@ const OKButton = ({
   resetForm,
 }) => (
   <FooterButton
-    bg="chigusa"
-    color="hakuren"
+    bg="cyan.6"
+    color="white"
     onClick={() => {
       signup(nickname, username, password)
         .then(res => {

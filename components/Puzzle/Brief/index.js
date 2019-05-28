@@ -21,13 +21,13 @@ import Star from './Star';
 import Comment from './Comment';
 
 const Hr = styled.hr`
-  color: ${p => p.theme.colors.sakuranezumi};
+  color: ${p => p.theme.colors.gray[6]};
 `;
 
 const Time = styled(Box)`
   text-align: right;
   font-size: 0.9em;
-  color: ${p => p.theme.colors.namari};
+  color: ${p => p.theme.colors.gray[7]};
 `;
 
 const Brief = ({ puzzle, dialogue, showGenreImage }) => {
@@ -94,23 +94,23 @@ const Brief = ({ puzzle, dialogue, showGenreImage }) => {
         <Flex p={1} flexWrap="wrap">
           <Status status={puzzle.status} />
           {processDialogue && <Process count={processDialogue.count} />}
-          {puzzle.sui_hei_stars_aggregate && (
-            <Star
-              count={puzzle.sui_hei_stars_aggregate.aggregate.count}
-              sum={puzzle.sui_hei_stars_aggregate.aggregate.sum.value}
-            />
-          )}
           {puzzle.sui_hei_stars_aggregate &&
-            puzzle.sui_hei_stars_aggregate.aggregate.count && (
+            puzzle.sui_hei_stars_aggregate.aggregate.count > 0 && (
               <Star
                 count={puzzle.sui_hei_stars_aggregate.aggregate.count}
                 sum={puzzle.sui_hei_stars_aggregate.aggregate.sum.value}
               />
             )}
           {puzzle.sui_hei_comments_aggregate &&
-            puzzle.sui_hei_comments_aggregate.aggregate.count && (
+            puzzle.sui_hei_comments_aggregate.aggregate.count > 0 && (
               <Comment
                 count={puzzle.sui_hei_comments_aggregate.aggregate.count}
+              />
+            )}
+          {puzzle.sui_hei_bookmarks_aggregate &&
+            puzzle.sui_hei_bookmarks_aggregate.count > 0 && (
+              <Bookmark
+                count={puzzle.sui_hei_bookmarks_aggregate.aggregate.count}
               />
             )}
         </Flex>
@@ -134,11 +134,16 @@ Brief.propTypes = {
       aggregate: PropTypes.shape({
         count: PropTypes.number.isRequired,
         sum: PropTypes.shape({
-          value: PropTypes.number.isRequired,
-        }),
+          value: PropTypes.number,
+        }).isRequired,
       }).isRequired,
     }),
     sui_hei_comments_aggregate: PropTypes.shape({
+      aggregate: PropTypes.shape({
+        count: PropTypes.number.isRequired,
+      }).isRequired,
+    }),
+    sui_hei_bookmarks_aggregate: PropTypes.shape({
       aggregate: PropTypes.shape({
         count: PropTypes.number.isRequired,
       }).isRequired,

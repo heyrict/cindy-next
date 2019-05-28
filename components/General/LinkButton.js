@@ -3,7 +3,7 @@ import { space, color, width, fontSize, borders, height } from 'styled-system';
 
 const LinkButton = styled.a`
   display: block;
-  background-color: ${p => p.theme.colors.usuki};
+  background-color: ${p => p.theme.colors.blue[6]};
   ${space}
   ${color}
   ${width}

@@ -66,7 +66,7 @@
 # sui_hei_comment
 - args:
     permission:
-      allow_aggregations: false
+      allow_aggregations: true
       limit: 1000
       columns: "*"
       filter: {}
@@ -118,7 +118,7 @@
 # sui_hei_hint
 - args:
     permission:
-      allow_aggregations: true
+      allow_aggregations: false
       limit: 1000
       columns: "*"
       filter: {}

@@ -9,8 +9,8 @@ import * as loginReducer from 'reducers/login';
 
 const OKButton = ({ login, username, password, setErrors, resetForm }) => (
   <FooterButton
-    bg="chigusa"
-    color="hakuren"
+    bg="cyan.6"
+    color="white"
     onClick={() => {
       login(username, password)
         .then(res => {

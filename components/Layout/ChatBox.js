@@ -19,8 +19,8 @@ const FixedButton = styled(Button)`
     height: 5em;
     left: 2em;
     bottom: 2em;
-    background-color: ${p => p.theme.colors.kogecha};
-    color: ${p => p.theme.colors.haizakura};
+    background-color: ${p => p.theme.colors.red[9]};
+    color: ${p => p.theme.colors.gray[8]};
     z-index: 180;
   }
 `;
@@ -50,7 +50,7 @@ const ChatBoxBase = styled.aside`
   width: ${p => p.theme.sizes.chat};
   overflow: hidden;
   flex-shrink: 0;
-  border-right: 2px solid ${p => p.theme.colors.edocha};
+  border-right: 2px solid ${p => p.theme.colors.orange[5]};
   height: 100%;
   z-index: 200;
 `;
@@ -58,7 +58,7 @@ const ChatBoxBase = styled.aside`
 const ResponsiveChatBox = styled(ChatBoxBase)`
   ${p => p.theme.mediaQueries.medium} {
     width: 62%;
-    background-color: ${p => p.theme.colors.white};
+    background-color: ${p => p.theme.colors.solarized.white};
     opacity: ${p => (p.open ? 1 : 0)}
     visibility: ${p => (p.open ? 'visible' : 'hidden')};
     transform: ${p => (p.open ? 'none' : 'translateX(-100%)')};

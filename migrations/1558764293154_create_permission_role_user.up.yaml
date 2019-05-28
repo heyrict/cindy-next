@@ -212,7 +212,7 @@
   type: create_insert_permission
 - args:
     permission:
-      allow_aggregations: false
+      allow_aggregations: true
       limit: 1000
       columns: "*"
       filter: {}
@@ -468,7 +468,7 @@
   type: create_insert_permission
 - args:
     permission:
-      allow_aggregations: true
+      allow_aggregations: false
       limit: 2000
       columns: "*"
       filter: {}

@@ -32,7 +32,7 @@ const LoginButton = ({
       width={1}
       height={1}
       p={0}
-      color="taikoh"
+      color="gray.1"
       style={{
         fontWeight: 'bold',
       }}

@@ -23,7 +23,7 @@ const ChatInputBase = styled.div`
   display: flex;
   width: 100%;
   height: ${p => p.theme.heights.chatinput};
-  background-color: ${p => p.theme.colors.kuwacha};
+  background-color: ${p => p.theme.colors.orange[5]};
   align-items: center;
   justify-content: center;
   position: absolute;
@@ -45,7 +45,7 @@ const ChatInput = ({
       <ButtonTransparent
         width={1}
         height={1}
-        color="hakuren"
+        color="white"
         fontWeight="bold"
         onClick={() => setTrueChatInputModal()}
       >

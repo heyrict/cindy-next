@@ -2,8 +2,8 @@ import Flex from './Flex';
 import styled from '@emotion/styled';
 
 const Panel = styled(Flex)`
-  background-color: lightyellow;
-  border-color: ${p => p.theme.colors.umenezumi};
+  background-color: rgba(255, 255, 255, 0.5);
+  border-color: ${p => p.theme.colors.red[4]};
   border-radius: ${p => p.theme.radii[2]}px;
   border-width: ${p => p.theme.space[1]}px;
   border-style: groove;

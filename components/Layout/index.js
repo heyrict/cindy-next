@@ -81,12 +81,12 @@ const globalStyle = theme => css`
     font-size: ${theme.fontSizes[1]}px;
     line-height: 1.4;
     overscroll-behavior: contain;
-    background-color: ${theme.colors.white};
-    color: ${theme.colors.aizumicha};
+    background-color: ${theme.colors.solarized.white};
+    color: ${theme.colors.solarized.black};
   }
   a {
     text-decoration: none;
-    color: ${theme.colors.chisuga};
+    color: ${theme.colors.blue[6]};
   }
   a,
   button {

@@ -15,6 +15,10 @@ export const messages = defineMessages({
     id: `${scope}.default`,
     defaultMessage: 'Default',
   },
+  loading: {
+    id: `${scope}.loading`,
+    defaultMessage: 'Loading...',
+  },
 });
 
 export default messages;

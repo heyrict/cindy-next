@@ -15,8 +15,8 @@ const LoginRequiredBlock = styled.div`
   display: flex;
   width: 100%;
   height: ${p => p.theme.heights.chatinput};
-  background-color: ${p => p.theme.colors.kuwacha};
-  color: ${p => p.theme.colors.hakuren};
+  background-color: ${p => p.theme.colors.orange[5]};
+  color: ${p => p.theme.colors.white};
   font-weight: bold;
   align-items: center;
   justify-content: center;

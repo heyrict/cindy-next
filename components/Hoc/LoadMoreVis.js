@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { Waypoint } from 'react-waypoint';
 import { randomUUID } from 'common';
+
+import messages from 'messages/common';
 
 class LoadMoreVis extends React.Component {
   static propTypes = {
     wait: PropTypes.number,
     loadMore: PropTypes.func.isRequired,
+    children: PropTypes.node,
   };
   static defaultProps = {
     wait: 1500,
@@ -50,7 +54,11 @@ class LoadMoreVis extends React.Component {
         onEnter={this._startTimer}
         onLeave={this._stopTimer}
       >
-        <div>{this.state.timerHandle ? 'Now Loading...' : 'Load More'}</div>
+        {this.props.children || (
+          <div>
+            <FormattedMessage {...messages.loading} />
+          </div>
+        )}
       </Waypoint>
     );
   }

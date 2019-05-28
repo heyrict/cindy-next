@@ -30,41 +30,41 @@ const Toolbar = ({ user }) => {
   return (
     <ToolbarFlex alignItems="center" justifyContents="center">
       <ToolbarFlex>
-        <ToolbarButton bg="karashi">
+        <ToolbarButton bg="orange.4">
           <Link href="/">
             <a>
               <ButtonTransparent
                 height={1}
                 width={1}
                 border="1px solid"
-                borderColor="edocha"
+                borderColor="red.6"
               >
                 <FormattedMessage {...messages.home} />
               </ButtonTransparent>
             </a>
           </Link>
         </ToolbarButton>
-        <ToolbarButton bg="karashi">
+        <ToolbarButton bg="orange.4">
           <Link href="/puzzles">
             <a>
               <ButtonTransparent
                 height={1}
                 width={1}
                 border="1px solid"
-                borderColor="edocha"
+                borderColor="red.6"
               >
                 <FormattedMessage {...messages.puzzle} />
               </ButtonTransparent>
             </a>
           </Link>
         </ToolbarButton>
-        <ToolbarButton bg="karashi">
+        <ToolbarButton bg="orange.4">
           <a href="https://wiki3.jp/cindy-lat" target="_blank">
             <ButtonTransparent
               height={1}
               width={1}
               border="1px solid"
-              borderColor="edocha"
+              borderColor="red.6"
             >
               <FormattedMessage {...messages.wiki} />
             </ButtonTransparent>
@@ -72,16 +72,16 @@ const Toolbar = ({ user }) => {
         </ToolbarButton>
       </ToolbarFlex>
       {user.id && (
-        <ToolbarButton ml="auto" bg="yamabukicha">
-          <ButtonTransparent height={1} width={1} color="hakuren">
+        <ToolbarButton ml="auto" bg="orange.5">
+          <ButtonTransparent height={1} width={1} color="gray.1">
             {user.nickname}
           </ButtonTransparent>
         </ToolbarButton>
       )}
       {user.id && (
         <ToolbarButton
-          bg="yamabukicha"
-          color="taikoh"
+          bg="orange.5"
+          color="gray.1"
           style={{
             fontWeight: 'bold',
           }}
@@ -92,8 +92,8 @@ const Toolbar = ({ user }) => {
       {!user.id && (
         <ToolbarButton
           ml="auto"
-          bg="yamabukicha"
-          color="taikoh"
+          bg="orange.5"
+          color="gray.1"
           style={{
             fontWeight: 'bold',
           }}
@@ -102,7 +102,7 @@ const Toolbar = ({ user }) => {
         </ToolbarButton>
       )}
       {!user.id && (
-        <ToolbarButton bg="yamabukicha" color="taikoh">
+        <ToolbarButton bg="orange.5" color="gray.1">
           <SignupButton />
         </ToolbarButton>
       )}

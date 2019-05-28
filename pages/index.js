@@ -9,11 +9,14 @@ import { Flex, Box, LinkButton, ButtonTransparent } from 'components/General';
 import messages from 'messages/pages/home';
 
 const PurpleBg = styled(Flex)`
-  background: linear-gradient(#5f293e, #330617);
+  background: linear-gradient(
+    ${p => p.theme.colors.red[9]},
+    ${p => p.theme.colors.red[8]}
+  );
 `;
 
 const H1 = styled.h1`
-  color: burlywood;
+  color: ${p => p.theme.colors.orange[4]};
   font-family: inconsolata, consolas, arial;
   font-size: 3.8em;
   ${p => p.theme.mediaQueries.medium} {
@@ -26,7 +29,7 @@ const H1 = styled.h1`
 
 const IntroBox = styled(Box)`
   border-radius: 10px;
-  background: burlywood;
+  background: ${p => p.theme.colors.orange[4]};
   line-height: 1.5em;
   font-size: 1.8em;
   align-self: center;
@@ -42,15 +45,15 @@ const StartBox = styled(LinkButton)`
   font-weight: bold;
   width: 100%;
   margin: 0 1em;
-  color: #4e182d;
-  background: burlywood;
+  color: ${p => p.theme.colors.red[9]};
+  background: ${p => p.theme.colors.orange[4]};
   border-radius: 10px;
   text-align: center;
   font-size: 3em;
   &:active,
   &:hover {
-    color: burlywood;
-    background: #4e182d;
+    color: ${p => p.theme.colors.orange[4]};
+    background: ${p => p.theme.colors.red[9]};
   }
   ${p => p.theme.mediaQueries.medium} {
     font-size: 2.6em;

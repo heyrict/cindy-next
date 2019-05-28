@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { fontSize } from 'styled-system';
 
 const Heading = styled.div`
-  color: ${p => p.theme.colors.kogecha};
+  color: ${p => p.theme.colors.red[9]};
   margin-left: 1.2em;
   margin-bottom: 0.6em;
   padding-top: 0.8em;

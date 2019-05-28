@@ -10,13 +10,13 @@ const StarBase = styled.div`
   margin-right: 6px;
   margin-bottom: 3px;
   font-size: 0.9em;
-  color: ${p => p.theme.colors.usuki};
-  background: ${p => p.theme.colors.murasaki};
+  color: ${p => p.theme.colors.white};
+  background: ${p => p.theme.colors.violet[6]};
 `;
 
 const Star = ({ count, sum }) => (
   <StarBase>
-    ★ {count} ({sum})
+    ★{count}({sum})
   </StarBase>
 );
 

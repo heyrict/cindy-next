@@ -12,8 +12,8 @@ const ProcessBase = styled.div`
   margin-right: 6px;
   margin-bottom: 3px;
   font-size: 0.9em;
-  color: ${p => p.theme.colors.ruri};
-  border: 1px solid ${p => p.theme.colors.ruri};
+  color: ${p => p.theme.colors.blue[6]};
+  border: 1px solid ${p => p.theme.colors.blue[6]};
 `;
 
 const Process = ({ count }) => <ProcessBase>Q : {count}</ProcessBase>;

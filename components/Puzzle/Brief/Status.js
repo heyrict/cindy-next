@@ -8,17 +8,17 @@ import messages from 'messages/components/puzzle';
 const getStatusColor = status => {
   switch (status) {
     case 0:
-      return 'koke';
+      return 'red';
     case 1:
-      return 'usubeni';
+      return 'lime';
     case 2:
-      return 'kuri';
+      return 'orange';
     case 3:
-      return 'shironezumi';
+      return 'gray';
     case 4:
-      return 'shion';
+      return 'gray';
     default:
-      return 'haizakura';
+      return 'gray';
   }
 };
 
@@ -31,7 +31,7 @@ const StatusBase = styled.span`
   font-size: 0.9em;
   ${p => {
     const color = getStatusColor(p.status);
-    const parsedColor = p.theme.colors[color] || color;
+    const parsedColor = p.theme.colors[color][7];
     return `
       border: 1px solid ${parsedColor};
       color: ${parsedColor};

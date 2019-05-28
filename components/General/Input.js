@@ -4,8 +4,8 @@ import { space, width, height, borders } from 'styled-system';
 const Input = styled.input`
   box-sizing: 'border-box';
   border-width: 1px;
-  border-color: ${p => p.theme.colors.yamabukicha};
-  background-color: ${p => p.theme.colors.hakuren};
+  border-color: ${p => p.theme.colors.orange[5]};
+  background-color: ${p => p.theme.colors.white};
   min-height: 1.5em;
   ${space}
   ${width}

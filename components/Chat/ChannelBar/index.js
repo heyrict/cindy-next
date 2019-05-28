@@ -26,9 +26,9 @@ const ChannelBar = ({
 
   return (
     <Box width={1} height="channelbar">
-      <Flex bg="kigaracha">
+      <Flex bg="orange.5">
         <ButtonTransparent
-          color="lightyellow"
+          color="white"
           height="channelbar"
           width={2 / 3}
           onClick={() => chatroomId && setTrueDescriptionModal()}
@@ -43,7 +43,7 @@ const ChannelBar = ({
           )}
         </ButtonTransparent>
         <ButtonTransparent
-          color="lightyellow"
+          color="white"
           height="channelbar"
           width={1 / 3}
           onClick={() => setTrueChannelChangeModal()}

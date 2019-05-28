@@ -8,12 +8,12 @@ const ToolbarBoxBase = styled.nav`
   width: ${p => `calc(100% - ${p.theme.sizes.chat} - 4px)`};
   background: repeating-linear-gradient(
     -30deg,
-    ${p => p.theme.colors.kigaracha},
-    ${p => p.theme.colors.edocha} 8px,
-    ${p => p.theme.colors.edocha} 12px,
-    ${p => p.theme.colors.kigaracha} 20px
+    ${p => p.theme.colors.orange[7]},
+    ${p => p.theme.colors.orange[5]} 8px,
+    ${p => p.theme.colors.orange[5]} 12px,
+    ${p => p.theme.colors.orange[7]} 20px
   );
-  border: 2px solid ${p => p.theme.colors.edocha};
+  border: 2px solid ${p => p.theme.colors.orange[6]};
   overflow-x: auto;
   overflow-y: hidden;
   visibility: ${p => (p.show ? 'visible' : 'hidden')};
