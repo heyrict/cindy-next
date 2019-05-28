@@ -16,7 +16,7 @@
   "components.puzzle.genre_littleAlbat": "亀夫君問題",
   "components.puzzle.genre_others": "新＆形式",
   "components.puzzle.genre_twentyQuestions": "２０の扉",
-  "components.puzzle.lastupdate": "最後回答時間",
+  "components.puzzle.lastupdate": "最終回答時間",
   "components.puzzle.solvedAt": "解決時間",
   "components.puzzle.status_dazed": "迷宮入り",
   "components.puzzle.status_forbidden": "強制非公開",
