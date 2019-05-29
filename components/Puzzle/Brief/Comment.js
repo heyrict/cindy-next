@@ -17,7 +17,7 @@ const CommentBase = styled.div`
   display: inline-flex;
 `;
 
-const Comment = ({ count, sum }) => (
+const Comment = ({ count }) => (
   <CommentBase>
     <Img size="1.25em" pr={1} src={C} />
     {count}
@@ -26,7 +26,6 @@ const Comment = ({ count, sum }) => (
 
 Comment.propTypes = {
   count: PropTypes.number.isRequired,
-  sum: PropTypes.number.isRequired,
 };
 
 export default Comment;

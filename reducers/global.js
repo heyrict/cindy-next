@@ -7,11 +7,15 @@ export const actionTypes = {
   ASIDE: `${scope}.ASIDE`,
   CHANNEL: `${scope}.CHANNEL`,
   SETUSER: `${scope}.SETUSER`,
+  FETCHUSER: `${scope}.FETCHUSER`,
 };
 
 export const actions = {
   ...bool.getActions('Aside', actionTypes.ASIDE),
   ...string.getActions('Channel', actionTypes.CHANNEL),
+  fetchUser: () => ({
+    type: actionTypes.FETCHUSER,
+  }),
   auth: user => ({
     type: actionTypes.SETUSER,
     payload: user,

@@ -2,6 +2,7 @@
  * This is the global layout wrapping `Component` in nextjs _app.js.
  */
 
+import React, { useEffect } from 'react';
 import { Global, css } from '@emotion/core';
 
 import Chat from 'components/Chat';
@@ -9,6 +10,9 @@ import Toolbar from 'components/Toolbar';
 import ChatBox from './ChatBox';
 import Page from './Page';
 import ToolbarBox from './ToolbarBox';
+
+import { connect } from 'react-redux';
+import * as globalReducer from 'reducers/global';
 
 const tabsStyle = css`
   .nav {
@@ -100,7 +104,11 @@ const globalStyle = theme => css`
   ${stampStyle}
 `;
 
-const Layout = ({ children, ...props }) => {
+const Layout = ({ children, fetchUser, ...props }) => {
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <div>
       <Global styles={globalStyle} />
@@ -115,4 +123,11 @@ const Layout = ({ children, ...props }) => {
   );
 };
 
-export default Layout;
+const withRedux = connect(
+  null,
+  dispatch => ({
+    fetchUser: () => dispatch(globalReducer.actions.fetchUser()),
+  }),
+);
+
+export default withRedux(Layout);

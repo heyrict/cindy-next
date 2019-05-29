@@ -1,4 +1,8 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+
+import sagas from '../sagas';
+
 import * as globalReducer from './global';
 import * as chatReducer from './chat';
 import * as loginReducer from './login';
@@ -15,5 +19,15 @@ const composeEnhancers =
   (process.browser && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 /* eslint-disable no-underscore-dangle */
-export const initializeStore = initialState =>
-  createStore(reducer, initialState, composeEnhancers(applyMiddleware()));
+export const initializeStore = initialState => {
+  const sagaMiddleware = createSagaMiddleware();
+  const store = createStore(
+    reducer,
+    initialState,
+    composeEnhancers(applyMiddleware(sagaMiddleware)),
+  );
+
+  store.sagaTask = sagaMiddleware.run(sagas);
+
+  return store;
+};
