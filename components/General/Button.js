@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import { space, color, width, fontSize, borders, height } from 'styled-system';
 
 const Button = styled.button`
-  background-color: ${p => p.theme.colors.cyan[6]};
+  background-color: ${p => p.theme.colors.orange[6]};
+  color: ${p => p.theme.colors.gray[1]};
   overflow: hidden;
   ${space}
   ${color}
