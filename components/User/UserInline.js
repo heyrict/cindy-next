@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { space, color, fontSize } from 'styled-system';
-import Link from 'next/link';
+import { Link } from 'routes';
 import { Img, Flex, Anchor } from 'components/General';
 
 import { PTUserInlineUser } from './PropTypes';
@@ -18,7 +18,7 @@ const UserInlineBase = styled.div`
 
 const UserInline = ({ user, timestamp, ...props }) => {
   const NicknameBlock = user.id ? (
-    <Link href={`/user/${user.id}`} passHref>
+    <Link to="user" params={{ id: user.id }} passHref>
       <Anchor maxWidth="12em" mr={1}>
         {user.nickname}
       </Anchor>

@@ -8,6 +8,7 @@ export const actionTypes = {
   CHANNEL: `${scope}.CHANNEL`,
   SETUSER: `${scope}.SETUSER`,
   FETCHUSER: `${scope}.FETCHUSER`,
+  ROUTECHANGE: `${scope}.ROUTECHANGE`,
 };
 
 export const actions = {
@@ -15,6 +16,12 @@ export const actions = {
   ...string.getActions('Channel', actionTypes.CHANNEL),
   fetchUser: () => ({
     type: actionTypes.FETCHUSER,
+  }),
+  routeChange: url => ({
+    type: actionTypes.ROUTECHANGE,
+    payload: {
+      url,
+    },
   }),
   auth: user => ({
     type: actionTypes.SETUSER,

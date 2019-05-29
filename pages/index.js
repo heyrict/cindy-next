@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
+import { Link } from 'routes';
 import styled from '@emotion/styled';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { line2md } from 'common';
@@ -93,7 +93,7 @@ const HomePage = (props, context) => {
           />
         </Flex>
       </Flex>
-      <Link href="/puzzles">
+      <Link to="puzzles">
         <StartBox>
           <FormattedMessage {...messages.start} />
         </StartBox>

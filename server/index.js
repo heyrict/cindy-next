@@ -16,7 +16,24 @@ const bodyParser = require('body-parser');
 const dev = process.env.NODE_ENV !== 'production';
 const { DEFAULT_LOCALE } = require('../settings');
 const app = next({ dev });
-const handle = app.getRequestHandler();
+const routes = require('../routes');
+const handler = routes.getRequestHandler(app, ({ req, res, route, query }) => {
+  const parsedUrl = parse(req.url, true);
+  const { pathname } = parsedUrl;
+  const langMatch = regLang.exec(pathname);
+  const lang =
+    langMatch && supportedLanguages.find(l => l === langMatch[0].substr(1));
+  const accept = accepts(req);
+  const locale =
+    lang ||
+    accept.language(accept.languages(supportedLanguages)) ||
+    DEFAULT_LOCALE;
+  req.locale = locale;
+  req.localeDataScript = getLocaleDataScript(locale);
+  //req.messages = dev ? {} : getMessages(locale);
+  req.messages = getMessages(locale);
+  app.render(req, res, route.page, query);
+});
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = process.env.HOST;
@@ -44,6 +61,8 @@ app.prepare().then(() => {
   server.get('/webhook/getcurrent', userController.getCurrentUser);
   server.get('/webhook/webhook', userController.getWebhook);
   server.get('/webhook/jwks', userController.getJwks);
+  server.use(handler);
+  /*
   server.get('*', (req, res) => {
     const parsedUrl = parse(req.url, true);
     const { pathname, query } = parsedUrl;
@@ -65,6 +84,7 @@ app.prepare().then(() => {
     //app.handleRequest(req, res);
     app.render(req, res, pathnameNoPrefix, query);
   });
+  */
 
   server.listen(port, err => {
     if (err) throw err;

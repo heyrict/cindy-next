@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import Link from 'next/link';
+import { Link } from 'routes';
 import { FormattedMessage } from 'react-intl';
 import { Box, Flex, Button, ButtonTransparent } from 'components/General';
 import messages from 'messages/components/toolbar';
@@ -31,7 +31,7 @@ const Toolbar = ({ user }) => {
     <ToolbarFlex alignItems="center" justifyContents="center">
       <ToolbarFlex>
         <ToolbarButton bg="orange.4">
-          <Link href="/">
+          <Link to="home">
             <a>
               <ButtonTransparent
                 height={1}
@@ -45,7 +45,7 @@ const Toolbar = ({ user }) => {
           </Link>
         </ToolbarButton>
         <ToolbarButton bg="orange.4">
-          <Link href="/puzzles">
+          <Link to="puzzles">
             <a>
               <ButtonTransparent
                 height={1}
