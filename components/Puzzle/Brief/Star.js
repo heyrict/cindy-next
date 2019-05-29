@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import { Img } from 'components/General';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
+import S from 'svgs/puzzleBriefStar.svg';
 
 const StarBase = styled.div`
   text-align: center;
@@ -12,11 +14,13 @@ const StarBase = styled.div`
   font-size: 0.9em;
   color: ${p => p.theme.colors.white};
   background: ${p => p.theme.colors.violet[6]};
+  display: inline-flex;
 `;
 
 const Star = ({ count, sum }) => (
   <StarBase>
-    ★{count}({sum})
+    <Img size="0.9em" pr="1px" src={S} />
+    {count}({sum})
   </StarBase>
 );
 

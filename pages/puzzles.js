@@ -12,6 +12,13 @@ import PuzzleBrief from 'components/Puzzle/Brief';
 
 import messages from 'messages/pages/puzzle';
 
+const puzzleWidth = [1, 1 / 2, 1, 1 / 2, 1 / 3];
+const puzzleLoadingPanel = (
+  <Box width={puzzleWidth}>
+    <Panel>Loading...</Panel>
+  </Box>
+);
+
 const Puzzle = (props, context) => {
   const _ = context.intl.formatMessage;
   return (
@@ -23,50 +30,59 @@ const Puzzle = (props, context) => {
       <Heading>
         <FormattedMessage {...messages.header} />
       </Heading>
-      <Query query={PuzzlesUnsolvedQuery}>
-        {({ loading, error, data }) => (
-          <Flex flexWrap="wrap">
-            {loading && 'Loading...'}
-            {error && `Error: ${error.message}`}
-            {data &&
-              data.sui_hei_puzzle &&
-              data.sui_hei_puzzle.map(puzzle => (
-                <Box
-                  width={[1, 1 / 2, 1, 1 / 2, 1 / 3]}
-                  key={`puzzle-brief-${puzzle.id}`}
-                >
+      <Flex flexWrap="wrap">
+        <Query query={PuzzlesUnsolvedQuery}>
+          {({ loading, error, data }) => {
+            if (loading) return puzzleLoadingPanel;
+            if (error) return `Error: ${error.message}`;
+            if (data && data.sui_hei_puzzle)
+              return data.sui_hei_puzzle.map(puzzle => (
+                <Box width={puzzleWidth} key={`puzzle-brief-${puzzle.id}`}>
                   <PuzzleBrief puzzle={puzzle} />
                 </Box>
-              ))}
-            <Query query={PuzzleSolvedQuery} variables={{ limit: 10 }}>
-              {({ loading, error, data }) => {
-                if (loading) return null;
-                if (error) return `Error: ${error.message}`;
-                if (data && data.sui_hei_puzzle) {
-                  return (
-                    <React.Fragment>
-                      {data.sui_hei_puzzle.map(puzzle => (
-                        <Box
-                          width={[1, 1 / 2, 1, 1 / 2, 1 / 3]}
-                          key={`puzzle-brief-${puzzle.id}`}
-                        >
-                          <PuzzleBrief puzzle={puzzle} />
-                        </Box>
-                      ))}
-                      <LoadMoreVis loadMore={() => console.log('LOAD')}>
-                        <Box width={[1, 1 / 2, 1, 1 / 2, 1 / 3]}>
-                          <Panel>Loading...</Panel>
-                        </Box>
-                      </LoadMoreVis>
-                    </React.Fragment>
-                  );
-                }
-                return null;
-              }}
-            </Query>
-          </Flex>
-        )}
-      </Query>
+              ));
+          }}
+        </Query>
+        <Query query={PuzzleSolvedQuery} variables={{ limit: 20 }}>
+          {({ loading, error, data, fetchMore }) => {
+            if (loading) return puzzleLoadingPanel;
+            if (error) return `Error: ${error.message}`;
+            if (data && data.sui_hei_puzzle) {
+              return (
+                <React.Fragment>
+                  {data.sui_hei_puzzle.map(puzzle => (
+                    <Box width={puzzleWidth} key={`puzzle-brief-${puzzle.id}`}>
+                      <PuzzleBrief puzzle={puzzle} />
+                    </Box>
+                  ))}
+                  <LoadMoreVis
+                    wait={0}
+                    loadMore={() =>
+                      fetchMore({
+                        variables: {
+                          offset: data.sui_hei_puzzle.length,
+                        },
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) return prev;
+                          return Object.assign({}, prev, {
+                            sui_hei_puzzle: [
+                              ...prev.sui_hei_puzzle,
+                              ...fetchMoreResult.sui_hei_puzzle,
+                            ],
+                          });
+                        },
+                      })
+                    }
+                  >
+                    {puzzleLoadingPanel}
+                  </LoadMoreVis>
+                </React.Fragment>
+              );
+            }
+            return null;
+          }}
+        </Query>
+      </Flex>
     </div>
   );
 };

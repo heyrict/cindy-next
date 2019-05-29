@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import { Img } from 'components/General';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
+import Q from 'svgs/puzzleBriefQ.svg';
 
 import messages from 'messages/components/puzzle';
 
@@ -12,11 +14,17 @@ const ProcessBase = styled.div`
   margin-right: 6px;
   margin-bottom: 3px;
   font-size: 0.9em;
+  display: inline-flex;
   color: ${p => p.theme.colors.blue[6]};
   border: 1px solid ${p => p.theme.colors.blue[6]};
 `;
 
-const Process = ({ count }) => <ProcessBase>Q : {count}</ProcessBase>;
+const Process = ({ count }) => (
+  <ProcessBase>
+    <Img size="0.8em" pr={1} src={Q} />
+    {count}
+  </ProcessBase>
+);
 
 Process.propTypes = {
   count: PropTypes.number.isRequired,

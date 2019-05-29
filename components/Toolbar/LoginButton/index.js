@@ -50,7 +50,11 @@ const LoginButton = ({
       </ModalBody>
       <ModalFooter>
         <OKButton login={login} />
-        <FooterButton bg="karashi" onClick={() => setFalseLoginModal()}>
+        <FooterButton
+          bg="orange.5"
+          color="black"
+          onClick={() => setFalseLoginModal()}
+        >
           <FormattedMessage {...commonMessages.close} />
         </FooterButton>
       </ModalFooter>

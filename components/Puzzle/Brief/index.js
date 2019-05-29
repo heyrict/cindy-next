@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { Box, Flex, Panel } from 'components/General';
+import { Box, Flex, Panel, Img } from 'components/General';
 
 import { PTUserInlineUser } from 'components/User/PropTypes';
 import UserCol from 'components/User/UserCol';
@@ -13,12 +13,14 @@ import * as settingReducer from 'reducers/setting';
 import { FormattedMessage, FormattedTime, FormattedRelative } from 'react-intl';
 import messages from 'messages/components/puzzle';
 
+import Anonymous from './Anonymous';
+import Bookmark from './Bookmark';
+import Comment from './Comment';
 import Genre from './Genre';
-import Yami from './Yami';
-import Status from './Status';
 import Process from './Process';
 import Star from './Star';
-import Comment from './Comment';
+import Status from './Status';
+import Yami from './Yami';
 
 const Hr = styled.hr`
   color: ${p => p.theme.colors.gray[6]};
@@ -45,7 +47,7 @@ const Brief = ({ puzzle, dialogue, showGenreImage }) => {
 
   return (
     <Panel alignItems="center" justifyContent="center">
-      {puzzle.anonymous ? (
+      {puzzle.status === 0 && puzzle.anonymous ? (
         <AnonymousUserCol width={[1 / 4, 1 / 6]} />
       ) : (
         <UserCol width={[1 / 4, 1 / 6]} user={puzzle.sui_hei_user} />
@@ -92,6 +94,7 @@ const Brief = ({ puzzle, dialogue, showGenreImage }) => {
         )}
         <Hr />
         <Flex p={1} flexWrap="wrap">
+          {puzzle.status !== 0 && puzzle.anonymous && <Anonymous />}
           <Status status={puzzle.status} />
           {processDialogue && <Process count={processDialogue.count} />}
           {puzzle.sui_hei_stars_aggregate &&
@@ -108,7 +111,7 @@ const Brief = ({ puzzle, dialogue, showGenreImage }) => {
               />
             )}
           {puzzle.sui_hei_bookmarks_aggregate &&
-            puzzle.sui_hei_bookmarks_aggregate.count > 0 && (
+            puzzle.sui_hei_bookmarks_aggregate.aggregate.count > 0 && (
               <Bookmark
                 count={puzzle.sui_hei_bookmarks_aggregate.aggregate.count}
               />
