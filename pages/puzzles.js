@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Query } from 'react-apollo';
@@ -21,6 +21,9 @@ const puzzleLoadingPanel = (
 
 const Puzzle = (props, context) => {
   const _ = context.intl.formatMessage;
+
+  const [hasMore, setHasMore] = useState(true);
+
   return (
     <div>
       <Head>
@@ -55,27 +58,35 @@ const Puzzle = (props, context) => {
                       <PuzzleBrief puzzle={puzzle} />
                     </Box>
                   ))}
-                  <LoadMoreVis
-                    wait={0}
-                    loadMore={() =>
-                      fetchMore({
-                        variables: {
-                          offset: data.sui_hei_puzzle.length,
-                        },
-                        updateQuery: (prev, { fetchMoreResult }) => {
-                          if (!fetchMoreResult) return prev;
-                          return Object.assign({}, prev, {
-                            sui_hei_puzzle: [
-                              ...prev.sui_hei_puzzle,
-                              ...fetchMoreResult.sui_hei_puzzle,
-                            ],
-                          });
-                        },
-                      })
-                    }
-                  >
-                    {puzzleLoadingPanel}
-                  </LoadMoreVis>
+                  {hasMore && (
+                    <LoadMoreVis
+                      wait={0}
+                      loadMore={() =>
+                        fetchMore({
+                          variables: {
+                            offset: data.sui_hei_puzzle.length,
+                          },
+                          updateQuery: (prev, { fetchMoreResult }) => {
+                            if (
+                              !fetchMoreResult ||
+                              !fetchMoreResult.sui_hei_puzzle
+                            )
+                              return prev;
+                            if (fetchMoreResult.sui_hei_puzzle.length === 0)
+                              setHasMore(false);
+                            return Object.assign({}, prev, {
+                              sui_hei_puzzle: [
+                                ...prev.sui_hei_puzzle,
+                                ...fetchMoreResult.sui_hei_puzzle,
+                              ],
+                            });
+                          },
+                        })
+                      }
+                    >
+                      {puzzleLoadingPanel}
+                    </LoadMoreVis>
+                  )}
                 </React.Fragment>
               );
             }

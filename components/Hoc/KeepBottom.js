@@ -24,7 +24,7 @@ const arrayEquals = (a, b) => {
 
 const watchObjectPropType = PropTypes.shape({
   name: PropTypes.string, // Optional name, for logging purposes.
-  value: PropTypes.any.isRequired, // Value that should be watched for changes.
+  value: PropTypes.any, // Value that should be watched for changes.
   action: PropTypes.oneOf([
     'toBottom', // Go to bottom on value changes
     'stay', // Stay previous scrollHeight from bottom
@@ -40,6 +40,7 @@ const watchObjectPropType = PropTypes.shape({
      * Note: smooth will not work with this action.
      */
     'stayOrBottom',
+    'doNothing',
   ]).isRequired,
   wait: PropTypes.number, // How long to wait for the rendering, default 0.
 });
@@ -49,7 +50,6 @@ class KeepBottom extends React.Component {
     watch: [],
     mount: {
       name: 'Mount',
-      value: '',
       action: 'toBottom',
     },
   };
@@ -118,6 +118,8 @@ class KeepBottom extends React.Component {
         break;
       case 'stay':
         this.handleStay(o);
+        break;
+      case 'doNothing':
         break;
       default:
         console.log(`KeepBottom: Action "${o.name}" unknown in "${o.name}"`);

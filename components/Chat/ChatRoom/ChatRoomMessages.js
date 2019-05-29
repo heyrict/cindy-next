@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import KeepBottom from 'components/Hoc/KeepBottom';
@@ -50,22 +50,29 @@ const ChatRoomMessagesBody = ({
     return null;
   }
 
+  const [hasMore, setHasMore] = useState(true);
   useEffect(() => {
-    subscribeToMore({
-      document: ChatRoomChatmessagesSubscription,
-      variables: { chatroomId },
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
-        return Object.assign({}, prev, {
-          sui_hei_chatmessage: mergeList(
-            prev.sui_hei_chatmessage,
-            subscriptionData.data.sui_hei_chatmessage,
-            'desc',
-          ),
-        });
-      },
-    });
-  }, []);
+    setHasMore(true);
+  }, [chatroomId]);
+
+  useEffect(
+    () =>
+      subscribeToMore({
+        document: ChatRoomChatmessagesSubscription,
+        variables: { chatroomId },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          return Object.assign({}, prev, {
+            sui_hei_chatmessage: mergeList(
+              prev.sui_hei_chatmessage,
+              subscriptionData.data.sui_hei_chatmessage,
+              'desc',
+            ),
+          });
+        },
+      }),
+    [],
+  );
 
   return (
     <KeepBottom
@@ -79,6 +86,21 @@ const ChatRoomMessagesBody = ({
           name: 'messageLength',
           value: chatmessages.length,
           action: 'stayOrBottom',
+        },
+        {
+          name: 'loading',
+          value: loading,
+          action: 'toBottom',
+        },
+        {
+          name: 'userId',
+          value: user.id,
+          action: 'doNothing',
+        },
+        {
+          name: 'hasMore',
+          value: hasMore,
+          action: 'doNothing',
         },
       ]}
     >
@@ -135,26 +157,28 @@ const ChatRoomMessagesBody = ({
               ))
             )}
             {loading && <div>Loading...</div>}
-            <LoadMoreVis
-              loadMore={() => {
-                fetchMore({
-                  variables: {
-                    offset: chatmessages.length,
-                  },
-                  updateQuery: (prev, { fetchMoreResult }) => {
-                    if (!fetchMoreResult) return prev;
-                    if (fetchMoreResult.sui_hei_chatmessage.length === 0)
-                      loadMoreCont.hide();
-                    return Object.assign({}, prev, {
-                      sui_hei_chatmessage: [
-                        ...prev.sui_hei_chatmessage,
-                        ...fetchMoreResult.sui_hei_chatmessage,
-                      ],
-                    });
-                  },
-                });
-              }}
-            />
+            {hasMore && (
+              <LoadMoreVis
+                loadMore={() => {
+                  fetchMore({
+                    variables: {
+                      offset: chatmessages.length,
+                    },
+                    updateQuery: (prev, { fetchMoreResult }) => {
+                      if (!fetchMoreResult) return prev;
+                      if (fetchMoreResult.sui_hei_chatmessage.length === 0)
+                        setHasMore(false);
+                      return Object.assign({}, prev, {
+                        sui_hei_chatmessage: [
+                          ...prev.sui_hei_chatmessage,
+                          ...fetchMoreResult.sui_hei_chatmessage,
+                        ],
+                      });
+                    },
+                  });
+                }}
+              />
+            )}
           </ChannelContent>
         </ChannelContentWrapper>
       )}
