@@ -6,7 +6,7 @@ import DOMPurify from 'dompurify';
 import stampDefs from 'stamps';
 
 import normTabs from './plugin-tabs';
-import normLink from './plugin-link';
+import { normLinkHook, normLink } from './plugin-link';
 import normCountdown from './plugin-countdown';
 
 export { changeTabularTab } from './plugin-tabs.js';
@@ -16,8 +16,12 @@ const DOMPurifyParams = {
   FORCE_BODY: true,
 };
 
+if (DOMPurify.isSupported) {
+  DOMPurify.addHook('afterSanitizeAttributes', normLinkHook);
+}
+
 const HtmlPurify = (html, config) =>
-  DOMPurify.sanitize ? DOMPurify.sanitize(html, config) : html;
+  DOMPurify.isSupported ? DOMPurify.sanitize(html, config) : html;
 
 const md = MarkdownIt({
   html: true,
@@ -32,6 +36,13 @@ const md = MarkdownIt({
 
 const PreNorm = string => {
   return normTabs(string);
+};
+
+const PostNorm = string => {
+  if (!HtmlPurify.isSupported) {
+    return normLink(string);
+  }
+  return string;
 };
 
 export const line2md = string => {
@@ -51,10 +62,12 @@ export const line2md = string => {
     .replace(/<p>/g, '')
     .replace(/<\/p>\s*$/g, '')
     .replace(/<\/p>/g, '<br style="margin-bottom: 10px" />');
-  return HtmlPurify(rendered, DOMPurifyParams);
+  const purified = HtmlPurify(rendered, DOMPurifyParams);
+  return PostNorm(purified);
 };
 
 export const text2md = string => {
   const rendered = md.render(PreNorm(string));
-  return HtmlPurify(rendered, DOMPurifyParams);
+  const purified = HtmlPurify(rendered, DOMPurifyParams);
+  return PostNorm(purified);
 };

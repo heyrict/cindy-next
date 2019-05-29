@@ -13,7 +13,7 @@ class LoadMoreVis extends React.Component {
     children: PropTypes.node,
   };
   static defaultProps = {
-    wait: 1000,
+    wait: 500,
   };
 
   state = {

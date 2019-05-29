@@ -12,6 +12,8 @@ import GlobalLayout from 'components/Layout';
 
 import { withApolloClient, withReduxStore, theme } from '../lib';
 
+import { actions as globalActions } from 'reducers/global';
+
 // Register React Intl's locale data for the user's locale in the browser. This
 // locale data was added to the page by `pages/_document.js`. This only happens
 // once, on initial page load in the browser.
@@ -39,10 +41,16 @@ class MyApp extends App {
   }
 
   componentDidMount() {
-    window.addEventListener('click', this.eventDelegation);
+    // unclean mock for set channel
+    window.openChat = channelName => {
+      this.props.reduxStore.dispatch(globalActions.setChannel(channelName));
+      return void 0;
+    };
+
+    window.addEventListener('click', this.eventDelegation.bind(this));
   }
   componentWillUnmount() {
-    window.removeEventListener('click', this.eventDelegation);
+    window.removeEventListener('click', this.eventDelegation.bind(this));
   }
   eventDelegation(e) {
     const attr = e.target.attributes;
@@ -51,13 +59,24 @@ class MyApp extends App {
         changeTabularTab(attr['data-target'].value.replace(/^#/, ''));
       }
     }
-    if (typeof e.target.onclick !== 'function' && 'href' in attr) {
-      const { selfDomain, url } = domainFilter(attr.href.value);
-      if (selfDomain && e.button === 0 /* left cick */) {
-        // this.props.goto(url);
-        e.preventDefault();
+    if ('data-event' in attr) {
+      switch (attr['data-event'].value) {
+        case 'open-channel':
+          if ('data-target' in attr) {
+            this.props.reduxStore.dispatch(
+              globalActions.setChannel(attr['data-target'].value),
+            );
+          }
+          break;
       }
     }
+    //if (typeof e.target.onclick !== 'function' && 'href' in attr) {
+    //  const { selfDomain, url } = domainFilter(attr.href.value);
+    //  if (selfDomain && e.button === 0 /* left cick */) {
+    //    // this.props.goto(url);
+    //    e.preventDefault();
+    //  }
+    //}
   }
 
   render() {
