@@ -5,7 +5,7 @@ import { Img } from 'components/General';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 import C from 'svgs/puzzleBriefComment.svg';
 
-const CommentBase = styled.div`
+export const CommentBase = styled.div`
   text-align: center;
   border-radius: 10px;
   padding: 0 6px;

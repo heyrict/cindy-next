@@ -7,7 +7,7 @@ import Q from 'svgs/puzzleBriefQ.svg';
 
 import messages from 'messages/components/puzzle';
 
-const ProcessBase = styled.div`
+export const ProcessBase = styled.div`
   text-align: center;
   border-radius: 10px;
   padding: 0 6px;

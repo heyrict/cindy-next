@@ -7,7 +7,7 @@ import { Img, Flex, Anchor } from 'components/General';
 
 import { PTUserInlineUser } from './PropTypes';
 
-const UserInlineBase = styled.div`
+export const UserInlineBase = styled.div`
   display: inline-flex;
   overflow: hidden;
   align-items: center;

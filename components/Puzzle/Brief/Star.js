@@ -5,7 +5,7 @@ import { Img } from 'components/General';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 import S from 'svgs/puzzleBriefStar.svg';
 
-const StarBase = styled.div`
+export const StarBase = styled.div`
   text-align: center;
   border-radius: 10px;
   padding: 0 6px;

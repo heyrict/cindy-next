@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 import { Portal } from 'react-portal';
 
-const Shader = styled.div`
+export const Shader = styled.div`
   z-index: 500;
   display: ${p => (p.show ? 'flex' : 'none')};
   opacity: ${p => (p.show ? 1 : 0)};
@@ -20,7 +20,7 @@ const Shader = styled.div`
   bottom: 0;
 `;
 
-const ModalContainer = styled.div`
+export const ModalContainer = styled.div`
   position: fixed;
   z-index: 600;
   right: 0;
@@ -34,7 +34,7 @@ const ModalContainer = styled.div`
   padding: '50px 0';
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   opacity: ${p => (p.show ? 1 : 0)};
   overflow-y: auto;
   box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);

@@ -12,7 +12,7 @@ import longtermYamiJp from 'svgs/longtermYamiJp.svg';
 
 import messages from 'messages/components/puzzle';
 
-const YamiText = ({ yami }) => {
+export const YamiText = ({ yami }) => {
   switch (yami) {
     case 1:
       return (
@@ -31,7 +31,7 @@ const YamiText = ({ yami }) => {
   }
 };
 
-const YamiImage = ({ yami }) => {
+export const YamiImage = ({ yami }) => {
   switch (yami) {
     case 1:
       return <Img size="sm" pr={1} src={yamiJp} />;
@@ -42,7 +42,7 @@ const YamiImage = ({ yami }) => {
   }
 };
 
-const Yami = ({ yami, showGenreImage }) =>
+export const Yami = ({ yami, showGenreImage }) =>
   showGenreImage ? <YamiImage yami={yami} /> : <YamiText yami={yami} />;
 
 Yami.propTypes = {

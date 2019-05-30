@@ -5,7 +5,7 @@ import { Img } from 'components/General';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 import B from 'svgs/puzzleBriefBookmark.svg';
 
-const BookmarkBase = styled.div`
+export const BookmarkBase = styled.div`
   text-align: center;
   border-radius: 10px;
   padding: 0 6px;

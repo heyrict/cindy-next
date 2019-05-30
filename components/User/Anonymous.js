@@ -11,31 +11,29 @@ const anonymousUser = {
   icon: '/static/images/anonymous.png',
 };
 
-export const AnonymousUserInline = ({ nickname, ...props }) => (
-  <FormattedMessage {...userMessages.anonymousUser}>
-    {msg => (
-      <UserInline
-        user={{ ...anonymousUser, nickname: nickname || msg }}
-        {...props}
-      />
-    )}
-  </FormattedMessage>
-);
+export const AnonymousUserInline = ({ nickname, ...props }) =>
+  nickname ? (
+    <UserInline user={{ ...anonymousUser, nickname }} {...props} />
+  ) : (
+    <FormattedMessage {...userMessages.anonymousUser}>
+      {msg => (
+        <UserInline user={{ ...anonymousUser, nickname: msg }} {...props} />
+      )}
+    </FormattedMessage>
+  );
 
 AnonymousUserInline.propTypes = {
   nickname: PropTypes.string,
 };
 
-export const AnonymousUserCol = ({ nickname, ...props }) => (
-  <FormattedMessage {...userMessages.anonymousUser}>
-    {msg => (
-      <UserCol
-        user={{ ...anonymousUser, nickname: nickname || msg }}
-        {...props}
-      />
-    )}
-  </FormattedMessage>
-);
+export const AnonymousUserCol = ({ nickname, ...props }) =>
+  nickname ? (
+    <UserCol user={{ ...anonymousUser, nickname }} {...props} />
+  ) : (
+    <FormattedMessage {...userMessages.anonymousUser}>
+      {msg => <UserCol user={{ ...anonymousUser, nickname: msg }} {...props} />}
+    </FormattedMessage>
+  );
 
 AnonymousUserCol.propTypes = {
   nickname: PropTypes.string,

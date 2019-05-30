@@ -7,7 +7,7 @@ import { Img, Flex, Anchor } from 'components/General';
 
 import { PTUserInlineUser } from './PropTypes';
 
-const UserColBase = styled.div`
+export const UserColBase = styled.div`
   display: inline-flex;
   overflow: hidden;
   flex-direction: column;

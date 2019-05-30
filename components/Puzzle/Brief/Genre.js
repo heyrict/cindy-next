@@ -14,7 +14,7 @@ import othersJp from 'svgs/othersJp.svg';
 
 import messages from 'messages/components/puzzle';
 
-const GenreText = ({ genre }) => {
+export const GenreText = ({ genre }) => {
   switch (genre) {
     case 0:
       return (
@@ -45,7 +45,7 @@ const GenreText = ({ genre }) => {
   }
 };
 
-const GenreImage = ({ genre }) => {
+export const GenreImage = ({ genre }) => {
   switch (genre) {
     case 0:
       return <Img size="sm" px={1} src={classicJp} />;
@@ -60,7 +60,7 @@ const GenreImage = ({ genre }) => {
   }
 };
 
-const Genre = ({ genre, showGenreImage }) =>
+export const Genre = ({ genre, showGenreImage }) =>
   showGenreImage ? <GenreImage genre={genre} /> : <GenreText genre={genre} />;
 
 Genre.propTypes = {

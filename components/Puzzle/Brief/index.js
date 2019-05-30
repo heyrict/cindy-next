@@ -22,28 +22,53 @@ import Star from './Star';
 import Status from './Status';
 import Yami from './Yami';
 
-const Hr = styled.hr`
+export const Hr = styled.hr`
   color: ${p => p.theme.colors.gray[6]};
 `;
 
-const Time = styled(Box)`
+export const Time = styled(Box)`
   text-align: right;
   font-size: 0.9em;
   color: ${p => p.theme.colors.gray[7]};
 `;
 
-const Brief = ({ puzzle, dialogue, showGenreImage }) => {
-  const dialogueAggregation =
-    puzzle.sui_hei_dialogues_aggregate &&
-    puzzle.sui_hei_dialogues_aggregate.aggregate;
-  const processDialogue =
-    dialogue ||
-    (dialogueAggregation && {
-      count: dialogueAggregation.count,
-      maxAnsweredtime:
-        dialogueAggregation.max &&
-        (dialogueAggregation.max.answeredtime || puzzle.created),
-    });
+export const Brief = ({
+  puzzle,
+  bookmarkCount,
+  starCount,
+  starSum,
+  commentCount,
+  dialogueCount,
+  dialogueMaxAnsweredtime,
+  showGenreImage,
+}) => {
+  const aggregates = {
+    bookmarkCount:
+      bookmarkCount ||
+      (puzzle.sui_hei_bookmarks_aggregate &&
+        puzzle.sui_hei_bookmarks_aggregate.aggregate.count),
+    commentCount:
+      commentCount ||
+      (puzzle.sui_hei_comments_aggregate &&
+        puzzle.sui_hei_comments_aggregate.aggregate.count),
+    starCount:
+      starCount ||
+      (puzzle.sui_hei_stars_aggregate &&
+        puzzle.sui_hei_stars_aggregate.aggregate.count),
+    starSum:
+      starSum ||
+      (puzzle.sui_hei_stars_aggregate &&
+        puzzle.sui_hei_stars_aggregate.aggregate.sum.value),
+    dialogueCount:
+      dialogueCount ||
+      (puzzle.sui_hei_dialogues_aggregate &&
+        puzzle.sui_hei_dialogues_aggregate.aggregate.count),
+    dialogueMaxAnsweredtime:
+      dialogueMaxAnsweredtime ||
+      (puzzle.sui_hei_dialogues_aggregate &&
+        puzzle.sui_hei_dialogues_aggregate.aggregate.max &&
+        puzzle.sui_hei_dialogues_aggregate.aggregate.max.answeredtime),
+  };
 
   return (
     <Panel alignItems="center" justifyContent="center">
@@ -66,22 +91,24 @@ const Brief = ({ puzzle, dialogue, showGenreImage }) => {
             {puzzle.title}
           </Box>
         )}
-        {processDialogue && processDialogue.maxAnsweredtime && (
+        {aggregates.dialogueMaxAnsweredtime && (
           <Time width={1}>
             <FormattedMessage {...messages.lastupdate} />:{' '}
-            <FormattedRelative value={processDialogue.maxAnsweredtime} />
+            <FormattedRelative value={aggregates.dialogueMaxAnsweredtime} />
           </Time>
         )}
-        <Time width={1}>
-          <FormattedMessage {...messages.createdAt} />:{' '}
-          <FormattedTime
-            value={puzzle.created}
-            year="numeric"
-            month="short"
-            day="numeric"
-          />
-        </Time>
-        {puzzle.status !== 0 && (
+        {puzzle.created && (
+          <Time width={1}>
+            <FormattedMessage {...messages.createdAt} />:{' '}
+            <FormattedTime
+              value={puzzle.created}
+              year="numeric"
+              month="short"
+              day="numeric"
+            />
+          </Time>
+        )}
+        {puzzle.status !== 0 && puzzle.modified && (
           <Time width={1}>
             <FormattedMessage {...messages.solvedAt} />:{' '}
             <FormattedTime
@@ -96,25 +123,20 @@ const Brief = ({ puzzle, dialogue, showGenreImage }) => {
         <Flex p={1} flexWrap="wrap">
           {puzzle.status !== 0 && puzzle.anonymous && <Anonymous />}
           <Status status={puzzle.status} />
-          {processDialogue && <Process count={processDialogue.count} />}
-          {puzzle.sui_hei_stars_aggregate &&
-            puzzle.sui_hei_stars_aggregate.aggregate.count > 0 && (
-              <Star
-                count={puzzle.sui_hei_stars_aggregate.aggregate.count}
-                sum={puzzle.sui_hei_stars_aggregate.aggregate.sum.value}
-              />
+          {typeof aggregates.dialogueCount === 'number' && (
+            <Process count={aggregates.dialogueCount} />
+          )}
+          {typeof aggregates.starCount === 'number' &&
+            aggregates.starCount > 0 && (
+              <Star count={aggregates.starCount} sum={aggregates.starSum} />
             )}
-          {puzzle.sui_hei_comments_aggregate &&
-            puzzle.sui_hei_comments_aggregate.aggregate.count > 0 && (
-              <Comment
-                count={puzzle.sui_hei_comments_aggregate.aggregate.count}
-              />
+          {typeof aggregates.commentCount === 'number' &&
+            aggregates.commentCount > 0 && (
+              <Comment count={aggregates.commentCount} />
             )}
-          {puzzle.sui_hei_bookmarks_aggregate &&
-            puzzle.sui_hei_bookmarks_aggregate.aggregate.count > 0 && (
-              <Bookmark
-                count={puzzle.sui_hei_bookmarks_aggregate.aggregate.count}
-              />
+          {typeof aggregates.bookmarkCount === 'number' &&
+            aggregates.bookmarkCount > 0 && (
+              <Bookmark count={aggregates.bookmarkCount} />
             )}
         </Flex>
       </Box>
@@ -132,7 +154,7 @@ Brief.propTypes = {
     anonymous: PropTypes.bool,
     created: PropTypes.string,
     dazed_on: PropTypes.string,
-    sui_hei_user: PTUserInlineUser,
+    sui_hei_user: PTUserInlineUser.isRequired,
     sui_hei_stars_aggregate: PropTypes.shape({
       aggregate: PropTypes.shape({
         count: PropTypes.number.isRequired,
@@ -151,11 +173,21 @@ Brief.propTypes = {
         count: PropTypes.number.isRequired,
       }).isRequired,
     }),
+    sui_hei_dialogues_aggregate: PropTypes.shape({
+      aggregate: PropTypes.shape({
+        count: PropTypes.number.isRequired,
+        max: PropTypes.shape({
+          answeredtime: PropTypes.string,
+        }),
+      }).isRequired,
+    }),
   }).isRequired,
   bookmarkCount: PropTypes.number,
   commentCount: PropTypes.number,
   starCount: PropTypes.number,
   starSum: PropTypes.number,
+  dialogueCount: PropTypes.number,
+  dialogueMaxAnsweredtime: PropTypes.string,
   showGenreImage: PropTypes.bool.isRequired,
 };
 

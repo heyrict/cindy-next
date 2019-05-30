@@ -5,25 +5,21 @@ import { withLogout } from 'components/Auth';
 
 import messages from 'messages/components/auth';
 
-const LoginButton = ({ logout }) => (
+export const LogoutButton = ({ logout }) => (
   <Box height={1} width={1}>
-    <FormattedMessage {...messages.logout}>
-      {msg => (
-        <ButtonTransparent
-          width={1}
-          height={1}
-          p={0}
-          color="gray.1"
-          style={{
-            fontWeight: 'bold',
-          }}
-          onClick={logout}
-        >
-          Logout
-        </ButtonTransparent>
-      )}
-    </FormattedMessage>
+    <ButtonTransparent
+      width={1}
+      height={1}
+      p={0}
+      color="gray.1"
+      style={{
+        fontWeight: 'bold',
+      }}
+      onClick={logout}
+    >
+      <FormattedMessage {...messages.logout} />
+    </ButtonTransparent>
   </Box>
 );
 
-export default withLogout(LoginButton);
+export default withLogout(LogoutButton);

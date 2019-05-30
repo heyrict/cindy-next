@@ -14,4 +14,4 @@ export const PTUserInlineUser = PropTypes.shape({
       description: PropTypes.string.isRequired,
     }),
   }),
-}).isRequired;
+});

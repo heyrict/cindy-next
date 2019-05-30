@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import messages from 'messages/components/puzzle';
 
-const getStatusColor = status => {
+export const getStatusColor = status => {
   switch (status) {
     case 0:
       return 'red';
@@ -22,7 +22,7 @@ const getStatusColor = status => {
   }
 };
 
-const StatusBase = styled.span`
+export const StatusBase = styled.span`
   text-align: center;
   border-radius: 10px;
   padding: 0 6px;
@@ -39,7 +39,7 @@ const StatusBase = styled.span`
   }}
 `;
 
-const StatusText = ({ status }) => {
+export const StatusText = ({ status }) => {
   switch (status) {
     case 0:
       return <FormattedMessage {...messages.status_undergoing} />;
@@ -56,7 +56,7 @@ const StatusText = ({ status }) => {
   }
 };
 
-const Status = ({ status }) => (
+export const Status = ({ status }) => (
   <StatusBase status={status}>
     <StatusText status={status} />
   </StatusBase>

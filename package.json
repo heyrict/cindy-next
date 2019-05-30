@@ -17,7 +17,8 @@
     "build": "next build",
     "start": "NODE_ENV=production node server",
     "extract-intl": "NODE_ENV=development node scripts/extract-intl.js",
-    "prettier-metadata": "prettier ./config/metadata.json --write --parser=json"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@emotion/core": "^10.0.10",
@@ -56,6 +57,9 @@
   },
   "devDependencies": {
     "babel-plugin-react-intl": "^3.0.1",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.13.2",
+    "jest": "^24.8.0",
     "prettier": "^1.16.4",
     "svg-url-loader": "^2.3.2"
   }

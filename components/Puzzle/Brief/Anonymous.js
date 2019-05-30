@@ -13,7 +13,7 @@ const AnonymousBase = styled.div`
   display: inline-flex;
 `;
 
-const Anonymous = ({ count, sum }) => (
+const Anonymous = () => (
   <AnonymousBase>
     <Img
       size="1.4em"
