@@ -8,6 +8,7 @@
   "common.change": "Change",
   "common.close": "Close",
   "common.default": "Default",
+  "common.loading": "Loading...",
   "components.chat.changeChannel": "Change Channel",
   "components.chat.changeToDefaultChannel": "Change To Default Channel",
   "components.chat.channelAsDefault": "Default ({channelName})",
