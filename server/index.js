@@ -5,6 +5,12 @@
 const IntlPolyfill = require('intl');
 Intl.NumberFormat = IntlPolyfill.NumberFormat;
 Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
+const {
+  supportedLanguages,
+  getLocaleDataScript,
+  getMessages,
+} = require('./intl');
+const regLang = /^\/[^/]+/;
 
 const { createServer } = require('http');
 const { parse } = require('url');
@@ -18,16 +24,9 @@ const { DEFAULT_LOCALE } = require('../settings');
 const app = next({ dev });
 const routes = require('../routes');
 const handler = routes.getRequestHandler(app, ({ req, res, route, query }) => {
-  const parsedUrl = parse(req.url, true);
-  const { pathname } = parsedUrl;
-  const langMatch = regLang.exec(pathname);
-  const lang =
-    langMatch && supportedLanguages.find(l => l === langMatch[0].substr(1));
   const accept = accepts(req);
   const locale =
-    lang ||
-    accept.language(accept.languages(supportedLanguages)) ||
-    DEFAULT_LOCALE;
+    accept.language(accept.languages(supportedLanguages)) || DEFAULT_LOCALE;
   req.locale = locale;
   req.localeDataScript = getLocaleDataScript(locale);
   //req.messages = dev ? {} : getMessages(locale);
@@ -42,13 +41,6 @@ const port = parseInt(process.env.PORT || '3000', 10);
 const prettyHost = customHost || 'localhost';
 
 const userController = require('./controllers/user');
-const {
-  supportedLanguages,
-  getLocaleDataScript,
-  getMessages,
-} = require('./intl');
-
-const regLang = /^\/[^/]+/;
 
 app.prepare().then(() => {
   const server = express();

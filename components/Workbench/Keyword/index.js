@@ -1,0 +1,101 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as addReplayReducer from 'reducers/addReplay';
+
+import { Query } from 'react-apollo';
+import { PuzzleDialogueQuery } from 'graphql/Queries/Puzzles';
+
+import { getKeywords, counter } from './common';
+
+import { Flex } from 'components/General';
+import KuromojiProgress from './KuromojiProgress';
+import KeywordsSelect from './KeywordsSelect';
+
+const KeywordWorkbench = ({
+  id,
+  minKeywordAppearance,
+  setReplayDialogues,
+  setKuromojiProgress,
+  setKeywords,
+  setUseKeywords,
+}) => (
+  <Flex p={2} flexWrap="wrap">
+    <Query
+      query={PuzzleDialogueQuery}
+      variables={{
+        id,
+      }}
+      ssr={false}
+      onCompleted={async ({ sui_hei_dialogue }) => {
+        // Get keys
+        const calcDialogueKeys = [];
+        let keywordCounts = new Object();
+        setKuromojiProgress(0);
+        for (let i = 0; i < sui_hei_dialogue.length; i++) {
+          const dialogue = sui_hei_dialogue[i];
+          const parsed = await getKeywords(dialogue.question);
+          await counter(parsed, keywordCounts);
+          calcDialogueKeys.push({
+            question: dialogue.question,
+            question_keywords: parsed,
+          });
+          if ((i + 1) % 10 === 0)
+            setKuromojiProgress((i + 1) / sui_hei_dialogue.length);
+        }
+
+        const keywords = new Object();
+        const countThresh = Math.log10(calcDialogueKeys.length);
+        Object.entries(keywordCounts).forEach(([key, count]) => {
+          keywords[key] = {
+            count,
+            use: count > countThresh ? true : false,
+          };
+        });
+
+        setKuromojiProgress(1);
+        setReplayDialogues(calcDialogueKeys);
+        setKeywords(keywords);
+      }}
+    >
+      {({ loading, error, data }) => {
+        if (loading) return 'Loading...';
+        if (error) return `Error: ${error.message}`;
+        if (data && data.sui_hei_dialogue)
+          return (
+            <React.Fragment>
+              <KuromojiProgress />
+              <KeywordsSelect />
+            </React.Fragment>
+          );
+        return null;
+      }}
+    </Query>
+  </Flex>
+);
+
+KeywordWorkbench.propTypes = {
+  id: PropTypes.number.isRequired,
+  setReplayDialogues: PropTypes.func.isRequired,
+  setKuromojiProgress: PropTypes.func.isRequired,
+  setKeywords: PropTypes.func.isRequired,
+  setUseKeywords: PropTypes.func.isRequired,
+  minKeywordAppearance: PropTypes.number,
+};
+
+const mapDispatchToProps = dispatch => ({
+  setReplayDialogues: data =>
+    dispatch(addReplayReducer.actions.setReplayDialogues(data)),
+  setKuromojiProgress: percentage =>
+    dispatch(addReplayReducer.actions.setKuromojiProgress(percentage)),
+  setKeywords: data => dispatch(addReplayReducer.actions.setKeywords(data)),
+  setUseKeywords: data =>
+    dispatch(addReplayReducer.actions.setUseKeywords(data)),
+});
+
+const withRedux = connect(
+  null,
+  mapDispatchToProps,
+);
+
+export default withRedux(KeywordWorkbench);
