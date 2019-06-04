@@ -1,5 +1,4 @@
 import * as bool from './helpers/bool';
-import * as string from './helpers/string';
 
 export const scope = 'setting';
 

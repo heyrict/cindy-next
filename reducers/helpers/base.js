@@ -1,7 +1,7 @@
 import { getSubsetActions } from './common';
 
 export const actionTypes = {
-  SET: 'STRING_SET',
+  SET: 'BASE_SET',
 };
 
 export const actions = {

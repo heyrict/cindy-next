@@ -1,5 +1,5 @@
 import * as bool from './helpers/bool';
-import * as string from './helpers/string';
+import * as base from './helpers/base';
 
 export const scope = 'chat';
 
@@ -12,8 +12,8 @@ export const actionTypes = {
 };
 
 export const actions = {
-  ...string.getActions('ChatInput', actionTypes.CHAT_INPUT),
-  ...string.getActions('ChannelChangeInput', actionTypes.CHANNEL_CHANGE_INPUT),
+  ...base.getActions('ChatInput', actionTypes.CHAT_INPUT),
+  ...base.getActions('ChannelChangeInput', actionTypes.CHANNEL_CHANGE_INPUT),
   ...bool.getActions('ChannelChangeModal', actionTypes.CHANNEL_CHANGE_MODAL),
   ...bool.getActions('ChatInputModal', actionTypes.CHAT_INPUT_MODAL),
   ...bool.getActions('DescriptionModal', actionTypes.DESCRIPTION_MODAL),
@@ -34,12 +34,12 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.CHAT_INPUT:
       return {
         ...state,
-        chatInput: string.helper(state.chatInput, action.payload),
+        chatInput: base.helper(state.chatInput, action.payload),
       };
     case actionTypes.CHANNEL_CHANGE_INPUT:
       return {
         ...state,
-        channelChangeInput: string.helper(
+        channelChangeInput: base.helper(
           state.channelChangeInput,
           action.payload,
         ),

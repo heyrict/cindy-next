@@ -1,5 +1,5 @@
 import * as bool from './helpers/bool';
-import * as string from './helpers/string';
+import * as base from './helpers/base';
 
 export const scope = 'global';
 
@@ -13,7 +13,7 @@ export const actionTypes = {
 
 export const actions = {
   ...bool.getActions('Aside', actionTypes.ASIDE),
-  ...string.getActions('Channel', actionTypes.CHANNEL),
+  ...base.getActions('Channel', actionTypes.CHANNEL),
   fetchUser: () => ({
     type: actionTypes.FETCHUSER,
   }),
@@ -55,7 +55,7 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.CHANNEL:
       return {
         ...state,
-        channel: string.helper(state.channel, action.payload),
+        channel: base.helper(state.channel, action.payload),
       };
     case actionTypes.SETUSER:
       return {

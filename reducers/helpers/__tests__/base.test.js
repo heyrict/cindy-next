@@ -1,4 +1,4 @@
-import { actionTypes, actions, getActions, helper } from '../string';
+import { actionTypes, actions, getActions, helper } from '../base';
 
 let initialState = null;
 

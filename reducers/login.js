@@ -1,5 +1,5 @@
 import * as bool from './helpers/bool';
-import * as string from './helpers/string';
+import * as base from './helpers/base';
 
 export const scope = 'login';
 
@@ -16,10 +16,10 @@ export const actionTypes = {
 export const actions = {
   ...bool.getActions('LoginModal', actionTypes.LOGIN_MODAL),
   ...bool.getActions('SignupModal', actionTypes.SIGNUP_MODAL),
-  ...string.getActions('Nickname', actionTypes.NICKNAME),
-  ...string.getActions('Username', actionTypes.USERNAME),
-  ...string.getActions('Password', actionTypes.PASSWORD),
-  ...string.getActions('Errors', actionTypes.ERRORS),
+  ...base.getActions('Nickname', actionTypes.NICKNAME),
+  ...base.getActions('Username', actionTypes.USERNAME),
+  ...base.getActions('Password', actionTypes.PASSWORD),
+  ...base.getActions('Errors', actionTypes.ERRORS),
   resetForm: () => ({
     type: actionTypes.RESET_FORM,
   }),
@@ -51,22 +51,22 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.NICKNAME:
       return {
         ...state,
-        nickname: string.helper(state.nickname, action.payload),
+        nickname: base.helper(state.nickname, action.payload),
       };
     case actionTypes.USERNAME:
       return {
         ...state,
-        username: string.helper(state.username, action.payload),
+        username: base.helper(state.username, action.payload),
       };
     case actionTypes.PASSWORD:
       return {
         ...state,
-        password: string.helper(state.password, action.payload),
+        password: base.helper(state.password, action.payload),
       };
     case actionTypes.ERRORS:
       return {
         ...state,
-        errors: string.helper(state.errors, action.payload),
+        errors: base.helper(state.errors, action.payload),
       };
     case actionTypes.RESET_FORM:
       return initialState;
