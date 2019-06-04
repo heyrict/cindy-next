@@ -5,6 +5,7 @@ export const actionTypes = {
   INSERT: 'ARRAY_INSERT',
   SET: 'ARRAY_SET',
   DELETE: 'ARRAY_DELETE',
+  DELETE_WHERE: 'ARRAY_DELETE_WHERE',
   EMPTY: 'ARRAY_EMPTY',
   SWAP: 'ARRAY_SWAP',
 };
@@ -13,8 +14,9 @@ export const actions = {
   set: array => ({ type: actionTypes.SET, array }),
   push: value => ({ type: actionTypes.PUSH, value }),
   insert: (index, value) => ({ type: actionTypes.INSERT, index, value }),
-  pop: () => ({ type: actionTypes.POP }),
+  pop: value => ({ type: actionTypes.POP, value }),
   delete: index => ({ type: actionTypes.DELETE, index }),
+  deleteWhere: fn => ({ type: actionTypes.DELETE_WHERE, fn }),
   empty: () => ({ type: actionTypes.EMPTY }),
   swap: (indexA, indexB) => ({
     type: actionTypes.SWAP,
@@ -37,11 +39,20 @@ export const helper = (prev, payload) => {
       const { index, value } = payload;
       return [...prev.slice(0, index), value, ...prev.slice(index)];
     }
-    case actionTypes.POP:
+    case actionTypes.POP: {
+      const { value } = payload;
+      if (value) {
+        return prev.filter(v => v !== value);
+      }
       return [...prev.slice(0, prev.length - 1)];
+    }
     case actionTypes.DELETE: {
       const { index } = payload;
       return [...prev.slice(0, index), ...prev.slice(index + 1)];
+    }
+    case actionTypes.DELETE_WHERE: {
+      const { fn } = payload;
+      return prev.filter(v => !fn(v));
     }
     case actionTypes.EMPTY:
       return [];

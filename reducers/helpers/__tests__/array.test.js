@@ -38,25 +38,40 @@ describe('array helper', () => {
     });
   });
 
-  it('test action.POP', () => {
-    const orig = ['a', 'b', 'c', 'd', 'e' , 'f'];
-    const expected = ['a', 'b', 'c', 'd', 'e'];
-    expect(helper(orig, actions.pop())).toStrictEqual(expected);
-  })
+  describe('test action.POP', () => {
+    it('with value', () => {
+      const orig = ['a', 'b', 'c', 'd', 'e', 'f'];
+      const expected = ['a', 'b', 'c', 'e', 'f'];
+      expect(helper(orig, actions.pop('d'))).toStrictEqual(expected);
+    });
+    it('without value', () => {
+      const orig = ['a', 'b', 'c', 'd', 'e', 'f'];
+      const expected = ['a', 'b', 'c', 'd', 'e'];
+      expect(helper(orig, actions.pop())).toStrictEqual(expected);
+    });
+  });
 
   it('test action.DELETE', () => {
     const orig = ['a', 'b', 'c', 'd', 'e'];
     const expected = ['a', 'c', 'd', 'e'];
     expect(helper(orig, actions.delete(1))).toStrictEqual(expected);
-  })
+  });
+
+  it('test action.DELETE_WHERE', () => {
+    const orig = ['a', 'b', 'c', 'd', 'e'];
+    const expected = ['a', 'c', 'd', 'e'];
+    expect(helper(orig, actions.deleteWhere(v => v == 'b'))).toStrictEqual(
+      expected,
+    );
+  });
 
   it('test action.EMPTY', () => {
     expect(helper(arraySample, actions.empty())).toStrictEqual([]);
-  })
+  });
 
   it('test action.SWAP', () => {
     const orig = ['a', 'b', 'c', 'd'];
     const expected = ['c', 'b', 'a', 'd'];
-    expect(helper(orig, actions.swap(0, 2))).toStrictEqual(expected)
-  })
+    expect(helper(orig, actions.swap(0, 2))).toStrictEqual(expected);
+  });
 });
