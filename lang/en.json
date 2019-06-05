@@ -41,6 +41,8 @@
   "ranking.description": "Ranking board for users",
   "ranking.header": "Ranking",
   "ranking.title": "Ranking",
+  "replay.description": "Replay Puzzle {puzzleTitle} in Cindy",
+  "replay.title": "Replay Puzzle {puzzleTitle} | Cindy",
   "toolbar.home": "Home",
   "toolbar.puzzle": "Puzzle",
   "toolbar.wiki": "Wiki"

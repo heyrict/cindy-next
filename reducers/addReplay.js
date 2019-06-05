@@ -6,21 +6,32 @@ export const scope = 'addReplay';
 
 export const actionTypes = {
   KEYWORDS: `${scope}.KEYWORDS`,
-  KEYWORDS_TOGGLE: `${scope}.KEYWORDS_TOGGLE`,
+  COUNT_FILTER_INPUT: `${scope}.COUNT_FILTER_INPUT`,
   REPLAY_DIALOGUES: `${scope}.REPLAY_DIALOGUES`,
+  SAVED_KEYWORDS: `${scope}.SAVED_KEYWORDS`,
   KUROMOJI_PROGRESS: `${scope}.KUROMOJI_PROGRESS`,
+  KEYWORDS_TOGGLE: `${scope}.KEYWORDS_TOGGLE`,
+  KEYWORDS_USEMINCOUNT: `${scope}.KEYWORDS_USEMINCOUNT`,
 };
 
 export const actions = {
+  ...base.getActions('CountFilterInput', actionTypes.COUNT_FILTER_INPUT),
   ...base.getActions('Keywords', actionTypes.KEYWORDS),
+  ...array.getActions('ReplayDialogues', actionTypes.REPLAY_DIALOGUES),
+  ...array.getActions('SavedKeywords', actionTypes.SAVED_KEYWORDS),
+  ...base.getActions('KuromojiProgress', actionTypes.KUROMOJI_PROGRESS),
   toggleKeywordUse: keyword => ({
     type: actionTypes.KEYWORDS_TOGGLE,
     payload: {
       keyword,
     },
   }),
-  ...array.getActions('ReplayDialogues', actionTypes.REPLAY_DIALOGUES),
-  ...base.getActions('KuromojiProgress', actionTypes.KUROMOJI_PROGRESS),
+  setKeywordsUseMinCount: count => ({
+    type: actionTypes.KEYWORDS_USEMINCOUNT,
+    payload: {
+      count,
+    },
+  }),
 };
 
 export const rootSelector = state => state[scope];
@@ -34,7 +45,14 @@ export const initialState = {
    * }
    */
   keywords: {},
+  countFilterInput: 0,
   replayDialogues: [], // Array of {qustion: String!, keywords: [String!]!}
+  /* Array of {
+   *   name: String!,
+   *   keywords,
+   * }
+   */
+  savedKeywords: [],
   kuromojiProgress: 0,
 };
 
@@ -45,6 +63,26 @@ export const reducer = (state = initialState, action) => {
         ...state,
         keywords: base.helper(state.keywords, action.payload),
       };
+    case actionTypes.COUNT_FILTER_INPUT:
+      return {
+        ...state,
+        countFilterInput: base.helper(state.keywords, action.payload),
+      };
+    case actionTypes.REPLAY_DIALOGUES:
+      return {
+        ...state,
+        replayDialogues: array.helper(state.replayDialogues, action.payload),
+      };
+    case actionTypes.SAVED_KEYWORDS:
+      return {
+        ...state,
+        savedKeywords: array.helper(state.savedKeywords, action.payload),
+      };
+    case actionTypes.KUROMOJI_PROGRESS:
+      return {
+        ...state,
+        kuromojiProgress: base.helper(state.kuromojiProgress, action.payload),
+      };
     case actionTypes.KEYWORDS_TOGGLE: {
       const { keyword } = action.payload;
       const keywords = { ...state.keywords };
@@ -54,16 +92,21 @@ export const reducer = (state = initialState, action) => {
         keywords,
       };
     }
-    case actionTypes.REPLAY_DIALOGUES:
+    case actionTypes.KEYWORDS_USEMINCOUNT: {
+      const { count } = action.payload;
+      const keywords = { ...state.keywords };
+      Object.keys(keywords).forEach(key => {
+        if (keywords[key].count >= count) {
+          keywords[key].use = true;
+        } else {
+          keywords[key].use = false;
+        }
+      });
       return {
         ...state,
-        replayDialogues: array.helper(state.replayDialogues, action.payload),
+        keywords,
       };
-    case actionTypes.KUROMOJI_PROGRESS:
-      return {
-        ...state,
-        kuromojiProgress: base.helper(state.kuromojiProgress, action.payload),
-      };
+    }
     default:
       return state;
   }

@@ -23,6 +23,7 @@ const KeywordButton = ({ keyword, use, count, toggleKeywordUse }) => (
     <Button
       borderRadius={2}
       width={0.95}
+      height={1}
       bg={use ? 'orange.6' : 'orange.3'}
       onClick={() => toggleKeywordUse(keyword)}
     >

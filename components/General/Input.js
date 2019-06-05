@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { space, width, height, borders } from 'styled-system';
+import { space, width, height, borders, color } from 'styled-system';
 
 const Input = styled.input`
   box-sizing: 'border-box';
@@ -11,6 +11,7 @@ const Input = styled.input`
   ${width}
   ${height}
   ${borders}
+  ${color}
 `;
 
 Input.propTypes = {
@@ -18,6 +19,7 @@ Input.propTypes = {
   ...width.propTypes,
   ...height.propTypes,
   ...borders.propTypes,
+  ...color.propTypes,
 };
 
 export default Input;

@@ -8,13 +8,15 @@ import { PuzzleDialogueQuery } from 'graphql/Queries/Puzzles';
 
 import { getKeywords, counter } from './common';
 
-import { Flex } from 'components/General';
+import { Flex, ProgressBar } from 'components/General';
 import KuromojiProgress from './KuromojiProgress';
-import KeywordsSelect from './KeywordsSelect';
+import KeywordSelect from './KeywordSelect';
+import ResultPreview from './ResultPreview';
 
 const KeywordWorkbench = ({
   id,
   minKeywordAppearance,
+  setCountFilterInput,
   setReplayDialogues,
   setKuromojiProgress,
   setKeywords,
@@ -46,6 +48,7 @@ const KeywordWorkbench = ({
 
         const keywords = new Object();
         const countThresh = Math.log10(calcDialogueKeys.length);
+        setCountFilterInput(Math.ceil(countThresh));
         Object.entries(keywordCounts).forEach(([key, count]) => {
           keywords[key] = {
             count,
@@ -65,7 +68,8 @@ const KeywordWorkbench = ({
           return (
             <React.Fragment>
               <KuromojiProgress />
-              <KeywordsSelect />
+              <KeywordSelect />
+              <ResultPreview />
             </React.Fragment>
           );
         return null;
@@ -86,6 +90,8 @@ KeywordWorkbench.propTypes = {
 const mapDispatchToProps = dispatch => ({
   setReplayDialogues: data =>
     dispatch(addReplayReducer.actions.setReplayDialogues(data)),
+  setCountFilterInput: value =>
+    dispatch(addReplayReducer.actions.setCountFilterInput(value)),
   setKuromojiProgress: percentage =>
     dispatch(addReplayReducer.actions.setKuromojiProgress(percentage)),
   setKeywords: data => dispatch(addReplayReducer.actions.setKeywords(data)),

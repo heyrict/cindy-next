@@ -1,6 +1,30 @@
 import gql from 'graphql-tag';
 
 import { PuzzleSharedFragment } from '../Fragments/Puzzles';
+import { DialogueSharedFragment } from '../Fragments/Dialogue';
+
+export const PuzzleQuery = gql`
+  query PuzzleQuery($id: Int!) {
+    sui_hei_puzzle_by_pk(pk: $id) {
+      ...PuzzleShared
+      content
+      solution
+      memo
+    }
+  }
+`;
+
+export const PuzzleDialogueQuery = gql`
+  query PuzzleDialogueQuery($id: Int!) {
+    sui_hei_dialogue(
+      where: { sui_hei_puzzle: { id: { _eq: $id } } }
+      order_by: { id: desc }
+    ) {
+      ...DialogueShared
+    }
+  }
+  ${DialogueSharedFragment}
+`;
 
 export const PuzzlesUnsolvedQuery = gql`
   query PuzzlesUnsolvedQuery {

@@ -25,7 +25,7 @@ const Puzzle = (props, context) => {
   const [hasMore, setHasMore] = useState(true);
 
   return (
-    <div>
+    <React.Fragment>
       <Head>
         <title>{_(messages.title)}</title>
         <meta name="description" content={_(messages.description)} />
@@ -94,7 +94,7 @@ const Puzzle = (props, context) => {
           }}
         </Query>
       </Flex>
-    </div>
+    </React.Fragment>
   );
 };
 

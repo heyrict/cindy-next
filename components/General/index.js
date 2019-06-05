@@ -8,3 +8,4 @@ export { default as LinkButton } from './LinkButton';
 export { default as Heading } from './Heading';
 export { default as Panel } from './Panel';
 export { default as Anchor } from './Anchor';
+export { default as ProgressBar } from './ProgressBar';
