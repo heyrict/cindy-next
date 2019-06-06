@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import * as addReplayReducer from 'reducers/addReplay';
 
-import { Box, Button } from 'components/General';
+import KeywordButton from '../shared/KeywordButton';
 
 const useSelector = createSelector(
   state => addReplayReducer.rootSelector(state).keywords,
@@ -18,21 +17,15 @@ const countSelector = createSelector(
   (keywords, key) => keywords[key].count,
 );
 
-const KeywordButton = ({ keyword, use, count, toggleKeywordUse }) => (
-  <Box width={1 / 5} mb={1}>
-    <Button
-      borderRadius={2}
-      width={0.95}
-      height={1}
-      bg={use ? 'orange.6' : 'orange.3'}
-      onClick={() => toggleKeywordUse(keyword)}
-    >
-      {count}: {keyword}
-    </Button>
-  </Box>
+const SelectKeywordButton = ({ keyword, use, count, toggleKeywordUse }) => (
+  <KeywordButton
+    on={use}
+    content={`${count}: ${keyword}`}
+    onClick={() => toggleKeywordUse(keyword)}
+  />
 );
 
-KeywordButton.propTypes = {
+SelectKeywordButton.propTypes = {
   keyword: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
   use: PropTypes.bool.isRequired,
@@ -54,4 +47,4 @@ const withRedux = connect(
   mapDispatchToProps,
 );
 
-export default withRedux(KeywordButton);
+export default withRedux(SelectKeywordButton);

@@ -9,7 +9,7 @@ import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/workbench';
 
 import { Flex, Box, Button } from 'components/General';
-import KeywordButton from './KeywordButton';
+import SelectKeywordButton from 'SelectKeywordButton';
 import KeywordSelectToolbar from './KeywordSelectToolbar';
 
 const keywordKeysSelector = createSelector(
@@ -17,10 +17,10 @@ const keywordKeysSelector = createSelector(
     Object.entries(addReplayReducer.rootSelector(state).keywords).sort(
       (a, b) => a[1].count < b[1].count,
     ),
-  sortedKeywords => sortedKeywords.map(([key, value]) => key),
+  sortedKeyword => sortedKeyword.map(([key, value]) => key),
 );
 
-const KeywordsPanel = styled.div`
+const KeywordPanel = styled.div`
   background-color: rgba(255, 255, 255, 0.5);
   border-color: ${p => p.theme.colors.yellow[6]};
   border-radius: ${p => p.theme.radii[2]}px;
@@ -28,9 +28,10 @@ const KeywordsPanel = styled.div`
   border-style: solid;
   padding: ${p => p.theme.space[2]}px;
   width: 100%;
+  margin-bottom: ${p => p.theme.space[2]}px;
 `;
 
-const KeywordsSelectWrapper = styled(Flex)`
+const KeywordSelectWrapper = styled(Flex)`
   flex-wrap: wrap;
   border-top: 2px solid ${p => p.theme.colors.yellow[6]};
   padding-top: 0.5em;
@@ -38,24 +39,24 @@ const KeywordsSelectWrapper = styled(Flex)`
   overflow-y: auto;
 `;
 
-const KeywordsSelect = ({ keywordKeys }) => {
+const KeywordSelect = ({ keywordKeys }) => {
   const [collapse, setCollapse] = useState(true);
   return (
-    <KeywordsPanel>
+    <KeywordPanel>
       <Box fontSize={3}>
         <FormattedMessage {...messages.keywords} />
       </Box>
       <KeywordSelectToolbar />
-      <KeywordsSelectWrapper>
+      <KeywordSelectWrapper>
         {keywordKeys.map(keyword => (
-          <KeywordButton key={keyword} keyword={keyword} />
+          <SelectKeywordButton key={keyword} keyword={keyword} />
         ))}
-      </KeywordsSelectWrapper>
-    </KeywordsPanel>
+      </KeywordSelectWrapper>
+    </KeywordPanel>
   );
 };
 
-KeywordsSelect.propTypes = {
+KeywordSelect.propTypes = {
   keywordKeys: PropTypes.array.isRequired,
 };
 
@@ -65,4 +66,4 @@ const mapStateToProps = state => ({
 
 const withRedux = connect(mapStateToProps);
 
-export default withRedux(KeywordsSelect);
+export default withRedux(KeywordSelect);

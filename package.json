@@ -44,6 +44,7 @@
     "rasha": "^1.2.5",
     "react": "^16.8.6",
     "react-apollo": "^2.5.4",
+    "react-d3-tree": "^1.13.0",
     "react-dom": "^16.8.6",
     "react-intl": "^2.8.0",
     "react-portal": "^4.2.0",

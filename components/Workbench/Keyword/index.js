@@ -10,7 +10,7 @@ import { getKeywords, counter } from './common';
 
 import { Flex, ProgressBar } from 'components/General';
 import KuromojiProgress from './KuromojiProgress';
-import KeywordSelect from './KeywordSelect';
+import KeywordManipulatePanel from './KeywordManipulatePanel';
 import ResultPreview from './ResultPreview';
 
 const KeywordWorkbench = ({
@@ -68,7 +68,7 @@ const KeywordWorkbench = ({
           return (
             <React.Fragment>
               <KuromojiProgress />
-              <KeywordSelect />
+              <KeywordManipulatePanel />
               <ResultPreview />
             </React.Fragment>
           );

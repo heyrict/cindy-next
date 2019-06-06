@@ -12,6 +12,7 @@ export const actionTypes = {
   KUROMOJI_PROGRESS: `${scope}.KUROMOJI_PROGRESS`,
   KEYWORDS_TOGGLE: `${scope}.KEYWORDS_TOGGLE`,
   KEYWORDS_USEMINCOUNT: `${scope}.KEYWORDS_USEMINCOUNT`,
+  KEYWORD_MANIPULATE_PANEL: `${scope}.KEYWORD_MANIPULATE_PANEL`,
 };
 
 export const actions = {
@@ -20,6 +21,7 @@ export const actions = {
   ...array.getActions('ReplayDialogues', actionTypes.REPLAY_DIALOGUES),
   ...array.getActions('SavedKeywords', actionTypes.SAVED_KEYWORDS),
   ...base.getActions('KuromojiProgress', actionTypes.KUROMOJI_PROGRESS),
+  ...base.getActions('KeywordManipulatePanel', actionTypes.KEYWORD_MANIPULATE_PANEL),
   toggleKeywordUse: keyword => ({
     type: actionTypes.KEYWORDS_TOGGLE,
     payload: {
@@ -54,6 +56,7 @@ export const initialState = {
    */
   savedKeywords: [],
   kuromojiProgress: 0,
+  keywordManipulatePanel: 0,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -78,6 +81,11 @@ export const reducer = (state = initialState, action) => {
         ...state,
         savedKeywords: array.helper(state.savedKeywords, action.payload),
       };
+    case actionTypes.KEYWORD_MANIPULATE_PANEL:
+      return {
+        ...state,
+        keywordManipulatePanel: base.helper(state.KeywordManipulatePanel, action.payload),
+      }
     case actionTypes.KUROMOJI_PROGRESS:
       return {
         ...state,
