@@ -22,7 +22,7 @@ import 'styles/cindy-easymde.css';
 const ChatInputBase = styled.div`
   display: flex;
   width: 100%;
-  height: ${p => p.theme.heights.chatinput};
+  height: ${p => p.theme.sizes.chatinput};
   background-color: ${p => p.theme.colors.orange[5]};
   align-items: center;
   justify-content: center;

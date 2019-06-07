@@ -14,7 +14,7 @@ import ChatInput from '../ChatInput';
 const LoginRequiredBlock = styled.div`
   display: flex;
   width: 100%;
-  height: ${p => p.theme.heights.chatinput};
+  height: ${p => p.theme.sizes.chatinput};
   background-color: ${p => p.theme.colors.orange[5]};
   color: ${p => p.theme.colors.white};
   font-weight: bold;

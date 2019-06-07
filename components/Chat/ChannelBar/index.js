@@ -22,7 +22,7 @@ const ChannelBar = ({
   setTrueChannelChangeModal,
   setTrueDescriptionModal,
 }) => {
-  const currentChannel = getChannelWithPath(channel, router.pathname);
+  const currentChannel = getChannelWithPath(channel, router.asPath);
 
   return (
     <Box width={1} height="channelbar">
@@ -59,7 +59,7 @@ const ChannelBar = ({
 
 ChannelBar.propTypes = {
   router: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
+    asPath: PropTypes.string.isRequired,
   }).isRequired,
   chatroomId: PropTypes.number,
   channel: PropTypes.string.isRequired,

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { space, color, width, fontSize, borders, height } from 'styled-system';
+import { space, color, fontSize, borders, layout } from 'styled-system';
 
 const Button = styled.button`
   background-color: ${p => p.theme.colors.orange[6]};
@@ -7,8 +7,7 @@ const Button = styled.button`
   overflow: hidden;
   ${space}
   ${color}
-  ${width}
-  ${height}
+  ${layout}
   ${fontSize}
   ${borders}
 `;
@@ -16,8 +15,7 @@ const Button = styled.button`
 Button.propTypes = {
   ...space.propTypes,
   ...color.propTypes,
-  ...width.propTypes,
-  ...height.propTypes,
+  ...layout.propTypes,
   ...fontSize.propTypes,
   ...borders.propTypes,
 };

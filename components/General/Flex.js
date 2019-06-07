@@ -6,8 +6,7 @@ import {
   justifyContent,
   space,
   color,
-  width,
-  height,
+  layout,
 } from 'styled-system';
 
 const Flex = styled.div`
@@ -20,8 +19,7 @@ const Flex = styled.div`
   ${justifyContent}
   ${space}
   ${color}
-  ${width}
-  ${height}
+  ${layout}
 `;
 
 Flex.propTypes = {
@@ -31,8 +29,7 @@ Flex.propTypes = {
   ...justifyContent.propTypes,
   ...space.propTypes,
   ...color.propTypes,
-  ...width.propTypes,
-  ...height.propTypes,
+  ...layout.propTypes,
 };
 
 export default Flex;

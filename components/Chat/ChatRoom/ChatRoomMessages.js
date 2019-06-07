@@ -22,8 +22,8 @@ import Chatmessage from '../Chatmessage';
 const ChannelContentWrapper = styled.div`
   overflow-y: auto;
   height: calc(
-    100vh - ${p => p.theme.heights.channelbar} -
-      ${p => p.theme.heights.chatinput}
+    100vh - ${p => p.theme.sizes.channelbar} -
+      ${p => p.theme.sizes.chatinput}
   );
 `;
 

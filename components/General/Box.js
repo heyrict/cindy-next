@@ -1,14 +1,5 @@
 import styled from '@emotion/styled';
-import {
-  space,
-  color,
-  width,
-  fontSize,
-  borders,
-  height,
-  minHeight,
-  minWidth,
-} from 'styled-system';
+import { space, color, fontSize, borders, layout } from 'styled-system';
 
 const Box = styled.div`
   box-sizing: 'border-box';
@@ -17,10 +8,7 @@ const Box = styled.div`
   ${color}
   ${fontSize}
   ${borders}
-  ${width}
-  ${height}
-  ${minHeight}
-  ${minWidth}
+  ${layout}
 `;
 
 Box.propTypes = {
@@ -28,10 +16,7 @@ Box.propTypes = {
   ...color.propTypes,
   ...fontSize.propTypes,
   ...borders.propTypes,
-  ...width.propTypes,
-  ...height.propTypes,
-  ...minHeight.propTypes,
-  ...minWidth.propTypes,
+  ...layout.propTypes,
 };
 
 export default Box;

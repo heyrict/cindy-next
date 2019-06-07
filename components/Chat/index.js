@@ -10,13 +10,13 @@ import * as globalReducer from 'reducers/global';
 import ChatRoom from './ChatRoom';
 
 const Chat = ({ channel, router }) => (
-  <ChatRoom chatroom={getChannelWithPath(channel, router.pathname)} />
+  <ChatRoom chatroom={getChannelWithPath(channel, router.asPath)} />
 );
 
 Chat.propTypes = {
   channel: PropTypes.string.isRequired,
   router: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
+    asPath: PropTypes.string.isRequired,
   }).isRequired,
 };
 

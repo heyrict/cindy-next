@@ -60,7 +60,7 @@
     "redux-saga": "^1.0.2",
     "reselect": "^4.0.0",
     "sequelize": "^5.3.2",
-    "styled-system": "^4.1.0",
+    "styled-system": "^5.0.5",
     "subscriptions-transport-ws": "^0.9.16"
   },
   "devDependencies": {
