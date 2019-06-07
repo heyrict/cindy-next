@@ -5,11 +5,11 @@ const scope = 'replay';
 export const messages = defineMessages({
   title: {
     id: `${scope}.title`,
-    defaultMessage: 'Replay Puzzle {puzzleTitle} | Cindy',
+    defaultMessage: 'Puzzle Replay',
   },
   description: {
     id: `${scope}.description`,
-    defaultMessage: 'Replay Puzzle {puzzleTitle} in Cindy',
+    defaultMessage: 'Replay Puzzle in Cindy',
   },
 });
 

@@ -5,13 +5,14 @@ import { DialogueSharedFragment } from '../Fragments/Dialogue';
 
 export const PuzzleQuery = gql`
   query PuzzleQuery($id: Int!) {
-    sui_hei_puzzle_by_pk(pk: $id) {
+    sui_hei_puzzle_by_pk(id: $id) {
       ...PuzzleShared
       content
       solution
       memo
     }
   }
+  ${PuzzleSharedFragment}
 `;
 
 export const PuzzleDialogueQuery = gql`

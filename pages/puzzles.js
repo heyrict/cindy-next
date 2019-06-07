@@ -8,7 +8,7 @@ import { Heading, Flex, Box, Panel } from 'components/General';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import PuzzleBrief from 'components/Puzzle/Brief';
 
-import messages from 'messages/pages/puzzle';
+import messages from 'messages/pages/puzzles';
 
 let prevData = null;
 
@@ -19,7 +19,7 @@ const puzzleLoadingPanel = (
   </Box>
 );
 
-const Puzzle = (props, context) => {
+const Puzzles = (props, context) => {
   const _ = context.intl.formatMessage;
 
   const [hasMore, setHasMore] = useState(true);
@@ -27,7 +27,7 @@ const Puzzle = (props, context) => {
   return (
     <React.Fragment>
       <Head>
-        <title>{_(messages.title)}</title>
+        <title>{_(messages.title)} | Cindy</title>
         <meta name="description" content={_(messages.description)} />
       </Head>
       <Heading>
@@ -40,7 +40,7 @@ const Puzzle = (props, context) => {
             if (!subscriptionData.data) return;
             const newUnsolved = subscriptionData.data.sui_hei_puzzle;
             if (prevData && prevData.length > newUnsolved.length) {
-              // Puzzle changed from unsolved to other
+              // Puzzles changed from unsolved to other
               const statusChangedPuzzle = {
                 ...prevData.find(
                   p => newUnsolved.findIndex(p2 => p2.id === p.id) === -1,
@@ -126,8 +126,8 @@ const Puzzle = (props, context) => {
   );
 };
 
-Puzzle.contextTypes = {
+Puzzles.contextTypes = {
   intl: intlShape,
 };
 
-export default Puzzle;
+export default Puzzles;

@@ -1,7 +1,10 @@
-import Flex from './Flex';
 import styled from '@emotion/styled';
+import { flexbox, space, color, layout } from 'styled-system';
 
-const Panel = styled(Flex)`
+const Panel = styled.div`
+  box-sizing: 'border-box';
+  min-width: 0;
+  display: flex;
   background-color: rgba(255, 255, 255, 0.5);
   border-color: ${p => p.theme.colors.red[4]};
   border-radius: ${p => p.theme.radii[2]}px;
@@ -10,6 +13,10 @@ const Panel = styled(Flex)`
   margin: ${p => p.theme.space[2]}px;
   padding: ${p => p.theme.space[2]}px;
   min-height: 9.5em;
+  ${flexbox}
+  ${space}
+  ${color}
+  ${layout}
 `;
 
 export default Panel;

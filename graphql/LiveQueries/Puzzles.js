@@ -20,3 +20,17 @@ export const PuzzlesUnsolvedLiveQuery = gql`
   }
   ${PuzzleSharedFragment}
 `;
+
+export const PuzzleLiveQuery = gql`
+  subscription PuzzleLiveQuery($id: Int!) {
+    sui_hei_puzzle_by_pk(id: $id) {
+      id
+      status
+      yami
+      anonymous
+      modified
+      solution
+      memo
+    }
+  }
+`;

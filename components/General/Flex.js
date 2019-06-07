@@ -1,9 +1,6 @@
 import styled from '@emotion/styled';
 import {
-  alignItems,
-  flexWrap,
-  flexDirection,
-  justifyContent,
+  flexbox,
   space,
   color,
   layout,
@@ -13,20 +10,14 @@ const Flex = styled.div`
   box-sizing: 'border-box';
   min-width: 0;
   display: flex;
-  ${alignItems}
-  ${flexWrap}
-  ${flexDirection}
-  ${justifyContent}
+  ${flexbox}
   ${space}
   ${color}
   ${layout}
 `;
 
 Flex.propTypes = {
-  ...alignItems.propTypes,
-  ...flexWrap.propTypes,
-  ...flexDirection.propTypes,
-  ...justifyContent.propTypes,
+  ...flexbox.propTypes,
   ...space.propTypes,
   ...color.propTypes,
   ...layout.propTypes,

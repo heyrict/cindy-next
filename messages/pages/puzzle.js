@@ -5,24 +5,19 @@ const scope = 'puzzle';
 export const messages = defineMessages({
   title: {
     id: `${scope}.title`,
-    defaultMessage: 'Puzzles',
+    defaultMessage: 'Puzzle Page',
   },
   description: {
     id: `${scope}.description`,
-    defaultMessage:
-      'Playing lateral thinking puzzles online, and browsering all kinds of lateral thinking puzzles. Tons of lateral thinking puzzles are waiting for you!',
+    defaultMessage: 'Details of puzzle',
   },
-  header: {
-    id: `${scope}.header`,
-    defaultMessage: 'Puzzle List',
+  solveit: {
+    id: `${scope}.solveit`,
+    defaultMessage: 'Can you solve the puzzle?',
   },
-  newPuzzle: {
-    id: `${scope}.newPuzzle`,
-    defaultMessage: 'New puzzle',
-  },
-  all: {
-    id: `${scope}.all`,
-    defaultMessage: 'All',
+  creator: {
+    id: `${scope}.creator`,
+    defaultMessage: 'Creator',
   },
 });
 
