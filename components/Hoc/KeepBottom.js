@@ -42,6 +42,7 @@ const watchObjectPropType = PropTypes.shape({
     'stayOrBottom',
     'doNothing',
   ]).isRequired,
+  log: PropTypes.bool,
   wait: PropTypes.number, // How long to wait for the rendering, default 0.
 });
 
@@ -75,7 +76,7 @@ class KeepBottom extends React.Component {
   componentDidUpdate(prevProps) {
     const prevWatch = prevProps.watch;
     this.props.watch.some((o, i) => {
-      if (o.value !== prevWatch[i].value) {
+      if (o.value !== prevWatch[i].value && o.log !== false) {
         console.log(
           `KeepBottom: Value changed on ${o.name} monitored (${
             prevWatch[i].value

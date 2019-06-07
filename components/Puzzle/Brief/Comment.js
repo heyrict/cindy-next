@@ -15,6 +15,7 @@ export const CommentBase = styled.div`
   color: ${p => p.theme.colors.white};
   background: ${p => p.theme.colors.cyan[6]};
   display: inline-flex;
+  align-items: center;
 `;
 
 const Comment = ({ count }) => (

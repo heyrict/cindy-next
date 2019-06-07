@@ -18,6 +18,9 @@ const accepts = require('accepts');
 const next = require('next');
 const express = require('express');
 const bodyParser = require('body-parser');
+const { execute, subscribe } = require('graphql');
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+const { gql, ApolloServer } = require('apollo-server-express');
 
 const dev = process.env.NODE_ENV !== 'production';
 const { DEFAULT_LOCALE } = require('../settings');
@@ -40,10 +43,24 @@ const host = customHost || null; // Let http.Server use its default IPv6/4 host
 const port = parseInt(process.env.PORT || '3000', 10);
 const prettyHost = customHost || 'localhost';
 
+const { typeDefs, resolvers } = require('./schema');
+const { pubsub } = require('./pubsub');
 const userController = require('./controllers/user');
+const subscriptionController = require('./controllers/subscription');
 
 app.prepare().then(() => {
+  const apolloServer = new ApolloServer({
+    typeDefs,
+    resolvers,
+    introspection: dev,
+    playground: dev,
+    subscriptions: '/subscriptions',
+  });
   const server = express();
+  apolloServer.applyMiddleware({
+    app: server,
+    path: '/subscriptions',
+  });
 
   // If you need a backend, e.g. an API, add your custom backend-specific middleware here
   server.use(bodyParser.json());
@@ -53,32 +70,12 @@ app.prepare().then(() => {
   server.get('/webhook/getcurrent', userController.getCurrentUser);
   server.get('/webhook/webhook', userController.getWebhook);
   server.get('/webhook/jwks', userController.getJwks);
+  server.use('/webhook/subscriptions', subscriptionController);
   server.use(handler);
-  /*
-  server.get('*', (req, res) => {
-    const parsedUrl = parse(req.url, true);
-    const { pathname, query } = parsedUrl;
-    const langMatch = regLang.exec(pathname);
-    const lang =
-      langMatch && supportedLanguages.find(l => l === langMatch[0].substr(1));
-    const pathnameNoPrefix = lang ? pathname.substr(lang.length + 1) : pathname;
 
-    const accept = accepts(req);
-    const locale =
-      lang ||
-      accept.language(accept.languages(supportedLanguages)) ||
-      DEFAULT_LOCALE;
-    req.locale = locale;
-    req.localeDataScript = getLocaleDataScript(locale);
-    //req.messages = dev ? {} : getMessages(locale);
-    req.messages = getMessages(locale);
-
-    //app.handleRequest(req, res);
-    app.render(req, res, pathnameNoPrefix, query);
-  });
-  */
-
-  server.listen(port, err => {
+  const websocketServer = createServer(server);
+  apolloServer.installSubscriptionHandlers(websocketServer);
+  websocketServer.listen(port, err => {
     if (err) throw err;
     console.log(`> Ready on http://localhost:${port}`);
   });

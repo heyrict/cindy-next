@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { Box, Flex, Panel, Img } from 'components/General';
+import { Link } from 'routes';
+import { Box, Flex, Panel, Img, Anchor } from 'components/General';
 
 import { PTUserInlineUser } from 'components/User/PropTypes';
 import UserCol from 'components/User/UserCol';
@@ -30,6 +31,15 @@ export const Time = styled(Box)`
   text-align: right;
   font-size: 0.9em;
   color: ${p => p.theme.colors.gray[7]};
+`;
+
+export const Title = styled.a`
+  font-size: 1.1em;
+  color: ${p => p.theme.colors.gray[9]};
+  &:hover,
+  &:active {
+    color: ${p => p.theme.colors.gray[8]};
+  }
 `;
 
 export const Brief = ({
@@ -82,13 +92,19 @@ export const Brief = ({
           <Flex mb={1} alignItems="center" justifyContent="center">
             <Genre genre={puzzle.genre} />
             <Yami yami={puzzle.yami} />
-            <Box width={1}>{puzzle.title}</Box>
+            <Box width={1}>
+              <Link to="puzzle" params={{ id: puzzle.id }} passHref>
+                <Title>{puzzle.title}</Title>
+              </Link>
+            </Box>
           </Flex>
         ) : (
           <Box mb={1}>
             <Genre genre={puzzle.genre} />
             <Yami yami={puzzle.yami} />
-            {puzzle.title}
+            <Link to="puzzle" params={{ id: puzzle.id }} passHref>
+              <Title>{puzzle.title}</Title>
+            </Link>
           </Box>
         )}
         {aggregates.dialogueMaxAnsweredtime && (
@@ -120,7 +136,7 @@ export const Brief = ({
           </Time>
         )}
         <Hr />
-        <Flex p={1} flexWrap="wrap">
+        <Flex p={1} flexWrap="wrap" alignItems="center">
           {puzzle.status !== 0 && puzzle.anonymous && <Anonymous />}
           <Status status={puzzle.status} />
           {typeof aggregates.dialogueCount === 'number' && (

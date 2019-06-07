@@ -15,6 +15,7 @@ export const StarBase = styled.div`
   color: ${p => p.theme.colors.white};
   background: ${p => p.theme.colors.violet[6]};
   display: inline-flex;
+  align-items: center;
 `;
 
 const Star = ({ count, sum }) => (

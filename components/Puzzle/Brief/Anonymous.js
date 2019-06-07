@@ -11,6 +11,7 @@ const AnonymousBase = styled.div`
   margin-bottom: 3px;
   font-size: 0.9em;
   display: inline-flex;
+  align-items: center;
 `;
 
 const Anonymous = () => (

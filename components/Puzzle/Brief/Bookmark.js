@@ -15,6 +15,7 @@ export const BookmarkBase = styled.div`
   color: ${p => p.theme.colors.white};
   background: ${p => p.theme.colors.lime[6]};
   display: inline-flex;
+  align-items: center;
 `;
 
 const Bookmark = ({ count }) => (

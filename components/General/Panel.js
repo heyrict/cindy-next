@@ -9,7 +9,7 @@ const Panel = styled(Flex)`
   border-style: groove;
   margin: ${p => p.theme.space[2]}px;
   padding: ${p => p.theme.space[2]}px;
-  min-height: 9em;
+  min-height: 9.5em;
 `;
 
 export default Panel;

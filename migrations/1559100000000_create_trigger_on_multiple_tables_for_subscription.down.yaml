@@ -1,0 +1,15 @@
+- args:
+    name: on_chatmessage_change
+  type: delete_event_trigger
+- args:
+    name: on_dialogue_change
+  type: delete_event_trigger
+- args:
+    name: on_puzzle_change
+  type: delete_event_trigger
+- args:
+    name: on_hint_change
+  type: delete_event_trigger
+- args:
+    name: on_directmessage_change
+  type: delete_event_trigger

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { Query } from 'react-apollo';
-import {
-  PuzzlesUnsolvedQuery,
-  PuzzleSolvedQuery,
-} from 'graphql/Queries/Puzzles';
+import { Query, Subscription } from 'react-apollo';
+import { PuzzleSolvedQuery } from 'graphql/Queries/Puzzles';
+import { PuzzlesUnsolvedLiveQuery } from 'graphql/LiveQueries/Puzzles';
 import { Heading, Flex, Box, Panel } from 'components/General';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import PuzzleBrief from 'components/Puzzle/Brief';
 
 import messages from 'messages/pages/puzzle';
+
+let prevData = null;
 
 const puzzleWidth = [1, 1 / 2, 1, 1 / 2, 1 / 3];
 const puzzleLoadingPanel = (
@@ -34,7 +34,35 @@ const Puzzle = (props, context) => {
         <FormattedMessage {...messages.header} />
       </Heading>
       <Flex flexWrap="wrap">
-        <Query query={PuzzlesUnsolvedQuery}>
+        <Subscription
+          subscription={PuzzlesUnsolvedLiveQuery}
+          onSubscriptionData={({ client, subscriptionData }) => {
+            if (!subscriptionData.data) return;
+            const newUnsolved = subscriptionData.data.sui_hei_puzzle;
+            if (prevData && prevData.length > newUnsolved.length) {
+              // Puzzle changed from unsolved to other
+              const statusChangedPuzzle = {
+                ...prevData.find(
+                  p => newUnsolved.findIndex(p2 => p2.id === p.id) === -1,
+                ),
+                sui_hei_stars_aggregate: null,
+                sui_hei_bookmarks_aggregate: null,
+                sui_hei_comments_aggregate: null,
+                status: 1,
+              };
+              const { sui_hei_puzzle } = client.readQuery({
+                query: PuzzleSolvedQuery,
+              });
+              client.writeQuery({
+                query: PuzzleSolvedQuery,
+                data: {
+                  sui_hei_puzzle: [statusChangedPuzzle, ...sui_hei_puzzle],
+                },
+              });
+            }
+            prevData = newUnsolved;
+          }}
+        >
           {({ loading, error, data }) => {
             if (loading) return puzzleLoadingPanel;
             if (error) return `Error: ${error.message}`;
@@ -45,7 +73,7 @@ const Puzzle = (props, context) => {
                 </Box>
               ));
           }}
-        </Query>
+        </Subscription>
         <Query query={PuzzleSolvedQuery} variables={{ limit: 20 }}>
           {({ loading, error, data, fetchMore }) => {
             if (loading) return puzzleLoadingPanel;

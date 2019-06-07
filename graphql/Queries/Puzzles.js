@@ -53,7 +53,7 @@ export const PuzzleSolvedQuery = gql`
       where: { status: { _neq: 0 } }
       limit: $limit
       offset: $offset
-    ) {
+    ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
       ...PuzzleShared
       sui_hei_stars_aggregate {
         aggregate {

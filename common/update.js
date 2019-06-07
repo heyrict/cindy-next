@@ -42,3 +42,45 @@ export const mergeList = (listA, listB, sort = 'asc') => {
   );
   return [...prependingArray, ...updatedArray];
 };
+
+/*
+ * function updateItem(list, item)
+ * update item if list contains an item with same `id`.
+ */
+export const updateItem = (list, item, key = 'id') => {
+  let index = list.findIndex(o => o[key] === item[key]);
+  if (index < 0) return list;
+  const newList = [...list];
+  newList[index] = { ...list[index], ...item };
+  return newList;
+};
+
+export const insertItem = (list, item, key = 'id', sort = 'asc') => {
+  if (list.length <= 0) {
+    return [item];
+  }
+  let indexToInsert;
+  if (sort === 'asc') {
+    indexToInsert = list.findIndex(o => o[key] > item[key]);
+  } else {
+    indexToInsert = list.findIndex(o => o[key] < item[key]);
+  }
+
+  if (indexToInsert === -1) {
+    return [...list, item];
+  } else {
+    return [
+      ...list.slice(0, indexToInsert),
+      item,
+      ...list.slice(indexToInsert),
+    ];
+  }
+};
+
+export const upsertItem = (list, item, key = 'id', sort = 'asc') => {
+  const updatedList = updateItem(list, item, key);
+  if (updatedList === list) {
+    return insertItem(list, item, key, sort);
+  }
+  return updatedList;
+};

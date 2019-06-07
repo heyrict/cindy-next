@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import { Flex, Box } from 'components/General';
-import { mergeList } from 'common';
+import { upsertItem, updateItem } from 'common';
 
 import { Query, Mutation } from 'react-apollo';
 import {
@@ -62,16 +62,19 @@ const ChatRoomMessagesBody = ({
         variables: { chatroomId },
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
-          return Object.assign({}, prev, {
-            sui_hei_chatmessage: mergeList(
-              prev.sui_hei_chatmessage,
-              subscriptionData.data.sui_hei_chatmessage,
-              'desc',
-            ),
-          });
+          if (subscriptionData.data.chatmessageSub.eventType === 'INSERT') {
+            return Object.assign({}, prev, {
+              sui_hei_chatmessage: upsertItem(
+                prev.sui_hei_chatmessage,
+                subscriptionData.data.chatmessageSub.sui_hei_chatmessage,
+                'id',
+                'desc',
+              ),
+            });
+          }
         },
       }),
-    [],
+    [chatroomId],
   );
 
   return (
@@ -101,6 +104,12 @@ const ChatRoomMessagesBody = ({
           name: 'hasMore',
           value: hasMore,
           action: 'doNothing',
+        },
+        {
+          name: 'ChatRoomMessages',
+          value: chatmessages,
+          action: 'doNothing',
+          log: false,
         },
       ]}
     >

@@ -14,9 +14,10 @@ export const ProcessBase = styled.div`
   margin-right: 6px;
   margin-bottom: 3px;
   font-size: 0.9em;
-  display: inline-flex;
   color: ${p => p.theme.colors.blue[6]};
   border: 1px solid ${p => p.theme.colors.blue[6]};
+  display: inline-flex;
+  align-items: center;
 `;
 
 const Process = ({ count }) => (
