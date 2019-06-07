@@ -1,29 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { Button, Img } from 'components/General';
+import { Img } from 'components/General';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 import ChatIcon from 'svgs/chat.svg';
-
-const FixedButton = styled(Button)`
-  display: none;
-  border-width: 0;
-  ${p => p.theme.mediaQueries.medium} {
-    display: block;
-    position: fixed;
-    border-radius: 9999px;
-    width: 5em;
-    height: 5em;
-    left: 2em;
-    bottom: 2em;
-    background-color: ${p => p.theme.colors.red[9]};
-    color: ${p => p.theme.colors.gray[8]};
-    z-index: 180;
-  }
-`;
+import FixedButton from './FixedButton';
 
 const ChatBoxShader = styled.div`
   display: none;
@@ -75,7 +59,11 @@ const ChatBox = ({ children, aside, setTrueAside, setFalseAside }) => (
   <div>
     <ResponsiveChatBox open={aside}>{children}</ResponsiveChatBox>
     <ChatBoxShader open={aside} onClick={() => setFalseAside()} />
-    <FixedButton chatOpen={aside} onClick={() => setTrueAside()}>
+    <FixedButton
+      position="left"
+      chatOpen={aside}
+      onClick={() => setTrueAside()}
+    >
       <Img size="3em" src={ChatIcon} />
     </FixedButton>
   </div>
