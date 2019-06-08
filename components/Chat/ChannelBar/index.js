@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { withRouter } from 'next/router';
 import { Box, Flex, Input, ButtonTransparent } from 'components/General';
 import { getChannelWithPath } from 'common';
 
@@ -16,13 +15,13 @@ import ChannelChangeModal from './ChannelChangeModal';
 import DescriptionModal from './DescriptionModal';
 
 const ChannelBar = ({
-  router,
+  route,
   chatroomId,
   channel,
   setTrueChannelChangeModal,
   setTrueDescriptionModal,
 }) => {
-  const currentChannel = getChannelWithPath(channel, router.asPath);
+  const currentChannel = getChannelWithPath(channel, route);
 
   return (
     <Box width={1} height="channelbar">
@@ -58,9 +57,7 @@ const ChannelBar = ({
 };
 
 ChannelBar.propTypes = {
-  router: PropTypes.shape({
-    asPath: PropTypes.string.isRequired,
-  }).isRequired,
+  route: PropTypes.string.isRequired,
   chatroomId: PropTypes.number,
   channel: PropTypes.string.isRequired,
   setTrueChannelChangeModal: PropTypes.func.isRequired,
@@ -69,6 +66,7 @@ ChannelBar.propTypes = {
 
 const mapStateToProps = state => ({
   channel: globalReducer.rootSelector(state).channel,
+  route: globalReducer.rootSelector(state).route,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -83,4 +81,4 @@ const withRedux = connect(
   mapDispatchToProps,
 );
 
-export default withRedux(withRouter(ChannelBar));
+export default withRedux(ChannelBar);

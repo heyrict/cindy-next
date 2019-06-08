@@ -43,6 +43,7 @@ export const initialState = {
     username: undefined,
     nickname: undefined,
   },
+  route: '',
 };
 
 export const reducer = (state = initialState, action) => {
@@ -61,6 +62,11 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload,
+      };
+    case actionTypes.ROUTECHANGE:
+      return {
+        ...state,
+        route: action.payload.url,
       };
     default:
       return state;

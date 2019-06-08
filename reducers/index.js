@@ -21,11 +21,14 @@ const composeEnhancers =
   (process.browser && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 /* eslint-disable no-underscore-dangle */
-export const initializeStore = initialState => {
+export const initializeStore = (initialState, router) => {
   const sagaMiddleware = createSagaMiddleware();
+  const route = (router && router.asPath) || '';
   const store = createStore(
     reducer,
-    initialState,
+    initialState || {
+      global: { ...globalReducer.initialState, route },
+    },
     composeEnhancers(applyMiddleware(sagaMiddleware)),
   );
 

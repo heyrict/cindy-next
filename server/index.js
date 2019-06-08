@@ -44,7 +44,6 @@ const port = parseInt(process.env.PORT || '3000', 10);
 const prettyHost = customHost || 'localhost';
 
 const { typeDefs, resolvers } = require('./schema');
-const { pubsub } = require('./pubsub');
 const userController = require('./controllers/user');
 const subscriptionController = require('./controllers/subscription');
 

@@ -2,31 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'next/router';
 import { getChannelWithPath } from 'common';
 
 import * as globalReducer from 'reducers/global';
 
 import ChatRoom from './ChatRoom';
 
-const Chat = ({ channel, router }) => (
-  <ChatRoom chatroom={getChannelWithPath(channel, router.asPath)} />
+const Chat = ({ channel, route }) => (
+  <ChatRoom chatroom={getChannelWithPath(channel, route)} />
 );
 
 Chat.propTypes = {
   channel: PropTypes.string.isRequired,
-  router: PropTypes.shape({
-    asPath: PropTypes.string.isRequired,
-  }).isRequired,
+  route: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   channel: globalReducer.rootSelector(state).channel,
+  route: globalReducer.rootSelector(state).route,
 });
 
 const withRedux = connect(mapStateToProps);
 
-export default compose(
-  withRedux,
-  withRouter,
-)(Chat);
+export default compose(withRedux)(Chat);
