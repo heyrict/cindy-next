@@ -16,6 +16,7 @@ const ToolbarBoxBase = styled.nav`
   border: 2px solid ${p => p.theme.colors.orange[6]};
   overflow-x: auto;
   overflow-y: hidden;
+  z-index: 100;
   visibility: ${p => (p.show ? 'visible' : 'hidden')};
   transition-property: transform, visibility;
   transition-duration: 150ms;

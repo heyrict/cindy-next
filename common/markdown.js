@@ -1,7 +1,7 @@
 import MarkdownIt from 'markdown-it';
 import mdEmoji from 'markdown-it-emoji/light';
 import mdEmojiLight from 'markdown-it-emoji/lib/data/light.json';
-import DOMPurify from 'dompurify';
+import createDOMPurify from 'dompurify';
 
 import stampDefs from 'stamps';
 
@@ -15,6 +15,15 @@ const DOMPurifyParams = {
   ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|chat):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
   FORCE_BODY: true,
 };
+
+let DOMPurify;
+if (process.browser) {
+  DOMPurify = createDOMPurify;
+} else {
+  const { JSDOM } = require('jsdom');
+  const window = new JSDOM('').window;
+  DOMPurify = createDOMPurify(window);
+}
 
 if (DOMPurify.isSupported) {
   DOMPurify.addHook('afterSanitizeAttributes', normLinkHook);

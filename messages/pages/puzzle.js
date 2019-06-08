@@ -28,6 +28,14 @@ export const messages = defineMessages({
     defaultMessage:
       'This puzzle has violated rules in Cindy and is forbidden by administrator.',
   },
+  putQuestion: {
+    id: `${scope}.putQuestion`,
+    defaultMessage: 'Ask',
+  },
+  waitForAnswer: {
+    id: `${scope}.waitForAnswer`,
+    defaultMessage: 'Wait for answer...',
+  },
 });
 
 export default messages;

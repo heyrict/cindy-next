@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 import { space, width, height, borders, color } from 'styled-system';
 
-const Input = styled.input`
+const Textarea = styled.textarea`
   box-sizing: 'border-box';
   border-width: 1px;
   border-color: ${p => p.theme.colors.orange[5]};
   background-color: ${p => p.theme.colors.white};
-  min-height: 1.5em;
+  min-height: 5em;
+  padding: ${p => p.theme.space[1]}px;
   flex-grow: 1;
   ${space}
   ${width}
@@ -15,7 +16,7 @@ const Input = styled.input`
   ${color}
 `;
 
-Input.propTypes = {
+Textarea.propTypes = {
   ...space.propTypes,
   ...width.propTypes,
   ...height.propTypes,
@@ -23,4 +24,4 @@ Input.propTypes = {
   ...color.propTypes,
 };
 
-export default Input;
+export default Textarea;

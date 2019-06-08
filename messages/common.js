@@ -22,7 +22,11 @@ export const messages = defineMessages({
   apply: {
     id: `${scope}.apply`,
     defaultMessage: 'Apply',
-  }
+  },
+  editTimes: {
+    id: `${scope}.editTimes`,
+    defaultMessage: '[Edited ({count})]',
+  },
 });
 
 export default messages;

@@ -142,9 +142,11 @@ describe('Test concatList(listA, listB)', () => {
   });
 });
 
-describe('Test mergeList(listA, listB)', () => {
+describe.only('Test mergeList(listA, listB)', () => {
   it('Merge simple lists should work', () => {
-    expect(mergeList(simpleList.A, simpleList.B)).toStrictEqual(simpleList.AmB);
+    expect(mergeList(simpleList.A, simpleList.B, 'id', 'asc')).toStrictEqual(
+      simpleList.AmB,
+    );
   });
 
   it('and should also work in reverse order', () => {
@@ -152,9 +154,10 @@ describe('Test mergeList(listA, listB)', () => {
       mergeList(
         [...simpleList.A].reverse(),
         [...simpleList.B].reverse(),
+        'id',
         'desc',
       ),
-    ).toStrictEqual([...simpleList.AmB].reverse().slice(1));
+    ).toStrictEqual([...simpleList.AmB].reverse());
   });
 });
 

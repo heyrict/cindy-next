@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { Box, Flex, Input, ButtonTransparent } from 'components/General';
 import { getChannelWithPath } from 'common';
 
+import { createSelector } from 'reselect';
 import * as chatReducer from 'reducers/chat';
 import * as globalReducer from 'reducers/global';
 
@@ -14,15 +15,19 @@ import messages from 'messages/components/chat';
 import ChannelChangeModal from './ChannelChangeModal';
 import DescriptionModal from './DescriptionModal';
 
+const currentChannelSelector = createSelector(
+  state => globalReducer.rootSelector(state).channel,
+  state => globalReducer.rootSelector(state).route,
+  (channel, route) => getChannelWithPath(channel, route),
+);
+
 const ChannelBar = ({
-  route,
   chatroomId,
   channel,
+  currentChannel,
   setTrueChannelChangeModal,
   setTrueDescriptionModal,
 }) => {
-  const currentChannel = getChannelWithPath(channel, route);
-
   return (
     <Box width={1} height="channelbar">
       <Flex bg="orange.5">
@@ -57,16 +62,16 @@ const ChannelBar = ({
 };
 
 ChannelBar.propTypes = {
-  route: PropTypes.string.isRequired,
   chatroomId: PropTypes.number,
   channel: PropTypes.string.isRequired,
+  currentChannel: PropTypes.string.isRequired,
   setTrueChannelChangeModal: PropTypes.func.isRequired,
   setTrueDescriptionModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
+  currentChannel: currentChannelSelector(state),
   channel: globalReducer.rootSelector(state).channel,
-  route: globalReducer.rootSelector(state).route,
 });
 
 const mapDispatchToProps = dispatch => ({

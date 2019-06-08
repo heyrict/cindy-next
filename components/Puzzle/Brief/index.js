@@ -35,10 +35,11 @@ export const Time = styled(Box)`
 
 export const Title = styled.a`
   font-size: 1.1em;
-  color: ${p => p.theme.colors.gray[9]};
+  font-weight: bold;
+  color: ${p => p.theme.colors.red[9]};
   &:hover,
   &:active {
-    color: ${p => p.theme.colors.gray[8]};
+    color: ${p => p.theme.colors.red[8]};
   }
 `;
 

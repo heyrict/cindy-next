@@ -18,29 +18,46 @@ export const concatList = (listA, listB) => [...listA, ...listB];
  * Items with id greater than the id of the last item in listA
  * are considered new items and will be appended to the tail.
  */
-export const mergeList = (listA, listB, sort = 'asc') => {
-  if (listA.length === 0) return listB;
-  if (listB.length === 0) return listA;
-
-  const updatedArray = listA.map(itemA => ({
-    ...itemA,
-    ...(listB.find(item => item.id === itemA.id) || {}),
-  }));
-
-  if (sort === 'asc') {
-    const aTailID = listA[listA.length - 1].id;
-    const appendingArray = listB.slice(
-      listB.findIndex(item => item.id > aTailID),
-    );
-    return [...updatedArray, ...appendingArray];
+export const mergeList = (a, b, key = 'id', sort = 'asc') => {
+  let answer = new Array(a.length + b.length);
+  let i = 0;
+  let j = 0;
+  let k = 0;
+  while (i < a.length && j < b.length) {
+    if (a[i][key] < b[j][key]) {
+      if (sort === 'asc') {
+        answer[k] = a[i];
+        i++;
+      } else {
+        answer[k] = b[j];
+        j++;
+      }
+    } else if (a[i][key] === b[j][key]) {
+      answer[k] = b[j]; // b is newer than a
+      i++;
+      j++;
+    } else {
+      if (sort === 'asc') {
+        answer[k] = b[j];
+        j++;
+      } else {
+        answer[k] = a[i];
+        i++;
+      }
+    }
+    k++;
   }
-
-  const aHeadID = listA[0].id;
-  const prependingArray = listB.slice(
-    0,
-    listB.findIndex(item => item.id < aHeadID) - 1,
-  );
-  return [...prependingArray, ...updatedArray];
+  while (i < a.length) {
+    answer[k] = a[i];
+    i++;
+    k++;
+  }
+  while (j < b.length) {
+    answer[k] = b[j];
+    j++;
+    k++;
+  }
+  return answer.filter(o => o !== undefined);
 };
 
 /*

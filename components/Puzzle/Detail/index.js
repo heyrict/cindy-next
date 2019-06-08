@@ -10,6 +10,8 @@ import * as globalReducer from 'reducers/global';
 
 import PuzzleTitle from './PuzzleTitle';
 import ContentsFrame from './ContentsFrame';
+import AddQuestionInput from './AddQuestionInput';
+import PuzzleDialogues from './PuzzleDialogues';
 
 const PuzzleDetail = ({ puzzle, userId }) => {
   let puzzleContent;
@@ -19,6 +21,13 @@ const PuzzleDetail = ({ puzzle, userId }) => {
   const shouldShowQuestions = !isForbidden;
   const shouldShowAnswer = puzzle.status === 1 || puzzle.status === 2;
   const shouldShowAddQuestionInput = puzzle.status === 0 && !isCreator;
+
+  //const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
+  //
+  // Remove dialogues in yami puzzles for now
+  // TODO Load dialogues filtered by user (also unique users) in yami if is not puzzle creator.
+  const shouldShowPuzzleDialogues =
+    (isCreator || !isHidden) && !isForbidden && puzzle.yami === 0;
 
   if (isHidden && !isCreator) {
     puzzleContent = (
@@ -38,7 +47,7 @@ const PuzzleDetail = ({ puzzle, userId }) => {
 
   return (
     <React.Fragment>
-      <Flex justifyContent="center" flexWrap="wrap">
+      <Flex justifyContent="center" flexWrap="wrap" mb={4}>
         <PuzzleTitle
           title={puzzle.title}
           genre={puzzle.genre}
@@ -52,6 +61,18 @@ const PuzzleDetail = ({ puzzle, userId }) => {
           created={puzzle.created}
           solved={puzzle.modified}
         />
+        {shouldShowPuzzleDialogues && (
+          <PuzzleDialogues
+            puzzleId={puzzle.id}
+            puzzleUser={puzzle.sui_hei_user}
+            userId={userId}
+            anonymous={puzzle.anonymous}
+            status={puzzle.status}
+          />
+        )}
+        {shouldShowAddQuestionInput && (
+          <AddQuestionInput puzzleId={puzzle.id} />
+        )}
         {shouldShowAnswer && (
           <ContentsFrame
             text={puzzle.solution}
