@@ -19,6 +19,15 @@ export const messages = defineMessages({
     id: `${scope}.creator`,
     defaultMessage: 'Creator',
   },
+  hiddenContents: {
+    id: `${scope}.hiddenContents`,
+    defaultMessage: 'This puzzle is not open to public access.',
+  },
+  forbiddenContents: {
+    id: `${scope}.forbiddenContents`,
+    defaultMessage:
+      'This puzzle has violated rules in Cindy and is forbidden by administrator.',
+  },
 });
 
 export default messages;

@@ -9,25 +9,28 @@ const PuzzleTitleBase = styled.h1`
   font-size: 2.6em;
   font-weight: bold;
   margin-top: 1em;
+  margin-bottom: 0.8em;
   text-align: center;
+  width: 100%;
   ${p => p.theme.mediaQueries.small} {
     font-size: 2em;
   }
 `;
 
 const PuzzleSubtitleBase = styled.h2`
-  font-size: 0.62em;
+  font-size: 1.62em;
   text-align: center;
+  margin-top: 0;
+  margin-bottom: 1em;
+  width: 100%;
 `;
 
 const PuzzleTitle = ({ title, genre, yami }) => (
   <React.Fragment>
-    <PuzzleTitleBase>
-      {title}
-      <PuzzleSubtitleBase>
-        <GenreText genre={genre} /> <YamiText yami={yami} />
-      </PuzzleSubtitleBase>
-    </PuzzleTitleBase>
+    <PuzzleTitleBase>{title}</PuzzleTitleBase>
+    <PuzzleSubtitleBase>
+      <GenreText genre={genre} /> <YamiText yami={yami} />
+    </PuzzleSubtitleBase>
   </React.Fragment>
 );
 

@@ -78,11 +78,26 @@ const stampStyle = css`
 `;
 
 const globalStyle = theme => css`
+  @font-face {
+    font-family: 'DejaVu Sans';
+    src: url('//db.onlinewebfonts.com/t/60376796f383e61ee182772be6ca20a9.eot');
+    src: url('//db.onlinewebfonts.com/t/60376796f383e61ee182772be6ca20a9.eot?#iefix')
+        format('embedded-opentype'),
+      url('//db.onlinewebfonts.com/t/60376796f383e61ee182772be6ca20a9.woff2')
+        format('woff2'),
+      url('//db.onlinewebfonts.com/t/60376796f383e61ee182772be6ca20a9.woff')
+        format('woff'),
+      url('//db.onlinewebfonts.com/t/60376796f383e61ee182772be6ca20a9.ttf')
+        format('truetype'),
+      url('//db.onlinewebfonts.com/t/60376796f383e61ee182772be6ca20a9.svg#DejaVu Sans')
+        format('svg');
+  }
   body {
     height: 100%;
     width: 100%;
     margin: 0;
     font-size: ${theme.fontSizes[1]}px;
+    font-family: DejaVu Sans, Sans serif, sans, arial;
     line-height: 1.4;
     overscroll-behavior: contain;
     background-color: ${theme.colors.solarized.white};
