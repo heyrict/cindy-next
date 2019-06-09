@@ -52,6 +52,7 @@
     "react-apollo": "^2.5.4",
     "react-d3-tree": "^1.13.0",
     "react-dom": "^16.8.6",
+    "react-fast-compare": "^2.0.4",
     "react-intl": "^2.8.0",
     "react-portal": "^4.2.0",
     "react-redux": "^7.0.3",

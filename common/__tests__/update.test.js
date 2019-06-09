@@ -134,6 +134,109 @@ const simpleList = {
   ],
 };
 
+const dialogueList = {
+  A: [
+    {
+      id: 97002,
+      good: false,
+      true: false,
+      question: 'Question 1',
+      questionEditTimes: 0,
+      answer: 'Answer 1',
+      answerEditTimes: 8,
+      created: '2019-06-09T14:19:50.799224+08:00',
+      answeredtime: '2019-06-09T14:39:01.110038+08:00',
+      sui_hei_user: {
+        id: 1,
+        nickname: 'はやて',
+        username: 'heyrict',
+        sui_hei_current_useraward: {
+          id: 4,
+          created: '2017-11-29',
+          sui_hei_award: {
+            id: 2,
+            name: '★★管理人',
+            description: 'このサイトの創設者でありたった一人の管理人である。',
+            __typename: 'sui_hei_award',
+          },
+          __typename: 'sui_hei_useraward',
+        },
+        __typename: 'sui_hei_user',
+      },
+      __typename: 'sui_hei_dialogue',
+    },
+  ],
+  up: {
+    id: 97002,
+    answer: 'Answer 1',
+    good: true,
+    true: false,
+    answerEditTimes: 9,
+    answeredtime: '2019-06-09T14:39:01.110038+08:00',
+    __typename: 'sui_hei_dialogue',
+  },
+  sub: {
+    id: 97002,
+    answer: 'Answer 1',
+    good: true,
+    true: false,
+    question: 'Question 1',
+    questionEditTimes: 0,
+    answerEditTimes: 9,
+    answeredtime: '2019-06-09T14:39:01.110038+08:00',
+    created: '2019-06-09T14:19:50.799224+08:00',
+    sui_hei_user: {
+      id: 1,
+      nickname: 'はやて',
+      username: 'heyrict',
+      sui_hei_current_useraward: {
+        id: 4,
+        created: '2017-11-29',
+        sui_hei_award: {
+          id: 2,
+          name: '★★管理人',
+          description: 'このサイトの創設者でありたった一人の管理人である。',
+          __typename: 'sui_hei_award',
+        },
+        __typename: 'sui_hei_useraward',
+      },
+      __typename: 'sui_hei_user',
+    },
+    __typename: 'sui_hei_dialogue',
+  },
+  Aup: [
+    {
+      id: 97002,
+      good: true,
+      true: false,
+      question: 'Question 1',
+      questionEditTimes: 0,
+      answer: 'Answer 1',
+      answerEditTimes: 9,
+      created: '2019-06-09T14:19:50.799224+08:00',
+      answeredtime: '2019-06-09T14:39:01.110038+08:00',
+      sui_hei_user: {
+        id: 1,
+        nickname: 'はやて',
+        username: 'heyrict',
+        sui_hei_current_useraward: {
+          id: 4,
+          created: '2017-11-29',
+          sui_hei_award: {
+            id: 2,
+            name: '★★管理人',
+            description: 'このサイトの創設者でありたった一人の管理人である。',
+            __typename: 'sui_hei_award',
+          },
+          __typename: 'sui_hei_useraward',
+        },
+        __typename: 'sui_hei_user',
+      },
+      __typename: 'sui_hei_dialogue',
+    },
+  ],
+};
+
 describe('Test concatList(listA, listB)', () => {
   it('Concatenating simple lists should work', () => {
     expect(concatList(simpleList.A, simpleList.B)).toStrictEqual(
@@ -142,7 +245,7 @@ describe('Test concatList(listA, listB)', () => {
   });
 });
 
-describe.only('Test mergeList(listA, listB)', () => {
+describe('Test mergeList(listA, listB)', () => {
   it('Merge simple lists should work', () => {
     expect(mergeList(simpleList.A, simpleList.B, 'id', 'asc')).toStrictEqual(
       simpleList.AmB,
@@ -189,6 +292,18 @@ describe('Test updateItem(list, item)', () => {
   it('Should return the same object if no item should be updated', () => {
     expect(updateItem(simpleList.A, simpleList.add)).toBe(simpleList.A);
   });
+
+  it('Should work with dialogue subscription', () => {
+    expect(updateItem(dialogueList.A, dialogueList.sub)).toStrictEqual(
+      dialogueList.Aup,
+    );
+  });
+
+  it('Should not re-render if the two objects are deeply equal', () => {
+    expect(updateItem(dialogueList.Aup, dialogueList.sub)).toBe(
+      dialogueList.Aup,
+    );
+  });
 });
 
 describe('Test upsertItem(list, item)', () => {
@@ -214,6 +329,17 @@ describe('Test upsertItem(list, item)', () => {
     it('Update item in simpleList should work', () => {
       expect(upsertItem(simpleList.A, simpleList.up)).toStrictEqual(
         simpleList.Aup,
+      );
+    });
+    it('Should work with dialogue subscription', () => {
+      expect(upsertItem(dialogueList.A, dialogueList.sub)).toStrictEqual(
+        dialogueList.Aup,
+      );
+    });
+
+    it('Should not re-render if the two objects are deeply equal', () => {
+      expect(upsertItem(dialogueList.Aup, dialogueList.sub)).toBe(
+        dialogueList.Aup,
       );
     });
   });

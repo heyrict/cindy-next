@@ -1,3 +1,4 @@
+import isEqual from 'react-fast-compare';
 /*
  * function concatList(listA, listB)
  *
@@ -64,9 +65,13 @@ export const mergeList = (a, b, key = 'id', sort = 'asc') => {
  * function updateItem(list, item)
  * update item if list contains an item with same `id`.
  */
-export const updateItem = (list, item, key = 'id') => {
-  let index = list.findIndex(o => o[key] === item[key]);
+export const updateItem = (list, item, key = 'id', itemIndex = undefined) => {
+  let index =
+    itemIndex === undefined
+      ? list.findIndex(o => o[key] === item[key])
+      : itemIndex;
   if (index < 0) return list;
+  if (isEqual(list[index], item)) return list;
   const newList = [...list];
   newList[index] = { ...list[index], ...item };
   return newList;
@@ -95,9 +100,9 @@ export const insertItem = (list, item, key = 'id', sort = 'asc') => {
 };
 
 export const upsertItem = (list, item, key = 'id', sort = 'asc') => {
-  const updatedList = updateItem(list, item, key);
-  if (updatedList === list) {
+  let index = list.findIndex(o => o[key] === item[key]);
+  if (index === -1) {
     return insertItem(list, item, key, sort);
   }
-  return updatedList;
+  return updateItem(list, item, key, index);
 };
