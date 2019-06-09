@@ -422,7 +422,7 @@ span.CodeMirror-selectedtext {
   right: 0;
   bottom: 0;
   height: auto;
-  z-index: 9;
+  z-index: 150;
   border-right: none !important;
   border-bottom-right-radius: 0 !important;
 }

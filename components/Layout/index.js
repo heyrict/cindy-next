@@ -77,6 +77,13 @@ const stampStyle = css`
   }
 `;
 
+const simplemdeStyle = css`
+  .simplemde.icon-stamp {
+    background: url('/static/svgs/pencil.svg');
+    background-size: contain;
+  }
+`;
+
 const globalStyle = theme => css`
   @font-face {
     font-family: 'DejaVu Sans';
@@ -126,6 +133,7 @@ const globalStyle = theme => css`
   }
   ${tabsStyle}
   ${stampStyle}
+  ${simplemdeStyle}
 `;
 
 const Layout = ({ children, fetchUser, ...props }) => {

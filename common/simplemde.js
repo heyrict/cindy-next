@@ -1,0 +1,22 @@
+export const toolbar = [
+  'bold',
+  'italic',
+  'heading',
+  '|',
+  {
+    name: 'stamp',
+    action: editor => console.log(editor),
+    className: 'simplemde icon-stamp',
+    title: 'Stamp',
+  },
+  '|',
+  'link',
+  'image',
+  'table',
+  'horizontal-rule',
+  '|',
+  'side-by-side',
+  'fullscreen',
+  '|',
+  'guide',
+];

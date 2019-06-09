@@ -61,6 +61,7 @@ const ChatInput = ({
             onChange={v => setChatInput(v)}
             options={{
               previewRender: line2md,
+              spellChecker: false,
             }}
           />
         </ModalBody>
