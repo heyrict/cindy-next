@@ -115,6 +115,15 @@ const globalStyle = theme => css`
     border: none;
     padding: 0.2em;
   }
+  pre,
+  code {
+    padding: 2px 5px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  pre > code {
+    background: transparent;
+  }
   ${tabsStyle}
   ${stampStyle}
 `;
