@@ -31,12 +31,15 @@ const ChatBoxBase = styled.aside`
   position: fixed;
   top: 0;
   left: 0;
-  width: ${p => p.theme.sizes.chat};
   overflow: hidden;
   flex-shrink: 0;
   border-right: 2px solid ${p => p.theme.colors.orange[5]};
   height: 100%;
   z-index: 200;
+  width: ${p => p.theme.sizes.chatXL};
+  ${p => p.theme.mediaQueries.large} {
+    width: ${p => p.theme.sizes.chatLG};
+  }
 `;
 
 const ResponsiveChatBox = styled(ChatBoxBase)`

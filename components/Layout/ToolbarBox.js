@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 const ToolbarBoxBase = styled.nav`
   position: fixed;
   top: 0;
-  left: calc(${p => p.theme.sizes.chat});
+  left: calc(${p => p.theme.sizes.chatXL});
   height: ${p => p.theme.sizes.toolbar};
-  width: ${p => `calc(100% - ${p.theme.sizes.chat} - 4px)`};
+  width: ${p => `calc(100% - ${p.theme.sizes.chatXL} - 4px)`};
   background: repeating-linear-gradient(
     -30deg,
     ${p => p.theme.colors.orange[7]},
@@ -22,6 +22,10 @@ const ToolbarBoxBase = styled.nav`
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
   transform: ${p => (p.show ? 'none' : 'translateY(-100%)')};
+  ${p => p.theme.mediaQueries.large} {
+    left: calc(${p => p.theme.sizes.chatLG});
+    width: ${p => `calc(100% - ${p.theme.sizes.chatLG} - 4px)`};
+  }
   ${p => p.theme.mediaQueries.medium} {
     left: 0;
     width: 100%;
