@@ -59,6 +59,22 @@ export const messages = defineMessages({
     id: `${scope}.solvedAt`,
     defaultMessage: 'Solved At',
   },
+  bookmark: {
+    id: `${scope}.bookmark`,
+    defaultMessage: 'Bookmark',
+  },
+  star: {
+    id: `${scope}.star`,
+    defaultMessage: 'Star',
+  },
+  comment: {
+    id: `${scope}.comment`,
+    defaultMessage: 'Comment',
+  },
+  replay: {
+    id: `${scope}.replay`,
+    defaultMessage: 'Replay',
+  },
 });
 
 export default messages;

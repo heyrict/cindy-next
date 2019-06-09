@@ -12,6 +12,10 @@ import PuzzleTitle from './PuzzleTitle';
 import ContentsFrame from './ContentsFrame';
 import AddQuestionInput from './AddQuestionInput';
 import PuzzleDialogues from './PuzzleDialogues';
+import StarPanel from './StarPanel';
+import CommentPanel from './CommentPanel';
+import BookmarkPanel from './BookmarkPanel';
+import ReplayPanel from './ReplayPanel';
 
 const PuzzleDetail = ({ puzzle, userId }) => {
   let puzzleContent;
@@ -21,6 +25,10 @@ const PuzzleDetail = ({ puzzle, userId }) => {
   const shouldShowQuestions = !isForbidden;
   const shouldShowAnswer = puzzle.status === 1 || puzzle.status === 2;
   const shouldShowAddQuestionInput = puzzle.status === 0 && !isCreator;
+  const shouldShowStarPanel = shouldShowAnswer && !isCreator;
+  const shouldShowCommentPanel = shouldShowAnswer && !isCreator;
+  const shouldShowBookmarkPanel = shouldShowAnswer;
+  const shouldShowReplayPanel = shouldShowAnswer;
 
   //const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
   //
@@ -80,6 +88,10 @@ const PuzzleDetail = ({ puzzle, userId }) => {
             user={puzzle.sui_hei_user}
           />
         )}
+        {shouldShowStarPanel && <StarPanel puzzleId={puzzle.id} />}
+        {shouldShowCommentPanel && <CommentPanel puzzleId={puzzle.id} />}
+        {shouldShowBookmarkPanel && <BookmarkPanel puzzleId={puzzle.id} />}
+        {shouldShowReplayPanel && <ReplayPanel puzzleId={puzzle.id} />}
       </Flex>
     </React.Fragment>
   );
