@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
+
 import { FormattedMessage, intlShape } from 'react-intl';
+import messages from 'messages/pages/puzzles';
+
 import { Query, Subscription } from 'react-apollo';
 import { PuzzleSolvedQuery } from 'graphql/Queries/Puzzles';
 import { PuzzlesUnsolvedLiveQuery } from 'graphql/LiveQueries/Puzzles';
+
 import { Heading, Flex, Box, Panel } from 'components/General';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import PuzzleBrief from 'components/Puzzle/Brief';
-
-import messages from 'messages/pages/puzzles';
+import PuzzleSubbar from 'components/Subbar/Puzzle';
 
 let prevData = null;
 
@@ -33,6 +36,7 @@ const Puzzles = (props, context) => {
       <Heading>
         <FormattedMessage {...messages.header} />
       </Heading>
+      <PuzzleSubbar />
       <Flex flexWrap="wrap">
         <Subscription
           subscription={PuzzlesUnsolvedLiveQuery}

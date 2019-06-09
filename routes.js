@@ -4,6 +4,7 @@ routes
   .add({ name: 'home', pattern: '/', page: 'index' })
   .add({ name: 'puzzles', pattern: '/puzzles' })
   .add({ name: 'puzzle', pattern: '/puzzle/:id(\\d+)' })
+  .add({ name: 'add/puzzle', pattern: '/add/puzzle' })
   .add({ name: 'users', pattern: '/user' })
   .add({ name: 'user', pattern: '/user/:id(\\d+)' })
   .add({ name: 'replay', pattern: '/replay/:id(\\d+)' })
