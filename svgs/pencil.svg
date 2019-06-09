@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg8" width="11.974mm" height="11.855mm" version="1.1" viewBox="0 0 11.974 11.855" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata id="metadata5">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g id="layer1" transform="translate(-117.7 -98.315)">
+  <g id="g2362" transform="rotate(-44.661 123.12 104.57)">
+   <path id="rect815" d="m120.13 102.3h8.8196c0.554 0 1 0.446 1 1v2.9137c0 0.554-0.446 1-1 1h-8.8196c-0.554 0-4.2128-1.5049-4.2128-2.5041 0-0.99472 4.2128-2.4096 4.2128-2.4096z" fill="none" opacity=".98" stroke="#9a4c34" stroke-linecap="round" stroke-linejoin="bevel" stroke-width=".5"/>
+   <path id="path2324" d="m117.39 103.5-1.4883 1.1812 1.4883 1.3938z" fill="#9a4c34" fill-rule="evenodd"/>
+   <g id="g2352" fill="none" stroke="#9a4d34" stroke-opacity=".98039">
+    <path id="path2301" d="m120.13 102.3v4.9373" stroke-width=".26458px"/>
+    <path id="path2301-1" d="m120.18 103.62h6.4492" stroke-width=".30239px"/>
+    <path id="path2301-0" d="m126.59 105.89h-6.3547" stroke-width=".30017px"/>
+    <path id="path2301-3" d="m119.49 102.64v4.2995" stroke-width=".2469px"/>
+    <path id="path2301-04" d="m128.89 102.28v4.9373" stroke-width=".26458px"/>
+   </g>
+  </g>
+ </g>
+</svg>

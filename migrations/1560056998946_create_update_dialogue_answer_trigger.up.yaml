@@ -1,0 +1,20 @@
+- args:
+    cascade: false
+    sql: |-
+      create or replace function update_dialogue_answer()
+      returns trigger as $$
+      begin
+        if OLD.answer <> NEW.answer then
+          if OLD.answer = '' then
+            NEW.answeredtime = now();
+          end if;
+        end if;
+        return NEW;
+      end;
+      $$ language 'plpgsql';
+
+      create trigger update_answer_dialogue_answer_trigger before update
+      on public.sui_hei_dialogue
+      for each row
+      execute procedure update_dialogue_answer();
+  type: run_sql

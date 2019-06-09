@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    sql: |-
+      drop trigger if exists update_answer_dialogue_answer_trigger on sui_hei_dialogue;
+      drop function if exists update_dialogue_answer;
+  type: run_sql

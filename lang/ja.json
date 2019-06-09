@@ -9,7 +9,7 @@
   "common.change": "変更",
   "common.close": "閉じる",
   "common.default": "デフォルト",
-  "common.editTimes": "編集済み",
+  "common.editTimes": "編集済み({count})",
   "common.loading": "ロード中です・・・",
   "components.chat.changeChannel": "チャンネル変更",
   "components.chat.changeToDefaultChannel": "デフォルトに変更する",

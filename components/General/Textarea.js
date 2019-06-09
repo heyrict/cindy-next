@@ -7,6 +7,7 @@ const Textarea = styled.textarea`
   border-color: ${p => p.theme.colors.orange[5]};
   background-color: ${p => p.theme.colors.white};
   min-height: 5em;
+  max-width: 100%;
   padding: ${p => p.theme.space[1]}px;
   flex-grow: 1;
   ${space}

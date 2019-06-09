@@ -22,6 +22,9 @@ const ButtonTransparent = styled.button`
   ${borders}
 
   &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  &:active {
     background-color: rgba(0, 0, 0, 0.1);
   }
 `;

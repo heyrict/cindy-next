@@ -8,7 +8,7 @@ import expand from 'svgs/expand.svg';
 import messages from 'messages/pages/puzzle';
 
 import { Mutation } from 'react-apollo';
-import { AddQuestionMutation } from 'graphql/Mutations/Puzzle';
+import { AddQuestionMutation } from 'graphql/Mutations/Dialogue';
 import { DialogueHintQuery } from 'graphql/Queries/Dialogues';
 
 import { upsertItem } from 'common';

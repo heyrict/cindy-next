@@ -19,12 +19,14 @@ import ReplayPanel from './ReplayPanel';
 
 const PuzzleDetail = ({ puzzle, userId }) => {
   let puzzleContent;
+  const isUser = Boolean(userId);
   const isHidden = puzzle.status === 3;
   const isForbidden = puzzle.status === 4;
   const isCreator = puzzle.sui_hei_user.id === userId;
   const shouldShowQuestions = !isForbidden;
   const shouldShowAnswer = puzzle.status === 1 || puzzle.status === 2;
-  const shouldShowAddQuestionInput = puzzle.status === 0 && !isCreator;
+  const shouldShowAddQuestionInput =
+    puzzle.status === 0 && !isCreator && isUser;
   const shouldShowStarPanel = shouldShowAnswer && !isCreator;
   const shouldShowCommentPanel = shouldShowAnswer && !isCreator;
   const shouldShowBookmarkPanel = shouldShowAnswer;
@@ -73,9 +75,9 @@ const PuzzleDetail = ({ puzzle, userId }) => {
           <PuzzleDialogues
             puzzleId={puzzle.id}
             puzzleUser={puzzle.sui_hei_user}
+            puzzleStatus={puzzle.status}
             userId={userId}
             anonymous={puzzle.anonymous}
-            status={puzzle.status}
           />
         )}
         {shouldShowAddQuestionInput && (

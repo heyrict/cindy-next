@@ -11,3 +11,4 @@ export { default as Panel } from './Panel';
 export { default as Anchor } from './Anchor';
 export { default as ProgressBar } from './ProgressBar';
 export { default as EditTimeSpan } from './EditTimeSpan';
+export { default as Switch } from './Switch';

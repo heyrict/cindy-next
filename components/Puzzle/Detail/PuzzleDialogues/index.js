@@ -24,9 +24,9 @@ const PuzzleDialoguesRenderer = ({
   shouldSubscribe,
   puzzleId,
   puzzleUser,
+  puzzleStatus,
   userId,
   anonymous,
-  status,
 }) => {
   if (loading) return 'Loading...';
   if (error) return `Error: ${JSON.stringify(error)}`;
@@ -88,15 +88,16 @@ const PuzzleDialoguesRenderer = ({
             dialogue={node}
             puzzleId={puzzleId}
             puzzleUser={puzzleUser}
+            puzzleStatus={puzzleStatus}
             userId={userId}
             anonymous={anonymous}
-            status={status}
           />
         ) : (
           <PuzzleHint
             key={`hint-${node.id}`}
             hint={node}
             puzzleUser={puzzleUser}
+            puzzleStatus={puzzleStatus}
             userId={userId}
           />
         ),
@@ -110,12 +111,12 @@ const PuzzleDialogues = ({
   puzzleUser,
   userId,
   anonymous,
-  status,
+  puzzleStatus,
 }) => {
   // Should remain in subscription if puzzle finished just now
   const [shouldSubscribe, setShouldSubscribe] = useState(false);
   useEffect(() => {
-    if (status === 0) {
+    if (puzzleStatus === 0) {
       setShouldSubscribe(true);
     }
     return () => setShouldSubscribe(false);
@@ -138,7 +139,7 @@ const PuzzleDialogues = ({
             puzzleUser={puzzleUser}
             userId={userId}
             anonymous={anonymous}
-            status={status}
+            puzzleStatus={puzzleStatus}
           />
         )}
       </Query>
@@ -149,9 +150,9 @@ const PuzzleDialogues = ({
 PuzzleDialogues.propTypes = {
   puzzleId: PropTypes.number.isRequired,
   puzzleUser: PTUserInlineUser.isRequired,
+  puzzleStatus: PropTypes.number.isRequired,
   userId: PropTypes.number,
   anonymous: PropTypes.bool.isRequired,
-  status: PropTypes.number.isRequired,
 };
 
 export default PuzzleDialogues;

@@ -47,6 +47,14 @@ export const messages = defineMessages({
     id: `${scope}.status_forbidden`,
     defaultMessage: 'forbidden',
   },
+  dialogue_true: {
+    id: `${scope}.dialogue_true`,
+    defaultMessage: 'True Answer',
+  },
+  dialogue_good: {
+    id: `${scope}.dialogue_good`,
+    defaultMessage: 'Good Question',
+  },
   lastupdate: {
     id: `${scope}.lastupdate`,
     defaultMessage: 'Last Update',
