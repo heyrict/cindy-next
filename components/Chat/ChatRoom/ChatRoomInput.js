@@ -9,7 +9,7 @@ import { Mutation } from 'react-apollo';
 import { ChatRoomChatmessagesQuery } from 'graphql/Queries/Chat';
 import { ChatRoomSendMessageMutation } from 'graphql/Mutations/Chat';
 
-import ChatInput from '../ChatInput';
+import SimpleEditor from 'components/PreviewEditor/simple';
 
 const LoginRequiredBlock = styled.div`
   display: flex;
@@ -49,8 +49,8 @@ const ChatRoomInput = ({ user, chatroomId }) =>
       }}
     >
       {sendMessage => (
-        <ChatInput
-          onSend={content => {
+        <SimpleEditor
+          onSubmit={content => {
             sendMessage({
               variables: {
                 content,

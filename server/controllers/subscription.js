@@ -1,6 +1,24 @@
 const triggers = require('../triggers');
 const { query, mutation } = require('../db/hasura');
-const { UserBriefQuery } = require('../../graphql/Queries/User');
+const gql = require('graphql-tag');
+const UserBriefQuery = gql`
+  query UserBriefQuery($id: Int!) {
+    sui_hei_user_by_pk(id: $id) {
+      id
+      nickname
+      username
+      sui_hei_current_useraward {
+        id
+        created
+        sui_hei_award {
+          id
+          name
+          description
+        }
+      }
+    }
+  }
+`;
 
 const { pubsub } = require('../pubsub');
 

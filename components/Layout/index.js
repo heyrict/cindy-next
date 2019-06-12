@@ -68,6 +68,7 @@ const tabsStyle = css`
 const stampStyle = css`
   .cindy-stamp-middle {
     height: 4em;
+    vertical-align: middle;
   }
 
   .cindy-frame-icon {
@@ -77,7 +78,7 @@ const stampStyle = css`
   }
 `;
 
-const globalStyle = theme => css`
+export const globalStyle = theme => css`
   @font-face {
     font-family: 'DejaVu Sans';
     src: url('//db.onlinewebfonts.com/t/60376796f383e61ee182772be6ca20a9.eot');

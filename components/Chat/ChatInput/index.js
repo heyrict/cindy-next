@@ -1,9 +1,16 @@
+/*
+ * ChatInput
+ *
+ * TODO DELETE THIS!
+ * legacy modal based chat input
+ *
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import Head from 'next/head';
-import SimpleMDE from 'react-simplemde-editor';
 import { line2md } from 'common';
+
+import Head from 'next/head';
 import { Box, ButtonTransparent, Input } from 'components/General';
 import {
   Modal,
@@ -13,6 +20,7 @@ import {
   ModalFooter,
   FooterButton,
 } from 'components/Modal';
+import PreviewEditor from 'components/PreviewEditor';
 
 import { connect } from 'react-redux';
 import * as chatReducer from 'reducers/chat';
@@ -36,10 +44,10 @@ const ChatInput = ({
   onSend,
   chatInputModal,
   chatInput,
-  setChatInput,
   setTrueChatInputModal,
   setFalseChatInputModal,
 }) => {
+  const pEditor = React.createRef();
   return (
     <ChatInputBase>
       <ButtonTransparent
@@ -57,17 +65,12 @@ const ChatInput = ({
           <ModalCloseBtn onClick={() => setFalseChatInputModal()} />
         </ModalHeader>
         <ModalBody>
-          <SimpleMDE
-            onChange={v => setChatInput(v)}
-            options={{
-              previewRender: line2md,
-            }}
-          />
+          <PreviewEditor ref={pEditor} />
         </ModalBody>
         <ModalFooter>
           <FooterButton
             onClick={() => {
-              onSend(chatInput);
+              onSend(pEditor.getText());
               setFalseChatInputModal();
             }}
           >
@@ -82,19 +85,15 @@ const ChatInput = ({
 ChatInput.propTypes = {
   onSend: PropTypes.func.isRequired,
   chatInputModal: PropTypes.bool.isRequired,
-  chatInput: PropTypes.string.isRequired,
-  setChatInput: PropTypes.func.isRequired,
   setTrueChatInputModal: PropTypes.func.isRequired,
   setFalseChatInputModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   chatInputModal: chatReducer.rootSelector(state).chatInputModal,
-  chatInput: chatReducer.rootSelector(state).chatInput,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setChatInput: value => dispatch(chatReducer.actions.setChatInput(value)),
   setTrueChatInputModal: () =>
     dispatch(chatReducer.actions.setTrueChatInputModal()),
   setFalseChatInputModal: () =>

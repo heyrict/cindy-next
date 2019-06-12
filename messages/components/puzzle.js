@@ -3,6 +3,22 @@ import { defineMessages } from 'react-intl';
 const scope = 'components.puzzle';
 
 export const messages = defineMessages({
+  anonymous: {
+    id: `${scope}.anonymous`,
+    defaultMessage: 'Anonymous',
+  },
+  title: {
+    id: `${scope}.title`,
+    defaultMessage: 'Title',
+  },
+  grotesque: {
+    id: `${scope}.grotesque`,
+    defaultMessage: 'Grotesque',
+  },
+  genre: {
+    id: `${scope}.genre`,
+    defaultMessage: 'Genre',
+  },
   genre_classic: {
     id: `${scope}.genre_classic`,
     defaultMessage: 'Classic',
@@ -18,6 +34,10 @@ export const messages = defineMessages({
   genre_others: {
     id: `${scope}.genre_others`,
     defaultMessage: 'Others',
+  },
+  yami: {
+    id: `${scope}.yami`,
+    defaultMessage: 'Yami',
   },
   yami_yami: {
     id: `${scope}.yami_yami`,
@@ -66,6 +86,14 @@ export const messages = defineMessages({
   solvedAt: {
     id: `${scope}.solvedAt`,
     defaultMessage: 'Solved At',
+  },
+  content: {
+    id: `${scope}.content`,
+    defaultMessage: 'Content',
+  },
+  solution: {
+    id: `${scope}.solution`,
+    defaultMessage: 'Solution',
   },
   bookmark: {
     id: `${scope}.bookmark`,

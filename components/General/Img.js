@@ -1,14 +1,16 @@
 import styled from '@emotion/styled';
-import { space, borders } from 'styled-system';
+import { space, borders, layout } from 'styled-system';
 
 const Img = styled.img`
   overflow: hidden;
-  width: ${p => p.theme.sizes[p.size || 'md'] || p.size};
+  vertical-align: middle;
+  ${layout}
   ${space}
   ${borders}
 `;
 
 Img.propTypes = {
+  ...layout.propTypes,
   ...space.propTypes,
   ...borders.propTypes,
 };

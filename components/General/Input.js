@@ -5,6 +5,7 @@ const Input = styled.input`
   box-sizing: 'border-box';
   border-width: 1px;
   border-color: ${p => p.theme.colors.orange[5]};
+  border-style: solid;
   background-color: ${p => p.theme.colors.white};
   min-height: 1.5em;
   flex-grow: 1;

@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
-import { line2md } from 'common';
 
-import { connect } from 'react-redux';
-import * as globalReducer from 'reducers/global';
-
-import { FormattedTime, FormattedMessage } from 'react-intl';
-import messages from 'messages/pages/puzzle';
+import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
-import commonMessages from 'messages/common';
 
 import { Mutation } from 'react-apollo';
 import { EditAnswerMutation } from 'graphql/Mutations/Dialogue';
@@ -18,53 +11,14 @@ import {
   Flex,
   Box,
   ButtonTransparent,
-  EditTimeSpan,
   Img,
   Switch,
   Textarea,
 } from 'components/General';
-import pencilIcon from 'svgs/pencil.svg';
 import crossIcon from 'svgs/cross.svg';
 import tickIcon from 'svgs/tick.svg';
-import goodIcon from 'svgs/bulb.svg';
-import trueIcon from 'svgs/cracker.svg';
 
-const IndicatorIcon = styled(Img)`
-  float: left;
-  width: 4em;
-  ${p => p.theme.mediaQueries.sm} {
-    width: 3.2em;
-  }
-`;
-
-const ClearFix = styled.div`
-  clear: both;
-`;
-
-const AnswerModes = {
-  DISPLAY: Symbol('display'),
-  EDIT: Symbol('edit'),
-};
-
-const AnswerDisplay = ({ answer, answerEditTimes, trueAns, goodAns }) => {
-  return answer === '' ? (
-    <FormattedMessage {...messages.waitForAnswer} />
-  ) : (
-    <React.Fragment>
-      {trueAns && <IndicatorIcon pr={2} pb={2} src={trueIcon} />}
-      {goodAns && <IndicatorIcon pr={2} pb={2} src={goodIcon} />}
-      <span dangerouslySetInnerHTML={{ __html: line2md(answer) }} />
-      {answerEditTimes > 0 && (
-        <EditTimeSpan>
-          <FormattedMessage
-            {...commonMessages.editTimes}
-            values={{ count: answerEditTimes }}
-          />
-        </EditTimeSpan>
-      )}
-    </React.Fragment>
-  );
-};
+import { AnswerModes } from './constants';
 
 const AnswerEdit = ({
   answer,
@@ -175,98 +129,13 @@ const AnswerEdit = ({
   );
 };
 
-const AnswerModeSelector = ({
-  dialogueId,
-  answer,
-  answerEditTimes,
-  trueAns,
-  goodAns,
-  puzzleStatus,
-}) => {
-  const [mode, setMode] = useState(
-    answer === '' ? AnswerModes.EDIT : AnswerModes.DISPLAY,
-  );
-  useEffect(() => {
-    setMode(answer === '' ? AnswerModes.EDIT : AnswerModes.DISPLAY);
-  }, [answer]);
-
-  switch (mode) {
-    case AnswerModes.DISPLAY:
-      return (
-        <React.Fragment>
-          <React.Fragment>
-            <AnswerDisplay
-              answer={answer}
-              answerEditTimes={answerEditTimes}
-              trueAns={trueAns}
-              goodAns={goodAns}
-            />
-            {puzzleStatus === 0 && (
-              <ButtonTransparent onClick={() => setMode(AnswerModes.EDIT)}>
-                <Img size="1em" src={pencilIcon} />
-              </ButtonTransparent>
-            )}
-            <ClearFix />
-          </React.Fragment>
-        </React.Fragment>
-      );
-    case AnswerModes.EDIT:
-      return (
-        <AnswerEdit
-          answer={answer}
-          goodAns={goodAns}
-          trueAns={trueAns}
-          dialogueId={dialogueId}
-          setMode={setMode}
-          puzzleStatus={puzzleStatus}
-        />
-      );
-    default:
-      return null;
-  }
-};
-
-const PuzzleDialogueAnswer = ({
-  dialogueId,
-  answer,
-  answerEditTimes,
-  goodAns,
-  trueAns,
-  user,
-  puzzleUserId,
-  puzzleStatus,
-}) => {
-  return puzzleUserId === user.id ? (
-    <AnswerModeSelector
-      dialogueId={dialogueId}
-      answer={answer}
-      answerEditTimes={answerEditTimes}
-      trueAns={trueAns}
-      goodAns={goodAns}
-      puzzleStatus={puzzleStatus}
-    />
-  ) : (
-    <AnswerDisplay answer={answer} answerEditTimes={answerEditTimes} />
-  );
-};
-
-PuzzleDialogueAnswer.propTypes = {
-  dialogueId: PropTypes.number.isRequired,
-  user: PropTypes.shape({
-    id: PropTypes.number,
-  }),
-  puzzleUserId: PropTypes.number.isRequired,
-  puzzleStatus: PropTypes.number.isRequired,
-  answer: PropTypes.string,
-  answerEditTimes: PropTypes.number.isRequired,
-  goodAns: PropTypes.bool.isRequired,
+AnswerEdit.propTypes = {
+  answer: PropTypes.string.isRequired,
   trueAns: PropTypes.bool.isRequired,
+  goodAns: PropTypes.bool.isRequired,
+  dialogueId: PropTypes.number.isRequired,
+  setMode: PropTypes.func.isRequired,
+  puzzleStatus: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => ({
-  user: globalReducer.rootSelector(state).user,
-});
-
-const withRedux = connect(mapStateToProps);
-
-export default withRedux(PuzzleDialogueAnswer);
+export default AnswerEdit;

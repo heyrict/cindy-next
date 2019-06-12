@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg8" width="30.825mm" height="22.133mm" version="1.1" viewBox="0 0 30.825 22.133" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata id="metadata5">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g id="g4597" fill="none" stroke-width=".79375">
+  <path id="rect815" d="m0.90197 0.26577h29.022c0.35298 0 0.63714 0.32786 0.63714 0.73512v20.133c0 0.40726-0.28417 0.73512-0.63714 0.73512h-29.022c-0.35298 0-0.63714-0.32786-0.63714-0.73512v-20.133c0-0.40726 0.28417-0.73512 0.63714-0.73512z" opacity=".98" stroke="#9a4c34" stroke-linecap="round" stroke-linejoin="bevel" stroke-width=".79375"/>
+  <g id="g872" transform="matrix(.46656 0 0 .46656 -34.972 -40.92)" stroke="#9a4d34" stroke-opacity=".98039">
+   <path id="path845" d="m91.427 88.429a10.352 10.352 0 0 1 1.1914 4.8216 10.352 10.352 0 0 1-10.352 10.352 10.352 10.352 0 0 1-6.5341-2.3226" stroke-width="1.7013"/>
+   <path id="path868" transform="scale(.26458)" d="m371.89 335.02-21.353 17.501 35.655 20.166-40.893 2.3846 16.992 37.272-34.485-22.107-8.1614 40.141v0l-14.905-38.155-17.953 16.455" opacity=".98" stroke-linecap="round" stroke-linejoin="bevel" stroke-width="6.4301"/>
+  </g>
+  <g id="g4588" transform="translate(-.92841)" stroke="#9a4c34" stroke-linecap="round" stroke-linejoin="round" stroke-width=".79375">
+   <path id="path908" d="m27.967 9.583-4.42-5.289-4.42 5.289h2.6115l-4.6785 7.0969h5.7889l-1.9068 5.3174h5.2088l-1.9068-5.3174h5.7889l-4.6778-7.0969z" opacity=".98"/>
+   <path id="path908-5" d="m16.784 14.606-2.6315-3.1489-2.6315 3.1489h1.5548l-2.7854 4.2253h3.4465l-1.1352 3.1658h3.1012l-1.1352-3.1658h3.4465l-2.785-4.2253z" opacity=".98"/>
+  </g>
+ </g>
+</svg>

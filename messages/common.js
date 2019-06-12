@@ -27,6 +27,10 @@ export const messages = defineMessages({
     id: `${scope}.editTimes`,
     defaultMessage: '[Edited ({count})]',
   },
+  none: {
+    id: `${scope}.none`,
+    defaultMessage: 'None',
+  },
 });
 
 export default messages;

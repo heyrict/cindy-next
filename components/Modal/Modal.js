@@ -56,14 +56,14 @@ class Modal extends React.PureComponent {
   render() {
     return (
       <Portal>
-        <div>
+        <React.Fragment>
           <Shader className="modal-shade" show={this.props.show} />
           <ModalContainer className="modal-container" show={this.props.show}>
             <Container className="modal" show={this.props.show}>
               {this.props.children}
             </Container>
           </ModalContainer>
-        </div>
+        </React.Fragment>
       </Portal>
     );
   }

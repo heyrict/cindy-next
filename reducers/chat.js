@@ -4,7 +4,6 @@ import * as base from './helpers/base';
 export const scope = 'chat';
 
 export const actionTypes = {
-  CHAT_INPUT: `${scope}.CHAT_INPUT`,
   CHANNEL_CHANGE_INPUT: `${scope}.CHANNEL_CHANGE_INPUT`,
   CHANNEL_CHANGE_MODAL: `${scope}.CHANNEL_CHANGE_MODAL`,
   CHAT_INPUT_MODAL: `${scope}.CHAT_INPUT_MODAL`,
@@ -12,7 +11,6 @@ export const actionTypes = {
 };
 
 export const actions = {
-  ...base.getActions('ChatInput', actionTypes.CHAT_INPUT),
   ...base.getActions('ChannelChangeInput', actionTypes.CHANNEL_CHANGE_INPUT),
   ...bool.getActions('ChannelChangeModal', actionTypes.CHANNEL_CHANGE_MODAL),
   ...bool.getActions('ChatInputModal', actionTypes.CHAT_INPUT_MODAL),
@@ -22,7 +20,6 @@ export const actions = {
 export const rootSelector = state => state[scope];
 
 export const initialState = {
-  chatInput: '',
   channelChangeInput: '',
   channelChangeModal: false,
   chatInputModal: false,
@@ -31,11 +28,6 @@ export const initialState = {
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.CHAT_INPUT:
-      return {
-        ...state,
-        chatInput: base.helper(state.chatInput, action.payload),
-      };
     case actionTypes.CHANNEL_CHANGE_INPUT:
       return {
         ...state,

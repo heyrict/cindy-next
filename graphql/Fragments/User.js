@@ -1,6 +1,6 @@
-const gql = require('graphql-tag');
+import gql from 'graphql-tag';
 
-const UserBriefFragment = gql`
+export const UserBriefFragment = gql`
   fragment UserBrief on sui_hei_user {
     id
     nickname
@@ -16,7 +16,3 @@ const UserBriefFragment = gql`
     }
   }
 `;
-
-module.exports = {
-  UserBriefFragment,
-};

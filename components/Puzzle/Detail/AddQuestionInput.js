@@ -14,7 +14,7 @@ import { DialogueHintQuery } from 'graphql/Queries/Dialogues';
 import { upsertItem } from 'common';
 import { widthSplits } from './constants';
 
-const ExpandButton = styled(Button)`
+export const ExpandButton = styled(Button)`
   background-color: transparent;
   &:hover {
     background-color: rgb(0, 0, 0, 0.05);
@@ -24,10 +24,55 @@ const ExpandButton = styled(Button)`
   }
 `;
 
-const AddQuestionInput = ({ puzzleId }) => {
+export const QuestionInputWidget = ({ onSubmit }) => {
   let [input, setInput] = useState('');
   let [expanded, setExpanded] = useState(false);
   const PuzzleInput = expanded ? Textarea : Input;
+  return (
+    <Flex
+      width={1}
+      mx={widthSplits[1]}
+      my={2}
+      borderRadius={1}
+      borderStyle="solid"
+      borderColor="orange.6"
+      borderWidth={2}
+      bg="orange.1"
+    >
+      <PuzzleInput
+        onChange={e => setInput(e.target.value)}
+        onKeyPress={e => {
+          if (e.nativeEvent.keyCode === 13 && !expanded) {
+            onSubmit(input);
+            setInput('');
+          }
+        }}
+        value={input}
+        border="none"
+        bg="transparent"
+      />
+      <ExpandButton onClick={() => setExpanded(!expanded)} bg="transparent">
+        <Img size="xs" src={expand} />
+      </ExpandButton>
+      <Button
+        onClick={() => {
+          onSubmit(input);
+          setInput('');
+        }}
+        px={2}
+        minWidth="50px"
+      >
+        <FormattedMessage {...messages.putQuestion} />
+      </Button>
+    </Flex>
+  );
+};
+
+QuestionInputWidget.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+
+const AddQuestionInput = ({ puzzleId }) => {
   return (
     <Mutation
       mutation={AddQuestionMutation}
@@ -59,55 +104,23 @@ const AddQuestionInput = ({ puzzleId }) => {
       }}
     >
       {addQuestion => (
-        <Flex
-          width={1}
-          mx={widthSplits[1]}
-          my={2}
-          borderRadius={1}
-          borderStyle="solid"
-          borderColor="orange.6"
-          borderWidth={2}
-          bg="orange.1"
-        >
-          <PuzzleInput
-            onChange={e => setInput(e.target.value)}
-            onKeyPress={e => {
-              if (e.nativeEvent.keyCode === 13 && !expanded) {
-                addQuestion({
-                  variables: {
-                    question: input,
-                    puzzleId,
-                  },
-                });
-                setInput('');
-              }
-            }}
-            value={input}
-            border="none"
-            bg="transparent"
-          />
-          <ExpandButton onClick={() => setExpanded(!expanded)} bg="transparent">
-            <Img size="xs" src={expand} />
-          </ExpandButton>
-          <Button
-            onClick={() => {
-              addQuestion({
-                variables: {
-                  question: input,
-                  puzzleId,
-                },
-              });
-              setInput('');
-            }}
-            px={2}
-            minWidth="50px"
-          >
-            <FormattedMessage {...messages.putQuestion} />
-          </Button>
-        </Flex>
+        <QuestionInputWidget
+          onSubmit={input =>
+            addQuestion({
+              variables: {
+                question: input,
+                puzzleId,
+              },
+            })
+          }
+        />
       )}
     </Mutation>
   );
+};
+
+AddQuestionInput.propTypes = {
+  puzzleId: PropTypes.number.isRequired,
 };
 
 export default AddQuestionInput;

@@ -16,18 +16,14 @@ const DOMPurifyParams = {
   FORCE_BODY: true,
 };
 
-let DOMPurify;
-if (process.browser) {
-  DOMPurify = createDOMPurify;
-} else {
+let DOMPurify = createDOMPurify;
+if (!process.browser) {
   const { JSDOM } = require('jsdom');
   const window = new JSDOM('').window;
   DOMPurify = createDOMPurify(window);
 }
 
-if (DOMPurify.isSupported) {
-  DOMPurify.addHook('afterSanitizeAttributes', normLinkHook);
-}
+DOMPurify.addHook('afterSanitizeAttributes', normLinkHook);
 
 const HtmlPurify = (html, config) =>
   DOMPurify.isSupported ? DOMPurify.sanitize(html, config) : html;

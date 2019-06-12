@@ -1,7 +1,6 @@
 /*
  * PuzzleDialogue
  *
- * TODO: Add mutation to edit question or answer.
  */
 import React from 'react';
 import PropTypes from 'prop-types';

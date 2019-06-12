@@ -1,8 +1,8 @@
-const gql = require('graphql-tag');
+import gql from 'graphql-tag';
 
-const { UserBriefFragment } = require('../Fragments/User');
+import { UserBriefFragment } from './User';
 
-const UserBriefQuery = gql`
+export const UserBriefQuery = gql`
   query UserBriefQuery($id: Int!) {
     sui_hei_user_by_pk(id: $id) {
       ...UserBrief
@@ -11,7 +11,7 @@ const UserBriefQuery = gql`
   ${UserBriefFragment}
 `;
 
-const UserQuery = gql`
+export const UserQuery = gql`
   query UserQuery($id: Int!) {
     sui_hei_user_by_pk(id: $id) {
       id
@@ -36,8 +36,3 @@ const UserQuery = gql`
   }
   ${UserBriefFragment}
 `;
-
-module.exports = {
-  UserBriefQuery,
-  UserQuery,
-};

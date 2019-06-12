@@ -19,15 +19,18 @@ const stampMannenn = '/static/stamps/mannennhuta.png';
 const stampArigatou = '/static/stamps/arigatou.png';
 
 const m = (alt, src) =>
-  `<img class="cindy-stamp-middle" alt=" :${alt}: " src="${src}" />`;
+  `<img class="cindy-stamp-middle" alt="stamp" src="${src}" />`;
 
-export const chatStamps = {
+export const kameoStamps = {
   'stamp-gj': stampGJ,
   'stamp-sanka': stampSanka,
   'stamp-tanoshi': stampTanoshi,
   'stamp-pekori': stampPekori,
   'stamp-yodare': stampYodare,
   'stamp-nanto': stampNanto,
+};
+
+export const chefStamps = {
   'stamp-sounan': stampSounan,
   'stamp-itadaku': stampItadaku,
   'stamp-chira': stampChira,
@@ -43,6 +46,12 @@ export const puzzleStamps = {
   'stamp-q-neko': stampQNeko,
   'stamp-a-neko': stampANeko,
   'stamp-hint': stampHint,
+};
+
+export const allStamps = {
+  ...kameoStamps,
+  ...chefStamps,
+  ...puzzleStamps,
 };
 
 const stampDefs = {
