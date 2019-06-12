@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Img } from 'components/General';
-import { FormattedMessage, FormattedRelative } from 'react-intl';
 import S from 'svgs/puzzleBriefStar.svg';
 
 export const StarBase = styled.div`
@@ -18,16 +16,16 @@ export const StarBase = styled.div`
   align-items: center;
 `;
 
-const Star = ({ count, sum }) => (
+export type StarProps = {
+  count: number;
+  sum: number;
+}
+
+const Star = ({ count, sum }: StarProps) => (
   <StarBase>
     <Img size="0.9em" pr="1px" src={S} />
     {count}({sum})
   </StarBase>
 );
-
-Star.propTypes = {
-  count: PropTypes.number.isRequired,
-  sum: PropTypes.number.isRequired,
-};
 
 export default Star;

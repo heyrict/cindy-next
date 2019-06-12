@@ -1,22 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
-import { space, color, fontSize } from 'styled-system';
 import { Link } from 'routes';
 import { Img, Flex, Anchor } from 'components/General';
 
-import { PTUserInlineUser } from './PropTypes';
+import { UserBaseProps, UserInlineBase } from './shared';
+import { InlineUser } from './types';
 
-export const UserInlineBase = styled.div`
-  display: inline-flex;
-  overflow: hidden;
-  align-items: center;
-  ${space}
-  ${color}
-  ${fontSize}
-`;
+export interface UserInlineProps {
+  user: InlineUser;
+  timestamp?: React.ReactNode;
+  [x: string]: any;
+}
 
-const UserInline = ({ user, timestamp, ...props }) => {
+const UserInline = ({
+  user,
+  timestamp,
+  ...props
+}: UserInlineProps & UserBaseProps) => {
   const NicknameBlock = user.id ? (
     <Link to="user" params={{ id: user.id }} passHref>
       <Anchor maxWidth="12em" mr={1}>
@@ -53,11 +52,6 @@ const UserInline = ({ user, timestamp, ...props }) => {
       {timestamp}
     </UserInlineBase>
   );
-};
-
-UserInline.propTypes = {
-  user: PTUserInlineUser,
-  timestamp: PropTypes.node,
 };
 
 export default UserInline;

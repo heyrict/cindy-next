@@ -8,8 +8,8 @@ const ping = {
 describe('test webhookPost', () => {
   beforeAll(() => {
     global.fetch = jest.fn().mockImplementation(
-      (endpoint, ping) =>
-        new Promise((resolve, reject) =>
+      (_endpoint, ping) =>
+        new Promise(resolve =>
           resolve({
             ok: true,
             json: () => ({

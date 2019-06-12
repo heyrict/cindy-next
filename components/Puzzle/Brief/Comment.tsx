@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Img } from 'components/General';
-import { FormattedMessage, FormattedRelative } from 'react-intl';
 import C from 'svgs/puzzleBriefComment.svg';
 
 export const CommentBase = styled.div`
@@ -18,7 +17,11 @@ export const CommentBase = styled.div`
   align-items: center;
 `;
 
-const Comment = ({ count }) => (
+export type CommentProps = {
+  count: number;
+}
+
+const Comment = ({ count }: CommentProps) => (
   <CommentBase>
     <Img size="1.25em" pr={1} src={C} />
     {count}

@@ -4,11 +4,11 @@
  *
  */
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Flex, ButtonTransparent, Button } from 'components/General';
+import { ButtonSelectProps, buttonSelectDefaultProps } from './types';
 
-const ButtonSelect = props => {
+const ButtonSelect = (props: ButtonSelectProps) => {
   const { onChange, buttonProps, flexProps } = props;
   return (
     <Flex flexWrap="wrap" {...flexProps}>
@@ -51,22 +51,6 @@ const ButtonSelect = props => {
   );
 };
 
-ButtonSelect.propTypes = {
-  value: PropTypes.any,
-  onChange: PropTypes.func,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.any,
-      label: PropTypes.any,
-    }),
-  ),
-  flexProps: PropTypes.object,
-  buttonProps: PropTypes.object,
-};
-
-ButtonSelect.defaultProps = {
-  buttonProps: {},
-  flexProps: {},
-};
+ButtonSelect.defaultProps = buttonSelectDefaultProps;
 
 export default ButtonSelect;

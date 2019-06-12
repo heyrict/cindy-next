@@ -1,0 +1,7 @@
+{
+  "extends": [],
+  "defaultSeverity": "warning",
+  "linterOptions": {
+    "exclude": ["routes.js", "next.config.js", "node_modules/**/*.ts"]
+  }
+}

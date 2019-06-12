@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Link } from 'routes';
-import { Box, Flex, Panel, Img, Anchor } from 'components/General';
+import { Box, Flex, Panel } from 'components/General';
 
-import { PTUserInlineUser } from 'components/User/PropTypes';
 import UserCol from 'components/User/UserCol';
 import { AnonymousUserCol } from 'components/User/Anonymous';
 
@@ -22,6 +20,8 @@ import Process from './Process';
 import Star from './Star';
 import Status from './Status';
 import Yami from './Yami';
+
+import { PuzzleBriefProps } from './types';
 
 export const Hr = styled.hr`
   color: ${p => p.theme.colors.gray[6]};
@@ -52,7 +52,7 @@ export const Brief = ({
   dialogueCount,
   dialogueMaxAnsweredtime,
   showGenreImage,
-}) => {
+}: PuzzleBriefProps) => {
   const aggregates = {
     bookmarkCount:
       bookmarkCount ||
@@ -144,7 +144,8 @@ export const Brief = ({
             <Process count={aggregates.dialogueCount} />
           )}
           {typeof aggregates.starCount === 'number' &&
-            aggregates.starCount > 0 && (
+            aggregates.starCount > 0 &&
+            typeof aggregates.starSum === 'number' && (
               <Star count={aggregates.starCount} sum={aggregates.starSum} />
             )}
           {typeof aggregates.commentCount === 'number' &&
@@ -161,54 +162,7 @@ export const Brief = ({
   );
 };
 
-Brief.propTypes = {
-  puzzle: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    genre: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    status: PropTypes.number.isRequired,
-    yami: PropTypes.number.isRequired,
-    anonymous: PropTypes.bool,
-    created: PropTypes.string,
-    dazed_on: PropTypes.string,
-    sui_hei_user: PTUserInlineUser.isRequired,
-    sui_hei_stars_aggregate: PropTypes.shape({
-      aggregate: PropTypes.shape({
-        count: PropTypes.number.isRequired,
-        sum: PropTypes.shape({
-          value: PropTypes.number,
-        }).isRequired,
-      }).isRequired,
-    }),
-    sui_hei_comments_aggregate: PropTypes.shape({
-      aggregate: PropTypes.shape({
-        count: PropTypes.number.isRequired,
-      }).isRequired,
-    }),
-    sui_hei_bookmarks_aggregate: PropTypes.shape({
-      aggregate: PropTypes.shape({
-        count: PropTypes.number.isRequired,
-      }).isRequired,
-    }),
-    sui_hei_dialogues_aggregate: PropTypes.shape({
-      aggregate: PropTypes.shape({
-        count: PropTypes.number.isRequired,
-        max: PropTypes.shape({
-          answeredtime: PropTypes.string,
-        }),
-      }).isRequired,
-    }),
-  }).isRequired,
-  bookmarkCount: PropTypes.number,
-  commentCount: PropTypes.number,
-  starCount: PropTypes.number,
-  starSum: PropTypes.number,
-  dialogueCount: PropTypes.number,
-  dialogueMaxAnsweredtime: PropTypes.string,
-  showGenreImage: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
   showGenreImage: settingReducer.rootSelector(state).puzzleGenreImg,
 });
 

@@ -1,11 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Img } from 'components/General';
-import { FormattedMessage, FormattedRelative } from 'react-intl';
 import Q from 'svgs/puzzleBriefQ.svg';
-
-import messages from 'messages/components/puzzle';
 
 export const ProcessBase = styled.div`
   text-align: center;
@@ -20,15 +16,15 @@ export const ProcessBase = styled.div`
   align-items: center;
 `;
 
-const Process = ({ count }) => (
+export type ProcessProps = {
+  count: number;
+}
+
+const Process = ({ count }: ProcessProps) => (
   <ProcessBase>
     <Img size="0.8em" pr={1} src={Q} />
     {count}
   </ProcessBase>
 );
-
-Process.propTypes = {
-  count: PropTypes.number.isRequired,
-};
 
 export default Process;

@@ -1,3 +1,4 @@
+import React from 'react';
 import { shallow, render } from 'enzyme';
 
 import theme from 'lib/theme';
@@ -5,7 +6,7 @@ import { Img } from 'components/General';
 import UserCol, { UserColBase } from '../UserCol';
 import UserInline, { UserInlineBase } from '../UserInline';
 
-const user = {
+const user: InlineUser = {
   id: 1,
   nickname: 'foo',
 };

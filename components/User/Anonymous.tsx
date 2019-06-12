@@ -1,40 +1,47 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import userMessages from 'messages/components/user';
 
 import UserInline from './UserInline';
 import UserCol from './UserCol';
+import { UserBaseProps } from './shared';
+import { AnonymousUserProps } from './types';
 
 const anonymousUser = {
   id: 0,
   icon: '/static/images/anonymous.png',
 };
 
-export const AnonymousUserInline = ({ nickname, ...props }) =>
+export const AnonymousUserInline = ({
+  nickname,
+  ...props
+}: AnonymousUserProps & UserBaseProps) =>
   nickname ? (
     <UserInline user={{ ...anonymousUser, nickname }} {...props} />
   ) : (
     <FormattedMessage {...userMessages.anonymousUser}>
       {msg => (
-        <UserInline user={{ ...anonymousUser, nickname: msg }} {...props} />
+        <UserInline
+          user={{ ...anonymousUser, nickname: msg as string }}
+          {...props}
+        />
       )}
     </FormattedMessage>
   );
 
-AnonymousUserInline.propTypes = {
-  nickname: PropTypes.string,
-};
-
-export const AnonymousUserCol = ({ nickname, ...props }) =>
+export const AnonymousUserCol = ({
+  nickname,
+  ...props
+}: AnonymousUserProps & UserBaseProps) =>
   nickname ? (
     <UserCol user={{ ...anonymousUser, nickname }} {...props} />
   ) : (
     <FormattedMessage {...userMessages.anonymousUser}>
-      {msg => <UserCol user={{ ...anonymousUser, nickname: msg }} {...props} />}
+      {msg => (
+        <UserCol
+          user={{ ...anonymousUser, nickname: msg as string }}
+          {...props}
+        />
+      )}
     </FormattedMessage>
   );
-
-AnonymousUserCol.propTypes = {
-  nickname: PropTypes.string,
-};

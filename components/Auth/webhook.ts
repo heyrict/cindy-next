@@ -1,4 +1,4 @@
-export const webhookPost = (endpoint, body) =>
+export const webhookPost = (endpoint: string, body: object) =>
   fetch(endpoint, {
     credentials: 'same-origin',
     method: 'POST',

@@ -1,7 +1,8 @@
 module.exports = {
   modulePaths: ['<rootDir>/'],
   transform: {
-    '^.+\\.js$': 'babel-jest',
+    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.tsx?$': 'babel-jest',
     '\\.svg$': '<rootDir>/internal/jest/__mocks__/svgTransformer.js',
   },
   setupFiles: ['<rootDir>/internal/jest/jest.setup.js'],

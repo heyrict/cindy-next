@@ -1,28 +1,34 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { FormattedMessage } from 'react-intl';
 
 import messages from 'messages/components/puzzle';
+import { StatusType } from './types';
 
-export const getStatusColor = status => {
+export type StatusBaseProps = {
+  status: StatusType;
+}
+
+export type StatusProps = StatusBaseProps
+
+export const getStatusColor = (status: StatusType) => {
   switch (status) {
-    case 0:
+    case StatusType.Undergoing:
       return 'red';
-    case 1:
+    case StatusType.Solved:
       return 'lime';
-    case 2:
+    case StatusType.Dazed:
       return 'orange';
-    case 3:
+    case StatusType.Hidden:
       return 'gray';
-    case 4:
+    case StatusType.Forbidden:
       return 'gray';
     default:
       return 'gray';
   }
 };
 
-export const StatusBase = styled.span`
+export const StatusBase: React.FunctionComponent<StatusBaseProps> = styled.span`
   text-align: center;
   border-radius: 10px;
   padding: 0 6px;
@@ -39,31 +45,27 @@ export const StatusBase = styled.span`
   }}
 `;
 
-export const StatusText = ({ status }) => {
+export const StatusText = ({ status }: StatusBaseProps) => {
   switch (status) {
-    case 0:
+    case StatusType.Undergoing:
       return <FormattedMessage {...messages.status_undergoing} />;
-    case 1:
+    case StatusType.Solved:
       return <FormattedMessage {...messages.status_solved} />;
-    case 2:
+    case StatusType.Dazed:
       return <FormattedMessage {...messages.status_dazed} />;
-    case 3:
+    case StatusType.Hidden:
       return <FormattedMessage {...messages.status_hidden} />;
-    case 4:
+    case StatusType.Forbidden:
       return <FormattedMessage {...messages.status_forbidden} />;
     default:
       return null;
   }
 };
 
-export const Status = ({ status }) => (
+export const Status = ({ status }: StatusProps) => (
   <StatusBase status={status}>
     <StatusText status={status} />
   </StatusBase>
 );
-
-Status.propTypes = {
-  status: PropTypes.number.isRequired,
-};
 
 export default Status;

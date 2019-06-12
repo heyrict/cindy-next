@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Img } from 'components/General';
-import { FormattedMessage, FormattedRelative } from 'react-intl';
 
 const AnonymousBase = styled.div`
   text-align: center;

@@ -25,8 +25,6 @@ import PreviewEditor from 'components/PreviewEditor';
 import { connect } from 'react-redux';
 import * as chatReducer from 'reducers/chat';
 
-import 'styles/cindy-easymde.css';
-
 const ChatInputBase = styled.div`
   display: flex;
   width: 100%;

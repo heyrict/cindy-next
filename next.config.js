@@ -1,6 +1,6 @@
-const withCSS = require('@zeit/next-css');
+const withTypescript = require('@zeit/next-typescript');
 
-module.exports = withCSS({
+module.exports = withTypescript({
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.resolve.modules.push('.');
     config.module.rules.push({

@@ -1,25 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
-import { space, color, fontSize, width } from 'styled-system';
 import { Link } from 'routes';
-import { Img, Flex, Anchor } from 'components/General';
+import { Img, Anchor } from 'components/General';
+import { UserBaseProps, UserColBase } from './shared';
+import { InlineUser } from './types';
 
-import { PTUserInlineUser } from './PropTypes';
+interface UserColProps extends UserBaseProps {
+  user: InlineUser;
+  timestamp?: React.ReactNode;
+}
 
-export const UserColBase = styled.div`
-  display: inline-flex;
-  overflow: hidden;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  ${space}
-  ${width}
-  ${color}
-  ${fontSize}
-`;
-
-const UserCol = ({ user, timestamp, ...props }) => {
+const UserCol = ({ user, timestamp, ...props }: UserColProps) => {
   const NicknameBlock = user.id ? (
     <Link to="user" params={{ id: user.id }} passHref>
       <Anchor mr={1}>{user.nickname}</Anchor>
@@ -45,11 +35,6 @@ const UserCol = ({ user, timestamp, ...props }) => {
       {timestamp}
     </UserColBase>
   );
-};
-
-UserCol.propTypes = {
-  user: PTUserInlineUser,
-  timestamp: PropTypes.node,
 };
 
 export default UserCol;

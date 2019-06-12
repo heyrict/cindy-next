@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
 import Img from 'components/General/Img';
 import { FormattedMessage } from 'react-intl';
 
@@ -12,7 +10,17 @@ import longtermYamiJp from 'svgs/longtermYamiJp.svg';
 
 import messages from 'messages/components/puzzle';
 
-export const YamiText = ({ yami }) => {
+import { YamiType } from './types';
+
+export type YamiInnerProps = {
+  yami: YamiType;
+};
+
+export type YamiProps = {
+  showGenreImage: boolean;
+} & YamiInnerProps;
+
+export const YamiText = ({ yami }: YamiInnerProps) => {
   switch (yami) {
     case 1:
       return (
@@ -31,7 +39,7 @@ export const YamiText = ({ yami }) => {
   }
 };
 
-export const YamiImage = ({ yami }) => {
+export const YamiImage = ({ yami }: YamiInnerProps) => {
   switch (yami) {
     case 1:
       return <Img size="sm" pr={1} src={yamiJp} />;
@@ -42,15 +50,10 @@ export const YamiImage = ({ yami }) => {
   }
 };
 
-export const Yami = ({ yami, showGenreImage }) =>
+export const Yami = ({ yami, showGenreImage }: YamiProps) =>
   showGenreImage ? <YamiImage yami={yami} /> : <YamiText yami={yami} />;
 
-Yami.propTypes = {
-  yami: PropTypes.number.isRequired,
-  showGenreImage: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
   showGenreImage: settingReducer.rootSelector(state).puzzleGenreImg,
 });
 

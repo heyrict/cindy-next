@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Img } from 'components/General';
-import { FormattedMessage, FormattedRelative } from 'react-intl';
 import B from 'svgs/puzzleBriefBookmark.svg';
 
 export const BookmarkBase = styled.div`
@@ -18,15 +16,15 @@ export const BookmarkBase = styled.div`
   align-items: center;
 `;
 
-const Bookmark = ({ count }) => (
+export type BookmarkProps = {
+  count: number;
+};
+
+const Bookmark = ({ count }: BookmarkProps) => (
   <BookmarkBase>
     <Img size="0.8em" pr={1} src={B} />
     {count}
   </BookmarkBase>
 );
-
-Bookmark.propTypes = {
-  count: PropTypes.number.isRequired,
-};
 
 export default Bookmark;
