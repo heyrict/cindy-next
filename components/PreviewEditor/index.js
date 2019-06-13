@@ -200,7 +200,7 @@ class PreviewEditor extends React.Component {
               renderInline={this.renderInline}
               decorateNode={this.decorateNode}
               renderDecoration={this.renderDecoration}
-              autoFocus
+              autoFocus={this.props.autoFocus}
             />
           </Box>
           {this.state.preview && (

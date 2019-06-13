@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { line2md } from 'common/markdown';
 import { deserialize, serialize } from './convert';
@@ -30,13 +29,6 @@ class SimpleEditor extends React.Component {
     placeholder: '',
     height: 6,
     onSubmit: () => {},
-  };
-  static propTypes = {
-    initialValue: PropTypes.string,
-    placeholder: PropTypes.string,
-    useNamespaces: PropTypes.array,
-    height: PropTypes.number,
-    onSubmit: PropTypes.func,
   };
 
   // {{{ schema
@@ -101,7 +93,7 @@ class SimpleEditor extends React.Component {
         renderInline={this.renderInline}
         decorateNode={this.decorateNode}
         renderDecoration={this.renderDecoration}
-        autoFocus
+        autoFocus={this.props.autoFocus}
       />
     );
 

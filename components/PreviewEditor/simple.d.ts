@@ -7,6 +7,7 @@ export type SimpleEditorProps = {
   placeholder?: string;
   height?: number;
   onSubmit?: (text: string) => any;
+  autoFocus?: boolean;
 };
 
 export type SimpleEditorStates = {

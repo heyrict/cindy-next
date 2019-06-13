@@ -5,6 +5,7 @@ export type PreviewEditorProps = {
   useNamespaces?: string[];
   initialValue?: string;
   placeholder?: string;
+  autoFocus?: boolean;
 };
 
 export type PreviewEditorStates = {
