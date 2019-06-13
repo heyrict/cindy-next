@@ -2,10 +2,11 @@ import React from 'react';
 import Head from 'next/head';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Query } from 'react-apollo';
-import { PUZZLE_UNSOLVED_QUERY } from 'graphql/Queries/Puzzles';
+import { PUZZLES_UNSOLVED_QUERY } from 'graphql/Queries/Puzzles';
 import { Heading } from 'components/General';
 
 import messages from 'messages/pages/ranking';
+import { PuzzlesUnsolvedQuery } from 'graphql/Queries/generated/PuzzlesUnsolvedQuery';
 
 const Puzzle = (props, context) => {
   const _ = context.intl.formatMessage;
@@ -18,7 +19,7 @@ const Puzzle = (props, context) => {
       <Heading>
         <FormattedMessage {...messages.header} />
       </Heading>
-      <Query query={PUZZLE_UNSOLVED_QUERY}>
+      <Query<PuzzlesUnsolvedQuery> query={PUZZLES_UNSOLVED_QUERY}>
         {({ loading, error, data }) => {
           return (
             <div>

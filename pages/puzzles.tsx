@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
 import messages from 'messages/pages/puzzles';
 
 import { Query, Subscription } from 'react-apollo';
-import { PUZZLE_SOLVED_QUERY } from 'graphql/Queries/Puzzles';
+import { PUZZLES_SOLVED_QUERY } from 'graphql/Queries/Puzzles';
 import { PUZZLES_UNSOLVED_LIVEQUERY } from 'graphql/LiveQueries/Puzzles';
 
 import { Heading, Flex, Box, Panel } from 'components/General';
@@ -13,7 +13,16 @@ import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import PuzzleBrief from 'components/Puzzle/Brief';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 
-let prevData = null;
+import {
+  PuzzlesUnsolvedLiveQuery,
+  PuzzlesUnsolvedLiveQuery_sui_hei_puzzle,
+} from 'graphql/LiveQueries/generated/PuzzlesUnsolvedLiveQuery';
+import {
+  PuzzlesSolvedQuery,
+  PuzzlesSolvedQueryVariables,
+} from 'graphql/Queries/generated/PuzzlesSolvedQuery';
+
+let prevData: PuzzlesUnsolvedLiveQuery_sui_hei_puzzle[] | null = null;
 
 const puzzleWidth = [1, 1 / 2, 1, 1 / 2, 1 / 3];
 const puzzleLoadingPanel = (
@@ -22,8 +31,8 @@ const puzzleLoadingPanel = (
   </Box>
 );
 
-const Puzzles = (props, context) => {
-  const _ = context.intl.formatMessage;
+const Puzzles = (_props: any, context: { intl: IntlShape }) => {
+  const _: any = context.intl.formatMessage;
 
   const [hasMore, setHasMore] = useState(true);
 
@@ -38,7 +47,7 @@ const Puzzles = (props, context) => {
       </Heading>
       <PuzzleSubbar />
       <Flex flexWrap="wrap">
-        <Subscription
+        <Subscription<PuzzlesUnsolvedLiveQuery>
           subscription={PUZZLES_UNSOLVED_LIVEQUERY}
           onSubscriptionData={({ client, subscriptionData }) => {
             if (!subscriptionData.data) return;
@@ -54,11 +63,13 @@ const Puzzles = (props, context) => {
                 sui_hei_comments_aggregate: null,
                 status: 1,
               };
-              const { sui_hei_puzzle } = client.readQuery({
-                query: PUZZLE_SOLVED_QUERY,
+              const puzzleSolvedQueryResult = client.readQuery({
+                query: PUZZLES_SOLVED_QUERY,
               });
+              if (puzzleSolvedQueryResult === null) return;
+              const { sui_hei_puzzle } = puzzleSolvedQueryResult;
               client.writeQuery({
-                query: PUZZLE_SOLVED_QUERY,
+                query: PUZZLES_SOLVED_QUERY,
                 data: {
                   sui_hei_puzzle: [statusChangedPuzzle, ...sui_hei_puzzle],
                 },
@@ -78,7 +89,10 @@ const Puzzles = (props, context) => {
               ));
           }}
         </Subscription>
-        <Query query={PUZZLE_SOLVED_QUERY} variables={{ limit: 20 }}>
+        <Query<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>
+          query={PUZZLES_SOLVED_QUERY}
+          variables={{ limit: 20 }}
+        >
           {({ loading, error, data, fetchMore }) => {
             if (loading) return puzzleLoadingPanel;
             if (error) return `Error: ${error.message}`;

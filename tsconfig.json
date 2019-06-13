@@ -3,7 +3,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "checkJs": true,
+    "checkJs": false,
     "jsx": "react",
     "lib": ["dom", "es2017"],
     "module": "esnext",

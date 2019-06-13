@@ -28,7 +28,7 @@ export type InlineUser = {
   icon?: string;
   nickname: string;
   username?: string;
-  sui_hei_current_useraward?: UserAward;
+  sui_hei_current_useraward?: UserAward | null;
 };
 
 export type UserInlineProps = {

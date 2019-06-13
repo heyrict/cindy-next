@@ -2,9 +2,9 @@ import React from 'react';
 import Head from 'next/head';
 import { Link } from 'routes';
 import styled from '@emotion/styled';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
 import { line2md } from 'common';
-import { Flex, Box, LinkButton, ButtonTransparent } from 'components/General';
+import { Flex, Box, LinkButton } from 'components/General';
 
 import messages from 'messages/pages/home';
 
@@ -63,8 +63,8 @@ const StartBox = styled(LinkButton)`
   }
 `;
 
-const HomePage = (props, context) => {
-  const _ = context.intl.formatMessage;
+const HomePage = (_props: any, context: { intl: IntlShape }) => {
+  const _: any = context.intl.formatMessage;
   return (
     <PurpleBg flexWrap="wrap" pb={4}>
       <Head>

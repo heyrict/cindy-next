@@ -1,4 +1,4 @@
-import { InlineUser } from "components/User/types";
+import { InlineUser } from 'components/User/types';
 
 export enum YamiType {
   NotYami,
@@ -22,39 +22,39 @@ export enum StatusType {
 }
 
 type StarsAggregateAggregateSum = {
-  value: number;
+  value: number | null;
 };
 type StarsAggregateAggregate = {
-  count: number;
-  sum: StarsAggregateAggregateSum;
+  count: number | null;
+  sum: StarsAggregateAggregateSum | null;
 };
 type StarsAggregate = {
-  aggregate: StarsAggregateAggregate;
+  aggregate: StarsAggregateAggregate | null;
 };
 
 type CommentsAggregateAggregate = {
-  count: number;
+  count: number | null;
 };
 type CommentsAggregate = {
-  aggregate: CommentsAggregateAggregate;
+  aggregate: CommentsAggregateAggregate | null;
 };
 
 type BookmarksAggregateAggregate = {
-  count: number;
+  count: number | null;
 };
 type BookmarksAggregate = {
-  aggregate: BookmarksAggregateAggregate;
+  aggregate: BookmarksAggregateAggregate | null;
 };
 
 type DialoguesAggregateAggregateMax = {
-  answeredtime: number;
+  answeredtime: number | null;
 };
 type DialoguesAggregateAggregate = {
-  count: number;
-  max: DialoguesAggregateAggregateMax;
+  count: number | null;
+  max?: DialoguesAggregateAggregateMax | null;
 };
 type DialoguesAggregate = {
-  aggregate: DialoguesAggregateAggregate;
+  aggregate: DialoguesAggregateAggregate | null;
 };
 
 export type PuzzleType = {
@@ -66,12 +66,11 @@ export type PuzzleType = {
   anonymous?: boolean;
   created: string;
   modified: string;
-  dazed_on: string;
   sui_hei_user: InlineUser;
-  sui_hei_stars_aggregate?: StarsAggregate;
-  sui_hei_comments_aggregate?: CommentsAggregate;
-  sui_hei_bookmarks_aggregate?: BookmarksAggregate;
-  sui_hei_dialogues_aggregate?: DialoguesAggregate;
+  sui_hei_stars_aggregate?: StarsAggregate | null;
+  sui_hei_comments_aggregate?: CommentsAggregate | null;
+  sui_hei_bookmarks_aggregate?: BookmarksAggregate | null;
+  sui_hei_dialogues_aggregate?: DialoguesAggregate | null;
 };
 
 export type PuzzleBriefProps = {
@@ -83,4 +82,4 @@ export type PuzzleBriefProps = {
   dialogueCount?: number;
   dialogueMaxAnsweredtime?: string;
   showGenreImage: boolean;
-}
+};

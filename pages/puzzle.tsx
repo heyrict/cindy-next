@@ -1,36 +1,39 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import Head from 'next/head';
 import PuzzleDetail from 'components/Puzzle/Detail';
 
 import { Query } from 'react-apollo';
-import { PUZZLE_LIVE_QUERY } from 'graphql/LiveQueries/Puzzles';
+import { PUZZLE_LIVEQUERY } from 'graphql/LiveQueries/Puzzles';
 import { PUZZLE_QUERY } from 'graphql/Queries/Puzzles';
 
 import { intlShape } from 'react-intl';
 import messages from 'messages/pages/puzzle';
 import userMessages from 'messages/components/user';
+import {
+  PuzzleQuery,
+  PuzzleQueryVariables,
+} from 'graphql/Queries/generated/PuzzleQuery';
+
+import { PuzzleRendererProps, PuzzleProps } from './types';
 
 const REMOVE_HTML_REGEXP = new RegExp('<[^<>\n]+>', 'g');
 
-const PuzzleRenderer = ({
-  loading,
+const PuzzleRenderer: any = ({
   error,
   data,
   subscribeToMore,
   formatMessage,
   puzzleId,
-}) => {
+}: PuzzleRendererProps) => {
   const _ = formatMessage;
 
-  useEffect(
-    () =>
-      subscribeToMore({
-        document: PUZZLE_LIVE_QUERY,
+  useEffect(() => {
+    if (puzzleId !== null)
+      return subscribeToMore({
+        document: PUZZLE_LIVEQUERY,
         variables: { id: puzzleId },
-      }),
-    [puzzleId],
-  );
+      });
+  }, [puzzleId]);
 
   if (error) return `Error: ${error.message}`;
   if (data && data.sui_hei_puzzle_by_pk) {
@@ -62,15 +65,12 @@ const PuzzleRenderer = ({
   return null;
 };
 
-class Puzzle extends React.Component {
+class Puzzle extends React.Component<PuzzleProps> {
   static contextTypes = {
     intl: intlShape,
   };
-  static propTypes = {
-    puzzleId: PropTypes.string,
-  };
 
-  static async getInitialProps({ query }) {
+  static async getInitialProps({ query }: { query: { id: string } }) {
     return { puzzleId: query && query.id };
   }
 
@@ -84,14 +84,14 @@ class Puzzle extends React.Component {
           <title>{_(messages.title)}</title>
           <meta name="description" content={_(messages.description)} />
         </Head>
-        <Query
+        <Query<PuzzleQuery, PuzzleQueryVariables>
           query={PUZZLE_QUERY}
           variables={{
             id: puzzleId,
           }}
         >
-          {({ ...args }) => (
-            <PuzzleRenderer {...args} formatMessage={_} puzzleId={puzzleId} />
+          {params => (
+            <PuzzleRenderer {...params} formatMessage={_} puzzleId={puzzleId} />
           )}
         </Query>
       </React.Fragment>

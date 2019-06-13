@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import Head from 'next/head';
-import { Heading, Flex, Box, Panel } from 'components/General';
+
+import { Heading } from 'components/General';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 import PuzzleAddForm from 'components/PuzzleAddForm';
 

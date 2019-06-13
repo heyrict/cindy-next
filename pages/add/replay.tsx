@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { FormattedMessage, intlShape } from 'react-intl';
-import { Heading, Flex, Box, Panel } from 'components/General';
+import { intlShape } from 'react-intl';
 
 import KeywordWorkbench from 'components/Workbench/Keyword';
 

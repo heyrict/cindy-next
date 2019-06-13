@@ -1,20 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { FormattedMessage, intlShape } from 'react-intl';
-import { Heading, Flex, Box, Panel } from 'components/General';
+import { intlShape } from 'react-intl';
 
 import messages from 'messages/pages/replay';
 
-class Replay extends React.Component {
+class Replay extends React.Component<{ replayId: string }> {
   static contextTypes = {
     intl: intlShape,
   };
-  static propTypes = {
-    replayId: PropTypes.string,
-  };
 
-  static async getInitialProps({ query }) {
+  static async getInitialProps({ query }: { query: { id: string } }) {
     return { replayId: query && query.id };
   }
 

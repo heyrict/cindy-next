@@ -47,7 +47,7 @@ export const PUZZLES_UNSOLVED_QUERY = gql`
   ${PUZZLE_SHARED_FRAGMENT}
 `;
 
-export const PUZZLE_SOLVED_QUERY = gql`
+export const PUZZLES_SOLVED_QUERY = gql`
   query PuzzlesSolvedQuery($limit: Int, $offset: Int) {
     sui_hei_puzzle(
       order_by: { modified: desc }
