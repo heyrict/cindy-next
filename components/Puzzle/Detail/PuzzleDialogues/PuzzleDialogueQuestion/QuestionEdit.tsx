@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Mutation, MutationFn } from 'react-apollo';
-import { EditQuestionMutation } from 'graphql/Mutations/Dialogue';
+import { EDIT_QUESTION_MUTATION } from 'graphql/Mutations/Dialogue';
 
 import { Flex, ButtonTransparent, Img, Textarea } from 'components/General';
 import crossIcon from 'svgs/cross.svg';
@@ -9,6 +9,10 @@ import tickIcon from 'svgs/tick.svg';
 
 import { QuestionModes } from './constants';
 import { QuestionEditProps } from './types';
+import {
+  EditQuestionMutation,
+  EditQuestionMutationVariables,
+} from 'graphql/Mutations/generated/EditQuestionMutation';
 
 const QuestionEdit = ({ question, dialogueId, setMode }: QuestionEditProps) => {
   const [text, setText] = useState(question);
@@ -17,8 +21,13 @@ const QuestionEdit = ({ question, dialogueId, setMode }: QuestionEditProps) => {
   }, [question]);
 
   return (
-    <Mutation mutation={EditQuestionMutation}>
-      {(editQuestion: MutationFn) => (
+    <Mutation mutation={EDIT_QUESTION_MUTATION}>
+      {(
+        editQuestion: MutationFn<
+          EditQuestionMutation,
+          EditQuestionMutationVariables
+        >,
+      ) => (
         <React.Fragment>
           <Textarea
             width={1}

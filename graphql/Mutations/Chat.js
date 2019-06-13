@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
-import { ChatmessageFragment } from '../Fragments/Chat';
+import { CHATMESSAGE_FRAGMENT } from '../Fragments/Chat';
 
-export const ChatRoomSendMessageMutation = gql`
-  mutation ChatRoomSendMessage($content: String, $chatroomId: Int) {
+export const CHATROOM_SEND_MESSAGE_MUTATION = gql`
+  mutation ChatroomSendMessage($content: String, $chatroomId: Int) {
     insert_sui_hei_chatmessage(
       objects: [{ chatroom_id: $chatroomId, content: $content }]
     ) {
@@ -12,5 +12,5 @@ export const ChatRoomSendMessageMutation = gql`
       }
     }
   }
-  ${ChatmessageFragment}
+  ${CHATMESSAGE_FRAGMENT}
 `;

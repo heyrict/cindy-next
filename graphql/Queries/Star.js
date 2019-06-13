@@ -1,21 +1,21 @@
 import gql from 'graphql-tag';
 
-import { UserBriefFragment } from '../Fragments/User';
+import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
-export const PuzzleStarQuery = gql`
+export const PUZZLE_STAR_QUERY = gql`
   query PuzzleStarQuery($puzzleId: Int!) {
     sui_hei_star(where: { puzzle_id: { _eq: $puzzleId } }) {
       id
       value
       sui_hei_user {
-        ...UserBriefFragment
+        ...UserBrief
       }
     }
   }
-  ${UserBriefFragment}
+  ${USER_BRIEF_FRAGMENT}
 `;
 
-export const PuzzleStarAggregateQuery = gql`
+export const PUZZLE_STAR_AGGREGATE_QUERY = gql`
   query PuzzleStarAggregateQuery($puzzleId: Int!) {
     sui_hei_star_aggregate(where: { puzzle_id: { _eq: $puzzleId } }) {
       aggregate {

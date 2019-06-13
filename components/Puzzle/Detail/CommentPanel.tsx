@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
 import { Query, QueryResult } from 'react-apollo';
-import { PuzzleCommentAggregateQuery, } from 'graphql/Queries/Comment';
+import { PUZZLE_COMMENT_AGGREGATE_QUERY, } from 'graphql/Queries/Comment';
 
 import { Waypoint } from 'react-waypoint';
 import { Box, Flex, Img, Button } from 'components/General';
@@ -36,7 +36,7 @@ const CommentPanel = ({ puzzleId }: CommentPanelProps) => {
       <Waypoint key="puzzle-comment-panel" onEnter={() => setLoaded(true)} />
       {loaded && (
         <Query
-          query={PuzzleCommentAggregateQuery}
+          query={PUZZLE_COMMENT_AGGREGATE_QUERY}
           variables={{
             puzzleId,
           }}

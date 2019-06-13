@@ -17,7 +17,11 @@
     "build": "next build",
     "start": "NODE_ENV=production node server",
     "extract-intl": "NODE_ENV=development node scripts/extract-intl.js",
-    "export-schema": "gq http://localhost:8080/v1/graphql -H 'X-Hasura-Admin-Secret: CINDYTHINK_HASURA_ADMIN_SECRET' --introspect > internal/hasura/schema.graphql; echo \"const typeDefs=\\``cat internal/hasura/schema.graphql`\\`;\nexport default typeDefs;\" > internal/hasura/typeDefs.js",
+    "export-schema": "gq http://localhost:8080/v1/graphql -H \"X-Hasura-Admin-Secret: $HASURA_GRAPHQL_ADMIN_SECRET\" --introspect > generated/schema.graphql; echo \"const typeDefs=\\``cat generated/schema.graphql`\\`;\nexport default typeDefs;\" > generated/typeDefs.js",
+    "export-graphql-types": "yarn run export-graphql-types:subscription; yarn run export-graphql-types:hasura;",
+    "export-graphql-types:subscription": "apollo codegen:generate -c ./apollo.subscirption.config.js  --globalTypesFile=./generated/globalSubscriptionType.ts --target typescript generated",
+    "export-graphql-types:hasura": "apollo codegen:generate -c ./apollo.hasura.config.js --target typescript generated",
+    "clean-graphql-types": "rm -r `find graphql -name generated`",
     "test": "jest",
     "test:watch": "jest --watch",
     "storybook": "start-storybook -s . -p 6006",
@@ -95,7 +99,6 @@
     "jest": "^24.8.0",
     "prettier": "^1.16.4",
     "svg-url-loader": "^2.3.2",
-    "tslint": "^5.17.0",
     "typescript": "^3.5.1"
   }
 }

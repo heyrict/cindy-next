@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Link } from 'routes';
 import { FormattedMessage } from 'react-intl';
-import { Box, Flex, Button, ButtonTransparent } from 'components/General';
+import { Box, Flex, ButtonTransparent } from 'components/General';
 import messages from 'messages/components/toolbar';
 
 import { connect } from 'react-redux';
@@ -12,6 +11,9 @@ import * as globalReducer from 'reducers/global';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import SignupButton from './SignupButton';
+
+import { StateType } from 'reducers/types';
+import { ToolbarProps } from './types';
 
 const ToolbarFlex = styled(Flex)`
   height: ${p => p.theme.sizes.toolbar};
@@ -26,7 +28,7 @@ const ToolbarButton = styled(Box)`
   height: ${p => p.theme.sizes.toolbar};
 `;
 
-const Toolbar = ({ user }) => {
+const Toolbar = ({ user }: ToolbarProps) => {
   return (
     <ToolbarFlex alignItems="center" justifyContents="center">
       <ToolbarFlex>
@@ -110,11 +112,7 @@ const Toolbar = ({ user }) => {
   );
 };
 
-Toolbar.propTypes = {
-  user: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
 });
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -9,19 +8,20 @@ import * as globalReducer from 'reducers/global';
 
 import ChatRoom from './ChatRoom';
 
+import { ChatProps } from './types';
+import { StateType } from 'reducers/types';
+
 const currentChannelSelector = createSelector(
   state => globalReducer.rootSelector(state).channel,
   state => globalReducer.rootSelector(state).route,
   (channel, route) => getChannelWithPath(channel, route),
 );
 
-const Chat = ({ currentChannel }) => <ChatRoom chatroom={currentChannel} />;
+const Chat = ({ currentChannel }: ChatProps) => (
+  <ChatRoom chatroom={currentChannel} />
+);
 
-Chat.propTypes = {
-  currentChannel: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   currentChannel: currentChannelSelector(state),
 });
 

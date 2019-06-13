@@ -1,14 +1,14 @@
 import gql from 'graphql-tag';
 
-import { UserBriefFragment } from './User';
+import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
-export const UserBriefQuery = gql`
+export const USER_BRIEF_QUERY = gql`
   query UserBriefQuery($id: Int!) {
     sui_hei_user_by_pk(id: $id) {
       ...UserBrief
     }
   }
-  ${UserBriefFragment}
+  ${USER_BRIEF_FRAGMENT}
 `;
 
 export const UserQuery = gql`
@@ -34,5 +34,5 @@ export const UserQuery = gql`
       }
     }
   }
-  ${UserBriefFragment}
+  ${USER_BRIEF_FRAGMENT}
 `;

@@ -7,6 +7,8 @@ const triggers = require('./triggers');
 const typeDefs = gql`
   # Query should not be empty according to graphql spec.
   scalar timestamptz
+  scalar date
+  scalar bigint
   enum EventType {
     INSERT
     UPDATE
@@ -20,25 +22,33 @@ const typeDefs = gql`
     name: String!
     description: String!
   }
-  type sui_hei_user_award {
+  type sui_hei_useraward {
     id: Int!
     created: timestamptz!
-    sui_hei_award: sui_hei_award
+    sui_hei_award: sui_hei_award!
   }
   type sui_hei_user {
     id: Int!
     username: String!
     nickname: String!
-    sui_hei_current_useraward: sui_hei_user_award
+    sui_hei_current_useraward: sui_hei_useraward
   }
   type sui_hei_chatmessage {
     id: Int!
     user_id: Int!
     chatroom_id: Int!
     content: String!
-    created: timestamptz!
+    created: timestamptz
     editTimes: Int!
-    sui_hei_user: sui_hei_user
+    sui_hei_user: sui_hei_user!
+  }
+  type sui_hei_chatroom {
+    created: date!
+    description: String!
+    id: Int!
+    name: String!
+    private: Boolean!
+    sui_hei_user: sui_hei_user!
   }
   type sui_hei_dialogue {
     id: Int!
@@ -52,7 +62,7 @@ const typeDefs = gql`
     answeredtime: timestamptz
     puzzle_id: Int!
     user_id: Int!
-    sui_hei_user: sui_hei_user
+    sui_hei_user: sui_hei_user!
   }
   type sui_hei_hint {
     id: Int!
@@ -81,7 +91,13 @@ const typeDefs = gql`
     anonymous: Boolean!
     grotesque: Boolean!
     user_id: Int!
-    sui_hei_user: sui_hei_user
+    sui_hei_user: sui_hei_user!
+  }
+  type hasura_user_ranking_trigger {
+    # An object relationship
+    sui_hei_user: sui_hei_user!
+    user_id: Int!
+    value: bigint!
   }
   type ChatmessageSubscription {
     sui_hei_chatmessage: sui_hei_chatmessage

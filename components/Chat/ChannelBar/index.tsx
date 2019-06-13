@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { Box, Flex, Input, ButtonTransparent } from 'components/General';
+import { Box, Flex, ButtonTransparent } from 'components/General';
 import { getChannelWithPath } from 'common';
 
 import { createSelector } from 'reselect';
@@ -14,6 +13,9 @@ import messages from 'messages/components/chat';
 
 import ChannelChangeModal from './ChannelChangeModal';
 import DescriptionModal from './DescriptionModal';
+
+import { ChannelBarProps } from './types';
+import { StateType, ActionContentType } from 'reducers/types';
 
 const currentChannelSelector = createSelector(
   state => globalReducer.rootSelector(state).channel,
@@ -27,7 +29,7 @@ const ChannelBar = ({
   currentChannel,
   setTrueChannelChangeModal,
   setTrueDescriptionModal,
-}) => {
+}: ChannelBarProps) => {
   return (
     <Box width={1} height="channelbar">
       <Flex bg="orange.5">
@@ -61,20 +63,12 @@ const ChannelBar = ({
   );
 };
 
-ChannelBar.propTypes = {
-  chatroomId: PropTypes.number,
-  channel: PropTypes.string.isRequired,
-  currentChannel: PropTypes.string.isRequired,
-  setTrueChannelChangeModal: PropTypes.func.isRequired,
-  setTrueDescriptionModal: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   currentChannel: currentChannelSelector(state),
   channel: globalReducer.rootSelector(state).channel,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setTrueDescriptionModal: () =>
     dispatch(chatReducer.actions.setTrueDescriptionModal()),
   setTrueChannelChangeModal: () =>

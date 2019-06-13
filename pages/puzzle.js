@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { Heading, Flex, Box, Panel } from 'components/General';
 import PuzzleDetail from 'components/Puzzle/Detail';
 
-import { Query, Subscription } from 'react-apollo';
-import { PuzzleLiveQuery } from 'graphql/LiveQueries/Puzzles';
-import { PuzzleQuery } from 'graphql/Queries/Puzzles';
+import { Query } from 'react-apollo';
+import { PUZZLE_LIVE_QUERY } from 'graphql/LiveQueries/Puzzles';
+import { PUZZLE_QUERY } from 'graphql/Queries/Puzzles';
 
-import { FormattedMessage, intlShape } from 'react-intl';
+import { intlShape } from 'react-intl';
 import messages from 'messages/pages/puzzle';
 import userMessages from 'messages/components/user';
 
@@ -27,7 +26,7 @@ const PuzzleRenderer = ({
   useEffect(
     () =>
       subscribeToMore({
-        document: PuzzleLiveQuery,
+        document: PUZZLE_LIVE_QUERY,
         variables: { id: puzzleId },
       }),
     [puzzleId],
@@ -36,6 +35,7 @@ const PuzzleRenderer = ({
   if (error) return `Error: ${error.message}`;
   if (data && data.sui_hei_puzzle_by_pk) {
     const puzzle = data.sui_hei_puzzle_by_pk;
+    if (puzzle.id === undefined) return null;
     const shouldHideIdentity = puzzle.anonymous && puzzle.status === 0;
     return (
       <React.Fragment>
@@ -85,7 +85,7 @@ class Puzzle extends React.Component {
           <meta name="description" content={_(messages.description)} />
         </Head>
         <Query
-          query={PuzzleQuery}
+          query={PUZZLE_QUERY}
           variables={{
             id: puzzleId,
           }}

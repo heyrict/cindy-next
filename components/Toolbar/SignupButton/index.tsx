@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { FormattedMessage } from 'react-intl';
 import { Box, ButtonTransparent } from 'components/General';
@@ -21,12 +20,15 @@ import * as loginReducer from 'reducers/login';
 import SignupForm from './SignupForm';
 import OKButton from './OKButton';
 
+import { StateType, ActionContentType } from 'reducers/types';
+import { SignupButtonProps } from './types';
+
 const SignupButton = ({
   signup,
   signupModal,
   setTrueSignupModal,
   setFalseSignupModal,
-}) => (
+}: SignupButtonProps) => (
   <Box height={1} width={1}>
     <ButtonTransparent
       width={1}
@@ -62,11 +64,11 @@ const SignupButton = ({
   </Box>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   signupModal: loginReducer.rootSelector(state).signupModal,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setTrueSignupModal: () => dispatch(loginReducer.actions.setTrueSignupModal()),
   setFalseSignupModal: () =>
     dispatch(loginReducer.actions.setFalseSignupModal()),
@@ -78,6 +80,6 @@ const withRedux = connect(
 );
 
 export default compose(
-  withRedux,
   withSignup,
+  withRedux,
 )(SignupButton);

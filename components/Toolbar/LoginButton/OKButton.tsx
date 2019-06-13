@@ -1,13 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FooterButton } from 'components/Modal';
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/auth';
 
 import { connect } from 'react-redux';
 import * as loginReducer from 'reducers/login';
+import { ActionContentType, AuthErrorType, StateType } from 'reducers/types';
+import { OKButtonProps } from './types';
 
-const OKButton = ({ login, username, password, setErrors, resetForm }) => (
+const OKButton = ({
+  login,
+  username,
+  password,
+  setErrors,
+  resetForm,
+}: OKButtonProps) => (
   <FooterButton
     bg="cyan.6"
     color="white"
@@ -21,7 +28,7 @@ const OKButton = ({ login, username, password, setErrors, resetForm }) => (
             resetForm();
           }
         })
-        .catch(error => {
+        .catch((error: { message: any }) => {
           console.log(error);
           setErrors([
             {
@@ -36,21 +43,14 @@ const OKButton = ({ login, username, password, setErrors, resetForm }) => (
   </FooterButton>
 );
 
-OKButton.propTypes = {
-  login: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  setErrors: PropTypes.func.isRequired,
-  resetForm: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   username: loginReducer.rootSelector(state).username,
   password: loginReducer.rootSelector(state).password,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setErrors: value => dispatch(loginReducer.actions.setErrors(value)),
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  setErrors: (value: Array<AuthErrorType>) =>
+    dispatch(loginReducer.actions.setErrors(value)),
   resetForm: () => dispatch(loginReducer.actions.resetForm()),
 });
 

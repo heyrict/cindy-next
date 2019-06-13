@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
-import { DialogueSharedFragment } from '../Fragments/Dialogue';
-import { UserBriefFragment } from '../Fragments/User';
+import { DIALOGUE_SHARED_FRAGMENT } from '../Fragments/Dialogue';
+import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
-export const DialogueHintSubscription = gql`
+export const DIALOGUE_HINT_SUBSCRIPTION = gql`
   subscription DialogueHintSubscription($puzzleId: Int!) {
     dialogueHintSub(puzzleId: $puzzleId) {
       eventType
@@ -18,6 +18,6 @@ export const DialogueHintSubscription = gql`
       }
     }
   }
-  ${DialogueSharedFragment}
-  ${UserBriefFragment}
+  ${DIALOGUE_SHARED_FRAGMENT}
+  ${USER_BRIEF_FRAGMENT}
 `;

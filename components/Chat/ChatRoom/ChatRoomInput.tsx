@@ -1,15 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 import { Mutation } from 'react-apollo';
-import { ChatRoomChatmessagesQuery } from 'graphql/Queries/Chat';
-import { ChatRoomSendMessageMutation } from 'graphql/Mutations/Chat';
+import { CHATROOM_CHATMESSAGES_QUERY } from 'graphql/Queries/Chat';
+import { CHATROOM_SEND_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
 
 import SimpleEditor from 'components/PreviewEditor/simple';
+
+import {
+  ChatroomSendMessage,
+  ChatroomSendMessageVariables,
+} from 'graphql/Mutations/generated/ChatroomSendMessage';
+import { ChatRoomInputProps } from './types';
+import { StateType } from 'reducers/types';
+import {
+  ChatroomChatmessages,
+  ChatroomChatmessagesVariables,
+} from 'graphql/Queries/generated/ChatroomChatmessages';
 
 const LoginRequiredBlock = styled.div`
   display: flex;
@@ -25,20 +35,27 @@ const LoginRequiredBlock = styled.div`
   left: 0;
 `;
 
-const ChatRoomInput = ({ user, chatroomId }) =>
+const ChatRoomInput = ({ user, chatroomId }: ChatRoomInputProps) =>
   user.id ? (
-    <Mutation
-      mutation={ChatRoomSendMessageMutation}
+    <Mutation<ChatroomSendMessage, ChatroomSendMessageVariables>
+      mutation={CHATROOM_SEND_MESSAGE_MUTATION}
       update={(cache, { data }) => {
+        if (data === undefined) return;
+        if (data.insert_sui_hei_chatmessage === null) return;
         const newMessages = data.insert_sui_hei_chatmessage.returning;
-        const { sui_hei_chatmessage } = cache.readQuery({
-          query: ChatRoomChatmessagesQuery,
+        const cachedResult = cache.readQuery<
+          ChatroomChatmessages,
+          ChatroomChatmessagesVariables
+        >({
+          query: CHATROOM_CHATMESSAGES_QUERY,
           variables: {
             chatroomId,
           },
         });
+        if (cachedResult === null) return;
+        const { sui_hei_chatmessage } = cachedResult;
         cache.writeQuery({
-          query: ChatRoomChatmessagesQuery,
+          query: CHATROOM_CHATMESSAGES_QUERY,
           variables: {
             chatroomId,
           },
@@ -58,6 +75,7 @@ const ChatRoomInput = ({ user, chatroomId }) =>
               },
             });
           }}
+          autoFocus
         />
       )}
     </Mutation>
@@ -65,11 +83,7 @@ const ChatRoomInput = ({ user, chatroomId }) =>
     <LoginRequiredBlock>You need login to send messages</LoginRequiredBlock>
   );
 
-ChatRoomInput.propTypes = {
-  chatroomId: PropTypes.number.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
 });
 

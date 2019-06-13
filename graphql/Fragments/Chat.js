@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-import { UserBriefFragment } from '../Fragments/User';
+import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
-export const ChatmessageFragment = gql`
+export const CHATMESSAGE_FRAGMENT = gql`
   fragment Chatmessage on sui_hei_chatmessage {
     id
     content
@@ -12,10 +12,10 @@ export const ChatmessageFragment = gql`
       ...UserBrief
     }
   }
-  ${UserBriefFragment}
+  ${USER_BRIEF_FRAGMENT}
 `;
 
-export const ChatroomFragment = gql`
+export const CHATROOM_FRAGMENT = gql`
   fragment Chatroom on sui_hei_chatroom {
     id
     name
@@ -26,5 +26,5 @@ export const ChatroomFragment = gql`
       ...UserBrief
     }
   }
-  ${UserBriefFragment}
+  ${USER_BRIEF_FRAGMENT}
 `;

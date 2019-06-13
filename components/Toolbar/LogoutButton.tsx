@@ -5,7 +5,9 @@ import { withLogout } from 'components/Auth';
 
 import messages from 'messages/components/auth';
 
-export const LogoutButton = ({ logout }) => (
+import { WithLogoutProps } from 'components/Auth/types';
+
+export const LogoutButton = ({ logout }: WithLogoutProps) => (
   <Box height={1} width={1}>
     <ButtonTransparent
       width={1}

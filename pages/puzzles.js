@@ -5,8 +5,8 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import messages from 'messages/pages/puzzles';
 
 import { Query, Subscription } from 'react-apollo';
-import { PuzzleSolvedQuery } from 'graphql/Queries/Puzzles';
-import { PuzzlesUnsolvedLiveQuery } from 'graphql/LiveQueries/Puzzles';
+import { PUZZLE_SOLVED_QUERY } from 'graphql/Queries/Puzzles';
+import { PUZZLES_UNSOLVED_LIVEQUERY } from 'graphql/LiveQueries/Puzzles';
 
 import { Heading, Flex, Box, Panel } from 'components/General';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
@@ -39,7 +39,7 @@ const Puzzles = (props, context) => {
       <PuzzleSubbar />
       <Flex flexWrap="wrap">
         <Subscription
-          subscription={PuzzlesUnsolvedLiveQuery}
+          subscription={PUZZLES_UNSOLVED_LIVEQUERY}
           onSubscriptionData={({ client, subscriptionData }) => {
             if (!subscriptionData.data) return;
             const newUnsolved = subscriptionData.data.sui_hei_puzzle;
@@ -55,10 +55,10 @@ const Puzzles = (props, context) => {
                 status: 1,
               };
               const { sui_hei_puzzle } = client.readQuery({
-                query: PuzzleSolvedQuery,
+                query: PUZZLE_SOLVED_QUERY,
               });
               client.writeQuery({
-                query: PuzzleSolvedQuery,
+                query: PUZZLE_SOLVED_QUERY,
                 data: {
                   sui_hei_puzzle: [statusChangedPuzzle, ...sui_hei_puzzle],
                 },
@@ -78,7 +78,7 @@ const Puzzles = (props, context) => {
               ));
           }}
         </Subscription>
-        <Query query={PuzzleSolvedQuery} variables={{ limit: 20 }}>
+        <Query query={PUZZLE_SOLVED_QUERY} variables={{ limit: 20 }}>
           {({ loading, error, data, fetchMore }) => {
             if (loading) return puzzleLoadingPanel;
             if (error) return `Error: ${error.message}`;

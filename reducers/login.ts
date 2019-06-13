@@ -1,5 +1,6 @@
 import * as bool from './helpers/bool';
 import * as base from './helpers/base';
+import { ActionSetType, StateType, ActionContentType, AuthErrorType } from './types';
 
 export const scope = 'login';
 
@@ -13,7 +14,7 @@ export const actionTypes = {
   RESET_FORM: `${scope}.RESET_FORM`,
 };
 
-export const actions = {
+export const actions: ActionSetType = {
   ...bool.getActions('LoginModal', actionTypes.LOGIN_MODAL),
   ...bool.getActions('SignupModal', actionTypes.SIGNUP_MODAL),
   ...base.getActions('Nickname', actionTypes.NICKNAME),
@@ -25,7 +26,8 @@ export const actions = {
   }),
 };
 
-export const rootSelector = state => state[scope];
+export const rootSelector = (state: StateType): typeof initialState =>
+  state[scope];
 
 export const initialState = {
   loginModal: false,
@@ -33,10 +35,10 @@ export const initialState = {
   nickname: '',
   username: '',
   password: '',
-  errors: [],
+  errors: [] as AuthErrorType[],
 };
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action: ActionContentType) => {
   switch (action.type) {
     case actionTypes.LOGIN_MODAL:
       return {

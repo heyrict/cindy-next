@@ -5,5 +5,6 @@ export type ModalComponentsProps = {
 
 export type ModalProps = {
   show: boolean;
+  closefn?: () => void;
   children?: React.ReactNode;
 };

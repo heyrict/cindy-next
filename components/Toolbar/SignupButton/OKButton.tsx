@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FooterButton } from 'components/Modal';
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/auth';
 
 import { connect } from 'react-redux';
 import * as loginReducer from 'reducers/login';
+import { OKButtonProps } from './types';
+import { StateType, ActionContentType, AuthErrorType } from 'reducers/types';
 
 const OKButton = ({
   signup,
@@ -14,7 +15,7 @@ const OKButton = ({
   password,
   setErrors,
   resetForm,
-}) => (
+}: OKButtonProps) => (
   <FooterButton
     bg="cyan.6"
     color="white"
@@ -43,23 +44,15 @@ const OKButton = ({
   </FooterButton>
 );
 
-OKButton.propTypes = {
-  signup: PropTypes.func.isRequired,
-  nickname: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  setErrors: PropTypes.func.isRequired,
-  resetForm: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   nickname: loginReducer.rootSelector(state).nickname,
   username: loginReducer.rootSelector(state).username,
   password: loginReducer.rootSelector(state).password,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setErrors: value => dispatch(loginReducer.actions.setErrors(value)),
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  setErrors: (value: Array<AuthErrorType>) =>
+    dispatch(loginReducer.actions.setErrors(value)),
   resetForm: () => dispatch(loginReducer.actions.resetForm()),
 });
 

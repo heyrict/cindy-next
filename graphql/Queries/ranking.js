@@ -1,23 +1,23 @@
 import gql from 'graphql-tag';
 
-import { UserRankingTriggerFragment } from '../Fragments/Trigger';
+import { USER_RANKING_TRIGGER_FRAGMENT } from '../Fragments/Trigger';
 
-export const StarCountRankingQuery = gql`
+export const STAR_COUNT_RANKING_QUERY = gql`
   query StarCountRankingQuery(
     $limit: Int
     $offset: Int
     $createdLt: timestamp!
-    $createdGt: timestamp!
+    $createdGte: timestamp!
   ) {
     star_count_ranking(
       limit: $limit
       offset: $offset
-      args: { created_lt: $createdLt, created_gt: $createdGt }
+      args: { created_lt: $createdLt, created_gte: $createdGte }
     ) {
       ...UserRankingTrigger
     }
   }
-  ${UserRankingTriggerFragment}
+  ${USER_RANKING_TRIGGER_FRAGMENT}
 `;
 
 export const StarSumRankingQuery = gql`
@@ -25,15 +25,15 @@ export const StarSumRankingQuery = gql`
     $limit: Int
     $offset: Int
     $createdLt: timestamp!
-    $createdGt: timestamp!
+    $createdGte: timestamp!
   ) {
     star_sum_ranking(
       limit: $limit
       offset: $offset
-      args: { created_lt: $createdLt, created_gt: $createdGt }
+      args: { created_lt: $createdLt, created_gte: $createdGte }
     ) {
       ...UserRankingTrigger
     }
   }
-  ${UserRankingTriggerFragment}
+  ${USER_RANKING_TRIGGER_FRAGMENT}
 `;

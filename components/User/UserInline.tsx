@@ -3,13 +3,7 @@ import { Link } from 'routes';
 import { Img, Flex, Anchor } from 'components/General';
 
 import { UserBaseProps, UserInlineBase } from './shared';
-import { InlineUser } from './types';
-
-export interface UserInlineProps {
-  user: InlineUser;
-  timestamp?: React.ReactNode;
-  [x: string]: any;
-}
+import { UserInlineProps } from './types';
 
 const UserInline = ({
   user,

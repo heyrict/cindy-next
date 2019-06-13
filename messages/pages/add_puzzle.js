@@ -15,6 +15,10 @@ export const messages = defineMessages({
     id: `${scope}.header`,
     defaultMessage: 'Create Puzzle',
   },
+  publishPuzzle: {
+    id: `${scope}.publishPuzzle`,
+    defaultMessage: 'Publish this puzzle',
+  },
 });
 
 export default messages;

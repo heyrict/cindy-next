@@ -1,15 +1,28 @@
+export type AuthResponseType = {
+  errors?: any;
+};
+
+export type SignupFnType = (
+  nickname: string,
+  username: string,
+  password: string,
+) => Promise<AuthResponseType>;
+
+export type LoginFnType = (
+  username: string,
+  password: string,
+) => Promise<AuthResponseType>;
+
+export type LogoutFnType = () => Promise<any>;
+
 export interface WithSignupProps {
-  signup: (
-    nickname: string,
-    username: string,
-    password: string,
-  ) => Promise<Response>;
+  signup: SignupFnType;
 }
 
 export interface WithLogoutProps {
-  logout: () => Promise<any>;
+  logout: LogoutFnType;
 }
 
 export interface WithLoginProps {
-  login: (username: string, password: string) => Promise<Response>;
+  login: LoginFnType;
 }

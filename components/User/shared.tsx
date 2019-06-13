@@ -1,18 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { space, color, fontSize, width } from 'styled-system';
-import {
-  SpaceProps,
-  ColorProps,
-  FontSizeProps,
-  WidthProps,
-} from 'styled-system';
 
-export interface UserBaseProps
-  extends SpaceProps,
-    ColorProps,
-    FontSizeProps,
-    WidthProps {}
+import { UserBaseProps } from './types';
 
 export const UserColBase: React.FunctionComponent<UserBaseProps> = styled.div`
   display: inline-flex;

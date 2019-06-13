@@ -79,6 +79,10 @@ export const messages = defineMessages({
     id: `${scope}.lastupdate`,
     defaultMessage: 'Last Update',
   },
+  dazedOn: {
+    id: `${scope}.dazedOn`,
+    defaultMessage: 'Dazed On',
+  },
   createdAt: {
     id: `${scope}.createdAt`,
     defaultMessage: 'Created At',

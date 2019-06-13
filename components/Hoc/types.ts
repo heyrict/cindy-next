@@ -18,7 +18,7 @@ export enum WatchObjectActionType {
 
 export type WatchObjectType = {
   name?: string; // Optional name, for logging purposes.
-  value: Array<object> | object | number | string; // Value that should be watched for changes.
+  value: any; // Value that should be watched for changes.
   action: WatchObjectActionType;
   smooth?: 'smooth' | 'auto';
   wait?: number;
@@ -26,7 +26,7 @@ export type WatchObjectType = {
 };
 
 export type KeepBottomProps = {
-  mount: WatchObjectType;
+  mount?: WatchObjectType;
   watch: Array<WatchObjectType>;
   children: ({
     scrollerRef,

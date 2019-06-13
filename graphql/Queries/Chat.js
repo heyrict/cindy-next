@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
-import { ChatmessageFragment, ChatroomFragment } from '../Fragments/Chat';
+import { CHATMESSAGE_FRAGMENT, CHATROOM_FRAGMENT } from '../Fragments/Chat';
 
-export const ChatRoomChatmessagesQuery = gql`
-  query ChatRoomChatmessages($chatroomId: Int, $limit: Int, $offset: Int) {
+export const CHATROOM_CHATMESSAGES_QUERY = gql`
+  query ChatroomChatmessages($chatroomId: Int, $limit: Int, $offset: Int) {
     sui_hei_chatmessage(
       where: { chatroom_id: { _eq: $chatroomId } }
       limit: $limit
@@ -13,11 +13,11 @@ export const ChatRoomChatmessagesQuery = gql`
       ...Chatmessage
     }
   }
-  ${ChatmessageFragment}
+  ${CHATMESSAGE_FRAGMENT}
 `;
 
-export const ChatRoomPuzzleQuery = gql`
-  query ChatRoomPuzzle($puzzleId: Int!) {
+export const CHATROOM_PUZZLE_QUERY = gql`
+  query ChatroomPuzzle($puzzleId: Int!) {
     sui_hei_puzzle_by_pk(id: $puzzleId) {
       id
       anonymous
@@ -28,20 +28,20 @@ export const ChatRoomPuzzleQuery = gql`
   }
 `;
 
-export const ChatRoomIdQuery = gql`
-  query ChatRoomId($chatroomName: String) {
+export const CHATROOM_ID_QUERY = gql`
+  query ChatroomId($chatroomName: String) {
     sui_hei_chatroom(where: { name: { _eq: $chatroomName } }, limit: 1) {
       id
     }
   }
-  ${ChatroomFragment}
+  ${CHATROOM_FRAGMENT}
 `;
 
-export const ChatRoomDescriptionQuery = gql`
-  query ChatRoomDescription($chatroomId: Int!) {
+export const CHATROOM_DESCRIPTION_QUERY = gql`
+  query ChatroomDescription($chatroomId: Int!) {
     sui_hei_chatroom_by_pk(id: $chatroomId) {
       ...Chatroom
     }
   }
-  ${ChatroomFragment}
+  ${CHATROOM_FRAGMENT}
 `;

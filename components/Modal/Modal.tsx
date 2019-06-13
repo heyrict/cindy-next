@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 import { Portal } from 'react-portal';
@@ -50,10 +49,6 @@ export const Container = styled.div<ModalComponentsProps>`
 `;
 
 class Modal extends React.PureComponent<ModalProps> {
-  static propTypes = {
-    show: PropTypes.bool.isRequired,
-    children: PropTypes.any,
-  };
   render() {
     return (
       <Portal>

@@ -13,7 +13,7 @@ export type ActionContentType = {
 
 export interface ActionSetType {
   [actionName: string]: (...params: any) => ActionContentType;
-};
+}
 
 export type ReplayKeywordStatusType = {
   count: number;
@@ -33,4 +33,9 @@ export type GlobalUserType = {
   id?: number;
   username?: string;
   nickname?: string;
+};
+
+export type AuthErrorType = {
+  type: string;
+  message: string;
 };

@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-import { DialogueSharedFragment } from '../Fragments/Dialogue';
+import { DIALOGUE_SHARED_FRAGMENT } from '../Fragments/Dialogue';
 
-export const DialogueHintQuery = gql`
+export const DIALOGUE_HINT_QUERY = gql`
   query DialogueHintQuery($puzzleId: Int, $userId: Int) {
     sui_hei_dialogue(
       where: { puzzle_id: { _eq: $puzzleId }, user_id: { _eq: $userId } }
@@ -19,5 +19,5 @@ export const DialogueHintQuery = gql`
       created
     }
   }
-  ${DialogueSharedFragment}
+  ${DIALOGUE_SHARED_FRAGMENT}
 `;

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { mergeList, upsertItem } from 'common';
 
 import { Query, QueryResult } from 'react-apollo';
-import { DialogueHintQuery } from 'graphql/Queries/Dialogues';
-import { DialogueHintSubscription } from 'graphql/Subscriptions/Dialogue';
+import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
+import { DIALOGUE_HINT_SUBSCRIPTION } from 'graphql/Subscriptions/Dialogue';
 
 import { Flex } from 'components/General';
 import PuzzleDialogue from './PuzzleDialogue';
@@ -33,7 +33,7 @@ const PuzzleDialoguesRenderer = ({
   useEffect(() => {
     if (shouldSubscribe) {
       return subscribeToMore({
-        document: DialogueHintSubscription,
+        document: DIALOGUE_HINT_SUBSCRIPTION,
         variables: { puzzleId },
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
@@ -121,7 +121,7 @@ const PuzzleDialogues = ({
   return (
     <React.Fragment>
       <Query
-        query={DialogueHintQuery}
+        query={DIALOGUE_HINT_QUERY}
         variables={{
           puzzleId,
         }}

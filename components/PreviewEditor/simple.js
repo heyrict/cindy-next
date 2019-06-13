@@ -183,7 +183,9 @@ class SimpleEditor extends React.Component {
             style={{
               overflow: 'auto',
               display: this.state.preview ? 'none' : 'block',
+              cursor: 'text',
             }}
+            onClick={() => this.editor.focus()}
           >
             {editorInstance}
           </Box>
@@ -231,7 +233,9 @@ class SimpleEditor extends React.Component {
             overflow: 'auto',
             flexGrow: 1,
             display: this.state.stampToolbar ? 'none' : 'block',
+            cursor: 'text',
           }}
+          onClick={() => this.editor.focus()}
           borderWidth="1px"
           borderStyle="solid"
           borderColor="gray.6"

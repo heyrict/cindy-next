@@ -1,25 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import { Query } from 'react-apollo';
-import { ChatRoomDescriptionQuery } from 'graphql/Queries/Chat';
-import { Flex, Button, Input } from 'components/General';
+import { CHATROOM_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
 import { line2md } from 'common';
-import {
-  Modal,
-  ModalHeader,
-  ModalCloseBtn,
-  ModalBody,
-  ModalFooter,
-  FooterButton,
-} from 'components/Modal';
+import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
 
 import * as chatReducer from 'reducers/chat';
-import * as globalReducer from 'reducers/global';
-
-import commonMessages from 'messages/common';
-import chatMessages from 'messages/components/chat';
+import {
+  ChatroomDescription,
+  ChatroomDescriptionVariables,
+} from 'graphql/Queries/generated/ChatroomDescription';
+import { DescriptionModalProps } from './types';
+import { StateType, ActionContentType } from 'reducers/types';
 
 const defaultData = {
   id: 0,
@@ -33,10 +25,10 @@ const DescriptionModal = ({
   descriptionModal,
   setFalseDescriptionModal,
   chatroomId,
-}) =>
+}: DescriptionModalProps) =>
   descriptionModal ? (
-    <Query
-      query={ChatRoomDescriptionQuery}
+    <Query<ChatroomDescription, ChatroomDescriptionVariables>
+      query={CHATROOM_DESCRIPTION_QUERY}
       variables={{
         chatroomId,
       }}
@@ -73,17 +65,11 @@ const DescriptionModal = ({
     </Query>
   ) : null;
 
-DescriptionModal.propTypes = {
-  chatroomId: PropTypes.number,
-  descriptionModal: PropTypes.bool.isRequired,
-  setFalseDescriptionModal: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   descriptionModal: chatReducer.rootSelector(state).descriptionModal,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setFalseDescriptionModal: () =>
     dispatch(chatReducer.actions.setFalseDescriptionModal()),
 });

@@ -1,3 +1,16 @@
+import {
+  SpaceProps,
+  ColorProps,
+  FontSizeProps,
+  WidthProps,
+} from 'styled-system';
+
+export interface UserBaseProps
+  extends SpaceProps,
+    ColorProps,
+    FontSizeProps,
+    WidthProps {}
+
 type Award = {
   id: number;
   name: string;
@@ -18,6 +31,17 @@ export type InlineUser = {
   sui_hei_current_useraward?: UserAward;
 };
 
+export type UserInlineProps = {
+  user: InlineUser;
+  timestamp?: React.ReactNode;
+} & UserBaseProps;
+
+export type UserColProps = {
+  user: InlineUser;
+  timestamp?: React.ReactNode;
+} & UserBaseProps;
+
 export type AnonymousUserProps = {
   nickname?: string;
-};
+  timestamp?: React.ReactNode;
+} & UserBaseProps;

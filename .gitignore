@@ -5,8 +5,7 @@ node_modules
 build
 stats.json
 schema.json
-internal/hasura/schema.graphql
-internal/hasura/typeDefs.js
+generated
 storybook-static
 *.log
 # Nextjs build output

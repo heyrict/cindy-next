@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-import { PuzzleSharedFragment } from '../Fragments/Puzzles';
+import { PUZZLE_SHARED_FRAGMENT } from '../Fragments/Puzzles';
 
-export const AddPuzzleMutation = gql`
+export const ADD_PUZZLE_MUTATION = gql`
   mutation AddPuzzleMutation(
     $title: String!
     $yami: Int!
@@ -21,6 +21,8 @@ export const AddPuzzleMutation = gql`
           genre: $genre
           content: $content
           solution: $solution
+          anonymous: $anonymous
+          grotesque: $grotesque
           dazed_on: $dazedOn
         }
       ]
@@ -33,5 +35,5 @@ export const AddPuzzleMutation = gql`
       }
     }
   }
-  ${PuzzleSharedFragment}
+  ${PUZZLE_SHARED_FRAGMENT}
 `;

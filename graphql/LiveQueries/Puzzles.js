@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
-import { PuzzleSharedFragment } from '../Fragments/Puzzles';
+import { PUZZLE_SHARED_FRAGMENT } from '../Fragments/Puzzles';
 
-export const PuzzlesUnsolvedLiveQuery = gql`
+export const PUZZLES_UNSOLVED_LIVEQUERY = gql`
   subscription PuzzlesUnsolvedLiveQuery {
     sui_hei_puzzle(
       order_by: { modified: desc }
@@ -18,10 +18,10 @@ export const PuzzlesUnsolvedLiveQuery = gql`
       }
     }
   }
-  ${PuzzleSharedFragment}
+  ${PUZZLE_SHARED_FRAGMENT}
 `;
 
-export const PuzzleLiveQuery = gql`
+export const PUZZLE_LIVEQUERY = gql`
   subscription PuzzleLiveQuery($id: Int!) {
     sui_hei_puzzle_by_pk(id: $id) {
       id

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const UserBriefFragment = gql`
+export const USER_BRIEF_FRAGMENT = gql`
   fragment UserBrief on sui_hei_user {
     id
     nickname

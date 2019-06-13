@@ -1,13 +1,9 @@
 import React from 'react';
 import { Link } from 'routes';
 import { Img, Anchor } from 'components/General';
-import { UserBaseProps, UserColBase } from './shared';
-import { InlineUser } from './types';
+import { UserColBase } from './shared';
 
-interface UserColProps extends UserBaseProps {
-  user: InlineUser;
-  timestamp?: React.ReactNode;
-}
+import { UserColProps } from './types';
 
 const UserCol = ({ user, timestamp, ...props }: UserColProps) => {
   const NicknameBlock = user.id ? (

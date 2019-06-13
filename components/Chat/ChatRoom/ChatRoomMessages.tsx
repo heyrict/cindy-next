@@ -1,29 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import { Flex, Box } from 'components/General';
-import { upsertItem, updateItem } from 'common';
+import { upsertItem } from 'common';
 
-import { Query, Mutation } from 'react-apollo';
+import { Query } from 'react-apollo';
 import {
-  ChatRoomChatmessagesQuery,
-  ChatRoomPuzzleQuery,
+  CHATROOM_CHATMESSAGES_QUERY,
+  CHATROOM_PUZZLE_QUERY,
 } from 'graphql/Queries/Chat';
-import { ChatRoomChatmessagesSubscription } from 'graphql/Subscriptions/Chat';
+import { CHATROOM_CHATMESSAGES_SUBSCRIPTION } from 'graphql/Subscriptions/Chat';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 import Chatmessage from '../Chatmessage';
+import { StateType } from 'reducers/types';
+import {
+  ChatroomChatmessages,
+  ChatroomChatmessagesVariables,
+} from 'graphql/Queries/generated/ChatroomChatmessages';
+import { ChatroomChatmessageSubscription } from 'graphql/Subscriptions/generated/ChatroomChatmessageSubscription';
+import { ChatRoomMessagesProps, ChatRoomMessagesBodyProps } from './types';
+import { WatchObjectActionType } from 'components/Hoc/types';
+import {
+  ChatroomPuzzle,
+  ChatroomPuzzleVariables,
+} from 'graphql/Queries/generated/ChatroomPuzzle';
 
 // Add Wrapper to ChannelContent due to flex bug: https://github.com/philipwalton/flexbugs/issues/108
 const ChannelContentWrapper = styled.div`
   overflow-y: auto;
   height: calc(
-    100vh - ${p => p.theme.sizes.channelbar} -
-      ${p => p.theme.sizes.chatinput}
+    100vh - ${p => p.theme.sizes.channelbar} - ${p => p.theme.sizes.chatinput}
   );
 `;
 
@@ -41,7 +51,7 @@ const ChatRoomMessagesBody = ({
   chatroomId,
   user,
   relatedPuzzleId,
-}) => {
+}: ChatRoomMessagesBodyProps) => {
   if (error) return <div>Error</div>;
   if (!data) return <div>No messages</div>;
   const { sui_hei_chatmessage: chatmessages } = data;
@@ -50,18 +60,24 @@ const ChatRoomMessagesBody = ({
     return null;
   }
 
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
   useEffect(() => {
-    setHasMore(true);
+    if (chatmessages.length > 0) setHasMore(true);
   }, [chatroomId]);
 
   useEffect(
     () =>
       subscribeToMore({
-        document: ChatRoomChatmessagesSubscription,
+        document: CHATROOM_CHATMESSAGES_SUBSCRIPTION,
         variables: { chatroomId },
-        updateQuery: (prev, { subscriptionData }) => {
+        updateQuery: (
+          prev,
+          {
+            subscriptionData,
+          }: { subscriptionData: { data: ChatroomChatmessageSubscription } },
+        ) => {
           if (!subscriptionData.data) return prev;
+          if (!subscriptionData.data.chatmessageSub) return prev;
           if (subscriptionData.data.chatmessageSub.eventType === 'INSERT') {
             return Object.assign({}, prev, {
               sui_hei_chatmessage: upsertItem(
@@ -72,6 +88,7 @@ const ChatRoomMessagesBody = ({
               ),
             });
           }
+          return prev;
         },
       }),
     [chatroomId],
@@ -83,32 +100,32 @@ const ChatRoomMessagesBody = ({
         {
           name: 'chatroomId',
           value: chatroomId,
-          action: 'toBottom',
+          action: WatchObjectActionType.ToBottom,
         },
         {
           name: 'messageLength',
           value: chatmessages.length,
-          action: 'stayOrBottom',
+          action: WatchObjectActionType.StayOrBottom,
         },
         {
           name: 'loading',
           value: loading,
-          action: 'toBottom',
+          action: WatchObjectActionType.ToBottom,
         },
         {
           name: 'userId',
           value: user.id,
-          action: 'doNothing',
+          action: WatchObjectActionType.DoNothing,
         },
         {
           name: 'hasMore',
           value: hasMore,
-          action: 'doNothing',
+          action: WatchObjectActionType.DoNothing,
         },
         {
           name: 'ChatRoomMessages',
           value: chatmessages,
-          action: 'doNothing',
+          action: WatchObjectActionType.DoNothing,
           log: false,
         },
       ]}
@@ -117,8 +134,8 @@ const ChatRoomMessagesBody = ({
         <ChannelContentWrapper ref={scrollerRef}>
           <ChannelContent>
             {relatedPuzzleId ? (
-              <Query
-                query={ChatRoomPuzzleQuery}
+              <Query<ChatroomPuzzle, ChatroomPuzzleVariables>
+                query={CHATROOM_PUZZLE_QUERY}
                 variables={{
                   puzzleId: relatedPuzzleId,
                 }}
@@ -129,6 +146,7 @@ const ChatRoomMessagesBody = ({
                   if (!res.data) return <div>No messages</div>;
 
                   const { sui_hei_puzzle_by_pk: relatedPuzzle } = res.data;
+                  if (relatedPuzzle === null) return null;
                   if (relatedPuzzle.anonymous) {
                     return chatmessages.map(cm => (
                       <Chatmessage
@@ -195,10 +213,14 @@ const ChatRoomMessagesBody = ({
   );
 };
 
-const ChatRoomMessages = ({ chatroomId, relatedPuzzleId, user }) =>
+const ChatRoomMessages = ({
+  chatroomId,
+  relatedPuzzleId,
+  user,
+}: ChatRoomMessagesProps) =>
   chatroomId ? (
-    <Query
-      query={ChatRoomChatmessagesQuery}
+    <Query<ChatroomChatmessages, ChatroomChatmessagesVariables>
+      query={CHATROOM_CHATMESSAGES_QUERY}
       variables={{
         chatroomId,
         limit: 10,
@@ -219,13 +241,7 @@ const ChatRoomMessages = ({ chatroomId, relatedPuzzleId, user }) =>
     </Flex>
   );
 
-ChatRoomMessages.propTypes = {
-  chatroomId: PropTypes.number,
-  relatedPuzzleId: PropTypes.number,
-  user: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
 });
 

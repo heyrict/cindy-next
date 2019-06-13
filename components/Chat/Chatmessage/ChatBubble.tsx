@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-const ChatBubble = styled.div`
+import { ChatBubbleProps } from './types';
+
+const ChatBubble = styled.div<ChatBubbleProps>`
   margin-left: 0.5em;
   margin-right: 0.5em;
   margin-bottom: 1.5em;
@@ -38,10 +38,6 @@ const ChatBubble = styled.div`
         : 'lightyellow lightyellow transparent transparent'};
   }
 `;
-
-ChatBubble.propTypes = {
-  orientation: PropTypes.oneOf(['left', 'right']),
-};
 
 ChatBubble.defaultProps = {
   orientation: 'left',

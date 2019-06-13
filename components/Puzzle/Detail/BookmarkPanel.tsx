@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
-import { Query, QueryResult } from 'react-apollo';
-import { PuzzleBookmarkAggregateQuery } from 'graphql/Queries/Bookmark';
+import { Query } from 'react-apollo';
+import { PUZZLE_BOOKMARK_AGGREGATE_QUERY } from 'graphql/Queries/Bookmark';
 
 import { Waypoint } from 'react-waypoint';
 import { Box, Flex, Img, Button } from 'components/General';
@@ -13,6 +13,10 @@ import { Box, Flex, Img, Button } from 'components/General';
 import bookmarkIcon from 'svgs/puzzleDetailBookmark.svg';
 
 import { BookmarkPanelProps } from './types';
+import {
+  PuzzleBookmarkAggregateQuery,
+  PuzzleBookmarkAggregateQueryVariables,
+} from 'graphql/Queries/generated/PuzzleBookmarkAggregateQuery';
 
 const BookmarkButton = styled(Button)`
   background: transparent;
@@ -35,17 +39,22 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
     <React.Fragment>
       <Waypoint key="puzzle-bookmark-panel" onEnter={() => setLoaded(true)} />
       {loaded && (
-        <Query
-          query={PuzzleBookmarkAggregateQuery}
+        <Query<
+          PuzzleBookmarkAggregateQuery,
+          PuzzleBookmarkAggregateQueryVariables
+        >
+          query={PUZZLE_BOOKMARK_AGGREGATE_QUERY}
           variables={{
             puzzleId,
           }}
         >
-          {({ loading, error, data }: QueryResult) => {
+          {({ loading, error, data }) => {
             if (loading) return 'Loading...';
             if (error) return `Error: ${JSON.stringify(error)}`;
             if (!data || !data.sui_hei_bookmark_aggregate) return null;
-            const agg = data.sui_hei_bookmark_aggregate.aggregate;
+            const agg = data.sui_hei_bookmark_aggregate.aggregate || {
+              count: 0,
+            };
             return (
               <Box width={[1, 1 / 2]} mb={2}>
                 <Box px={2}>
@@ -61,7 +70,7 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
                     <Flex alignItems="center" justifyContent="center" p={2}>
                       <Img mr={2} size="xs" src={bookmarkIcon} />
                       <Box fontSize={3} color="green.6">
-                        {agg.count || 0}{' '}
+                        {agg.count}{' '}
                         <FormattedMessage {...puzzleMessages.bookmark} />
                       </Box>
                     </Flex>

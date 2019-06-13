@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-import { UserBriefFragment } from '../Fragments/User.js';
+import { USER_BRIEF_FRAGMENT } from '../Fragments/User.js';
 
-export const UserRankingTriggerFragment = gql`
+export const USER_RANKING_TRIGGER_FRAGMENT = gql`
   fragment UserRankingTrigger on hasura_user_ranking_trigger {
     value
     sui_hei_user {

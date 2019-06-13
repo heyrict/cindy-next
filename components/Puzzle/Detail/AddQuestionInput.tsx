@@ -7,8 +7,8 @@ import expand from 'svgs/expand.svg';
 import messages from 'messages/pages/puzzle';
 
 import { Mutation, MutationFn } from 'react-apollo';
-import { AddQuestionMutation } from 'graphql/Mutations/Dialogue';
-import { DialogueHintQuery } from 'graphql/Queries/Dialogues';
+import { ADD_QUESTION_MUTATION } from 'graphql/Mutations/Dialogue';
+import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
 
 import { upsertItem } from 'common';
 import { widthSplits } from './constants';
@@ -16,6 +16,10 @@ import { widthSplits } from './constants';
 import { DataProxy } from 'apollo-cache/lib/types/DataProxy';
 import { FetchResult } from 'apollo-link/lib/types';
 import { QuestionInputWidgetProps, AddQuestionInputProps } from './types';
+import {
+  AddQuestionMutation,
+  AddQuestionMutationVariables,
+} from 'graphql/Mutations/generated/AddQuestionMutation';
 
 export const ExpandButton = styled(Button)`
   background-color: transparent;
@@ -76,7 +80,7 @@ export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
 const AddQuestionInput = ({ puzzleId }: AddQuestionInputProps) => {
   return (
     <Mutation
-      mutation={AddQuestionMutation}
+      mutation={ADD_QUESTION_MUTATION}
       update={(cache: DataProxy, { data }: FetchResult) => {
         if (
           !data ||
@@ -86,7 +90,7 @@ const AddQuestionInput = ({ puzzleId }: AddQuestionInputProps) => {
           return;
         const { sui_hei_dialogue = undefined, sui_hei_hint = undefined } =
           cache.readQuery({
-            query: DialogueHintQuery,
+            query: DIALOGUE_HINT_QUERY,
             variables: {
               puzzleId,
             },
@@ -94,7 +98,7 @@ const AddQuestionInput = ({ puzzleId }: AddQuestionInputProps) => {
         const newItem = data.insert_sui_hei_dialogue.returning[0];
         console.log(newItem, data, sui_hei_dialogue, sui_hei_hint);
         cache.writeQuery({
-          query: DialogueHintQuery,
+          query: DIALOGUE_HINT_QUERY,
           variables: {
             puzzleId,
           },
@@ -105,7 +109,12 @@ const AddQuestionInput = ({ puzzleId }: AddQuestionInputProps) => {
         });
       }}
     >
-      {(addQuestion: MutationFn) => (
+      {(
+        addQuestion: MutationFn<
+          AddQuestionMutation,
+          AddQuestionMutationVariables
+        >,
+      ) => (
         <QuestionInputWidget
           onSubmit={input =>
             addQuestion({

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Flex, Box, Input } from 'components/General';
 
@@ -7,6 +6,8 @@ import { connect } from 'react-redux';
 import * as loginReducer from 'reducers/login';
 
 import messages from 'messages/components/auth';
+import { StateType, ActionContentType, AuthErrorType } from 'reducers/types';
+import { LoginFormProps } from './types';
 
 const LoginForm = ({
   username,
@@ -14,8 +15,7 @@ const LoginForm = ({
   errors,
   setUsername,
   setPassword,
-  setErrors,
-}) => {
+}: LoginFormProps) => {
   return (
     <Flex flexWrap="wrap" alignItems="center">
       <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
@@ -28,7 +28,9 @@ const LoginForm = ({
           name="username"
           type="text"
           value={username}
-          onChange={e => setUsername(e.target.value)}
+          onChange={(e: React.ChangeEvent<Input>) =>
+            setUsername(e.target.value)
+          }
           width={[1, 0.9]}
           borderRadius={1}
         />
@@ -43,7 +45,9 @@ const LoginForm = ({
           name="password"
           type="password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e: React.ChangeEvent<Input>) =>
+            setPassword(e.target.value)
+          }
           width={[1, 0.9]}
           borderRadius={1}
         />
@@ -63,30 +67,19 @@ const LoginForm = ({
   );
 };
 
-LoginForm.propTypes = {
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  errors: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired,
-    }),
-  ),
-  setUsername: PropTypes.func.isRequired,
-  setPassword: PropTypes.func.isRequired,
-  setErrors: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   username: loginReducer.rootSelector(state).username,
   password: loginReducer.rootSelector(state).password,
   errors: loginReducer.rootSelector(state).errors,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setUsername: value => dispatch(loginReducer.actions.setUsername(value)),
-  setPassword: value => dispatch(loginReducer.actions.setPassword(value)),
-  setErrors: value => dispatch(loginReducer.actions.setErrors(value)),
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  setUsername: (username: string) =>
+    dispatch(loginReducer.actions.setUsername(username)),
+  setPassword: (password: string) =>
+    dispatch(loginReducer.actions.setPassword(password)),
+  setErrors: (errors: Array<AuthErrorType>) =>
+    dispatch(loginReducer.actions.setErrors(errors)),
 });
 
 const withRedux = connect(

@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-import { UserBriefFragment } from './User';
+import { USER_BRIEF_FRAGMENT } from './User';
 
-export const PuzzleSharedFragment = gql`
+export const PUZZLE_SHARED_FRAGMENT = gql`
   fragment PuzzleShared on sui_hei_puzzle {
     id
     genre
@@ -16,5 +16,5 @@ export const PuzzleSharedFragment = gql`
       ...UserBrief
     }
   }
-  ${UserBriefFragment}
+  ${USER_BRIEF_FRAGMENT}
 `;

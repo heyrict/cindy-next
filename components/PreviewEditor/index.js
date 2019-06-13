@@ -185,7 +185,8 @@ class PreviewEditor extends React.Component {
         <Box
           my={2}
           height={`${this.state.height}em`}
-          style={{ overflow: 'scroll' }}
+          style={{ overflow: 'scroll', cursor: 'text' }}
+          onClick={() => this.editor.focus()}
         >
           <Box display={this.state.preview ? 'none' : 'block'}>
             <Editor

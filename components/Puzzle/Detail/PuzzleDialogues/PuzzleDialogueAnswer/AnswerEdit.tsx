@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
 import { Mutation, MutationFn } from 'react-apollo';
-import { EditAnswerMutation } from 'graphql/Mutations/Dialogue';
+import { EDIT_ANSWER_MUTATION } from 'graphql/Mutations/Dialogue';
 
 import {
   Flex,
@@ -19,6 +19,10 @@ import tickIcon from 'svgs/tick.svg';
 
 import { AnswerModes } from './constants';
 import { AnswerEditProps } from './types';
+import {
+  EditAnswerMutation,
+  EditAnswerMutationVariables,
+} from 'graphql/Mutations/generated/EditAnswerMutation';
 
 const AnswerEdit = ({
   answer,
@@ -42,8 +46,10 @@ const AnswerEdit = ({
   }, [trueAns]);
 
   return (
-    <Mutation mutation={EditAnswerMutation}>
-      {(editAnswer: MutationFn) => (
+    <Mutation mutation={EDIT_ANSWER_MUTATION}>
+      {(
+        editAnswer: MutationFn<EditAnswerMutation, EditAnswerMutationVariables>,
+      ) => (
         <Flex width={1}>
           <Flex width={1} ml={-1} mr={1} flexWrap="wrap">
             <Textarea

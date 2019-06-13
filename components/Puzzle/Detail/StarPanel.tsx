@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
 import { Query, QueryResult } from 'react-apollo';
-import { PuzzleStarAggregateQuery } from 'graphql/Queries/Star';
+import { PUZZLE_STAR_AGGREGATE_QUERY } from 'graphql/Queries/Star';
 
 import { Waypoint } from 'react-waypoint';
 import { Box, Flex, Img, Button } from 'components/General';
@@ -36,7 +36,7 @@ const StarPanel = ({ puzzleId }: StarPanelProps) => {
       <Waypoint key="puzzle-star-panel" onEnter={() => setLoaded(true)} />
       {loaded && (
         <Query
-          query={PuzzleStarAggregateQuery}
+          query={PUZZLE_STAR_AGGREGATE_QUERY}
           variables={{
             puzzleId,
           }}

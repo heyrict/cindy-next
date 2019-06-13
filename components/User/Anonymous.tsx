@@ -4,7 +4,6 @@ import userMessages from 'messages/components/user';
 
 import UserInline from './UserInline';
 import UserCol from './UserCol';
-import { UserBaseProps } from './shared';
 import { AnonymousUserProps } from './types';
 
 const anonymousUser = {
@@ -15,7 +14,7 @@ const anonymousUser = {
 export const AnonymousUserInline = ({
   nickname,
   ...props
-}: AnonymousUserProps & UserBaseProps) =>
+}: AnonymousUserProps) =>
   nickname ? (
     <UserInline user={{ ...anonymousUser, nickname }} {...props} />
   ) : (
@@ -29,10 +28,7 @@ export const AnonymousUserInline = ({
     </FormattedMessage>
   );
 
-export const AnonymousUserCol = ({
-  nickname,
-  ...props
-}: AnonymousUserProps & UserBaseProps) =>
+export const AnonymousUserCol = ({ nickname, ...props }: AnonymousUserProps) =>
   nickname ? (
     <UserCol user={{ ...anonymousUser, nickname }} {...props} />
   ) : (

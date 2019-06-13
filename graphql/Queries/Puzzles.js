@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
-import { PuzzleSharedFragment } from '../Fragments/Puzzles';
-import { DialogueSharedFragment } from '../Fragments/Dialogue';
+import { PUZZLE_SHARED_FRAGMENT } from '../Fragments/Puzzles';
+import { DIALOGUE_SHARED_FRAGMENT } from '../Fragments/Dialogue';
 
-export const PuzzleQuery = gql`
+export const PUZZLE_QUERY = gql`
   query PuzzleQuery($id: Int!) {
     sui_hei_puzzle_by_pk(id: $id) {
       ...PuzzleShared
@@ -12,10 +12,10 @@ export const PuzzleQuery = gql`
       memo
     }
   }
-  ${PuzzleSharedFragment}
+  ${PUZZLE_SHARED_FRAGMENT}
 `;
 
-export const PuzzleDialogueQuery = gql`
+export const PUZZLE_DIALOGUE_QUERY = gql`
   query PuzzleDialogueQuery($id: Int!) {
     sui_hei_dialogue(
       where: { sui_hei_puzzle: { id: { _eq: $id } } }
@@ -24,10 +24,10 @@ export const PuzzleDialogueQuery = gql`
       ...DialogueShared
     }
   }
-  ${DialogueSharedFragment}
+  ${DIALOGUE_SHARED_FRAGMENT}
 `;
 
-export const PuzzlesUnsolvedQuery = gql`
+export const PUZZLES_UNSOLVED_QUERY = gql`
   query PuzzlesUnsolvedQuery {
     sui_hei_puzzle(
       order_by: { modified: desc }
@@ -44,10 +44,10 @@ export const PuzzlesUnsolvedQuery = gql`
       }
     }
   }
-  ${PuzzleSharedFragment}
+  ${PUZZLE_SHARED_FRAGMENT}
 `;
 
-export const PuzzleSolvedQuery = gql`
+export const PUZZLE_SOLVED_QUERY = gql`
   query PuzzlesSolvedQuery($limit: Int, $offset: Int) {
     sui_hei_puzzle(
       order_by: { modified: desc }
@@ -81,5 +81,5 @@ export const PuzzleSolvedQuery = gql`
       }
     }
   }
-  ${PuzzleSharedFragment}
+  ${PUZZLE_SHARED_FRAGMENT}
 `;

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { FormattedMessage } from 'react-intl';
 import puzzlesMessage from 'messages/pages/puzzles';
@@ -11,7 +10,10 @@ import * as globalReducer from 'reducers/global';
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import { Link } from 'routes';
 
-const PuzzleSubbar = ({ route }) => (
+import { StateType } from 'reducers/types';
+import { PuzzleSubbarProps } from './types';
+
+const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
   <Flex flexWrap="wrap" mb={3}>
     <Box
       width={[1 / 3, 1 / 5, 1 / 6, 1 / 8]}
@@ -44,11 +46,7 @@ const PuzzleSubbar = ({ route }) => (
   </Flex>
 );
 
-PuzzleSubbar.propTypes = {
-  route: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   route: globalReducer.rootSelector(state).route,
 });
 

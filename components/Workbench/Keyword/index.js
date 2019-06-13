@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
 
 import { Query } from 'react-apollo';
-import { PuzzleDialogueQuery } from 'graphql/Queries/Puzzles';
+import { PUZZLE_DIALOGUE_QUERY } from 'graphql/Queries/Puzzles';
 
 import { getKeywords, counter } from './common';
 
@@ -24,7 +24,7 @@ const KeywordWorkbench = ({
 }) => (
   <Flex p={2} flexWrap="wrap">
     <Query
-      query={PuzzleDialogueQuery}
+      query={PUZZLE_DIALOGUE_QUERY}
       variables={{
         id,
       }}

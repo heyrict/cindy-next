@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Flex, Box, Input } from 'components/General';
 
@@ -7,6 +6,8 @@ import { connect } from 'react-redux';
 import * as loginReducer from 'reducers/login';
 
 import messages from 'messages/components/auth';
+import { ActionContentType, StateType } from 'reducers/types';
+import { SignupFormProps } from './types';
 
 const SignupForm = ({
   nickname,
@@ -16,8 +17,7 @@ const SignupForm = ({
   setNickname,
   setUsername,
   setPassword,
-  setErrors,
-}) => {
+}: SignupFormProps) => {
   return (
     <Flex flexWrap="wrap" alignItems="center">
       <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
@@ -30,7 +30,9 @@ const SignupForm = ({
           name="nickname"
           type="text"
           value={nickname}
-          onChange={e => setNickname(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setNickname(e.target.value)
+          }
           width={[1, 0.9]}
           borderRadius={1}
         />
@@ -45,7 +47,9 @@ const SignupForm = ({
           name="username"
           type="text"
           value={username}
-          onChange={e => setUsername(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setUsername(e.target.value)
+          }
           width={[1, 0.9]}
           borderRadius={1}
         />
@@ -60,7 +64,9 @@ const SignupForm = ({
           name="password"
           type="password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPassword(e.target.value)
+          }
           width={[1, 0.9]}
           borderRadius={1}
         />
@@ -80,34 +86,20 @@ const SignupForm = ({
   );
 };
 
-SignupForm.propTypes = {
-  nickname: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  errors: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired,
-    }),
-  ),
-  setNickname: PropTypes.func.isRequired,
-  setUsername: PropTypes.func.isRequired,
-  setPassword: PropTypes.func.isRequired,
-  setErrors: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   nickname: loginReducer.rootSelector(state).nickname,
   username: loginReducer.rootSelector(state).username,
   password: loginReducer.rootSelector(state).password,
   errors: loginReducer.rootSelector(state).errors,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setNickname: value => dispatch(loginReducer.actions.setNickname(value)),
-  setUsername: value => dispatch(loginReducer.actions.setUsername(value)),
-  setPassword: value => dispatch(loginReducer.actions.setPassword(value)),
-  setErrors: value => dispatch(loginReducer.actions.setErrors(value)),
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  setNickname: (nickname: string) =>
+    dispatch(loginReducer.actions.setNickname(nickname)),
+  setUsername: (username: string) =>
+    dispatch(loginReducer.actions.setUsername(username)),
+  setPassword: (password: string) =>
+    dispatch(loginReducer.actions.setPassword(password)),
 });
 
 const withRedux = connect(

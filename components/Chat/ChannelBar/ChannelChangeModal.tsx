@@ -1,16 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Flex, Button, Input } from 'components/General';
-import {
-  Modal,
-  ModalHeader,
-  ModalCloseBtn,
-  ModalBody,
-  ModalFooter,
-  FooterButton,
-} from 'components/Modal';
+import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
 
 import * as chatReducer from 'reducers/chat';
 import * as globalReducer from 'reducers/global';
@@ -18,14 +10,16 @@ import * as globalReducer from 'reducers/global';
 import commonMessages from 'messages/common';
 import chatMessages from 'messages/components/chat';
 
+import { StateType, ActionContentType } from 'reducers/types';
+import { ChannelChangeModalProps } from './types';
+
 const ChannelChangeModal = ({
-  channel,
   channelChangeInput,
   channelChangeModal,
   setChannel,
   setChannelChangeInput,
   setFalseChannelChangeModal,
-}) => (
+}: ChannelChangeModalProps) => (
   <Modal show={channelChangeModal} closefn={() => setFalseChannelChangeModal()}>
     <ModalHeader>
       <FormattedMessage {...chatMessages.changeChannel} />
@@ -40,7 +34,9 @@ const ChannelChangeModal = ({
               placeholder={msg}
               width={3 / 4}
               value={channelChangeInput}
-              onChange={e => setChannelChangeInput(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setChannelChangeInput(e.target.value)
+              }
             />
           )}
         </FormattedMessage>
@@ -67,25 +63,16 @@ const ChannelChangeModal = ({
   </Modal>
 );
 
-ChannelChangeModal.propTypes = {
-  channel: PropTypes.string.isRequired,
-  channelChangeInput: PropTypes.string.isRequired,
-  channelChangeModal: PropTypes.bool.isRequired,
-  setChannelChangeInput: PropTypes.func.isRequired,
-  setChannel: PropTypes.func.isRequired,
-  setFalseChannelChangeModal: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-  channel: globalReducer.rootSelector(state).channel,
+const mapStateToProps = (state: StateType) => ({
   channelChangeInput: chatReducer.rootSelector(state).channelChangeInput,
   channelChangeModal: chatReducer.rootSelector(state).channelChangeModal,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setChannelChangeInput: value =>
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  setChannelChangeInput: (value: string) =>
     dispatch(chatReducer.actions.setChannelChangeInput(value)),
-  setChannel: value => dispatch(globalReducer.actions.setChannel(value)),
+  setChannel: (value: string) =>
+    dispatch(globalReducer.actions.setChannel(value)),
   setFalseChannelChangeModal: () =>
     dispatch(chatReducer.actions.setFalseChannelChangeModal()),
 });

@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-import { DialogueSharedFragment } from '../Fragments/Dialogue';
+import { DIALOGUE_SHARED_FRAGMENT } from '../Fragments/Dialogue';
 
-export const AddQuestionMutation = gql`
+export const ADD_QUESTION_MUTATION = gql`
   mutation AddQuestionMutation($question: String, $puzzleId: Int) {
     insert_sui_hei_dialogue(
       objects: { question: $question, puzzle_id: $puzzleId }
@@ -12,10 +12,10 @@ export const AddQuestionMutation = gql`
       }
     }
   }
-  ${DialogueSharedFragment}
+  ${DIALOGUE_SHARED_FRAGMENT}
 `;
 
-export const EditQuestionMutation = gql`
+export const EDIT_QUESTION_MUTATION = gql`
   mutation EditQuestionMutation($question: String, $dialogueId: Int!) {
     update_sui_hei_dialogue(
       _inc: { questionEditTimes: 1 }
@@ -31,7 +31,7 @@ export const EditQuestionMutation = gql`
   }
 `;
 
-export const EditAnswerMutation = gql`
+export const EDIT_ANSWER_MUTATION = gql`
   mutation EditAnswerMutation(
     $answer: String
     $good: Boolean

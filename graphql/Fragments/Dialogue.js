@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-import { UserBriefFragment } from './User';
+import { USER_BRIEF_FRAGMENT } from './User';
 
-export const DialogueSharedFragment = gql`
+export const DIALOGUE_SHARED_FRAGMENT = gql`
   fragment DialogueShared on sui_hei_dialogue {
     id
     good
@@ -17,5 +17,5 @@ export const DialogueSharedFragment = gql`
       ...UserBrief
     }
   }
-  ${UserBriefFragment}
+  ${USER_BRIEF_FRAGMENT}
 `;
