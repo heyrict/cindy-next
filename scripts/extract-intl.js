@@ -7,7 +7,7 @@
 
 const fs = require('fs');
 const nodeGlob = require('glob');
-const transform = require('babel-core').transform;
+const transform = require('@babel/core').transform;
 
 const animateProgress = require('./helpers/progress');
 const addCheckmark = require('./helpers/checkmark');
@@ -18,7 +18,7 @@ const presets = pkg.babel.presets;
 const plugins = pkg.babel.plugins || [];
 */
 
-const presets = ['@babel/env', '@babel/react'];
+const presets = ['next/babel', '@zeit/next-typescript/babel'];
 const plugins = [];
 
 const { DEFAULT_LOCALE, APPLOCALES } = require('../settings');
