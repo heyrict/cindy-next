@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    sql: |-
+      drop trigger if exists add_puzzle_chatroom_after_puzzle_insert_trigger on sui_hei_puzzle;
+      drop function if exists add_puzzle_chatroom_after_puzzle_insert;
+  type: run_sql
