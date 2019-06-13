@@ -4,7 +4,7 @@ export type ButtonSelectOptionType = {
 };
 
 export const buttonSelectDefaultProps = {
-  onChange: (_option: ButtonSelectOptionType) => null,
+  onChange: (_option: ButtonSelectOptionType): any => {},
   flexProps: {},
   buttonProps: {},
 };

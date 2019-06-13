@@ -1,189 +1,28 @@
 import React from 'react';
-import Prism from 'prismjs';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
 
-import { fontSizeToEm } from 'common/math';
 import { line2md } from 'common/markdown';
 import { deserialize, serialize } from './convert';
 
 import { Editor } from 'slate-react';
-import { Block, Value, Mark } from 'slate';
 
+import { Modal } from 'components/Modal';
 import {
-  Modal,
-  ModalHeader,
-  ModalCloseBtn,
-  ModalBody,
-  ModalFooter,
-  FooterButton,
-} from 'components/Modal';
+  ButtonFont,
+  StyledListItem,
+  StyledHr,
+  StyledRefer,
+  StyledLink,
+} from './components';
 import { Flex, Box, ButtonTransparent, Img } from 'components/General';
 import StampList from './StampList';
+import Prism from './prism';
 
 import paperPlaneIcon from 'svgs/paperPlane.svg';
 import expandIcon from 'svgs/expand.svg';
 import photoIcon from 'svgs/photo.svg';
 import urlIcon from 'svgs/url.svg';
 import stampIcon from 'svgs/stamp.svg';
-
-// {{{ Prism definitions
-(Prism.languages.markdown = Prism.languages.extend('markup', {})),
-  Prism.languages.insertBefore('markdown', 'prolog', {
-    blockquote: { pattern: /^>(?:[\t ]*>)*/m, alias: 'punctuation' },
-    code: [
-      { pattern: /^(?: {4}|\t).+/m, alias: 'keyword' },
-      { pattern: /``.+?``|`[^`\n]+`/, alias: 'keyword' },
-    ],
-    h1: [
-      {
-        pattern: /^# .+/m,
-        lookbehind: !0,
-        alias: 'important',
-        inside: { punctuation: /^#+|#+$/ },
-      },
-      {
-        pattern: /\w+.*(?:\r?\n|\r)(?:==+)/,
-        alias: 'important',
-        inside: { punctuation: /==+$/ },
-      },
-    ],
-    h2: [
-      {
-        pattern: /^## .+/m,
-        lookbehind: !0,
-        alias: 'important',
-        inside: { punctuation: /^#+|#+$/ },
-      },
-      {
-        pattern: /\w+.*(?:\r?\n|\r)(?:--+)/,
-        alias: 'important',
-        inside: { punctuation: /--+$/ },
-      },
-    ],
-    h3: {
-      pattern: /^### .+/m,
-      lookbehind: !0,
-      alias: 'important',
-      inside: { punctuation: /^#+|#+$/ },
-    },
-    h4: {
-      pattern: /^#### .+/m,
-      lookbehind: !0,
-      alias: 'important',
-      inside: { punctuation: /^#+|#+$/ },
-    },
-    h5: {
-      pattern: /^##### .+/m,
-      lookbehind: !0,
-      alias: 'important',
-      inside: { punctuation: /^#+|#+$/ },
-    },
-    hr: {
-      pattern: /(^\s*)([*-])([\t ]*\2){2,}(?=\s*$)/m,
-      lookbehind: !0,
-      alias: 'punctuation',
-    },
-    list: {
-      pattern: /(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,
-      lookbehind: !0,
-      alias: 'punctuation',
-    },
-    'url-reference': {
-      pattern: /!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,
-      inside: {
-        variable: { pattern: /^(!?\[)[^\]]+/, lookbehind: !0 },
-        string: /(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,
-        punctuation: /^[\[\]!:]|[<>]/,
-      },
-      alias: 'url',
-    },
-    bold: {
-      pattern: /(^|[^\\])(\*\*|__)(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/,
-      lookbehind: !0,
-      inside: { punctuation: /^\*\*|^__|\*\*$|__$/ },
-    },
-    italic: {
-      pattern: /(^|[^\\])([*_])(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/,
-      lookbehind: !0,
-      inside: { punctuation: /^[*_]|[*_]$/ },
-    },
-    del: {
-      pattern: /(^|[^\\])(~~)(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/,
-      lookbehind: !0,
-      inside: { punctuation: /^~~|~~$/ },
-    },
-    url: {
-      pattern: /!?\[[^\]]+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)| ?\[[^\]\n]*\])/,
-      inside: {
-        variable: { pattern: /(!?\[)[^\]]+(?=\]$)/, lookbehind: !0 },
-        string: { pattern: /"(?:\\.|[^"\\])*"(?=\)$)/ },
-      },
-    },
-    /*
-    fontTag: {
-      pattern: /<font(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:\"[^\"]*\"|'[^']*'|[^\s'\">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>([^>]+)<\/font>/,
-      inside: {
-        attrName: /^[^\s>\/:]+:/,
-        attrValue: /=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/i,
-      },
-    },
-    */
-  }),
-  (Prism.languages.markdown.bold.inside.url = Prism.util.clone(
-    Prism.languages.markdown.url,
-  )),
-  (Prism.languages.markdown.italic.inside.url = Prism.util.clone(
-    Prism.languages.markdown.url,
-  )),
-  (Prism.languages.markdown.bold.inside.italic = Prism.util.clone(
-    Prism.languages.markdown.italic,
-  )),
-  (Prism.languages.markdown.italic.inside.bold = Prism.util.clone(
-    Prism.languages.markdown.bold,
-  ));
-// }}}
-
-// {{{ styled components
-const ButtonFont = styled.span`
-  font-size: 1.2em;
-  padding: 4px;
-`;
-
-const ButtonCircle = styled.div`
-  height: 1em;
-  width: 1em;
-  display: inline-block;
-  border-radius: 1em;
-  background-color: ${p => p.color};
-`;
-
-const StyledListItem = styled.span`
-  padding-left: 10px;
-  line-height: 1.2em;
-`;
-
-const StyledHr = styled.span`
-  border-bottom: 2px solid #000;
-  display: block;
-  opacity: 0.2;
-`;
-
-const StyledRefer = styled.span`
-  font-family: sans-serif, arial;
-  color: ${p => p.theme.colors.blue[6]};
-`;
-
-const StyledLink = styled.span`
-  font-family: sans-serif, arial;
-  color: ${p => p.theme.colors.cyan[6]};
-`;
-
-const StyledTag = styled.span`
-  color: ${p => p.color || 'inherit'};
-  font-size: ${p => p.fontSize || fontSizeToEm(p.size, true) || 'inherit'};
-`;
-// }}}
 
 class SimpleEditor extends React.Component {
   static defaultProps = {
@@ -260,7 +99,6 @@ class SimpleEditor extends React.Component {
         schema={this.schema}
         renderBlock={this.renderBlock}
         renderInline={this.renderInline}
-        renderMark={this.renderMark}
         decorateNode={this.decorateNode}
         renderDecoration={this.renderDecoration}
         autoFocus

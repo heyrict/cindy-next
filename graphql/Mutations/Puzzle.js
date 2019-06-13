@@ -9,6 +9,8 @@ export const AddPuzzleMutation = gql`
     $genre: Int!
     $content: String!
     $solution: String!
+    $anonymous: Boolean!
+    $grotesque: Boolean!
     $dazedOn: date!
   ) {
     insert_sui_hei_puzzle(

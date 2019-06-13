@@ -84,6 +84,7 @@
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
     "@types/react-intl": "^2.3.18",
+    "@types/react-portal": "^4.0.2",
     "@types/react-redux": "^7.0.9",
     "@types/styled-system": "^4.2.1",
     "@zeit/next-typescript": "^1.1.1",
