@@ -14,3 +14,18 @@ export const CHATROOM_SEND_MESSAGE_MUTATION = gql`
   }
   ${CHATMESSAGE_FRAGMENT}
 `;
+
+export const CHATROOM_EDIT_MESSAGE_MUTATION = gql`
+  mutation ChatroomEditMessage($chatmessageId: Int, $content: String) {
+    update_sui_hei_chatmessage(
+      _inc: { editTimes: 1 }
+      _set: { content: $content }
+      where: { id: { _eq: $chatmessageId } }
+    ) {
+      returning {
+        ...Chatmessage
+      }
+    }
+  }
+  ${CHATMESSAGE_FRAGMENT}
+`;

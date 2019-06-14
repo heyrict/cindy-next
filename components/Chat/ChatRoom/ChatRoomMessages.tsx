@@ -155,9 +155,6 @@ const ChatRoomMessagesBody = ({
                         anonymous={
                           relatedPuzzle.sui_hei_user.id === cm.sui_hei_user.id
                         }
-                        orientation={
-                          user.id === cm.sui_hei_user.id ? 'right' : 'left'
-                        }
                       />
                     ));
                   }
@@ -165,22 +162,13 @@ const ChatRoomMessagesBody = ({
                     <Chatmessage
                       key={`chatmessage-${cm.id}`}
                       chatmessage={cm}
-                      orientation={
-                        user.id === cm.sui_hei_user.id ? 'right' : 'left'
-                      }
                     />
                   ));
                 }}
               </Query>
             ) : (
               chatmessages.map(cm => (
-                <Chatmessage
-                  key={`chatmessage-${cm.id}`}
-                  chatmessage={cm}
-                  orientation={
-                    user.id === cm.sui_hei_user.id ? 'right' : 'left'
-                  }
-                />
+                <Chatmessage key={`chatmessage-${cm.id}`} chatmessage={cm} />
               ))
             )}
             {loading && <div>Loading...</div>}
