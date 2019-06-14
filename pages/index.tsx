@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import { Link } from 'routes';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
 import { line2md } from 'common';
 import { Flex, Box, LinkButton } from 'components/General';

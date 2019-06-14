@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { Link } from 'routes';
 import { FormattedMessage } from 'react-intl';
 import { Box, Flex, ButtonTransparent } from 'components/General';

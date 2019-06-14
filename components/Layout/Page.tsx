@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 
 const Page = styled.div`
   margin-left: ${p => p.theme.sizes.chatXL};

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 
 import { GenreText } from 'components/Puzzle/Brief/Genre';
 import { YamiText } from 'components/Puzzle/Brief/Yami';

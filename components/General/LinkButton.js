@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { space, color, width, fontSize, borders, height } from 'styled-system';
 
 const LinkButton = styled.a`

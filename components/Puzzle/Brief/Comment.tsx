@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { Img } from 'components/General';
 import C from 'svgs/puzzleBriefComment.svg';
 

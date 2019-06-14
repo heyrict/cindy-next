@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { space, color, fontSize, borders, layout } from 'styled-system';
 
 import { SwitchProps } from './types';

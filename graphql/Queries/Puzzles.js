@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 
 import { PUZZLE_SHARED_FRAGMENT } from '../Fragments/Puzzles';
 import { DIALOGUE_SHARED_FRAGMENT } from '../Fragments/Dialogue';
+import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
 export const PUZZLE_QUERY = gql`
   query PuzzleQuery($id: Int!) {
@@ -82,4 +83,26 @@ export const PUZZLES_SOLVED_QUERY = gql`
     }
   }
   ${PUZZLE_SHARED_FRAGMENT}
+`;
+
+export const PUZZLE_UNIQUE_PARTICIPANTS_QUERY = gql`
+  query PuzzleUniqueParticipantsQuery($puzzleId: Int, $dialogueTrue: Boolean) {
+    sui_hei_user(
+      where: {
+        sui_hei_dialogues: {
+          puzzle_id: { _eq: $puzzleId }
+          true: { _eq: $dialogueTrue }
+        }
+      }
+    ) {
+      id
+      nickname
+      sui_hei_dialogues_aggregate(where: { puzzle_id: { _eq: $puzzleId } }) {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+  ${USER_BRIEF_FRAGMENT}
 `;

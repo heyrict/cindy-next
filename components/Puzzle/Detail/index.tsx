@@ -33,12 +33,11 @@ const PuzzleDetail = ({ puzzle, userId }: PuzzleDetailProps) => {
   const shouldShowBookmarkPanel = shouldShowAnswer;
   const shouldShowReplayPanel = shouldShowAnswer;
 
-  //const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
-  //
+  const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
+
   // Remove dialogues in yami puzzles for now
   // TODO Load dialogues filtered by user (also unique users) in yami if is not puzzle creator.
-  const shouldShowPuzzleDialogues =
-    (isCreator || !isHidden) && !isForbidden && puzzle.yami === 0;
+  //const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden && puzzle.yami === 0;
 
   if (isHidden && !isCreator) {
     puzzleContent = (
@@ -77,6 +76,7 @@ const PuzzleDetail = ({ puzzle, userId }: PuzzleDetailProps) => {
             puzzleId={puzzle.id}
             puzzleUser={puzzle.sui_hei_user}
             puzzleStatus={puzzle.status}
+            puzzleYami={puzzle.yami}
             userId={userId}
             anonymous={puzzle.anonymous}
           />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'enzyme';
 
-import theme from 'lib/theme';
+import theme from 'theme';
 import {
   FooterButton,
   ModalCloseBtn,

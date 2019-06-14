@@ -48,9 +48,9 @@ export type ContentsFrameType = {
 };
 
 export type PuzzleTitleProps = {
-  title: string,
-  genre: number,
-  yami: number,
+  title: string;
+  genre: number;
+  yami: number;
 };
 
 export type PuzzleDetailProps = {

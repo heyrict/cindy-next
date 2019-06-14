@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { Flex, Box, Button, Input } from 'components/General';
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';

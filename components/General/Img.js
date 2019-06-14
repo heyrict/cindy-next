@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { space, borders, layout } from 'styled-system';
 
 const Img = styled.img`

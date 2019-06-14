@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import { Flex, Box } from 'components/General';

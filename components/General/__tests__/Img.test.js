@@ -1,7 +1,7 @@
 import Img from '../Img';
 import { render } from 'enzyme';
 
-import theme from 'lib/theme';
+import theme from 'theme';
 
 describe('<Img />', () => {
   it('works with current theme', () => {

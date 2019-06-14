@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { fontSizeToEm } from 'common/math';
 
 export const ButtonFont = styled.span`

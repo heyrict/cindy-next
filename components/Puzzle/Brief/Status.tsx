@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { FormattedMessage } from 'react-intl';
 
 import messages from 'messages/components/puzzle';

@@ -10,7 +10,8 @@ import { changeTabularTab } from 'common/plugin-tabs';
 //import Chat from 'components/Chat';
 import GlobalLayout from 'components/Layout';
 
-import { withApolloClient, withReduxStore, theme } from '../lib';
+import { withApolloClient, withReduxStore } from '../lib';
+import theme from 'theme'
 
 import { actions as globalActions } from 'reducers/global';
 

@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { ToolbarBoxBaseProps } from './types';
 import React from 'react';
 

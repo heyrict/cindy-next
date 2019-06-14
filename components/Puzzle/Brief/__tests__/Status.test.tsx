@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, render } from 'enzyme';
 
 import { Status, StatusBase, StatusText, getStatusColor } from '../Status';
-import theme from 'lib/theme';
+import theme from 'theme';
 
 const status = 0;
 

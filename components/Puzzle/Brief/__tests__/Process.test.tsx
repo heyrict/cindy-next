@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, render } from 'enzyme';
 
 import Process, { ProcessBase } from '../Process';
-import theme from 'lib/theme';
+import theme from 'theme';
 
 const count = 42;
 

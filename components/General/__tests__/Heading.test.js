@@ -1,7 +1,7 @@
 import Heading from '../Heading';
 import { render } from 'enzyme';
 
-import theme from 'lib/theme';
+import theme from 'theme';
 
 describe('<Heading />', () => {
   it('works with current theme', () => {

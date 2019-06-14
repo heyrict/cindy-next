@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 
 import { Portal } from 'react-portal';
 import { ModalComponentsProps, ModalProps } from './types';

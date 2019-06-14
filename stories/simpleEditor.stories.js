@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { ThemeProvider } from 'emotion-theming';
-import theme from 'lib/theme';
+import theme from 'theme';
 import { Global } from '@emotion/core';
 import { globalStyle } from 'components/Layout';
 import Button from 'components/General/Button';

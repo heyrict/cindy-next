@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { space, color, fontSize, width } from 'styled-system';
 
 import { UserBaseProps } from './types';

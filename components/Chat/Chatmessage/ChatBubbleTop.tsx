@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 
 const ChatBubbleTop = styled.div`
   margin-left: 0.5em;

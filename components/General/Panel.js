@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { flexbox, space, color, layout } from 'styled-system';
 
 const Panel = styled.div`

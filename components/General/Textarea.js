@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { space, width, height, borders, color } from 'styled-system';
 
 const Textarea = styled.textarea`

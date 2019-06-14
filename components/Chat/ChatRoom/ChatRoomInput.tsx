@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';

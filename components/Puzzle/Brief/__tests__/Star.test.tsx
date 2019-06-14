@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, render } from 'enzyme';
 
 import Star, { StarBase } from '../Star';
-import theme from 'lib/theme';
+import theme from 'theme';
 
 const count = 42;
 const sum = 67;

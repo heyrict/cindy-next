@@ -1,7 +1,7 @@
 import Panel from '../Panel';
 import { render } from 'enzyme';
 
-import theme from 'lib/theme';
+import theme from 'theme';
 
 describe('<Panel />', () => {
   it('works with current theme', () => {

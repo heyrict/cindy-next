@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import * as addReplayReducer from 'reducers/addReplay';

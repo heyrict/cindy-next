@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { Img } from 'components/General';
 
 const AnonymousBase = styled.div`

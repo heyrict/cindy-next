@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { space, maxWidth } from 'styled-system';
 
 const Anchor = styled.a`

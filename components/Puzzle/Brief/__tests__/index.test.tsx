@@ -2,7 +2,7 @@ import { shallow, render } from 'enzyme';
 
 import { Hr, Time, Brief } from '../index';
 
-import theme from 'lib/theme';
+import theme from 'theme';
 import Bookmark from '../Bookmark';
 import Comment from '../Comment';
 import Genre from '../Genre';

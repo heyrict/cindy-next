@@ -1,6 +1,6 @@
 import { shallow, render } from 'enzyme';
 
-import theme from 'lib/theme';
+import theme from 'theme';
 import Modal, { Shader, ModalContainer, Container } from '../Modal';
 import React from 'react';
 

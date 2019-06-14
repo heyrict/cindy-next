@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, render } from 'enzyme';
 
-import theme from 'lib/theme';
+import theme from 'theme';
 import { Img } from 'components/General';
 import UserCol, { UserColBase } from '../UserCol';
 import UserInline, { UserInlineBase } from '../UserInline';

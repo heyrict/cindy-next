@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 
 import { Flex, Input, Textarea, Img, Button } from 'components/General';
 import { FormattedMessage } from 'react-intl';

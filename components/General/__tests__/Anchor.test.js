@@ -1,7 +1,7 @@
 import Anchor from '../Anchor';
 import { render } from 'enzyme';
 
-import theme from 'lib/theme';
+import theme from 'theme';
 
 describe('<Anchor />', () => {
   it('works with current theme', () => {

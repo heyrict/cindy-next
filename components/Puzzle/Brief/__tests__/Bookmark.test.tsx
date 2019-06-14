@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, render } from 'enzyme';
 
 import Bookmark, { BookmarkBase } from '../Bookmark';
-import theme from 'lib/theme';
+import theme from 'theme';
 
 const count = 42;
 

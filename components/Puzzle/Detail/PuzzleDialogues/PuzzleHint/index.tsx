@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { text2md } from 'common';
 
 import { FormattedTime } from 'react-intl';

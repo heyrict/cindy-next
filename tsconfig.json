@@ -4,6 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "checkJs": false,
+    "esModuleInterop": true,
     "jsx": "react",
     "lib": ["dom", "es2017"],
     "module": "esnext",
@@ -12,6 +13,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "removeComments": false,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext"

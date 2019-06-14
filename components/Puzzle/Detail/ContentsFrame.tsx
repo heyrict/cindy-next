@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styled from '@emotion/styled';
+import styled from 'theme/styled';
 import { Box, Panel } from 'components/General';
 import UserInline from 'components/User/UserInline';
 import { AnonymousUserInline } from 'components/User/Anonymous';

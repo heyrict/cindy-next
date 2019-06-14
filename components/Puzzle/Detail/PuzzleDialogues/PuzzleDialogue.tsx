@@ -13,9 +13,11 @@ import ChatBubbleTop from 'components/Chat/Chatmessage/ChatBubbleTop';
 
 import PuzzleDialogueQuestion from './PuzzleDialogueQuestion';
 import PuzzleDialogueAnswer from './PuzzleDialogueAnswer';
+import IndexLabel from './IndexLabel';
 import { PuzzleDialogueProps } from './types';
 
 const PuzzleDialogue = ({
+  index,
   dialogue,
   puzzleUser,
   puzzleStatus,
@@ -24,6 +26,7 @@ const PuzzleDialogue = ({
     <React.Fragment>
       <Box width={[7 / 8, 1 / 2]} mr="auto" mb={[-2, 0]}>
         <ChatBubbleTop>
+          <IndexLabel>Q{index}</IndexLabel>
           <UserInline
             px={1}
             user={dialogue.sui_hei_user}
@@ -51,6 +54,7 @@ const PuzzleDialogue = ({
       </Box>
       <Box width={[7 / 8, 1 / 2]} ml="auto" mt={[-2, 0]} mb={[1, 0]}>
         <ChatBubbleTop>
+          {dialogue.answer && <IndexLabel>A{index}</IndexLabel>}
           {dialogue.answer && (
             <UserInline
               px={1}
