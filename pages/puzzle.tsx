@@ -6,8 +6,9 @@ import { Query } from 'react-apollo';
 import { PUZZLE_LIVEQUERY } from 'graphql/LiveQueries/Puzzles';
 import { PUZZLE_QUERY } from 'graphql/Queries/Puzzles';
 
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/puzzle';
+import commonMessages from 'messages/common';
 import userMessages from 'messages/components/user';
 import {
   PuzzleQuery,
@@ -19,6 +20,7 @@ import { PuzzleRendererProps, PuzzleProps } from './types';
 const REMOVE_HTML_REGEXP = new RegExp('<[^<>\n]+>', 'g');
 
 const PuzzleRenderer: any = ({
+  loading,
   error,
   data,
   subscribeToMore,
@@ -26,6 +28,17 @@ const PuzzleRenderer: any = ({
   puzzleId,
 }: PuzzleRendererProps) => {
   const _ = formatMessage;
+  const puzzleNotExistElement = (
+    <React.Fragment>
+      <Head>
+        <title>{_(commonMessages.notExist)} | Cindy</title>
+        <meta name="description" content={_(messages.notExistDescription)} />
+      </Head>
+      <h1 style={{ margin: '1em' }}>
+        <FormattedMessage {...messages.notExistDescription} />
+      </h1>
+    </React.Fragment>
+  );
 
   useEffect(() => {
     if (puzzleId !== null)
@@ -36,6 +49,7 @@ const PuzzleRenderer: any = ({
   }, [puzzleId]);
 
   if (error) return `Error: ${error.message}`;
+  if (loading) return 'Loading...';
   if (data && data.sui_hei_puzzle_by_pk) {
     const puzzle = data.sui_hei_puzzle_by_pk;
     if (puzzle.id === undefined) return null;
@@ -62,7 +76,7 @@ const PuzzleRenderer: any = ({
       </React.Fragment>
     );
   }
-  return null;
+  return puzzleNotExistElement;
 };
 
 class Puzzle extends React.Component<PuzzleProps> {

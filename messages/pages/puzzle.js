@@ -11,6 +11,10 @@ export const messages = defineMessages({
     id: `${scope}.description`,
     defaultMessage: 'Details of puzzle',
   },
+  notExistDescription: {
+    id: `${scope}.notExistDescription`,
+    defaultMessage: 'This puzzle does not exist!',
+  },
   solveit: {
     id: `${scope}.solveit`,
     defaultMessage: 'Can you solve the puzzle?',

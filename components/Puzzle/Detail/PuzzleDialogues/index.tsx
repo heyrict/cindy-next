@@ -43,8 +43,14 @@ const PuzzleDialogues = ({
     return () => setShouldSubscribe(false);
   }, []);
 
+  if (puzzleStatus === 0 && !userId) {
+    // Don't show anything in unsolved puzzle if user does not login
+    return null;
+  }
+
   if (puzzleYami === 0 || puzzleUser.id === userId) {
-    // Return all
+    // Query all
+    // For Unsolved yami, current user is creator: Query all, but filter by users
     return (
       <Query<DialogueHintQuery, DialogueHintQueryVariables>
         query={DIALOGUE_HINT_QUERY}
@@ -57,6 +63,7 @@ const PuzzleDialogues = ({
           <PuzzleDialoguesRenderer
             {...queryResult}
             shouldSubscribe={shouldSubscribe}
+            applyUserFilter={puzzleUser.id === userId}
             puzzleId={puzzleId}
             puzzleUser={puzzleUser}
             anonymous={anonymous}
@@ -67,11 +74,8 @@ const PuzzleDialogues = ({
     );
   }
 
-  if (puzzleStatus === 0 && !userId) {
-    return null;
-  }
-
   if (puzzleStatus === 0) {
+    // Unsolved yami: Query only dialogues by current user
     return (
       <Query<DialogueHintQuery, DialogueHintQueryVariables>
         query={DIALOGUE_HINT_QUERY}
@@ -95,6 +99,7 @@ const PuzzleDialogues = ({
     );
   }
 
+  // Solved yami: Query filtered by participant
   return (
     <PuzzleDialoguesUserDeduplicator
       shouldSubscribe={shouldSubscribe}

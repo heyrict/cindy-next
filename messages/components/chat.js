@@ -15,6 +15,10 @@ export const messages = defineMessages({
     id: `${scope}.changeToDefaultChannel`,
     defaultMessage: 'Change To Default Channel',
   },
+  notExistDescription: {
+    id: `${scope}.notExistDescription`,
+    defaultMessage: 'This chatroom does not exist!',
+  },
 });
 
 export default messages;

@@ -12,6 +12,8 @@ import {
   ChatroomId,
   ChatroomIdVariables,
 } from 'graphql/Queries/generated/ChatroomId';
+import { FormattedMessage } from 'react-intl';
+import messages from 'messages/components/chat';
 
 const PuzzleChatRegex = /^puzzle-(\d+)$/;
 
@@ -34,16 +36,20 @@ class ChatRoom extends React.Component<ChatRoomProps> {
           let chatroomId = null;
           if (data && data.sui_hei_chatroom && data.sui_hei_chatroom[0]) {
             chatroomId = data.sui_hei_chatroom[0].id;
-          } else {
-            return null;
           }
           return (
             <React.Fragment>
               <ChannelBar chatroomId={chatroomId} />
-              <ChatRoomMessages
-                chatroomId={chatroomId}
-                relatedPuzzleId={relatedPuzzleId}
-              />
+              {chatroomId ? (
+                <ChatRoomMessages
+                  chatroomId={chatroomId}
+                  relatedPuzzleId={relatedPuzzleId}
+                />
+              ) : (
+                <h1 style={{ margin: '1em' }}>
+                  <FormattedMessage {...messages.notExistDescription} />
+                </h1>
+              )}
               {chatroomId && <ChatRoomInput chatroomId={chatroomId} />}
             </React.Fragment>
           );

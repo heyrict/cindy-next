@@ -1,11 +1,13 @@
 import React from 'react';
+
 import {
   UserFilterSwitcherProps,
   UserFilterSwitcherDefaltProps,
 } from './types';
-import { Flex } from 'components/General';
-
+import { Flex, Img } from 'components/General';
+import starFillIcon from 'svgs/starFill.svg';
 import FilterButton from './FilterButton';
+
 import { widthSplits } from '../constants';
 
 const UserFilterSwitcher = ({
@@ -15,6 +17,7 @@ const UserFilterSwitcher = ({
 }: UserFilterSwitcherProps) => (
   <Flex
     justifyContent="center"
+    flexWrap="wrap"
     width={1}
     p={1}
     mb={2}
@@ -33,6 +36,7 @@ const UserFilterSwitcher = ({
         active={activeUserId === user.id}
         onClick={() => onClick(user.id)}
       >
+        {user.dialogueHasTrue && <Img height="xxs" src={starFillIcon} />}
         {user.nickname}
         <sup>
           {typeof user.dialogueUnsolvedCount === 'number'

@@ -106,3 +106,56 @@ export const PUZZLE_UNIQUE_PARTICIPANTS_QUERY = gql`
   }
   ${USER_BRIEF_FRAGMENT}
 `;
+
+export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
+  query SolvedPuzzlesSearchQuery(
+    $limit: Int
+    $offset: Int
+    $title: String
+    $content: String
+    $solution: String
+    $genre: Int
+    $userNickname: String
+    $orderBy: [sui_hei_puzzle_order_by!]
+  ) {
+    sui_hei_puzzle(
+      order_by: $orderBy
+      where: { status: { _neq: 0 }
+        anonymous: { _eq: $anonymous}
+        title: {_like: $title}
+        content: { _like: $content }
+        solution: { _like: $solution }
+        genre: { _eq: $genre }
+        userNickname: { _like: $userNickname }
+      }
+      limit: $limit
+      offset: $offset
+    ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
+      ...PuzzleShared
+      sui_hei_stars_aggregate {
+        aggregate {
+          count
+          sum {
+            value
+          }
+        }
+      }
+      sui_hei_comments_aggregate {
+        aggregate {
+          count
+        }
+      }
+      sui_hei_bookmarks_aggregate {
+        aggregate {
+          count
+        }
+      }
+      sui_hei_dialogues_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+  ${PUZZLE_SHARED_FRAGMENT}
+`;

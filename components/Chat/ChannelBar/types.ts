@@ -13,7 +13,7 @@ export type DescriptionModalProps = {
 };
 
 export type ChannelBarProps = {
-  chatroomId: number;
+  chatroomId?: number;
   channel: string;
   currentChannel: string;
   setTrueChannelChangeModal: () => void;

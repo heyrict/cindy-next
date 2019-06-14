@@ -58,7 +58,7 @@ const ChannelBar = ({
         </ButtonTransparent>
       </Flex>
       <ChannelChangeModal />
-      <DescriptionModal chatroomId={chatroomId} />
+      {chatroomId && <DescriptionModal chatroomId={chatroomId} />}
     </Box>
   );
 };

@@ -31,6 +31,10 @@ export const messages = defineMessages({
     id: `${scope}.none`,
     defaultMessage: 'None',
   },
+  notExist: {
+    id: `${scope}.notExist`,
+    defaultMessage: 'Page Not Exists',
+  },
 });
 
 export default messages;

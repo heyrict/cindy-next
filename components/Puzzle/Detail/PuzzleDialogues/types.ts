@@ -3,6 +3,8 @@ import { QueryResult } from 'react-apollo';
 import {
   DialogueHintQuery,
   DialogueHintQueryVariables,
+  DialogueHintQuery_sui_hei_hint,
+  DialogueHintQuery_sui_hei_dialogue,
 } from 'graphql/Queries/generated/DialogueHintQuery';
 
 export type DialogueType = {
@@ -43,13 +45,29 @@ export type PuzzleDialoguesUserDeduplicatorProps = {
   shouldSubscribe: boolean;
 };
 
+export const PuzzleDialoguesRendererDefaultProps = {
+  applyUserFilter: false,
+};
+
 export type PuzzleDialoguesRendererProps = {
   puzzleId: number;
   puzzleUser: InlineUser;
   puzzleStatus: number;
   anonymous: boolean;
   shouldSubscribe: boolean;
-} & QueryResult<DialogueHintQuery, DialogueHintQueryVariables>;
+} & QueryResult<DialogueHintQuery, DialogueHintQueryVariables> &
+  typeof PuzzleDialoguesRendererDefaultProps;
+
+export type PuzzleDialogueWithIndexExtra = {
+  index: number;
+} & DialogueHintQuery_sui_hei_dialogue;
+
+export type PuzzleDialoguesRendererInnerProps = {
+  dialogues: Array<PuzzleDialogueWithIndexExtra>;
+  hints: Array<DialogueHintQuery_sui_hei_hint>;
+  puzzleUser: InlineUser;
+  puzzleStatus: number;
+};
 
 export type FilterButtonProps = {
   accent: boolean;
@@ -62,6 +80,14 @@ export type UserFilterSwitcherUserType = {
   dialogueCount?: number;
   dialogueUnsolvedCount?: number;
   dialogueHasTrue?: boolean;
+};
+
+export type ExtractUserFilterUserReturnType = {
+  id: number;
+  nickname: string;
+  dialogueCount: number;
+  dialogueUnsolvedCount: number;
+  dialogueHasTrue: boolean;
 };
 
 export const UserFilterSwitcherDefaltProps = {
