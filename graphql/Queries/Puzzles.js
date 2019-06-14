@@ -120,13 +120,13 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
   ) {
     sui_hei_puzzle(
       order_by: $orderBy
-      where: { status: { _neq: 0 }
-        anonymous: { _eq: $anonymous}
-        title: {_like: $title}
+      where: {
+        status: { _neq: 0 }
+        title: { _like: $title }
         content: { _like: $content }
         solution: { _like: $solution }
         genre: { _eq: $genre }
-        userNickname: { _like: $userNickname }
+        sui_hei_user: { nickname: { _like: $userNickname } }
       }
       limit: $limit
       offset: $offset

@@ -67,6 +67,7 @@ const typeDefs = gql`
   type sui_hei_hint {
     id: Int!
     content: String!
+    edittimes: Int!
     created: timestamptz!
     puzzle_id: Int!
   }
@@ -118,7 +119,7 @@ const typeDefs = gql`
   }
   type Subscription {
     chatmessageSub(chatroomId: Int!): ChatmessageSubscription
-    dialogueHintSub(puzzleId: Int!): DialogueHintSubscription
+    dialogueHintSub(puzzleId: Int!, userId: Int!): DialogueHintSubscription
     directmessageSub(userId: Int!): DirectmessageSubscription
     puzzleSub(puzzleId: Int!): PuzzleSubscription
   }
@@ -152,7 +153,20 @@ const resolvers = {
             triggers.ON_DIALOGUE_CHANGE,
             triggers.ON_HINT_CHANGE,
           ]),
-        (payload, args) => payload.event.data.new.puzzle_id === args.puzzleId,
+        (payload, args) => {
+          const puzzleIdMatches =
+            payload.event.data.new.puzzle_id === args.puzzleId;
+          if (payload.trigger.name === triggers.ON_DIALOGUE_CHANGE) {
+            return puzzleIdMatches;
+          }
+          if (payload.trigger.name === triggers.ON_HINT_CHANGE) {
+            return (
+              puzzleIdMatches &&
+              (payload.event.data.new.user_id === null ||
+                payload.event.data.new.user_id === args.userId)
+            );
+          }
+        },
       ),
       resolve: async (payload, args, context, info) => {
         const nodes = {};
