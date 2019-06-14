@@ -37,3 +37,52 @@ export const ADD_PUZZLE_MUTATION = gql`
   }
   ${PUZZLE_SHARED_FRAGMENT}
 `;
+
+export const EDIT_SOLUTION_MUTATION = gql`
+  mutation EditSolutionMutation($puzzleId: Int!, $solution: String!) {
+    update_sui_hei_puzzle(
+      _set: { solution: $solution }
+      where: { id: { _eq: $puzzleId } }
+    ) {
+      returning {
+        id
+        solution
+      }
+    }
+  }
+`;
+
+export const EDIT_MEMO_MUTATION = gql`
+  mutation EditMemoMutation($puzzleId: Int!, $memo: String!) {
+    update_sui_hei_puzzle(
+      _set: { memo: $memo }
+      where: { id: { _eq: $puzzleId } }
+    ) {
+      returning {
+        id
+        memo
+      }
+    }
+  }
+`;
+
+export const UPDATE_PUZZLE_MUTATION = gql`
+  mutation UpdatePuzzleMutation(
+    $puzzleId: Int!
+    $grotesque: Boolean
+    $dazedOn: date
+    $status: Int
+  ) {
+    update_sui_hei_puzzle(
+      _set: { grotesque: $grotesque, dazed_on: $dazedOn, status: $status }
+      where: { id: { _eq: $puzzleId } }
+    ) {
+      returning {
+        id
+        grotesque
+        dazed_on
+        status
+      }
+    }
+  }
+`;

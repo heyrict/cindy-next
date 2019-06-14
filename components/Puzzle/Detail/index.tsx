@@ -15,6 +15,7 @@ import StarPanel from './StarPanel';
 import CommentPanel from './CommentPanel';
 import BookmarkPanel from './BookmarkPanel';
 import ReplayPanel from './ReplayPanel';
+import ControlPanel from './ControlPanel';
 
 import { StateType } from 'reducers/types';
 import { PuzzleDetailProps } from './types';
@@ -28,16 +29,14 @@ const PuzzleDetail = ({ puzzle, userId }: PuzzleDetailProps) => {
   const shouldShowAnswer = puzzle.status === 1 || puzzle.status === 2;
   const shouldShowAddQuestionInput =
     puzzle.status === 0 && !isCreator && isUser;
+  const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
+
   const shouldShowStarPanel = shouldShowAnswer && !isCreator;
   const shouldShowCommentPanel = shouldShowAnswer && !isCreator;
   const shouldShowBookmarkPanel = shouldShowAnswer;
   const shouldShowReplayPanel = shouldShowAnswer;
 
-  const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
-
-  // Remove dialogues in yami puzzles for now
-  // TODO Load dialogues filtered by user (also unique users) in yami if is not puzzle creator.
-  //const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden && puzzle.yami === 0;
+  const shouldShowControlPanel = isCreator;
 
   if (isHidden && !isCreator) {
     puzzleContent = (
@@ -95,6 +94,7 @@ const PuzzleDetail = ({ puzzle, userId }: PuzzleDetailProps) => {
         {shouldShowCommentPanel && <CommentPanel puzzleId={puzzle.id} />}
         {shouldShowBookmarkPanel && <BookmarkPanel puzzleId={puzzle.id} />}
         {shouldShowReplayPanel && <ReplayPanel puzzleId={puzzle.id} />}
+        {shouldShowControlPanel && <ControlPanel puzzle={puzzle} />}
       </Flex>
     </React.Fragment>
   );

@@ -1,0 +1,7 @@
+- args:
+    name: sui_hei_user
+    new_name: receiver
+    table:
+      name: sui_hei_hint
+      schema: public
+  type: rename_relationship

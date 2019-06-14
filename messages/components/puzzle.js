@@ -115,6 +115,18 @@ export const messages = defineMessages({
     id: `${scope}.replay`,
     defaultMessage: 'Replay',
   },
+  memo: {
+    id: `${scope}.memo`,
+    defaultMessage: 'Memo',
+  },
+  hint: {
+    id: `${scope}.hint`,
+    defaultMessage: 'Hint',
+  },
+  general: {
+    id: `${scope}.general`,
+    defaultMessage: 'General',
+  },
 });
 
 export default messages;

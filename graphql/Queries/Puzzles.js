@@ -8,6 +8,7 @@ export const PUZZLE_QUERY = gql`
   query PuzzleQuery($id: Int!) {
     sui_hei_puzzle_by_pk(id: $id) {
       ...PuzzleShared
+      dazed_on
       content
       solution
       memo

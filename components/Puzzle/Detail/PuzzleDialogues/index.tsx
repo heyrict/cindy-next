@@ -48,8 +48,31 @@ const PuzzleDialogues = ({
     return null;
   }
 
-  if (puzzleYami === 0 || puzzleUser.id === userId) {
+  if (puzzleYami === 0) {
     // Query all
+    return (
+      <Query<DialogueHintQuery, DialogueHintQueryVariables>
+        query={DIALOGUE_HINT_QUERY}
+        variables={{
+          puzzleId,
+        }}
+        fetchPolicy="cache-and-network"
+      >
+        {queryResult => (
+          <PuzzleDialoguesRenderer
+            {...queryResult}
+            shouldSubscribe={shouldSubscribe}
+            puzzleId={puzzleId}
+            puzzleUser={puzzleUser}
+            anonymous={anonymous}
+            puzzleStatus={puzzleStatus}
+          />
+        )}
+      </Query>
+    );
+  }
+
+  if (puzzleYami !== 0 && puzzleUser.id === userId) {
     // For Unsolved yami, current user is creator: Query all, but filter by users
     return (
       <Query<DialogueHintQuery, DialogueHintQueryVariables>
@@ -63,7 +86,6 @@ const PuzzleDialogues = ({
           <PuzzleDialoguesRenderer
             {...queryResult}
             shouldSubscribe={shouldSubscribe}
-            applyUserFilter={puzzleUser.id === userId}
             puzzleId={puzzleId}
             puzzleUser={puzzleUser}
             anonymous={anonymous}

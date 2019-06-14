@@ -119,7 +119,7 @@ const typeDefs = gql`
   }
   type Subscription {
     chatmessageSub(chatroomId: Int!): ChatmessageSubscription
-    dialogueHintSub(puzzleId: Int!, userId: Int!): DialogueHintSubscription
+    dialogueHintSub(puzzleId: Int!, userId: Int): DialogueHintSubscription
     directmessageSub(userId: Int!): DirectmessageSubscription
     puzzleSub(puzzleId: Int!): PuzzleSubscription
   }

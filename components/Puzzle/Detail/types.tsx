@@ -6,9 +6,12 @@ export type PuzzleType = {
   genre: number;
   yami: number;
   anonymous: boolean;
+  grotesque: boolean;
   status: number;
   content: string;
   solution: string;
+  memo: string;
+  dazed_on: string;
   sui_hei_user: InlineUser;
   created: string;
   modified: string;

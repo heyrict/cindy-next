@@ -40,6 +40,14 @@ export const messages = defineMessages({
     id: `${scope}.waitForAnswer`,
     defaultMessage: 'Wait for answer...',
   },
+  putSolution: {
+    id: `${scope}.putSolution`,
+    defaultMessage: 'Put Solution',
+  },
+  setHidden: {
+    id: `${scope}.setHidden`,
+    defaultMessage: 'Set As Hidden',
+  },
 });
 
 export default messages;
