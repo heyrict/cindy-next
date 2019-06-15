@@ -74,7 +74,7 @@ const ChatBox = ({
       chatOpen={aside}
       onClick={() => setTrueAside()}
     >
-      <Img size="3em" src={ChatIcon} />
+      <Img height="3em" src={ChatIcon} />
     </FixedButton>
   </div>
 );

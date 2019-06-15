@@ -1,5 +1,6 @@
 import { ApolloConsumer } from 'react-apollo';
 import { connect } from 'react-redux';
+import { setCookie } from 'common/cookie';
 
 import * as globalReducer from 'reducers/global';
 
@@ -27,7 +28,7 @@ const withSignup = Wrapped =>
             }).then(res => {
               const { id, username, nickname, token, errors } = res;
               if (!errors) {
-                document.cookie = `cindy-jwt-token=${token}`;
+                setCookie('cindy-jwt-token', token, 30);
                 props.auth({ id, username, nickname });
                 apolloClient.resetStore();
               }

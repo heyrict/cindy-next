@@ -43,11 +43,6 @@ const PuzzleDialogues = ({
     return () => setShouldSubscribe(false);
   }, []);
 
-  if (puzzleStatus === 0 && !userId) {
-    // Don't show anything in unsolved puzzle if user does not login
-    return null;
-  }
-
   if (puzzleYami === 0) {
     // Query all
     return (
@@ -70,6 +65,11 @@ const PuzzleDialogues = ({
         )}
       </Query>
     );
+  }
+
+  if (puzzleStatus === 0 && !userId) {
+    // Don't show anything in unsolved puzzle if user does not login
+    return null;
   }
 
   if (puzzleYami !== 0 && puzzleUser.id === userId) {
