@@ -1,11 +1,11 @@
 const fetch = require('node-fetch');
 const { HttpLink, ApolloClient, InMemoryCache } = require('apollo-boost');
 const gql = require('graphql-tag');
-const { GRAPHQL_ENDPOINT } = require('../../settings');
+const { GRAPHQL_SERVER } = require('../../settings');
 
 const createClient = () =>
   new ApolloClient({
-    link: new HttpLink({ uri: GRAPHQL_ENDPOINT, fetch: fetch }),
+    link: new HttpLink({ uri: GRAPHQL_SERVER.ENDPOINT, fetch: fetch }),
     cache: new InMemoryCache(),
   });
 

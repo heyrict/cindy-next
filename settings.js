@@ -1,16 +1,16 @@
 const isDev = process.env.NODE_ENV !== 'production';
 
-const GRAPHQL_ENDPOINT = isDev
-  ? 'http://localhost:8080/v1/graphql'
-  : 'https://next.cindythink.com/v1/graphql';
+const GRAPHQL_SERVER = {
+  ENDPOINT: 'http://localhost:8080/v1/graphql',
+  LIVEQUERY: 'ws://localhost:8080/v1/graphql',
+  SUBSCRIPTION: 'ws://localhost:3000/subscriptions',
+};
 
-const GRAPHQL_LIVEQUERY_ENDPOINT = isDev
-  ? 'ws://localhost:8080/v1/graphql'
-  : 'wss://next.cindythink.com/v1/graphql';
-
-const GRAPHQL_SUBSCRIPTION_ENDPOINT = isDev
-  ? 'ws://localhost:3000/subscriptions'
-  : 'wss://next.cindythink.com/subscriptions';
+const GRAPHQL_CLIENT = {
+  ENDPOINT: 'https://next.cindythink.com/v1/graphql',
+  LIVEQUERY: 'wss://next.cindythink.com/v1/graphql',
+  SUBSCRIPTION: 'wss://next.cindythink.com/subscriptions',
+};
 
 const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
 
@@ -30,9 +30,8 @@ const getMaxDazedDays = puzzle =>
 
 module.exports = {
   isDev,
-  GRAPHQL_ENDPOINT,
-  GRAPHQL_LIVEQUERY_ENDPOINT,
-  GRAPHQL_SUBSCRIPTION_ENDPOINT,
+  GRAPHQL_CLIENT,
+  GRAPHQL_SERVER,
   DEFAULT_LOCALE,
   APPLOCALES,
   getMaxDazedDays,
