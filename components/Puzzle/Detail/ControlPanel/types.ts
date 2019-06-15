@@ -34,6 +34,7 @@ export type MemoEditPanelProps = {
 
 export type HintAddPanelProps = {
   puzzleId: number;
+  yami: number;
 };
 
 export type PuzzleEditPanelProps = {
@@ -44,4 +45,10 @@ export type PuzzleEditPanelProps = {
   grotesque: boolean;
   status: number;
   dazed_on: string;
+  show?: boolean;
+};
+
+export type ParticipantSelectorProps = {
+  value: number | null;
+  setValue: (value: number) => void;
 };

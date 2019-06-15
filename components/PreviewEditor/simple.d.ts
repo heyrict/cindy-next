@@ -25,6 +25,7 @@ export class SimpleEditor extends React.Component<
   construct(props: SimpleEditorProps): void {}
   render(): React.ReactNode {}
   getText(): string;
+  setText(text: string): void;
 }
 
 export default SimpleEditor;

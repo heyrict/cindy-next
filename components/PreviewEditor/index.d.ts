@@ -23,6 +23,7 @@ export class PreviewEditor extends React.Component<
   construct(props: PreviewEditorProps): void {}
   render(): React.ReactNode {}
   getText(): string;
+  setText(text: string): void;
 }
 
 export default PreviewEditor;

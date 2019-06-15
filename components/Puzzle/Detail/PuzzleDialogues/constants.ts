@@ -16,10 +16,11 @@ export const extractUserFilterUserFromDialogues = (
         dialogueUnsolvedCount: dialogue.answer === '' ? 1 : 0,
         dialogueHasTrue: dialogue.true,
       };
+      return;
     }
 
     users[dialogue.sui_hei_user.id].dialogueCount += 1;
-    if (dialogue.answer !== '')
+    if (dialogue.answer === '')
       users[dialogue.sui_hei_user.id].dialogueUnsolvedCount += 1;
     if (dialogue.true) users[dialogue.sui_hei_user.id].dialogueHasTrue = true;
   });

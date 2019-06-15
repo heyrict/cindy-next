@@ -68,6 +68,7 @@ const ChatRoomInput = ({ user, chatroomId }: ChatRoomInputProps) =>
       {sendMessage => (
         <SimpleEditor
           onSubmit={content => {
+            if (content.trim() === '') return;
             sendMessage({
               variables: {
                 content,

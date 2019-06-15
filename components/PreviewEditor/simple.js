@@ -480,6 +480,7 @@ class SimpleEditor extends React.Component {
   // }}}
 
   getText = () => serialize(this.state.value);
+  setText = text => this.setState({ value: deserialize(text) });
 }
 
 export default SimpleEditor;

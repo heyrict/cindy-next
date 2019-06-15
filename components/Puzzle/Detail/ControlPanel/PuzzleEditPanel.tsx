@@ -1,13 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/puzzle';
 
-import { Button, Flex, Box, Img } from 'components/General';
-import PreviewEditor from 'components/PreviewEditor';
-import pencilIcon from 'svgs/pencil.svg';
-import tickIcon from 'svgs/tick.svg';
-import crossIcon from 'svgs/cross.svg';
+import { Button, Flex } from 'components/General';
 
 import { PuzzleEditPanelProps } from './types';
 import { getMaxDazedDays } from 'settings';
@@ -20,6 +16,7 @@ const PuzzleEditPanel = ({
   status,
   dazed_on,
   updatePuzzle,
+  show,
 }: PuzzleEditPanelProps) => {
   useEffect(() => {
     const newDazedOn = new Date();
@@ -37,9 +34,13 @@ const PuzzleEditPanel = ({
       variables: {
         puzzleId,
         dazedOn: newDazedOn,
+        grotesque,
+        status,
       },
     });
   }, [puzzleId]);
+
+  if (!show) return null;
 
   return (
     <Flex
@@ -58,6 +59,8 @@ const PuzzleEditPanel = ({
             variables: {
               puzzleId,
               status: 1,
+              dazedOn: dazed_on,
+              grotesque,
             },
           });
         }}
@@ -72,6 +75,8 @@ const PuzzleEditPanel = ({
             variables: {
               puzzleId,
               status: 3,
+              dazedOn: dazed_on,
+              grotesque,
             },
           });
         }}

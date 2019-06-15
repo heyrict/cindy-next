@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { FormattedTime } from 'react-intl';
 import { line2md } from 'common';
+
+import { FormattedTime, FormattedMessage } from 'react-intl';
+import commonMessages from 'messages/common';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 import UserInline from 'components/User/UserInline';
 import { AnonymousUserInline } from 'components/User/Anonymous';
-import { ButtonTransparent, Img } from 'components/General';
+import { ButtonTransparent, Img, EditTimeSpan } from 'components/General';
 import SimpleEditor from 'components/PreviewEditor/simple';
 
 import ChatBubble from './ChatBubble';
@@ -101,6 +103,14 @@ const Chatmessage = ({
         <span
           dangerouslySetInnerHTML={{ __html: line2md(chatmessage.content) }}
         />
+        {chatmessage.editTimes > 0 && (
+          <EditTimeSpan>
+            <FormattedMessage
+              {...commonMessages.editTimes}
+              values={{ count: chatmessage.editTimes }}
+            />
+          </EditTimeSpan>
+        )}
         {isCreator && (
           <ButtonTransparent
             onClick={() =>

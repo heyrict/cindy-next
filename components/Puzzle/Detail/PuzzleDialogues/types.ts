@@ -55,6 +55,7 @@ export type PuzzleDialoguesRendererProps = {
   puzzleStatus: number;
   anonymous: boolean;
   shouldSubscribe: boolean;
+  setParticipants: (participants: Array<UserFilterSwitcherUserType>) => void;
 } & QueryResult<DialogueHintQuery, DialogueHintQueryVariables> &
   typeof PuzzleDialoguesRendererDefaultProps;
 

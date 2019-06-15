@@ -70,6 +70,8 @@ const typeDefs = gql`
     edittimes: Int!
     created: timestamptz!
     puzzle_id: Int!
+    receiver_id: Int
+    receiver: sui_hei_user
   }
   type sui_hei_directmessage {
     id: Int!

@@ -12,6 +12,7 @@ export const PUZZLE_SHARED_FRAGMENT = gql`
     anonymous
     created
     modified
+    grotesque
     sui_hei_user {
       ...UserBrief
     }

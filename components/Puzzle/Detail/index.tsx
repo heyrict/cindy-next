@@ -68,7 +68,7 @@ const PuzzleDetail = ({ puzzle, userId }: PuzzleDetailProps) => {
           status={puzzle.status}
           user={puzzle.sui_hei_user}
           created={puzzle.created}
-          solved={puzzle.modified}
+          solved={puzzle.status === 0 ? undefined : puzzle.modified}
         />
         {shouldShowPuzzleDialogues && (
           <PuzzleDialogues

@@ -15,6 +15,7 @@ import MemoEditPanel from './MemoEditPanel';
 import PuzzleEditPanel from './PuzzleEditPanel';
 
 import { ControlPanelProps, ControlPanelPanelType } from './types';
+import HintAddPanel from './HintAddPanel';
 
 const ControlPanel = ({ puzzle }: ControlPanelProps) => {
   const [currentPanel, setCurrentPanel] = useState(
@@ -35,24 +36,25 @@ const ControlPanel = ({ puzzle }: ControlPanelProps) => {
       {currentPanel === ControlPanelPanelType.MEMO_EDIT && (
         <MemoEditPanel puzzleId={puzzle.id} memo={puzzle.memo} />
       )}
-      {currentPanel === ControlPanelPanelType.HINT_ADD && null}
-      {currentPanel === ControlPanelPanelType.PUZZLE_EDIT && (
-        <Mutation<UpdatePuzzleMutation, UpdatePuzzleMutationVariables>
-          mutation={UPDATE_PUZZLE_MUTATION}
-        >
-          {updatePuzzle => (
-            <PuzzleEditPanel
-              updatePuzzle={updatePuzzle}
-              puzzleId={puzzle.id}
-              yami={puzzle.yami}
-              genre={puzzle.genre}
-              grotesque={puzzle.grotesque}
-              status={puzzle.status}
-              dazed_on={puzzle.dazed_on}
-            />
-          )}
-        </Mutation>
+      {currentPanel === ControlPanelPanelType.HINT_ADD && (
+        <HintAddPanel puzzleId={puzzle.id} yami={puzzle.yami} />
       )}
+      <Mutation<UpdatePuzzleMutation, UpdatePuzzleMutationVariables>
+        mutation={UPDATE_PUZZLE_MUTATION}
+      >
+        {updatePuzzle => (
+          <PuzzleEditPanel
+            updatePuzzle={updatePuzzle}
+            puzzleId={puzzle.id}
+            yami={puzzle.yami}
+            genre={puzzle.genre}
+            grotesque={puzzle.grotesque}
+            status={puzzle.status}
+            dazed_on={puzzle.dazed_on}
+            show={currentPanel === ControlPanelPanelType.PUZZLE_EDIT}
+          />
+        )}
+      </Mutation>
     </Flex>
   );
 };

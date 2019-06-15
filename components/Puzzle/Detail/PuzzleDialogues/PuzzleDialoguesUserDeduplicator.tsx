@@ -97,7 +97,7 @@ const PuzzleDialoguesUserDeduplicator = ({
           query={DIALOGUE_HINT_QUERY}
           variables={{
             puzzleId,
-            userId: userFilterId,
+            userId: userFilterId === -1 ? undefined : userFilterId,
           }}
           fetchPolicy="cache-and-network"
         >

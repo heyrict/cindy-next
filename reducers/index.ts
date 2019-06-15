@@ -8,6 +8,7 @@ import * as chatReducer from './chat';
 import * as loginReducer from './login';
 import * as settingReducer from './setting';
 import * as addReplayReducer from './addReplay';
+import * as puzzleReducer from './puzzle';
 import { StateType, ExtendedStore } from './types';
 
 const reducer = combineReducers({
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   [loginReducer.scope]: loginReducer.reducer,
   [settingReducer.scope]: settingReducer.reducer,
   [addReplayReducer.scope]: addReplayReducer.reducer,
+  [puzzleReducer.scope]: puzzleReducer.reducer,
 });
 
 const composeEnhancers =

@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 
 import { DIALOGUE_SHARED_FRAGMENT } from '../Fragments/Dialogue';
+import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
 export const DIALOGUE_HINT_QUERY = gql`
   query DialogueHintQuery($puzzleId: Int, $userId: Int) {
@@ -17,7 +18,11 @@ export const DIALOGUE_HINT_QUERY = gql`
       id
       content
       created
+      receiver {
+        ...UserBrief
+      }
     }
   }
   ${DIALOGUE_SHARED_FRAGMENT}
+  ${USER_BRIEF_FRAGMENT}
 `;

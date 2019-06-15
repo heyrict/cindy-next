@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { FormattedMessage } from 'react-intl';
+import commonMessages from 'messages/common';
+
 import {
   UserFilterSwitcherProps,
   UserFilterSwitcherDefaltProps,
@@ -26,6 +29,13 @@ const UserFilterSwitcher = ({
     borderColor="orange.3"
     bg="orange.1"
   >
+    <FilterButton
+      active={activeUserId === -1}
+      accent={false}
+      onClick={() => onClick(-1)}
+    >
+      <FormattedMessage {...commonMessages.all} />
+    </FilterButton>
     {users.map(user => (
       <FilterButton
         key={`UserFilterSwitcherUser-${user.id}`}

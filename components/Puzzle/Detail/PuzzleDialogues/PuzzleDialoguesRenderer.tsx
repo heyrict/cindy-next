@@ -3,6 +3,9 @@ import { mergeList, upsertItem } from 'common';
 
 import { DIALOGUE_HINT_SUBSCRIPTION } from 'graphql/Subscriptions/Dialogue';
 
+import { connect } from 'react-redux';
+import * as puzzleReducer from 'reducers/puzzle';
+
 import { Flex } from 'components/General';
 import PuzzleDialogue from './PuzzleDialogue';
 import PuzzleHint from './PuzzleHint';
@@ -10,15 +13,17 @@ import UserFilterSwitcher from './UserFilterSwitcher';
 
 import { extractUserFilterUserFromDialogues } from './constants';
 import { widthSplits } from '../constants';
+
 import {
   PuzzleDialoguesRendererInnerProps,
   PuzzleDialoguesRendererProps,
   PuzzleDialoguesRendererDefaultProps,
-  ExtractUserFilterUserReturnType,
   PuzzleDialogueWithIndexExtra,
+  UserFilterSwitcherUserType,
 } from './types';
 import { DialogueHintSubscription } from 'graphql/Subscriptions/generated/DialogueHintSubscription';
 import { DialogueHintQuery_sui_hei_hint } from 'graphql/Queries/generated/DialogueHintQuery';
+import { ActionContentType } from 'reducers/types';
 
 const PuzzleDialoguesRendererInner = ({
   dialogues,
@@ -59,6 +64,7 @@ const PuzzleDialoguesRenderer = ({
   puzzleId,
   puzzleUser,
   puzzleStatus,
+  setParticipants,
 }: PuzzleDialoguesRendererProps) => {
   if (loading) return <span>'Loading...'</span>;
   if (error) return <span>`Error: ${JSON.stringify(error)}`</span>;
@@ -67,8 +73,10 @@ const PuzzleDialoguesRenderer = ({
   }
   let users;
 
-  if (applyUserFilter)
+  if (applyUserFilter) {
     users = extractUserFilterUserFromDialogues(data.sui_hei_dialogue);
+    setParticipants(users);
+  }
 
   const [userFilterId, setUserFilterId] = useState<number | undefined>(
     undefined,
@@ -116,32 +124,37 @@ const PuzzleDialoguesRenderer = ({
   }, [puzzleId]);
 
   let dialogues: Array<PuzzleDialogueWithIndexExtra>;
-  if (applyUserFilter) {
+  let hints;
+  if (applyUserFilter && userFilterId !== -1) {
     dialogues = data.sui_hei_dialogue
       .filter(dialogue => dialogue.sui_hei_user.id === userFilterId)
       .map((dialogue, index) => ({
         ...dialogue,
         index,
       }));
+    hints = data.sui_hei_hint.filter(
+      hint => hint.receiver === null || hint.receiver.id === userFilterId,
+    );
   } else {
     dialogues = data.sui_hei_dialogue.map((dialogue, index) => ({
       ...dialogue,
       index,
     }));
+    hints = data.sui_hei_hint;
   }
 
   return (
     <Flex mx={widthSplits[0]} width={1} flexWrap="wrap">
-      {applyUserFilter && (
+      {applyUserFilter && users && (
         <UserFilterSwitcher
           activeUserId={userFilterId}
-          users={users as Array<ExtractUserFilterUserReturnType>}
+          users={users}
           onClick={setUserFilterId}
         />
       )}
       <PuzzleDialoguesRendererInner
         dialogues={dialogues}
-        hints={data.sui_hei_hint}
+        hints={hints}
         puzzleUser={puzzleUser}
         puzzleStatus={puzzleStatus}
       />
@@ -151,4 +164,14 @@ const PuzzleDialoguesRenderer = ({
 
 PuzzleDialoguesRenderer.defaultProps = PuzzleDialoguesRendererDefaultProps;
 
-export default PuzzleDialoguesRenderer;
+const mapDispatchToProps = (dispatch: (arg0: ActionContentType) => void) => ({
+  setParticipants: (participants: UserFilterSwitcherUserType) =>
+    dispatch(puzzleReducer.actions.setParticipants(participants)),
+});
+
+const withRedux = connect(
+  null,
+  mapDispatchToProps,
+);
+
+export default withRedux(PuzzleDialoguesRenderer);

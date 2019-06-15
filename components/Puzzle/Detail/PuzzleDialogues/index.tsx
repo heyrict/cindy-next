@@ -90,6 +90,7 @@ const PuzzleDialogues = ({
             puzzleUser={puzzleUser}
             anonymous={anonymous}
             puzzleStatus={puzzleStatus}
+            applyUserFilter
           />
         )}
       </Query>
