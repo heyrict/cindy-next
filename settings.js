@@ -2,15 +2,15 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 const GRAPHQL_ENDPOINT = isDev
   ? 'http://localhost:8080/v1/graphql'
-  : 'http://next.cindythink.com/v1/graphql';
+  : 'https://next.cindythink.com/v1/graphql';
 
 const GRAPHQL_LIVEQUERY_ENDPOINT = isDev
   ? 'ws://localhost:8080/v1/graphql'
-  : 'ws://next.cindythink.com/v1/graphql';
+  : 'wss://next.cindythink.com/v1/graphql';
 
 const GRAPHQL_SUBSCRIPTION_ENDPOINT = isDev
   ? 'ws://localhost:3000/subscriptions'
-  : 'ws://next.cindythink.com/subscriptions';
+  : 'wss://next.cindythink.com/subscriptions';
 
 const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
 
