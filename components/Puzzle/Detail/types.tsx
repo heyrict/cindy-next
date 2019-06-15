@@ -59,4 +59,6 @@ export type PuzzleTitleProps = {
 export type PuzzleDetailProps = {
   puzzle: PuzzleType;
   userId?: number;
+  setPuzzleContent: (content: string) => void;
+  setPuzzleMemo: (memo: string) => void;
 };

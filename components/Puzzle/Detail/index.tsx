@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Flex, Box } from 'components/General';
 import { FormattedMessage } from 'react-intl';
@@ -6,6 +6,7 @@ import messages from 'messages/pages/puzzle';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
+import * as puzzleReducer from 'reducers/puzzle';
 
 import PuzzleTitle from './PuzzleTitle';
 import ContentsFrame from './ContentsFrame';
@@ -17,10 +18,15 @@ import BookmarkPanel from './BookmarkPanel';
 import ReplayPanel from './ReplayPanel';
 import ControlPanel from './ControlPanel';
 
-import { StateType } from 'reducers/types';
+import { StateType, ActionContentType } from 'reducers/types';
 import { PuzzleDetailProps } from './types';
 
-const PuzzleDetail = ({ puzzle, userId }: PuzzleDetailProps) => {
+const PuzzleDetail = ({
+  puzzle,
+  userId,
+  setPuzzleContent,
+  setPuzzleMemo,
+}: PuzzleDetailProps) => {
   let puzzleContent;
   const isUser = Boolean(userId);
   const isHidden = puzzle.status === 3;
@@ -37,6 +43,18 @@ const PuzzleDetail = ({ puzzle, userId }: PuzzleDetailProps) => {
   const shouldShowReplayPanel = shouldShowAnswer;
 
   const shouldShowControlPanel = isCreator;
+
+  useEffect(() => {
+    if (isHidden && !isCreator) {
+      setPuzzleContent(puzzle.content);
+    }
+    return () => setPuzzleContent('');
+  }, [puzzle.content, puzzle.status]);
+
+  useEffect(() => {
+    setPuzzleMemo(puzzle.memo);
+    return () => setPuzzleMemo('');
+  }, [puzzle.memo]);
 
   if (isHidden && !isCreator) {
     puzzleContent = (
@@ -104,6 +122,16 @@ const mapStateToProps = (state: StateType) => ({
   userId: globalReducer.rootSelector(state).user.id,
 });
 
-const withRedux = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  setPuzzleContent: (content: string) =>
+    dispatch(puzzleReducer.actions.setPuzzleContent(content)),
+  setPuzzleMemo: (memo: string) =>
+    dispatch(puzzleReducer.actions.setPuzzleMemo(memo)),
+});
+
+const withRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default withRedux(PuzzleDetail);
