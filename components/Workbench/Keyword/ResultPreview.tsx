@@ -1,9 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import styled from 'theme/styled';
-
-import { Box } from 'components/General';
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -11,18 +8,21 @@ import * as addReplayReducer from 'reducers/addReplay';
 
 import { constructTree, filterDialogueKeywords } from './common';
 
+import { StateType } from 'reducers/types';
+import { ResultPreviewProps } from './types';
+
 const Tree = dynamic(() => import('react-d3-tree'), {
   ssr: false,
 });
 
 const dialogueSelector = createSelector(
-  state => addReplayReducer.rootSelector(state).replayDialogues,
-  state => addReplayReducer.rootSelector(state).keywords,
+  (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
+  (state: StateType) => addReplayReducer.rootSelector(state).keywords,
   (dialogues, keywords) => filterDialogueKeywords(dialogues, keywords),
 );
 
 const treeSelector = createSelector(
-  state => dialogueSelector(state),
+  (state: StateType) => dialogueSelector(state),
   dialogues => constructTree(dialogues, d => d.question_keywords),
 );
 
@@ -38,7 +38,7 @@ const ResultPanel = styled.div`
   margin-bottom: ${p => p.theme.space[2]}px;
 `;
 
-const ResultPreview = ({ keywordTree }) => {
+const ResultPreview = ({ keywordTree }: ResultPreviewProps) => {
   return (
     <ResultPanel>
       <Tree
@@ -62,7 +62,7 @@ const ResultPreview = ({ keywordTree }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   keywordTree: treeSelector(state),
 });
 

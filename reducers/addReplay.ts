@@ -53,11 +53,6 @@ export const initialState = {
   keywords: {} as ReplayKeywordsType,
   countFilterInput: 0,
   replayDialogues: [] as Array<ReplayDialogueType>,
-  /* Array of {
-   *   name: String!,
-   *   keywords,
-   * }
-   */
   savedKeywords: [],
   kuromojiProgress: 0,
   keywordManipulatePanel: 0,

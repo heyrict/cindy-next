@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
@@ -7,47 +6,44 @@ import * as addReplayReducer from 'reducers/addReplay';
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/workbench';
 
-import { Flex, Box, Button } from 'components/General';
-import { panelEnum } from './constants';
+import { Flex, Button } from 'components/General';
+
+import { PanelEnum, ChoosePanelToolbarProps } from './types';
+import { StateType, ActionContentType } from 'reducers/types';
 
 const ChoosePanelToolbar = ({
   keywordManipulatePanel,
   setKeywordManipulatePanel,
-}) => (
+}: ChoosePanelToolbarProps) => (
   <Flex flexWrap="wrap">
     <Button
-      bg={keywordManipulatePanel === panelEnum.select ? 'yellow.5' : 'yellow.3'}
-      onClick={() => setKeywordManipulatePanel(panelEnum.select)}
+      bg={keywordManipulatePanel === PanelEnum.SELECT ? 'yellow.5' : 'yellow.3'}
+      onClick={() => setKeywordManipulatePanel(PanelEnum.SELECT)}
     >
       <FormattedMessage {...messages.selectPanel} />
     </Button>
     <Button
-      bg={keywordManipulatePanel === panelEnum.merge ? 'yellow.5' : 'yellow.3'}
-      onClick={() => setKeywordManipulatePanel(panelEnum.merge)}
+      bg={keywordManipulatePanel === PanelEnum.MERGE ? 'yellow.5' : 'yellow.3'}
+      onClick={() => setKeywordManipulatePanel(PanelEnum.MERGE)}
     >
       <FormattedMessage {...messages.mergePanel} />
     </Button>
     <Button
-      bg={keywordManipulatePanel === panelEnum.rename ? 'yellow.5' : 'yellow.3'}
-      onClick={() => setKeywordManipulatePanel(panelEnum.rename)}
+      bg={keywordManipulatePanel === PanelEnum.RENAME ? 'yellow.5' : 'yellow.3'}
+      onClick={() => setKeywordManipulatePanel(PanelEnum.RENAME)}
     >
       <FormattedMessage {...messages.renamePanel} />
     </Button>
   </Flex>
 );
 
-ChoosePanelToolbar.propTypes = {
-  keywordManipulatePanel: PropTypes.number.isRequired,
-  setKeywordManipulatePanel: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   keywordManipulatePanel: addReplayReducer.rootSelector(state)
     .keywordManipulatePanel,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setKeywordManipulatePanel: panel =>
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  setKeywordManipulatePanel: (panel: PanelEnum) =>
     dispatch(addReplayReducer.actions.setKeywordManipulatePanel(panel)),
 });
 

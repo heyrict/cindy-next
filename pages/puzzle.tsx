@@ -13,7 +13,7 @@ import {
 
 import { PuzzleProps } from './types';
 
-import PuzzleRenderer from 'components/Puzzle/Detail';
+import PuzzleRenderer from 'components/Puzzle/PuzzleRenderer';
 
 class Puzzle extends React.Component<PuzzleProps> {
   static contextTypes = {

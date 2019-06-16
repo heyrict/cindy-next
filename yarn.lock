@@ -2286,6 +2286,11 @@
   dependencies:
     "@types/express" "*"
 
+"@types/doublearray@*":
+  version "0.0.29"
+  resolved "https://registry.yarnpkg.com/@types/doublearray/-/doublearray-0.0.29.tgz#3cbe6bb616af524648d440bbdf784e9c1e34009d"
+  integrity sha1-PL5rthavUkZI1EC733hOnB40AJ0=
+
 "@types/enzyme@^3.9.3":
   version "3.9.3"
   resolved "https://registry.yarnpkg.com/@types/enzyme/-/enzyme-3.9.3.tgz#d1029c0edd353d7b00f3924803eb88216460beed"
@@ -2364,6 +2369,13 @@
   integrity sha512-3m6RPnO35r7Dg+uMLj1+xfZaOgIHHHut61djNjzwExXN4/Pm9has9C6I1KMYSfz7mahDhWUOVg4HW/nZdv5Pww==
   dependencies:
     "@types/jest-diff" "*"
+
+"@types/kuromoji@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@types/kuromoji/-/kuromoji-0.1.0.tgz#c8576688644864afa0c81f4d841a7142ad5293a6"
+  integrity sha512-gEAkIk4qxsK5ry64fCYFGjb3a+NQVOiNOT6fz0OyXizob+yewF4GFVX23GG4YNwKM2hB0J6fnMPMffFK+cYHnw==
+  dependencies:
+    "@types/doublearray" "*"
 
 "@types/long@^4.0.0":
   version "4.0.0"

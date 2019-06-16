@@ -8,7 +8,7 @@ routes
   .add({ name: 'users', pattern: '/user' })
   .add({ name: 'user', pattern: '/user/:id(\\d+)' })
   .add({ name: 'replay', pattern: '/replay/:id(\\d+)' })
-  .add({ name: 'add/replay', pattern: '/add/replay' })
+  .add({ name: 'add/replay', pattern: '/add/replay/:id(\\d+)' })
   .add({ name: 'ranking', pattern: '/ranking' });
 
 module.exports = routes;

@@ -26,7 +26,7 @@ export type ReplayKeywordsType = {
 
 export type ReplayDialogueType = {
   question: string;
-  keywords: string[];
+  question_keywords: string[];
 };
 
 export type GlobalUserType = {

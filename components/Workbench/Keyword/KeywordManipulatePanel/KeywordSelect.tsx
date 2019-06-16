@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import styled from 'theme/styled';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -8,16 +7,19 @@ import * as addReplayReducer from 'reducers/addReplay';
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/workbench';
 
-import { Flex, Box, Button } from 'components/General';
-import SelectKeywordButton from 'SelectKeywordButton';
+import { Flex, Box } from 'components/General';
+import SelectKeywordButton from './SelectKeywordButton';
 import KeywordSelectToolbar from './KeywordSelectToolbar';
 
+import { StateType } from 'reducers/types';
+import { KeywordSelectProps } from './types';
+
 const keywordKeysSelector = createSelector(
-  state =>
+  (state: StateType) =>
     Object.entries(addReplayReducer.rootSelector(state).keywords).sort(
-      (a, b) => a[1].count < b[1].count,
+      (a, b) => b[1].count - a[1].count,
     ),
-  sortedKeyword => sortedKeyword.map(([key, value]) => key),
+  sortedKeyword => sortedKeyword.map(([key, _value]) => key),
 );
 
 const KeywordPanel = styled.div`
@@ -39,8 +41,8 @@ const KeywordSelectWrapper = styled(Flex)`
   overflow-y: auto;
 `;
 
-const KeywordSelect = ({ keywordKeys }) => {
-  const [collapse, setCollapse] = useState(true);
+const KeywordSelect = ({ keywordKeys }: KeywordSelectProps) => {
+  //const [collapse, setCollapse] = useState(true);
   return (
     <KeywordPanel>
       <Box fontSize={3}>
@@ -56,11 +58,7 @@ const KeywordSelect = ({ keywordKeys }) => {
   );
 };
 
-KeywordSelect.propTypes = {
-  keywordKeys: PropTypes.array.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StateType) => ({
   keywordKeys: keywordKeysSelector(state),
 });
 

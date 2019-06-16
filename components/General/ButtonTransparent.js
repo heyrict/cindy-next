@@ -13,6 +13,7 @@ const ButtonTransparent = styled.button`
   background-color: transparent;
   overflow: hidden;
   border: none;
+  display: inline-grid;
   ${space}
   ${width}
   ${height}

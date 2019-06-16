@@ -8,6 +8,7 @@ const Button = styled.button`
   &:hover, &:active {
     background-color: ${p => p.theme.colors.orange[7]};
   }
+  display: inline-grid;
   ${space}
   ${color}
   ${layout}

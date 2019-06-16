@@ -7,9 +7,15 @@ const GRAPHQL_SERVER = {
 };
 
 const GRAPHQL_CLIENT = {
-  ENDPOINT: 'https://next.cindythink.com/v1/graphql',
-  LIVEQUERY: 'wss://next.cindythink.com/v1/graphql',
-  SUBSCRIPTION: 'wss://next.cindythink.com/subscriptions',
+  ENDPOINT: isDev
+    ? 'http://localhost:8080/v1/graphql'
+    : 'https://next.cindythink.com/v1/graphql',
+  LIVEQUERY: isDev
+    ? 'ws://localhost:8080/v1/graphql'
+    : 'wss://next.cindythink.com/v1/graphql',
+  SUBSCRIPTION: isDev
+    ? 'ws://localhost:3000/subscriptions'
+    : 'wss://next.cindythink.com/subscriptions',
 };
 
 const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
