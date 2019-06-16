@@ -13,7 +13,9 @@ const ButtonTransparent = styled.button`
   background-color: transparent;
   overflow: hidden;
   border: none;
-  display: inline-grid;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   ${space}
   ${width}
   ${height}

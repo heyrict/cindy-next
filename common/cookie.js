@@ -12,7 +12,7 @@ export function getCookie(c_name) {
   return '';
 }
 
-export function setCookie(c_name, c_value, c_expiry, c_path = '/') {
+export function setCookie(c_name, c_value, c_expiry /* seconds */, c_path = '/') {
   let expiry_str = '';
   const path_str = `;path='${c_path}'`;
   if (c_expiry) {

@@ -26,7 +26,7 @@ export const messages = defineMessages({
   firstLoadingIsTimeConsuming: {
     id: `${scope}.firstLoadingIsTimeConsuming`,
     defaultMessage:
-      'Now Loading text parsing tools, it may consume several minites for the first time...',
+      'Now Loading text parsing tools, it may take several minites for the first time...',
   },
 });
 

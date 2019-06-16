@@ -28,7 +28,7 @@ const withLogin = Wrapped =>
               const { id, username, nickname, token, errors } = res;
               if (!errors) {
                 document.cookie = `cindy-jwt-token=${token}`;
-                setCookie('cindy-jwt-token', token, 30);
+                setCookie('cindy-jwt-token', token, 30 * 24 * 60 * 60);
                 props.auth({
                   id,
                   username,

@@ -28,7 +28,7 @@ const withSignup = Wrapped =>
             }).then(res => {
               const { id, username, nickname, token, errors } = res;
               if (!errors) {
-                setCookie('cindy-jwt-token', token, 30);
+                setCookie('cindy-jwt-token', token, 30 * 24 * 60 * 60);
                 props.auth({ id, username, nickname });
                 apolloClient.resetStore();
               }

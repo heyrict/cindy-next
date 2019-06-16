@@ -26,6 +26,7 @@ const ToolbarButton = styled(Box)`
   min-width: ${p => p.theme.sizes.toolbuttonMin};
   max-width: ${p => p.theme.sizes.toolbuttonMax};
   height: ${p => p.theme.sizes.toolbar};
+  overflow: hidden;
 `;
 
 const Toolbar = ({ user }: ToolbarProps) => {
@@ -33,44 +34,46 @@ const Toolbar = ({ user }: ToolbarProps) => {
     <ToolbarFlex alignItems="center" justifyContents="center">
       <ToolbarFlex>
         <ToolbarButton bg="orange.4">
-          <Link to="home">
-            <a>
-              <ButtonTransparent
-                height={1}
-                width={1}
-                border="1px solid"
-                borderColor="red.6"
-              >
-                <FormattedMessage {...messages.home} />
-              </ButtonTransparent>
-            </a>
-          </Link>
-        </ToolbarButton>
-        <ToolbarButton bg="orange.4">
-          <Link to="puzzles">
-            <a>
-              <ButtonTransparent
-                height={1}
-                width={1}
-                border="1px solid"
-                borderColor="red.6"
-              >
-                <FormattedMessage {...messages.puzzle} />
-              </ButtonTransparent>
-            </a>
-          </Link>
-        </ToolbarButton>
-        <ToolbarButton bg="orange.4">
-          <a href="https://wiki3.jp/cindy-lat" target="_blank">
+          <Link to="home" passHref>
             <ButtonTransparent
+              as="a"
               height={1}
               width={1}
               border="1px solid"
               borderColor="red.6"
+              color="orange.9"
             >
-              <FormattedMessage {...messages.wiki} />
+              <FormattedMessage {...messages.home} />
             </ButtonTransparent>
-          </a>
+          </Link>
+        </ToolbarButton>
+        <ToolbarButton bg="orange.4">
+          <Link to="puzzles" passHref>
+            <ButtonTransparent
+              as="a"
+              height={1}
+              width={1}
+              border="1px solid"
+              borderColor="red.6"
+              color="orange.9"
+            >
+              <FormattedMessage {...messages.puzzle} />
+            </ButtonTransparent>
+          </Link>
+        </ToolbarButton>
+        <ToolbarButton bg="orange.4">
+          <ButtonTransparent
+            as="a"
+            href="https://wiki3.jp/cindy-lat"
+            target="_blank"
+            height={1}
+            width={1}
+            border="1px solid"
+            borderColor="red.6"
+            color="orange.9"
+          >
+            <FormattedMessage {...messages.wiki} />
+          </ButtonTransparent>
         </ToolbarButton>
       </ToolbarFlex>
       {user.id && (
