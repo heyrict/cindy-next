@@ -16,8 +16,9 @@ export const PuzzleDialogueQuestion = ({
   userId,
   questionEditTimes,
   puzzleStatus,
+  isAnswered,
 }: PuzzleDialogueQuestionProps) => {
-  return puzzleStatus === 0 && userId === user.id ? (
+  return !isAnswered && puzzleStatus === 0 && userId === user.id ? (
     <QuestionModeSelector
       dialogueId={dialogueId}
       question={question}

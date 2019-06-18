@@ -13,9 +13,11 @@ import { StateType } from 'reducers/types';
 
 const KuromojiProgress = ({ progress }: KuromojiProgressProps) => (
   <React.Fragment>
-    <span style={{ width: '100%', textAlign: 'center' }}>
-      <FormattedMessage {...messages.firstLoadingIsTimeConsuming} />
-    </span>
+    {progress !== 1 && (
+      <span style={{ width: '100%', textAlign: 'center' }}>
+        <FormattedMessage {...messages.firstLoadingIsTimeConsuming} />
+      </span>
+    )}
     <ProgressBar progress={progress} />
   </React.Fragment>
 );

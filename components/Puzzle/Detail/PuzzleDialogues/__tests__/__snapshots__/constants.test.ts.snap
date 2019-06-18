@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`function extractUserFilterUserFromDialogues() Dialogues should be filtered properly 1`] = `
+Array [
+  Object {
+    "dialogueCount": 1,
+    "dialogueHasTrue": false,
+    "dialogueUnsolvedCount": 0,
+    "id": 13,
+    "nickname": "Bar",
+  },
+  Object {
+    "dialogueCount": 2,
+    "dialogueHasTrue": false,
+    "dialogueUnsolvedCount": 0,
+    "id": 73,
+    "nickname": "Foo",
+  },
+]
+`;

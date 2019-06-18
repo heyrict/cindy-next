@@ -24,7 +24,7 @@ const QuestionModeSelector = ({
             questionEditTimes={questionEditTimes}
           />
           <ButtonTransparent onClick={() => setMode(QuestionModes.EDIT)}>
-            <Img size="1em" src={pencilIcon} />
+            <Img size="1em" src={pencilIcon} alt="edit" />
           </ButtonTransparent>
         </React.Fragment>
       );

@@ -89,7 +89,7 @@
   "toolbar.home": "ホーム",
   "toolbar.puzzle": "問題",
   "toolbar.wiki": "Cindy+Wiki",
-  "workbench.firstLoadingIsTimeConsuming": "文字解析用ツールをロードしています・・・初回ロードはネット状況によって数分かかります・・・",
+  "workbench.firstLoadingIsTimeConsuming": "文字解析用ツールをロードしています・・・初回ロードはネット状況によって数十秒から数分かかります・・・",
   "workbench.keywords": "キーワード",
   "workbench.mergePanel": "キーワード合併パネル",
   "workbench.minKeywordAppearance": "最低キーワード出現数",

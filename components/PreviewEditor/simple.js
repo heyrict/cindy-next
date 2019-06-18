@@ -228,6 +228,7 @@ class SimpleEditor extends React.Component {
         )}
         <Box
           m={1}
+          width={1}
           height={`${this.props.height}em`}
           style={{
             overflow: 'auto',

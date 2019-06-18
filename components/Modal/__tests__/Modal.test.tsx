@@ -1,8 +1,8 @@
+import React from 'react';
 import { shallow, render } from 'enzyme';
 
 import theme from 'theme';
 import Modal, { Shader, ModalContainer, Container } from '../Modal';
-import React from 'react';
 
 describe.each([false, true])('<Modal show={%s} />', show => {
   it('<Shader /> should work in current theme', () => {

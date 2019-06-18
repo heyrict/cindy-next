@@ -12,9 +12,9 @@ export type QuestionEditProps = {
 };
 
 export type QuestionModeSelectorProps = {
-  question: string,
-  questionEditTimes: number,
-  dialogueId: number,
+  question: string;
+  questionEditTimes: number;
+  dialogueId: number;
 };
 
 export type PuzzleDialogueQuestionProps = {
@@ -24,4 +24,5 @@ export type PuzzleDialogueQuestionProps = {
   question: string;
   questionEditTimes: number;
   puzzleStatus: number;
+  isAnswered: boolean;
 };

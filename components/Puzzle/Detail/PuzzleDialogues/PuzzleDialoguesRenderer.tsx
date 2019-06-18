@@ -25,11 +25,12 @@ import { DialogueHintSubscription } from 'graphql/Subscriptions/generated/Dialog
 import { DialogueHintQuery_sui_hei_hint } from 'graphql/Queries/generated/DialogueHintQuery';
 import { ActionContentType } from 'reducers/types';
 
-const PuzzleDialoguesRendererInner = ({
+export const PuzzleDialoguesRendererInner = ({
   dialogues,
   hints,
   puzzleUser,
   puzzleStatus,
+  anonymous,
 }: PuzzleDialoguesRendererInnerProps) => {
   const dialogueHints: Array<
     PuzzleDialogueWithIndexExtra | DialogueHintQuery_sui_hei_hint
@@ -45,6 +46,7 @@ const PuzzleDialoguesRendererInner = ({
             dialogue={node}
             puzzleUser={puzzleUser}
             puzzleStatus={puzzleStatus}
+            anonymous={anonymous}
           />
         ) : (
           <PuzzleHint key={`hint-${node.id}`} hint={node} />
@@ -54,7 +56,7 @@ const PuzzleDialoguesRendererInner = ({
   );
 };
 
-const PuzzleDialoguesRenderer = ({
+export const PuzzleDialoguesRenderer = ({
   loading,
   error,
   data,
@@ -64,12 +66,13 @@ const PuzzleDialoguesRenderer = ({
   puzzleId,
   puzzleUser,
   puzzleStatus,
+  anonymous,
   setParticipants,
 }: PuzzleDialoguesRendererProps) => {
-  if (loading) return <span>'Loading...'</span>;
+  if (loading) return <span>Loading...</span>;
   if (error) return <span>`Error: ${JSON.stringify(error)}`</span>;
   if (!data || !data.sui_hei_dialogue || !data.sui_hei_hint) {
-    return <span>'EMPTY'</span>;
+    return <span>EMPTY</span>;
   }
   let users;
 
@@ -157,6 +160,7 @@ const PuzzleDialoguesRenderer = ({
         hints={hints}
         puzzleUser={puzzleUser}
         puzzleStatus={puzzleStatus}
+        anonymous={anonymous}
       />
     </Flex>
   );

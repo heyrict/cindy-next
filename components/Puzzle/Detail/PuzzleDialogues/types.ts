@@ -16,7 +16,7 @@ export type DialogueType = {
   questionEditTimes: number;
   answerEditTimes: number;
   created: string;
-  answeredtime?: string;
+  answeredtime?: string | null;
   sui_hei_user: InlineUser;
 };
 
@@ -25,6 +25,7 @@ export type PuzzleDialogueProps = {
   dialogue: DialogueType;
   puzzleUser: InlineUser;
   puzzleStatus: number;
+  anonymous: boolean;
 };
 
 export type PuzzleDialoguesProps = {
@@ -68,6 +69,7 @@ export type PuzzleDialoguesRendererInnerProps = {
   hints: Array<DialogueHintQuery_sui_hei_hint>;
   puzzleUser: InlineUser;
   puzzleStatus: number;
+  anonymous: boolean;
 };
 
 export type FilterButtonProps = {
