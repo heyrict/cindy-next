@@ -1,0 +1,86 @@
+# Drop permission
+## User
+- args:
+    role: user
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: drop_insert_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: drop_update_permission
+## Anonymous
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: drop_select_permission
+
+# Add column
+- args:
+    sql: |-
+        ALTER TABLE sui_hei_dialogue
+        ADD COLUMN qno INTEGER NOT NULL DEFAULT 0;
+  type: run_sql
+
+# Create permission
+## User
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      limit: null
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        $or:
+          - sui_hei_puzzle:
+              user_id:
+                $eq: X-HASURA-USER-ID
+          - user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: create_update_permission  
+## Anonymous
+- args:
+    permission:
+      allow_aggregations: true
+      limit: null
+      columns: "*"
+      filter: {}
+    role: anonymous
+    table:
+      name: sui_hei_dialogue
+      schema: public
+  type: create_select_permission  

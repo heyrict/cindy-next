@@ -52,6 +52,7 @@ const typeDefs = gql`
   }
   type sui_hei_dialogue {
     id: Int!
+    qno: Int!
     question: String!
     questionEditTimes: Int!
     answer: String!

@@ -1,0 +1,19 @@
+- args:
+    cascade: false
+    sql: |-
+      create or replace function add_dialogue_qno_before_dialogue_insert()
+      returns trigger as $$
+      declare
+        qno integer;
+      begin
+        select count(id) + 1 as qno from sui_hei_dialogue where puzzle_id = NEW.puzzle_id into qno;
+        NEW.qno = qno;
+        return NEW;
+      end;
+      $$ language 'plpgsql';
+
+      create trigger add_dialogue_qno_before_dialogue_insert_trigger before insert
+      on public.sui_hei_puzzle
+      for each row
+      execute procedure add_dialogue_qno_before_dialogue_insert();
+  type: run_sql
