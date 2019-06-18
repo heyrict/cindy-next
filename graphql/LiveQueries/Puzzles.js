@@ -13,6 +13,7 @@ export const PUZZLES_UNSOLVED_LIVEQUERY = gql`
           count
           max {
             answeredtime
+            created
           }
         }
       }
