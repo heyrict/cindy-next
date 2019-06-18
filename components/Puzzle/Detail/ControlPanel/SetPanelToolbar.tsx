@@ -18,9 +18,10 @@ const SetPanelToolbar = ({
   currentPanel,
   setCurrentPanel,
   status,
+  yami,
 }: SetPanelToolbarProps) => (
   <Flex width={1} mb={1}>
-    {status === 0 && (
+    {status === 0 && yami !== 2 && (
       <ButtonTransparent
         {...PanelToolbarButonProps}
         borderColor={

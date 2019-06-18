@@ -13,22 +13,28 @@ import SetPanelToolbar from './SetPanelToolbar';
 import SolutionEditPanel from './SolutionEditPanel';
 import MemoEditPanel from './MemoEditPanel';
 import PuzzleEditPanel from './PuzzleEditPanel';
-
-import { ControlPanelProps, ControlPanelPanelType } from './types';
 import HintAddPanel from './HintAddPanel';
 
+import { ControlPanelProps, ControlPanelPanelType } from './types';
+import { PuzzleType } from '../types';
+
+const getInitialPanel = (puzzle: PuzzleType): ControlPanelPanelType => {
+  if (puzzle.status === 0) {
+    if (puzzle.yami === 2) return ControlPanelPanelType.MEMO_EDIT;
+    return ControlPanelPanelType.SOLUTION_EDIT;
+  }
+  return ControlPanelPanelType.MEMO_EDIT;
+};
+
 const ControlPanel = ({ puzzle }: ControlPanelProps) => {
-  const [currentPanel, setCurrentPanel] = useState(
-    puzzle.status === 0
-      ? ControlPanelPanelType.SOLUTION_EDIT
-      : ControlPanelPanelType.MEMO_EDIT,
-  );
+  const [currentPanel, setCurrentPanel] = useState(getInitialPanel(puzzle));
   return (
     <Flex width={1} mx={widthSplits[2]} flexWrap="wrap">
       <SetPanelToolbar
         currentPanel={currentPanel}
         setCurrentPanel={setCurrentPanel}
         status={puzzle.status}
+        yami={puzzle.yami}
       />
       {currentPanel === ControlPanelPanelType.SOLUTION_EDIT && (
         <SolutionEditPanel puzzleId={puzzle.id} solution={puzzle.solution} />

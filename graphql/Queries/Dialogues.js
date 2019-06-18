@@ -12,7 +12,13 @@ export const DIALOGUE_HINT_QUERY = gql`
       ...DialogueShared
     }
     sui_hei_hint(
-      where: { puzzle_id: { _eq: $puzzleId }, receiver_id: { _eq: $userId } }
+      where: {
+        puzzle_id: { _eq: $puzzleId }
+        _or: [
+          { receiver_id: { _eq: $userId } }
+          { receiver_id: { _is_null: true } }
+        ]
+      }
       order_by: { id: asc }
     ) {
       id
