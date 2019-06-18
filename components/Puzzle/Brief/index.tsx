@@ -57,26 +57,33 @@ export const Brief = ({
     bookmarkCount:
       bookmarkCount ||
       (puzzle.sui_hei_bookmarks_aggregate &&
+        puzzle.sui_hei_bookmarks_aggregate.aggregate &&
         puzzle.sui_hei_bookmarks_aggregate.aggregate.count),
     commentCount:
       commentCount ||
       (puzzle.sui_hei_comments_aggregate &&
+        puzzle.sui_hei_comments_aggregate.aggregate &&
         puzzle.sui_hei_comments_aggregate.aggregate.count),
     starCount:
       starCount ||
       (puzzle.sui_hei_stars_aggregate &&
+        puzzle.sui_hei_stars_aggregate.aggregate &&
         puzzle.sui_hei_stars_aggregate.aggregate.count),
     starSum:
       starSum ||
       (puzzle.sui_hei_stars_aggregate &&
+        puzzle.sui_hei_stars_aggregate.aggregate &&
+        puzzle.sui_hei_stars_aggregate.aggregate.sum &&
         puzzle.sui_hei_stars_aggregate.aggregate.sum.value),
     dialogueCount:
       dialogueCount ||
       (puzzle.sui_hei_dialogues_aggregate &&
+        puzzle.sui_hei_dialogues_aggregate.aggregate &&
         puzzle.sui_hei_dialogues_aggregate.aggregate.count),
     dialogueMaxAnsweredtime:
       dialogueMaxAnsweredtime ||
       (puzzle.sui_hei_dialogues_aggregate &&
+        puzzle.sui_hei_dialogues_aggregate.aggregate &&
         puzzle.sui_hei_dialogues_aggregate.aggregate.max &&
         puzzle.sui_hei_dialogues_aggregate.aggregate.max.answeredtime),
   };

@@ -79,7 +79,13 @@ const Puzzles = (_props: any, context: { intl: IntlShape }) => {
           }}
         >
           {({ loading, error, data }) => {
-            if (loading) return puzzleLoadingPanel;
+            if (
+              loading &&
+              (!data ||
+                !data.sui_hei_puzzle ||
+                data.sui_hei_puzzle.length === 0)
+            )
+              return puzzleLoadingPanel;
             if (error) return `Error: ${error.message}`;
             if (data && data.sui_hei_puzzle)
               return data.sui_hei_puzzle.map(puzzle => (
@@ -92,9 +98,16 @@ const Puzzles = (_props: any, context: { intl: IntlShape }) => {
         <Query<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>
           query={PUZZLES_SOLVED_QUERY}
           variables={{ limit: 20 }}
+          fetchPolicy="cache-and-network"
         >
           {({ loading, error, data, fetchMore }) => {
-            if (loading) return puzzleLoadingPanel;
+            if (
+              loading &&
+              (!data ||
+                !data.sui_hei_puzzle ||
+                data.sui_hei_puzzle.length === 0)
+            )
+              return puzzleLoadingPanel;
             if (error) return `Error: ${error.message}`;
             if (data && data.sui_hei_puzzle) {
               return (

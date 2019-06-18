@@ -159,12 +159,16 @@ const resolvers = {
           const puzzleIdMatches =
             payload.event.data.new.puzzle_id === args.puzzleId;
           if (payload.trigger.name === triggers.ON_DIALOGUE_CHANGE) {
-            return puzzleIdMatches;
+            return (
+              puzzleIdMatches &&
+              (!payload.event.data.new.user_id ||
+                payload.event.data.new.user_id === args.userId)
+            );
           }
           if (payload.trigger.name === triggers.ON_HINT_CHANGE) {
             return (
               puzzleIdMatches &&
-              (payload.event.data.new.user_id === null ||
+              (!payload.event.data.new.user_id ||
                 payload.event.data.new.user_id === args.userId)
             );
           }

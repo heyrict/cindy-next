@@ -7,9 +7,9 @@ import { StatusType } from './types';
 
 export type StatusBaseProps = {
   status: StatusType;
-}
+};
 
-export type StatusProps = StatusBaseProps
+export type StatusProps = StatusBaseProps;
 
 export const getStatusColor = (status: StatusType) => {
   switch (status) {
@@ -31,17 +31,22 @@ export const getStatusColor = (status: StatusType) => {
 export const StatusBase: React.FunctionComponent<StatusBaseProps> = styled.span`
   text-align: center;
   border-radius: 10px;
-  padding: 0 6px;
+  padding: 1px 7px;
+  font-weight: bold;
   margin-right: 6px;
   margin-bottom: 3px;
   font-size: 0.9em;
+  color: ${p => p.theme.colors.white};
   ${p => {
     const color = getStatusColor(p.status);
-    const parsedColor = p.theme.colors[color][7];
+    const parsedColor = p.theme.colors[color][6];
+    /*
     return `
       border: 1px solid ${parsedColor};
       color: ${parsedColor};
     `;
+     */
+    return `background: ${parsedColor};`;
   }}
 `;
 
