@@ -18,11 +18,13 @@ import {
   PuzzleDialoguesRendererInnerProps,
   PuzzleDialoguesRendererProps,
   PuzzleDialoguesRendererDefaultProps,
-  PuzzleDialogueWithIndexExtra,
   UserFilterSwitcherUserType,
 } from './types';
 import { DialogueHintSubscription } from 'graphql/Subscriptions/generated/DialogueHintSubscription';
-import { DialogueHintQuery_sui_hei_hint } from 'graphql/Queries/generated/DialogueHintQuery';
+import {
+  DialogueHintQuery_sui_hei_hint,
+  DialogueHintQuery_sui_hei_dialogue,
+} from 'graphql/Queries/generated/DialogueHintQuery';
 import { ActionContentType } from 'reducers/types';
 
 export const PuzzleDialoguesRendererInner = ({
@@ -33,7 +35,7 @@ export const PuzzleDialoguesRendererInner = ({
   anonymous,
 }: PuzzleDialoguesRendererInnerProps) => {
   const dialogueHints: Array<
-    PuzzleDialogueWithIndexExtra | DialogueHintQuery_sui_hei_hint
+    DialogueHintQuery_sui_hei_dialogue | DialogueHintQuery_sui_hei_hint
   > = mergeList(dialogues, hints, 'created', 'asc');
 
   return (
@@ -41,7 +43,7 @@ export const PuzzleDialoguesRendererInner = ({
       {dialogueHints.map(node =>
         node.__typename === 'sui_hei_dialogue' ? (
           <PuzzleDialogue
-            index={node.index + 1}
+            index={node.qno}
             key={`dialogue-${node.id}`}
             dialogue={node}
             puzzleUser={puzzleUser}
@@ -129,20 +131,14 @@ export const PuzzleDialoguesRenderer = ({
   let dialogues: Array<PuzzleDialogueWithIndexExtra>;
   let hints;
   if (applyUserFilter && userFilterId !== -1) {
-    dialogues = data.sui_hei_dialogue
-      .filter(dialogue => dialogue.sui_hei_user.id === userFilterId)
-      .map((dialogue, index) => ({
-        ...dialogue,
-        index,
-      }));
+    dialogues = data.sui_hei_dialogue.filter(
+      dialogue => dialogue.sui_hei_user.id === userFilterId,
+    );
     hints = data.sui_hei_hint.filter(
       hint => hint.receiver === null || hint.receiver.id === userFilterId,
     );
   } else {
-    dialogues = data.sui_hei_dialogue.map((dialogue, index) => ({
-      ...dialogue,
-      index,
-    }));
+    dialogues = data.sui_hei_dialogue;
     hints = data.sui_hei_hint;
   }
 

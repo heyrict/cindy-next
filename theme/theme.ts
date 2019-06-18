@@ -6,7 +6,7 @@ const breakpoints = ['40em', '52em', '64em', '90em'];
 const colors = {
   ...palxColor,
   solarized: {
-    white: '#ffebcd',
+    white: '#fcf4dc',
     black: '#002b36',
   },
 };

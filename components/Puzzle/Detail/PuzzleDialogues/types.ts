@@ -61,12 +61,8 @@ export type PuzzleDialoguesRendererProps = {
 } & QueryResult<DialogueHintQuery, DialogueHintQueryVariables> &
   typeof PuzzleDialoguesRendererDefaultProps;
 
-export type PuzzleDialogueWithIndexExtra = {
-  index: number;
-} & DialogueHintQuery_sui_hei_dialogue;
-
 export type PuzzleDialoguesRendererInnerProps = {
-  dialogues: Array<PuzzleDialogueWithIndexExtra>;
+  dialogues: Array<DialogueHintQuery_sui_hei_dialogue>;
   hints: Array<DialogueHintQuery_sui_hei_hint>;
   puzzleUser: InlineUser;
   puzzleStatus: number;
