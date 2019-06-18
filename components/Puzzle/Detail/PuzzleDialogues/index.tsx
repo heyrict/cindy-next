@@ -13,6 +13,9 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { connect } from 'react-redux';
+import * as puzzleReducer from 'reducers/puzzle';
+
 import { Query } from 'react-apollo';
 import {
   DialogueHintQuery,
@@ -24,6 +27,7 @@ import PuzzleDialoguesRenderer from './PuzzleDialoguesRenderer';
 import PuzzleDialoguesUserDeduplicator from './PuzzleDialoguesUserDeduplicator';
 
 import { PuzzleDialoguesProps } from './types';
+import { ActionContentType } from 'reducers/types';
 
 const PuzzleDialogues = ({
   puzzleId,
@@ -32,6 +36,7 @@ const PuzzleDialogues = ({
   userId,
   anonymous,
   puzzleStatus,
+  setTrueSolvedLongtermYami,
 }: PuzzleDialoguesProps) => {
   // Should remain in subscription if puzzle finished just now
   const [shouldSubscribe, setShouldSubscribe] = useState(false);
@@ -106,6 +111,13 @@ const PuzzleDialogues = ({
           puzzleId,
           userId,
         }}
+        onCompleted={data => {
+          if (
+            puzzleYami === 2 &&
+            data.sui_hei_dialogue.some(dialogue => dialogue.true)
+          )
+            setTrueSolvedLongtermYami();
+        }}
         fetchPolicy="cache-and-network"
       >
         {queryResult => (
@@ -135,4 +147,14 @@ const PuzzleDialogues = ({
   );
 };
 
-export default PuzzleDialogues;
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  setTrueSolvedLongtermYami: () =>
+    dispatch(puzzleReducer.actions.setTrueSolvedLongtermYami()),
+});
+
+const withRedux = connect(
+  null,
+  mapDispatchToProps,
+);
+
+export default withRedux(PuzzleDialogues);

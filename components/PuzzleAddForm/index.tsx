@@ -22,7 +22,7 @@ const PuzzleAddForm = () => {
         <Box px={[2, 3]} py={3}>
           <PuzzleAddFormInner
             onSubmit={(variables: AddPuzzleMutationVariables) => {
-              const submitErrors = [];
+              const submitErrors = [] as Array<string>;
               if (variables.title.trim() === '')
                 submitErrors.push('Title is empty!');
               if (variables.content.trim() === '')
@@ -31,16 +31,20 @@ const PuzzleAddForm = () => {
                 submitErrors.push('Solution is empty!');
               if (submitErrors.length > 0) {
                 setErrors(submitErrors);
-                return;
+                return new Promise(resolve =>
+                  resolve({ errors: submitErrors }),
+                );
               }
 
-              addPuzzle({
+              return addPuzzle({
                 variables,
               });
             }}
           />
           {errors.map(error => (
-            <span style={{ color: 'red' }}>{error}</span>
+            <div key={error} style={{ color: 'red' }}>
+              {error}
+            </div>
           ))}
         </Box>
       )}

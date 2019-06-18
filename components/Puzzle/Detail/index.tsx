@@ -26,13 +26,16 @@ const PuzzleDetail = ({
   userId,
   setPuzzleContent,
   setPuzzleMemo,
+  solvedLongtermYami,
+  setFalseSolvedLongtermYami,
 }: PuzzleDetailProps) => {
   let puzzleContent;
   const isUser = Boolean(userId);
   const isHidden = puzzle.status === 3;
   const isForbidden = puzzle.status === 4;
   const isCreator = puzzle.sui_hei_user.id === userId;
-  const shouldShowAnswer = puzzle.status === 1 || puzzle.status === 2;
+  const shouldShowAnswer =
+    puzzle.status === 1 || puzzle.status === 2 || solvedLongtermYami;
   const shouldShowAddQuestionInput =
     puzzle.status === 0 && !isCreator && isUser;
   const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
@@ -51,6 +54,10 @@ const PuzzleDetail = ({
     }
     return () => setPuzzleContent('');
   }, [puzzle.content, puzzle.status]);
+
+  useEffect(() => {
+    setFalseSolvedLongtermYami();
+  }, [puzzle.id])
 
   useEffect(() => {
     setPuzzleMemo(puzzle.memo);
@@ -124,6 +131,7 @@ const PuzzleDetail = ({
 
 const mapStateToProps = (state: StateType) => ({
   userId: globalReducer.rootSelector(state).user.id,
+  solvedLongtermYami: puzzleReducer.rootSelector(state).solvedLongtermYami,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
@@ -131,6 +139,8 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(puzzleReducer.actions.setPuzzleContent(content)),
   setPuzzleMemo: (memo: string) =>
     dispatch(puzzleReducer.actions.setPuzzleMemo(memo)),
+  setFalseSolvedLongtermYami: () =>
+    dispatch(puzzleReducer.actions.setFalseSolvedLongtermYami()),
 });
 
 const withRedux = connect(

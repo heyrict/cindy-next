@@ -35,6 +35,7 @@ export type PuzzleDialoguesProps = {
   puzzleYami: number;
   userId?: number;
   anonymous: boolean;
+  setTrueSolvedLongtermYami: () => void;
 };
 
 export type PuzzleDialoguesUserDeduplicatorProps = {
