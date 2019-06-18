@@ -20,13 +20,12 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
       bg={route === '/puzzles' ? 'yellow.4' : 'orange.4'}
       borderRadius={2}
       mx={1}
+      p={1}
     >
-      <Link to="puzzles" prefetch>
-        <a>
-          <ButtonTransparent height={1} width={1}>
-            <FormattedMessage {...puzzlesMessage.header} />
-          </ButtonTransparent>
-        </a>
+      <Link to="puzzles" prefetch passHref>
+        <ButtonTransparent color="red.9" as="a" height={1} width={1}>
+          <FormattedMessage {...puzzlesMessage.header} />
+        </ButtonTransparent>
       </Link>
     </Box>
     <Box
@@ -34,13 +33,12 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
       bg={route === '/add/puzzle' ? 'yellow.4' : 'orange.4'}
       borderRadius={2}
       mr={1}
+      p={1}
     >
-      <Link to="add/puzzle" prefetch>
-        <a>
-          <ButtonTransparent height={1} width={1}>
-            <FormattedMessage {...addPuzzleMessage.header} />
-          </ButtonTransparent>
-        </a>
+      <Link to="add/puzzle" prefetch passHref>
+        <ButtonTransparent color="red.9" as="a" height={1} width={1}>
+          <FormattedMessage {...addPuzzleMessage.header} />
+        </ButtonTransparent>
       </Link>
     </Box>
   </Flex>

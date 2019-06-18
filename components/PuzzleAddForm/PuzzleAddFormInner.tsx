@@ -131,7 +131,7 @@ export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
       <Box {...inputFieldNameStyle}>
         <FormattedMessage {...puzzleMessages.dazedOn} />
       </Box>
-      <Box {...fieldContentStyle}>
+      <Box {...fieldContentStyle} ml="3px">
         <Box
           {...fieldInputStype}
           py={1}
