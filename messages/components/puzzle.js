@@ -127,6 +127,10 @@ export const messages = defineMessages({
     id: `${scope}.general`,
     defaultMessage: 'General',
   },
+  haveQuestionsToBeAnswered: {
+    id: `${scope}.haveQuestionsToBeAnswered`,
+    defaultMessage: 'New Question',
+  },
 });
 
 export default messages;

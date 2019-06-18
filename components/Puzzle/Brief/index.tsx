@@ -20,6 +20,7 @@ import Process from './Process';
 import Star from './Star';
 import Status from './Status';
 import Yami from './Yami';
+import NewQuestion from './NewQuestion';
 
 import { PuzzleBriefProps } from './types';
 
@@ -51,6 +52,7 @@ export const Brief = ({
   commentCount,
   dialogueCount,
   dialogueMaxAnsweredtime,
+  dialogueMaxCreated,
   showGenreImage,
 }: PuzzleBriefProps) => {
   const aggregates = {
@@ -86,6 +88,12 @@ export const Brief = ({
         puzzle.sui_hei_dialogues_aggregate.aggregate &&
         puzzle.sui_hei_dialogues_aggregate.aggregate.max &&
         puzzle.sui_hei_dialogues_aggregate.aggregate.max.answeredtime),
+    dialogueMaxCreatedtime:
+      dialogueMaxCreated ||
+      (puzzle.sui_hei_dialogues_aggregate &&
+        puzzle.sui_hei_dialogues_aggregate.aggregate &&
+        puzzle.sui_hei_dialogues_aggregate.aggregate.max &&
+        puzzle.sui_hei_dialogues_aggregate.aggregate.max.created),
   };
 
   return (
@@ -151,6 +159,12 @@ export const Brief = ({
         <Flex p={1} flexWrap="wrap" alignItems="center">
           {puzzle.status !== 0 && puzzle.anonymous && <Anonymous />}
           <Status status={puzzle.status} />
+          {(aggregates.dialogueMaxCreatedtime &&
+            !aggregates.dialogueMaxAnsweredtime) ||
+            (aggregates.dialogueMaxCreatedtime &&
+              aggregates.dialogueMaxAnsweredtime &&
+              aggregates.dialogueMaxCreatedtime >
+                aggregates.dialogueMaxAnsweredtime && <NewQuestion />)}
           {typeof aggregates.dialogueCount === 'number' && (
             <Process count={aggregates.dialogueCount} />
           )}

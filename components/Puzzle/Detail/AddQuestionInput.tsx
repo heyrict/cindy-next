@@ -47,9 +47,9 @@ export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
       bg="orange.1"
     >
       <PuzzleInput
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setInput(e.target.value)
-        }
+        onChange={(
+          e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+        ) => setInput(e.target.value)}
         onKeyPress={(e: React.KeyboardEvent) => {
           if (e.nativeEvent.keyCode === 13 && !expanded) {
             onSubmit(input);
@@ -77,7 +77,7 @@ export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
   );
 };
 
-const AddQuestionInput = ({ puzzleId }: AddQuestionInputProps) => {
+const AddQuestionInput = ({ puzzleId, userId }: AddQuestionInputProps) => {
   return (
     <Mutation
       mutation={ADD_QUESTION_MUTATION}
@@ -93,14 +93,15 @@ const AddQuestionInput = ({ puzzleId }: AddQuestionInputProps) => {
             query: DIALOGUE_HINT_QUERY,
             variables: {
               puzzleId,
+              userId,
             },
           }) || {};
         const newItem = data.insert_sui_hei_dialogue.returning[0];
-        console.log(newItem, data, sui_hei_dialogue, sui_hei_hint);
         cache.writeQuery({
           query: DIALOGUE_HINT_QUERY,
           variables: {
             puzzleId,
+            userId,
           },
           data: {
             sui_hei_hint,

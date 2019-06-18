@@ -48,6 +48,7 @@ type BookmarksAggregate = {
 
 type DialoguesAggregateAggregateMax = {
   answeredtime: number | null;
+  created: number | null;
 };
 type DialoguesAggregateAggregate = {
   count: number | null;
@@ -81,5 +82,6 @@ export type PuzzleBriefProps = {
   starSum?: number;
   dialogueCount?: number;
   dialogueMaxAnsweredtime?: string;
+  dialogueMaxCreated?: string;
   showGenreImage: boolean;
 };

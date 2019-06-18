@@ -41,8 +41,9 @@ const PuzzleDetail = ({
   const shouldShowCommentPanel = shouldShowAnswer && !isCreator;
   const shouldShowBookmarkPanel = shouldShowAnswer;
   const shouldShowReplayPanel = shouldShowAnswer;
-
   const shouldShowControlPanel = isCreator;
+
+  const queryWithCurrentUserOnly = puzzle.yami !== 0 && !isCreator;
 
   useEffect(() => {
     if (isHidden && !isCreator) {
@@ -99,7 +100,10 @@ const PuzzleDetail = ({
           />
         )}
         {shouldShowAddQuestionInput && (
-          <AddQuestionInput puzzleId={puzzle.id} />
+          <AddQuestionInput
+            puzzleId={puzzle.id}
+            userId={queryWithCurrentUserOnly ? userId : undefined}
+          />
         )}
         {shouldShowAnswer && (
           <ContentsFrame

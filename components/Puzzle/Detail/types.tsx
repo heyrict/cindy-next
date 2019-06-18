@@ -23,6 +23,7 @@ export type QuestionInputWidgetProps = {
 
 export type AddQuestionInputProps = {
   puzzleId: number;
+  userId?: number;
 };
 
 export type BookmarkPanelProps = {
