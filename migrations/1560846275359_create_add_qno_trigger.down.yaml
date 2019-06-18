@@ -1,6 +1,6 @@
 - args:
     cascade: false
     sql: |-
-      drop trigger if exists add_dialogue_qno_before_dialogue_insert_trigger on sui_hei_puzzle;
+      drop trigger if exists add_dialogue_qno_before_dialogue_insert_trigger on sui_hei_dialogue;
       drop function if exists add_dialogue_qno_before_dialogue_insert;
   type: run_sql
