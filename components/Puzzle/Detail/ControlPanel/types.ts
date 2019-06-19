@@ -20,12 +20,13 @@ export type SetPanelToolbarProps = {
   currentPanel: ControlPanelPanelType;
   setCurrentPanel: (panel: ControlPanelPanelType) => void;
   status: number;
-  yami: number;
 };
 
 export type SolutionEditPanelProps = {
   puzzleId: number;
   solution: string;
+  status: number;
+  yami: number;
 };
 
 export type MemoEditPanelProps = {

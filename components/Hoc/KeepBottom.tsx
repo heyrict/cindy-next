@@ -84,7 +84,7 @@ class KeepBottom extends React.Component<KeepBottomProps> {
   handleToBottom(o: WatchObjectType) {
     logDev(`KeepBottom: Handle toBottom for ${o.name}`);
     const behavior = o.smooth ? 'smooth' : 'auto';
-    const wait = o.wait || 0;
+    const wait = o.wait || 200;
     const sr: any = this.scrollerRef.current;
 
     if (this.pendingTimeout) {

@@ -15,9 +15,16 @@ import crossIcon from 'svgs/cross.svg';
 
 import { SolutionEditPanelProps } from './types';
 
-const SolutionEditPanel = ({ puzzleId, solution }: SolutionEditPanelProps) => {
+const SolutionEditPanel = ({
+  puzzleId,
+  solution,
+  status,
+  yami,
+}: SolutionEditPanelProps) => {
   const [editing, setEditing] = useState(false);
   const editorRef = useRef<PreviewEditor>(null);
+
+  const canEdit = status === 0 && yami !== 2;
 
   return (
     <Flex
@@ -48,6 +55,7 @@ const SolutionEditPanel = ({ puzzleId, solution }: SolutionEditPanelProps) => {
               <ButtonTransparent
                 width={1 / 2}
                 onClick={() => {
+                  if (!canEdit) return;
                   if (!editorRef.current) return;
                   const newSolution = editorRef.current.getText();
                   if (newSolution === solution || newSolution.trim() === '') {
@@ -72,9 +80,11 @@ const SolutionEditPanel = ({ puzzleId, solution }: SolutionEditPanelProps) => {
           ) : (
             <Box p={2}>
               <span dangerouslySetInnerHTML={{ __html: solution }} />
-              <ButtonTransparent onClick={() => setEditing(true)}>
-                <Img height="xxs" src={pencilIcon} />
-              </ButtonTransparent>
+              {canEdit && (
+                <ButtonTransparent onClick={() => setEditing(true)}>
+                  <Img height="xxs" src={pencilIcon} />
+                </ButtonTransparent>
+              )}
             </Box>
           )
         }

@@ -34,10 +34,14 @@ const ControlPanel = ({ puzzle }: ControlPanelProps) => {
         currentPanel={currentPanel}
         setCurrentPanel={setCurrentPanel}
         status={puzzle.status}
-        yami={puzzle.yami}
       />
       {currentPanel === ControlPanelPanelType.SOLUTION_EDIT && (
-        <SolutionEditPanel puzzleId={puzzle.id} solution={puzzle.solution} />
+        <SolutionEditPanel
+          puzzleId={puzzle.id}
+          solution={puzzle.solution}
+          status={puzzle.status}
+          yami={puzzle.yami}
+        />
       )}
       {currentPanel === ControlPanelPanelType.MEMO_EDIT && (
         <MemoEditPanel puzzleId={puzzle.id} memo={puzzle.memo} />

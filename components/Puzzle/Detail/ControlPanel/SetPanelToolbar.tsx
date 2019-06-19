@@ -1,6 +1,5 @@
 import React from 'react';
 import { ButtonTransparent, Flex } from 'components/General';
-import { widthSplits } from '../constants';
 
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/puzzle';
@@ -18,10 +17,9 @@ const SetPanelToolbar = ({
   currentPanel,
   setCurrentPanel,
   status,
-  yami,
 }: SetPanelToolbarProps) => (
   <Flex width={1} mb={1}>
-    {status === 0 && yami !== 2 && (
+    {status === 0 && (
       <ButtonTransparent
         {...PanelToolbarButonProps}
         borderColor={
