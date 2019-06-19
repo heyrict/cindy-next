@@ -49,7 +49,7 @@ const PuzzleDetail = ({
   const queryWithCurrentUserOnly = puzzle.yami !== 0 && !isCreator;
 
   useEffect(() => {
-    if (isHidden && !isCreator) {
+    if (!isHidden && !isCreator) {
       setPuzzleContent(puzzle.content);
     }
     return () => setPuzzleContent('');
@@ -57,7 +57,7 @@ const PuzzleDetail = ({
 
   useEffect(() => {
     setFalseSolvedLongtermYami();
-  }, [puzzle.id])
+  }, [puzzle.id]);
 
   useEffect(() => {
     setPuzzleMemo(puzzle.memo);

@@ -1,16 +1,23 @@
 import * as array from './helpers/array';
 import * as base from './helpers/base';
 import * as bool from './helpers/bool';
-import { StateType, ActionContentType, ActionSetType } from './types';
+import {
+  StateType,
+  ActionContentType,
+  ActionSetType,
+  ScrollArrowEnum,
+  RightAsideType,
+} from './types';
 import { UserFilterSwitcherUserType } from 'components/Puzzle/Detail/PuzzleDialogues/types';
 
 export const scope = 'puzzle';
 
 export const actionTypes = {
   PARTICIPANTS: `${scope}.PARTICIPANTS`,
-  PUZZLE_CONTENT: `${scope}.PUZZLE_CONTENT',`,
-  PUZZLE_MEMO: `${scope}.PUZZLE_MEMO',`,
+  PUZZLE_CONTENT: `${scope}.PUZZLE_CONTENT`,
+  PUZZLE_MEMO: `${scope}.PUZZLE_MEMO`,
   SOLVED_LONGTERM_YAMI: `${scope}.SOLVED_LONGTERM_YAMI`,
+  RIGHT_ASIDE: `${scope}.RIGHT_ASIDE`,
 };
 
 export const actions: ActionSetType = {
@@ -18,6 +25,7 @@ export const actions: ActionSetType = {
   ...base.getActions('PuzzleContent', actionTypes.PUZZLE_CONTENT),
   ...base.getActions('PuzzleMemo', actionTypes.PUZZLE_MEMO),
   ...bool.getActions('SolvedLongtermYami', actionTypes.SOLVED_LONGTERM_YAMI),
+  ...base.getActions('RightAside', actionTypes.RIGHT_ASIDE),
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -28,6 +36,7 @@ export const initialState = {
   puzzleContent: '',
   puzzleMemo: '',
   solvedLongtermYami: false,
+  rightAside: RightAsideType.none,
 };
 
 export const reducer = (
@@ -57,6 +66,11 @@ export const reducer = (
           state.solvedLongtermYami,
           action.payload,
         ),
+      };
+    case actionTypes.RIGHT_ASIDE:
+      return {
+        ...state,
+        rightAside: base.helper(state.rightAside, action.payload),
       };
     default:
       return state;

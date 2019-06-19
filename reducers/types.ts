@@ -39,3 +39,9 @@ export type AuthErrorType = {
   type: string;
   message: string;
 };
+
+export enum RightAsideType {
+  none,
+  content,
+  memo,
+}
