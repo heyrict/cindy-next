@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg8" width="11.209mm" height="16.545mm" version="1.1" viewBox="0 0 11.209 16.545" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata id="metadata5">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g id="layer1" transform="translate(-87.893 -51.346)">
+  <g id="g840" transform="matrix(1 0 0 -1 0 119.24)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".39687">
+   <path id="path832" d="m91.559 59.554v8.1217c1.2924 0.0056 2.5847 0.01112 3.8771 0.01668v-8.1384h3.3417c-1.7601-2.1629-3.5202-4.3257-5.2802-6.4886-1.7601 2.1629-3.5202 4.3257-5.2802 6.4886h3.3417"/>
+   <rect id="rect836" x="88.092" y="51.545" width="10.812" height=".9623" rx=".26371" ry=".083679" opacity=".98" stroke-opacity=".80784"/>
+  </g>
+ </g>
+</svg>

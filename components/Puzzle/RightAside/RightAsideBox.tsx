@@ -4,6 +4,12 @@ import styled from 'theme/styled';
 import { connect } from 'react-redux';
 import * as puzzleReducer from 'reducers/puzzle';
 
+import { Img } from 'components/General';
+import soupIcon from 'svgs/soup.svg';
+import memoIcon from 'svgs/memo.svg';
+import toTopIcon from 'svgs/toTop.svg';
+import toBottomIcon from 'svgs/toBottom.svg';
+
 import { ActionContentType, RightAsideType, StateType } from 'reducers/types';
 import {
   RightAsideBoxBaseProps,
@@ -11,7 +17,6 @@ import {
   RightAsideBoxState,
   RightAsideBoxButtonProps,
 } from './types';
-import { ButtonTransparent } from 'components/General';
 
 const RightAsideBoxBase = styled.div<RightAsideBoxBaseProps>`
   display: flex;
@@ -101,7 +106,7 @@ class RightAsideBox extends React.Component<
                 )
               }
             >
-              Q
+              <Img height="2em" src={soupIcon} alt="Soup" />
             </RightAsideBoxButton>
             {puzzleMemo !== '' && (
               <RightAsideBoxButton
@@ -114,7 +119,7 @@ class RightAsideBox extends React.Component<
                   )
                 }
               >
-                M
+                <Img height="2em" src={memoIcon} alt="Memo" />
               </RightAsideBoxButton>
             )}
             <RightAsideBoxButton
@@ -122,7 +127,7 @@ class RightAsideBox extends React.Component<
                 window && window.scrollTo({ top: 0, behavior: 'smooth' })
               }
             >
-              ↑
+              <Img height="2em" src={toTopIcon} alt="Top" />
             </RightAsideBoxButton>
             <RightAsideBoxButton
               onClick={() =>
@@ -133,13 +138,13 @@ class RightAsideBox extends React.Component<
                 })
               }
             >
-              ↓
+              <Img height="2em" src={toBottomIcon} alt="Bottom" />
             </RightAsideBoxButton>
             <RightAsideBoxButton
               height="2em"
               onClick={() => this.setState({ mini: true })}
             >
-              _
+              x
             </RightAsideBoxButton>
           </React.Fragment>
         )}

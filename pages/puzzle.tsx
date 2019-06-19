@@ -44,7 +44,7 @@ class Puzzle extends React.Component<PuzzleProps> {
             <PuzzleRenderer {...params} formatMessage={_} puzzleId={puzzleId} />
           )}
         </Query>
-        <div style={{ height: '400px' }} />
+        <div style={{ height: '150px' }} />
       </React.Fragment>
     );
   }

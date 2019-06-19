@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg8" width="12.574mm" height="10.204mm" version="1.1" viewBox="0 0 12.574 10.204" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata id="metadata5">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g id="layer1" transform="translate(-106.16 -94.044)">
+  <g id="g988" transform="matrix(.70912 0 0 1.1993 30.906 -20.725)" fill="none" stroke="#000">
+   <g id="g1069" transform="matrix(1.1406 0 0 1.1406 -15.106 -13.774)" stroke-linecap="round" stroke-width=".26458">
+    <path id="path1050" d="m111.67 97.765c0.59903-0.33002 1.228-0.57844 2.0213 0 0.70691 0.51549 1.3631 0.56279 2.0213 0"/>
+    <path id="path1050-7" d="m112.4 98.991c0.59903-0.33002 1.228-0.57844 2.0213 0 0.70691 0.51549 1.3631 0.56279 2.0213 0"/>
+   </g>
+   <g id="g972">
+    <path id="path815" d="m123.7 98.151c-0.75631 1.6991-3.1944 1.6325-4.7645 2.0205-4.0855 0.31254-8.6794 0.69683-12.357-1.414-1.022-1.0524 0.91155-1.8805 1.7327-2.067 4.5555-1.1173 9.5114-1.1848 14.007 0.23559 0.53007 0.24898 1.3167 0.54267 1.3823 1.2249z" stroke-width=".3175"/>
+    <path id="path815-4" d="m106.65 98.718c0.31496-0.81977 1.3011-1.0498 2.05-1.3173 3.0042-0.80876 6.1658-0.86897 9.2503-0.60302 1.6706 0.21065 3.4459 0.39021 4.9051 1.3009 0.20942 0.15487 0.41854 0.35339 0.47421 0.61889" stroke-width=".26458"/>
+    <g id="g1123" stroke-linecap="round">
+     <path id="path989" d="m106.65 98.718 4.7775 3.5526c2.322 0.40936 4.9832 0.385 7.1306-0.0232l4.7715-3.5299" stroke-width=".3175"/>
+     <g id="g1102" transform="translate(-.53118 .16131)">
+      <path id="path1096" d="m120.3 100.47-0.71828 0.50113" stroke-width=".265"/>
+      <path id="path1098" d="m119.16 101.22-0.15008 0.10977" stroke-width=".27209"/>
+     </g>
+    </g>
+   </g>
+   <g id="g948">
+    <path id="path914" d="m119.45 101.68a6.4145 1.0691 0 0 1 2.0738 0.78711 6.4145 1.0691 0 0 1-6.4145 1.0691 6.4145 1.0691 0 0 1-6.4145-1.0691 6.4145 1.0691 0 0 1 2.0573-0.78459" stroke-width=".26458"/>
+    <path id="path938" d="m119.12 103.8a5.4243 0.90405 0 0 1-4.0128 0.29576 5.4243 0.90405 0 0 1-4.0115-0.29553" stroke-width=".22374"/>
+   </g>
+  </g>
+ </g>
+</svg>

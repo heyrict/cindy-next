@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg8" width="25.96mm" height="21.94mm" version="1.1" viewBox="0 0 25.96 21.94" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata id="metadata5">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g id="layer1" transform="translate(-100.44 -88.938)">
+  <g id="g971" fill="none" stroke="#000">
+   <g id="g932" transform="translate(1.5361)" stroke-width=".52917">
+    <rect id="rect815" x="99.166" y="90.761" width="25.431" height="3.0355" rx=".29669" ry=".17707" opacity=".98" stroke-linecap="square" stroke-linejoin="round" stroke-opacity=".80784"/>
+    <g stroke-linecap="round">
+     <path id="path817" d="m105.5 89.207v6.1442"/>
+     <path id="path817-4" d="m111.83 89.207v6.1442"/>
+     <path id="path817-44" d="m118.16 89.207v6.1442"/>
+    </g>
+   </g>
+   <g id="g956" transform="translate(.18899)">
+    <g id="g912" transform="translate(.80658)" stroke-width=".52917">
+     <path id="path870" d="m107.84 100.09h8.0849"/>
+     <path id="path870-6" d="m107.84 104.23h8.0849"/>
+    </g>
+    <g id="g947">
+     <rect id="rect868" x="102.74" y="93.823" width="19.905" height="16.791" rx=".24445" ry=".29201" opacity=".98" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".80784" stroke-width=".52917"/>
+     <path id="path887" d="m123.49 93.918v16.035" stroke-width=".39687"/>
+     <path id="path887-1" d="m124.17 93.947v15.3" stroke-width=".39687"/>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>
