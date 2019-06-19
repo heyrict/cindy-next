@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'theme/styled';
 import { Link } from 'routes';
-import { Box, Flex, Panel } from 'components/General';
+import { Box, Flex } from 'components/General';
 
 import UserCol from 'components/User/UserCol';
 import { AnonymousUserCol } from 'components/User/Anonymous';
@@ -21,6 +21,7 @@ import Star from './Star';
 import Status from './Status';
 import Yami from './Yami';
 import NewQuestion from './NewQuestion';
+import PuzzlePane from './PuzzlePane';
 
 import { PuzzleBriefProps } from './types';
 
@@ -97,11 +98,7 @@ export const Brief = ({
   };
 
   return (
-    <Panel
-      bg={puzzle.status === 0 ? 'pink.0' : 'yellow.0'}
-      alignItems="center"
-      justifyContent="center"
-    >
+    <PuzzlePane alignItems="center" justifyContent="center">
       {puzzle.status === 0 && puzzle.anonymous ? (
         <AnonymousUserCol width={[1 / 4, 1 / 6]} />
       ) : (
@@ -183,7 +180,7 @@ export const Brief = ({
             )}
         </Flex>
       </Box>
-    </Panel>
+    </PuzzlePane>
   );
 };
 

@@ -74,6 +74,10 @@ export type PuzzleType = {
   sui_hei_dialogues_aggregate?: DialoguesAggregate | null;
 };
 
+export type PuzzlePaneProps = {
+  status: number;
+}
+
 export type PuzzleBriefProps = {
   puzzle: PuzzleType;
   bookmarkCount?: number;
