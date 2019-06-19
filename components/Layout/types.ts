@@ -1,5 +1,11 @@
+export type FixedButtonBaseProps = {
+  position?: 'left' | 'right';
+  show: boolean;
+};
+
 export type FixedButtonProps = {
   children: React.ReactNode;
+  position?: 'left' | 'right';
   [buttonProp: string]: any;
 };
 

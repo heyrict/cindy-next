@@ -7,6 +7,7 @@ import { Global, css } from '@emotion/core';
 
 import Chat from 'components/Chat';
 import Toolbar from 'components/Toolbar';
+import PuzzleRightAside from 'components/Puzzle/RightAside';
 import ChatBox from './ChatBox';
 import Page from './Page';
 import ToolbarBox from './ToolbarBox';
@@ -140,6 +141,7 @@ const Layout = ({ children, fetchUser, ...props }) => {
       <ChatBox>
         <Chat />
       </ChatBox>
+      <PuzzleRightAside />
       <ToolbarBox>
         <Toolbar />
       </ToolbarBox>

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'theme/styled';
 import { Button } from 'components/General';
-import { FixedButtonProps } from './types';
+import { FixedButtonProps, FixedButtonBaseProps } from './types';
 
-const FixedButtonBase = styled(Button)`
+const FixedButtonBase = styled(Button)<FixedButtonBaseProps>`
   display: none;
   border-width: 0;
   ${p => p.theme.mediaQueries.medium} {
@@ -17,11 +17,18 @@ const FixedButtonBase = styled(Button)`
     background-color: ${p => p.theme.colors.red[9]};
     color: ${p => p.theme.colors.gray[8]};
     z-index: 180;
-    visibility: ${p => (p.show && !p.chatOpen ? 'visible' : 'hidden')};
+    visibility: ${p => (p.show ? 'visible' : 'hidden')};
     transform: ${p => (p.show ? 'none' : 'translateX(-100%)')};
     transition-property: transform, opacity, visibility;
     transition-duration: 150ms;
     transition-timing-function: ease-in-out;
+
+    &:hover {
+      background-color: ${p => p.theme.colors.red[8]};
+    }
+    &:active {
+      background-color: ${p => p.theme.colors.red[7]};
+    }
   }
 `;
 

@@ -66,17 +66,13 @@ const ChatBox = ({
   setTrueAside,
   setFalseAside,
 }: ChatBoxProps) => (
-  <div>
+  <React.Fragment>
     <ResponsiveChatBox open={aside}>{children}</ResponsiveChatBox>
     <ChatBoxShader open={aside} onClick={() => setFalseAside()} />
-    <FixedButton
-      position="left"
-      chatOpen={aside}
-      onClick={() => setTrueAside()}
-    >
+    <FixedButton position="left" onClick={() => setTrueAside()}>
       <Img height="3em" src={ChatIcon} />
     </FixedButton>
-  </div>
+  </React.Fragment>
 );
 
 const mapStateToProps = (state: StateType) => ({
