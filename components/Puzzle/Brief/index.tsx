@@ -98,7 +98,11 @@ export const Brief = ({
   };
 
   return (
-    <PuzzlePane alignItems="center" justifyContent="center">
+    <PuzzlePane
+      status={puzzle.status}
+      alignItems="center"
+      justifyContent="center"
+    >
       {puzzle.status === 0 && puzzle.anonymous ? (
         <AnonymousUserCol width={[1 / 4, 1 / 6]} />
       ) : (
