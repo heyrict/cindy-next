@@ -49,10 +49,10 @@ const PuzzleDetail = ({
   const queryWithCurrentUserOnly = puzzle.yami !== 0 && !isCreator;
 
   useEffect(() => {
-    if (!isHidden && !isCreator) {
+    if (!isHidden) {
       setPuzzleContent(puzzle.content);
+      return () => setPuzzleContent('');
     }
-    return () => setPuzzleContent('');
   }, [puzzle.content, puzzle.status]);
 
   useEffect(() => {

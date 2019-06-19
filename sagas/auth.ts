@@ -1,4 +1,4 @@
-import { take, put } from 'redux-saga/effects';
+import { takeEvery, put } from 'redux-saga/effects';
 import cookie from 'cookie';
 
 import * as globalReducer from 'reducers/global';
@@ -9,7 +9,6 @@ const getAuthToken = () =>
   cookie.parse(document.cookie)['cindy-jwt-token'];
 
 function* fetchUser() {
-  yield take(globalReducer.actionTypes.FETCHUSER);
   const authToken = getAuthToken();
   if (authToken) {
     const res = yield fetch('/webhook/getcurrent', {
@@ -36,4 +35,8 @@ function* fetchUser() {
   }
 }
 
-export default fetchUser;
+function* authRootSaga() {
+  yield takeEvery(globalReducer.actionTypes.FETCHUSER, fetchUser);
+}
+
+export default authRootSaga;
