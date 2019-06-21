@@ -11,6 +11,7 @@ export type RightAsideBoxButtonProps = {
 
 export type RightAsideBoxProps = {
   puzzleMemo: string;
+  puzzleMemoHasnew: string;
   rightAside: RightAsideType;
   setRightAside: (rightAside: RightAsideType) => void;
 };

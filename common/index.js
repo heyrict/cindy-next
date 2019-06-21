@@ -3,3 +3,4 @@ export { randomUUID } from './random';
 export * from './update';
 export { getDefaultChannel, getChannelWithPath } from './channel';
 export { fontSizeToEm } from './math';
+export * from './pages';

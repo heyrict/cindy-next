@@ -4,7 +4,7 @@ import styled from 'theme/styled';
 import { connect } from 'react-redux';
 import * as puzzleReducer from 'reducers/puzzle';
 
-import { Img } from 'components/General';
+import { Img, RedDot } from 'components/General';
 import soupIcon from 'svgs/soup.svg';
 import memoIcon from 'svgs/memo.svg';
 import toTopIcon from 'svgs/toTop.svg';
@@ -82,7 +82,12 @@ class RightAsideBox extends React.Component<
     process.browser && window.removeEventListener('scroll', this.handleScroll);
   };
   render() {
-    const { rightAside, setRightAside, puzzleMemo } = this.props;
+    const {
+      rightAside,
+      setRightAside,
+      puzzleMemo,
+      puzzleMemoHasnew,
+    } = this.props;
 
     return (
       <RightAsideBoxBase show={!this.state.mini || this.state.showMini}>
@@ -119,6 +124,7 @@ class RightAsideBox extends React.Component<
                   )
                 }
               >
+                {puzzleMemoHasnew && <RedDot right={0} />}
                 <Img height="2em" src={memoIcon} alt="Memo" />
               </RightAsideBoxButton>
             )}
@@ -155,6 +161,7 @@ class RightAsideBox extends React.Component<
 
 const mapStateToProps = (state: StateType) => ({
   puzzleMemo: puzzleReducer.rootSelector(state).puzzleMemo,
+  puzzleMemoHasnew: puzzleReducer.rootSelector(state).puzzleMemoHasnew,
   rightAside: puzzleReducer.rootSelector(state).rightAside,
 });
 

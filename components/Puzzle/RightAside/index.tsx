@@ -1,4 +1,5 @@
 import React from 'react';
+import { onPuzzleDetailPage } from 'common/pages';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -8,10 +9,6 @@ import AsideContents from './AsideContents';
 
 import { StateType } from 'reducers/types';
 import { RightAsideProps } from './types';
-
-const puzzleDetailPageRegex = new RegExp('^/puzzle/\\d+$');
-const onPuzzleDetailPage = (route: string): boolean =>
-  Boolean(route.match(puzzleDetailPageRegex));
 
 const RightAside = ({ route }: RightAsideProps) =>
   onPuzzleDetailPage(route) ? (
