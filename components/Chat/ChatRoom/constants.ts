@@ -1,0 +1,1 @@
+export const CHATMESSAGES_PER_PAGE = 10;

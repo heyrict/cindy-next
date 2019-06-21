@@ -27,6 +27,8 @@ import {
   ChatroomPuzzleVariables,
 } from 'graphql/Queries/generated/ChatroomPuzzle';
 
+import { CHATMESSAGES_PER_PAGE } from './constants';
+
 import { WatchObjectActionType } from 'components/Hoc/types';
 import { StateType, ActionContentType } from 'reducers/types';
 import { ChatRoomMessagesProps, ChatRoomMessagesBodyProps } from './types';
@@ -65,10 +67,11 @@ const ChatRoomMessagesBody = ({
 
   const [hasMore, setHasMore] = useState(false);
   useEffect(() => {
-    if (chatmessages.length > 0) setHasMore(true);
+    if (loading) return;
+    if (chatmessages.length >= CHATMESSAGES_PER_PAGE) setHasMore(true);
     if (chatmessages.length > 0)
       chatmessageUpdate(chatroomId, chatmessages[chatmessages.length - 1].id);
-  }, [chatroomId]);
+  }, [chatroomId, loading]);
 
   useEffect(
     () =>
@@ -81,6 +84,7 @@ const ChatRoomMessagesBody = ({
             subscriptionData,
           }: { subscriptionData: { data: ChatroomChatmessageSubscription } },
         ) => {
+          if (prev === undefined) return prev;
           if (!subscriptionData.data) return prev;
           if (!subscriptionData.data.chatmessageSub) return prev;
           if (subscriptionData.data.chatmessageSub.eventType === 'INSERT') {
@@ -223,7 +227,7 @@ const ChatRoomMessages = ({
       query={CHATROOM_CHATMESSAGES_QUERY}
       variables={{
         chatroomId,
-        limit: 10,
+        limit: CHATMESSAGES_PER_PAGE,
       }}
     >
       {queryParams => (
