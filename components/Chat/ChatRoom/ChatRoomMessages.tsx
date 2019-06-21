@@ -14,20 +14,22 @@ import { CHATROOM_CHATMESSAGES_SUBSCRIPTION } from 'graphql/Subscriptions/Chat';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
+import * as chatReducer from 'reducers/chat';
 
 import Chatmessage from '../Chatmessage';
-import { StateType } from 'reducers/types';
 import {
   ChatroomChatmessages,
   ChatroomChatmessagesVariables,
 } from 'graphql/Queries/generated/ChatroomChatmessages';
 import { ChatroomChatmessageSubscription } from 'graphql/Subscriptions/generated/ChatroomChatmessageSubscription';
-import { ChatRoomMessagesProps, ChatRoomMessagesBodyProps } from './types';
-import { WatchObjectActionType } from 'components/Hoc/types';
 import {
   ChatroomPuzzle,
   ChatroomPuzzleVariables,
 } from 'graphql/Queries/generated/ChatroomPuzzle';
+
+import { WatchObjectActionType } from 'components/Hoc/types';
+import { StateType, ActionContentType } from 'reducers/types';
+import { ChatRoomMessagesProps, ChatRoomMessagesBodyProps } from './types';
 
 // Add Wrapper to ChannelContent due to flex bug: https://github.com/philipwalton/flexbugs/issues/108
 const ChannelContentWrapper = styled.div`
@@ -51,6 +53,7 @@ const ChatRoomMessagesBody = ({
   chatroomId,
   user,
   relatedPuzzleId,
+  chatmessageUpdate,
 }: ChatRoomMessagesBodyProps) => {
   if (error) return <div>Error</div>;
   if (!data) return <div>No messages</div>;
@@ -63,6 +66,8 @@ const ChatRoomMessagesBody = ({
   const [hasMore, setHasMore] = useState(false);
   useEffect(() => {
     if (chatmessages.length > 0) setHasMore(true);
+    if (chatmessages.length > 0)
+      chatmessageUpdate(chatroomId, chatmessages[chatmessages.length - 1].id);
   }, [chatroomId]);
 
   useEffect(
@@ -79,14 +84,20 @@ const ChatRoomMessagesBody = ({
           if (!subscriptionData.data) return prev;
           if (!subscriptionData.data.chatmessageSub) return prev;
           if (subscriptionData.data.chatmessageSub.eventType === 'INSERT') {
-            return Object.assign({}, prev, {
-              sui_hei_chatmessage: upsertItem(
-                prev.sui_hei_chatmessage,
-                subscriptionData.data.chatmessageSub.sui_hei_chatmessage,
-                'id',
-                'desc',
-              ),
-            });
+            if (subscriptionData.data.chatmessageSub.sui_hei_chatmessage) {
+              chatmessageUpdate(
+                chatroomId,
+                subscriptionData.data.chatmessageSub.sui_hei_chatmessage.id,
+              );
+              return Object.assign({}, prev, {
+                sui_hei_chatmessage: upsertItem(
+                  prev.sui_hei_chatmessage,
+                  subscriptionData.data.chatmessageSub.sui_hei_chatmessage,
+                  'id',
+                  'desc',
+                ),
+              });
+            }
           }
           return prev;
         },
@@ -205,6 +216,7 @@ const ChatRoomMessages = ({
   chatroomId,
   relatedPuzzleId,
   user,
+  chatmessageUpdate,
 }: ChatRoomMessagesProps) =>
   chatroomId ? (
     <Query<ChatroomChatmessages, ChatroomChatmessagesVariables>
@@ -219,6 +231,7 @@ const ChatRoomMessages = ({
           chatroomId={chatroomId}
           relatedPuzzleId={relatedPuzzleId}
           user={user}
+          chatmessageUpdate={chatmessageUpdate}
           {...queryParams}
         />
       )}
@@ -233,6 +246,14 @@ const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
 });
 
-const withRedux = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  chatmessageUpdate: (chatroomId: number, messagesHash: number) =>
+    dispatch(chatReducer.actions.chatmessageUpdate(chatroomId, messagesHash)),
+});
+
+const withRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default withRedux(ChatRoomMessages);

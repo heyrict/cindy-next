@@ -16,6 +16,7 @@ export type ChatBoxInnerProps = {
 export type ChatBoxProps = {
   children: React.ReactNode;
   aside: boolean;
+  chatHasnew: boolean;
   setTrueAside: () => void;
   setFalseAside: () => void;
 };

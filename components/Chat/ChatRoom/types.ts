@@ -10,13 +10,18 @@ export type ChatRoomInputProps = {
   user: GlobalUserType;
 };
 
-export type ChatRoomMessagesBodyProps = ChatRoomMessagesProps &
-  QueryResult<ChatroomChatmessages, ChatroomChatmessagesVariables>;
+export type ChatRoomMessagesBodyProps = {
+  chatroomId: number;
+  relatedPuzzleId?: number | null;
+  user: GlobalUserType;
+  chatmessageUpdate: (chatroomId: number, messagesHash: number) => void;
+} & QueryResult<ChatroomChatmessages, ChatroomChatmessagesVariables>;
 
 export type ChatRoomMessagesProps = {
   chatroomId?: number;
   relatedPuzzleId?: number | null;
   user: GlobalUserType;
+  chatmessageUpdate: (chatroomId: number, messagesHash: number) => void;
 };
 
 export type ChatRoomProps = {

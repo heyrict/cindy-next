@@ -3,3 +3,4 @@ export type HashStoreType = {
 };
 
 export type MemoStatStoreType = HashStoreType;
+export type ChatStoreType = HashStoreType;

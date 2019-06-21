@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'theme/styled';
-import { Img } from 'components/General';
+import { Img, RedDot } from 'components/General';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
+import * as chatReducer from 'reducers/chat';
 
 import ChatIcon from 'svgs/chat.svg';
 import FixedButton from './FixedButton';
@@ -63,6 +64,7 @@ const ResponsiveChatBox = styled(ChatBoxBase)<ChatBoxInnerProps>`
 const ChatBox = ({
   children,
   aside,
+  chatHasnew,
   setTrueAside,
   setFalseAside,
 }: ChatBoxProps) => (
@@ -70,6 +72,7 @@ const ChatBox = ({
     <ResponsiveChatBox open={aside}>{children}</ResponsiveChatBox>
     <ChatBoxShader open={aside} onClick={() => setFalseAside()} />
     <FixedButton position="left" onClick={() => setTrueAside()}>
+      {chatHasnew && <RedDot size="xxs" right={10} />}
       <Img height="3em" src={ChatIcon} />
     </FixedButton>
   </React.Fragment>
@@ -77,6 +80,7 @@ const ChatBox = ({
 
 const mapStateToProps = (state: StateType) => ({
   aside: globalReducer.rootSelector(state).aside,
+  chatHasnew: chatReducer.rootSelector(state).chatHasnew,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({

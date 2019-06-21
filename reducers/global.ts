@@ -1,6 +1,11 @@
 import * as bool from './helpers/bool';
 import * as base from './helpers/base';
-import { StateType, ActionContentType, ActionSetType, GlobalUserType } from './types';
+import {
+  StateType,
+  ActionContentType,
+  ActionSetType,
+  GlobalUserType,
+} from './types';
 
 export const scope = 'global';
 

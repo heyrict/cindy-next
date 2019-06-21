@@ -9,6 +9,8 @@ export const actionTypes = {
   CHANNEL_CHANGE_MODAL: `${scope}.CHANNEL_CHANGE_MODAL`,
   CHAT_INPUT_MODAL: `${scope}.CHAT_INPUT_MODAL`,
   DESCRIPTION_MODAL: `${scope}.DESCRIPTION_MODAL`,
+  CHAT_HASNEW: `${scope}.CHAT_HASNEW`,
+  CHATMESSAGE_UPDATE: `${scope}.CHATMESSAGE_UPDATE`,
 };
 
 export const actions: ActionSetType = {
@@ -16,6 +18,14 @@ export const actions: ActionSetType = {
   ...bool.getActions('ChannelChangeModal', actionTypes.CHANNEL_CHANGE_MODAL),
   ...bool.getActions('ChatInputModal', actionTypes.CHAT_INPUT_MODAL),
   ...bool.getActions('DescriptionModal', actionTypes.DESCRIPTION_MODAL),
+  ...bool.getActions('ChatHasnew', actionTypes.CHAT_HASNEW),
+  chatmessageUpdate: (chatroomId: number, messagesHash: number) => ({
+    type: actionTypes.CHATMESSAGE_UPDATE,
+    payload: {
+      chatroomId,
+      messagesHash,
+    },
+  }),
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -26,6 +36,7 @@ export const initialState = {
   channelChangeModal: false,
   chatInputModal: false,
   descriptionModal: false,
+  chatHasnew: false,
 };
 
 export const reducer = (
@@ -58,6 +69,11 @@ export const reducer = (
       return {
         ...state,
         descriptionModal: bool.helper(state.descriptionModal, action.payload),
+      };
+    case actionTypes.CHAT_HASNEW:
+      return {
+        ...state,
+        chatHasnew: bool.helper(state.chatHasnew, action.payload),
       };
     default:
       return state;
