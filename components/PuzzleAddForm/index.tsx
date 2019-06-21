@@ -15,10 +15,10 @@ import {
 const PuzzleAddForm = () => {
   const [errors, setErrors] = useState<string[]>([]);
   return (
-    <Mutation mutation={ADD_PUZZLE_MUTATION}>
-      {(
-        addPuzzle: MutationFn<AddPuzzleMutation, AddPuzzleMutationVariables>,
-      ) => (
+    <Mutation<AddPuzzleMutation, AddPuzzleMutationVariables>
+      mutation={ADD_PUZZLE_MUTATION}
+    >
+      {addPuzzle => (
         <Box px={[2, 3]} py={3}>
           <PuzzleAddFormInner
             onSubmit={(variables: AddPuzzleMutationVariables) => {

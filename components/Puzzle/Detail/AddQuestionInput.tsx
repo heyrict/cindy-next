@@ -123,6 +123,33 @@ const AddQuestionInput = ({ puzzleId, userId }: AddQuestionInputProps) => {
                 question: input,
                 puzzleId,
               },
+              optimisticResponse: {
+                insert_sui_hei_dialogue: {
+                  __typename: 'sui_hei_dialogue_mutation_response',
+                  returning: [
+                    {
+                      __typename: 'sui_hei_dialogue',
+                      id: puzzleId,
+                      qno: -1,
+                      good: false,
+                      true: false,
+                      question: input,
+                      questionEditTimes: 0,
+                      answer: '',
+                      answerEditTimes: 0,
+                      created: new Date().toISOString,
+                      answeredtime: null,
+                      sui_hei_user: {
+                        __typename: 'sui_hei_user',
+                        id: -1,
+                        nickname: '...',
+                        username: '...',
+                        sui_hei_current_useraward: null,
+                      },
+                    },
+                  ],
+                },
+              },
             })
           }
         />
