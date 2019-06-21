@@ -54,7 +54,14 @@ export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
         ) => setInput(e.target.value)}
         onKeyPress={(e: React.KeyboardEvent) => {
           if (e.nativeEvent.keyCode === 13 && !expanded) {
-            onSubmit(input);
+            onSubmit(input)
+              .then(() => {
+                setInput('');
+              })
+              .catch(e => {
+                console.log(e);
+                setInput(input);
+              });
             setInput('');
           }
         }}

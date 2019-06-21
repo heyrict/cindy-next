@@ -104,9 +104,14 @@ const Chatmessage = ({
                   }).then(result => {
                     if (!result) return;
                     const { errors } = result;
-                    if (errors) console.log(errors);
-                    setMode(ChatmessageModeType.NORMAL);
+                    if (errors) {
+                      console.log(errors);
+                      setMode(ChatmessageModeType.EDIT);
+                    } else {
+                      setMode(ChatmessageModeType.NORMAL);
+                    }
                   });
+                  setMode(ChatmessageModeType.NORMAL);
                 }}
               />
             )}

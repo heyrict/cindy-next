@@ -74,12 +74,23 @@ const HintEdit = ({ hint, setEdit }: HintEditProps) => {
                       },
                     },
                   })
-                    .then(() => {
-                      setEdit(false);
+                    .then(result => {
+                      if (!result) return;
+                      const { errors } = result;
+                      if (errors) {
+                        console.log(errors);
+                        setEdit(true);
+                        setText(hint.content);
+                      } else {
+                        setEdit(false);
+                      }
                     })
                     .catch(error => {
                       console.log(error);
+                      setEdit(true);
+                      setText(hint.content);
                     });
+                  setEdit(false);
                 }
               }}
             >

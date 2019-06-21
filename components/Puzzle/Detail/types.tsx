@@ -18,7 +18,7 @@ export type PuzzleType = {
 };
 
 export type QuestionInputWidgetProps = {
-  onSubmit: (text: string) => any;
+  onSubmit: (text: string) => Promise<any>;
 };
 
 export type AddQuestionInputProps = {

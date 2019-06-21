@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Mutation, MutationFn } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { ADD_PUZZLE_MUTATION } from 'graphql/Mutations/Puzzle';
 
 import { Box } from 'components/General';

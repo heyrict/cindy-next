@@ -84,12 +84,23 @@ const QuestionEdit = ({ question, dialogueId, setMode }: QuestionEditProps) => {
                       },
                     },
                   })
-                    .then(() => {
-                      setMode(QuestionModes.DISPLAY);
+                    .then(result => {
+                      if (!result) return;
+                      const { errors } = result;
+                      if (errors) {
+                        console.log(errors);
+                        setMode(QuestionModes.EDIT);
+                        setText(question);
+                      } else {
+                        setMode(QuestionModes.DISPLAY);
+                      }
                     })
                     .catch(error => {
                       console.log(error);
+                      setMode(QuestionModes.EDIT);
+                      setText(question);
                     });
+                  setMode(QuestionModes.DISPLAY);
                 }
               }}
             >

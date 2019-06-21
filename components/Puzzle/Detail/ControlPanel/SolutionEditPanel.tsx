@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { text2md } from 'common/markdown';
 
 import { Mutation } from 'react-apollo';
 import { EDIT_SOLUTION_MUTATION } from 'graphql/Mutations/Puzzle';
@@ -79,11 +80,25 @@ const SolutionEditPanel = ({
                         ],
                       },
                     },
-                  }).then(result => {
-                    if (!result) return;
-                    if (result.errors) console.log(result.errors);
-                    setEditing(false);
-                  });
+                  })
+                    .then(result => {
+                      if (!result) return;
+                      if (result.errors) {
+                        console.log(result.errors);
+                        setEditing(true);
+                        if (editorRef.current) {
+                          editorRef.current.setText(newSolution);
+                        }
+                      }
+                    })
+                    .catch(e => {
+                      console.log(e);
+                      setEditing(true);
+                      if (editorRef.current) {
+                        editorRef.current.setText(newSolution);
+                      }
+                    });
+                  setEditing(false);
                 }}
               >
                 <Img height="xs" src={tickIcon} />
@@ -91,7 +106,7 @@ const SolutionEditPanel = ({
             </React.Fragment>
           ) : (
             <Box p={2}>
-              <span dangerouslySetInnerHTML={{ __html: solution }} />
+              <span dangerouslySetInnerHTML={{ __html: text2md(solution) }} />
               {canEdit && (
                 <ButtonTransparent onClick={() => setEditing(true)}>
                   <Img height="xxs" src={pencilIcon} />

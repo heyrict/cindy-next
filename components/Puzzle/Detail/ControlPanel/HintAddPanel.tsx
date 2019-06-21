@@ -144,12 +144,25 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
                       ],
                     },
                   },
-                }).then(result => {
-                  if (!result) return;
-                  if (result.errors) console.log(result.errors);
-                  if (editorRef.current) editorRef.current.setText('');
-                  setReceiverId(null);
-                });
+                })
+                  .then(result => {
+                    if (!result) return;
+                    if (result.errors) {
+                      if (editorRef.current) editorRef.current.setText(hint);
+                      setReceiverId(receiverId);
+                      console.log(result.errors);
+                    } else {
+                      if (editorRef.current) editorRef.current.setText('');
+                      setReceiverId(null);
+                    }
+                  })
+                  .catch(e => {
+                    console.log(e);
+                    if (editorRef.current) editorRef.current.setText(hint);
+                    setReceiverId(receiverId);
+                  });
+                if (editorRef.current) editorRef.current.setText('');
+                setReceiverId(null);
               }}
             >
               <Img height="xs" src={tickIcon} />

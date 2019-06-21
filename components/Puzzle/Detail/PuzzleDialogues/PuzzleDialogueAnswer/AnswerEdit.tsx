@@ -135,12 +135,25 @@ const AnswerEdit = ({
                       },
                     },
                   })
-                    .then(() => {
+                    .then(result => {
+                      if (!result) return;
+                      const { errors } = result;
+                      if (errors) {
+                        setMode(AnswerModes.EDIT);
+                        setText(answer);
+                        setGood(goodAns);
+                        setTrue(trueAns);
+                      }
                       setMode(AnswerModes.DISPLAY);
                     })
                     .catch(error => {
                       console.log(error.message);
+                      setMode(AnswerModes.EDIT);
+                      setText(answer);
+                      setGood(goodAns);
+                      setTrue(trueAns);
                     });
+                  setMode(AnswerModes.DISPLAY);
                 }
               }}
             >

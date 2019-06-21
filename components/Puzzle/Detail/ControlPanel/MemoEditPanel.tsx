@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { text2md } from 'common/markdown';
 
 import { Mutation } from 'react-apollo';
 import { EDIT_MEMO_MUTATION } from 'graphql/Mutations/Puzzle';
@@ -71,11 +72,29 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
                         ],
                       },
                     },
-                  }).then(result => {
-                    if (!result) return;
-                    if (result.errors) console.log(result.errors);
-                    setEditing(false);
-                  });
+                  })
+                    .then(result => {
+                      if (!result) return;
+                      if (result.errors) {
+                        console.log(result.errors);
+                        setEditing(true);
+                        if (editorRef.current) {
+                          editorRef.current.setText(newMemo);
+                        }
+                      }
+                      setEditing(false);
+                    })
+                    .catch(e => {
+                      console.log(e);
+                      setEditing(true);
+                      if (editorRef.current) {
+                        editorRef.current.setText(newMemo);
+                      }
+                    });
+                  setEditing(false);
+                  if (editorRef.current) {
+                    editorRef.current.setText('');
+                  }
                 }}
               >
                 <Img height="xs" src={tickIcon} />
@@ -83,7 +102,7 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
             </React.Fragment>
           ) : (
             <Box p={2}>
-              <span dangerouslySetInnerHTML={{ __html: memo }} />
+              <span dangerouslySetInnerHTML={{ __html: text2md(memo) }} />
               <ButtonTransparent onClick={() => setEditing(true)}>
                 <Img height="xxs" src={pencilIcon} />
               </ButtonTransparent>
