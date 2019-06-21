@@ -7,6 +7,9 @@ import commonMessages from 'messages/common';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
+import { Mutation } from 'react-apollo';
+import { CHATROOM_EDIT_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
+
 import UserInline from 'components/User/UserInline';
 import { AnonymousUserInline } from 'components/User/Anonymous';
 import { ButtonTransparent, Img, EditTimeSpan } from 'components/General';
@@ -18,12 +21,10 @@ import pencilIcon from 'svgs/pencil.svg';
 
 import { ChatmessageProps, ChatmessageModeType } from './types';
 import { StateType } from 'reducers/types';
-import { CHATROOM_EDIT_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
 import {
   ChatroomEditMessage,
   ChatroomEditMessageVariables,
 } from 'graphql/Mutations/generated/ChatroomEditMessage';
-import { Mutation } from 'react-apollo';
 
 const Chatmessage = ({
   chatmessage,
@@ -88,6 +89,17 @@ const Chatmessage = ({
                     variables: {
                       chatmessageId: chatmessage.id,
                       content: text,
+                    },
+                    optimisticResponse: {
+                      update_sui_hei_chatmessage: {
+                        __typename: 'sui_hei_chatmessage_mutation_response',
+                        returning: [
+                          {
+                            ...chatmessage,
+                            content: text,
+                          },
+                        ],
+                      },
                     },
                   }).then(result => {
                     if (!result) return;

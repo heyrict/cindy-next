@@ -59,6 +59,18 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
                       puzzleId,
                       memo: newMemo,
                     },
+                    optimisticResponse: {
+                      update_sui_hei_puzzle: {
+                        __typename: 'sui_hei_puzzle_mutation_response',
+                        returning: [
+                          {
+                            __typename: 'sui_hei_puzzle',
+                            id: puzzleId,
+                            memo: newMemo,
+                          },
+                        ],
+                      },
+                    },
                   }).then(result => {
                     if (!result) return;
                     if (result.errors) console.log(result.errors);

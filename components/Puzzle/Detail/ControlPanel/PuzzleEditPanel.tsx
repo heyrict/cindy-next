@@ -37,6 +37,20 @@ const PuzzleEditPanel = ({
         grotesque,
         status,
       },
+      optimisticResponse: {
+        update_sui_hei_puzzle: {
+          __typename: 'sui_hei_puzzle_mutation_response',
+          returning: [
+            {
+              __typename: 'sui_hei_puzzle',
+              id: puzzleId,
+              dazed_on: newDazedOn,
+              grotesque,
+              status,
+            },
+          ],
+        },
+      },
     });
   }, [puzzleId]);
 

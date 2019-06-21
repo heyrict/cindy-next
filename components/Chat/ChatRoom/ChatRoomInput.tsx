@@ -74,6 +74,27 @@ const ChatRoomInput = ({ user, chatroomId }: ChatRoomInputProps) =>
                 content,
                 chatroomId,
               },
+              optimisticResponse: {
+                insert_sui_hei_chatmessage: {
+                  __typename: 'sui_hei_chatmessage_mutation_response',
+                  returning: [
+                    {
+                      __typename: 'sui_hei_chatmessage',
+                      id: -1,
+                      content,
+                      created: Date.now(),
+                      editTimes: 0,
+                      sui_hei_user: {
+                        __typename: 'sui_hei_user',
+                        id: -1,
+                        nickname: '...',
+                        username: '...',
+                        sui_hei_current_useraward: null,
+                      },
+                    },
+                  ],
+                },
+              },
             });
           }}
           autoFocus

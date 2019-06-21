@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
-import { Mutation, MutationFn } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { EDIT_ANSWER_MUTATION } from 'graphql/Mutations/Dialogue';
 
 import {
@@ -46,10 +46,10 @@ const AnswerEdit = ({
   }, [trueAns]);
 
   return (
-    <Mutation mutation={EDIT_ANSWER_MUTATION}>
-      {(
-        editAnswer: MutationFn<EditAnswerMutation, EditAnswerMutationVariables>,
-      ) => (
+    <Mutation<EditAnswerMutation, EditAnswerMutationVariables>
+      mutation={EDIT_ANSWER_MUTATION}
+    >
+      {editAnswer => (
         <Flex width={1}>
           <Flex width={1} ml={-1} mr={1} flexWrap="wrap">
             <Textarea
@@ -117,6 +117,22 @@ const AnswerEdit = ({
                       good: goodSwitch,
                       true: trueSwitch,
                       increaseEditTimes: answer === '' ? 0 : 1,
+                    },
+                    optimisticResponse: {
+                      update_sui_hei_dialogue: {
+                        __typename: 'sui_hei_dialogue_mutation_response',
+                        returning: [
+                          {
+                            __typename: 'sui_hei_dialogue',
+                            id: dialogueId,
+                            answer: newAnswer,
+                            good: goodSwitch,
+                            true: trueSwitch,
+                            answerEditTimes: answer === '' ? 0 : 1,
+                            answeredtime: Date.now(),
+                          },
+                        ],
+                      },
                     },
                   })
                     .then(() => {

@@ -18,9 +18,13 @@ import crossIcon from 'svgs/cross.svg';
 import { HintAddPanelProps } from './types';
 import { DataProxy } from 'apollo-cache/lib/types';
 import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
+import {
+  DialogueHintQuery,
+  DialogueHintQueryVariables,
+} from 'graphql/Queries/generated/DialogueHintQuery';
 
 const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
-  const [receiverId, setReceiverId] = useState(null);
+  const [receiverId, setReceiverId] = useState<number | null>(null);
   const editorRef = useRef<PreviewEditor>(null);
 
   return (
@@ -41,24 +45,44 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
             data.insert_sui_hei_hint.returning.length !== 1
           )
             return;
-          const { sui_hei_dialogue = undefined, sui_hei_hint = undefined } =
-            cache.readQuery({
-              query: DIALOGUE_HINT_QUERY,
-              variables: {
-                puzzleId,
-              },
-            }) || {};
-          const newItem = data.insert_sui_hei_hint.returning[0];
-          cache.writeQuery({
+
+          const prevDialogueHints = cache.readQuery<
+            DialogueHintQuery,
+            DialogueHintQueryVariables
+          >({
             query: DIALOGUE_HINT_QUERY,
             variables: {
               puzzleId,
             },
-            data: {
-              sui_hei_hint: upsertItem(sui_hei_hint, newItem),
-              sui_hei_dialogue,
-            },
           });
+          if (!prevDialogueHints) return;
+          const { sui_hei_hint, sui_hei_dialogue } = prevDialogueHints;
+
+          const newItem = data.insert_sui_hei_hint.returning[0];
+          if (newItem.id === -1) {
+            // Optimistic response
+            cache.writeQuery({
+              query: DIALOGUE_HINT_QUERY,
+              variables: {
+                puzzleId,
+              },
+              data: {
+                sui_hei_hint: [...sui_hei_hint, newItem],
+                sui_hei_dialogue,
+              },
+            });
+          } else {
+            cache.writeQuery({
+              query: DIALOGUE_HINT_QUERY,
+              variables: {
+                puzzleId,
+              },
+              data: {
+                sui_hei_hint: upsertItem(sui_hei_hint, newItem),
+                sui_hei_dialogue,
+              },
+            });
+          }
         }}
       >
         {addHint => (
@@ -95,6 +119,28 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
                     puzzleId,
                     receiverId,
                     content: hint,
+                  },
+                  optimisticResponse: {
+                    insert_sui_hei_hint: {
+                      __typename: 'sui_hei_hint_mutation_response',
+                      returning: [
+                        {
+                          __typename: 'sui_hei_hint',
+                          id: -1,
+                          content: hint,
+                          created: Date.now(),
+                          edittimes: 0,
+                          receiver:
+                            receiverId === null
+                              ? null
+                              : {
+                                  __typename: 'sui_hei_user',
+                                  id: receiverId,
+                                  nickname: '...',
+                                },
+                        },
+                      ],
+                    },
                   },
                 }).then(result => {
                   if (!result) return;

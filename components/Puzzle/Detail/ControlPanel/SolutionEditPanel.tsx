@@ -67,6 +67,18 @@ const SolutionEditPanel = ({
                       puzzleId,
                       solution: newSolution,
                     },
+                    optimisticResponse: {
+                      update_sui_hei_puzzle: {
+                        __typename: 'sui_hei_puzzle_mutation_response',
+                        returning: [
+                          {
+                            __typename: 'sui_hei_puzzle',
+                            id: puzzleId,
+                            solution: newSolution,
+                          },
+                        ],
+                      },
+                    },
                   }).then(result => {
                     if (!result) return;
                     if (result.errors) console.log(result.errors);

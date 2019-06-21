@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Mutation, MutationFn } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { EDIT_QUESTION_MUTATION } from 'graphql/Mutations/Dialogue';
 
 import { Flex, ButtonTransparent, Img, Textarea } from 'components/General';
@@ -21,13 +21,10 @@ const QuestionEdit = ({ question, dialogueId, setMode }: QuestionEditProps) => {
   }, [question]);
 
   return (
-    <Mutation mutation={EDIT_QUESTION_MUTATION}>
-      {(
-        editQuestion: MutationFn<
-          EditQuestionMutation,
-          EditQuestionMutationVariables
-        >,
-      ) => (
+    <Mutation<EditQuestionMutation, EditQuestionMutationVariables>
+      mutation={EDIT_QUESTION_MUTATION}
+    >
+      {editQuestion => (
         <React.Fragment>
           <Textarea
             width={1}
@@ -72,6 +69,19 @@ const QuestionEdit = ({ question, dialogueId, setMode }: QuestionEditProps) => {
                     variables: {
                       dialogueId,
                       question: newQuestion,
+                    },
+                    optimisticResponse: {
+                      update_sui_hei_dialogue: {
+                        __typename: 'sui_hei_dialogue_mutation_response',
+                        returning: [
+                          {
+                            __typename: 'sui_hei_dialogue',
+                            id: dialogueId,
+                            question: newQuestion,
+                            questionEditTimes: 0,
+                          },
+                        ],
+                      },
                     },
                   })
                     .then(() => {
