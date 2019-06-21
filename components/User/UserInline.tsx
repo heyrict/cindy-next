@@ -10,17 +10,18 @@ const UserInline = ({
   timestamp,
   ...props
 }: UserInlineProps & UserBaseProps) => {
-  const NicknameBlock = user.id ? (
-    <Link to="user" params={{ id: user.id }} passHref>
-      <Anchor maxWidth="12em" mr={1}>
+  const NicknameBlock =
+    user.id > 0 ? (
+      <Link to="user" params={{ id: user.id }} passHref>
+        <Anchor maxWidth="12em" mr={1}>
+          {user.nickname}
+        </Anchor>
+      </Link>
+    ) : (
+      <Anchor mr={1} as="div">
         {user.nickname}
       </Anchor>
-    </Link>
-  ) : (
-    <Anchor mr={1} as="div">
-      {user.nickname}
-    </Anchor>
-  );
+    );
 
   return user.icon ? (
     <UserInlineBase {...props}>
