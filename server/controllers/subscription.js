@@ -36,6 +36,24 @@ const addUserHandler = (data, response) => {
   });
 };
 
+const addReceiverHandler = (data, response) => {
+  const { receiver_id } = data.event.data.new;
+  if (receiver_id === null) {
+    pubsub.publish(data.trigger.name, data.event.data);
+    return;
+  }
+  query({
+    query: UserBriefQuery,
+    variables: {
+      id: receiver_id,
+    },
+  }).then(result => {
+    const newData = { ...data };
+    newData.event.data.new.receiver = result.data.sui_hei_user_by_pk;
+    pubsub.publish(data.trigger.name, newData);
+  });
+};
+
 const controller = (request, response) => {
   const data = request.body;
   try {
@@ -44,6 +62,9 @@ const controller = (request, response) => {
       case triggers.ON_DIALOGUE_CHANGE:
       case triggers.ON_DIRECTMESSAGE_CHANGE:
       case triggers.ON_PUZZLE_CHANGE:
+        addUserHandler(data, response);
+        break;
+      case triggers.ON_HINT_CHANGE:
         addUserHandler(data, response);
         break;
     }

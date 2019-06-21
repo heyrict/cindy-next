@@ -131,6 +131,10 @@ export const messages = defineMessages({
     id: `${scope}.haveQuestionsToBeAnswered`,
     defaultMessage: 'New Question',
   },
+  hintOnly: {
+    id: `${scope}.hintOnly`,
+    defaultMessage: '{user} only',
+  }
 });
 
 export default messages;

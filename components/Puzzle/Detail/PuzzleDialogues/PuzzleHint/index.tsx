@@ -1,19 +1,29 @@
 import React from 'react';
 import styled from 'theme/styled';
-import { text2md } from 'common';
+
+import { connect } from 'react-redux';
+import * as globalReducer from 'reducers/global';
 
 import { FormattedTime } from 'react-intl';
 
 import { Panel } from 'components/General';
+import HintDisplay from './HintDisplay';
+import HintModeSelector from './HintModeSelector';
+
 import { PuzzleHintProps } from './types';
+import { StateType } from 'reducers/types';
 
 const BottomRight = styled.div`
   float: right;
 `;
 
-const PuzzleHint = ({ hint }: PuzzleHintProps) => (
+const PuzzleHint = ({ hint, user, puzzleUser }: PuzzleHintProps) => (
   <Panel minHeight="2em" width={1} display="block">
-    <div dangerouslySetInnerHTML={{ __html: text2md(hint.content) }} />
+    {user.id === puzzleUser.id ? (
+      <HintModeSelector hint={hint} />
+    ) : (
+      <HintDisplay hint={hint} />
+    )}
     <BottomRight>
       {hint.created && (
         <FormattedTime
@@ -27,4 +37,10 @@ const PuzzleHint = ({ hint }: PuzzleHintProps) => (
   </Panel>
 );
 
-export default PuzzleHint;
+const mapStateToProps = (state: StateType) => ({
+  user: globalReducer.rootSelector(state).user,
+});
+
+const withRedux = connect(mapStateToProps);
+
+export default withRedux(PuzzleHint);

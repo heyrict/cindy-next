@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 
 import { DIALOGUE_SHARED_FRAGMENT } from '../Fragments/Dialogue';
+import { HINT_SHARED_FRAGMENT } from '../Fragments/Hint';
 
 export const DIALOGUE_HINT_SUBSCRIPTION = gql`
   subscription DialogueHintSubscription($puzzleId: Int!, $userId: Int) {
@@ -11,12 +12,10 @@ export const DIALOGUE_HINT_SUBSCRIPTION = gql`
         ...DialogueShared
       }
       sui_hei_hint {
-        id
-        content
-        edittimes
-        created
+        ...HintShared
       }
     }
   }
   ${DIALOGUE_SHARED_FRAGMENT}
+  ${HINT_SHARED_FRAGMENT}
 `;

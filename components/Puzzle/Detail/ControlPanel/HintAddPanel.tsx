@@ -137,6 +137,8 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
                                   __typename: 'sui_hei_user',
                                   id: receiverId,
                                   nickname: '...',
+                                  username: '...',
+                                  sui_hei_current_useraward: null,
                                 },
                         },
                       ],

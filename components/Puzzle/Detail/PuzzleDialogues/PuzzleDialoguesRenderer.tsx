@@ -51,7 +51,11 @@ export const PuzzleDialoguesRendererInner = ({
             anonymous={anonymous}
           />
         ) : (
-          <PuzzleHint key={`hint-${node.id}`} hint={node} />
+          <PuzzleHint
+            key={`hint-${node.id}`}
+            hint={node}
+            puzzleUser={puzzleUser}
+          />
         ),
       )}
     </React.Fragment>
