@@ -16,6 +16,7 @@ import {
   initialStamps,
   initialMarkdown,
   initialMonoWidth,
+  initialMultiLineBreaks,
 } from './editorTexts';
 
 const EditorWithText = ({ initialValue }) => {
@@ -47,4 +48,7 @@ storiesOf('Editor | SimpleEditor - シンプルエディター', module)
   ))
   .add('monoFont | 等幅フォント', () => (
     <EditorWithText initialValue={initialMonoWidth} />
+  ))
+  .add('multiLineBreaks | 複数改行', () => (
+    <EditorWithText initialValue={initialMultiLineBreaks} />
   ));

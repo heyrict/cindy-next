@@ -2,12 +2,14 @@ import MarkdownIt from 'markdown-it';
 import mdEmoji from 'markdown-it-emoji/light';
 import mdEmojiLight from 'markdown-it-emoji/lib/data/light.json';
 import createDOMPurify from 'dompurify';
+import { compose } from 'redux';
 
 import stampDefs from 'stamps';
 
 import normTabs from './plugin-tabs';
 import { normLinkHook, normLink } from './plugin-link';
 import normCountdown from './plugin-countdown';
+import normNewline from './plugin-newline';
 
 export { changeTabularTab } from './plugin-tabs.js';
 
@@ -40,7 +42,10 @@ const md = MarkdownIt({
   });
 
 const PreNorm = string => {
-  return normTabs(string);
+  return compose(
+    normTabs,
+    normNewline,
+  )(string);
 };
 
 const PostNorm = string => {
@@ -63,7 +68,7 @@ export const line2md = string => {
     });
 
   const rendered = mdEscape
-    .render(string)
+    .render(normNewline(string))
     .replace(/<p>/g, '')
     .replace(/<\/p>\s*$/g, '')
     .replace(/<\/p>/g, '<br style="margin-bottom: 10px" />');

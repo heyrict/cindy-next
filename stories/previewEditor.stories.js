@@ -18,6 +18,7 @@ import {
   initialHtmlFont,
   initialHtmlStyle,
   initialMonoWidth,
+  initialMultiLineBreaks,
 } from './editorTexts';
 
 const EditorWithText = ({ initialValue }) => {
@@ -58,4 +59,7 @@ storiesOf('Editor | PreviewEditor - プレビュー付きエディター', modul
   ))
   .add('htmlStyle | HTML スタイリング', () => (
     <EditorWithText initialValue={initialHtmlStyle} />
+  ))
+  .add('multiLineBreaks | 複数改行', () => (
+    <EditorWithText initialValue={initialMultiLineBreaks} />
   ));

@@ -86,6 +86,22 @@ Unicode Calendar from https://beautifuldingbats.com/calendar-generator/
 
 // {{{ const initialStamps
 export const initialStamps = `
- :stamp-death: -tayah
+:stamp-death: -tayah
+`.substr(1);
+// }}}
+
+// {{{ const initialMultiLineBreaks
+export const initialMultiLineBreaks = `
+Between First line
+
+
+
+
+
+
+
+
+
+and 10th line
 `.substr(1);
 // }}}
