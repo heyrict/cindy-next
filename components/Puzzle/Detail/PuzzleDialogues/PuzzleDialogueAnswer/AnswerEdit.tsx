@@ -29,6 +29,7 @@ const AnswerEdit = ({
   goodAns,
   trueAns,
   dialogueId,
+  answeredtime,
   setMode,
   puzzleStatus,
 }: AnswerEditProps) => {
@@ -129,7 +130,7 @@ const AnswerEdit = ({
                             good: goodSwitch,
                             true: trueSwitch,
                             answerEditTimes: answer === '' ? 0 : 1,
-                            answeredtime: Date.now(),
+                            answeredtime,
                           },
                         ],
                       },

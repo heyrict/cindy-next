@@ -14,6 +14,7 @@ const AnswerModeSelector = ({
   dialogueId,
   answer,
   answerEditTimes,
+  answeredtime,
   trueAns,
   goodAns,
   puzzleStatus,
@@ -49,6 +50,7 @@ const AnswerModeSelector = ({
           answer={answer}
           goodAns={goodAns}
           trueAns={trueAns}
+          answeredtime={answeredtime}
           dialogueId={dialogueId}
           setMode={setMode}
           puzzleStatus={puzzleStatus}

@@ -75,7 +75,8 @@ export const PuzzleDialoguesRenderer = ({
   anonymous,
   setParticipants,
 }: PuzzleDialoguesRendererProps) => {
-  if (loading) return <span>Loading...</span>;
+  if (loading && (!data || !data.sui_hei_dialogue || !data.sui_hei_hint))
+    return <span>Loading...</span>;
   if (error) return <span>`Error: ${JSON.stringify(error)}`</span>;
   if (!data || !data.sui_hei_dialogue || !data.sui_hei_hint) {
     return <span>EMPTY</span>;

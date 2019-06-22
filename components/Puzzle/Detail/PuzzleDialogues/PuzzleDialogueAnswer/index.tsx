@@ -14,6 +14,7 @@ const PuzzleDialogueAnswer = ({
   dialogueId,
   answer,
   answerEditTimes,
+  answeredtime,
   goodAns,
   trueAns,
   user,
@@ -25,6 +26,7 @@ const PuzzleDialogueAnswer = ({
       dialogueId={dialogueId}
       answer={answer}
       answerEditTimes={answerEditTimes}
+      answeredtime={answeredtime}
       trueAns={trueAns}
       goodAns={goodAns}
       puzzleStatus={puzzleStatus}

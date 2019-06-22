@@ -44,7 +44,8 @@ const PuzzleRenderer = ({
   }, [puzzleId]);
 
   if (error) return <span>`Error: ${error.message}`</span>;
-  if (loading) return <span>'Loading...'</span>;
+  if (loading && (!data || !data.sui_hei_puzzle_by_pk))
+    return <span>'Loading...'</span>;
   if (data && data.sui_hei_puzzle_by_pk) {
     const puzzle = data.sui_hei_puzzle_by_pk;
     if (puzzle.id === undefined) return null;

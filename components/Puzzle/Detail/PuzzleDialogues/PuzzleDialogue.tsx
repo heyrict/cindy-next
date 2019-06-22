@@ -96,6 +96,7 @@ const PuzzleDialogue = ({
             goodAns={dialogue.good}
             trueAns={dialogue.true}
             answer={dialogue.answer}
+            answeredtime={dialogue.answeredtime}
             puzzleUserId={puzzleUser.id}
             answerEditTimes={dialogue.answerEditTimes}
             puzzleStatus={puzzleStatus}
