@@ -186,7 +186,9 @@ class PreviewEditor extends React.Component {
           my={2}
           height={`${this.state.height}em`}
           style={{ overflow: 'scroll', cursor: 'text' }}
-          onClick={() => this.editor.focus()}
+          onClick={e => {
+            this.editor.moveToEndOfDocument().focus();
+          }}
         >
           <Box display={this.state.preview ? 'none' : 'block'}>
             <Editor
@@ -196,6 +198,7 @@ class PreviewEditor extends React.Component {
               onChange={({ value }) => {
                 this.setState({ value });
               }}
+              onClick={e => e.stopPropagation()}
               schema={this.schema}
               renderBlock={this.renderBlock}
               renderInline={this.renderInline}

@@ -88,6 +88,7 @@ class SimpleEditor extends React.Component {
         onChange={({ value }) => {
           this.setState({ value });
         }}
+        onClick={e => e.stopPropagation()}
         schema={this.schema}
         renderBlock={this.renderBlock}
         renderInline={this.renderInline}
@@ -185,7 +186,9 @@ class SimpleEditor extends React.Component {
               display: this.state.preview ? 'none' : 'block',
               cursor: 'text',
             }}
-            onClick={() => this.editor.focus()}
+            onClick={e => {
+              this.editor.moveToEndOfDocument().focus();
+            }}
           >
             {editorInstance}
           </Box>
@@ -236,7 +239,9 @@ class SimpleEditor extends React.Component {
             display: this.state.stampToolbar ? 'none' : 'block',
             cursor: 'text',
           }}
-          onClick={() => this.editor.focus()}
+          onClick={e => {
+            this.editor.moveToEndOfDocument().focus();
+          }}
           borderWidth="1px"
           borderStyle="solid"
           borderColor="gray.6"
