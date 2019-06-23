@@ -5,8 +5,8 @@ import { space, maxWidth } from 'styled-system';
 const Anchor = styled.a`
   display: inline-block;
   color: ${p => p.theme.colors.blue[6]};
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: hidden;
+  word-break: break-word;
   &:hover,
   &:active {
     color: ${p => p.theme.colors.cyan[6]};
