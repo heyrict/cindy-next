@@ -39,7 +39,7 @@ const PuzzleDialogues = ({
   setTrueSolvedLongtermYami,
 }: PuzzleDialoguesProps) => {
   // Should remain in subscription if puzzle finished just now
-  const [shouldSubscribe, setShouldSubscribe] = useState(false);
+  const [shouldSubscribe, setShouldSubscribe] = useState(puzzleStatus === 0);
 
   useEffect(() => {
     if (puzzleStatus === 0) {
@@ -62,7 +62,6 @@ const PuzzleDialogues = ({
           <PuzzleDialoguesRenderer
             {...queryResult}
             shouldSubscribe={shouldSubscribe}
-            puzzleId={puzzleId}
             puzzleUser={puzzleUser}
             anonymous={anonymous}
             puzzleStatus={puzzleStatus}
@@ -91,7 +90,6 @@ const PuzzleDialogues = ({
           <PuzzleDialoguesRenderer
             {...queryResult}
             shouldSubscribe={shouldSubscribe}
-            puzzleId={puzzleId}
             puzzleUser={puzzleUser}
             anonymous={anonymous}
             puzzleStatus={puzzleStatus}
@@ -124,7 +122,6 @@ const PuzzleDialogues = ({
           <PuzzleDialoguesRenderer
             {...queryResult}
             shouldSubscribe={shouldSubscribe}
-            puzzleId={puzzleId}
             puzzleUser={puzzleUser}
             anonymous={anonymous}
             puzzleStatus={puzzleStatus}

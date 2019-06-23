@@ -38,8 +38,8 @@ const addUserHandler = (data, response) => {
 
 const addReceiverHandler = (data, response) => {
   const { receiver_id } = data.event.data.new;
-  if (receiver_id === null) {
-    pubsub.publish(data.trigger.name, data.event.data);
+  if (!receiver_id) {
+    pubsub.publish(data.trigger.name, data);
     return;
   }
   query({
@@ -65,7 +65,7 @@ const controller = (request, response) => {
         addUserHandler(data, response);
         break;
       case triggers.ON_HINT_CHANGE:
-        addUserHandler(data, response);
+        addReceiverHandler(data, response);
         break;
     }
     response.status(200).json({ status: 'successful' });

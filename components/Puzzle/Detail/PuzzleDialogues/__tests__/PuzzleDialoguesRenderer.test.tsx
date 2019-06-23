@@ -21,7 +21,9 @@ describe('<PuzzleDialoguesRenderer />', () => {
       sui_hei_dialogue: dialogues,
       sui_hei_hint: hints,
     },
-    puzzleId: puzzle.id,
+    variables: {
+      id: puzzle.id,
+    },
     puzzleUser: puzzle.sui_hei_user,
     puzzleStatus: puzzle.status,
     anonymous: puzzle.anonymous,

@@ -52,7 +52,6 @@ export const PuzzleDialoguesRendererDefaultProps = {
 };
 
 export type PuzzleDialoguesRendererProps = {
-  puzzleId: number;
   puzzleUser: InlineUser;
   puzzleStatus: number;
   anonymous: boolean;

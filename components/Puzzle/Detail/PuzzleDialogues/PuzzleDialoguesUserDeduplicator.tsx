@@ -105,7 +105,6 @@ const PuzzleDialoguesUserDeduplicator = ({
             <PuzzleDialoguesRenderer
               {...queryResult}
               shouldSubscribe={shouldSubscribe}
-              puzzleId={puzzleId}
               puzzleUser={puzzleUser}
               anonymous={anonymous}
               puzzleStatus={puzzleStatus}

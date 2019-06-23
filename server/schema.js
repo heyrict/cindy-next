@@ -162,15 +162,13 @@ const resolvers = {
           if (payload.trigger.name === triggers.ON_DIALOGUE_CHANGE) {
             return (
               puzzleIdMatches &&
-              (!payload.event.data.new.user_id ||
-                payload.event.data.new.user_id === args.userId)
+              (!args.user_id || payload.event.data.new.user_id === args.userId)
             );
           }
           if (payload.trigger.name === triggers.ON_HINT_CHANGE) {
             return (
               puzzleIdMatches &&
-              (!payload.event.data.new.user_id ||
-                payload.event.data.new.user_id === args.userId)
+              (!args.user_id || payload.event.data.new.user_id === args.userId)
             );
           }
         },

@@ -66,15 +66,16 @@ export const PuzzleDialoguesRenderer = ({
   loading,
   error,
   data,
+  variables,
   subscribeToMore,
   shouldSubscribe,
   applyUserFilter,
-  puzzleId,
   puzzleUser,
   puzzleStatus,
   anonymous,
   setParticipants,
 }: PuzzleDialoguesRendererProps) => {
+  const { puzzleId } = variables;
   if (loading && (!data || !data.sui_hei_dialogue || !data.sui_hei_hint))
     return <span>Loading...</span>;
   if (error) return <span>`Error: ${JSON.stringify(error)}`</span>;
@@ -96,7 +97,7 @@ export const PuzzleDialoguesRenderer = ({
     if (shouldSubscribe) {
       return subscribeToMore({
         document: DIALOGUE_HINT_SUBSCRIPTION,
-        variables: { puzzleId },
+        variables,
         updateQuery: (
           prev,
           {
@@ -133,7 +134,7 @@ export const PuzzleDialoguesRenderer = ({
     }
   }, [puzzleId]);
 
-  let dialogues: Array<PuzzleDialogueWithIndexExtra>;
+  let dialogues;
   let hints;
   if (applyUserFilter && userFilterId !== -1) {
     dialogues = data.sui_hei_dialogue.filter(
@@ -170,7 +171,7 @@ export const PuzzleDialoguesRenderer = ({
 PuzzleDialoguesRenderer.defaultProps = PuzzleDialoguesRendererDefaultProps;
 
 const mapDispatchToProps = (dispatch: (arg0: ActionContentType) => void) => ({
-  setParticipants: (participants: UserFilterSwitcherUserType) =>
+  setParticipants: (participants: Array<UserFilterSwitcherUserType>) =>
     dispatch(puzzleReducer.actions.setParticipants(participants)),
 });
 
