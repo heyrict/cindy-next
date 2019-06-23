@@ -4,11 +4,15 @@ import styled from 'theme/styled';
 import { connect } from 'react-redux';
 import * as puzzleReducer from 'reducers/puzzle';
 
+import { FormattedMessage } from 'react-intl';
+import puzzleMessages from 'messages/components/puzzle';
+
 import { Img, RedDot } from 'components/General';
 import soupIcon from 'svgs/soup.svg';
 import memoIcon from 'svgs/memo.svg';
 import toTopIcon from 'svgs/toTop.svg';
 import toBottomIcon from 'svgs/toBottom.svg';
+import expandIcon from 'svgs/expand.svg';
 
 import { ActionContentType, RightAsideType, StateType } from 'reducers/types';
 import {
@@ -20,12 +24,12 @@ import {
 
 const RightAsideBoxBase = styled.div<RightAsideBoxBaseProps>`
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   position: fixed;
   margin-top: 1em;
   border-radius: ${p => p.theme.radii[2]}px;
   border-width: 0;
-  width: 3em;
+  width: ${p => (p.mini ? '2em' : '7em')};
   height: auto;
   top: ${p => p.theme.sizes.toolbar};
   right: 2px;
@@ -42,7 +46,7 @@ const RightAsideBoxBase = styled.div<RightAsideBoxBaseProps>`
 const RightAsideBoxButton = styled.button<RightAsideBoxButtonProps>`
   background: ${p =>
     p.on ? p.theme.colors.orange[3] : p.theme.colors.orange[2]};
-  width: 3em;
+  width: ${p => p.width || '3em'};
   height: ${p => p.height || '3em'};
   &:hover {
     background: ${p =>
@@ -90,70 +94,88 @@ class RightAsideBox extends React.Component<
     } = this.props;
 
     return (
-      <RightAsideBoxBase show={!this.state.mini || this.state.showMini}>
-        {this.state.mini && (
+      <RightAsideBoxBase
+        mini={this.state.mini}
+        show={!this.state.mini || this.state.showMini}
+      >
+        <RightAsideBoxButton
+          width="100%"
+          height={this.state.mini ? '2em' : '3em'}
+          on={rightAside === RightAsideType.content}
+          onClick={() =>
+            setRightAside(
+              rightAside === RightAsideType.content
+                ? RightAsideType.none
+                : RightAsideType.content,
+            )
+          }
+        >
+          <Img
+            height={this.state.mini ? '1em' : '2em'}
+            src={soupIcon}
+            alt="Soup"
+          />
+          {!this.state.mini && <FormattedMessage {...puzzleMessages.content} />}
+        </RightAsideBoxButton>
+        {puzzleMemo !== '' && (
           <RightAsideBoxButton
-            height="2em"
-            onClick={() => this.setState({ mini: false })}
+            width="100%"
+            height={this.state.mini ? '2em' : '3em'}
+            on={rightAside === RightAsideType.memo}
+            onClick={() =>
+              setRightAside(
+                rightAside === RightAsideType.memo
+                  ? RightAsideType.none
+                  : RightAsideType.memo,
+              )
+            }
           >
-            ⋯
+            {puzzleMemoHasnew && <RedDot right={this.state.mini ? 0 : '4em'} />}
+            <Img
+              height={this.state.mini ? '1em' : '2em'}
+              src={memoIcon}
+              alt="Memo"
+            />
+            {!this.state.mini && <FormattedMessage {...puzzleMessages.memo} />}
           </RightAsideBoxButton>
         )}
-        {!this.state.mini && (
-          <React.Fragment>
-            <RightAsideBoxButton
-              on={rightAside === RightAsideType.content}
-              onClick={() =>
-                setRightAside(
-                  rightAside === RightAsideType.content
-                    ? RightAsideType.none
-                    : RightAsideType.content,
-                )
-              }
-            >
-              <Img height="2em" src={soupIcon} alt="Soup" />
-            </RightAsideBoxButton>
-            {puzzleMemo !== '' && (
-              <RightAsideBoxButton
-                on={rightAside === RightAsideType.memo}
-                onClick={() =>
-                  setRightAside(
-                    rightAside === RightAsideType.memo
-                      ? RightAsideType.none
-                      : RightAsideType.memo,
-                  )
-                }
-              >
-                {puzzleMemoHasnew && <RedDot right={0} />}
-                <Img height="2em" src={memoIcon} alt="Memo" />
-              </RightAsideBoxButton>
-            )}
-            <RightAsideBoxButton
-              onClick={() =>
-                window && window.scrollTo({ top: 0, behavior: 'smooth' })
-              }
-            >
-              <Img height="2em" src={toTopIcon} alt="Top" />
-            </RightAsideBoxButton>
-            <RightAsideBoxButton
-              onClick={() =>
-                window &&
-                window.scrollTo({
-                  top: document && document.body.scrollHeight,
-                  behavior: 'smooth',
-                })
-              }
-            >
-              <Img height="2em" src={toBottomIcon} alt="Bottom" />
-            </RightAsideBoxButton>
-            <RightAsideBoxButton
-              height="2em"
-              onClick={() => this.setState({ mini: true })}
-            >
-              x
-            </RightAsideBoxButton>
-          </React.Fragment>
-        )}
+        <RightAsideBoxButton
+          width={this.state.mini ? '100%' : '50%'}
+          height={this.state.mini ? '2em' : '3em'}
+          onClick={() =>
+            window && window.scrollTo({ top: 0, behavior: 'smooth' })
+          }
+        >
+          <Img
+            height={this.state.mini ? '1em' : '2em'}
+            src={toTopIcon}
+            alt="Top"
+          />
+        </RightAsideBoxButton>
+        <RightAsideBoxButton
+          width={this.state.mini ? '100%' : '50%'}
+          height={this.state.mini ? '2em' : '3em'}
+          onClick={() =>
+            window &&
+            window.scrollTo({
+              top: document && document.body.scrollHeight,
+              behavior: 'smooth',
+            })
+          }
+        >
+          <Img
+            height={this.state.mini ? '1em' : '2em'}
+            src={toBottomIcon}
+            alt="Bottom"
+          />
+        </RightAsideBoxButton>
+        <RightAsideBoxButton
+          width="100%"
+          height="2em"
+          onClick={() => this.setState(p => ({ mini: !p.mini }))}
+        >
+          <Img height="1em" src={expandIcon} alt="Expand" />
+        </RightAsideBoxButton>
       </RightAsideBoxBase>
     );
   }

@@ -2,11 +2,13 @@ import { RightAsideType } from 'reducers/types';
 
 export type RightAsideBoxBaseProps = {
   show: boolean;
+  mini: boolean;
 };
 
 export type RightAsideBoxButtonProps = {
   on: boolean;
   height?: string;
+  width?: string;
 };
 
 export type RightAsideBoxProps = {
