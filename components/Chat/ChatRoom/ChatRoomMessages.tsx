@@ -36,9 +36,11 @@ import { ChatRoomMessagesProps, ChatRoomMessagesBodyProps } from './types';
 // Add Wrapper to ChannelContent due to flex bug: https://github.com/philipwalton/flexbugs/issues/108
 const ChannelContentWrapper = styled.div`
   overflow-y: auto;
-  height: calc(
-    100vh - ${p => p.theme.sizes.channelbar} - ${p => p.theme.sizes.chatinput}
-  );
+  position: absolute;
+  width: 100%;
+  top: ${p => p.theme.sizes.channelbar};
+  bottom: ${p => p.theme.sizes.chatinput};
+  left: 0;
 `;
 
 const ChannelContent = styled.div`

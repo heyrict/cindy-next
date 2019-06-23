@@ -21,6 +21,13 @@ import {
   ChatroomChatmessagesVariables,
 } from 'graphql/Queries/generated/ChatroomChatmessages';
 
+const ChatRoomInputWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+`;
+
 const LoginRequiredBlock = styled.div`
   display: flex;
   width: 100%;
@@ -35,75 +42,78 @@ const LoginRequiredBlock = styled.div`
   left: 0;
 `;
 
-const ChatRoomInput = ({ user, chatroomId }: ChatRoomInputProps) =>
-  user.id ? (
-    <Mutation<ChatroomSendMessage, ChatroomSendMessageVariables>
-      mutation={CHATROOM_SEND_MESSAGE_MUTATION}
-      update={(cache, { data }) => {
-        if (data === undefined) return;
-        if (data.insert_sui_hei_chatmessage === null) return;
-        const newMessages = data.insert_sui_hei_chatmessage.returning;
-        const cachedResult = cache.readQuery<
-          ChatroomChatmessages,
-          ChatroomChatmessagesVariables
-        >({
-          query: CHATROOM_CHATMESSAGES_QUERY,
-          variables: {
-            chatroomId,
-          },
-        });
-        if (cachedResult === null) return;
-        const { sui_hei_chatmessage } = cachedResult;
-        cache.writeQuery({
-          query: CHATROOM_CHATMESSAGES_QUERY,
-          variables: {
-            chatroomId,
-          },
-          data: {
-            sui_hei_chatmessage: [...newMessages, ...sui_hei_chatmessage],
-          },
-        });
-      }}
-    >
-      {sendMessage => (
-        <SimpleEditor
-          onSubmit={content => {
-            if (content.trim() === '') return;
-            sendMessage({
-              variables: {
-                content,
-                chatroomId,
-              },
-              optimisticResponse: {
-                insert_sui_hei_chatmessage: {
-                  __typename: 'sui_hei_chatmessage_mutation_response',
-                  returning: [
-                    {
-                      __typename: 'sui_hei_chatmessage',
-                      id: -1,
-                      content,
-                      created: Date.now(),
-                      editTimes: 0,
-                      sui_hei_user: {
-                        __typename: 'sui_hei_user',
-                        id: -1,
-                        nickname: '...',
-                        username: '...',
-                        sui_hei_current_useraward: null,
-                      },
-                    },
-                  ],
+const ChatRoomInput = ({ user, chatroomId }: ChatRoomInputProps) => (
+  <ChatRoomInputWrapper>
+    {user.id ? (
+      <Mutation<ChatroomSendMessage, ChatroomSendMessageVariables>
+        mutation={CHATROOM_SEND_MESSAGE_MUTATION}
+        update={(cache, { data }) => {
+          if (data === undefined) return;
+          if (data.insert_sui_hei_chatmessage === null) return;
+          const newMessages = data.insert_sui_hei_chatmessage.returning;
+          const cachedResult = cache.readQuery<
+            ChatroomChatmessages,
+            ChatroomChatmessagesVariables
+          >({
+            query: CHATROOM_CHATMESSAGES_QUERY,
+            variables: {
+              chatroomId,
+            },
+          });
+          if (cachedResult === null) return;
+          const { sui_hei_chatmessage } = cachedResult;
+          cache.writeQuery({
+            query: CHATROOM_CHATMESSAGES_QUERY,
+            variables: {
+              chatroomId,
+            },
+            data: {
+              sui_hei_chatmessage: [...newMessages, ...sui_hei_chatmessage],
+            },
+          });
+        }}
+      >
+        {sendMessage => (
+          <SimpleEditor
+            onSubmit={content => {
+              if (content.trim() === '') return;
+              sendMessage({
+                variables: {
+                  content,
+                  chatroomId,
                 },
-              },
-            });
-          }}
-          autoFocus
-        />
-      )}
-    </Mutation>
-  ) : (
-    <LoginRequiredBlock>You need login to send messages</LoginRequiredBlock>
-  );
+                optimisticResponse: {
+                  insert_sui_hei_chatmessage: {
+                    __typename: 'sui_hei_chatmessage_mutation_response',
+                    returning: [
+                      {
+                        __typename: 'sui_hei_chatmessage',
+                        id: -1,
+                        content,
+                        created: Date.now(),
+                        editTimes: 0,
+                        sui_hei_user: {
+                          __typename: 'sui_hei_user',
+                          id: -1,
+                          nickname: '...',
+                          username: '...',
+                          sui_hei_current_useraward: null,
+                        },
+                      },
+                    ],
+                  },
+                },
+              });
+            }}
+            autoFocus
+          />
+        )}
+      </Mutation>
+    ) : (
+      <LoginRequiredBlock>You need login to send messages</LoginRequiredBlock>
+    )}
+  </ChatRoomInputWrapper>
+);
 
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
