@@ -51,6 +51,10 @@ export type ContentsFrameType = {
   solved?: string;
 };
 
+export type MemoFrameType = {
+  memo: string;
+}
+
 export type PuzzleTitleProps = {
   title: string;
   genre: number;

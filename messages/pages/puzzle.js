@@ -48,6 +48,10 @@ export const messages = defineMessages({
     id: `${scope}.setHidden`,
     defaultMessage: 'Set As Hidden',
   },
+  memoFromCreator: {
+    id: `${scope}.memoFromCreator`,
+    defaultMessage: 'Memo from creator',
+  },
 });
 
 export default messages;

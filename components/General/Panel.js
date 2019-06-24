@@ -1,5 +1,5 @@
 import styled from 'theme/styled';
-import { flexbox, space, color, layout } from 'styled-system';
+import { flexbox, space, color, layout, border } from 'styled-system';
 
 const Panel = styled.div`
   box-sizing: 'border-box';
@@ -17,6 +17,7 @@ const Panel = styled.div`
   ${space}
   ${color}
   ${layout}
+  ${border}
 `;
 
 export default Panel;

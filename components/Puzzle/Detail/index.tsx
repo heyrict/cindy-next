@@ -10,6 +10,7 @@ import * as puzzleReducer from 'reducers/puzzle';
 
 import PuzzleTitle from './PuzzleTitle';
 import ContentsFrame from './ContentsFrame';
+import MemoFrame from './MemoFrame';
 import AddQuestionInput from './AddQuestionInput';
 import PuzzleDialogues from './PuzzleDialogues';
 import StarPanel from './StarPanel';
@@ -96,6 +97,7 @@ const PuzzleDetail = ({
           created={puzzle.created}
           solved={puzzle.status === 0 ? undefined : puzzle.modified}
         />
+        <MemoFrame memo={puzzle.memo} />
         {shouldShowPuzzleDialogues && (
           <PuzzleDialogues
             puzzleId={puzzle.id}
