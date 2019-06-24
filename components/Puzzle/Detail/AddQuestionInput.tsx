@@ -10,7 +10,7 @@ import { Mutation } from 'react-apollo';
 import { ADD_QUESTION_MUTATION } from 'graphql/Mutations/Dialogue';
 import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
 
-import { upsertItem } from 'common';
+import { upsertItem } from 'common/update';
 import { widthSplits } from './constants';
 
 import { QuestionInputWidgetProps, AddQuestionInputProps } from './types';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Waypoint } from 'react-waypoint';
-import { randomUUID } from 'common';
+import { randomUUID } from 'common/random';
 
 import messages from 'messages/common';
 import { LoadMoreVisProps } from './types';

@@ -9,7 +9,7 @@ import { FormattedMessage, FormattedTime } from 'react-intl';
 import messages from 'messages/pages/puzzle';
 import puzzleMessages from 'messages/components/puzzle';
 
-import { text2md } from 'common';
+import { text2md } from 'common/markdown';
 import { widthSplits } from './constants';
 
 import { ContentsFrameType } from './types';

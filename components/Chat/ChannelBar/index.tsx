@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Box, Flex, ButtonTransparent } from 'components/General';
-import { getChannelWithPath } from 'common';
+import { getChannelWithPath } from 'common/channel';
 
 import { createSelector } from 'reselect';
 import * as chatReducer from 'reducers/chat';

@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { Link } from 'routes';
 import styled from 'theme/styled';
 import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
-import { line2md } from 'common';
+import { line2md } from 'common/markdown';
 import { Flex, Box, LinkButton } from 'components/General';
 
 import messages from 'messages/pages/home';

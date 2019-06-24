@@ -13,9 +13,17 @@ import normNewline from './plugin-newline';
 
 export { changeTabularTab } from './plugin-tabs.js';
 
-const DOMPurifyParams = {
+const REMOVE_HTML_REGEXP = new RegExp('<[^<>\n]+>', 'g');
+
+const DOMPurifyParamsText = {
   ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|chat):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
   FORCE_BODY: true,
+};
+
+const DOMPurifyParamsLine = {
+  ...DOMPurifyParamsText,
+  FORBID_ATTR: ['style'],
+  FORBID_TAGS: ['style', 'iframe'],
 };
 
 let DOMPurify = createDOMPurify;
@@ -56,28 +64,20 @@ const PostNorm = string => {
 };
 
 export const line2md = string => {
-  const mdEscape = MarkdownIt({
-    html: false,
-    breaks: true,
-    linkify: true,
-    typographer: true,
-  })
-    .enable(['table', 'strikethrough'])
-    .use(mdEmoji, {
-      defs: Object.assign({}, mdEmojiLight, stampDefs),
-    });
-
-  const rendered = mdEscape
-    .render(string)
+  const rendered = md
+    .render(PreNorm(string))
     .replace(/<p>/g, '')
     .replace(/<\/p>\s*$/g, '')
     .replace(/<\/p>/g, '<br style="margin-bottom: 10px" />');
-  const purified = HtmlPurify(rendered, DOMPurifyParams);
+  const purified = HtmlPurify(rendered, DOMPurifyParamsLine);
   return PostNorm(purified);
 };
 
 export const text2md = string => {
   const rendered = md.render(PreNorm(string));
-  const purified = HtmlPurify(rendered, DOMPurifyParams);
+  const purified = HtmlPurify(rendered, DOMPurifyParamsText);
   return PostNorm(purified);
 };
+
+export const text2raw = string =>
+  text2md(puzzle.content).replace(REMOVE_HTML_REGEXP, '');

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 import { CHATROOM_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
-import { line2md } from 'common';
+import { line2md } from 'common/markdown';
 import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
 
 import * as chatReducer from 'reducers/chat';
