@@ -105,7 +105,6 @@ const ChatRoomInput = ({ user, chatroomId }: ChatRoomInputProps) => (
                 },
               });
             }}
-            autoFocus
           />
         )}
       </Mutation>
