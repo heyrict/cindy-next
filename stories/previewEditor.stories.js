@@ -19,6 +19,7 @@ import {
   initialHtmlStyle,
   initialMonoWidth,
   initialMultiLineBreaks,
+  initialTabs,
 } from './editorTexts';
 
 const EditorWithText = ({ initialValue }) => {
@@ -60,6 +61,7 @@ storiesOf('Editor | PreviewEditor - プレビュー付きエディター', modul
   .add('htmlStyle | HTML スタイリング', () => (
     <EditorWithText initialValue={initialHtmlStyle} />
   ))
+  .add('tabs | タブ', () => <EditorWithText initialValue={initialTabs} />)
   .add('multiLineBreaks | 複数改行', () => (
     <EditorWithText initialValue={initialMultiLineBreaks} />
   ));

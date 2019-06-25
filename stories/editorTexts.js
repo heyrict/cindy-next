@@ -92,16 +92,27 @@ export const initialStamps = `
 
 // {{{ const initialMultiLineBreaks
 export const initialMultiLineBreaks = `
-Between First line
+1
+2
+
+3
+
+
+4
 
 
 
+5`.substr(1);
+// }}}
 
-
-
-
-
-
-and 10th line
-`.substr(1);
+// {{{ const initialTabs
+export const initialTabs = `
+<!--tabs-->
+<!--tab A-->
+Contents of A
+<!--endtab-->
+<!--tab B-->
+Contents of B
+<!--endtab-->
+<!--endtabs-->`.substr(1);
 // }}}

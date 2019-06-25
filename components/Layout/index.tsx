@@ -41,7 +41,7 @@ const tabsStyle = css`
   .nav > li > a {
     position: relative;
     display: block;
-    padding: 10px 15px;
+    padding: 0.3em 1em;
   }
   .nav-tabs > li > a {
     margin-right: 2px;
