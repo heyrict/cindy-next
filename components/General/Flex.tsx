@@ -2,28 +2,25 @@ import styled from 'theme/styled';
 import {
   flexbox,
   space,
-  border,
+  borders,
   color,
   layout,
+  SpaceProps,
+  BordersProps,
 } from 'styled-system';
+import { LayoutProps, FlexboxProps, ColorProps } from './types';
 
-const Flex = styled.div`
+const Flex = styled.div<
+  SpaceProps & FlexboxProps & BordersProps & ColorProps & LayoutProps
+>`
   box-sizing: 'border-box';
   min-width: 0;
   display: flex;
   ${flexbox}
   ${space}
-  ${border}
+  ${borders}
   ${color}
   ${layout}
 `;
-
-Flex.propTypes = {
-  ...flexbox.propTypes,
-  ...space.propTypes,
-  ...border.propTypes,
-  ...color.propTypes,
-  ...layout.propTypes,
-};
 
 export default Flex;

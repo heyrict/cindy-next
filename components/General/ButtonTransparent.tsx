@@ -7,9 +7,15 @@ import {
   fontWeight,
   borders,
   height,
+  SpaceProps,
+  FontSizeProps,
+  BordersProps,
 } from 'styled-system';
+import { ColorProps, LayoutProps } from './types';
 
-const ButtonTransparent = styled.button`
+const ButtonTransparent = styled.button<
+  SpaceProps & ColorProps & FontSizeProps & BordersProps & LayoutProps
+>`
   background-color: transparent;
   overflow: hidden;
   border: none;
@@ -31,15 +37,5 @@ const ButtonTransparent = styled.button`
     background-color: rgba(0, 0, 0, 0.1);
   }
 `;
-
-ButtonTransparent.propTypes = {
-  ...space.propTypes,
-  ...width.propTypes,
-  ...height.propTypes,
-  ...color.propTypes,
-  ...fontSize.propTypes,
-  ...fontWeight.propTypes,
-  ...borders.propTypes,
-};
 
 export default ButtonTransparent;

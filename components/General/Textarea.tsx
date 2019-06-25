@@ -1,7 +1,20 @@
 import styled from 'theme/styled';
-import { space, width, height, borders, color } from 'styled-system';
+import {
+  space,
+  width,
+  height,
+  borders,
+  color,
+  SpaceProps,
+  WidthProps,
+  HeightProps,
+  BordersProps,
+} from 'styled-system';
+import { ColorProps } from './types';
 
-const Textarea = styled.textarea`
+const Textarea = styled.textarea<
+  SpaceProps & WidthProps & HeightProps & BordersProps & ColorProps
+>`
   box-sizing: 'border-box';
   border-width: 1px;
   border-color: ${p => p.theme.colors.orange[5]};
@@ -16,13 +29,5 @@ const Textarea = styled.textarea`
   ${borders}
   ${color}
 `;
-
-Textarea.propTypes = {
-  ...space.propTypes,
-  ...width.propTypes,
-  ...height.propTypes,
-  ...borders.propTypes,
-  ...color.propTypes,
-};
 
 export default Textarea;

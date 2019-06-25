@@ -1,7 +1,18 @@
 import styled from 'theme/styled';
-import { flexbox, space, color, layout, border } from 'styled-system';
+import {
+  flexbox,
+  space,
+  color,
+  layout,
+  border,
+  SpaceProps,
+  BorderProps,
+} from 'styled-system';
+import { FlexboxProps, ColorProps, LayoutProps } from './types';
 
-const Panel = styled.div`
+const Panel = styled.div<
+  FlexboxProps & SpaceProps & ColorProps & LayoutProps & BorderProps
+>`
   box-sizing: 'border-box';
   min-width: 0;
   display: flex;

@@ -6,23 +6,11 @@ import {
   DialogueHintQuery_sui_hei_hint,
   DialogueHintQuery_sui_hei_dialogue,
 } from 'graphql/Queries/generated/DialogueHintQuery';
-
-export type DialogueType = {
-  id: number;
-  question: string;
-  answer: string;
-  good: boolean;
-  true: boolean;
-  questionEditTimes: number;
-  answerEditTimes: number;
-  created: string;
-  answeredtime?: string | null;
-  sui_hei_user: InlineUser;
-};
+import { DialogueShared } from 'graphql/Fragments/generated/DialogueShared';
 
 export type PuzzleDialogueProps = {
   index?: number;
-  dialogue: DialogueType;
+  dialogue: DialogueShared;
   puzzleUser: InlineUser;
   puzzleStatus: number;
   anonymous: boolean;

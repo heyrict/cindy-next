@@ -26,7 +26,12 @@ const PuzzleDialogue = ({
 }: PuzzleDialogueProps) => {
   return (
     <React.Fragment>
-      <Box width={[7 / 8, 1 / 2]} mr="auto" mb={[-2, 0]}>
+      <Box
+        id={`Q${dialogue.qno}`}
+        width={[7 / 8, 1 / 2]}
+        mr="auto"
+        mb={[-2, 0]}
+      >
         <ChatBubbleTop>
           {index && <IndexLabel>Q{index}</IndexLabel>}
           <UserInline

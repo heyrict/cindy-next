@@ -1,7 +1,20 @@
 import styled from 'theme/styled';
-import { space, width, height, borders, color } from 'styled-system';
+import {
+  space,
+  width,
+  height,
+  borders,
+  color,
+  SpaceProps,
+  WidthProps,
+  HeightProps,
+  BordersProps,
+} from 'styled-system';
+import { ColorProps } from './types';
 
-const Input = styled.input`
+const Input = styled.input<
+  SpaceProps & WidthProps & HeightProps & BordersProps & ColorProps
+>`
   box-sizing: 'border-box';
   border-width: 1px;
   border-color: ${p => p.theme.colors.orange[5]};
@@ -15,13 +28,5 @@ const Input = styled.input`
   ${borders}
   ${color}
 `;
-
-Input.propTypes = {
-  ...space.propTypes,
-  ...width.propTypes,
-  ...height.propTypes,
-  ...borders.propTypes,
-  ...color.propTypes,
-};
 
 export default Input;
