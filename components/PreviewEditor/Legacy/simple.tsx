@@ -184,6 +184,19 @@ class SimpleLegacyEditor extends React.Component<
               >
                 <Img src={stampIcon} height="1.2em" />
               </ButtonTransparent>
+              <ButtonFont>|</ButtonFont>
+              <ButtonTransparent
+                height="2.2em"
+                onClick={() => this.incHeight(8)}
+              >
+                <ButtonFont>＋</ButtonFont>
+              </ButtonTransparent>
+              <ButtonTransparent
+                height="2.2em"
+                onClick={() => this.incHeight(-8)}
+              >
+                <ButtonFont>−</ButtonFont>
+              </ButtonTransparent>
               <ButtonTransparent
                 height="2.2em"
                 onClick={() => this.togglePreview()}
@@ -197,7 +210,12 @@ class SimpleLegacyEditor extends React.Component<
                 onClick={({ key, src }) => this.onClickStamp({ key, src })}
               />
             )}
-            <Box display={this.state.preview ? 'none' : 'block'}>
+            <Box
+              display={this.state.preview ? 'none' : 'block'}
+              borderLeft="3px solid"
+              borderRight="3px solid"
+              borderColor="orange.3"
+            >
               {modalEditor}
             </Box>
             {this.state.preview && (
@@ -208,6 +226,7 @@ class SimpleLegacyEditor extends React.Component<
                     ? `${this.modalEditor.current.clientHeight}px`
                     : '16em'
                 }
+                style={{ overflow: 'auto' }}
                 dangerouslySetInnerHTML={{
                   __html: text2md(
                     this.modalEditor.current

@@ -197,6 +197,9 @@ class LegacyEditor extends React.Component<
                 ? `${this.editor.current.clientHeight}px`
                 : '16em'
             }
+            style={{
+              overflow: 'auto',
+            }}
             dangerouslySetInnerHTML={{
               __html: text2md(
                 this.editor.current ? this.editor.current.value : '',

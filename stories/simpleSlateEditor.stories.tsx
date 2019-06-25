@@ -10,33 +10,31 @@ import { globalStyle } from 'components/Layout';
 import Button from 'components/General/Button';
 import Box from 'components/General/Box';
 
-import PreviewEditor from 'components/PreviewEditor';
+import { SimpleSlateEditor } from 'components/PreviewEditor';
 
 import {
   initialStamps,
   initialMarkdown,
-  initialHtmlFont,
-  initialHtmlStyle,
   initialMonoWidth,
   initialMultiLineBreaks,
-  initialTabs,
 } from './editorTexts';
 
-const EditorWithText = ({ initialValue }) => {
+type EditorWithTextProps = {
+  initialValue: string;
+};
+
+const EditorWithText = ({ initialValue }: EditorWithTextProps) => {
   const [text, setText] = useState('');
-  const pEditor = React.createRef();
+  const pEditor = React.createRef<SimpleSlateEditor>();
   return (
     <ThemeProvider theme={theme}>
       <Global styles={globalStyle} />
       <Box width="calc(100% - 1em)" p="0.5em">
-        <PreviewEditor ref={pEditor} initialValue={initialValue} />
-        <Button
-          onClick={() => {
-            setText(pEditor.current.getText());
-          }}
-        >
-          GetText
-        </Button>
+        <SimpleSlateEditor
+          ref={pEditor}
+          initialValue={initialValue}
+          onSubmit={value => setText(value)}
+        />
         <pre>
           <code>{text}</code>
         </pre>
@@ -45,7 +43,7 @@ const EditorWithText = ({ initialValue }) => {
   );
 };
 
-storiesOf('Editor | PreviewEditor - プレビュー付きエディター', module)
+storiesOf('Editor | SimpleSlateEditor - シンプルエディター', module)
   .add('markdown | マークダウン', () => (
     <EditorWithText initialValue={initialMarkdown} />
   ))
@@ -55,13 +53,6 @@ storiesOf('Editor | PreviewEditor - プレビュー付きエディター', modul
   .add('monoFont | 等幅フォント', () => (
     <EditorWithText initialValue={initialMonoWidth} />
   ))
-  .add('htmlFont | HTML フォントタグ', () => (
-    <EditorWithText initialValue={initialHtmlFont} />
-  ))
-  .add('htmlStyle | HTML スタイリング', () => (
-    <EditorWithText initialValue={initialHtmlStyle} />
-  ))
-  .add('tabs | タブ', () => <EditorWithText initialValue={initialTabs} />)
   .add('multiLineBreaks | 複数改行', () => (
     <EditorWithText initialValue={initialMultiLineBreaks} />
   ));
