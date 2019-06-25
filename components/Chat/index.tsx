@@ -2,7 +2,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { getChannelWithPath } from 'common';
+import { getChannelWithPath } from 'common/channel';
 
 import * as globalReducer from 'reducers/global';
 

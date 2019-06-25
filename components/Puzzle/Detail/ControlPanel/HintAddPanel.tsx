@@ -151,9 +151,6 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
                       if (editorRef.current) editorRef.current.setText(hint);
                       setReceiverId(receiverId);
                       console.log(result.errors);
-                    } else {
-                      if (editorRef.current) editorRef.current.setText('');
-                      setReceiverId(null);
                     }
                   })
                   .catch(e => {

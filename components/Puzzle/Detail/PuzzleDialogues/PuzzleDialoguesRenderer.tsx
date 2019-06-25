@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { mergeList, upsertItem } from 'common';
+import { mergeList, upsertItem } from 'common/update';
 
 import { DIALOGUE_HINT_SUBSCRIPTION } from 'graphql/Subscriptions/Dialogue';
 

@@ -3,7 +3,7 @@ import styled from 'theme/styled';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import { Flex, Box } from 'components/General';
-import { upsertItem } from 'common';
+import { upsertItem } from 'common/update';
 
 import { Query } from 'react-apollo';
 import {

@@ -6,7 +6,7 @@ const Anchor = styled.a`
   display: inline-block;
   color: ${p => p.theme.colors.blue[6]};
   overflow: hidden;
-  word-break: break-word;
+  word-break: break-all;
   &:hover,
   &:active {
     color: ${p => p.theme.colors.cyan[6]};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { line2md } from 'common';
+import { line2md } from 'common/markdown';
 
 import { FormattedMessage } from 'react-intl';
 import commonMessages from 'messages/common';

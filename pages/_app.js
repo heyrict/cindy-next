@@ -5,13 +5,13 @@ import { ApolloProvider } from 'react-apollo';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import { ThemeProvider } from 'emotion-theming';
 import { Provider as ReduxProvider } from 'react-redux';
-import { changeTabularTab } from 'common/plugin-tabs';
+import { changeTabularTab } from 'common/markdown/plugin-tabs';
 
 //import Chat from 'components/Chat';
 import GlobalLayout from 'components/Layout';
 
 import { withApolloClient, withReduxStore } from '../lib';
-import theme from 'theme'
+import theme from 'theme';
 
 import { actions as globalActions } from 'reducers/global';
 

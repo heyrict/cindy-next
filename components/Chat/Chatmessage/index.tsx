@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { line2md } from 'common';
+import { line2md } from 'common/markdown';
 
 import { FormattedTime, FormattedMessage } from 'react-intl';
 import commonMessages from 'messages/common';
@@ -71,76 +71,78 @@ const Chatmessage = ({
         )}
       </ChatBubbleTop>
       <ChatBubble orientation={isCreator ? 'right' : 'left'}>
-        {mode === ChatmessageModeType.EDIT && (
-          <Mutation<ChatroomEditMessage, ChatroomEditMessageVariables>
-            mutation={CHATROOM_EDIT_MESSAGE_MUTATION}
-          >
-            {editMessage => (
-              <SimpleEditor
-                useNamespaces={['kameo', 'chef']}
-                initialValue={chatmessage.content}
-                autoFocus
-                onSubmit={text => {
-                  if (text === chatmessage.content) {
-                    setMode(ChatmessageModeType.NORMAL);
-                    return;
-                  }
-                  editMessage({
-                    variables: {
-                      chatmessageId: chatmessage.id,
-                      content: text,
-                    },
-                    optimisticResponse: {
-                      update_sui_hei_chatmessage: {
-                        __typename: 'sui_hei_chatmessage_mutation_response',
-                        returning: [
-                          {
-                            ...chatmessage,
-                            content: text,
-                          },
-                        ],
-                      },
-                    },
-                  }).then(result => {
-                    if (!result) return;
-                    const { errors } = result;
-                    if (errors) {
-                      console.log(errors);
-                      setMode(ChatmessageModeType.EDIT);
-                    } else {
+        <div style={{ overflowX: 'auto', width: '100%' }}>
+          {mode === ChatmessageModeType.EDIT && (
+            <Mutation<ChatroomEditMessage, ChatroomEditMessageVariables>
+              mutation={CHATROOM_EDIT_MESSAGE_MUTATION}
+            >
+              {editMessage => (
+                <SimpleEditor
+                  useNamespaces={['kameo', 'chef']}
+                  initialValue={chatmessage.content}
+                  autoFocus
+                  onSubmit={text => {
+                    if (text === chatmessage.content) {
                       setMode(ChatmessageModeType.NORMAL);
+                      return;
                     }
-                  });
-                  setMode(ChatmessageModeType.NORMAL);
-                }}
+                    editMessage({
+                      variables: {
+                        chatmessageId: chatmessage.id,
+                        content: text,
+                      },
+                      optimisticResponse: {
+                        update_sui_hei_chatmessage: {
+                          __typename: 'sui_hei_chatmessage_mutation_response',
+                          returning: [
+                            {
+                              ...chatmessage,
+                              content: text,
+                            },
+                          ],
+                        },
+                      },
+                    }).then(result => {
+                      if (!result) return;
+                      const { errors } = result;
+                      if (errors) {
+                        console.log(errors);
+                        setMode(ChatmessageModeType.EDIT);
+                      } else {
+                        setMode(ChatmessageModeType.NORMAL);
+                      }
+                    });
+                    setMode(ChatmessageModeType.NORMAL);
+                  }}
+                />
+              )}
+            </Mutation>
+          )}
+          <span
+            dangerouslySetInnerHTML={{ __html: line2md(chatmessage.content) }}
+          />
+          {chatmessage.editTimes > 0 && (
+            <EditTimeSpan>
+              <FormattedMessage
+                {...commonMessages.editTimes}
+                values={{ count: chatmessage.editTimes }}
               />
-            )}
-          </Mutation>
-        )}
-        <span
-          dangerouslySetInnerHTML={{ __html: line2md(chatmessage.content) }}
-        />
-        {chatmessage.editTimes > 0 && (
-          <EditTimeSpan>
-            <FormattedMessage
-              {...commonMessages.editTimes}
-              values={{ count: chatmessage.editTimes }}
-            />
-          </EditTimeSpan>
-        )}
-        {isCreator && (
-          <ButtonTransparent
-            onClick={() =>
-              setMode(
-                mode === ChatmessageModeType.EDIT
-                  ? ChatmessageModeType.NORMAL
-                  : ChatmessageModeType.EDIT,
-              )
-            }
-          >
-            <Img height="xxs" src={pencilIcon} />
-          </ButtonTransparent>
-        )}
+            </EditTimeSpan>
+          )}
+          {isCreator && (
+            <ButtonTransparent
+              onClick={() =>
+                setMode(
+                  mode === ChatmessageModeType.EDIT
+                    ? ChatmessageModeType.NORMAL
+                    : ChatmessageModeType.EDIT,
+                )
+              }
+            >
+              <Img height="xxs" src={pencilIcon} />
+            </ButtonTransparent>
+          )}
+        </div>
       </ChatBubble>
     </div>
   );

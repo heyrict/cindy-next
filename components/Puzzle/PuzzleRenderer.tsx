@@ -11,8 +11,7 @@ import commonMessages from 'messages/common';
 import userMessages from 'messages/components/user';
 
 import { PuzzleRendererProps } from './types';
-
-const REMOVE_HTML_REGEXP = new RegExp('<[^<>\n]+>', 'g');
+import { text2raw } from 'common/markdown';
 
 const PuzzleRenderer = ({
   loading,
@@ -62,10 +61,7 @@ const PuzzleRenderer = ({
           </title>
           <meta
             name="description"
-            content={`${_(messages.solveit)}: "${puzzle.content.replace(
-              REMOVE_HTML_REGEXP,
-              '',
-            )}"`}
+            content={`${_(messages.solveit)}: "${text2raw(puzzle.content)}"`}
           />
         </Head>
         <PuzzleDetail puzzle={puzzle} />
