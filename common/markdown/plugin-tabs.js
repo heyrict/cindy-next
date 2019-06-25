@@ -77,14 +77,14 @@ const norm_tabs = string => {
 export const changeTabularTab = id => {
   const tabContents = document.getElementById(id).parentElement;
   const navtabContents = document.getElementById(`nav${id}`).parentElement;
-  Array.forEach(tabContents.children, child => {
+  Array.from(tabContents.children).forEach(child => {
     if (child.id === id) {
       child.setAttribute('class', 'tab-pane active');
     } else {
       child.setAttribute('class', 'tab-pane');
     }
   });
-  Array.forEach(navtabContents.children, child => {
+  Array.from(navtabContents.children).forEach(child => {
     if (child.id === `nav${id}`) {
       child.setAttribute('class', 'active');
     } else {
