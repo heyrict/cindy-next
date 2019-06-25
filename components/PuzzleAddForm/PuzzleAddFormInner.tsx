@@ -52,6 +52,7 @@ export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
   const [yami, setYami] = useState(0);
   const [anonymous, setAnonymous] = useState(false);
   const [grotesque, setGrotesque] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const now = new Date();
   const dazedTimeOffset = getMaxDazedDays({
     genre,
@@ -215,6 +216,7 @@ export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
             const content = contentEditor.current.getText();
             const solution = solutionEditor.current.getText();
             if (typeof content === 'string' && typeof solution === 'string') {
+              setSubmitting(true);
               onSubmit({
                 content,
                 solution,
@@ -230,6 +232,9 @@ export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
                 }
                 const addedPuzzle = data.insert_sui_hei_puzzle.returning[0];
                 Router.pushRoute('puzzle', { id: addedPuzzle.id });
+              }).catch(error => {
+                console.log(error);
+                setSubmitting(false);
               });
             }
           }}

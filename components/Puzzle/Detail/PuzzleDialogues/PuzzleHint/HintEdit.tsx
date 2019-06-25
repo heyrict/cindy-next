@@ -81,8 +81,6 @@ const HintEdit = ({ hint, setEdit }: HintEditProps) => {
                         console.log(errors);
                         setEdit(true);
                         setText(hint.content);
-                      } else {
-                        setEdit(false);
                       }
                     })
                     .catch(error => {

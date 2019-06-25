@@ -91,8 +91,6 @@ const QuestionEdit = ({ question, dialogueId, setMode }: QuestionEditProps) => {
                         console.log(errors);
                         setMode(QuestionModes.EDIT);
                         setText(question);
-                      } else {
-                        setMode(QuestionModes.DISPLAY);
                       }
                     })
                     .catch(error => {

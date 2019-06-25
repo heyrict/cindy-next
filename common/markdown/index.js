@@ -23,7 +23,16 @@ const DOMPurifyParamsText = {
 const DOMPurifyParamsLine = {
   ...DOMPurifyParamsText,
   FORBID_ATTR: ['style'],
-  FORBID_TAGS: ['style', 'iframe'],
+  FORBID_TAGS: [
+    'audio',
+    'head',
+    'math',
+    'script',
+    'style',
+    'template',
+    'svg',
+    'video',
+  ],
 };
 
 let DOMPurify = createDOMPurify;
@@ -64,13 +73,20 @@ const PostNorm = string => {
 };
 
 export const line2md = string => {
-  const rendered = md
-    .render(PreNorm(string))
-    .replace(/<p>/g, '')
-    .replace(/<\/p>\s*$/g, '')
-    .replace(/<\/p>/g, '<br style="margin-bottom: 10px" />');
+  const rendered = md.render(PreNorm(string));
+
+  // Drop the last </p>, replace other </p>s with line break;
   const purified = HtmlPurify(rendered, DOMPurifyParamsLine);
-  return PostNorm(purified);
+  const lastPCloseIndex = purified.lastIndexOf('</p>');
+  const stripped =
+    lastPCloseIndex === -1
+      ? purified
+      : `${purified.substr(0, lastPCloseIndex)}${rendered.substr(
+          lastPCloseIndex + 4,
+        )}`
+          .replace(/<p>/g, '')
+          .replace(/<\/p>/g, '<br style="margin-bottom: 1em">');
+  return PostNorm(stripped);
 };
 
 export const text2md = string => {
@@ -80,4 +96,4 @@ export const text2md = string => {
 };
 
 export const text2raw = string =>
-  text2md(puzzle.content).replace(REMOVE_HTML_REGEXP, '');
+  text2md(string).replace(REMOVE_HTML_REGEXP, '');

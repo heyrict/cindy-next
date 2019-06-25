@@ -145,7 +145,6 @@ const AnswerEdit = ({
                         setGood(goodAns);
                         setTrue(trueAns);
                       }
-                      setMode(AnswerModes.DISPLAY);
                     })
                     .catch(error => {
                       console.log(error.message);

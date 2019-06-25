@@ -54,14 +54,10 @@ export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
         ) => setInput(e.target.value)}
         onKeyPress={(e: React.KeyboardEvent) => {
           if (e.nativeEvent.keyCode === 13 && !expanded) {
-            onSubmit(input)
-              .then(() => {
-                setInput('');
-              })
-              .catch(e => {
-                console.log(e);
-                setInput(input);
-              });
+            onSubmit(input).catch(e => {
+              console.log(e);
+              setInput(input);
+            });
             setInput('');
           }
         }}
@@ -74,7 +70,10 @@ export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
       </ExpandButton>
       <Button
         onClick={() => {
-          onSubmit(input);
+          onSubmit(input).catch(e => {
+            console.log(e);
+            setInput(input);
+          });
           setInput('');
         }}
         px={2}
@@ -139,8 +138,13 @@ const AddQuestionInput = ({ puzzleId, userId }: AddQuestionInputProps) => {
     >
       {addQuestion => (
         <QuestionInputWidget
-          onSubmit={input =>
-            addQuestion({
+          onSubmit={input => {
+            if (input.trim() === '')
+              return new Promise((_resolve, reject) => {
+                reject('Question is empty');
+              });
+
+            return addQuestion({
               variables: {
                 question: input,
                 puzzleId,
@@ -172,8 +176,8 @@ const AddQuestionInput = ({ puzzleId, userId }: AddQuestionInputProps) => {
                   ],
                 },
               },
-            })
-          }
+            });
+          }}
         />
       )}
     </Mutation>

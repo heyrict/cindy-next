@@ -82,7 +82,6 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
                           editorRef.current.setText(newMemo);
                         }
                       }
-                      setEditing(false);
                     })
                     .catch(e => {
                       console.log(e);
