@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'theme/styled';
 
-import { Box, Panel, ButtonTransparent, Img } from 'components/General';
+import { Box, Panel, ButtonTransparent, Img, Flex } from 'components/General';
 import memoIcon from 'svgs/memo.svg';
 
 import { connect } from 'react-redux';
@@ -36,17 +36,18 @@ function MemoFrame(props: MemoFrameType) {
         onClick={() => setRightAside(RightAsideType.memo)}
         color="grape.6"
         borderColor="graphe.6"
-        fontSize="1.2em"
-        borderBottom={show ? '2px solid' : 'none'}
+        borderBottom="2px solid"
         width={1}
       >
-        <Box width={1} bg="violet.1">
-          <Img size="xs" mr={2} src={memoIcon} alt="Memo" title="memo" />
-          <FormattedMessage {...messages.memoFromCreator} />
-        </Box>
-        <Box px={2}>
-          {memoRaw.length > 100 ? `${memoRaw.substr(0, 100)}...` : memoRaw}
-        </Box>
+        <Flex flexWrap="wrap" width={1}>
+          <Box width={1} bg="violet.1" borderRadius={2} fontSize="1.2em">
+            <Img size="xs" mr={2} src={memoIcon} alt="Memo" title="memo" />
+            <FormattedMessage {...messages.memoFromCreator} />
+          </Box>
+          <Box px={2} fontSize="0.8em">
+            {memoRaw.length > 100 ? `${memoRaw.substr(0, 100)}...` : memoRaw}
+          </Box>
+        </Flex>
       </ButtonTransparent>
     </Box>
   );
@@ -57,6 +58,9 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(puzzleReducer.actions.setRightAside(rightAside)),
 });
 
-const withRedux = connect(mapDispatchToProps);
+const withRedux = connect(
+  null,
+  mapDispatchToProps,
+);
 
 export default withRedux(MemoFrame);

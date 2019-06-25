@@ -35,6 +35,8 @@ const PuzzleDetail = ({
   const isHidden = puzzle.status === 3;
   const isForbidden = puzzle.status === 4;
   const isCreator = puzzle.sui_hei_user.id === userId;
+
+  const shouldShowMemo = puzzle.memo.trim() !== '';
   const shouldShowAnswer =
     puzzle.status === 1 || puzzle.status === 2 || solvedLongtermYami;
   const shouldShowAddQuestionInput =
@@ -97,7 +99,7 @@ const PuzzleDetail = ({
           created={puzzle.created}
           solved={puzzle.status === 0 ? undefined : puzzle.modified}
         />
-        <MemoFrame memo={puzzle.memo} />
+        {shouldShowMemo && <MemoFrame memo={puzzle.memo} />}
         {shouldShowPuzzleDialogues && (
           <PuzzleDialogues
             puzzleId={puzzle.id}
