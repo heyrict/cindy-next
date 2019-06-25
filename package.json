@@ -36,7 +36,7 @@
     "apollo-server-core": "^2.6.1",
     "apollo-server-express": "^2.6.1",
     "body-parser": "^1.19.0",
-    "dompurify": "^1.0.10",
+    "dompurify": "^1.0.11",
     "emotion-theming": "^10.0.10",
     "express": "4.16.4",
     "fnv-plus": "^1.2.12",

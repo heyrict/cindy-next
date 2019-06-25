@@ -1,5 +1,6 @@
 const isDev = process.env.NODE_ENV !== 'production';
 
+// Graphql
 const GRAPHQL_SERVER = {
   ENDPOINT: 'http://localhost:8080/v1/graphql',
   LIVEQUERY: 'ws://localhost:8080/v1/graphql',
@@ -18,10 +19,11 @@ const GRAPHQL_CLIENT = {
     : 'wss://next.cindythink.com/subscriptions',
 };
 
+// Locale
 const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
-
 const APPLOCALES = ['en', 'ja'];
 
+// Max dazed days
 const MAX_DAZED_DAYS_BY_GENRE = [
   7, // Classic
   14, // Twenty Questions
@@ -34,6 +36,22 @@ const getMaxDazedDays = puzzle =>
     ? MAX_DAZED_DAYS_LONGTERM_YAMI
     : MAX_DAZED_DAYS_BY_GENRE[puzzle.genre];
 
+// Same site domain filter
+const DOMAIN_REGEXP = new RegExp(
+  /^(https?:\/\/)?(localhost(:\d+)?|127.0.0.1(:\d+)?|(www\.)?cindythink\.com)?(\/.*)/,
+);
+
+const domainFilter = url => {
+  const selfDomain = DOMAIN_REGEXP.test(url);
+  if (!selfDomain) {
+    return { selfDomain, url };
+  }
+  return {
+    selfDomain,
+    url: url.replace(DOMAIN_REGEXP, '$6'),
+  };
+};
+
 module.exports = {
   isDev,
   GRAPHQL_CLIENT,
@@ -41,4 +59,5 @@ module.exports = {
   DEFAULT_LOCALE,
   APPLOCALES,
   getMaxDazedDays,
+  domainFilter,
 };

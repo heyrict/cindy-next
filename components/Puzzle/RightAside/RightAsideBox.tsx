@@ -13,6 +13,7 @@ import memoIcon from 'svgs/memo.svg';
 import toTopIcon from 'svgs/toTop.svg';
 import toBottomIcon from 'svgs/toBottom.svg';
 import expandIcon from 'svgs/expand.svg';
+import collapseIcon from 'svgs/collapse.svg';
 
 import { ActionContentType, RightAsideType, StateType } from 'reducers/types';
 import {
@@ -130,7 +131,9 @@ class RightAsideBox extends React.Component<
               )
             }
           >
-            {puzzleMemoHasnew && <RedDot right={this.state.mini ? 0 : '4em'} />}
+            {puzzleMemoHasnew && (
+              <RedDot right={this.state.mini ? 0 : '0.5em'} />
+            )}
             <Img
               height={this.state.mini ? '1em' : '2em'}
               src={memoIcon}
@@ -174,7 +177,11 @@ class RightAsideBox extends React.Component<
           height="2em"
           onClick={() => this.setState(p => ({ mini: !p.mini }))}
         >
-          <Img height="1em" src={expandIcon} alt="Expand" />
+          <Img
+            height="0.8em"
+            src={this.state.mini ? expandIcon : collapseIcon}
+            alt="Expand"
+          />
         </RightAsideBoxButton>
       </RightAsideBoxBase>
     );

@@ -10,6 +10,7 @@ import * as puzzleReducer from 'reducers/puzzle';
 
 import PuzzleTitle from './PuzzleTitle';
 import ContentsFrame from './ContentsFrame';
+import MemoFrame from './MemoFrame';
 import AddQuestionInput from './AddQuestionInput';
 import PuzzleDialogues from './PuzzleDialogues';
 import StarPanel from './StarPanel';
@@ -34,6 +35,8 @@ const PuzzleDetail = ({
   const isHidden = puzzle.status === 3;
   const isForbidden = puzzle.status === 4;
   const isCreator = puzzle.sui_hei_user.id === userId;
+
+  const shouldShowMemo = puzzle.memo.trim() !== '';
   const shouldShowAnswer =
     puzzle.status === 1 || puzzle.status === 2 || solvedLongtermYami;
   const shouldShowAddQuestionInput =
@@ -96,6 +99,7 @@ const PuzzleDetail = ({
           created={puzzle.created}
           solved={puzzle.status === 0 ? undefined : puzzle.modified}
         />
+        {shouldShowMemo && <MemoFrame memo={puzzle.memo} />}
         {shouldShowPuzzleDialogues && (
           <PuzzleDialogues
             puzzleId={puzzle.id}

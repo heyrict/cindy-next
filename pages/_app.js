@@ -1,4 +1,5 @@
 import React from 'react';
+import { Router } from 'routes';
 import App, { Container } from 'next/app';
 import { compose } from 'redux';
 import { ApolloProvider } from 'react-apollo';
@@ -6,6 +7,7 @@ import { IntlProvider, addLocaleData } from 'react-intl';
 import { ThemeProvider } from 'emotion-theming';
 import { Provider as ReduxProvider } from 'react-redux';
 import { changeTabularTab } from 'common/markdown/plugin-tabs';
+import { domainFilter } from 'settings';
 
 //import Chat from 'components/Chat';
 import GlobalLayout from 'components/Layout';
@@ -71,13 +73,13 @@ class MyApp extends App {
           break;
       }
     }
-    //if (typeof e.target.onclick !== 'function' && 'href' in attr) {
-    //  const { selfDomain, url } = domainFilter(attr.href.value);
-    //  if (selfDomain && e.button === 0 /* left cick */) {
-    //    // this.props.goto(url);
-    //    e.preventDefault();
-    //  }
-    //}
+    if (typeof e.target.onclick !== 'function' && 'href' in attr) {
+      const { selfDomain, url } = domainFilter(attr.href.value);
+      if (selfDomain && e.button === 0 /* left cick */) {
+        e.preventDefault();
+        Router.push(url);
+      }
+    }
   }
 
   render() {

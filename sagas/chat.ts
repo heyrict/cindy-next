@@ -57,10 +57,15 @@ function* readChat() {
   }
 }
 
+function* closeChat() {
+  yield put(globalReducer.actions.setFalseAside());
+}
+
 function* chatRootSaga() {
   yield all([
     takeEvery(chatReducer.actionTypes.CHATMESSAGE_UPDATE, setChatHasnew),
     takeEvery(globalReducer.actionTypes.ASIDE, readChat),
+    takeEvery(globalReducer.actionTypes.ROUTECHANGE, closeChat),
   ]);
 }
 

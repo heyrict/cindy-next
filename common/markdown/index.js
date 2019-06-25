@@ -81,11 +81,11 @@ export const line2md = string => {
   const stripped =
     lastPCloseIndex === -1
       ? purified
-      : `${purified.substr(0, lastPCloseIndex)}${rendered.substr(
+      : `${purified.substr(0, lastPCloseIndex)}${purified.substr(
           lastPCloseIndex + 4,
         )}`
           .replace(/<p>/g, '')
-          .replace(/<\/p>/g, '<br style="margin-bottom: 1em">');
+          .replace(/<\/p>/g, '<div style="margin-bottom: 1em"></div>');
   return PostNorm(stripped);
 };
 
@@ -96,4 +96,7 @@ export const text2md = string => {
 };
 
 export const text2raw = string =>
-  text2md(string).replace(REMOVE_HTML_REGEXP, '');
+  md
+    .render(string)
+    .replace(REMOVE_HTML_REGEXP, '')
+    .replace(/\s{2,}/, ' ');

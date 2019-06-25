@@ -1,4 +1,5 @@
 import { InlineUser } from 'components/User/types';
+import { RightAsideType } from 'reducers/types';
 
 export type PuzzleType = {
   id: number;
@@ -50,6 +51,11 @@ export type ContentsFrameType = {
   created?: string;
   solved?: string;
 };
+
+export type MemoFrameType = {
+  memo: string;
+  setRightAside: (rightAside: RightAsideType) => void;
+}
 
 export type PuzzleTitleProps = {
   title: string;
