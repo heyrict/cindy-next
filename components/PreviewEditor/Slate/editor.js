@@ -6,7 +6,7 @@ import { Editor } from 'slate-react';
 
 import { Flex, Box, ButtonTransparent, Img } from 'components/General';
 import { deserialize, serialize } from './convert';
-import StampList from './StampList';
+import StampList from '../StampList';
 import Prism from './prism';
 import {
   ButtonFont,
@@ -16,13 +16,13 @@ import {
   StyledRefer,
   StyledLink,
   StyledTag,
-} from './components';
+} from '../components';
 
 import photoIcon from 'svgs/photo.svg';
 import urlIcon from 'svgs/url.svg';
 import stampIcon from 'svgs/stamp.svg';
 
-class PreviewEditor extends React.Component {
+class SlateEditor extends React.Component {
   static defaultProps = {
     initialValue: '',
     placeholder: '',
@@ -452,4 +452,4 @@ class PreviewEditor extends React.Component {
   setText = text => this.setState({ value: deserialize(text) });
 }
 
-export default PreviewEditor;
+export default SlateEditor;

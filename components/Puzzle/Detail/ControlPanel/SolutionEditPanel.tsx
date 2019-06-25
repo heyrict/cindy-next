@@ -9,7 +9,7 @@ import {
 } from 'graphql/Mutations/generated/EditSolutionMutation';
 
 import { ButtonTransparent, Flex, Box, Img } from 'components/General';
-import PreviewEditor from 'components/PreviewEditor';
+import { LegacyEditor } from 'components/PreviewEditor';
 import pencilIcon from 'svgs/pencil.svg';
 import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
@@ -23,7 +23,7 @@ const SolutionEditPanel = ({
   yami,
 }: SolutionEditPanelProps) => {
   const [editing, setEditing] = useState(false);
-  const editorRef = useRef<PreviewEditor>(null);
+  const editorRef = useRef<LegacyEditor>(null);
 
   const canEdit = status === 0 && yami !== 2;
 
@@ -43,7 +43,7 @@ const SolutionEditPanel = ({
           editing ? (
             <React.Fragment>
               <Box width={1}>
-                <PreviewEditor ref={editorRef} initialValue={solution} />
+                <LegacyEditor ref={editorRef} initialValue={solution} />
               </Box>
               <ButtonTransparent
                 width={1 / 2}

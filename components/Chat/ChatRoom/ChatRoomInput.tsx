@@ -8,7 +8,7 @@ import { Mutation } from 'react-apollo';
 import { CHATROOM_CHATMESSAGES_QUERY } from 'graphql/Queries/Chat';
 import { CHATROOM_SEND_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
 
-import SimpleEditor from 'components/PreviewEditor/simple';
+import { SimpleLegacyEditor } from 'components/PreviewEditor';
 
 import {
   ChatroomSendMessage,
@@ -20,6 +20,7 @@ import {
   ChatroomChatmessages,
   ChatroomChatmessagesVariables,
 } from 'graphql/Queries/generated/ChatroomChatmessages';
+import { stampNamespaces } from 'stamps';
 
 const ChatRoomInputWrapper = styled.div`
   position: absolute;
@@ -74,8 +75,9 @@ const ChatRoomInput = ({ user, chatroomId }: ChatRoomInputProps) => (
         }}
       >
         {sendMessage => (
-          <SimpleEditor
-            onSubmit={content => {
+          <SimpleLegacyEditor
+            useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
+            onSubmit={(content: string) => {
               if (content.trim() === '') return;
               sendMessage({
                 variables: {

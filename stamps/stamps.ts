@@ -1,3 +1,5 @@
+import { stampNamespaces } from './types';
+
 const stampA = '/static/stamps/A.png';
 const stampQ = '/static/stamps/Q.png';
 const stampANeko = '/static/stamps/A-neko.png';
@@ -58,7 +60,20 @@ export const allStamps = {
   ...puzzleStamps,
 };
 
-const stampDefs = {
+export const stamps = {
+  [stampNamespaces.kameo]: kameoStamps,
+  [stampNamespaces.chef]: chefStamps,
+  [stampNamespaces.puzzle]: puzzleStamps,
+};
+
+// message ids in ./messages/components/stamp
+export const stampMessageIds = {
+  [stampNamespaces.kameo]: 'namespace_kameo',
+  [stampNamespaces.chef]: 'namespace_chef',
+  [stampNamespaces.puzzle]: 'namespace_puzzle',
+};
+
+export const stampDefs = {
   'stamp-a': m('stamp-a', stampA),
   'stamp-q': m('stamp-q', stampQ),
   'stamp-q-neko': m('stamp-q-neko', stampQNeko),
@@ -78,5 +93,3 @@ const stampDefs = {
   'stamp-mannenn': m('stamp-mannenn', stampMannenn),
   'stamp-arigatou': m('stamp-arigatou', stampArigatou),
 };
-
-export default stampDefs;

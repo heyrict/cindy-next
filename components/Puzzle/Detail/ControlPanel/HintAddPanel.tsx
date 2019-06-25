@@ -9,7 +9,7 @@ import {
 } from 'graphql/Mutations/generated/AddHintMutation';
 
 import { ButtonTransparent, Flex, Box, Img } from 'components/General';
-import PreviewEditor from 'components/PreviewEditor';
+import { LegacyEditor } from 'components/PreviewEditor';
 import ParticipantSelector from './ParticipantSelector';
 
 import tickIcon from 'svgs/tick.svg';
@@ -25,7 +25,7 @@ import {
 
 const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
   const [receiverId, setReceiverId] = useState<number | null>(null);
-  const editorRef = useRef<PreviewEditor>(null);
+  const editorRef = useRef<LegacyEditor>(null);
 
   return (
     <Flex
@@ -96,7 +96,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
               </Box>
             )}
             <Box width={1}>
-              <PreviewEditor ref={editorRef} />
+              <LegacyEditor ref={editorRef} />
             </Box>
             <ButtonTransparent
               width={1 / 2}

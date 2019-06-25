@@ -4,7 +4,7 @@ import mdEmojiLight from 'markdown-it-emoji/lib/data/light.json';
 import createDOMPurify from 'dompurify';
 import { compose } from 'redux';
 
-import stampDefs from 'stamps';
+import { stampDefs } from 'stamps';
 
 import normTabs from './plugin-tabs';
 import { normLinkHook, normLink } from './plugin-link';

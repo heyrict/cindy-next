@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'theme/styled';
 
 import { FormattedMessage } from 'react-intl';
@@ -7,7 +6,8 @@ import messages from 'messages/components/stamp';
 
 import { Box, ButtonTransparent, Img } from 'components/General';
 
-import { kameoStamps, chefStamps, puzzleStamps } from 'stamps';
+import { stampNamespaces, stampMessageIds, StampType, stamps } from 'stamps';
+import { StampListProps, StampListDefaultProps } from './types';
 
 const StampRow = styled(Box)`
   white-space: nowrap;
@@ -15,19 +15,7 @@ const StampRow = styled(Box)`
   overflow-y: hidden;
 `;
 
-const stampNamespaces = {
-  kameo: kameoStamps,
-  chef: chefStamps,
-  puzzle: puzzleStamps,
-};
-
-const stampMessageIds = {
-  kameo: 'namespace_kameo',
-  chef: 'namespace_chef',
-  puzzle: 'namespace_puzzle',
-};
-
-const StampList = ({ useNamespaces, onClick }) => {
+const StampList = ({ useNamespaces, onClick }: StampListProps) => {
   const [namespace, setNamespace] = useState(useNamespaces[0]);
 
   return (
@@ -43,13 +31,20 @@ const StampList = ({ useNamespaces, onClick }) => {
             borderRight="none"
             borderColor={namespc === namespace ? 'red.4' : 'transparent'}
           >
-            <FormattedMessage {...messages[stampMessageIds[namespc]]} />
+            <FormattedMessage
+              {...messages[stampMessageIds[namespc] as keyof typeof messages]}
+            />
           </ButtonTransparent>
         ))}
       </StampRow>
       <StampRow width={1} bg="orange.2">
-        {Object.entries(stampNamespaces[namespace]).map(([key, src]) => (
-          <ButtonTransparent key={key} onClick={() => onClick({ key, src })}>
+        {Object.entries(stamps[namespace]).map(([key, src]) => (
+          <ButtonTransparent
+            key={key}
+            onClick={() =>
+              onClick({ key, src } as { key: StampType; src: string })
+            }
+          >
             <Img height="sm" src={src} />
           </ButtonTransparent>
         ))}
@@ -58,15 +53,6 @@ const StampList = ({ useNamespaces, onClick }) => {
   );
 };
 
-StampList.propTypes = {
-  useNamespaces: PropTypes.arrayOf(
-    PropTypes.oneOf(Object.keys(stampNamespaces)),
-  ),
-  onClick: PropTypes.func.isRequired,
-};
-
-StampList.defaultProps = {
-  useNamespaces: Object.keys(stampNamespaces),
-};
+StampList.defaultProps = StampListDefaultProps;
 
 export default StampList;

@@ -13,7 +13,7 @@ import { CHATROOM_EDIT_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
 import UserInline from 'components/User/UserInline';
 import { AnonymousUserInline } from 'components/User/Anonymous';
 import { ButtonTransparent, Img, EditTimeSpan } from 'components/General';
-import SimpleEditor from 'components/PreviewEditor/simple';
+import { SimpleLegacyEditor } from 'components/PreviewEditor';
 
 import ChatBubble from './ChatBubble';
 import ChatBubbleTop from './ChatBubbleTop';
@@ -25,6 +25,7 @@ import {
   ChatroomEditMessage,
   ChatroomEditMessageVariables,
 } from 'graphql/Mutations/generated/ChatroomEditMessage';
+import { stampNamespaces } from 'stamps';
 
 const Chatmessage = ({
   chatmessage,
@@ -77,10 +78,9 @@ const Chatmessage = ({
               mutation={CHATROOM_EDIT_MESSAGE_MUTATION}
             >
               {editMessage => (
-                <SimpleEditor
-                  useNamespaces={['kameo', 'chef']}
+                <SimpleLegacyEditor
+                  useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
                   initialValue={chatmessage.content}
-                  autoFocus
                   onSubmit={text => {
                     if (text === chatmessage.content) {
                       setMode(ChatmessageModeType.NORMAL);

@@ -12,9 +12,9 @@ import {
   StyledHr,
   StyledRefer,
   StyledLink,
-} from './components';
+} from '../components';
 import { Flex, Box, ButtonTransparent, Img } from 'components/General';
-import StampList from './StampList';
+import StampList from '../StampList';
 import Prism from './prism';
 
 import paperPlaneIcon from 'svgs/paperPlane.svg';

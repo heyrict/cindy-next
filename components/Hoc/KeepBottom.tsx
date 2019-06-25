@@ -1,8 +1,8 @@
 import React from 'react';
-import { isDev } from 'settings';
 import isEqual from 'react-fast-compare';
 import { KeepBottomProps, WatchObjectType } from './types';
 
+const isDev = process.env.NODE_ENV !== 'production';
 const logDev = (...args: string[]) => (isDev ? console.log(...args) : null);
 
 class KeepBottom extends React.Component<KeepBottomProps> {

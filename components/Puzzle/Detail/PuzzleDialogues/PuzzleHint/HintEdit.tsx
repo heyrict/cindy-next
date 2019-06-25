@@ -4,7 +4,8 @@ import { Mutation } from 'react-apollo';
 import { EDIT_HINT_MUTATION } from 'graphql/Mutations/Hint';
 
 import { Flex, ButtonTransparent, Img } from 'components/General';
-import PreviewEditor from 'components/PreviewEditor';
+import { LegacyEditor } from 'components/PreviewEditor';
+
 import crossIcon from 'svgs/cross.svg';
 import tickIcon from 'svgs/tick.svg';
 
@@ -16,7 +17,7 @@ import {
 
 const HintEdit = ({ hint, setEdit }: HintEditProps) => {
   const [text, setText] = useState(hint.content);
-  const editorRef = useRef<PreviewEditor>(null);
+  const editorRef = useRef<LegacyEditor>(null);
   useEffect(() => {
     setText(hint.content);
   }, [hint.content]);
@@ -27,7 +28,7 @@ const HintEdit = ({ hint, setEdit }: HintEditProps) => {
     >
       {editHint => (
         <React.Fragment>
-          <PreviewEditor initialValue={text} ref={editorRef} />
+          <LegacyEditor initialValue={text} ref={editorRef} />
           <Flex
             width={1}
             borderWidth="3px"

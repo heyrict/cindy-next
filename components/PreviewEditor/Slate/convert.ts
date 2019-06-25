@@ -1,4 +1,4 @@
-import { allStamps, Stamps } from 'stamps';
+import { allStamps } from 'stamps';
 import { Block, Value, DocumentJSON } from 'slate';
 //export const deserialize = Plain.deserialize;
 
@@ -23,7 +23,7 @@ export const markup = (node: any) => {
         break;
       default:
         console.warn(
-          `Unhandled mark type ${mark.type} at PreviewEditor.convert.markup`,
+          `Unhandled mark type ${mark.type} at PreviewEditor.slate.convert.markup`,
         );
     }
   });
@@ -81,7 +81,7 @@ const lineToNode = (line: string) => {
     // Test if match is a stamp
     const key = stampMatch[0].substr(1, stampMatch[0].length - 2);
     if (key in allStamps) {
-      const src = (allStamps as Stamps)[key];
+      const src = allStamps[key as keyof typeof allStamps];
       endIndex = stampMatch.index;
 
       nodes.push(genTextNode(line.substr(startIndex, endIndex)));

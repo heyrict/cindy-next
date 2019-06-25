@@ -9,9 +9,10 @@ import puzzleMessages from 'messages/components/puzzle';
 
 import { Flex, Box, Input, ButtonTransparent } from 'components/General';
 import ButtonSelect from 'components/ButtonSelect';
-import PreviewEditor from 'components/PreviewEditor';
+import { LegacyEditor } from 'components/PreviewEditor';
 
 import { PuzzleAddFormInnerProps } from './types';
+import { stampNamespaces } from 'stamps/types';
 
 const fieldNameStyle = {
   width: [1, 1 / 6],
@@ -45,8 +46,8 @@ const fieldInputStype = {
 };
 
 export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
-  const contentEditor = useRef<PreviewEditor>(null);
-  const solutionEditor = useRef<PreviewEditor>(null);
+  const contentEditor = useRef<LegacyEditor>(null);
+  const solutionEditor = useRef<LegacyEditor>(null);
   const [title, setTitle] = useState('');
   const [genre, setGenre] = useState(0);
   const [yami, setYami] = useState(0);
@@ -194,13 +195,19 @@ export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
         <FormattedMessage {...puzzleMessages.content} />
       </Box>
       <Box {...fieldContentStyle}>
-        <PreviewEditor useNamespaces={['puzzle']} ref={contentEditor} />
+        <LegacyEditor
+          useNamespaces={[stampNamespaces.puzzle]}
+          ref={contentEditor}
+        />
       </Box>
       <Box {...inputFieldNameStyle}>
         <FormattedMessage {...puzzleMessages.solution} />
       </Box>
       <Box {...fieldContentStyle}>
-        <PreviewEditor useNamespaces={['puzzle']} ref={solutionEditor} />
+        <LegacyEditor
+          useNamespaces={[stampNamespaces.puzzle]}
+          ref={solutionEditor}
+        />
       </Box>
       <Box bg="orange.6" my={3} width={1} borderRadius={2}>
         <ButtonTransparent
@@ -226,16 +233,18 @@ export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
                 anonymous,
                 grotesque,
                 dazedOn,
-              }).then(({ data, error }) => {
-                if (error) {
+              })
+                .then(({ data, error }) => {
+                  if (error) {
+                    console.log(error);
+                  }
+                  const addedPuzzle = data.insert_sui_hei_puzzle.returning[0];
+                  Router.pushRoute('puzzle', { id: addedPuzzle.id });
+                })
+                .catch(error => {
                   console.log(error);
-                }
-                const addedPuzzle = data.insert_sui_hei_puzzle.returning[0];
-                Router.pushRoute('puzzle', { id: addedPuzzle.id });
-              }).catch(error => {
-                console.log(error);
-                setSubmitting(false);
-              });
+                  setSubmitting(false);
+                });
             }
           }}
         >
