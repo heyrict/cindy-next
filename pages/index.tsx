@@ -5,6 +5,7 @@ import styled from 'theme/styled';
 import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
 import { line2md } from 'common/markdown';
 import { Flex, Box, LinkButton } from 'components/General';
+import PuzzleShowcase from 'components/Showcase/Puzzle';
 
 import messages from 'messages/pages/home';
 
@@ -98,6 +99,17 @@ const HomePage = (_props: any, context: { intl: IntlShape }) => {
           <FormattedMessage {...messages.start} />
         </StartBox>
       </Link>
+      <Box
+        bg="orange.3"
+        borderRadius={2}
+        p={2}
+        mt={4}
+        mx={2}
+        width={1}
+        minHeight="700px"
+      >
+        <PuzzleShowcase />
+      </Box>
     </PurpleBg>
   );
 };
