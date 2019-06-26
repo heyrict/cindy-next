@@ -2,25 +2,23 @@ import styled from 'theme/styled';
 import {
   space,
   color,
-  fontSize,
-  borders,
+  typography,
+  border,
   layout,
   SpaceProps,
-  FontSizeProps,
-  BordersProps,
 } from 'styled-system';
 
-import { ColorProps, LayoutProps } from './types';
+import { ColorProps, LayoutProps, TypographyProps, BorderProps } from './types';
 
 const Box = styled.div<
-  SpaceProps & ColorProps & FontSizeProps & BordersProps & LayoutProps
+  SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
 >`
   box-sizing: 'border-box';
   min-width: 0;
   ${space}
   ${color}
-  ${fontSize}
-  ${borders}
+  ${typography}
+  ${border}
   ${layout}
 `;
 

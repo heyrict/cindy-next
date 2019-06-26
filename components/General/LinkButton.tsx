@@ -2,34 +2,23 @@ import styled from 'theme/styled';
 import {
   space,
   color,
-  width,
-  fontSize,
-  borders,
-  height,
+  layout,
+  typography,
+  border,
   SpaceProps,
-  WidthProps,
-  FontSizeProps,
-  HeightProps,
-  BordersProps,
 } from 'styled-system';
-import { ColorProps } from './types';
+import { ColorProps, LayoutProps, TypographyProps, BorderProps } from './types';
 
 const LinkButton = styled.a<
-  SpaceProps &
-    ColorProps &
-    WidthProps &
-    FontSizeProps &
-    HeightProps &
-    BordersProps
+  SpaceProps & ColorProps & LayoutProps & TypographyProps & BorderProps
 >`
   display: block;
   background-color: ${p => p.theme.colors.blue[6]};
   ${space}
   ${color}
-  ${width}
-  ${height}
-  ${fontSize}
-  ${borders}
+  ${layout}
+  ${typography}
+  ${border}
 `;
 
 export default LinkButton;

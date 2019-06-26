@@ -2,19 +2,15 @@ import styled from 'theme/styled';
 import {
   space,
   color,
-  width,
-  fontSize,
-  fontWeight,
-  borders,
-  height,
+  typography,
+  border,
+  layout,
   SpaceProps,
-  FontSizeProps,
-  BordersProps,
 } from 'styled-system';
-import { ColorProps, LayoutProps } from './types';
+import { ColorProps, LayoutProps, TypographyProps, BorderProps } from './types';
 
 const ButtonTransparent = styled.button<
-  SpaceProps & ColorProps & FontSizeProps & BordersProps & LayoutProps
+  SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
 >`
   background-color: transparent;
   overflow: hidden;
@@ -23,12 +19,10 @@ const ButtonTransparent = styled.button<
   align-items: center;
   justify-content: center;
   ${space}
-  ${width}
-  ${height}
   ${color}
-  ${fontSize}
-  ${fontWeight}
-  ${borders}
+  ${typography}
+  ${layout}
+  ${border}
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);

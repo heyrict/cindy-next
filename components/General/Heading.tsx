@@ -1,8 +1,8 @@
 import styled from 'theme/styled';
-import { fontSize, FontSizeProps } from 'styled-system';
-import { HeadingDefaultProps } from './types';
+import { typography } from 'styled-system';
+import { HeadingDefaultProps, TypographyProps } from './types';
 
-const Heading = styled.div<FontSizeProps>`
+const Heading = styled.div<TypographyProps>`
   color: ${p => p.theme.colors.red[9]};
   margin-left: 1.2em;
   margin-bottom: 0.6em;
@@ -12,7 +12,7 @@ const Heading = styled.div<FontSizeProps>`
     padding-top: 0.4em;
     margin-bottom: 0.3em;
   }
-  ${fontSize}
+  ${typography}
 `;
 
 Heading.defaultProps = HeadingDefaultProps;

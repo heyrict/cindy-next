@@ -1,16 +1,9 @@
 import styled from 'theme/styled';
-import {
-  space,
-  layout,
-  borders,
-  color,
-  SpaceProps,
-  BordersProps,
-} from 'styled-system';
-import { ColorProps, LayoutProps } from './types';
+import { space, layout, border, color, SpaceProps } from 'styled-system';
+import { ColorProps, LayoutProps, BorderProps } from './types';
 
 const Textarea = styled.textarea<
-  SpaceProps & LayoutProps & BordersProps & ColorProps
+  SpaceProps & LayoutProps & BorderProps & ColorProps
 >`
   box-sizing: 'border-box';
   border-width: 1px;
@@ -22,7 +15,7 @@ const Textarea = styled.textarea<
   flex-grow: 1;
   ${space}
   ${layout}
-  ${borders}
+  ${border}
   ${color}
 `;
 

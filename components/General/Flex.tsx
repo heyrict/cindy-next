@@ -2,23 +2,22 @@ import styled from 'theme/styled';
 import {
   flexbox,
   space,
-  borders,
+  border,
   color,
   layout,
   SpaceProps,
-  BordersProps,
 } from 'styled-system';
-import { LayoutProps, FlexboxProps, ColorProps } from './types';
+import { LayoutProps, FlexboxProps, ColorProps, BorderProps } from './types';
 
 const Flex = styled.div<
-  SpaceProps & FlexboxProps & BordersProps & ColorProps & LayoutProps
+  SpaceProps & FlexboxProps & BorderProps & ColorProps & LayoutProps
 >`
   box-sizing: 'border-box';
   min-width: 0;
   display: flex;
   ${flexbox}
   ${space}
-  ${borders}
+  ${border}
   ${color}
   ${layout}
 `;

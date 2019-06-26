@@ -1,7 +1,8 @@
 import styled from 'theme/styled';
-import { space, maxWidth, SpaceProps, MaxWidthProps } from 'styled-system';
+import { space, layout, SpaceProps } from 'styled-system';
+import { LayoutProps } from './types';
 
-const Anchor = styled.a<SpaceProps & MaxWidthProps>`
+const Anchor = styled.a<SpaceProps & LayoutProps>`
   display: inline-block;
   color: ${p => p.theme.colors.blue[6]};
   overflow: hidden;
@@ -11,7 +12,7 @@ const Anchor = styled.a<SpaceProps & MaxWidthProps>`
     color: ${p => p.theme.colors.cyan[6]};
   }
   ${space}
-  ${maxWidth}
+  ${layout}
 `;
 
 export default Anchor;

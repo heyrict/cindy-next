@@ -2,17 +2,15 @@ import styled from 'theme/styled';
 import {
   space,
   color,
-  fontSize,
-  borders,
+  typography,
+  border,
   layout,
   SpaceProps,
-  FontSizeProps,
-  BordersProps,
 } from 'styled-system';
-import { ColorProps, LayoutProps } from './types';
+import { ColorProps, LayoutProps, TypographyProps, BorderProps } from './types';
 
 const Button = styled.button<
-  SpaceProps & ColorProps & FontSizeProps & BordersProps & LayoutProps
+  SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
 >`
   background-color: ${p => p.theme.colors.orange[6]};
   color: ${p => p.theme.colors.gray[1]};
@@ -26,8 +24,8 @@ const Button = styled.button<
   ${space}
   ${color}
   ${layout}
-  ${fontSize}
-  ${borders}
+  ${typography}
+  ${border}
 `;
 
 export default Button;
