@@ -26,16 +26,6 @@ const dev = process.env.NODE_ENV !== 'production';
 const { DEFAULT_LOCALE } = require('../settings');
 const app = next({ dev });
 const routes = require('../routes');
-const handler = routes.getRequestHandler(app, ({ req, res, route, query }) => {
-  const accept = accepts(req);
-  const locale =
-    accept.language(accept.languages(supportedLanguages)) || DEFAULT_LOCALE;
-  req.locale = locale;
-  req.localeDataScript = getLocaleDataScript(locale);
-  //req.messages = dev ? {} : getMessages(locale);
-  req.messages = getMessages(locale);
-  app.render(req, res, route.page, query);
-});
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = process.env.HOST;
@@ -46,6 +36,17 @@ const prettyHost = customHost || 'localhost';
 const { typeDefs, resolvers } = require('./schema');
 const userController = require('./controllers/user');
 const subscriptionController = require('./controllers/subscription');
+
+// next route handler
+const handler = routes.getRequestHandler(app, ({ req, res, route, query }) => {
+  const accept = accepts(req);
+  const locale =
+    accept.language(accept.languages(supportedLanguages)) || DEFAULT_LOCALE;
+  req.locale = locale;
+  req.localeDataScript = getLocaleDataScript(locale);
+  //req.messages = dev ? {} : getMessages(locale);
+  app.render(req, res, route.page, query);
+});
 
 app.prepare().then(() => {
   const apolloServer = new ApolloServer({

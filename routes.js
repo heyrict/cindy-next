@@ -1,14 +1,31 @@
 const routes = require('next-routes')();
 
-routes
-  .add({ name: 'home', pattern: '/', page: 'index' })
-  .add({ name: 'puzzles', pattern: '/puzzles' })
-  .add({ name: 'puzzle', pattern: '/puzzle/:id(\\d+)' })
-  .add({ name: 'add/puzzle', pattern: '/add/puzzle' })
-  .add({ name: 'users', pattern: '/user' })
-  .add({ name: 'user', pattern: '/user/:id(\\d+)' })
-  .add({ name: 'replay', pattern: '/replay/:id(\\d+)' })
-  .add({ name: 'add/replay', pattern: '/add/replay/:id(\\d+)' })
-  .add({ name: 'ranking', pattern: '/ranking' });
+const supportedLanguages = ['en', 'ja'];
+
+const routeList = [
+  { name: 'home', pattern: '/', page: 'index' },
+  { name: 'puzzles', pattern: '/puzzles', page: 'puzzles' },
+  { name: '_puzzles', pattern: '/puzzle', page: 'puzzles' },
+  { name: 'puzzle', pattern: '/puzzle/:id(\\d+)', page: 'puzzle' },
+  { name: '_puzzle', pattern: '/puzzle/show/:id(\\d+)', page: 'puzzle' },
+  { name: 'add/puzzle', pattern: '/add/puzzle', page: 'add/puzzle' },
+  { name: 'users', pattern: '/user', page: 'users' },
+  { name: 'user', pattern: '/user/:id(\\d+)', page: 'user' },
+  { name: '_user', pattern: '/profile/show/:id(\\d+)', page: 'user' },
+  { name: 'replay', pattern: '/replay/:id(\\d+)', page: 'replay' },
+  { name: 'add/replay', pattern: '/add/replay/:id(\\d+)', page: 'add/replay' },
+  { name: 'ranking', pattern: '/ranking', page: 'ranking' },
+];
+
+routeList.forEach(route => {
+  routes.add(route);
+  /* I18N url patterns
+  routes.add({
+    ...route,
+    name: `lang-${route.name}`,
+    pattern: `/:lang(${supportedLanguages.join('|')})${route.pattern}`,
+  });
+  */
+});
 
 module.exports = routes;

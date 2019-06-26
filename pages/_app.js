@@ -11,6 +11,7 @@ import { domainFilter } from 'settings';
 
 //import Chat from 'components/Chat';
 import GlobalLayout from 'components/Layout';
+import LanguageProvider from 'components/LanguageProvider';
 
 import { withApolloClient, withReduxStore } from '../lib';
 import theme from 'theme';
@@ -97,17 +98,13 @@ class MyApp extends App {
       <Container>
         <ThemeProvider theme={theme}>
           <ApolloProvider client={apolloClient}>
-            <IntlProvider
-              locale={locale}
-              messages={messages}
-              initialNow={initialNow}
-            >
-              <ReduxProvider store={reduxStore}>
+            <ReduxProvider store={reduxStore}>
+              <LanguageProvider initLocale={locale} initNow={initialNow}>
                 <GlobalLayout>
                   <Component {...pageProps} />
                 </GlobalLayout>
-              </ReduxProvider>
-            </IntlProvider>
+              </LanguageProvider>
+            </ReduxProvider>
           </ApolloProvider>
         </ThemeProvider>
       </Container>
