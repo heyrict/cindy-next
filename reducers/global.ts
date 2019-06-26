@@ -15,11 +15,13 @@ export const actionTypes = {
   SETUSER: `${scope}.SETUSER`,
   FETCHUSER: `${scope}.FETCHUSER`,
   ROUTECHANGE: `${scope}.ROUTECHANGE`,
+  LANGUAGE: `${scope}.LANGUAGE`,
 };
 
 export const actions: ActionSetType = {
   ...bool.getActions('Aside', actionTypes.ASIDE),
   ...base.getActions('Channel', actionTypes.CHANNEL),
+  ...base.getActions('Language', actionTypes.LANGUAGE),
   fetchUser: () => ({
     type: actionTypes.FETCHUSER,
   }),
@@ -45,6 +47,7 @@ export const rootSelector = (state: StateType): typeof initialState =>
 export const initialState = {
   aside: false,
   channel: '',
+  language: undefined,
   user: {
     id: undefined,
     username: undefined,
@@ -67,6 +70,11 @@ export const reducer = (
       return {
         ...state,
         channel: base.helper(state.channel, action.payload),
+      };
+    case actionTypes.LANGUAGE:
+      return {
+        ...state,
+        language: base.helper(state.language, action.payload),
       };
     case actionTypes.SETUSER:
       return {

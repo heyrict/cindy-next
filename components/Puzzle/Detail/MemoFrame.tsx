@@ -33,8 +33,6 @@ function MemoFrame(props: MemoFrameType) {
       <ButtonTransparent
         onClick={() => setRightAside(RightAsideType.memo)}
         color="grape.6"
-        borderColor="graphe.6"
-        borderBottom="2px solid"
         width={1}
       >
         <Flex flexWrap="wrap" width={1}>
@@ -42,7 +40,7 @@ function MemoFrame(props: MemoFrameType) {
             <Img size="xs" mr={2} src={memoIcon} alt="Memo" title="memo" />
             <FormattedMessage {...messages.memoFromCreator} />
           </Box>
-          <Box px={2} fontSize="0.8em">
+          <Box px={2} py={1} fontSize="0.8em">
             {memoRaw.length > 100 ? `${memoRaw.substr(0, 100)}...` : memoRaw}
           </Box>
         </Flex>
