@@ -3,11 +3,9 @@ import { shallow } from 'enzyme';
 
 import Anonymous from '../Anonymous';
 
-const count = 42;
-
 describe('<Anonymous />', () => {
   it('component renders', () => {
-    const node = shallow(<Anonymous count={count} />);
+    const node = shallow(<Anonymous />);
     expect(node.exists()).toBe(true);
   });
 });

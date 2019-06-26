@@ -26,13 +26,14 @@ describe('login reducer', () => {
   it('handle login.RESET_FORM correctly', () => {
     const action = actions.resetForm();
     const state = {
+      ...initialState,
       loginModal: true,
       signupModal: false,
       nickname: 'foo',
       username: 'bar',
       password: 'foobar',
     };
-    expect(reducer(initialState, action)).toStrictEqual(initialState);
+    expect(reducer(state, action)).toStrictEqual(initialState);
   });
 
   it('ignores unknown actions', () => {

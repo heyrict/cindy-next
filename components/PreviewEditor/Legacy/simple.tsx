@@ -47,8 +47,8 @@ class SimpleLegacyEditor extends React.Component<
       stampToolbar: false,
       showModal: false,
     };
-    this.inlineEditor = React.createRef<Textarea>();
-    this.modalEditor = React.createRef<Textarea>();
+    this.inlineEditor = React.createRef<HTMLTextAreaElement>();
+    this.modalEditor = React.createRef<HTMLTextAreaElement>();
     this.onClickWrap = this.onClickWrap.bind(this);
     this.onClickStamp = this.onClickStamp.bind(this);
     this.toggleShowModal = () => {

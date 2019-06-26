@@ -31,7 +31,7 @@ const ChannelChangeModal = ({
           {msg => (
             <Input
               type="text"
-              placeholder={msg}
+              placeholder={msg as string}
               width={3 / 4}
               value={channelChangeInput}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

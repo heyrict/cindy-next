@@ -24,3 +24,9 @@ export type ChatBoxProps = {
 export type ToolbarBoxBaseProps = {
   show: boolean;
 };
+
+export type LayoutProps = {
+  children: React.ReactElement;
+  fetchUser: () => void;
+  [prop: string]: any;
+}

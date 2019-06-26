@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, render } from 'enzyme';
 
-import { Status, StatusBase, StatusText, getStatusColor } from '../Status';
+import { Status, StatusBase, StatusText } from '../Status';
 import theme from 'theme';
 
 const status = 0;

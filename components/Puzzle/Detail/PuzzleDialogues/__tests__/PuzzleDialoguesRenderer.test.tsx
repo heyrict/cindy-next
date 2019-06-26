@@ -14,21 +14,29 @@ describe('<PuzzleDialoguesRenderer />', () => {
   const setParticipantsFn = jest.fn();
   const subscribeFn = jest.fn();
   const defaultProps = {
-    loading: false,
-    error: null,
     subscribeToMore: subscribeFn,
     data: {
       sui_hei_dialogue: dialogues,
       sui_hei_hint: hints,
     },
     variables: {
-      id: puzzle.id,
+      puzzleId: puzzle.id,
     },
     puzzleUser: puzzle.sui_hei_user,
     puzzleStatus: puzzle.status,
     anonymous: puzzle.anonymous,
     shouldSubscribe: true,
     setParticipants: setParticipantsFn,
+    // unused required props
+    loading: false,
+    error: null as any,
+    startPolling: (): any => {},
+    stopPolling: (): any => {},
+    updateQuery: (): any => {},
+    refetch: (): any => {},
+    client: null as any,
+    networkStatus: 0,
+    fetchMore: (): any => {},
   };
 
   it('Should render', () => {

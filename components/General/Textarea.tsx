@@ -1,19 +1,16 @@
 import styled from 'theme/styled';
 import {
   space,
-  width,
-  height,
+  layout,
   borders,
   color,
   SpaceProps,
-  WidthProps,
-  HeightProps,
   BordersProps,
 } from 'styled-system';
-import { ColorProps } from './types';
+import { ColorProps, LayoutProps } from './types';
 
 const Textarea = styled.textarea<
-  SpaceProps & WidthProps & HeightProps & BordersProps & ColorProps
+  SpaceProps & LayoutProps & BordersProps & ColorProps
 >`
   box-sizing: 'border-box';
   border-width: 1px;
@@ -24,8 +21,7 @@ const Textarea = styled.textarea<
   padding: ${p => p.theme.space[1]}px;
   flex-grow: 1;
   ${space}
-  ${width}
-  ${height}
+  ${layout}
   ${borders}
   ${color}
 `;

@@ -12,8 +12,8 @@ import { ChatProps } from './types';
 import { StateType } from 'reducers/types';
 
 const currentChannelSelector = createSelector(
-  state => globalReducer.rootSelector(state).channel,
-  state => globalReducer.rootSelector(state).route,
+  (state: StateType) => globalReducer.rootSelector(state).channel,
+  (state: StateType) => globalReducer.rootSelector(state).route,
   (channel, route) => getChannelWithPath(channel, route),
 );
 

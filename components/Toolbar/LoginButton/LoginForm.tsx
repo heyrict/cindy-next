@@ -28,7 +28,7 @@ const LoginForm = ({
           name="username"
           type="text"
           value={username}
-          onChange={(e: React.ChangeEvent<Input>) =>
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setUsername(e.target.value)
           }
           width={[1, 0.9]}
@@ -45,7 +45,7 @@ const LoginForm = ({
           name="password"
           type="password"
           value={password}
-          onChange={(e: React.ChangeEvent<Input>) =>
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPassword(e.target.value)
           }
           width={[1, 0.9]}
@@ -57,7 +57,7 @@ const LoginForm = ({
           <Box
             width={1}
             mb={2}
-            fontColor="imayoh"
+            color="red.6"
             key={`${error.type}-${error.message}`}
           >
             {error.type}: {error.message}

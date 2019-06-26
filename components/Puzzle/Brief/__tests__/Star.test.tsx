@@ -15,11 +15,11 @@ describe('<Star />', () => {
   });
 
   it('component renders given count', () => {
-    expect(node.contains(count)).toBe(true);
+    expect(node.text().search(count.toString())).not.toBe(-1);
   });
 
   it('component renders given sum', () => {
-    expect(node.contains(sum)).toBe(true);
+    expect(node.text().search(sum.toString())).not.toBe(-1);
   });
 
   it('<StarBase /> works', () => {

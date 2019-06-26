@@ -212,9 +212,11 @@ export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
       <Box bg="orange.6" my={3} width={1} borderRadius={2}>
         <ButtonTransparent
           py={2}
+          disabled={submitting}
           width={1}
           color="orange.1"
           onClick={() => {
+            if (submitting) return;
             if (
               contentEditor.current === null ||
               solutionEditor.current === null

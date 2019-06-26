@@ -1,7 +1,20 @@
 import styled from 'theme/styled';
-import { left, right, top, bottom, size } from 'styled-system';
+import {
+  left,
+  right,
+  top,
+  bottom,
+  size,
+  LeftProps,
+  RightProps,
+  TopProps,
+  BottomProps,
+  SizeProps,
+} from 'styled-system';
 
-const RedDot = styled.div`
+const RedDot = styled.div<
+  LeftProps & RightProps & TopProps & BottomProps & SizeProps
+>`
   position: absolute;
   width: 10px;
   height: 10px;

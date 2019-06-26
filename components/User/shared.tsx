@@ -1,24 +1,21 @@
-import React from 'react';
 import styled from 'theme/styled';
-import { space, color, fontSize, width } from 'styled-system';
+import { space, color, fontSize, layout } from 'styled-system';
 
 import { UserBaseProps } from './types';
 
-export const UserColBase: React.FunctionComponent<UserBaseProps> = styled.div`
+export const UserColBase = styled.div<UserBaseProps>`
   display: inline-flex;
   overflow: hidden;
   flex-direction: column;
   align-items: center;
   text-align: center;
   ${space}
-  ${width}
+  ${layout}
   ${color}
   ${fontSize}
 `;
 
-export const UserInlineBase: React.FunctionComponent<
-  UserBaseProps
-> = styled.div`
+export const UserInlineBase = styled.div<UserBaseProps>`
   display: inline-flex;
   overflow: hidden;
   align-items: center;

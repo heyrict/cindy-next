@@ -3,8 +3,10 @@ import { shallow, render } from 'enzyme';
 
 import theme from 'theme';
 import { Img } from 'components/General';
-import UserCol, { UserColBase } from '../UserCol';
-import UserInline, { UserInlineBase } from '../UserInline';
+import UserCol from '../UserCol';
+import UserInline from '../UserInline';
+import { InlineUser } from '../types';
+import { UserInlineBase, UserColBase } from '../shared';
 
 const user: InlineUser = {
   id: 1,

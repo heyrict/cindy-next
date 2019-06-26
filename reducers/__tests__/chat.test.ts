@@ -2,14 +2,12 @@ import {
   scope,
   rootSelector,
   actionTypes,
-  actions,
   initialState,
   reducer,
 } from '../chat';
 
 describe('chat reducer', () => {
   it.each([
-    actionTypes.CHAT_INPUT,
     actionTypes.CHANNEL_CHANGE_INPUT,
     actionTypes.CHANNEL_CHANGE_MODAL,
     actionTypes.CHAT_INPUT_MODAL,

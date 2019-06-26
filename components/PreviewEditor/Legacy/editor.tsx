@@ -40,7 +40,7 @@ class LegacyEditor extends React.Component<
       preview: false,
       stampToolbar: false,
     };
-    this.editor = React.createRef<Textarea>();
+    this.editor = React.createRef<HTMLTextAreaElement>();
     this.onClickWrap = this.onClickWrap.bind(this);
     this.onClickStamp = this.onClickStamp.bind(this);
     this.togglePreview = () => this.setState(p => ({ preview: !p.preview }));

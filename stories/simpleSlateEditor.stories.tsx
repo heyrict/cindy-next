@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+//import { action } from '@storybook/addon-actions';
 
 import { ThemeProvider } from 'emotion-theming';
 import theme from 'theme';
 import { Global } from '@emotion/core';
 import { globalStyle } from 'components/Layout';
-import Button from 'components/General/Button';
 import Box from 'components/General/Box';
 
 import { SimpleSlateEditor } from 'components/PreviewEditor';

@@ -6,7 +6,7 @@ import messages from 'messages/components/stamp';
 
 import { Box, ButtonTransparent, Img } from 'components/General';
 
-import { stampNamespaces, stampMessageIds, StampType, stamps } from 'stamps';
+import { stampMessageIds, StampType, stamps } from 'stamps';
 import { StampListProps, StampListDefaultProps } from './types';
 
 const StampRow = styled(Box)`

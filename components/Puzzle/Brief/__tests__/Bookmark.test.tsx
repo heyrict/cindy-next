@@ -14,7 +14,7 @@ describe('<Bookmark />', () => {
   });
 
   it('component renders given count', () => {
-    expect(node.contains(count)).toBe(true);
+    expect(node.text().search(count.toString())).not.toBe(-1);
   });
 
   it('<BookmarkBase /> works', () => {

@@ -16,7 +16,7 @@ const ReplayButton = styled(Button)`
   &:active {
     background: rgb(0, 0, 0, 0.1);
   }
-`;
+`.withComponent('a');
 
 const ReplayPanel = ({ puzzleId }: ReplayPanelProps) => {
   return (
@@ -25,7 +25,6 @@ const ReplayPanel = ({ puzzleId }: ReplayPanelProps) => {
         <Box px={2}>
           <Link to="add/replay" params={{ id: puzzleId }} passHref>
             <ReplayButton
-              as="a"
               width={1}
               height="4em"
               borderWidth={2}

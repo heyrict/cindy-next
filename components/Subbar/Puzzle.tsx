@@ -13,6 +13,8 @@ import { Link } from 'routes';
 import { StateType } from 'reducers/types';
 import { PuzzleSubbarProps } from './types';
 
+const ButtonTransparentA = ButtonTransparent.withComponent('a');
+
 const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
   <Flex flexWrap="wrap" mb={3}>
     <Box
@@ -23,9 +25,9 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
       p={1}
     >
       <Link to="puzzles" prefetch passHref>
-        <ButtonTransparent color="red.9" as="a" height={1} width={1}>
+        <ButtonTransparentA color="red.9" height={1} width={1}>
           <FormattedMessage {...puzzlesMessage.header} />
-        </ButtonTransparent>
+        </ButtonTransparentA>
       </Link>
     </Box>
     <Box
@@ -36,9 +38,9 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
       p={1}
     >
       <Link to="add/puzzle" prefetch passHref>
-        <ButtonTransparent color="red.9" as="a" height={1} width={1}>
+        <ButtonTransparentA color="red.9" height={1} width={1}>
           <FormattedMessage {...addPuzzleMessage.header} />
-        </ButtonTransparent>
+        </ButtonTransparentA>
       </Link>
     </Box>
   </Flex>

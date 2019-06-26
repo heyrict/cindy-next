@@ -6,14 +6,14 @@ export type RightAsideBoxBaseProps = {
 };
 
 export type RightAsideBoxButtonProps = {
-  on: boolean;
+  on?: boolean;
   height?: string;
   width?: string;
 };
 
 export type RightAsideBoxProps = {
   puzzleMemo: string;
-  puzzleMemoHasnew: string;
+  puzzleMemoHasnew: boolean;
   rightAside: RightAsideType;
   setRightAside: (rightAside: RightAsideType) => void;
 };

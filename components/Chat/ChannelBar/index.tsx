@@ -18,8 +18,8 @@ import { ChannelBarProps } from './types';
 import { StateType, ActionContentType } from 'reducers/types';
 
 const currentChannelSelector = createSelector(
-  state => globalReducer.rootSelector(state).channel,
-  state => globalReducer.rootSelector(state).route,
+  (state: StateType) => globalReducer.rootSelector(state).channel,
+  (state: StateType) => globalReducer.rootSelector(state).route,
   (channel, route) => getChannelWithPath(channel, route),
 );
 

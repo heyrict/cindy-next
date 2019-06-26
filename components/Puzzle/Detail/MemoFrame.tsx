@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import styled from 'theme/styled';
+import React from 'react';
 
-import { Box, Panel, ButtonTransparent, Img, Flex } from 'components/General';
+import { Box, ButtonTransparent, Img, Flex } from 'components/General';
 import memoIcon from 'svgs/memo.svg';
 
 import { connect } from 'react-redux';
@@ -9,7 +8,6 @@ import * as puzzleReducer from 'reducers/puzzle';
 
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/puzzle';
-import puzzleMessages from 'messages/components/puzzle';
 
 import { text2raw } from 'common/markdown';
 import { widthSplits } from './constants';

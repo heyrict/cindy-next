@@ -5,6 +5,8 @@ import HintDisplay from './HintDisplay';
 import HintEdit from './HintEdit';
 import pencilIcon from 'svgs/pencil.svg';
 
+import { HintModeSelectorProps } from './types';
+
 const HintModeSelector = ({ hint }: HintModeSelectorProps) => {
   const [edit, setEdit] = useState(false);
   return edit ? (

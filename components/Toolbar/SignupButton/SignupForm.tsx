@@ -76,7 +76,7 @@ const SignupForm = ({
           <Box
             width={1}
             mb={2}
-            fontColor="imayoh"
+            color="red.6"
             key={`${error.type}-${error.message}`}
           >
             {error.type}: {error.message}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+//import { action } from '@storybook/addon-actions';
 
 import { ThemeProvider } from 'emotion-theming';
 import theme from 'theme';
@@ -36,6 +36,7 @@ const EditorWithText = ({ initialValue }: EditorWithTextProps) => {
         <SlateEditor ref={pEditor} initialValue={initialValue} />
         <Button
           onClick={() => {
+            if (!pEditor.current) return;
             setText(pEditor.current.getText());
           }}
         >

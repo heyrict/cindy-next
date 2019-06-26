@@ -28,7 +28,7 @@ export const getStatusColor = (status: StatusType) => {
   }
 };
 
-export const StatusBase: React.FunctionComponent<StatusBaseProps> = styled.span`
+export const StatusBase = styled.span<StatusBaseProps>`
   text-align: center;
   border-radius: 10px;
   padding: 1px 7px;

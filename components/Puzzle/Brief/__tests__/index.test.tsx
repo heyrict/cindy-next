@@ -1,3 +1,4 @@
+import React from 'react';
 import { shallow, render } from 'enzyme';
 
 import { Hr, Time, Brief } from '../index';
@@ -17,6 +18,8 @@ const puzzleMinimal = {
   title: 'ウミガメのスープ',
   status: 1,
   yami: 0,
+  created: '2019-06-26T00:00:00Z',
+  modified: '2019-06-26T00:00:00Z',
   sui_hei_user: {
     id: 1,
     nickname: 'はやて',
@@ -26,8 +29,6 @@ const puzzleMinimal = {
 const puzzleMaximum = {
   ...puzzleMinimal,
   anonymous: true,
-  created: '2017-10-02T15:42:39+08:00',
-  modified: '2017-10-02T15:42:39+08:00',
   dazed_on: '2018-11-29',
   sui_hei_stars_aggregate: {
     aggregate: {
@@ -52,6 +53,7 @@ const puzzleMaximum = {
       count: 16,
       max: {
         answeredtime: '2017-10-02T21:49:22.066+08:00',
+        created: '2017-10-02T20:07:00.000+08:00',
       },
     },
   },

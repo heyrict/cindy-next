@@ -1,7 +1,8 @@
 import styled from 'theme/styled';
 import { fontSizeToEm } from 'common/math';
+import { StyledTagProps, ButtonFontProps } from './types';
 
-export const ButtonFont = styled.span`
+export const ButtonFont = styled.span<ButtonFontProps>`
   background-color: ${p => (p.on ? 'rgba(255, 255, 255, 0.3)' : 'initial')};
   border-radius: 2em;
   font-size: 1.2em;
@@ -37,7 +38,8 @@ export const StyledLink = styled.span`
   color: ${p => p.theme.colors.cyan[6]};
 `;
 
-export const StyledTag = styled.span`
+export const StyledTag = styled.span<StyledTagProps>`
   color: ${p => p.color || 'inherit'};
-  font-size: ${p => p.fontSize || fontSizeToEm(p.size, true) || 'inherit'};
+  font-size: ${p =>
+    p.fontSize || fontSizeToEm(p.size || '', true) || 'inherit'};
 `;

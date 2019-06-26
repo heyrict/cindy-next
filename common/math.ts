@@ -1,7 +1,7 @@
 export const fontSizeToEm = (
   size: string,
   appendPx = false,
-  fallback: undefined,
+  fallback?: undefined,
 ) => {
   const sizeInInt = parseInt(size);
   if (sizeInInt === NaN || sizeInInt > 7 || sizeInInt < 1) {

@@ -5,15 +5,15 @@ import { UserColBase } from './shared';
 
 import { UserColProps } from './types';
 
+const AnchorDiv = Anchor.withComponent('div');
+
 const UserCol = ({ user, timestamp, ...props }: UserColProps) => {
   const NicknameBlock = user.id ? (
     <Link to="user" params={{ id: user.id }} passHref>
       <Anchor mr={1}>{user.nickname}</Anchor>
     </Link>
   ) : (
-    <Anchor mr={1} as="div">
-      {user.nickname}
-    </Anchor>
+    <AnchorDiv mr={1}>{user.nickname}</AnchorDiv>
   );
 
   return (

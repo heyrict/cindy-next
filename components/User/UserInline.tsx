@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'routes';
 import { Img, Flex, Anchor } from 'components/General';
 
-import { UserBaseProps, UserInlineBase } from './shared';
-import { UserInlineProps } from './types';
+import { UserInlineBase } from './shared';
+import { UserInlineProps, UserBaseProps } from './types';
+
+const AnchorDiv = Anchor.withComponent('div');
 
 const UserInline = ({
   user,
@@ -18,9 +20,7 @@ const UserInline = ({
         </Anchor>
       </Link>
     ) : (
-      <Anchor mr={1} as="div">
-        {user.nickname}
-      </Anchor>
+      <AnchorDiv mr={1}>{user.nickname}</AnchorDiv>
     );
 
   return user.icon ? (

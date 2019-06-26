@@ -14,6 +14,8 @@ import ToolbarBox from './ToolbarBox';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
+import themeObj from 'theme/theme';
+import { LayoutProps } from './types';
 
 const tabsStyle = css`
   .nav {
@@ -79,7 +81,7 @@ const stampStyle = css`
   }
 `;
 
-export const globalStyle = theme => css`
+export const globalStyle = (theme: typeof themeObj) => css`
   @font-face {
     font-family: 'DejaVu Sans';
     src: url('//db.onlinewebfonts.com/t/60376796f383e61ee182772be6ca20a9.eot');
@@ -130,7 +132,7 @@ export const globalStyle = theme => css`
   ${stampStyle}
 `;
 
-const Layout = ({ children, fetchUser, ...props }) => {
+const Layout = ({ children, fetchUser }: LayoutProps) => {
   useEffect(() => {
     fetchUser();
   }, []);
