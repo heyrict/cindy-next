@@ -24,7 +24,7 @@ const plugins = [];
 const { DEFAULT_LOCALE, APPLOCALES } = require('../settings');
 
 // Glob to match all js files except test files
-const FILES_TO_PARSE = 'messages/**/*.js';
+const FILES_TO_PARSE = 'messages/**/*.ts';
 const locales = APPLOCALES;
 
 const newLine = () => process.stdout.write('\n');
