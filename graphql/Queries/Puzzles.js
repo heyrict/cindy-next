@@ -1,6 +1,9 @@
 import gql from 'graphql-tag';
 
-import { PUZZLE_SHARED_FRAGMENT } from '../Fragments/Puzzles';
+import {
+  PUZZLE_SHARED_FRAGMENT,
+  PUZZLE_AGGREGATE_FRAGMENT,
+} from '../Fragments/Puzzles';
 import { DIALOGUE_SHARED_FRAGMENT } from '../Fragments/Dialogue';
 import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
@@ -132,31 +135,8 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
       limit: $limit
       offset: $offset
     ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
-      ...PuzzleShared
-      sui_hei_stars_aggregate {
-        aggregate {
-          count
-          sum {
-            value
-          }
-        }
-      }
-      sui_hei_comments_aggregate {
-        aggregate {
-          count
-        }
-      }
-      sui_hei_bookmarks_aggregate {
-        aggregate {
-          count
-        }
-      }
-      sui_hei_dialogues_aggregate {
-        aggregate {
-          count
-        }
-      }
+      ...PuzzleAggregate
     }
   }
-  ${PUZZLE_SHARED_FRAGMENT}
+  ${PUZZLE_AGGREGATE_FRAGMENT}
 `;

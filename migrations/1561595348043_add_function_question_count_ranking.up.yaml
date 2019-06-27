@@ -1,0 +1,82 @@
+- args:
+    cascade: true
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.dialogue_count_ranking(
+        created_gte timestamp without time zone,
+        created_lt timestamp without time zone
+      ) RETURNS SETOF hasura_user_ranking_trigger LANGUAGE sql STABLE AS $$
+      select
+        user_id,
+        count(id) as value
+      from
+        sui_hei_dialogue
+      where
+        created >= created_gte
+        and created < created_lt
+      group by user_id $$
+  type: run_sql
+- args:
+    name: dialogue_count_ranking
+    schema: public
+  type: track_function
+
+- args:
+    cascade: true
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.puzzle_count_ranking(
+        created_gte timestamp without time zone,
+        created_lt timestamp without time zone
+      ) RETURNS SETOF hasura_user_ranking_trigger LANGUAGE sql STABLE AS $$
+      select
+        user_id,
+        count(id) as value
+      from
+        sui_hei_puzzle
+      where
+        created >= created_gte
+        and created < created_lt
+      group by user_id $$
+  type: run_sql
+- args:
+    name: puzzle_count_ranking
+    schema: public
+  type: track_function
+
+# Replace star_(count|sum)_ranking functions
+- args:
+    cascade: true
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.star_count_ranking(
+        created_gte timestamp without time zone,
+        created_lt timestamp without time zone
+      ) RETURNS SETOF hasura_user_ranking_trigger LANGUAGE sql STABLE AS $$
+      select
+        sui_hei_puzzle.user_id as user_id,
+        count(sui_hei_star) as value
+      from
+        sui_hei_puzzle
+      left join sui_hei_star on sui_hei_puzzle.id = sui_hei_star.puzzle_id
+      where
+        sui_hei_puzzle.created >= created_gte
+        and sui_hei_puzzle.created < created_lt
+      group by sui_hei_puzzle.user_id $$
+  type: run_sql
+
+- args:
+    cascade: true
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.star_sum_ranking(
+        created_gte timestamp without time zone,
+        created_lt timestamp without time zone
+      ) RETURNS SETOF hasura_user_ranking_trigger LANGUAGE sql STABLE AS $$
+      select
+        sui_hei_puzzle.user_id as user_id,
+        cast(sum(sui_hei_star.value) as bigint) as value
+      from
+        sui_hei_puzzle
+        left join sui_hei_star on sui_hei_puzzle.id = sui_hei_star.puzzle_id
+      where
+        sui_hei_puzzle.created >= created_gte
+        and sui_hei_puzzle.created < created_lt
+      group by sui_hei_puzzle.user_id $$
+  type: run_sql

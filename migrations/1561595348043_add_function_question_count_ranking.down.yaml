@@ -1,0 +1,17 @@
+- args:
+    name: dialogue_count_ranking
+    schema: public
+  type: untrack_function
+- args:
+    sql: |-
+      DROP FUNCTION public.dialogue_count_ranking
+  type: run_sql
+
+- args:
+    name: puzzle_count_ranking
+    schema: public
+  type: untrack_function
+- args:
+    sql: |-
+      DROP FUNCTION public.puzzle_count_ranking
+  type: run_sql
