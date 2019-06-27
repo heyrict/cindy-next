@@ -6,6 +6,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, ButtonTransparent, Box } from 'components/General';
+import PuzzleSubbar from 'components/Subbar/Puzzle';
 
 import { RankingProps, RankingContext } from './types';
 
@@ -22,6 +23,7 @@ const Ranking = (_props: RankingProps, context: RankingContext) => {
       <Heading>
         <FormattedMessage {...rankingMessages.header} />
       </Heading>
+      <PuzzleSubbar />
       <Flex width={1} flexWrap="wrap">
         <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
           <Box m={2} bg="yellow.7" borderRadius={2}>

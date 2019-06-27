@@ -5,15 +5,15 @@ export const getMonthlyDate = (now: Date) => {
   temp.setUTCMinutes(0);
   temp.setUTCSeconds(0);
   temp.setUTCMilliseconds(0);
-  if (temp.getDate() > 15) {
+  if (now.getUTCDate() > 15) {
     const end = temp.toISOString();
-    temp.setMonth(temp.getMonth() - 1);
+    temp.setUTCMonth(now.getUTCMonth() - 1);
     const start = temp.toISOString();
     return [start, end];
   } else {
-    temp.setMonth(temp.getMonth() - 1);
+    temp.setUTCMonth(now.getUTCMonth() - 1);
     const end = temp.toISOString();
-    temp.setMonth(temp.getMonth() - 2);
+    temp.setUTCMonth(now.getUTCMonth() - 2);
     const start = temp.toISOString();
     return [start, end];
   }

@@ -49,7 +49,7 @@ const UserDialogueRankingRenderer = ({
               <Box fontSize="1.3em" fontWeight="bold">
                 <FormattedMessage
                   {...rankingMessages.rank}
-                  values={{ rank: index }}
+                  values={{ rank: index + 1 }}
                 />
               </Box>
               <Box fontSize="1.3em" fontWeight="bold" mr={2}>

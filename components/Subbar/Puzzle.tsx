@@ -3,6 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import puzzlesMessage from 'messages/pages/puzzles';
 import addPuzzleMessage from 'messages/pages/add_puzzle';
+import rankingMessage from 'messages/pages/ranking';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -40,6 +41,19 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
       <Link to="add/puzzle" prefetch passHref>
         <ButtonTransparentA color="red.9" height={1} width={1}>
           <FormattedMessage {...addPuzzleMessage.header} />
+        </ButtonTransparentA>
+      </Link>
+    </Box>
+    <Box
+      width={[1 / 3, 1 / 5, 1 / 6, 1 / 8]}
+      bg={route === '/ranking' ? 'yellow.4' : 'orange.4'}
+      borderRadius={2}
+      mr={1}
+      p={1}
+    >
+      <Link to="ranking" prefetch passHref>
+        <ButtonTransparentA color="red.9" height={1} width={1}>
+          <FormattedMessage {...rankingMessage.header} />
         </ButtonTransparentA>
       </Link>
     </Box>
