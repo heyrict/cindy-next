@@ -15,6 +15,10 @@ export const messages = defineMessages({
     id: `${scope}.header`,
     defaultMessage: 'Ranking',
   },
+  rank: {
+    id: `${scope}.rank`,
+    defaultMessage: 'Rank {rank}',
+  },
 });
 
 export default messages;

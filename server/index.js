@@ -8,7 +8,6 @@ Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
 const {
   supportedLanguages,
   getLocaleDataScript,
-  getMessages,
 } = require('./intl');
 const regLang = /^\/[^/]+/;
 

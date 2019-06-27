@@ -24,6 +24,7 @@ import NewQuestion from './NewQuestion';
 import PuzzlePane from './PuzzlePane';
 
 import { PuzzleBriefProps } from './types';
+import { StateType } from 'reducers/types';
 
 export const Hr = styled.hr`
   color: ${p => p.theme.colors.gray[6]};
@@ -188,7 +189,7 @@ export const Brief = ({
   );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StateType) => ({
   showGenreImage: settingReducer.rootSelector(state).puzzleGenreImg,
 });
 
