@@ -39,6 +39,10 @@ export const messages = defineMessages({
     id: `${scope}.notExist`,
     defaultMessage: 'Page Not Exists',
   },
+  loadMore: {
+    id: `${scope}.loadMore`,
+    defaultMessage: 'Load More',
+  },
 });
 
 export default messages;

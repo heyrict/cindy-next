@@ -10,8 +10,15 @@ export type PuzzleRendererProps = {
   puzzleId: number;
 } & QueryResult<PuzzleQuery, PuzzleQueryVariables>;
 
+export enum RankedPuzzleDisplayType {
+  star,
+  comment,
+  bookmark,
+}
+
 export type RankedPuzzleProps = {
   puzzle: PuzzleType;
   showGenreImage: boolean;
   rank: number;
+  display: RankedPuzzleDisplayType;
 };

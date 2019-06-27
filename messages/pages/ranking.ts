@@ -19,6 +19,10 @@ export const messages = defineMessages({
     id: `${scope}.rank`,
     defaultMessage: 'Rank {rank}',
   },
+  puzzleStarRanking: {
+    id: `${scope}.puzzleStarRanking`,
+    defaultMessage: 'Puzzles with most stars in {date}',
+  },
 });
 
 export default messages;

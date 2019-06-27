@@ -47,4 +47,5 @@ export const PUZZLE_AGGREGATE_FRAGMENT = gql`
       }
     }
   }
+  ${PUZZLE_SHARED_FRAGMENT}
 `;
