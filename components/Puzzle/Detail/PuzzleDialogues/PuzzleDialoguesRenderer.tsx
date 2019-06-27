@@ -74,6 +74,8 @@ export const PuzzleDialoguesRenderer = ({
   puzzleStatus,
   anonymous,
   setParticipants,
+  setTrueSolvedLongtermYami,
+  updateSolvedLongTermYamiOnSubscribe,
 }: PuzzleDialoguesRendererProps) => {
   const { puzzleId } = variables;
   if (loading && (!data || !data.sui_hei_dialogue || !data.sui_hei_hint))
@@ -109,6 +111,9 @@ export const PuzzleDialoguesRenderer = ({
           if (subData === null) return prev;
           const { sui_hei_dialogue, sui_hei_hint } = subData;
           if (sui_hei_dialogue !== null) {
+            if (updateSolvedLongTermYamiOnSubscribe && sui_hei_dialogue.true)
+              setTrueSolvedLongtermYami();
+
             return Object.assign({}, prev, {
               sui_hei_dialogue: upsertItem(
                 prev.sui_hei_dialogue,
@@ -173,6 +178,8 @@ PuzzleDialoguesRenderer.defaultProps = PuzzleDialoguesRendererDefaultProps;
 const mapDispatchToProps = (dispatch: (arg0: ActionContentType) => void) => ({
   setParticipants: (participants: Array<UserFilterSwitcherUserType>) =>
     dispatch(puzzleReducer.actions.setParticipants(participants)),
+  setTrueSolvedLongtermYami: () =>
+    dispatch(puzzleReducer.actions.setTrueSolvedLongtermYami()),
 });
 
 const withRedux = connect(

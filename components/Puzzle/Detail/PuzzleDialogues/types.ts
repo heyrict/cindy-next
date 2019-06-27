@@ -37,6 +37,7 @@ export type PuzzleDialoguesUserDeduplicatorProps = {
 
 export const PuzzleDialoguesRendererDefaultProps = {
   applyUserFilter: false,
+  updateSolvedLongTermYamiOnSubscribe: false,
 };
 
 export type PuzzleDialoguesRendererProps = {
@@ -44,6 +45,7 @@ export type PuzzleDialoguesRendererProps = {
   puzzleStatus: number;
   anonymous: boolean;
   shouldSubscribe: boolean;
+  setTrueSolvedLongtermYami: () => void;
   setParticipants: (participants: Array<UserFilterSwitcherUserType>) => void;
 } & QueryResult<DialogueHintQuery, DialogueHintQueryVariables> &
   typeof PuzzleDialoguesRendererDefaultProps;

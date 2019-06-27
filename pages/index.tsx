@@ -94,7 +94,7 @@ const HomePage = (_props: any, context: { intl: IntlShape }) => {
           />
         </Flex>
       </Flex>
-      <Link to="puzzles">
+      <Link to="puzzles" prefetch passHref>
         <StartBox>
           <FormattedMessage {...messages.start} />
         </StartBox>

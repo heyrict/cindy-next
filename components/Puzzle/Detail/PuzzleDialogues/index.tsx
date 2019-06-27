@@ -125,6 +125,7 @@ const PuzzleDialogues = ({
             puzzleUser={puzzleUser}
             anonymous={anonymous}
             puzzleStatus={puzzleStatus}
+            updateSolvedLongTermYamiOnSubscribe={puzzleYami === 2}
           />
         )}
       </Query>
