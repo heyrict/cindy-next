@@ -13,9 +13,11 @@
   "author": "heyrict<github.com/heyrict>",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_ENV=development node server",
-    "build": "next build",
-    "start": "NODE_ENV=production node server",
+    "dev": "NODE_ENV=development node index.js",
+    "build:client": "NODE_ENV=production next build",
+    "build:server": "NODE_ENV=production babel -d .next/dist settings.js routes.js; NODE_ENV=production babel server -d .next/dist/server",
+    "build": "yarn run build:client; yarn run build:server",
+    "start": "NODE_ENV=production node .next/dist/server",
     "extract-intl": "NODE_ENV=development node scripts/extract-intl.js",
     "export-schema": "gq http://localhost:8080/v1/graphql -H \"X-Hasura-Admin-Secret: $HASURA_GRAPHQL_ADMIN_SECRET\" --introspect > generated/schema.graphql; echo \"const typeDefs=\\``cat generated/schema.graphql`\\`;\nexport default typeDefs;\" > generated/typeDefs.js",
     "export-graphql-types": "yarn run export-graphql-types:subscription; yarn run export-graphql-types:hasura;",
@@ -77,7 +79,9 @@
     "subscriptions-transport-ws": "^0.9.16"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
+    "@babel/register": "^7.4.4",
     "@storybook/addon-actions": "^5.1.9",
     "@storybook/addon-links": "^5.1.9",
     "@storybook/addons": "^5.1.9",

@@ -24,7 +24,7 @@ const { gql, ApolloServer } = require('apollo-server-express');
 const dev = process.env.NODE_ENV !== 'production';
 const { DEFAULT_LOCALE } = require('../settings');
 const app = next({ dev });
-const routes = require('../routes');
+const routes = require('../routes').default;
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = process.env.HOST;
