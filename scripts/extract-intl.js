@@ -5,6 +5,9 @@
    and package them in the translation json files in the translations file.
  */
 
+require('@babel/register', {
+  only: ['settings'],
+});
 const fs = require('fs');
 const nodeGlob = require('glob');
 const transform = require('@babel/core').transform;
