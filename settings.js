@@ -1,13 +1,13 @@
-const isDev = process.env.NODE_ENV !== 'production';
+export const isDev = process.env.NODE_ENV !== 'production';
 
 // Graphql
-const GRAPHQL_SERVER = {
+export const GRAPHQL_SERVER = {
   ENDPOINT: 'http://localhost:8080/v1/graphql',
   LIVEQUERY: 'ws://localhost:8080/v1/graphql',
   SUBSCRIPTION: 'ws://localhost:3000/subscriptions',
 };
 
-const GRAPHQL_CLIENT = {
+export const GRAPHQL_CLIENT = {
   ENDPOINT: isDev
     ? 'http://localhost:8080/v1/graphql'
     : 'https://next.cindythink.com/v1/graphql',
@@ -20,8 +20,8 @@ const GRAPHQL_CLIENT = {
 };
 
 // Locale
-const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
-const APPLOCALES = ['en', 'ja'];
+export const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
+export const APPLOCALES = ['en', 'ja'];
 
 // Max dazed days
 const MAX_DAZED_DAYS_BY_GENRE = [
@@ -31,17 +31,17 @@ const MAX_DAZED_DAYS_BY_GENRE = [
   28, // Others
 ];
 const MAX_DAZED_DAYS_LONGTERM_YAMI = 28;
-const getMaxDazedDays = puzzle =>
+export const getMaxDazedDays = puzzle =>
   puzzle.yami === 2
     ? MAX_DAZED_DAYS_LONGTERM_YAMI
     : MAX_DAZED_DAYS_BY_GENRE[puzzle.genre];
 
 // Same site domain filter
-const DOMAIN_REGEXP = new RegExp(
+export const DOMAIN_REGEXP = new RegExp(
   /^(https?:\/\/)?(localhost(:\d+)?|127.0.0.1(:\d+)?|(www\.)?cindythink\.com)?(\/.*)/,
 );
 
-const domainFilter = url => {
+export const domainFilter = url => {
   const selfDomain = DOMAIN_REGEXP.test(url);
   if (!selfDomain) {
     return { selfDomain, url };
@@ -50,14 +50,4 @@ const domainFilter = url => {
     selfDomain,
     url: url.replace(DOMAIN_REGEXP, '$6'),
   };
-};
-
-module.exports = {
-  isDev,
-  GRAPHQL_CLIENT,
-  GRAPHQL_SERVER,
-  DEFAULT_LOCALE,
-  APPLOCALES,
-  getMaxDazedDays,
-  domainFilter,
 };

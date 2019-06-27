@@ -28,4 +28,7 @@ routeList.forEach(route => {
   */
 });
 
-module.exports = routes;
+export const Link = routes.Link;
+export const Router = routes.Router;
+
+export default routes;
