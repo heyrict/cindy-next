@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Box, Flex, ButtonTransparent } from 'components/General';
+import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import RankedPuzzle from 'components/Puzzle/RankedPuzzle';
 
-import { FormattedMessage, FormattedDate } from 'react-intl';
-import rankingMessages from 'messages/pages/ranking';
-import commonMessages from 'messages/common';
-
-import { PuzzleStarRankingRendererProps } from './types';
+import {
+  PuzzleStarRankingRendererProps,
+  PuzzleStarRankingRendererDefaultProps,
+} from './types';
 import { RankedPuzzleDisplayType } from 'components/Puzzle/types';
+import Panel from 'components/General/Panel';
+
+const loadingPanel = (
+  <Panel minHeight="8em" width={1}>
+    Loading...
+  </Panel>
+);
 
 const PuzzleStarRankingRenderer = ({
   loading,
   error,
   data,
-  variables,
+  fetchMore,
+  shouldLoadMore,
 }: PuzzleStarRankingRendererProps) => {
+  const [hasMore, setHasMore] = useState(true);
+
   if (error) return <span>`Error: ${error.message}`</span>;
   if (loading && (!data || !data.sui_hei_puzzle))
     return <span>'Loading...'</span>;
@@ -23,29 +32,7 @@ const PuzzleStarRankingRenderer = ({
   if (data && data.sui_hei_puzzle) {
     const puzzles = data.sui_hei_puzzle;
     return (
-      <Flex
-        width={1}
-        m={2}
-        flexWrap="wrap"
-        borderRadius={2}
-        border="5px double"
-        borderColor="yellow.8"
-        bg="yellow.1"
-      >
-        <Box width={1} p={2} fontSize="1.2em" bg="yellow.6" color="yellow.1">
-          <FormattedMessage
-            {...rankingMessages.puzzleStarRanking}
-            values={{
-              date: (
-                <FormattedDate
-                  value={variables.createdGte as string}
-                  year="numeric"
-                  month="long"
-                />
-              ),
-            }}
-          />
-        </Box>
+      <React.Fragment>
         {puzzles.map((puzzle, index) => (
           <RankedPuzzle
             display={RankedPuzzleDisplayType.star}
@@ -54,20 +41,38 @@ const PuzzleStarRankingRenderer = ({
             puzzle={puzzle}
           />
         ))}
-        <Box width={1} bg="yellow.7" borderRadius={2} m={2} mb={3}>
-          <ButtonTransparent
-            width={1}
-            p={2}
-            color="yellow.1"
-            textAlign="center"
+        {shouldLoadMore && hasMore && (
+          <LoadMoreVis
+            wait={0}
+            loadMore={() =>
+              fetchMore({
+                variables: {
+                  offset: data.sui_hei_puzzle.length,
+                },
+                updateQuery: (prev, { fetchMoreResult }) => {
+                  if (!fetchMoreResult || !fetchMoreResult.sui_hei_puzzle)
+                    return prev;
+                  if (fetchMoreResult.sui_hei_puzzle.length === 0)
+                    setHasMore(false);
+                  return Object.assign({}, prev, {
+                    sui_hei_puzzle: [
+                      ...prev.sui_hei_puzzle,
+                      ...fetchMoreResult.sui_hei_puzzle,
+                    ],
+                  });
+                },
+              })
+            }
           >
-            <FormattedMessage {...commonMessages.loadMore} />
-          </ButtonTransparent>
-        </Box>
-      </Flex>
+            {loadingPanel}
+          </LoadMoreVis>
+        )}
+      </React.Fragment>
     );
   }
   return null;
 };
+
+PuzzleStarRankingRenderer.defaultProps = PuzzleStarRankingRendererDefaultProps;
 
 export default PuzzleStarRankingRenderer;

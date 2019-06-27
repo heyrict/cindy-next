@@ -1,68 +1,78 @@
 import React from 'react';
 import Head from 'next/head';
-
-import { Query } from 'react-apollo';
-import { PUZZLE_STAR_RANKING_QUERY } from 'graphql/Queries/Ranking';
+import { Link } from 'routes';
 
 import { FormattedMessage, intlShape } from 'react-intl';
-import messages from 'messages/pages/ranking';
+import rankingMessages from 'messages/pages/ranking';
 
-import { Heading, Flex } from 'components/General';
-import PuzzleStarRankingRenderer from 'components/Ranking/PuzzleStarRankingRenderer';
+import { Heading, Flex, ButtonTransparent, Box } from 'components/General';
 
-import {
-  PuzzleStarRankingQuery,
-  PuzzleStarRankingQueryVariables,
-} from 'graphql/Queries/generated/PuzzleStarRankingQuery';
 import { RankingProps, RankingContext } from './types';
 
-const getMonthlyDate = (now: Date) => {
-  const temp = new Date(now);
-  temp.setUTCDate(1);
-  temp.setUTCHours(0);
-  temp.setUTCMinutes(0);
-  temp.setUTCSeconds(0);
-  temp.setUTCMilliseconds(0);
-  if (temp.getDate() > 15) {
-    const end = temp.toISOString();
-    temp.setMonth(temp.getMonth() - 1);
-    const start = temp.toISOString();
-    return [start, end];
-  } else {
-    temp.setMonth(temp.getMonth() - 1);
-    const end = temp.toISOString();
-    temp.setMonth(temp.getMonth() - 2);
-    const start = temp.toISOString();
-    return [start, end];
-  }
-};
+const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
 const Ranking = (_props: RankingProps, context: RankingContext) => {
   const _ = context.intl.formatMessage as any;
-  const now = new Date();
-  const [monthlyStart, monthlyEnd] = getMonthlyDate(now);
   return (
-    <div>
+    <React.Fragment>
       <Head>
-        <title>{_(messages.title)}</title>
-        <meta name="description" content={_(messages.description)} />
+        <title>{_(rankingMessages.title)} | Cindy</title>
+        <meta name="description" content={_(rankingMessages.description)} />
       </Head>
       <Heading>
-        <FormattedMessage {...messages.header} />
+        <FormattedMessage {...rankingMessages.header} />
       </Heading>
       <Flex width={1} flexWrap="wrap">
-        <Query<PuzzleStarRankingQuery, PuzzleStarRankingQueryVariables>
-          query={PUZZLE_STAR_RANKING_QUERY}
-          variables={{
-            createdGte: monthlyStart,
-            createdLt: monthlyEnd,
-            limit: 5,
-          }}
-        >
-          {params => <PuzzleStarRankingRenderer {...params} />}
-        </Query>
+        <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
+          <Box m={2} bg="yellow.7" borderRadius={2}>
+            <Link to="ranking/puzzle_star" passHref>
+              <ButtonTransparentA
+                width={1}
+                py={2}
+                color="yellow.1"
+                textAlign="center"
+                minHeight="5em"
+                fontSize="1.4em"
+              >
+                <FormattedMessage {...rankingMessages.puzzleStarRanking} />
+              </ButtonTransparentA>
+            </Link>
+          </Box>
+        </Box>
+        <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
+          <Box m={2} bg="yellow.7" borderRadius={2}>
+            <Link to="ranking/user_dialogue" passHref>
+              <ButtonTransparentA
+                width={1}
+                py={2}
+                color="yellow.1"
+                textAlign="center"
+                minHeight="5em"
+                fontSize="1.4em"
+              >
+                <FormattedMessage {...rankingMessages.userDialogueRanking} />
+              </ButtonTransparentA>
+            </Link>
+          </Box>
+        </Box>
+        <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
+          <Box m={2} bg="yellow.7" borderRadius={2}>
+            <Link to="ranking/user_puzzle" passHref>
+              <ButtonTransparentA
+                width={1}
+                py={2}
+                color="yellow.1"
+                textAlign="center"
+                minHeight="5em"
+                fontSize="1.4em"
+              >
+                <FormattedMessage {...rankingMessages.userPuzzleRanking} />
+              </ButtonTransparentA>
+            </Link>
+          </Box>
+        </Box>
       </Flex>
-    </div>
+    </React.Fragment>
   );
 };
 

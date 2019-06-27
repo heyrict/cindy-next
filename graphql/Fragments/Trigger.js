@@ -9,4 +9,5 @@ export const USER_RANKING_TRIGGER_FRAGMENT = gql`
       ...UserBrief
     }
   }
+  ${USER_BRIEF_FRAGMENT}
 `;

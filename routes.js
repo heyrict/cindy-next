@@ -15,6 +15,21 @@ const routeList = [
   { name: 'replay', pattern: '/replay/:id(\\d+)', page: 'replay' },
   { name: 'add/replay', pattern: '/add/replay/:id(\\d+)', page: 'add/replay' },
   { name: 'ranking', pattern: '/ranking', page: 'ranking' },
+  {
+    name: 'ranking/puzzle_star',
+    pattern: '/ranking/puzzle_star',
+    page: 'ranking/puzzleStar',
+  },
+  {
+    name: 'ranking/user_dialogue',
+    pattern: '/ranking/user_dialogue',
+    page: 'ranking/userDialogue',
+  },
+  {
+    name: 'ranking/user_puzzle',
+    pattern: '/ranking/user_puzzle',
+    page: 'ranking/userPuzzle',
+  },
 ];
 
 routeList.forEach(route => {

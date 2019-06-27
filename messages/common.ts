@@ -43,6 +43,10 @@ export const messages = defineMessages({
     id: `${scope}.loadMore`,
     defaultMessage: 'Load More',
   },
+  back: {
+    id: `${scope}.back`,
+    defaultMessage: '<< Back',
+  },
 });
 
 export default messages;
