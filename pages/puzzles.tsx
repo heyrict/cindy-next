@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { mergeList } from 'common/update';
 
 import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
 import messages from 'messages/pages/puzzles';
@@ -21,6 +22,10 @@ import {
   PuzzlesSolvedQuery,
   PuzzlesSolvedQueryVariables,
 } from 'graphql/Queries/generated/PuzzlesSolvedQuery';
+import {
+  PuzzlesSolvedRendererProps,
+  PuzzlesUnsolvedRendererProps,
+} from './types';
 
 let prevData: PuzzlesUnsolvedLiveQuery_sui_hei_puzzle[] | null = null;
 
@@ -31,10 +36,105 @@ const puzzleLoadingPanel = (
   </Box>
 );
 
+const PuzzlesSolvedRenderer = ({
+  loading,
+  error,
+  data,
+  fetchMore,
+}: PuzzlesSolvedRendererProps) => {
+  const [hasMore, setHasMore] = useState(true);
+
+  useEffect(() => {
+    if (data && data.sui_hei_puzzle && data.sui_hei_puzzle.length !== 0) {
+      fetchMore({
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult || !fetchMoreResult.sui_hei_puzzle) return prev;
+          return {
+            ...prev,
+            sui_hei_puzzle: mergeList(
+              prev.sui_hei_puzzle,
+              fetchMoreResult.sui_hei_puzzle,
+              'id',
+              'desc',
+            ),
+          };
+        },
+      });
+    }
+  }, []);
+
+  if (
+    loading &&
+    (!data || !data.sui_hei_puzzle || data.sui_hei_puzzle.length === 0)
+  )
+    return puzzleLoadingPanel;
+  if (error) return <span>`Error: ${error.message}`</span>;
+  if (data && data.sui_hei_puzzle) {
+    return (
+      <React.Fragment>
+        {data.sui_hei_puzzle.map(puzzle => (
+          <Box width={puzzleWidth} key={`puzzle-brief-${puzzle.id}`}>
+            <PuzzleBrief puzzle={puzzle} />
+          </Box>
+        ))}
+        {hasMore && (
+          <LoadMoreVis
+            wait={0}
+            loadMore={() =>
+              fetchMore({
+                variables: {
+                  offset: data.sui_hei_puzzle.length,
+                },
+                updateQuery: (prev, { fetchMoreResult }) => {
+                  if (!fetchMoreResult || !fetchMoreResult.sui_hei_puzzle)
+                    return prev;
+                  if (fetchMoreResult.sui_hei_puzzle.length === 0)
+                    setHasMore(false);
+                  return Object.assign({}, prev, {
+                    sui_hei_puzzle: [
+                      ...prev.sui_hei_puzzle,
+                      ...fetchMoreResult.sui_hei_puzzle,
+                    ],
+                  });
+                },
+              })
+            }
+          >
+            {puzzleLoadingPanel}
+          </LoadMoreVis>
+        )}
+      </React.Fragment>
+    );
+  }
+  return null;
+};
+
+const PuzzlesUnsolvedRenderer = ({
+  loading,
+  error,
+  data,
+}: PuzzlesUnsolvedRendererProps) => {
+  if (
+    loading &&
+    (!data || !data.sui_hei_puzzle || data.sui_hei_puzzle.length === 0)
+  )
+    return puzzleLoadingPanel;
+  if (error) return <span>`Error: ${error.message}`</span>;
+  if (data && data.sui_hei_puzzle)
+    return (
+      <React.Fragment>
+        {data.sui_hei_puzzle.map(puzzle => (
+          <Box width={puzzleWidth} key={`puzzle-brief-${puzzle.id}`}>
+            <PuzzleBrief puzzle={puzzle} />
+          </Box>
+        ))}
+      </React.Fragment>
+    );
+  return null;
+};
+
 const Puzzles = (_props: any, context: { intl: IntlShape }) => {
   const _: any = context.intl.formatMessage;
-
-  const [hasMore, setHasMore] = useState(true);
 
   return (
     <React.Fragment>
@@ -78,79 +178,14 @@ const Puzzles = (_props: any, context: { intl: IntlShape }) => {
             prevData = newUnsolved;
           }}
         >
-          {({ loading, error, data }) => {
-            if (
-              loading &&
-              (!data ||
-                !data.sui_hei_puzzle ||
-                data.sui_hei_puzzle.length === 0)
-            )
-              return puzzleLoadingPanel;
-            if (error) return `Error: ${error.message}`;
-            if (data && data.sui_hei_puzzle)
-              return data.sui_hei_puzzle.map(puzzle => (
-                <Box width={puzzleWidth} key={`puzzle-brief-${puzzle.id}`}>
-                  <PuzzleBrief puzzle={puzzle} />
-                </Box>
-              ));
-          }}
+          {params => <PuzzlesUnsolvedRenderer {...params} />}
         </Subscription>
         <Query<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>
           query={PUZZLES_SOLVED_QUERY}
           variables={{ limit: 20 }}
-          fetchPolicy="cache-and-network"
+          fetchPolicy="cache-first"
         >
-          {({ loading, error, data, fetchMore }) => {
-            if (
-              loading &&
-              (!data ||
-                !data.sui_hei_puzzle ||
-                data.sui_hei_puzzle.length === 0)
-            )
-              return puzzleLoadingPanel;
-            if (error) return `Error: ${error.message}`;
-            if (data && data.sui_hei_puzzle) {
-              return (
-                <React.Fragment>
-                  {data.sui_hei_puzzle.map(puzzle => (
-                    <Box width={puzzleWidth} key={`puzzle-brief-${puzzle.id}`}>
-                      <PuzzleBrief puzzle={puzzle} />
-                    </Box>
-                  ))}
-                  {hasMore && (
-                    <LoadMoreVis
-                      wait={0}
-                      loadMore={() =>
-                        fetchMore({
-                          variables: {
-                            offset: data.sui_hei_puzzle.length,
-                          },
-                          updateQuery: (prev, { fetchMoreResult }) => {
-                            if (
-                              !fetchMoreResult ||
-                              !fetchMoreResult.sui_hei_puzzle
-                            )
-                              return prev;
-                            if (fetchMoreResult.sui_hei_puzzle.length === 0)
-                              setHasMore(false);
-                            return Object.assign({}, prev, {
-                              sui_hei_puzzle: [
-                                ...prev.sui_hei_puzzle,
-                                ...fetchMoreResult.sui_hei_puzzle,
-                              ],
-                            });
-                          },
-                        })
-                      }
-                    >
-                      {puzzleLoadingPanel}
-                    </LoadMoreVis>
-                  )}
-                </React.Fragment>
-              );
-            }
-            return null;
-          }}
+          {params => <PuzzlesSolvedRenderer {...params} />}
         </Query>
       </Flex>
     </React.Fragment>
