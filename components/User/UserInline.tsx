@@ -1,27 +1,34 @@
 import React from 'react';
 import { Link } from 'routes';
-import { Img, Flex, Anchor } from 'components/General';
+import { Img, Flex, Anchor, EditTimeSpan } from 'components/General';
+import CurrentUserAward from './CurrentUserAward';
 
 import { UserInlineBase } from './shared';
 import { UserInlineProps, UserBaseProps } from './types';
 
-const AnchorDiv = Anchor.withComponent('div');
+const AnchorDiv = Anchor.withComponent('span');
 
 const UserInline = ({
   user,
   timestamp,
   ...props
 }: UserInlineProps & UserBaseProps) => {
-  const NicknameBlock =
-    user.id > 0 ? (
-      <Link to="user" params={{ id: user.id }} passHref>
-        <Anchor maxWidth="12em" mr={1}>
-          {user.nickname}
-        </Anchor>
-      </Link>
-    ) : (
-      <AnchorDiv mr={1}>{user.nickname}</AnchorDiv>
-    );
+  const NicknameBlock = (
+    <Flex alignItems="center" mr={1}>
+      {user.id > 0 ? (
+        <React.Fragment>
+          <Link to="user" params={{ id: user.id }} passHref>
+            <Anchor maxWidth="12em">{user.nickname}</Anchor>
+          </Link>
+          {user.sui_hei_current_useraward && (
+            <CurrentUserAward useraward={user.sui_hei_current_useraward} />
+          )}
+        </React.Fragment>
+      ) : (
+        <AnchorDiv>{user.nickname}</AnchorDiv>
+      )}
+    </Flex>
+  );
 
   return user.icon ? (
     <UserInlineBase {...props}>
@@ -35,7 +42,7 @@ const UserInline = ({
       {timestamp ? (
         <Flex flexDirection="column">
           {NicknameBlock}
-          {timestamp}
+          <EditTimeSpan>{timestamp}</EditTimeSpan>
         </Flex>
       ) : (
         NicknameBlock
@@ -44,7 +51,7 @@ const UserInline = ({
   ) : (
     <UserInlineBase {...props}>
       {NicknameBlock}
-      {timestamp}
+      <EditTimeSpan>{timestamp}</EditTimeSpan>
     </UserInlineBase>
   );
 };

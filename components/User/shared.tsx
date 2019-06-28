@@ -17,6 +17,7 @@ export const UserColBase = styled.div<UserBaseProps>`
 
 export const UserInlineBase = styled.div<UserBaseProps>`
   display: inline-flex;
+  flex-wrap: wrap;
   overflow: hidden;
   align-items: center;
   ${space}

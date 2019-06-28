@@ -40,3 +40,7 @@ export type AnonymousUserProps = {
   nickname?: string;
   timestamp?: React.ReactNode;
 } & UserBaseProps;
+
+export type CurrentUserAwardProps = {
+  useraward: UserAward;
+};
