@@ -44,7 +44,7 @@ Environment Variables
 
 | env              | description                       | default                                     |
 |------------------|-----------------------------------|---------------------------------------------|
-| DBURL            | Postgres database URL             | postgres://cindy:cindy@localhost:5432/cindy |
+| PGDB             | Postgres database URL             | postgres://cindy:cindy@localhost:5432/cindy |
 | AUTH_PRIVATE_KEY | Private key for authorization     | Content of `private.pem`                    |
 | AUTH_PUBLIC_KEY  | Public key for authorization      | Content of `public.pem`                     |
 | AUTH_KEY_ID      | Key identifier for the key        | Hash of \$AUTH_PUBLIC_KEY                   |

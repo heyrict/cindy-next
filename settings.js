@@ -7,16 +7,26 @@ export const GRAPHQL_SERVER = {
   SUBSCRIPTION: 'ws://localhost:3000/subscriptions',
 };
 
+const defaultLocation = {
+  protocol: 'http:',
+  host: 'localhost:8080',
+};
+
+const { protocol, host, hostname } = process.browser
+  ? window.location
+  : defaultLocation;
+const wsProtocol = protocol === 'https:' ? 'wss:' : 'ws:';
+
 export const GRAPHQL_CLIENT = {
   ENDPOINT: isDev
     ? 'http://localhost:8080/v1/graphql'
-    : 'https://next.cindythink.com/v1/graphql',
+    : `${protocol}//${host}/v1/graphql`,
   LIVEQUERY: isDev
     ? 'ws://localhost:8080/v1/graphql'
-    : 'wss://next.cindythink.com/v1/graphql',
+    : `${wsProtocol}//${host}/v1/graphql`,
   SUBSCRIPTION: isDev
     ? 'ws://localhost:3000/subscriptions'
-    : 'wss://next.cindythink.com/subscriptions',
+    : `${wsProtocol}//${host}/subscriptions`,
 };
 
 // Locale
