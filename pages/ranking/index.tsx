@@ -24,6 +24,18 @@ const Ranking = (_props: RankingProps, context: RankingContext) => {
         <FormattedMessage {...rankingMessages.header} />
       </Heading>
       <PuzzleSubbar />
+      <Flex
+        py={2}
+        my={2}
+        border="1em double"
+        borderColor="orange.6"
+        bg="orange.4"
+        justifyContent="center"
+      >
+        <Box fontSize={4}>
+          <FormattedMessage {...rankingMessages.monthlyRanking} />
+        </Box>
+      </Flex>
       <Flex width={1} flexWrap="wrap">
         <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
           <Box m={2} bg="yellow.7" borderRadius={2}>

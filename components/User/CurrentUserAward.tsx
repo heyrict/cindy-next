@@ -49,17 +49,13 @@ const CurrentUserAward = ({ useraward }: CurrentUserAwardProps) => {
                 textAlign="center"
                 width={1}
                 my={1}
+                fontSize={1}
                 dangerouslySetInnerHTML={{
                   __html: line2md(useraward.sui_hei_award.description),
                 }}
               />
               {useraward.created && (
-                <Box
-                  width={1}
-                  textAlign="center"
-                  color="#ff582b"
-                  fontSize="0.9em"
-                >
+                <Box width={1} textAlign="center" color="#ff582b" fontSize={1}>
                   <span role="img" aria-label="gold-cup">
                     🏆
                   </span>
