@@ -1,5 +1,8 @@
 {
   "add_puzzle.description": "問題を作ろう！",
+  "add_puzzle.emptyContent": "問題文を入力してください",
+  "add_puzzle.emptySolution": "解説を入力してください",
+  "add_puzzle.emptyTitle": "タイトルを入力してください",
   "add_puzzle.header": "出題画面",
   "add_puzzle.publishPuzzle": "出題",
   "add_puzzle.title": "出題ページ",

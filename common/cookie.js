@@ -12,13 +12,18 @@ export function getCookie(c_name) {
   return '';
 }
 
-export function setCookie(c_name, c_value, c_expiry /* seconds */, c_path = '/') {
+export function setCookie(
+  c_name,
+  c_value,
+  c_expiry /* seconds */,
+  c_path = '/',
+) {
   let expiry_str = '';
-  const path_str = `;path='${c_path}'`;
+  const path_str = `;path=${c_path}`;
   if (c_expiry) {
     let expiry_date = new Date();
     expiry_date.setTime(expiry_date.getTime() + c_expiry * 1000);
-    expiry_str = `;expires=${expiry_date.toGMTString()}`;
+    expiry_str = `;expires=${expiry_date.toGMTString()};max-age=${c_expiry}`;
   }
   document.cookie = `${c_name}=${c_value}${expiry_str}${path_str}`;
 }

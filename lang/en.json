@@ -1,5 +1,8 @@
 {
   "add_puzzle.description": "Create puzzles in Cindy!",
+  "add_puzzle.emptyContent": "Content is empty!",
+  "add_puzzle.emptySolution": "Solution is empty!",
+  "add_puzzle.emptyTitle": "Title is empty!",
   "add_puzzle.header": "Create Puzzle",
   "add_puzzle.publishPuzzle": "Publish this puzzle",
   "add_puzzle.title": "Puzzle Create Page",

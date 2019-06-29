@@ -1,6 +1,7 @@
 import { ApolloConsumer } from 'react-apollo';
-import { connect } from 'react-redux';
+import { setCookie } from 'common/cookie';
 
+import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 const mapDispatchToProps = dispatch => ({
@@ -19,7 +20,7 @@ const withLogout = Wrapped =>
         <Wrapped
           logout={() =>
             new Promise((resolve, reject) => {
-              document.cookie = `cindy-jwt-token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+              setCookie('cindy-jwt-token', '', -100);
               props.deauth();
               apolloClient.resetStore();
             })

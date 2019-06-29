@@ -29,7 +29,6 @@ const withLogin = Wrapped =>
               .then(res => {
                 const { id, username, nickname, token, errors } = res;
                 if (!errors) {
-                  document.cookie = `cindy-jwt-token=${token}`;
                   setCookie('cindy-jwt-token', token, 30 * 24 * 60 * 60);
                   props.auth({
                     id,
@@ -38,7 +37,9 @@ const withLogin = Wrapped =>
                   });
                   apolloClient.resetStore();
                 } else {
-                  toast.error(JSON.stringify(errors));
+                  errors.forEach(error => {
+                    toast.error(`${error.type}: ${error.message}`);
+                  });
                 }
                 return res;
               })

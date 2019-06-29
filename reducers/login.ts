@@ -1,6 +1,6 @@
 import * as bool from './helpers/bool';
 import * as base from './helpers/base';
-import { ActionSetType, StateType, ActionContentType, AuthErrorType } from './types';
+import { ActionSetType, StateType, ActionContentType } from './types';
 
 export const scope = 'login';
 
@@ -10,7 +10,6 @@ export const actionTypes = {
   NICKNAME: `${scope}.NICKNAME`,
   USERNAME: `${scope}.USERNAME`,
   PASSWORD: `${scope}.PASSWORD`,
-  ERRORS: `${scope}.ERRORS`,
   RESET_FORM: `${scope}.RESET_FORM`,
 };
 
@@ -20,7 +19,6 @@ export const actions: ActionSetType = {
   ...base.getActions('Nickname', actionTypes.NICKNAME),
   ...base.getActions('Username', actionTypes.USERNAME),
   ...base.getActions('Password', actionTypes.PASSWORD),
-  ...base.getActions('Errors', actionTypes.ERRORS),
   resetForm: () => ({
     type: actionTypes.RESET_FORM,
   }),
@@ -35,7 +33,6 @@ export const initialState = {
   nickname: '',
   username: '',
   password: '',
-  errors: [] as AuthErrorType[],
 };
 
 export const reducer = (state = initialState, action: ActionContentType) => {
@@ -64,11 +61,6 @@ export const reducer = (state = initialState, action: ActionContentType) => {
       return {
         ...state,
         password: base.helper(state.password, action.payload),
-      };
-    case actionTypes.ERRORS:
-      return {
-        ...state,
-        errors: base.helper(state.errors, action.payload),
       };
     case actionTypes.RESET_FORM:
       return initialState;

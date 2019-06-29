@@ -34,7 +34,9 @@ const withSignup = Wrapped =>
                   props.auth({ id, username, nickname });
                   apolloClient.resetStore();
                 } else {
-                  toast.error(JSON.stringify(errors));
+                  errors.forEach(error => {
+                    toast.error(`${error.type}: ${error.message}`);
+                  });
                 }
                 return res;
               })

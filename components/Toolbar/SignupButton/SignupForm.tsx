@@ -13,7 +13,6 @@ const SignupForm = ({
   nickname,
   username,
   password,
-  errors,
   setNickname,
   setUsername,
   setPassword,
@@ -71,17 +70,6 @@ const SignupForm = ({
           borderRadius={1}
         />
       </Box>
-      {errors &&
-        errors.map(error => (
-          <Box
-            width={1}
-            mb={2}
-            color="red.6"
-            key={`${error.type}-${error.message}`}
-          >
-            {error.type}: {error.message}
-          </Box>
-        ))}
     </Flex>
   );
 };
@@ -90,7 +78,6 @@ const mapStateToProps = (state: StateType) => ({
   nickname: loginReducer.rootSelector(state).nickname,
   username: loginReducer.rootSelector(state).username,
   password: loginReducer.rootSelector(state).password,
-  errors: loginReducer.rootSelector(state).errors,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
