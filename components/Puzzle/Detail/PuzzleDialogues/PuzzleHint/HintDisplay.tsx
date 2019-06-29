@@ -1,5 +1,6 @@
 import React from 'react';
 import { text2md } from 'common/markdown';
+import { normPuzzleQjump } from 'common/markdown/plugin-puzzle-qjump';
 
 import { FormattedMessage } from 'react-intl';
 import commonMessages from 'messages/common';
@@ -12,7 +13,11 @@ import UserInline from 'components/User/UserInline';
 
 const HintDisplay = ({ hint }: HintDisplayProps) => (
   <React.Fragment>
-    <div dangerouslySetInnerHTML={{ __html: text2md(hint.content) }} />
+    <div
+      dangerouslySetInnerHTML={{
+        __html: text2md(normPuzzleQjump(hint.content)),
+      }}
+    />
     {hint.edittimes > 0 && (
       <EditTimeSpan>
         <FormattedMessage

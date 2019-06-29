@@ -3,6 +3,7 @@
  *
  */
 import React from 'react';
+import styled from 'theme/styled';
 
 import { FormattedTime } from 'react-intl';
 
@@ -17,6 +18,11 @@ import PuzzleDialogueAnswer from './PuzzleDialogueAnswer';
 import IndexLabel from './IndexLabel';
 import { PuzzleDialogueProps } from './types';
 
+const IdBlock = styled.div`
+  position: relative;
+  top: -${p => p.theme.sizes.toolbar};
+`;
+
 const PuzzleDialogue = ({
   index,
   dialogue,
@@ -26,12 +32,8 @@ const PuzzleDialogue = ({
 }: PuzzleDialogueProps) => {
   return (
     <React.Fragment>
-      <Box
-        id={`Q${dialogue.qno}`}
-        width={[7 / 8, 1 / 2]}
-        mr="auto"
-        mb={[-2, 0]}
-      >
+      <IdBlock id={`Q${dialogue.qno}`} />
+      <Box width={[7 / 8, 1 / 2]} mr="auto" mb={[-2, 0]}>
         <ChatBubbleTop>
           {index && <IndexLabel>Q{index}</IndexLabel>}
           <UserInline
