@@ -1,6 +1,6 @@
 const HEAD_QNO_REGEXP = new RegExp('^(\\d+)');
 const INSIDE_QNO_REGEXP = new RegExp(
-  '(((?:^|[^#a-zA-Z0-9\\[](\\s|\\b)))(Q)|(((?:^|[^\\[]))(Ｑ)))(\\d+)',
+  '(((?:^|[^#a-zA-Z0-9\\[](\\s|\\b)))(Q|A)|(((?:^|[^\\[]))(Ｑ|Ａ)))(\\d+)',
   'g',
 );
 
