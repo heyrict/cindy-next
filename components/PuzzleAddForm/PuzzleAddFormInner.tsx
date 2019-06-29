@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { toast } from 'react-toastify';
 import { Router } from 'routes';
 import { getMaxDazedDays } from 'settings';
 
@@ -13,6 +14,7 @@ import { LegacyEditor } from 'components/PreviewEditor';
 
 import { PuzzleAddFormInnerProps } from './types';
 import { stampNamespaces } from 'stamps/types';
+import { ApolloError } from 'apollo-client/errors/ApolloError';
 
 const fieldNameStyle = {
   width: [1, 1 / 6],
@@ -236,15 +238,35 @@ export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
                 grotesque,
                 dazedOn,
               })
-                .then(({ data, error }) => {
+                .then(returns => {
+                  if (!returns) return;
+                  if ('validationErrors' in returns) {
+                    returns.validationErrors.forEach(error => {
+                      toast.error(error);
+                    });
+                    setSubmitting(false);
+                    return;
+                  }
+                  const { data, error } = returns;
                   if (error) {
-                    console.log(error);
+                    toast.error(error.message);
+                    setSubmitting(false);
+                    return;
+                  }
+                  if (
+                    !data ||
+                    !data.insert_sui_hei_puzzle ||
+                    !data.insert_sui_hei_puzzle.returning
+                  ) {
+                    toast.error('Error: no data returns');
+                    setSubmitting(false);
+                    return;
                   }
                   const addedPuzzle = data.insert_sui_hei_puzzle.returning[0];
                   Router.pushRoute('puzzle', { id: addedPuzzle.id });
                 })
-                .catch(error => {
-                  console.log(error);
+                .catch((error: ApolloError) => {
+                  toast.error(error.message);
                   setSubmitting(false);
                 });
             }

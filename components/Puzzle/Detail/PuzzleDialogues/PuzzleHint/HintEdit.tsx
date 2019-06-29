@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 
 import { Mutation } from 'react-apollo';
 import { EDIT_HINT_MUTATION } from 'graphql/Mutations/Hint';
@@ -14,6 +15,7 @@ import {
   EditHintMutation,
   EditHintMutationVariables,
 } from 'graphql/Mutations/generated/EditHintMutation';
+import { ApolloError } from 'apollo-client/errors/ApolloError';
 
 const HintEdit = ({ hint, setEdit }: HintEditProps) => {
   const [text, setText] = useState(hint.content);
@@ -79,13 +81,13 @@ const HintEdit = ({ hint, setEdit }: HintEditProps) => {
                       if (!result) return;
                       const { errors } = result;
                       if (errors) {
-                        console.log(errors);
+                        toast.error(JSON.stringify(errors));
                         setEdit(true);
                         setText(hint.content);
                       }
                     })
-                    .catch(error => {
-                      console.log(error);
+                    .catch((error: ApolloError) => {
+                      toast.error(error.message);
                       setEdit(true);
                       setText(hint.content);
                     });

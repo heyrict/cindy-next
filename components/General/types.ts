@@ -58,8 +58,8 @@ export type TypographyProps = {
   fontWeight?: Array<number | string> | number | string;
   lineHeight?: Array<number | string> | number | string;
   letterSpacing?: Array<number | string> | number | string;
-  textAlign?: string;
-  fontStyle?: string;
+  textAlign?: string | Array<string>;
+  fontStyle?: string | Array<string>;
 };
 
 export type BorderProps = {

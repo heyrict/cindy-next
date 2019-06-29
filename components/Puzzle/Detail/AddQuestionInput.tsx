@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'theme/styled';
 
-import { Flex, Input, Textarea, Img, Button } from 'components/General';
+import { Flex, Textarea, Img, Button } from 'components/General';
 import { FormattedMessage } from 'react-intl';
 import expand from 'svgs/expand.svg';
 import messages from 'messages/pages/puzzle';
@@ -22,6 +23,7 @@ import {
   DialogueHintQuery,
   DialogueHintQueryVariables,
 } from 'graphql/Queries/generated/DialogueHintQuery';
+import { ApolloError } from 'apollo-client/errors/ApolloError';
 
 export const ExpandButton = styled(Button)`
   background-color: transparent;
@@ -34,9 +36,8 @@ export const ExpandButton = styled(Button)`
 `;
 
 export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
-  let [input, setInput] = useState('');
+  const inputRef = useRef<HTMLTextAreaElement>(null!);
   let [expanded, setExpanded] = useState(false);
-  const PuzzleInput = expanded ? Textarea : Input;
   return (
     <Flex
       width={1}
@@ -48,20 +49,22 @@ export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
       borderWidth={2}
       bg="orange.1"
     >
-      <PuzzleInput
-        onChange={(
-          e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-        ) => setInput(e.target.value)}
-        onKeyPress={(e: React.KeyboardEvent) => {
+      <Textarea
+        ref={inputRef}
+        onKeyPress={(_e: React.KeyboardEvent) => {
+          /*
+           * TODO: handle submit from input settings
+           */
+          /*
           if (e.nativeEvent.keyCode === 13 && !expanded) {
-            onSubmit(input).catch(e => {
-              console.log(e);
+            onSubmit(input).catch((error: ApolloError) => {
+              toast.error(error.message);
               setInput(input);
             });
             setInput('');
           }
+           */
         }}
-        value={input}
         border="none"
         bg="transparent"
       />
@@ -70,11 +73,12 @@ export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
       </ExpandButton>
       <Button
         onClick={() => {
-          onSubmit(input).catch(e => {
-            console.log(e);
-            setInput(input);
+          const input = inputRef.current.value;
+          onSubmit(input).catch((error: ApolloError) => {
+            toast.error(error.message);
+            inputRef.current.value = input;
           });
-          setInput('');
+          inputRef.current.value = '';
         }}
         px={2}
         minWidth="50px"
@@ -141,7 +145,7 @@ const AddQuestionInput = ({ puzzleId, userId }: AddQuestionInputProps) => {
           onSubmit={input => {
             if (input.trim() === '')
               return new Promise((_resolve, reject) => {
-                reject('Question is empty');
+                reject({ messages: 'Question is empty' });
               });
 
             return addQuestion({

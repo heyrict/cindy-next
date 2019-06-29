@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
@@ -23,6 +24,7 @@ import {
   EditAnswerMutation,
   EditAnswerMutationVariables,
 } from 'graphql/Mutations/generated/EditAnswerMutation';
+import { ApolloError } from 'apollo-client/errors/ApolloError';
 
 const AnswerEdit = ({
   answer,
@@ -140,14 +142,15 @@ const AnswerEdit = ({
                       if (!result) return;
                       const { errors } = result;
                       if (errors) {
+                        toast.error(JSON.stringify(errors));
                         setMode(AnswerModes.EDIT);
                         setText(answer);
                         setGood(goodAns);
                         setTrue(trueAns);
                       }
                     })
-                    .catch(error => {
-                      console.log(error.message);
+                    .catch((error: ApolloError) => {
+                      toast.error(error.message);
                       setMode(AnswerModes.EDIT);
                       setText(answer);
                       setGood(goodAns);

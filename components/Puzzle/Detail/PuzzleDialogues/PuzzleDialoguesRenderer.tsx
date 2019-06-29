@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { mergeList, upsertItem } from 'common/update';
 
 import { DIALOGUE_HINT_SUBSCRIPTION } from 'graphql/Subscriptions/Dialogue';
@@ -80,7 +81,10 @@ export const PuzzleDialoguesRenderer = ({
   const { puzzleId } = variables;
   if (loading && (!data || !data.sui_hei_dialogue || !data.sui_hei_hint))
     return <span>Loading...</span>;
-  if (error) return <span>`Error: ${JSON.stringify(error)}`</span>;
+  if (error) {
+    toast.error(error.message);
+    return null;
+  }
   if (!data || !data.sui_hei_dialogue || !data.sui_hei_hint) {
     return <span>EMPTY</span>;
   }

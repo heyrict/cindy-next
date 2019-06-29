@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import { Mutation } from 'react-apollo';
 import { EDIT_QUESTION_MUTATION } from 'graphql/Mutations/Dialogue';
@@ -13,6 +14,7 @@ import {
   EditQuestionMutation,
   EditQuestionMutationVariables,
 } from 'graphql/Mutations/generated/EditQuestionMutation';
+import { ApolloError } from 'apollo-client/errors/ApolloError';
 
 const QuestionEdit = ({ question, dialogueId, setMode }: QuestionEditProps) => {
   const [text, setText] = useState(question);
@@ -88,13 +90,13 @@ const QuestionEdit = ({ question, dialogueId, setMode }: QuestionEditProps) => {
                       if (!result) return;
                       const { errors } = result;
                       if (errors) {
-                        console.log(errors);
+                        toast.error(JSON.stringify(errors));
                         setMode(QuestionModes.EDIT);
                         setText(question);
                       }
                     })
-                    .catch(error => {
-                      console.log(error);
+                    .catch((error: ApolloError) => {
+                      toast.error(error.message);
                       setMode(QuestionModes.EDIT);
                       setText(question);
                     });

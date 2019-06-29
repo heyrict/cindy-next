@@ -1,11 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
+import { line2md } from 'common/markdown';
+
 import { Query } from 'react-apollo';
 import { CHATROOM_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
-import { line2md } from 'common/markdown';
+
 import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
 
+import { connect } from 'react-redux';
 import * as chatReducer from 'reducers/chat';
+
 import {
   ChatroomDescription,
   ChatroomDescriptionVariables,
@@ -35,9 +39,11 @@ const DescriptionModal = ({
     >
       {({ loading, error, data }) => {
         let chatroom = defaultData;
-        if (error) chatroom.description = `Error: ${error.message}`;
-        else if (loading) chatroom.description = 'Loading...';
-        else if (!data || !data.sui_hei_chatroom_by_pk) {
+        if (error) {
+          toast.error(error.message);
+          return null;
+        } else if (!data || !data.sui_hei_chatroom_by_pk) {
+          if (loading) chatroom.description = 'Loading...';
           chatroom.description = 'Fatal Error: No data returned';
         } else {
           chatroom = data.sui_hei_chatroom_by_pk;
