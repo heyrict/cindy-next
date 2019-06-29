@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { Query } from 'react-apollo';
 import {
@@ -39,7 +40,10 @@ const PuzzleDialoguesUserDeduplicator = ({
         fetchPolicy="cache-first"
       >
         {({ error, data }) => {
-          if (error) return <span>{JSON.stringify(error)}</span>;
+          if (error) {
+            toast.error(error.message);
+            return null;
+          }
           if (!data || !data.sui_hei_user) return null;
           const filterUsers = data.sui_hei_user.map(user => ({
             id: user.id,
@@ -62,7 +66,10 @@ const PuzzleDialoguesUserDeduplicator = ({
               fetchPolicy="cache-first"
             >
               {({ error, data }) => {
-                if (error) return <span>{JSON.stringify(error)}</span>;
+                if (error) {
+                  toast.error(error.message);
+                  return null;
+                }
                 let filterUsersWithTrue = filterUsers;
                 if (data && data.sui_hei_user) {
                   filterUsersWithTrue = filterUsers.map(user => {

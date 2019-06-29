@@ -78,10 +78,11 @@ const ChatRoomInput = ({ user, chatroomId }: ChatRoomInputProps) => (
           <SimpleLegacyEditor
             useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
             onSubmit={(content: string) => {
-              if (content.trim() === '') return;
-              sendMessage({
+              if (content.trim() === '')
+                return new Promise(resolve => resolve());
+              return sendMessage({
                 variables: {
-                  content,
+                  content: content.trim(),
                   chatroomId,
                 },
                 optimisticResponse: {

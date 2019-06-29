@@ -6,13 +6,12 @@ import { connect } from 'react-redux';
 import * as loginReducer from 'reducers/login';
 
 import messages from 'messages/components/auth';
-import { StateType, ActionContentType, AuthErrorType } from 'reducers/types';
+import { StateType, ActionContentType } from 'reducers/types';
 import { LoginFormProps } from './types';
 
 const LoginForm = ({
   username,
   password,
-  errors,
   setUsername,
   setPassword,
 }: LoginFormProps) => {
@@ -52,17 +51,6 @@ const LoginForm = ({
           borderRadius={1}
         />
       </Box>
-      {errors &&
-        errors.map(error => (
-          <Box
-            width={1}
-            mb={2}
-            color="red.6"
-            key={`${error.type}-${error.message}`}
-          >
-            {error.type}: {error.message}
-          </Box>
-        ))}
     </Flex>
   );
 };
@@ -70,7 +58,6 @@ const LoginForm = ({
 const mapStateToProps = (state: StateType) => ({
   username: loginReducer.rootSelector(state).username,
   password: loginReducer.rootSelector(state).password,
-  errors: loginReducer.rootSelector(state).errors,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
@@ -78,8 +65,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(loginReducer.actions.setUsername(username)),
   setPassword: (password: string) =>
     dispatch(loginReducer.actions.setPassword(password)),
-  setErrors: (errors: Array<AuthErrorType>) =>
-    dispatch(loginReducer.actions.setErrors(errors)),
 });
 
 const withRedux = connect(

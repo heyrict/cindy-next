@@ -9,8 +9,8 @@ import { FormattedMessage } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import {
-  UserDialogueRankingRendererProps,
-  UserDialogueRankingRendererDefaultProps,
+  UserPuzzleRankingRendererProps,
+  UserPuzzleRankingRendererDefaultProps,
 } from './types';
 
 const loadingPanel = (
@@ -19,24 +19,24 @@ const loadingPanel = (
   </Panel>
 );
 
-const UserDialogueRankingRenderer = ({
+const UserPuzzleRankingRenderer = ({
   loading,
   error,
   data,
   fetchMore,
   shouldLoadMore,
-}: UserDialogueRankingRendererProps) => {
+}: UserPuzzleRankingRendererProps) => {
   const [hasMore, setHasMore] = useState(true);
 
   if (error) {
     toast.error(error.message);
     return null;
   }
-  if (loading && (!data || !data.dialogue_count_ranking))
+  if (loading && (!data || !data.puzzle_count_ranking))
     return <span>'Loading...'</span>;
 
-  if (data && data.dialogue_count_ranking) {
-    const ranks = data.dialogue_count_ranking;
+  if (data && data.puzzle_count_ranking) {
+    const ranks = data.puzzle_count_ranking;
     return (
       <React.Fragment>
         {ranks.map((rank, index) => (
@@ -80,20 +80,17 @@ const UserDialogueRankingRenderer = ({
             loadMore={() =>
               fetchMore({
                 variables: {
-                  offset: data.dialogue_count_ranking.length,
+                  offset: data.puzzle_count_ranking.length,
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
-                  if (
-                    !fetchMoreResult ||
-                    !fetchMoreResult.dialogue_count_ranking
-                  )
+                  if (!fetchMoreResult || !fetchMoreResult.puzzle_count_ranking)
                     return prev;
-                  if (fetchMoreResult.dialogue_count_ranking.length === 0)
+                  if (fetchMoreResult.puzzle_count_ranking.length === 0)
                     setHasMore(false);
                   return Object.assign({}, prev, {
-                    dialogue_count_ranking: [
-                      ...prev.dialogue_count_ranking,
-                      ...fetchMoreResult.dialogue_count_ranking,
+                    puzzle_count_ranking: [
+                      ...prev.puzzle_count_ranking,
+                      ...fetchMoreResult.puzzle_count_ranking,
                     ],
                   });
                 },
@@ -109,6 +106,6 @@ const UserDialogueRankingRenderer = ({
   return null;
 };
 
-UserDialogueRankingRenderer.defaultProps = UserDialogueRankingRendererDefaultProps;
+UserPuzzleRankingRenderer.defaultProps = UserPuzzleRankingRendererDefaultProps;
 
-export default UserDialogueRankingRenderer;
+export default UserPuzzleRankingRenderer;

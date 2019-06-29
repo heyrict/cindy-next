@@ -6,38 +6,25 @@ import messages from 'messages/components/auth';
 import { connect } from 'react-redux';
 import * as loginReducer from 'reducers/login';
 import { OKButtonProps } from './types';
-import { StateType, ActionContentType, AuthErrorType } from 'reducers/types';
+import { StateType, ActionContentType } from 'reducers/types';
 
 const OKButton = ({
   signup,
   nickname,
   username,
   password,
-  setErrors,
   resetForm,
 }: OKButtonProps) => (
   <FooterButton
     bg="cyan.6"
     color="white"
     onClick={() => {
-      signup(nickname, username, password)
-        .then(res => {
-          const { errors } = res;
-          if (errors) {
-            setErrors(errors);
-          } else {
-            resetForm();
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          setErrors([
-            {
-              type: 'InternalServerError',
-              message: error.message,
-            },
-          ]);
-        });
+      signup(nickname, username, password).then(res => {
+        const { errors } = res;
+        if (!errors) {
+          resetForm();
+        }
+      });
     }}
   >
     <FormattedMessage {...messages.signup} />
@@ -51,8 +38,6 @@ const mapStateToProps = (state: StateType) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  setErrors: (value: Array<AuthErrorType>) =>
-    dispatch(loginReducer.actions.setErrors(value)),
   resetForm: () => dispatch(loginReducer.actions.resetForm()),
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Mutation } from 'react-apollo';
 import { ADD_PUZZLE_MUTATION } from 'graphql/Mutations/Puzzle';
@@ -7,13 +7,15 @@ import { Box } from 'components/General';
 
 import PuzzleAddFormInner from './PuzzleAddFormInner';
 
+import { FormattedMessage } from 'react-intl';
+import addPuzzleMessages from 'messages/pages/add_puzzle';
+
 import {
   AddPuzzleMutationVariables,
   AddPuzzleMutation,
 } from 'graphql/Mutations/generated/AddPuzzleMutation';
 
 const PuzzleAddForm = () => {
-  const [errors, setErrors] = useState<string[]>([]);
   return (
     <Mutation<AddPuzzleMutation, AddPuzzleMutationVariables>
       mutation={ADD_PUZZLE_MUTATION}
@@ -22,17 +24,22 @@ const PuzzleAddForm = () => {
         <Box px={[2, 3]} py={3}>
           <PuzzleAddFormInner
             onSubmit={(variables: AddPuzzleMutationVariables) => {
-              const submitErrors = [] as Array<string>;
+              const submitErrors = [] as Array<React.ReactNode>;
               if (variables.title.trim() === '')
-                submitErrors.push('Title is empty!');
+                submitErrors.push(
+                  <FormattedMessage {...addPuzzleMessages.emptyTitle} />,
+                );
               if (variables.content.trim() === '')
-                submitErrors.push('Content is empty!');
+                submitErrors.push(
+                  <FormattedMessage {...addPuzzleMessages.emptyContent} />,
+                );
               if (variables.solution.trim() === '')
-                submitErrors.push('Solution is empty!');
+                submitErrors.push(
+                  <FormattedMessage {...addPuzzleMessages.emptySolution} />,
+                );
               if (submitErrors.length > 0) {
-                setErrors(submitErrors);
                 return new Promise(resolve =>
-                  resolve({ errors: submitErrors }),
+                  resolve({ validationErrors: submitErrors }),
                 );
               }
 
@@ -41,11 +48,6 @@ const PuzzleAddForm = () => {
               });
             }}
           />
-          {errors.map(error => (
-            <div key={error} style={{ color: 'red' }}>
-              {error}
-            </div>
-          ))}
         </Box>
       )}
     </Mutation>

@@ -1,0 +1,44 @@
+@startuml
+object Replay {
+    id: Int!
+    puzzle_id: Int
+    user_id: Int!
+    created_at: Timestamp!
+    updated_at: Timestamp!
+}
+
+object ReplayDialogue {
+    id: Int!
+    replay_id: Int!
+    question: String!
+    answer: String!
+}
+Replay "1" -- "0..n" ReplayDialogue
+ReplayDialogue "0..n" -- "0..n" ReplayDialogue : ReplayDialogueDependency
+
+object ReplayKeyword {
+    id: Int!
+    keyword: String!
+}
+ReplayDialogue "0..n" -- "0..n" ReplayKeyword : ReplayDialogueKeyword
+
+object ReplayPlayground {
+    id: Int!
+    replay_id: Int!
+    user_id: Int!
+    status: Int!
+    created_at: Timestamp!
+    updated_at: Timestamp!
+}
+ReplayPlayground "0..n" -- "1" Replay
+
+object ReplayPlaygroundDialogue {
+    id: Int!
+    dialogue_id: Int!
+    playground_id: Int!
+    created_at: Timestamp!
+}
+ReplayPlaygroundDialogue "0..n" -- "1" ReplayPlayground
+ReplayPlaygroundDialogue "0..n" -- "1" ReplayDialogue
+
+@enduml

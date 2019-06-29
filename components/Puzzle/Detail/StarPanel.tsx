@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'theme/styled';
 
 import { FormattedMessage } from 'react-intl';
@@ -41,9 +42,10 @@ const StarPanel = ({ puzzleId }: StarPanelProps) => {
             puzzleId,
           }}
         >
-          {({ loading, error, data }: QueryResult) => {
-            if (loading) return 'Loading...';
-            if (error) return `Error: ${JSON.stringify(error)}`;
+          {({ error, data }: QueryResult) => {
+            if (error) {
+              toast.error(error.message);
+            }
             if (!data || !data.sui_hei_star_aggregate) return null;
             const agg = data.sui_hei_star_aggregate.aggregate;
             return (

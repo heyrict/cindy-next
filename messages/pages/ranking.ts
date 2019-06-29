@@ -19,6 +19,14 @@ export const messages = defineMessages({
     id: `${scope}.rank`,
     defaultMessage: 'Rank {rank}',
   },
+  monthlyRanking: {
+    id: `${scope}.monthlyRanking`,
+    defaultMessage: 'Monthly Ranking',
+  },
+  weeklyRanking: {
+    id: `${scope}.weeklyRanking`,
+    defaultMessage: 'Weekly Ranking',
+  },
   puzzleStarRankingWithMonth: {
     id: `${scope}.puzzleStarRankingWithMonth`,
     defaultMessage: 'Puzzles with most stars in {date}',
@@ -34,6 +42,10 @@ export const messages = defineMessages({
   userDialogueRanking: {
     id: `${scope}.userDialogueRanking`,
     defaultMessage: 'User Ranking by Questions',
+  },
+  userPuzzleRankingWithMonth: {
+    id: `${scope}.userPuzzleRankingWithMonth`,
+    defaultMessage: 'Users with most puzzles in {date}',
   },
   userPuzzleRanking: {
     id: `${scope}.userPuzzleRanking`,

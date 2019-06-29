@@ -4,6 +4,7 @@
 
 import React, { useEffect } from 'react';
 import { Global, css } from '@emotion/core';
+import { toast, ToastContainer, Slide } from 'react-toastify';
 
 import Chat from 'components/Chat';
 import Toolbar from 'components/Toolbar';
@@ -280,7 +281,7 @@ const Layout = ({ children, fetchUser }: LayoutProps) => {
   }, []);
 
   return (
-    <div>
+    <React.Fragment>
       <Global styles={globalStyle} />
       <ChatBox>
         <Chat />
@@ -290,7 +291,14 @@ const Layout = ({ children, fetchUser }: LayoutProps) => {
         <Toolbar />
       </ToolbarBox>
       <Page>{children}</Page>
-    </div>
+      <ToastContainer
+        position={toast.POSITION.BOTTOM_RIGHT}
+        transition={Slide}
+        autoClose={8000}
+        closeOnClick={false}
+        draggable
+      />
+    </React.Fragment>
   );
 };
 

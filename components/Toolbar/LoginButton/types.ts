@@ -1,5 +1,4 @@
 import { WithLoginProps } from 'components/Auth/types';
-import { AuthErrorType } from 'reducers/types';
 
 export type LoginButtonProps = {
   loginModal: boolean;
@@ -10,7 +9,6 @@ export type LoginButtonProps = {
 export type LoginFormProps = {
   username: string;
   password: string;
-  errors: Array<AuthErrorType>;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
 };
@@ -18,6 +16,5 @@ export type LoginFormProps = {
 export type OKButtonProps = {
   username: string;
   password: string;
-  setErrors: (errors: Array<AuthErrorType>) => void;
   resetForm: () => void;
 } & WithLoginProps;

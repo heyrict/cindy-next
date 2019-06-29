@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'theme/styled';
 
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
 import { Query, QueryResult } from 'react-apollo';
-import { PUZZLE_COMMENT_AGGREGATE_QUERY, } from 'graphql/Queries/Comment';
+import { PUZZLE_COMMENT_AGGREGATE_QUERY } from 'graphql/Queries/Comment';
 
 import { Waypoint } from 'react-waypoint';
 import { Box, Flex, Img, Button } from 'components/General';
@@ -33,7 +34,10 @@ const CommentPanel = ({ puzzleId }: CommentPanelProps) => {
 
   return (
     <React.Fragment>
-      <Waypoint key="puzzle-comment-panel" onEnter={() => setLoaded(true)} />
+      <Waypoint
+        key="puzzle-comment-panel"
+        onEnter={() => loaded && setLoaded(true)}
+      />
       {loaded && (
         <Query
           query={PUZZLE_COMMENT_AGGREGATE_QUERY}
@@ -41,10 +45,13 @@ const CommentPanel = ({ puzzleId }: CommentPanelProps) => {
             puzzleId,
           }}
         >
-          {({ loading, error, data }: QueryResult) => {
-            if (loading) return 'Loading...';
-            if (error) return `Error: ${JSON.stringify(error)}`;
-            if (!data || !data.sui_hei_comment_aggregate) return null;
+          {({ error, data }: QueryResult) => {
+            if (error) {
+              toast.error(error.message);
+              return null;
+            }
+            if (!data || !data.sui_hei_comment_aggregate)
+              return null;
             const agg = data.sui_hei_comment_aggregate.aggregate;
             return (
               <Box width={[1, 1 / 2]} mb={2}>

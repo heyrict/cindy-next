@@ -19,6 +19,18 @@ export const messages = defineMessages({
     id: `${scope}.publishPuzzle`,
     defaultMessage: 'Publish this puzzle',
   },
+  emptyTitle: {
+    id: `${scope}.emptyTitle`,
+    defaultMessage: 'Title is empty!',
+  },
+  emptyContent: {
+    id: `${scope}.emptyContent`,
+    defaultMessage: 'Content is empty!',
+  },
+  emptySolution: {
+    id: `${scope}.emptySolution`,
+    defaultMessage: 'Solution is empty!',
+  },
 });
 
 export default messages;

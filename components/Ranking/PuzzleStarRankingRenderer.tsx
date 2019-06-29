@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import RankedPuzzle from 'components/Puzzle/RankedPuzzle';
@@ -25,7 +26,10 @@ const PuzzleStarRankingRenderer = ({
 }: PuzzleStarRankingRendererProps) => {
   const [hasMore, setHasMore] = useState(true);
 
-  if (error) return <span>`Error: ${error.message}`</span>;
+  if (error) {
+    toast.error(error.message);
+    return null;
+  }
   if (loading && (!data || !data.sui_hei_puzzle))
     return <span>'Loading...'</span>;
 

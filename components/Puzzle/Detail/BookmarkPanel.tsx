@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'theme/styled';
 
 import { FormattedMessage } from 'react-intl';
@@ -49,8 +50,11 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
           }}
         >
           {({ loading, error, data }) => {
-            if (loading) return 'Loading...';
-            if (error) return `Error: ${JSON.stringify(error)}`;
+            if (loading && !data) return null;
+            if (error) {
+              toast.error(error.message);
+              return null;
+            }
             if (!data || !data.sui_hei_bookmark_aggregate) return null;
             const agg = data.sui_hei_bookmark_aggregate.aggregate || {
               count: 0,

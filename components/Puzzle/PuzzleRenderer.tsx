@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import Head from 'next/head';
 
 import PuzzleDetail from 'components/Puzzle/Detail';
@@ -42,7 +43,10 @@ const PuzzleRenderer = ({
       });
   }, [puzzleId]);
 
-  if (error) return <span>`Error: ${error.message}`</span>;
+  if (error) {
+    toast.error(error.message);
+    return null;
+  }
   if (loading && (!data || !data.sui_hei_puzzle_by_pk))
     return <span>'Loading...'</span>;
   if (data && data.sui_hei_puzzle_by_pk) {

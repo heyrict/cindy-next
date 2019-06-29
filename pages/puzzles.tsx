@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { toast } from 'react-toastify';
 import { mergeList } from 'common/update';
 
 import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
@@ -68,7 +69,10 @@ const PuzzlesSolvedRenderer = ({
     (!data || !data.sui_hei_puzzle || data.sui_hei_puzzle.length === 0)
   )
     return puzzleLoadingPanel;
-  if (error) return <span>`Error: ${error.message}`</span>;
+  if (error) {
+    toast.error(error.message);
+    return null;
+  }
   if (data && data.sui_hei_puzzle) {
     return (
       <React.Fragment>
@@ -119,7 +123,10 @@ const PuzzlesUnsolvedRenderer = ({
     (!data || !data.sui_hei_puzzle || data.sui_hei_puzzle.length === 0)
   )
     return puzzleLoadingPanel;
-  if (error) return <span>`Error: ${error.message}`</span>;
+  if (error) {
+    toast.error(error.message);
+    return null;
+  }
   if (data && data.sui_hei_puzzle)
     return (
       <React.Fragment>
