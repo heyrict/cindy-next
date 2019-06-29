@@ -84,9 +84,10 @@ const Chatmessage = ({
                   onSubmit={text => {
                     if (text === chatmessage.content) {
                       setMode(ChatmessageModeType.NORMAL);
-                      return;
+                      return new Promise(resolve => resolve());
                     }
-                    editMessage({
+                    setMode(ChatmessageModeType.NORMAL);
+                    return editMessage({
                       variables: {
                         chatmessageId: chatmessage.id,
                         content: text,
@@ -112,7 +113,6 @@ const Chatmessage = ({
                         setMode(ChatmessageModeType.NORMAL);
                       }
                     });
-                    setMode(ChatmessageModeType.NORMAL);
                   }}
                 />
               )}

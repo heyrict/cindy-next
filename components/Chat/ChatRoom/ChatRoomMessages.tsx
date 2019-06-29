@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'theme/styled';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
@@ -59,7 +60,10 @@ const ChatRoomMessagesBody = ({
   relatedPuzzleId,
   chatmessageUpdate,
 }: ChatRoomMessagesBodyProps) => {
-  if (error) return <div>Error</div>;
+  if (error) {
+    toast.error(error.message);
+    return null;
+  }
   if (!data) return <div>No messages</div>;
   const { sui_hei_chatmessage: chatmessages } = data;
 

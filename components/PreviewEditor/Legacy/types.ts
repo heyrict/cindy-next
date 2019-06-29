@@ -8,7 +8,7 @@ export const SimpleLegacyEditorDefaultProps = {
 
 export type SimpleLegacyEditorProps = {
   useNamespaces?: Array<stampNamespaces>;
-  onSubmit: (text: string) => void;
+  onSubmit: (text: string) => Promise<{ errors?: any } | void>;
 } & typeof SimpleLegacyEditorDefaultProps;
 
 export type SimpleLegacyEditorStates = {

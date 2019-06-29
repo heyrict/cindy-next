@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { text2md } from 'common/markdown';
 
@@ -301,7 +302,24 @@ class SimpleLegacyEditor extends React.Component<
             </ButtonTransparent>
             <ButtonTransparent
               onClick={() => {
-                this.props.onSubmit(this.getText());
+                const text = this.getText();
+                this.props
+                  .onSubmit(text)
+                  .then(returns => {
+                    if (!returns) {
+                      // Cancelled
+                      this.setText(text);
+                      return;
+                    }
+                    if (returns.errors) {
+                      toast.error(JSON.stringify(returns.errors));
+                      this.setText(text);
+                    }
+                  })
+                  .catch(error => {
+                    toast.error(JSON.stringify(error));
+                    this.setText(text);
+                  });
                 this.setText('');
               }}
             >

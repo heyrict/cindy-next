@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { Query } from 'react-apollo';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
@@ -32,10 +33,13 @@ class ChatRoom extends React.Component<ChatRoomProps> {
           chatroomName: chatroom,
         }}
       >
-        {({ data }) => {
+        {({ data, error }) => {
           let chatroomId = null;
           if (data && data.sui_hei_chatroom && data.sui_hei_chatroom[0]) {
             chatroomId = data.sui_hei_chatroom[0].id;
+          }
+          if (error) {
+            toast.error(error.message);
           }
           return (
             <React.Fragment>
