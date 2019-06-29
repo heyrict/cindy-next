@@ -1,7 +1,10 @@
 const HEAD_QNO_REGEXP = new RegExp('^(\\d+)');
-const INSIDE_QNO_REGEXP = new RegExp('(((?:^|\\s|\\b))(Q)|(Ｑ))(\\d+)', 'g');
+const INSIDE_QNO_REGEXP = new RegExp(
+  '(((?:^|[^#a-zA-Z0-9\\[](\\s|\\b)))(Q)|(((?:^|[^\\[]))(Ｑ)))(\\d+)',
+  'g',
+);
 
 export const normPuzzleQjump = (string: string) =>
   string
-    .replace(INSIDE_QNO_REGEXP, '$2[$3$4$5](#Q$5)')
+    .replace(INSIDE_QNO_REGEXP, '$2$6[$4$7$8](#Q$8)')
     .replace(HEAD_QNO_REGEXP, '[$1](#Q$1)');
