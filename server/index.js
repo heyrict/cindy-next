@@ -5,15 +5,11 @@
 const IntlPolyfill = require('intl');
 Intl.NumberFormat = IntlPolyfill.NumberFormat;
 Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
-const {
-  supportedLanguages,
-  getLocaleDataScript,
-} = require('./intl');
+const { supportedLanguages, getLocaleDataScript } = require('./intl');
 const regLang = /^\/[^/]+/;
 
 const { createServer } = require('http');
 const { parse } = require('url');
-const accepts = require('accepts');
 const next = require('next');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -38,9 +34,8 @@ const subscriptionController = require('./controllers/subscription');
 
 // next route handler
 const handler = routes.getRequestHandler(app, ({ req, res, route, query }) => {
-  const accept = accepts(req);
-  const locale =
-    accept.language(accept.languages(supportedLanguages)) || DEFAULT_LOCALE;
+  const acceptedLocale = req.acceptsLanguages(...supportedLanguages);
+  const locale = acceptedLocale || DEFAULT_LOCALE;
   req.locale = locale;
   req.localeDataScript = getLocaleDataScript(locale);
   //req.messages = dev ? {} : getMessages(locale);
