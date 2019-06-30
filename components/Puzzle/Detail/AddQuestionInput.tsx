@@ -2,6 +2,9 @@ import React, { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'theme/styled';
 
+import { connect } from 'react-redux';
+import * as awardCheckerReducer from 'reducers/awardChecker';
+
 import { Flex, Textarea, Img, Button } from 'components/General';
 import { FormattedMessage } from 'react-intl';
 import expand from 'svgs/expand.svg';
@@ -24,6 +27,7 @@ import {
   DialogueHintQueryVariables,
 } from 'graphql/Queries/generated/DialogueHintQuery';
 import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ActionContentType } from 'reducers/types';
 
 export const ExpandButton = styled(Button)`
   background-color: transparent;
@@ -89,7 +93,7 @@ export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
   );
 };
 
-const AddQuestionInput = ({ puzzleId, userId }: AddQuestionInputProps) => {
+const AddQuestionInput = ({ puzzleId, userId, incDialogues }: AddQuestionInputProps) => {
   return (
     <Mutation<AddQuestionMutation, AddQuestionMutationVariables>
       mutation={ADD_QUESTION_MUTATION}
@@ -126,6 +130,7 @@ const AddQuestionInput = ({ puzzleId, userId }: AddQuestionInputProps) => {
             },
           });
         } else {
+          incDialogues();
           cache.writeQuery({
             query: DIALOGUE_HINT_QUERY,
             variables: {
@@ -188,4 +193,10 @@ const AddQuestionInput = ({ puzzleId, userId }: AddQuestionInputProps) => {
   );
 };
 
-export default AddQuestionInput;
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  incDialogues: () => dispatch(awardCheckerReducer.actions.incDialogues()),
+})
+
+const withRedux = connect(null, mapDispatchToProps);
+
+export default withRedux(AddQuestionInput);

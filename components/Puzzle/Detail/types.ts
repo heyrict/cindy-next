@@ -25,6 +25,7 @@ export type QuestionInputWidgetProps = {
 export type AddQuestionInputProps = {
   puzzleId: number;
   userId?: number;
+  incDialogues: () => void;
 };
 
 export type BookmarkPanelProps = {

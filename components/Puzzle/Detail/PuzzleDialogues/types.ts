@@ -7,6 +7,7 @@ import {
   DialogueHintQuery_sui_hei_dialogue,
 } from 'graphql/Queries/generated/DialogueHintQuery';
 import { DialogueShared } from 'graphql/Fragments/generated/DialogueShared';
+import { GlobalUserType } from 'reducers/types';
 
 export type PuzzleDialogueProps = {
   index?: number;
@@ -47,6 +48,9 @@ export type PuzzleDialoguesRendererProps = {
   shouldSubscribe: boolean;
   setTrueSolvedLongtermYami: () => void;
   setParticipants: (participants: Array<UserFilterSwitcherUserType>) => void;
+  user: GlobalUserType;
+  incGoodQuestions: (value?: number) => void;
+  incTrueAnswers: (value?: number) => void;
 } & QueryResult<DialogueHintQuery, DialogueHintQueryVariables> &
   typeof PuzzleDialoguesRendererDefaultProps;
 

@@ -7,6 +7,7 @@ import { ApolloError } from 'apollo-client/errors/ApolloError';
 export type PuzzleFormValidationErrorType = Array<React.ReactNode>;
 
 export type PuzzleAddFormInnerProps = {
+  incPuzzles: () => void;
   onSubmit: (
     variables: AddPuzzleMutationVariables,
   ) => Promise<

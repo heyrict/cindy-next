@@ -9,6 +9,7 @@ import { toast, ToastContainer, Slide } from 'react-toastify';
 import Chat from 'components/Chat';
 import Toolbar from 'components/Toolbar';
 import PuzzleRightAside from 'components/Puzzle/RightAside';
+import AwardChecker from 'components/AwardChecker';
 import ChatBox from './ChatBox';
 import Page from './Page';
 import ToolbarBox from './ToolbarBox';
@@ -300,6 +301,7 @@ const Layout = ({ children, fetchUser }: LayoutProps) => {
         closeOnClick={false}
         draggable
       />
+      <AwardChecker />
     </React.Fragment>
   );
 };

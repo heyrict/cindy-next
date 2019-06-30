@@ -80,3 +80,35 @@ export const USER_QUERY = gql`
   ${USER_BRIEF_FRAGMENT}
   ${USERAWARD_FRAGMENT}
 `;
+
+export const USERAWARD_CHECKER_QUERY = gql`
+  query UserawardCheckerQuery($userId: Int!) {
+    sui_hei_user_by_pk(id: $userId) {
+      id
+      sui_hei_puzzles_aggregate {
+        aggregate {
+          count
+        }
+      }
+      good_questions_aggregate: sui_hei_dialogues_aggregate(
+        where: { good: { _eq: true } }
+      ) {
+        aggregate {
+          count
+        }
+      }
+      true_answers_aggregate: sui_hei_dialogues_aggregate(
+        where: { true: { _eq: true } }
+      ) {
+        aggregate {
+          count
+        }
+      }
+      sui_hei_dialogues_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+`;

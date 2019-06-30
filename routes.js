@@ -15,6 +15,7 @@ const routeList = [
   { name: 'user', pattern: '/user/:id(\\d+)', page: 'user' },
   { name: '_user', pattern: '/profile/show/:id(\\d+)', page: 'user' },
   { name: 'replay', pattern: '/replay/:id(\\d+)', page: 'replay' },
+  { name: 'awards', pattern: '/awards', page: 'awards' },
   { name: 'add/replay', pattern: '/add/replay/:id(\\d+)', page: 'add/replay' },
   { name: 'ranking', pattern: '/ranking', page: 'ranking' },
   {

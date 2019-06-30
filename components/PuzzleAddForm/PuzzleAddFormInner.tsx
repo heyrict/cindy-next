@@ -3,6 +3,9 @@ import { toast } from 'react-toastify';
 import { Router } from 'routes';
 import { getMaxDazedDays } from 'settings';
 
+import { connect } from 'react-redux';
+import * as awardCheckerReducer from 'reducers/awardChecker';
+
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import messages from 'messages/pages/add_puzzle';
 import commonMessages from 'messages/common';
@@ -15,6 +18,7 @@ import { LegacyEditor } from 'components/PreviewEditor';
 import { PuzzleAddFormInnerProps } from './types';
 import { stampNamespaces } from 'stamps/types';
 import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ActionContentType } from 'reducers/types';
 
 const fieldNameStyle = {
   width: [1, 1 / 6],
@@ -47,7 +51,10 @@ const fieldInputStype = {
   borderRadius: ['4px', '0 2em 2em 0'],
 };
 
-export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
+export const PuzzleAddFormInner = ({
+  onSubmit,
+  incPuzzles,
+}: PuzzleAddFormInnerProps) => {
   const contentEditor = useRef<LegacyEditor>(null);
   const solutionEditor = useRef<LegacyEditor>(null);
   const [title, setTitle] = useState('');
@@ -262,6 +269,7 @@ export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
                     setSubmitting(false);
                     return;
                   }
+                  incPuzzles();
                   const addedPuzzle = data.insert_sui_hei_puzzle.returning[0];
                   Router.pushRoute('puzzle', { id: addedPuzzle.id });
                 })
@@ -279,4 +287,10 @@ export const PuzzleAddFormInner = ({ onSubmit }: PuzzleAddFormInnerProps) => {
   );
 };
 
-export default PuzzleAddFormInner;
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  incPuzzles: () => dispatch(awardCheckerReducer.actions.incPuzzles()),
+});
+
+const withRedux = connect(null, mapDispatchToProps);
+
+export default withRedux(PuzzleAddFormInner);

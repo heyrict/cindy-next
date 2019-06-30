@@ -6,6 +6,8 @@ import { DIALOGUE_HINT_SUBSCRIPTION } from 'graphql/Subscriptions/Dialogue';
 
 import { connect } from 'react-redux';
 import * as puzzleReducer from 'reducers/puzzle';
+import * as globalReducer from 'reducers/global';
+import * as awardCheckerReducer from 'reducers/awardChecker';
 
 import { Flex } from 'components/General';
 import PuzzleDialogue from './PuzzleDialogue';
@@ -26,7 +28,7 @@ import {
   DialogueHintQuery_sui_hei_hint,
   DialogueHintQuery_sui_hei_dialogue,
 } from 'graphql/Queries/generated/DialogueHintQuery';
-import { ActionContentType } from 'reducers/types';
+import { ActionContentType, StateType } from 'reducers/types';
 
 export const PuzzleDialoguesRendererInner = ({
   dialogues,
@@ -70,6 +72,9 @@ export const PuzzleDialoguesRenderer = ({
   variables,
   subscribeToMore,
   shouldSubscribe,
+  user,
+  incGoodQuestions,
+  incTrueAnswers,
   applyUserFilter,
   puzzleUser,
   puzzleStatus,
@@ -117,6 +122,24 @@ export const PuzzleDialoguesRenderer = ({
           if (sui_hei_dialogue !== null) {
             if (updateSolvedLongTermYamiOnSubscribe && sui_hei_dialogue.true)
               setTrueSolvedLongtermYami();
+
+            const toUpdate = prev.sui_hei_dialogue.find(
+              d => d.id === sui_hei_dialogue.id,
+            );
+            if (toUpdate && toUpdate.sui_hei_user.id === user.id) {
+              if (!toUpdate.good && sui_hei_dialogue.good) {
+                incGoodQuestions();
+              }
+              if (toUpdate.good && !sui_hei_dialogue.good) {
+                incGoodQuestions(-1);
+              }
+              if (!toUpdate.true && sui_hei_dialogue.true) {
+                incTrueAnswers();
+              }
+              if (toUpdate.true && !sui_hei_dialogue.true) {
+                incTrueAnswers(-1);
+              }
+            }
 
             return Object.assign({}, prev, {
               sui_hei_dialogue: upsertItem(
@@ -179,15 +202,23 @@ export const PuzzleDialoguesRenderer = ({
 
 PuzzleDialoguesRenderer.defaultProps = PuzzleDialoguesRendererDefaultProps;
 
-const mapDispatchToProps = (dispatch: (arg0: ActionContentType) => void) => ({
+const mapStateToProps = (state: StateType) => ({
+  user: globalReducer.rootSelector(state).user,
+});
+
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setParticipants: (participants: Array<UserFilterSwitcherUserType>) =>
     dispatch(puzzleReducer.actions.setParticipants(participants)),
   setTrueSolvedLongtermYami: () =>
     dispatch(puzzleReducer.actions.setTrueSolvedLongtermYami()),
+  incGoodQuestions: (value?: number) =>
+    dispatch(awardCheckerReducer.actions.incGoodQuestions(value)),
+  incTrueAnswers: (value?: number) =>
+    dispatch(awardCheckerReducer.actions.incTrueAnswers(value)),
 });
 
 const withRedux = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 );
 
