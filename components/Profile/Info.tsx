@@ -77,7 +77,7 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
           />
         </Box>
       </Box>
-      <Flex flexWrap="wrap">
+      <Flex flexWrap="wrap" alignItems="flex-start">
         <Box width={[1, 1 / 3, 1, 1 / 3]} mx={['auto', 0, 'auto', 0]} my={1}>
           <Flex
             width={[3 / 5, 'auto', 3 / 5, 'auto']}

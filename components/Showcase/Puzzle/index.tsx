@@ -58,6 +58,12 @@ class PuzzleShowcase extends React.Component<
     this._onTimerEnds = this._onTimerEnds.bind(this);
   }
 
+  componentWillUnmount() {
+    if (this.timer) {
+      window.clearTimeout(this.timer);
+    }
+  }
+
   // {{{1 timer handlers
   _startTimer() {
     this.timer = window.setTimeout(this._onTimerEnds, this.props.wait);
