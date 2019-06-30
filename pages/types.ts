@@ -21,3 +21,7 @@ export type PuzzlesUnsolvedRendererProps = {
   data?: PuzzlesUnsolvedLiveQuery | undefined;
   error?: ApolloError | undefined;
 };
+
+export type UserPageProps = {
+  userId: number;
+};

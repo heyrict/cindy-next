@@ -268,7 +268,9 @@ export const globalStyle = css`
     background: rgba(0, 0, 0, 0.1);
   }
   pre > code {
+    padding: 0;
     background: transparent;
+    overflow-x: 'auto';
   }
   ${tabsStyle}
   ${stampStyle}

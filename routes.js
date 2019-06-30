@@ -1,4 +1,6 @@
-const routes = require('next-routes')();
+import Routes from 'next-routes';
+
+const routes = new Routes();
 
 const supportedLanguages = ['en', 'ja'];
 
