@@ -124,7 +124,7 @@ const RankedPuzzle = ({
         )}
         <Box textAlign="right">
           <FormattedMessage {...puzzleMessages.creator} />:{' '}
-          <UserInline width={1} user={puzzle.sui_hei_user} />
+          <UserInline user={puzzle.sui_hei_user} />
         </Box>
         <Hr />
         <Flex p={1} flexWrap="wrap" alignItems="center">

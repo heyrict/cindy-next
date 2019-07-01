@@ -98,6 +98,13 @@ export const Brief = ({
         puzzle.sui_hei_dialogues_aggregate.aggregate.max.created),
   };
 
+  const shouldShowNewQuestion =
+    (aggregates.dialogueMaxCreatedtime &&
+      !aggregates.dialogueMaxAnsweredtime) ||
+    (aggregates.dialogueMaxCreatedtime &&
+      aggregates.dialogueMaxAnsweredtime &&
+      aggregates.dialogueMaxCreatedtime > aggregates.dialogueMaxAnsweredtime);
+
   return (
     <PuzzlePane
       status={puzzle.status}
@@ -161,12 +168,7 @@ export const Brief = ({
         <Flex p={1} flexWrap="wrap" alignItems="center">
           {puzzle.status !== 0 && puzzle.anonymous && <Anonymous />}
           <Status status={puzzle.status} />
-          {(aggregates.dialogueMaxCreatedtime &&
-            !aggregates.dialogueMaxAnsweredtime) ||
-            (aggregates.dialogueMaxCreatedtime &&
-              aggregates.dialogueMaxAnsweredtime &&
-              aggregates.dialogueMaxCreatedtime >
-                aggregates.dialogueMaxAnsweredtime && <NewQuestion />)}
+          {shouldShowNewQuestion && <NewQuestion />}
           {typeof aggregates.dialogueCount === 'number' && (
             <Process count={aggregates.dialogueCount} />
           )}

@@ -1,5 +1,5 @@
 import styled from 'theme/styled';
-import { space, color, fontSize, layout } from 'styled-system';
+import { space, color, typography, layout, flexbox } from 'styled-system';
 
 import { UserBaseProps } from './types';
 
@@ -12,15 +12,18 @@ export const UserColBase = styled.div<UserBaseProps>`
   ${space}
   ${layout}
   ${color}
-  ${fontSize}
+  ${flexbox}
+  ${typography}
 `;
 
 export const UserInlineBase = styled.div<UserBaseProps>`
   display: inline-flex;
   flex-wrap: wrap;
   overflow: hidden;
-  align-items: center;
+  align-items: baseline;
   ${space}
   ${color}
-  ${fontSize}
+  ${layout}
+  ${typography}
+  ${flexbox}
 `;

@@ -65,7 +65,7 @@ class LegacyEditor extends React.Component<
     const { placeholder } = this.props;
     return (
       <Box bg="orange.1">
-        <Flex flexWrap="wrap" alignItems="baseline" width={1} bg="orange.3">
+        <Flex flexWrap="wrap" alignItems="flex-start" width={1} bg="orange.3">
           <ButtonTransparent
             height="2.2em"
             onClick={(e: React.MouseEvent) => this.onClickWrap(e, '**')}
@@ -216,33 +216,33 @@ class LegacyEditor extends React.Component<
     e.preventDefault();
     if (!this.editor.current) return;
     const editor = this.editor.current;
-    editor.value = `${editor.value.substr(
+    editor.value = `${editor.value.substring(
       0,
       editor.selectionStart,
-    )}${prefix}${editor.value.substr(
+    )}${prefix}${editor.value.substring(
       editor.selectionStart,
       editor.selectionEnd,
-    )}${suffix || prefix}${editor.value.substr(editor.selectionEnd)}`;
+    )}${suffix || prefix}${editor.value.substring(editor.selectionEnd)}`;
   };
 
   onClickInsert = (e: React.MouseEvent, text: string) => {
     e.preventDefault();
     if (!this.editor.current) return;
     const editor = this.editor.current;
-    editor.value = `${editor.value.substr(
+    editor.value = `${editor.value.substring(
       0,
       editor.selectionStart,
-    )}${text}${editor.value.substr(editor.selectionEnd)}`;
+    )}${text}${editor.value.substring(editor.selectionEnd)}`;
   };
 
   // {{{1 onClickStamp
   onClickStamp = ({ key }: { key: StampType; src: string }) => {
     if (!this.editor.current) return;
     const editor = this.editor.current;
-    editor.value = `${editor.value.substr(
+    editor.value = `${editor.value.substring(
       0,
       editor.selectionStart,
-    )} :${key}: ${editor.value.substr(editor.selectionEnd)}`;
+    )} :${key}: ${editor.value.substring(editor.selectionEnd)}`;
   };
   // }}}
 

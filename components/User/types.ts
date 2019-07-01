@@ -1,10 +1,16 @@
-import { SpaceProps, FontSizeProps } from 'styled-system';
-import { LayoutProps, ColorProps } from 'components/General/types';
+import { SpaceProps } from 'styled-system';
+import {
+  ColorProps,
+  TypographyProps,
+  LayoutProps,
+  FlexboxProps,
+} from 'components/General/types';
 
 export type UserBaseProps = SpaceProps &
   ColorProps &
-  FontSizeProps &
-  LayoutProps;
+  TypographyProps &
+  LayoutProps &
+  FlexboxProps;
 
 type Award = {
   id: number;

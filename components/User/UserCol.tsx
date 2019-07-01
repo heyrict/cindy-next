@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'routes';
-import { Img, Anchor } from 'components/General';
+import { Img, Anchor, Box } from 'components/General';
 import { UserColBase } from './shared';
+import CurrentUserAward from './CurrentUserAward';
 
 import { UserColProps } from './types';
 
@@ -28,6 +29,11 @@ const UserCol = ({ user, timestamp, ...props }: UserColProps) => {
         />
       )}
       {NicknameBlock}
+      {user.sui_hei_current_useraward && (
+        <Box fontSize="0.9em">
+          <CurrentUserAward useraward={user.sui_hei_current_useraward} />
+        </Box>
+      )}
       {timestamp}
     </UserColBase>
   );

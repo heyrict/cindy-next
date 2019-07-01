@@ -14,7 +14,7 @@ const UserInline = ({
   ...props
 }: UserInlineProps & UserBaseProps) => {
   const NicknameBlock = (
-    <Flex alignItems="center" mr={1}>
+    <Flex flexWrap="wrap" alignItems="baseline" ml={1}>
       {user.id > 0 ? (
         <React.Fragment>
           <Link to="user" params={{ id: user.id }} passHref>
@@ -31,7 +31,7 @@ const UserInline = ({
   );
 
   return user.icon ? (
-    <UserInlineBase {...props}>
+    <UserInlineBase alignItems="center" {...props}>
       <Img
         mr={1}
         size="xs"

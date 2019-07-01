@@ -33,8 +33,8 @@ const CurrentUserAward = ({ useraward }: CurrentUserAwardProps) => {
               flexWrap="wrap"
               bg="orange.3"
               borderRadius={1}
-              p={1}
-              maxWidth="20em"
+              p={2}
+              maxWidth="300px"
               ref={ref}
               style={{
                 ...style,
