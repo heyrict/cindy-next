@@ -16,15 +16,7 @@ import {
 } from 'graphql/Queries/generated/UserawardCheckerQuery';
 import { AwardCheckerProps } from './types';
 
-const AwardChecker = ({
-  user,
-  setPuzzles,
-  setGoodQuestions,
-  setTrueAnswers,
-  setDialogues,
-  setComments,
-  setStars,
-}: AwardCheckerProps) => {
+const AwardChecker = ({ user, initAwardCount }: AwardCheckerProps) => {
   return user.id ? (
     <React.Fragment>
       <Query<UserawardCheckerQuery, UserawardCheckerQueryVariables>
@@ -35,50 +27,28 @@ const AwardChecker = ({
         onCompleted={data => {
           if (!data.sui_hei_user_by_pk) return;
           const user = data.sui_hei_user_by_pk;
-          // puzzle count
-          if (
-            user.sui_hei_puzzles_aggregate &&
-            user.sui_hei_puzzles_aggregate.aggregate
-          ) {
-            setPuzzles(user.sui_hei_puzzles_aggregate.aggregate.count || 0);
-          }
-          // good question count
-          if (
-            user.good_questions_aggregate &&
-            user.good_questions_aggregate.aggregate
-          ) {
-            setGoodQuestions(
-              user.good_questions_aggregate.aggregate.count || 0,
-            );
-          }
-          // true answer count
-          if (
-            user.true_answers_aggregate &&
-            user.true_answers_aggregate.aggregate
-          ) {
-            setTrueAnswers(user.true_answers_aggregate.aggregate.count || 0);
-          }
-          // dialogue count
-          if (
-            user.sui_hei_dialogues_aggregate &&
-            user.sui_hei_dialogues_aggregate.aggregate
-          ) {
-            setDialogues(user.sui_hei_dialogues_aggregate.aggregate.count || 0);
-          }
-          // comment count
-          if (
-            user.sui_hei_comments_aggregate &&
-            user.sui_hei_comments_aggregate.aggregate
-          ) {
-            setComments(user.sui_hei_comments_aggregate.aggregate.count || 0);
-          }
-          // star count
-          if (
-            user.sui_hei_stars_aggregate &&
-            user.sui_hei_stars_aggregate.aggregate
-          ) {
-            setStars(user.sui_hei_stars_aggregate.aggregate.count || 0);
-          }
+          initAwardCount({
+            puzzles:
+              (user.sui_hei_puzzles_aggregate &&
+                user.sui_hei_puzzles_aggregate.aggregate &&
+                user.sui_hei_puzzles_aggregate.aggregate.count) ||
+              0,
+            goodQuestions:
+              (user.good_questions_aggregate &&
+                user.good_questions_aggregate.aggregate &&
+                user.good_questions_aggregate.aggregate.count) ||
+              0,
+            trueAnswers:
+              (user.true_answers_aggregate &&
+                user.true_answers_aggregate.aggregate &&
+                user.true_answers_aggregate.aggregate.count) ||
+              0,
+            dialogues:
+              (user.sui_hei_dialogues_aggregate &&
+                user.sui_hei_dialogues_aggregate.aggregate &&
+                user.sui_hei_dialogues_aggregate.aggregate.count) ||
+              0,
+          });
         }}
       >
         {() => null}
@@ -93,18 +63,8 @@ const mapStateToProps = (state: StateType) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  setPuzzles: (value: number) =>
-    dispatch(awardCheckerReducer.actions.setPuzzles(value)),
-  setGoodQuestions: (value: number) =>
-    dispatch(awardCheckerReducer.actions.setGoodQuestions(value)),
-  setTrueAnswers: (value: number) =>
-    dispatch(awardCheckerReducer.actions.setTrueAnswers(value)),
-  setDialogues: (value: number) =>
-    dispatch(awardCheckerReducer.actions.setDialogues(value)),
-  setComments: (value: number) =>
-    dispatch(awardCheckerReducer.actions.setComments(value)),
-  setStars: (value: number) =>
-    dispatch(awardCheckerReducer.actions.setStars(value)),
+  initAwardCount: (state: typeof awardCheckerReducer.initialState) =>
+    dispatch(awardCheckerReducer.actions.initialize(state)),
 });
 
 const withRedux = connect(

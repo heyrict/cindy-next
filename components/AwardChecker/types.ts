@@ -1,13 +1,9 @@
 import { GlobalUserType } from 'reducers/types';
+import * as awardCheckerReducer from 'reducers/awardChecker';
 
 export type AwardCheckerProps = {
   user: GlobalUserType;
-  setPuzzles: (value: number) => void;
-  setGoodQuestions: (value: number) => void;
-  setTrueAnswers: (value: number) => void;
-  setDialogues: (value: number) => void;
-  setComments: (value: number) => void;
-  setStars: (value: number) => void;
+  initAwardCount: (state: typeof awardCheckerReducer.initialState) => void;
 };
 
 export type CheckNotifierProps = {

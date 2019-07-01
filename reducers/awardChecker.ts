@@ -4,6 +4,7 @@ import { StateType, ActionContentType, ActionSetType } from './types';
 export const scope = 'awardChecker';
 
 export const actionTypes = {
+  INIT: `${scope}.INIT`,
   PUZZLES: `${scope}.PUZZLES`,
   GOOD_QUESTIONS: `${scope}.GOOD_QUESTIONS`,
   TRUE_ANSWERS: `${scope}.TRUE_ANSWERS`,
@@ -15,6 +16,10 @@ export const actions: ActionSetType = {
   ...integer.getActions('GoodQuestions', actionTypes.GOOD_QUESTIONS),
   ...integer.getActions('TrueAnswers', actionTypes.TRUE_ANSWERS),
   ...integer.getActions('Dialogues', actionTypes.DIALOGUES),
+  initialize: (state: typeof initialState) => ({
+    type: actionTypes.INIT,
+    payload: state,
+  }),
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -32,6 +37,11 @@ export const reducer = (
   action: ActionContentType,
 ): typeof initialState => {
   switch (action.type) {
+    case actionTypes.INIT:
+      return {
+        ...state,
+        ...action.payload,
+      };
     case actionTypes.PUZZLES:
       return {
         ...state,
