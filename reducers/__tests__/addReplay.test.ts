@@ -9,11 +9,13 @@ import {
 import { AddReplayPanelType } from '../types';
 
 describe('addReplay reducer', () => {
+  // {{{ skip actions with helpers
   it.each([
     actionTypes.KEYWORDS,
     actionTypes.REPLAY_DIALOGUES,
     actionTypes.KUROMOJI_PROGRESS,
     actionTypes.KEYWORD_MANIPULATE_PANEL,
+    actionTypes.RENAME_TO,
   ])('handle %s correctly', actionType => {
     const action = {
       type: actionType,
@@ -21,7 +23,9 @@ describe('addReplay reducer', () => {
     };
     expect(reducer(initialState, action)).toStrictEqual(initialState);
   });
+  // }}}
 
+  // {{{ toggleSelectedKeyword
   describe('handle toggleSelectedKeyword action correctly', () => {
     it.each`
       current | value  | expected
@@ -94,7 +98,9 @@ describe('addReplay reducer', () => {
       expect(reducer(initialState, action)).toStrictEqual(initialState);
     });
   });
+  // }}}
 
+  // {{{ removeKeyword
   describe('handle removeKeyword correctly', () => {
     let currentState: typeof initialState = initialState;
     beforeEach(() => {
@@ -155,6 +161,94 @@ describe('addReplay reducer', () => {
       expect(reducer(currentState, action)).toStrictEqual(expectedState);
     });
   });
+  // }}}
+
+  // {{{ renameKeyword
+  describe('handle renameKeyword correctly', () => {
+    let currentState: typeof initialState = initialState;
+    beforeEach(() => {
+      currentState = {
+        ...initialState,
+        renameTo: 'D',
+        replayDialogues: [
+          {
+            id: 1,
+            question: 'Q1',
+            question_keywords: [{ name: 'A' }, { name: 'B' }],
+          },
+          {
+            id: 2,
+            question: 'Q2',
+            question_keywords: [{ name: 'B' }, { name: 'C' }],
+          },
+        ],
+      };
+    });
+
+    it('with fromQuestionId', () => {
+      const action = actions.renameKeyword('B', 1);
+      const expectedState = {
+        ...initialState,
+        renameTo: 'D',
+        replayDialogues: [
+          {
+            id: 1,
+            question: 'Q1',
+            question_keywords: [{ name: 'A' }, { name: 'D' }],
+          },
+          {
+            id: 2,
+            question: 'Q2',
+            question_keywords: [{ name: 'B' }, { name: 'C' }],
+          },
+        ],
+      };
+      expect(reducer(currentState, action)).toStrictEqual(expectedState);
+    });
+
+    it('without fromQuestionId', () => {
+      const action = actions.renameKeyword('B');
+      const expectedState = {
+        ...initialState,
+        renameTo: 'D',
+        replayDialogues: [
+          {
+            id: 1,
+            question: 'Q1',
+            question_keywords: [{ name: 'A' }, { name: 'D' }],
+          },
+          {
+            id: 2,
+            question: 'Q2',
+            question_keywords: [{ name: 'D' }, { name: 'C' }],
+          },
+        ],
+      };
+      expect(reducer(currentState, action)).toStrictEqual(expectedState);
+    });
+
+    it('skip empty renameTo', () => {
+      const action = actions.renameKeyword('B');
+      const expectedState = {
+        ...initialState,
+        renameTo: '',
+        replayDialogues: [
+          {
+            id: 1,
+            question: 'Q1',
+            question_keywords: [{ name: 'A' }, { name: 'B' }],
+          },
+          {
+            id: 2,
+            question: 'Q2',
+            question_keywords: [{ name: 'B' }, { name: 'C' }],
+          },
+        ],
+      };
+      expect(reducer(currentState, action)).toStrictEqual(expectedState);
+    });
+  });
+  // }}}
 
   it('ignores unknown actions', () => {
     const action = {

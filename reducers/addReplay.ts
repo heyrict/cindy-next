@@ -19,6 +19,8 @@ export const actionTypes = {
   KEYWORD_MANIPULATE_PANEL: `${scope}.KEYWORD_MANIPULATE_PANEL`,
   SELECT_KEYWORD: `${scope}.SELECT_KEYWORD`,
   REMOVE_KEYWORD: `${scope}.REMOVE_KEYWORD`,
+  RENAME_KEYWORD: `${scope}.RENAME_KEYWORD`,
+  RENAME_TO: `${scope}.RENAME_TO`,
 };
 
 export const actions: ActionSetType = {
@@ -29,6 +31,7 @@ export const actions: ActionSetType = {
     'KeywordManipulatePanel',
     actionTypes.KEYWORD_MANIPULATE_PANEL,
   ),
+  ...base.getActions('RenameTo', actionTypes.RENAME_TO),
   // Toggle selected keyword in panel
   toggleSelectedKeyword: (keyword: string, panel: AddReplayPanelType) => ({
     type: actionTypes.SELECT_KEYWORD,
@@ -41,6 +44,15 @@ export const actions: ActionSetType = {
   // If fromQuestionId is not provided, remove all existing keywords.
   removeKeyword: (keyword: string, fromQuestionId?: number) => ({
     type: actionTypes.REMOVE_KEYWORD,
+    payload: {
+      keyword,
+      fromQuestionId,
+    },
+  }),
+  // Rename one keyword from question.
+  // If fromQuestionId is not provided, remove all existing keywords.
+  renameKeyword: (keyword: string, fromQuestionId?: number) => ({
+    type: actionTypes.RENAME_KEYWORD,
     payload: {
       keyword,
       fromQuestionId,
@@ -64,6 +76,7 @@ export const initialState = {
   keywordSelectProcess: 0,
   keywordMergeProcess: 0,
   keywordEditProcess: 0,
+  renameTo: '',
 };
 
 export const reducer = (state = initialState, action: ActionContentType) => {
@@ -90,6 +103,11 @@ export const reducer = (state = initialState, action: ActionContentType) => {
       return {
         ...state,
         kuromojiProgress: base.helper(state.kuromojiProgress, action.payload),
+      };
+    case actionTypes.RENAME_TO:
+      return {
+        ...state,
+        renameTo: base.helper(state.renameTo, action.payload),
       };
     case actionTypes.SELECT_KEYWORD: {
       const { keyword, panel } = action.payload;
@@ -130,6 +148,25 @@ export const reducer = (state = initialState, action: ActionContentType) => {
             ...dialogue,
             question_keywords: dialogue.question_keywords.filter(
               k => k.name !== keyword,
+            ),
+          };
+        }
+        return dialogue;
+      });
+      return { ...state, replayDialogues };
+    }
+    case actionTypes.RENAME_KEYWORD: {
+      if (state.renameTo === '') return state;
+      const { keyword, fromQuestionId } = action.payload as {
+        keyword: string;
+        fromQuestionId?: number;
+      };
+      const replayDialogues = state.replayDialogues.map(dialogue => {
+        if (fromQuestionId === undefined || dialogue.id === fromQuestionId) {
+          return {
+            ...dialogue,
+            question_keywords: dialogue.question_keywords.map(k =>
+              k.name === keyword ? { ...k, name: state.renameTo } : k,
             ),
           };
         }

@@ -2,6 +2,7 @@ import React from 'react';
 
 import ChoosePanelToolbar from './ChoosePanelToolbar';
 import KeywordSelect from './KeywordSelect';
+import KeywordRename from './KeywordRename';
 
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
@@ -17,6 +18,9 @@ const KeywordManipulatePanel = ({
       <ChoosePanelToolbar />
       {keywordManipulatePanel === AddReplayPanelType.KEYWORD_SELECT && (
         <KeywordSelect />
+      )}
+      {keywordManipulatePanel === AddReplayPanelType.KEYWORD_EDIT && (
+        <KeywordRename />
       )}
     </React.Fragment>
   );

@@ -7,23 +7,22 @@ import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/workbench';
 import commonMessages from 'messages/common';
 
-import { Flex, Box, ButtonTransparent } from 'components/General';
-import SelectKeywordButton from './SelectKeywordButton';
-
-import { StateType, ActionContentType } from 'reducers/types';
-import { KeywordSelectProps } from './types';
+import { Box, ButtonTransparent } from 'components/General';
+import RenameKeywordButton from './RenameKeywordButton';
+import QuestionRename from './QuestionRename';
 import KeywordPanelKeywords from '../shared/KeywordPanelKeywords';
 import KeywordPanel from '../shared/KeywordPanel';
-import KeywordBox from '../shared/KeywordBox';
-import KeywordQuestionBox from '../shared/KeywordQuestionBox';
-import { KeywordType } from '../shared/types';
 
-const KeywordSelect = ({
+import { StateType, ActionContentType } from 'reducers/types';
+import { KeywordRenameProps } from './types';
+import SetRenameToBox from './SetRenameToBox';
+
+const KeywordRename = ({
   keywordKeys,
   filteredDialogues,
   keywordFilter,
-  removeKeyword,
-}: KeywordSelectProps) => {
+  renameKeyword,
+}: KeywordRenameProps) => {
   //const [collapse, setCollapse] = useState(true);
   return (
     <KeywordPanel>
@@ -32,7 +31,7 @@ const KeywordSelect = ({
       </Box>
       <KeywordPanelKeywords>
         {keywordKeys.map(keyword => (
-          <SelectKeywordButton
+          <RenameKeywordButton
             key={keyword[0]}
             keyword={keyword[0]}
             count={keyword[1]}
@@ -41,30 +40,13 @@ const KeywordSelect = ({
       </KeywordPanelKeywords>
       {keywordFilter && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
-          {filteredDialogues.map(question => (
-            <Flex width={1} mb={2} flexWrap="wrap" key={question.id}>
-              <KeywordQuestionBox>{question.question}</KeywordQuestionBox>
-              {question.question_keywords.map((keyword, index) => (
-                <KeywordBox
-                  key={`${question.id}-${index}-${keyword.name}`}
-                  keywordType={
-                    keyword.name === keywordFilter
-                      ? KeywordType.TO_DELETE
-                      : KeywordType.DEFAULT
-                  }
-                >
-                  {keyword.name}
-                </KeywordBox>
-              ))}
-              <Box bg="orange.3" ml="auto" borderRadius={1}>
-                <ButtonTransparent
-                  fontSize="0.9em"
-                  onClick={() => removeKeyword(keywordFilter, question.id)}
-                >
-                  <FormattedMessage {...commonMessages.apply} />
-                </ButtonTransparent>
-              </Box>
-            </Flex>
+          <SetRenameToBox />
+        </Box>
+      )}
+      {keywordFilter && (
+        <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
+          {filteredDialogues.map(dialogue => (
+            <QuestionRename dialogue={dialogue} />
           ))}
         </Box>
       )}
@@ -80,7 +62,7 @@ const KeywordSelect = ({
             <ButtonTransparent
               width={1}
               p={1}
-              onClick={() => removeKeyword(keywordFilter)}
+              onClick={() => renameKeyword(keywordFilter)}
             >
               <FormattedMessage {...commonMessages.applyToAll} />
             </ButtonTransparent>
@@ -101,7 +83,7 @@ const keywordKeysSelector = createSelector(
 // Get questions with selected keyword
 const questionKeywordFilterSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
-  (state: StateType) => addReplayReducer.rootSelector(state).keywordToSelect,
+  (state: StateType) => addReplayReducer.rootSelector(state).keywordToEdit,
   (dialogues, keywordFilter) =>
     keywordFilter === null
       ? []
@@ -113,12 +95,12 @@ const questionKeywordFilterSelector = createSelector(
 const mapStateToProps = (state: StateType) => ({
   keywordKeys: keywordKeysSelector(state),
   filteredDialogues: questionKeywordFilterSelector(state),
-  keywordFilter: addReplayReducer.rootSelector(state).keywordToSelect,
+  keywordFilter: addReplayReducer.rootSelector(state).keywordToEdit,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  removeKeyword: (keyword: string, fromQuestionId?: number) =>
-    dispatch(addReplayReducer.actions.removeKeyword(keyword, fromQuestionId)),
+  renameKeyword: (keyword: string, fromQuestionId?: number) =>
+    dispatch(addReplayReducer.actions.renameKeyword(keyword, fromQuestionId)),
 });
 
 const withRedux = connect(
@@ -126,4 +108,4 @@ const withRedux = connect(
   mapDispatchToProps,
 );
 
-export default withRedux(KeywordSelect);
+export default withRedux(KeywordRename);
