@@ -5,15 +5,14 @@ import {
   actions,
   initialState,
   reducer,
-} from '../chat';
+} from '../awardChecker';
 
-describe('chat reducer', () => {
+describe('awardChecker reducer', () => {
   it.each([
-    actionTypes.CHANNEL_CHANGE_INPUT,
-    actionTypes.CHANNEL_CHANGE_MODAL,
-    actionTypes.CHAT_INPUT_MODAL,
-    actionTypes.DESCRIPTION_MODAL,
-    actionTypes.CHAT_HASNEW,
+    actionTypes.PUZZLES,
+    actionTypes.GOOD_QUESTIONS,
+    actionTypes.TRUE_ANSWERS,
+    actionTypes.DIALOGUES,
   ])('handle %s correctly', actionType => {
     const action = {
       type: actionType,
@@ -22,11 +21,16 @@ describe('chat reducer', () => {
     expect(reducer(initialState, action)).toStrictEqual(initialState);
   });
 
-  it('handle chatmessageUpdate correctly', () => {
-    const chatroomId = 1;
-    const messagesHash = 42;
-    const action = actions.chatmessageUpdate(chatroomId, messagesHash);
-    expect(reducer(initialState, action)).toStrictEqual(initialState);
+  it('handle INIT correctly', () => {
+    const newState = {
+      ...initialState,
+      puzzles: 3,
+      goodQuestions: 15,
+      trueAnswers: 14,
+      dialogues: 92,
+    };
+    const action = actions.initialize(newState);
+    expect(reducer(initialState, action)).toStrictEqual(newState);
   });
 
   it('ignores unknown actions', () => {
@@ -37,7 +41,7 @@ describe('chat reducer', () => {
   });
 });
 
-describe('chat selector', () => {
+describe('awardChecker selector', () => {
   const store = {
     [scope]: initialState,
   };

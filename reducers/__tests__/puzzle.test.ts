@@ -5,27 +5,21 @@ import {
   actions,
   initialState,
   reducer,
-} from '../chat';
+} from '../puzzle';
 
-describe('chat reducer', () => {
+describe('puzzle reducer', () => {
   it.each([
-    actionTypes.CHANNEL_CHANGE_INPUT,
-    actionTypes.CHANNEL_CHANGE_MODAL,
-    actionTypes.CHAT_INPUT_MODAL,
-    actionTypes.DESCRIPTION_MODAL,
-    actionTypes.CHAT_HASNEW,
+    actionTypes.PARTICIPANTS,
+    actionTypes.PUZZLE_CONTENT,
+    actionTypes.PUZZLE_MEMO,
+    actionTypes.PUZZLE_MEMO_HASNEW,
+    actionTypes.SOLVED_LONGTERM_YAMI,
+    actionTypes.RIGHT_ASIDE,
   ])('handle %s correctly', actionType => {
     const action = {
       type: actionType,
       payload: {},
     };
-    expect(reducer(initialState, action)).toStrictEqual(initialState);
-  });
-
-  it('handle chatmessageUpdate correctly', () => {
-    const chatroomId = 1;
-    const messagesHash = 42;
-    const action = actions.chatmessageUpdate(chatroomId, messagesHash);
     expect(reducer(initialState, action)).toStrictEqual(initialState);
   });
 
@@ -37,7 +31,7 @@ describe('chat reducer', () => {
   });
 });
 
-describe('chat selector', () => {
+describe('global selector', () => {
   const store = {
     [scope]: initialState,
   };

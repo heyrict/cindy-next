@@ -73,4 +73,8 @@ describe('array helper', () => {
     const expected = ['c', 'b', 'a', 'd'];
     expect(helper(orig, actions.swap(0, 2))).toStrictEqual(expected);
   });
+
+  it('helper should ignore unknown actions', () => {
+    expect(helper(initialState, { type: 'UNKNOWN' })).toBe(initialState);
+  });
 });

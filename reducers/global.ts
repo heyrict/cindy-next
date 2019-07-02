@@ -37,7 +37,7 @@ export const actions: ActionSetType = {
   }),
   deauth: () => ({
     type: actionTypes.SETUSER,
-    payload: {},
+    payload: initialState.user,
   }),
 };
 

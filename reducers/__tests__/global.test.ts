@@ -8,7 +8,7 @@ import {
 } from '../global';
 
 describe('global reducer', () => {
-  it.each([actionTypes.ASIDE, actionTypes.CHANNEL])(
+  it.each([actionTypes.ASIDE, actionTypes.CHANNEL, actionTypes.LANGUAGE])(
     'handle %s correctly',
     actionType => {
       const action = {
@@ -18,6 +18,16 @@ describe('global reducer', () => {
       expect(reducer(initialState, action)).toStrictEqual(initialState);
     },
   );
+
+  it('can fire fetchUser action', () => {
+    actions.fetchUser();
+  });
+
+  it('handle global.ROUTECHANGE correctly', () => {
+    const route = '/puzzle/1';
+    const action = actions.routeChange(route);
+    expect(reducer(initialState, action).route).toBe(route);
+  });
 
   it('handle global.SETUSER correctly', () => {
     const user = {
@@ -31,6 +41,7 @@ describe('global reducer', () => {
       user,
     };
     expect(reducer(initialState, action)).toStrictEqual(expectedState);
+    expect(reducer(initialState, actions.deauth())).toStrictEqual(initialState);
   });
 
   it('ignores unknown actions', () => {
