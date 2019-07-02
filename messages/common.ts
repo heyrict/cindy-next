@@ -23,6 +23,10 @@ export const messages = defineMessages({
     id: `${scope}.apply`,
     defaultMessage: 'Apply',
   },
+  applyToAll: {
+    id: `${scope}.applyToAll`,
+    defaultMessage: 'Apply To All',
+  },
   editTimes: {
     id: `${scope}.editTimes`,
     defaultMessage: '[Edited ({count})]',

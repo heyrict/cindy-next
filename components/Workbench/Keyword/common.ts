@@ -1,6 +1,10 @@
 import kuromoji, { Tokenizer, IpadicFeatures } from 'kuromoji';
 
-import { ReplayKeywordsType, ReplayDialogueType } from 'reducers/types';
+import {
+  ReplayKeywordCounterType,
+  ReplayDialogueType,
+  ReplayKeywordType,
+} from 'reducers/types';
 import { KeywordTreeNodeType } from './types';
 
 let tokenizer: Tokenizer<IpadicFeatures> | undefined;
@@ -31,7 +35,7 @@ const loadTokenizer = () => {
   }
 };
 
-const defaultFilter = (word: IpadicFeatures) =>
+const defaultFilter = (word: IpadicFeatures): boolean =>
   (word.pos === '名詞' && word.pos_detail_1 !== '数') || word.pos === '動詞';
 
 export const getKeywords = async (text: string, filter = defaultFilter) => {
@@ -39,32 +43,30 @@ export const getKeywords = async (text: string, filter = defaultFilter) => {
   return tok
     .tokenize(text)
     .filter(filter)
-    .map(o => (o.basic_form === '*' ? o.surface_form : o.basic_form));
+    .map(o => ({ name: o.basic_form === '*' ? o.surface_form : o.basic_form }));
 };
 
 export const counter = async (
-  list: Array<string>,
-  continueFrom: ReplayKeywordsType,
-): Promise<ReplayKeywordsType> => {
-  const counts = continueFrom || (new Object() as ReplayKeywordsType);
-  list.forEach(v => {
-    if (v in counts) counts[v].count += 1;
-    else
-      counts[v] = {
-        count: 1,
-        use: false,
-      };
+  list: Array<ReplayKeywordType>,
+  continueFrom: ReplayKeywordCounterType,
+): Promise<ReplayKeywordCounterType> => {
+  const counts = continueFrom || (new Object() as ReplayKeywordCounterType);
+  list.forEach(k => {
+    if (k.name in counts) counts[k.name] += 1;
+    else counts[k.name] = 1;
   });
   return counts;
 };
 
 export const setNodeInChildren = (
-  nameList: Array<string>,
+  nameList: Array<ReplayKeywordType>,
   rootNode: KeywordTreeNodeType,
 ): void => {
   if (!nameList || nameList.length === 0) return;
-  const name = nameList[0];
-  const childIndex = rootNode.children.findIndex(node => node.name === name);
+  const keyword = nameList[0];
+  const childIndex = rootNode.children.findIndex(
+    node => node.name === keyword.name,
+  );
   if (childIndex === -1) {
     rootNode.children.push({
       name,
@@ -95,11 +97,10 @@ export const constructTree = (
 
 export const filterDialogueKeywords = (
   dialogues: Array<ReplayDialogueType>,
-  keywords: ReplayKeywordsType,
 ): Array<ReplayDialogueType> =>
   dialogues.map(dialogue => ({
     ...dialogue,
-    question_keywords: dialogue.question_keywords
-      .filter(keyword => keywords[keyword] && keywords[keyword].use === true)
-      .concat(dialogue.question),
+    question_keywords: dialogue.question_keywords.concat({
+      name: dialogue.question,
+    }),
   }));

@@ -1,19 +1,23 @@
 import React from 'react';
 
+import ChoosePanelToolbar from './ChoosePanelToolbar';
 import KeywordSelect from './KeywordSelect';
 
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
 
-import { KeywordManipulatePanelProps, PanelEnum } from './types';
-import { StateType } from 'reducers/types';
+import { KeywordManipulatePanelProps } from './types';
+import { StateType, AddReplayPanelType } from 'reducers/types';
 
 const KeywordManipulatePanel = ({
   keywordManipulatePanel,
 }: KeywordManipulatePanelProps) => {
   return (
     <React.Fragment>
-      {keywordManipulatePanel === PanelEnum.SELECT && <KeywordSelect />}
+      <ChoosePanelToolbar />
+      {keywordManipulatePanel === AddReplayPanelType.KEYWORD_SELECT && (
+        <KeywordSelect />
+      )}
     </React.Fragment>
   );
 };

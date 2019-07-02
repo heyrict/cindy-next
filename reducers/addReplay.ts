@@ -2,46 +2,48 @@ import * as base from './helpers/base';
 import * as array from './helpers/array';
 
 import {
-  ReplayKeywordsType,
+  ReplayKeywordCounterType,
   ReplayDialogueType,
   StateType,
   ActionContentType,
   ActionSetType,
+  AddReplayPanelType,
 } from './types';
 
 export const scope = 'addReplay';
 
 export const actionTypes = {
   KEYWORDS: `${scope}.KEYWORDS`,
-  COUNT_FILTER_INPUT: `${scope}.COUNT_FILTER_INPUT`,
   REPLAY_DIALOGUES: `${scope}.REPLAY_DIALOGUES`,
-  SAVED_KEYWORDS: `${scope}.SAVED_KEYWORDS`,
   KUROMOJI_PROGRESS: `${scope}.KUROMOJI_PROGRESS`,
-  KEYWORDS_TOGGLE: `${scope}.KEYWORDS_TOGGLE`,
-  KEYWORDS_USEMINCOUNT: `${scope}.KEYWORDS_USEMINCOUNT`,
   KEYWORD_MANIPULATE_PANEL: `${scope}.KEYWORD_MANIPULATE_PANEL`,
+  SELECT_KEYWORD: `${scope}.SELECT_KEYWORD`,
+  REMOVE_KEYWORD: `${scope}.REMOVE_KEYWORD`,
 };
 
 export const actions: ActionSetType = {
-  ...base.getActions('CountFilterInput', actionTypes.COUNT_FILTER_INPUT),
   ...base.getActions('Keywords', actionTypes.KEYWORDS),
   ...array.getActions('ReplayDialogues', actionTypes.REPLAY_DIALOGUES),
-  ...array.getActions('SavedKeywords', actionTypes.SAVED_KEYWORDS),
   ...base.getActions('KuromojiProgress', actionTypes.KUROMOJI_PROGRESS),
   ...base.getActions(
     'KeywordManipulatePanel',
     actionTypes.KEYWORD_MANIPULATE_PANEL,
   ),
-  toggleKeywordUse: (keyword: any) => ({
-    type: actionTypes.KEYWORDS_TOGGLE,
+  // Toggle selected keyword in panel
+  toggleSelectedKeyword: (keyword: string, panel: AddReplayPanelType) => ({
+    type: actionTypes.SELECT_KEYWORD,
     payload: {
       keyword,
+      panel,
     },
   }),
-  setKeywordsUseMinCount: (count: number) => ({
-    type: actionTypes.KEYWORDS_USEMINCOUNT,
+  // Remove one keyword from question.
+  // If fromQuestionId is not provided, remove all existing keywords.
+  removeKeyword: (keyword: string, fromQuestionId?: number) => ({
+    type: actionTypes.REMOVE_KEYWORD,
     payload: {
-      count,
+      keyword,
+      fromQuestionId,
     },
   }),
 };
@@ -50,12 +52,18 @@ export const rootSelector = (state: StateType): typeof initialState =>
   state[scope];
 
 export const initialState = {
-  keywords: {} as ReplayKeywordsType,
+  keywordCounter: {} as ReplayKeywordCounterType,
   countFilterInput: 0,
   replayDialogues: [] as Array<ReplayDialogueType>,
   savedKeywords: [],
   kuromojiProgress: 0,
   keywordManipulatePanel: 0,
+  keywordToSelect: null as null | string,
+  keywordToMerge: [null, null] as Array<null | string>,
+  keywordToEdit: null as null | string,
+  keywordSelectProcess: 0,
+  keywordMergeProcess: 0,
+  keywordEditProcess: 0,
 };
 
 export const reducer = (state = initialState, action: ActionContentType) => {
@@ -63,22 +71,12 @@ export const reducer = (state = initialState, action: ActionContentType) => {
     case actionTypes.KEYWORDS:
       return {
         ...state,
-        keywords: base.helper(state.keywords, action.payload),
-      };
-    case actionTypes.COUNT_FILTER_INPUT:
-      return {
-        ...state,
-        countFilterInput: base.helper(state.keywords, action.payload),
+        keywordCounter: base.helper(state.keywordCounter, action.payload),
       };
     case actionTypes.REPLAY_DIALOGUES:
       return {
         ...state,
         replayDialogues: array.helper(state.replayDialogues, action.payload),
-      };
-    case actionTypes.SAVED_KEYWORDS:
-      return {
-        ...state,
-        savedKeywords: array.helper(state.savedKeywords, action.payload),
       };
     case actionTypes.KEYWORD_MANIPULATE_PANEL:
       return {
@@ -93,29 +91,51 @@ export const reducer = (state = initialState, action: ActionContentType) => {
         ...state,
         kuromojiProgress: base.helper(state.kuromojiProgress, action.payload),
       };
-    case actionTypes.KEYWORDS_TOGGLE: {
-      const { keyword } = action.payload;
-      const keywords = { ...state.keywords };
-      keywords[keyword].use = !keywords[keyword].use;
-      return {
-        ...state,
-        keywords,
-      };
-    }
-    case actionTypes.KEYWORDS_USEMINCOUNT: {
-      const { count } = action.payload;
-      const keywords = { ...state.keywords };
-      Object.keys(keywords).forEach(key => {
-        if (keywords[key].count >= count) {
-          keywords[key].use = true;
-        } else {
-          keywords[key].use = false;
+    case actionTypes.SELECT_KEYWORD: {
+      const { keyword, panel } = action.payload;
+      switch (panel) {
+        case AddReplayPanelType.KEYWORD_SELECT:
+          return {
+            ...state,
+            keywordToSelect: state.keywordToSelect === keyword ? null : keyword,
+          };
+        case AddReplayPanelType.KEYWORD_MERGE: {
+          let keywordToMerge = [...state.keywordToMerge];
+          if (keywordToMerge[0] === keyword) {
+            keywordToMerge = [null, keywordToMerge[1]];
+          } else if (keywordToMerge[1] === keyword) {
+            keywordToMerge = [null, keywordToMerge[0]];
+          } else {
+            keywordToMerge = [keywordToMerge[1], keyword];
+          }
+          return { ...state, keywordToMerge };
         }
-      });
-      return {
-        ...state,
-        keywords,
+        case AddReplayPanelType.KEYWORD_EDIT:
+          return {
+            ...state,
+            keywordToEdit: state.keywordToEdit === keyword ? null : keyword,
+          };
+        default:
+          return state;
+      }
+    }
+    case actionTypes.REMOVE_KEYWORD: {
+      const { keyword, fromQuestionId } = action.payload as {
+        keyword: string;
+        fromQuestionId?: number;
       };
+      const replayDialogues = state.replayDialogues.map(dialogue => {
+        if (fromQuestionId === undefined || dialogue.id === fromQuestionId) {
+          return {
+            ...dialogue,
+            question_keywords: dialogue.question_keywords.filter(
+              k => k.name !== keyword,
+            ),
+          };
+        }
+        return dialogue;
+      });
+      return { ...state, replayDialogues };
     }
     default:
       return state;

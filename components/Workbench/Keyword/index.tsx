@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
 
@@ -10,12 +11,11 @@ import { getKeywords, counter } from './common';
 import { Flex } from 'components/General';
 import KuromojiProgress from './KuromojiProgress';
 import KeywordManipulatePanel from './KeywordManipulatePanel';
-import ResultPreview from './ResultPreview';
 
 import {
   ActionContentType,
   ReplayDialogueType,
-  ReplayKeywordsType,
+  ReplayKeywordCounterType,
 } from 'reducers/types';
 import { KeywordWorkbenchProps } from './types';
 import {
@@ -25,10 +25,9 @@ import {
 
 const KeywordWorkbench = ({
   id,
-  setCountFilterInput,
   setReplayDialogues,
   setKuromojiProgress,
-  setKeywords,
+  setKeywordCounter,
 }: KeywordWorkbenchProps) => (
   <Flex p={2} flexWrap="wrap">
     <Query<PuzzleDialogueQuery, PuzzleDialogueQueryVariables>
@@ -40,44 +39,39 @@ const KeywordWorkbench = ({
       onCompleted={async ({ sui_hei_dialogue }) => {
         // Get keys
         const calcDialogueKeys = [] as Array<ReplayDialogueType>;
-        let keywordCounts = new Object() as ReplayKeywordsType;
+        let keywordCounter = new Object() as ReplayKeywordCounterType;
         setKuromojiProgress(0);
         for (let i = 0; i < sui_hei_dialogue.length; i++) {
           const dialogue = sui_hei_dialogue[i];
           const parsed = await getKeywords(dialogue.question);
-          await counter(parsed, keywordCounts);
+          await counter(parsed, keywordCounter);
           calcDialogueKeys.push({
+            id: dialogue.id,
             question: dialogue.question,
             question_keywords: parsed,
           });
-          if ((i + 1) % 10 === 0)
+          if ((i + 1) % 100 === 0)
             setKuromojiProgress((i + 1) / sui_hei_dialogue.length);
         }
 
-        const keywords = new Object() as ReplayKeywordsType;
-        const countThresh = Math.log10(calcDialogueKeys.length);
-        setCountFilterInput(Math.ceil(countThresh));
-        Object.entries(keywordCounts).forEach(([key, stat]) => {
-          keywords[key] = {
-            count: stat.count,
-            use: stat.count > countThresh ? true : false,
-          };
-        });
-
         setKuromojiProgress(1);
         setReplayDialogues(calcDialogueKeys);
-        setKeywords(keywords);
+        setKeywordCounter(keywordCounter);
       }}
     >
       {({ loading, error, data }) => {
-        if (loading) return 'Loading...';
-        if (error) return `Error: ${error.message}`;
+        if (loading) {
+          return 'Loading...';
+        }
+        if (error) {
+          toast.error(error.message);
+          return null;
+        }
         if (data && data.sui_hei_dialogue)
           return (
             <React.Fragment>
               <KuromojiProgress />
               <KeywordManipulatePanel />
-              <ResultPreview />
             </React.Fragment>
           );
         return null;
@@ -89,11 +83,9 @@ const KeywordWorkbench = ({
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setReplayDialogues: (data: Array<ReplayDialogueType>) =>
     dispatch(addReplayReducer.actions.setReplayDialogues(data)),
-  setCountFilterInput: (value: number) =>
-    dispatch(addReplayReducer.actions.setCountFilterInput(value)),
   setKuromojiProgress: (percentage: number) =>
     dispatch(addReplayReducer.actions.setKuromojiProgress(percentage)),
-  setKeywords: (data: ReplayKeywordsType) =>
+  setKeywordCounter: (data: ReplayKeywordCounterType) =>
     dispatch(addReplayReducer.actions.setKeywords(data)),
 });
 

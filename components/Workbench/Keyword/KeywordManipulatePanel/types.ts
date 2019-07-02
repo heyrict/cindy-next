@@ -1,25 +1,24 @@
+import { AddReplayPanelType, ReplayDialogueType } from 'reducers/types';
+
 export type SelectKeywordButtonProps = {
   keyword: string;
   count: number;
-  use: boolean;
-  toggleKeywordUse: (keyword: string) => void;
+  isActive: boolean;
+  toggleKeywordToSelect: (keyword: string) => void;
 };
 
-export enum PanelEnum {
-  SELECT,
-  MERGE,
-  RENAME,
-}
-
 export type KeywordManipulatePanelProps = {
-  keywordManipulatePanel: PanelEnum;
+  keywordManipulatePanel: AddReplayPanelType;
 };
 
 export type KeywordSelectProps = {
-  keywordKeys: Array<string>,
-}
+  keywordKeys: Array<[string, number]>;
+  filteredQuestions: Array<ReplayDialogueType>;
+  keywordFilter: string | null;
+  removeKeyword: (keyword: string, fromQuestionId?: number) => void;
+};
 
 export type ChoosePanelToolbarProps = {
-  keywordManipulatePanel: PanelEnum;
-  setKeywordManipulatePanel: (panel: PanelEnum) => void;
-}
+  keywordManipulatePanel: AddReplayPanelType;
+  setKeywordManipulatePanel: (panel: AddReplayPanelType) => void;
+};

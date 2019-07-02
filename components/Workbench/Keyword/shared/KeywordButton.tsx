@@ -1,10 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Box, Button } from 'components/General';
 
-const KeywordButton = ({ on, content, onClick }) => (
-  <Box width={1 / 5} mb={1}>
+import { KeywordButtonProps } from './types';
+
+const KeywordButton = ({ on, content, onClick }: KeywordButtonProps) => (
+  <Box width={[1 / 4, 1 / 6, 1 / 4, 1 / 6]} mb={1}>
     <Button
       borderRadius={2}
       width={0.95}
@@ -16,11 +17,5 @@ const KeywordButton = ({ on, content, onClick }) => (
     </Button>
   </Box>
 );
-
-KeywordButton.propTypes = {
-  on: PropTypes.bool.isRequired,
-  content: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
 
 export default KeywordButton;

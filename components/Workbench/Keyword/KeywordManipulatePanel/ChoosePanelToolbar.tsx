@@ -8,8 +8,12 @@ import messages from 'messages/components/workbench';
 
 import { Flex, Button } from 'components/General';
 
-import { PanelEnum, ChoosePanelToolbarProps } from './types';
-import { StateType, ActionContentType } from 'reducers/types';
+import { ChoosePanelToolbarProps } from './types';
+import {
+  StateType,
+  ActionContentType,
+  AddReplayPanelType,
+} from 'reducers/types';
 
 const ChoosePanelToolbar = ({
   keywordManipulatePanel,
@@ -17,20 +21,36 @@ const ChoosePanelToolbar = ({
 }: ChoosePanelToolbarProps) => (
   <Flex flexWrap="wrap">
     <Button
-      bg={keywordManipulatePanel === PanelEnum.SELECT ? 'yellow.5' : 'yellow.3'}
-      onClick={() => setKeywordManipulatePanel(PanelEnum.SELECT)}
+      bg={
+        keywordManipulatePanel === AddReplayPanelType.KEYWORD_SELECT
+          ? 'yellow.5'
+          : 'yellow.3'
+      }
+      onClick={() =>
+        setKeywordManipulatePanel(AddReplayPanelType.KEYWORD_SELECT)
+      }
     >
       <FormattedMessage {...messages.selectPanel} />
     </Button>
     <Button
-      bg={keywordManipulatePanel === PanelEnum.MERGE ? 'yellow.5' : 'yellow.3'}
-      onClick={() => setKeywordManipulatePanel(PanelEnum.MERGE)}
+      bg={
+        keywordManipulatePanel === AddReplayPanelType.KEYWORD_MERGE
+          ? 'yellow.5'
+          : 'yellow.3'
+      }
+      onClick={() =>
+        setKeywordManipulatePanel(AddReplayPanelType.KEYWORD_MERGE)
+      }
     >
       <FormattedMessage {...messages.mergePanel} />
     </Button>
     <Button
-      bg={keywordManipulatePanel === PanelEnum.RENAME ? 'yellow.5' : 'yellow.3'}
-      onClick={() => setKeywordManipulatePanel(PanelEnum.RENAME)}
+      bg={
+        keywordManipulatePanel === AddReplayPanelType.KEYWORD_EDIT
+          ? 'yellow.5'
+          : 'yellow.3'
+      }
+      onClick={() => setKeywordManipulatePanel(AddReplayPanelType.KEYWORD_EDIT)}
     >
       <FormattedMessage {...messages.renamePanel} />
     </Button>
@@ -43,7 +63,7 @@ const mapStateToProps = (state: StateType) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  setKeywordManipulatePanel: (panel: PanelEnum) =>
+  setKeywordManipulatePanel: (panel: AddReplayPanelType) =>
     dispatch(addReplayReducer.actions.setKeywordManipulatePanel(panel)),
 });
 
