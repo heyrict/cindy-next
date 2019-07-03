@@ -11,9 +11,34 @@ type Replay {
 }
 
 type ReplayKeyword {
-  id: Int!
+  replayId: Int!
+  keywordId: Int!
   keyword: String!
 }
+
+type ReplayMilestone {
+  replayId: Int!
+  milestoneId: Int!
+  name: String!
+}
+
+# type MilestoneBoolExprType = {
+#   T: "and" | "or",
+#   V: (MilestoneBoolExprType | Int)[],
+# }
+#
+# As tests:
+#
+# {
+#   _and: [1, 2, 3],
+# }
+# {
+#   _and: [
+#     { _or: [1, 4] },
+#     { _or: [2, 8] },
+#     3,
+#   ]
+# }
 
 type ReplayDialogue {
   id: Int!
@@ -21,16 +46,9 @@ type ReplayDialogue {
   #replay: Replay!
   question: String!
   answer: String!
-  #depends_on: [ReplayQuestion]
-  #keywords: [ReplayKeyword]!
-}
-
-type ReplayDialogueDependency {
-  id: Int!
-  dialogue_id: Int!
-  #dialogue: ReplayDialogue!
-  depends_on_id: Int!
-  #depends_on: ReplayDialogue!
+  depends_on: Json! # MilestoneBoolExprType
+  milestones: Json! # Array<Int as ReplayMilestone_milestoneId>
+  keywords: ReplayKeyword[]!
 }
 
 type ReplayDialogueKeyword {
