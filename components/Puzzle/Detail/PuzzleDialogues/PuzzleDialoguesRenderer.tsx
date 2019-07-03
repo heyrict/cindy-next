@@ -29,6 +29,9 @@ import {
   DialogueHintQuery_sui_hei_dialogue,
 } from 'graphql/Queries/generated/DialogueHintQuery';
 import { ActionContentType, StateType } from 'reducers/types';
+import webNotifyMessages from 'messages/webNotify';
+import { maybeSendNotification } from 'common/web-notify';
+import { IntlShape, intlShape } from 'react-intl';
 
 export const PuzzleDialoguesRendererInner = ({
   dialogues,
@@ -65,24 +68,28 @@ export const PuzzleDialoguesRendererInner = ({
   );
 };
 
-export const PuzzleDialoguesRenderer = ({
-  loading,
-  error,
-  data,
-  variables,
-  subscribeToMore,
-  shouldSubscribe,
-  user,
-  incGoodQuestions,
-  incTrueAnswers,
-  applyUserFilter,
-  puzzleUser,
-  puzzleStatus,
-  anonymous,
-  setParticipants,
-  setTrueSolvedLongtermYami,
-  updateSolvedLongTermYamiOnSubscribe,
-}: PuzzleDialoguesRendererProps) => {
+export const PuzzleDialoguesRenderer = (
+  {
+    loading,
+    error,
+    data,
+    variables,
+    subscribeToMore,
+    shouldSubscribe,
+    user,
+    incGoodQuestions,
+    incTrueAnswers,
+    applyUserFilter,
+    puzzleUser,
+    puzzleStatus,
+    anonymous,
+    setParticipants,
+    setTrueSolvedLongtermYami,
+    updateSolvedLongTermYamiOnSubscribe,
+  }: PuzzleDialoguesRendererProps,
+  context: { intl: IntlShape },
+) => {
+  const _: any = context.intl.formatMessage;
   const { puzzleId } = variables;
   if (loading && (!data || !data.sui_hei_dialogue || !data.sui_hei_hint))
     return <span>Loading...</span>;
@@ -120,9 +127,11 @@ export const PuzzleDialoguesRenderer = ({
           if (subData === null) return prev;
           const { sui_hei_dialogue, sui_hei_hint } = subData;
           if (sui_hei_dialogue !== null) {
+            // display answer if user get true answer in long-term yami
             if (updateSolvedLongTermYamiOnSubscribe && sui_hei_dialogue.true)
               setTrueSolvedLongtermYami();
 
+            // Update award checker
             const toUpdate = prev.sui_hei_dialogue.find(
               d => d.id === sui_hei_dialogue.id,
             );
@@ -141,6 +150,14 @@ export const PuzzleDialoguesRenderer = ({
               }
             }
 
+            // Notification for creator
+            if (document.hidden && puzzleUser.id === user.id) {
+              maybeSendNotification(_(webNotifyMessages.newDialogueAdded), {
+                body: sui_hei_dialogue.question,
+                renotify: true,
+              });
+            }
+
             return Object.assign({}, prev, {
               sui_hei_dialogue: upsertItem(
                 prev.sui_hei_dialogue,
@@ -151,6 +168,14 @@ export const PuzzleDialoguesRenderer = ({
             });
           }
           if (sui_hei_hint !== null) {
+            // Notification for participants
+            if (document.hidden && puzzleUser.id !== user.id) {
+              maybeSendNotification(_(webNotifyMessages.newHintAdded), {
+                body: sui_hei_hint.content,
+                renotify: true,
+              });
+            }
+
             return Object.assign({}, prev, {
               sui_hei_hint: upsertItem(
                 prev.sui_hei_hint,
@@ -201,6 +226,10 @@ export const PuzzleDialoguesRenderer = ({
 };
 
 PuzzleDialoguesRenderer.defaultProps = PuzzleDialoguesRendererDefaultProps;
+
+PuzzleDialoguesRenderer.contextTypes = {
+  intl: intlShape,
+};
 
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,

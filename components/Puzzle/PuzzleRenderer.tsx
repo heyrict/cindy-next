@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { toast } from 'react-toastify';
 import Head from 'next/head';
+import { toast } from 'react-toastify';
+import { maybeSendNotification } from 'common/web-notify';
 
 import PuzzleDetail from 'components/Puzzle/Detail';
 
@@ -10,9 +11,18 @@ import { FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/puzzle';
 import commonMessages from 'messages/common';
 import userMessages from 'messages/components/user';
+import webNotifyMessages from 'messages/webNotify';
 
 import { PuzzleRendererProps } from './types';
 import { text2raw } from 'common/markdown';
+import { PuzzleLiveQuery } from 'graphql/LiveQueries/generated/PuzzleLiveQuery';
+import { SubscribeToMoreOptions } from 'apollo-client/core/watchQueryOptions';
+import {
+  PuzzleQuery,
+  PuzzleQueryVariables,
+} from 'graphql/Queries/generated/PuzzleQuery';
+
+let hasNotifiedSolved = false;
 
 const PuzzleRenderer = ({
   loading,
@@ -40,7 +50,24 @@ const PuzzleRenderer = ({
       return subscribeToMore({
         document: PUZZLE_LIVEQUERY,
         variables: { id: puzzleId },
-      });
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!prev) return prev;
+          const newPuzzle = subscriptionData.data.sui_hei_puzzle_by_pk;
+          const oldPuzzle = prev.sui_hei_puzzle_by_pk;
+          if (!oldPuzzle) return subscriptionData.data;
+          if (!newPuzzle) return prev;
+          if (document.hidden && newPuzzle.status === 1 && !hasNotifiedSolved) {
+            hasNotifiedSolved = true;
+            const not = maybeSendNotification(
+              _(webNotifyMessages.puzzleSolved, {
+                puzzle: oldPuzzle.title,
+              }),
+            );
+            console.log(not);
+          }
+          return { sui_hei_puzzle_by_pk: { ...oldPuzzle, ...newPuzzle } };
+        },
+      } as SubscribeToMoreOptions<PuzzleQuery, PuzzleQueryVariables, PuzzleLiveQuery>);
   }, [puzzleId]);
 
   if (error) {
