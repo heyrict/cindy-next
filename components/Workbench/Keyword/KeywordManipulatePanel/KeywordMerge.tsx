@@ -4,14 +4,12 @@ import { createSelector } from 'reselect';
 import * as addReplayReducer from 'reducers/addReplay';
 
 import { FormattedMessage } from 'react-intl';
-import messages from 'messages/components/workbench';
 import commonMessages from 'messages/common';
 
 import { Box, ButtonTransparent, Flex } from 'components/General';
 import MergeKeywordButton from './MergeKeywordButton';
 import QuestionMerge from './QuestionMerge';
 import KeywordPanelKeywords from '../shared/KeywordPanelKeywords';
-import KeywordPanel from '../shared/KeywordPanel';
 
 import {
   StateType,
@@ -26,16 +24,13 @@ import { counter } from '../common';
 const KeywordMerge = ({
   keywordKeys,
   filteredDialogues,
-  keywordFilter,
+  keywordToMerge,
   secondKeywords,
   mergeKeyword,
 }: KeywordMergeProps) => {
   //const [collapse, setCollapse] = useState(true);
   return (
-    <KeywordPanel>
-      <Box fontSize={3} width={1}>
-        <FormattedMessage {...messages.keywords} />
-      </Box>
+    <React.Fragment>
       <Flex flexWrap="wrap">
         <KeywordPanelKeywords width={1 / 2}>
           {keywordKeys.map(keyword => (
@@ -61,7 +56,7 @@ const KeywordMerge = ({
       <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
         <SetMergeToBox />
       </Box>
-      {keywordFilter[0] && keywordFilter[1] && (
+      {keywordToMerge[0] && keywordToMerge[1] && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
           {filteredDialogues.map(dialogue => (
             <QuestionMerge
@@ -71,7 +66,7 @@ const KeywordMerge = ({
           ))}
         </Box>
       )}
-      {keywordFilter[0] && keywordFilter[1] && (
+      {keywordToMerge[0] && keywordToMerge[1] && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
           <Box
             bg="orange.3"
@@ -86,14 +81,23 @@ const KeywordMerge = ({
           </Box>
         </Box>
       )}
-    </KeywordPanel>
+    </React.Fragment>
   );
 };
 
 // Sort keys from keywordCounter
-const keywordKeysSelector = createSelector(
+const keywordKeysFilter = createSelector(
   (state: StateType) =>
     Object.entries(addReplayReducer.rootSelector(state).keywordCounter),
+  (state: StateType) => addReplayReducer.rootSelector(state).keywordFilter,
+  (keywordCounter, keywordFilter) =>
+    keywordFilter.trim() === ''
+      ? keywordCounter
+      : keywordCounter.filter(c => c[0].search(keywordFilter) >= 0),
+);
+
+const keywordKeysSelector = createSelector(
+  (state: StateType) => keywordKeysFilter(state),
   keywordCounter => keywordCounter.sort((a, b) => b[1] - a[1]),
 );
 
@@ -101,14 +105,14 @@ const keywordKeysSelector = createSelector(
 const questionKeywordFilterSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
   (state: StateType) => addReplayReducer.rootSelector(state).keywordToMerge,
-  (dialogues, keywordFilter) =>
-    keywordFilter[0] === null || keywordFilter[1] === null
+  (dialogues, keywordToMerge) =>
+    keywordToMerge[0] === null || keywordToMerge[1] === null
       ? []
       : dialogues.filter(dialogue =>
           filterNeighbor(
             dialogue.question_keywords,
-            (item, index) => item.name === keywordFilter[index],
-            keywordFilter.length,
+            (item, index) => item.name === keywordToMerge[index],
+            keywordToMerge.length,
           ),
         ),
 );
@@ -137,7 +141,7 @@ const availableSecondKeywordsSelector = createSelector(
 const mapStateToProps = (state: StateType) => ({
   keywordKeys: keywordKeysSelector(state),
   filteredDialogues: questionKeywordFilterSelector(state),
-  keywordFilter: addReplayReducer.rootSelector(state).keywordToMerge,
+  keywordToMerge: addReplayReducer.rootSelector(state).keywordToMerge,
   secondKeywords: availableSecondKeywordsSelector(state),
 });
 

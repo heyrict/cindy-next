@@ -51,6 +51,10 @@ export const messages = defineMessages({
     id: `${scope}.back`,
     defaultMessage: '<< Back',
   },
+  filter: {
+    id: `${scope}.filter`,
+    defaultMessage: 'Filter',
+  },
 });
 
 export default messages;

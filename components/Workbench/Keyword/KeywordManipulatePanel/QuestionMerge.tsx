@@ -16,7 +16,7 @@ import { KeywordType } from '../shared/types';
 
 const QuestionMerge = ({
   dialogue,
-  keywordFilter,
+  keywordToMerge,
   mergeTo,
   mergeKeyword,
 }: QuestionMergeProps) => (
@@ -25,9 +25,9 @@ const QuestionMerge = ({
       {dialogue.question}
     </KeywordQuestionBox>
     {dialogue.question_keywords.map((keyword, index) => {
-      const shouldMerge = keywordFilter.some(kw => keyword.name === kw);
+      const shouldMerge = keywordToMerge.some(kw => keyword.name === kw);
       const shouldShowNew =
-        keywordFilter[keywordFilter.length - 1] === keyword.name;
+        keywordToMerge[keywordToMerge.length - 1] === keyword.name;
       return (
         <React.Fragment
           key={`question-merge-keyword-${dialogue.id}-${index}-${keyword.name}`}
@@ -41,13 +41,13 @@ const QuestionMerge = ({
           </KeywordBox>
           {shouldShowNew && (
             <KeywordBox keywordType={KeywordType.TO_ADD}>
-              {mergeTo || `${keywordFilter[0]}${keywordFilter[1]}`}
+              {mergeTo || `${keywordToMerge[0]}${keywordToMerge[1]}`}
             </KeywordBox>
           )}
         </React.Fragment>
       );
     })}
-    {keywordFilter[0] && keywordFilter[1] && (
+    {keywordToMerge[0] && keywordToMerge[1] && (
       <Box bg="orange.3" ml="auto" borderRadius={1}>
         <ButtonTransparent
           fontSize="0.9em"
@@ -61,7 +61,7 @@ const QuestionMerge = ({
 );
 
 const mapStateToProps = (state: StateType) => ({
-  keywordFilter: addReplayReducer.rootSelector(state).keywordToMerge,
+  keywordToMerge: addReplayReducer.rootSelector(state).keywordToMerge,
   mergeTo: addReplayReducer.rootSelector(state).mergeTo,
 });
 

@@ -15,7 +15,7 @@ import { KeywordType } from '../shared/types';
 
 const QuestionRename = ({
   dialogue,
-  keywordFilter,
+  keywordToRename,
   renameTo,
   renameKeyword,
 }: QuestionRenameProps) => (
@@ -24,7 +24,7 @@ const QuestionRename = ({
       {dialogue.question}
     </KeywordQuestionBox>
     {dialogue.question_keywords.map((keyword, index) => {
-      const shouldRename = keyword.name === keywordFilter;
+      const shouldRename = keyword.name === keywordToRename;
       return renameTo ? (
         <React.Fragment
           key={`question-rename-keywords-${dialogue.id}-${index}-${
@@ -53,11 +53,11 @@ const QuestionRename = ({
         </KeywordBox>
       );
     })}
-    {keywordFilter && (
+    {keywordToRename && (
       <Box bg="orange.3" ml="auto" borderRadius={1}>
         <ButtonTransparent
           fontSize="0.9em"
-          onClick={() => renameKeyword(keywordFilter, dialogue.id)}
+          onClick={() => renameKeyword(keywordToRename, dialogue.id)}
         >
           <FormattedMessage {...commonMessages.apply} />
         </ButtonTransparent>
@@ -67,7 +67,7 @@ const QuestionRename = ({
 );
 
 const mapStateToProps = (state: StateType) => ({
-  keywordFilter: addReplayReducer.rootSelector(state).keywordToEdit,
+  keywordToRename: addReplayReducer.rootSelector(state).keywordToEdit,
   renameTo: addReplayReducer.rootSelector(state).renameTo,
 });
 

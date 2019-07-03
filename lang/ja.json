@@ -17,11 +17,13 @@
   "auth.username": "ユーザー名",
   "common.all": "すべて",
   "common.apply": "適用",
+  "common.applyToAll": "すべて適用",
   "common.back": "＜戻る",
   "common.change": "変更",
   "common.close": "閉じる",
   "common.default": "デフォルト",
   "common.editTimes": "編集済み({count})",
+  "common.filter": "フィルター",
   "common.loadMore": "もっと見る",
   "common.loading": "ロード中です・・・",
   "common.none": "なし",
@@ -136,7 +138,8 @@
   "workbench.firstLoadingIsTimeConsuming": "文字解析用ツールをロードしています・・・初回ロードはネット状況によって数十秒から数分かかります・・・",
   "workbench.keywords": "キーワード",
   "workbench.mergePanel": "キーワード合併パネル",
-  "workbench.minKeywordAppearance": "最低キーワード出現数",
+  "workbench.oneByOneMode": "個別編集モード",
   "workbench.renamePanel": "キーワード編集パネル",
+  "workbench.roughMode": "一括編集モード",
   "workbench.selectPanel": "キーワード選出パネル"
 }

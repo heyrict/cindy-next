@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import * as addReplayReducer from 'reducers/addReplay';
 
 import { FormattedMessage } from 'react-intl';
-import messages from 'messages/components/workbench';
 import commonMessages from 'messages/common';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
@@ -13,7 +12,6 @@ import SelectKeywordButton from './SelectKeywordButton';
 import { StateType, ActionContentType } from 'reducers/types';
 import { KeywordSelectProps } from './types';
 import KeywordPanelKeywords from '../shared/KeywordPanelKeywords';
-import KeywordPanel from '../shared/KeywordPanel';
 import KeywordBox from '../shared/KeywordBox';
 import KeywordQuestionBox from '../shared/KeywordQuestionBox';
 import { KeywordType } from '../shared/types';
@@ -21,15 +19,12 @@ import { KeywordType } from '../shared/types';
 const KeywordSelect = ({
   keywordKeys,
   filteredDialogues,
-  keywordFilter,
+  keywordToSelect,
   removeKeyword,
 }: KeywordSelectProps) => {
   //const [collapse, setCollapse] = useState(true);
   return (
-    <KeywordPanel>
-      <Box fontSize={3}>
-        <FormattedMessage {...messages.keywords} />
-      </Box>
+    <React.Fragment>
       <KeywordPanelKeywords>
         {keywordKeys.map(keyword => (
           <SelectKeywordButton
@@ -39,7 +34,7 @@ const KeywordSelect = ({
           />
         ))}
       </KeywordPanelKeywords>
-      {keywordFilter && (
+      {keywordToSelect && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
           {filteredDialogues.map(dialogue => (
             <Flex
@@ -55,7 +50,7 @@ const KeywordSelect = ({
                 <KeywordBox
                   key={`${dialogue.id}-${index}-${keyword.name}`}
                   keywordType={
-                    keyword.name === keywordFilter
+                    keyword.name === keywordToSelect
                       ? KeywordType.TO_DELETE
                       : KeywordType.DEFAULT
                   }
@@ -66,7 +61,7 @@ const KeywordSelect = ({
               <Box bg="orange.3" ml="auto" borderRadius={1}>
                 <ButtonTransparent
                   fontSize="0.9em"
-                  onClick={() => removeKeyword(keywordFilter, dialogue.id)}
+                  onClick={() => removeKeyword(keywordToSelect, dialogue.id)}
                 >
                   <FormattedMessage {...commonMessages.apply} />
                 </ButtonTransparent>
@@ -75,7 +70,7 @@ const KeywordSelect = ({
           ))}
         </Box>
       )}
-      {keywordFilter && (
+      {keywordToSelect && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
           <Box
             bg="orange.3"
@@ -87,21 +82,30 @@ const KeywordSelect = ({
             <ButtonTransparent
               width={1}
               p={1}
-              onClick={() => removeKeyword(keywordFilter)}
+              onClick={() => removeKeyword(keywordToSelect)}
             >
               <FormattedMessage {...commonMessages.applyToAll} />
             </ButtonTransparent>
           </Box>
         </Box>
       )}
-    </KeywordPanel>
+    </React.Fragment>
   );
 };
 
 // Sort keys from keywordCounter
-const keywordKeysSelector = createSelector(
+const keywordKeysFilter = createSelector(
   (state: StateType) =>
     Object.entries(addReplayReducer.rootSelector(state).keywordCounter),
+  (state: StateType) => addReplayReducer.rootSelector(state).keywordFilter,
+  (keywordCounter, keywordFilter) =>
+    keywordFilter.trim() === ''
+      ? keywordCounter
+      : keywordCounter.filter(c => c[0].search(keywordFilter) >= 0),
+);
+
+const keywordKeysSelector = createSelector(
+  (state: StateType) => keywordKeysFilter(state),
   keywordCounter => keywordCounter.sort((a, b) => b[1] - a[1]),
 );
 
@@ -109,18 +113,18 @@ const keywordKeysSelector = createSelector(
 const questionKeywordFilterSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
   (state: StateType) => addReplayReducer.rootSelector(state).keywordToSelect,
-  (dialogues, keywordFilter) =>
-    keywordFilter === null
+  (dialogues, keywordToSelect) =>
+    keywordToSelect === null
       ? []
       : dialogues.filter(dialogue =>
-          dialogue.question_keywords.some(k => k.name === keywordFilter),
+          dialogue.question_keywords.some(k => k.name === keywordToSelect),
         ),
 );
 
 const mapStateToProps = (state: StateType) => ({
   keywordKeys: keywordKeysSelector(state),
   filteredDialogues: questionKeywordFilterSelector(state),
-  keywordFilter: addReplayReducer.rootSelector(state).keywordToSelect,
+  keywordToSelect: addReplayReducer.rootSelector(state).keywordToSelect,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({

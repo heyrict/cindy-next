@@ -19,6 +19,7 @@ export const actionTypes = {
   MODE: `${scope}.MODE`,
   KEYWORD_MANIPULATE_PANEL: `${scope}.KEYWORD_MANIPULATE_PANEL`,
   KEYWORD_COUNTER: `${scope}.KEYWORD_COUNTER`,
+  KEYWORD_FILTER: `${scope}.KEYWORD_FILTER`,
   REPLAY_DIALOGUES: `${scope}.REPLAY_DIALOGUES`,
   KUROMOJI_PROGRESS: `${scope}.KUROMOJI_PROGRESS`,
   SELECT_KEYWORD: `${scope}.SELECT_KEYWORD`,
@@ -42,6 +43,7 @@ export const actionTypes = {
 export const actions: ActionSetType = {
   ...base.getActions('Mode', actionTypes.MODE),
   ...base.getActions('KeywordCounter', actionTypes.KEYWORD_COUNTER),
+  ...base.getActions('KeywordFilter', actionTypes.KEYWORD_FILTER),
   ...array.getActions('ReplayDialogues', actionTypes.REPLAY_DIALOGUES),
   ...base.getActions('KuromojiProgress', actionTypes.KUROMOJI_PROGRESS),
   ...base.getActions(
@@ -143,6 +145,7 @@ export const initialState = {
   mode: 0 as AddReplayModeType,
   keywordManipulatePanel: 0 as AddReplayPanelType,
   keywordCounter: {} as ReplayKeywordCounterType,
+  keywordFilter: '',
   countFilterInput: 0,
   replayDialogues: [] as Array<ReplayDialogueType>,
   kuromojiProgress: 0,
@@ -162,6 +165,11 @@ export const reducer = (state = initialState, action: ActionContentType) => {
       return {
         ...state,
         keywordCounter: base.helper(state.keywordCounter, action.payload),
+      };
+    case actionTypes.KEYWORD_FILTER:
+      return {
+        ...state,
+        keywordFilter: base.helper(state.keywordFilter, action.payload),
       };
     case actionTypes.REPLAY_DIALOGUES:
       return {

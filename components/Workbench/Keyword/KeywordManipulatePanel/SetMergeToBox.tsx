@@ -8,17 +8,17 @@ import * as addReplayReducer from 'reducers/addReplay';
 import { StateType, ActionContentType } from 'reducers/types';
 import { SetMergeToBoxProps } from './types';
 
-const SetMergeToBox = ({ keywordFilter, setMergeTo }: SetMergeToBoxProps) => {
+const SetMergeToBox = ({ keywordToMerge, setMergeTo }: SetMergeToBoxProps) => {
   return (
     <Flex p={1} flexWrap="wrap">
       <Box width={[2 / 5, 3 / 11, 2 / 5, 3 / 11]} textAlign="center">
-        {keywordFilter[0] || '?'}
+        {keywordToMerge[0] || '?'}
       </Box>
       <Box width={[1 / 5, 1 / 11, 2 / 5, 1 / 11]} textAlign="center">
         +
       </Box>
       <Box width={[2 / 5, 3 / 11, 2 / 5, 3 / 11]} textAlign="center">
-        {keywordFilter[1] || '?'}
+        {keywordToMerge[1] || '?'}
       </Box>
       <Box width={[1 / 5, 1 / 11, 2 / 5, 1 / 11]} textAlign="center">
         →
@@ -26,8 +26,8 @@ const SetMergeToBox = ({ keywordFilter, setMergeTo }: SetMergeToBoxProps) => {
       <Box width={[2 / 5, 3 / 11, 2 / 5, 3 / 11]}>
         <Input
           placeholder={
-            keywordFilter[0] && keywordFilter[1]
-              ? `${keywordFilter[0]}${keywordFilter[1]}`
+            keywordToMerge[0] && keywordToMerge[1]
+              ? `${keywordToMerge[0]}${keywordToMerge[1]}`
               : ''
           }
           width={1}
@@ -39,7 +39,7 @@ const SetMergeToBox = ({ keywordFilter, setMergeTo }: SetMergeToBoxProps) => {
 };
 
 const mapStateToProps = (state: StateType) => ({
-  keywordFilter: addReplayReducer.rootSelector(state).keywordToMerge,
+  keywordToMerge: addReplayReducer.rootSelector(state).keywordToMerge,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({

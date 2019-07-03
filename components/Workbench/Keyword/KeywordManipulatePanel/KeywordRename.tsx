@@ -4,14 +4,12 @@ import { createSelector } from 'reselect';
 import * as addReplayReducer from 'reducers/addReplay';
 
 import { FormattedMessage } from 'react-intl';
-import messages from 'messages/components/workbench';
 import commonMessages from 'messages/common';
 
 import { Box, ButtonTransparent } from 'components/General';
 import RenameKeywordButton from './RenameKeywordButton';
 import QuestionRename from './QuestionRename';
 import KeywordPanelKeywords from '../shared/KeywordPanelKeywords';
-import KeywordPanel from '../shared/KeywordPanel';
 
 import { StateType, ActionContentType } from 'reducers/types';
 import { KeywordRenameProps } from './types';
@@ -20,15 +18,12 @@ import SetRenameToBox from './SetRenameToBox';
 const KeywordRename = ({
   keywordKeys,
   filteredDialogues,
-  keywordFilter,
+  keywordToRename,
   renameKeyword,
 }: KeywordRenameProps) => {
   //const [collapse, setCollapse] = useState(true);
   return (
-    <KeywordPanel>
-      <Box fontSize={3}>
-        <FormattedMessage {...messages.keywords} />
-      </Box>
+    <React.Fragment>
       <KeywordPanelKeywords>
         {keywordKeys.map(keyword => (
           <RenameKeywordButton
@@ -41,7 +36,7 @@ const KeywordRename = ({
       <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
         <SetRenameToBox />
       </Box>
-      {keywordFilter && (
+      {keywordToRename && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
           {filteredDialogues.map(dialogue => (
             <QuestionRename
@@ -51,7 +46,7 @@ const KeywordRename = ({
           ))}
         </Box>
       )}
-      {keywordFilter && (
+      {keywordToRename && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
           <Box
             bg="orange.3"
@@ -63,21 +58,30 @@ const KeywordRename = ({
             <ButtonTransparent
               width={1}
               p={1}
-              onClick={() => renameKeyword(keywordFilter)}
+              onClick={() => renameKeyword(keywordToRename)}
             >
               <FormattedMessage {...commonMessages.applyToAll} />
             </ButtonTransparent>
           </Box>
         </Box>
       )}
-    </KeywordPanel>
+    </React.Fragment>
   );
 };
 
 // Sort keys from keywordCounter
-const keywordKeysSelector = createSelector(
+const keywordKeysFilter = createSelector(
   (state: StateType) =>
     Object.entries(addReplayReducer.rootSelector(state).keywordCounter),
+  (state: StateType) => addReplayReducer.rootSelector(state).keywordFilter,
+  (keywordCounter, keywordFilter) =>
+    keywordFilter.trim() === ''
+      ? keywordCounter
+      : keywordCounter.filter(c => c[0].search(keywordFilter) >= 0),
+);
+
+const keywordKeysSelector = createSelector(
+  (state: StateType) => keywordKeysFilter(state),
   keywordCounter => keywordCounter.sort((a, b) => b[1] - a[1]),
 );
 
@@ -85,18 +89,18 @@ const keywordKeysSelector = createSelector(
 const questionKeywordFilterSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
   (state: StateType) => addReplayReducer.rootSelector(state).keywordToEdit,
-  (dialogues, keywordFilter) =>
-    keywordFilter === null
+  (dialogues, keywordToRename) =>
+    keywordToRename === null
       ? []
       : dialogues.filter(dialogue =>
-          dialogue.question_keywords.some(k => k.name === keywordFilter),
+          dialogue.question_keywords.some(k => k.name === keywordToRename),
         ),
 );
 
 const mapStateToProps = (state: StateType) => ({
   keywordKeys: keywordKeysSelector(state),
   filteredDialogues: questionKeywordFilterSelector(state),
-  keywordFilter: addReplayReducer.rootSelector(state).keywordToEdit,
+  keywordToRename: addReplayReducer.rootSelector(state).keywordToEdit,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
