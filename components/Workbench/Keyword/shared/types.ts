@@ -2,6 +2,7 @@ export type KeywordButtonProps = {
   on: boolean;
   content: string;
   onClick: any;
+  width?: any;
 };
 
 export enum KeywordType {

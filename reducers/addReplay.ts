@@ -8,7 +8,9 @@ import {
   ActionContentType,
   ActionSetType,
   AddReplayPanelType,
+  ReplayKeywordType,
 } from './types';
+import { mergeNeighbor } from 'common/replay';
 
 export const scope = 'addReplay';
 
@@ -20,7 +22,9 @@ export const actionTypes = {
   SELECT_KEYWORD: `${scope}.SELECT_KEYWORD`,
   REMOVE_KEYWORD: `${scope}.REMOVE_KEYWORD`,
   RENAME_KEYWORD: `${scope}.RENAME_KEYWORD`,
+  MERGE_KEYWORD: `${scope}.MERGE_KEYWORD`,
   RENAME_TO: `${scope}.RENAME_TO`,
+  MERGE_TO: `${scope}.MERGE_TO`,
 };
 
 export const actions: ActionSetType = {
@@ -32,12 +36,21 @@ export const actions: ActionSetType = {
     actionTypes.KEYWORD_MANIPULATE_PANEL,
   ),
   ...base.getActions('RenameTo', actionTypes.RENAME_TO),
+  ...base.getActions('MergeTo', actionTypes.MERGE_TO),
   // Toggle selected keyword in panel
   toggleSelectedKeyword: (keyword: string, panel: AddReplayPanelType) => ({
     type: actionTypes.SELECT_KEYWORD,
     payload: {
       keyword,
       panel,
+    },
+  }),
+  toggleSelectedKeywordToMerge: (keyword: string, index: number) => ({
+    type: actionTypes.SELECT_KEYWORD,
+    payload: {
+      keyword,
+      index,
+      panel: AddReplayPanelType.KEYWORD_MERGE,
     },
   }),
   // Remove one keyword from question.
@@ -55,6 +68,12 @@ export const actions: ActionSetType = {
     type: actionTypes.RENAME_KEYWORD,
     payload: {
       keyword,
+      fromQuestionId,
+    },
+  }),
+  mergeKeyword: (fromQuestionId?: number) => ({
+    type: actionTypes.MERGE_KEYWORD,
+    payload: {
       fromQuestionId,
     },
   }),
@@ -77,6 +96,7 @@ export const initialState = {
   keywordMergeProcess: 0,
   keywordEditProcess: 0,
   renameTo: '',
+  mergeTo: '',
 };
 
 export const reducer = (state = initialState, action: ActionContentType) => {
@@ -109,8 +129,13 @@ export const reducer = (state = initialState, action: ActionContentType) => {
         ...state,
         renameTo: base.helper(state.renameTo, action.payload),
       };
+    case actionTypes.MERGE_TO:
+      return {
+        ...state,
+        mergeTo: base.helper(state.mergeTo, action.payload),
+      };
     case actionTypes.SELECT_KEYWORD: {
-      const { keyword, panel } = action.payload;
+      const { keyword, panel, index } = action.payload;
       switch (panel) {
         case AddReplayPanelType.KEYWORD_SELECT:
           return {
@@ -119,7 +144,10 @@ export const reducer = (state = initialState, action: ActionContentType) => {
           };
         case AddReplayPanelType.KEYWORD_MERGE: {
           let keywordToMerge = [...state.keywordToMerge];
-          if (keywordToMerge[0] === keyword) {
+          if (index !== undefined) {
+            keywordToMerge[index] =
+              keywordToMerge[index] === keyword ? null : keyword;
+          } else if (keywordToMerge[0] === keyword) {
             keywordToMerge = [null, keywordToMerge[1]];
           } else if (keywordToMerge[1] === keyword) {
             keywordToMerge = [null, keywordToMerge[0]];
@@ -137,6 +165,8 @@ export const reducer = (state = initialState, action: ActionContentType) => {
           return state;
       }
     }
+    // TODO `keyword` here in payload is duplicated.
+    //      Use selected keyword in state instead.
     case actionTypes.REMOVE_KEYWORD: {
       const { keyword, fromQuestionId } = action.payload as {
         keyword: string;
@@ -167,6 +197,27 @@ export const reducer = (state = initialState, action: ActionContentType) => {
             ...dialogue,
             question_keywords: dialogue.question_keywords.map(k =>
               k.name === keyword ? { ...k, name: state.renameTo } : k,
+            ),
+          };
+        }
+        return dialogue;
+      });
+      return { ...state, replayDialogues };
+    }
+    case actionTypes.MERGE_KEYWORD: {
+      if (state.mergeTo === '') return state;
+      const { fromQuestionId } = action.payload as {
+        fromQuestionId?: number;
+      };
+      const replayDialogues = state.replayDialogues.map(dialogue => {
+        if (fromQuestionId === undefined || dialogue.id === fromQuestionId) {
+          return {
+            ...dialogue,
+            question_keywords: mergeNeighbor<ReplayKeywordType>(
+              dialogue.question_keywords,
+              (item, index) => item.name === state.keywordToMerge[index],
+              { name: state.mergeTo },
+              state.keywordToMerge.length,
             ),
           };
         }

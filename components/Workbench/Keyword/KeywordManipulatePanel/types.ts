@@ -14,6 +14,14 @@ export type RenameKeywordButtonProps = {
   toggleKeywordToSelect: (keyword: string) => void;
 };
 
+export type MergeKeywordButtonProps = {
+  keyword: string;
+  count: number;
+  isActive: boolean;
+  index: number;
+  toggleKeywordToMerge: (keyword: string, index: number) => void;
+};
+
 export type KeywordManipulatePanelProps = {
   keywordManipulatePanel: AddReplayPanelType;
 };
@@ -32,11 +40,25 @@ export type KeywordRenameProps = {
   renameKeyword: (keyword: string, fromQuestionId?: number) => void;
 };
 
+export type KeywordMergeProps = {
+  keywordKeys: Array<[string, number]>;
+  filteredDialogues: Array<ReplayDialogueType>;
+  keywordFilter: Array<string | null>;
+  mergeKeyword: (fromQuestionId?: number) => void;
+};
+
 export type QuestionRenameProps = {
   dialogue: ReplayDialogueType;
   keywordFilter: string | null;
   renameTo: string;
   renameKeyword: (keyword: string, fromQuestionId?: number) => void;
+};
+
+export type QuestionMergeProps = {
+  dialogue: ReplayDialogueType;
+  keywordFilter: Array<string | null>;
+  mergeTo: string;
+  mergeKeyword: (fromQuestionId?: number) => void;
 };
 
 export type ChoosePanelToolbarProps = {
@@ -48,4 +70,10 @@ export type SetRenameToBoxProps = {
   keywordFilter: string | null;
   renameTo: string;
   setRenameTo: (value: string) => void;
-}
+};
+
+export type SetMergeToBoxProps = {
+  keywordFilter: Array<string | null>;
+  mergeTo: string;
+  setMergeTo: (value: string) => void;
+};

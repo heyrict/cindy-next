@@ -16,6 +16,7 @@ describe('addReplay reducer', () => {
     actionTypes.KUROMOJI_PROGRESS,
     actionTypes.KEYWORD_MANIPULATE_PANEL,
     actionTypes.RENAME_TO,
+    actionTypes.MERGE_TO,
   ])('handle %s correctly', actionType => {
     const action = {
       type: actionType,
@@ -242,6 +243,110 @@ describe('addReplay reducer', () => {
             id: 2,
             question: 'Q2',
             question_keywords: [{ name: 'B' }, { name: 'C' }],
+          },
+        ],
+      };
+      expect(reducer(currentState, action)).toStrictEqual(expectedState);
+    });
+  });
+  // }}}
+
+  // {{{ mergeKeyword
+  describe.only('handle mergeKeyword correctly', () => {
+    let currentState: typeof initialState = initialState;
+    beforeEach(() => {
+      currentState = {
+        ...initialState,
+        keywordToMerge: ['A', 'B'],
+        mergeTo: 'E',
+        replayDialogues: [
+          {
+            id: 1,
+            question: 'Q1',
+            question_keywords: [{ name: 'A' }, { name: 'B' }],
+          },
+          {
+            id: 2,
+            question: 'Q2',
+            question_keywords: [
+              { name: 'A' },
+              { name: 'B' },
+              { name: 'A' },
+              { name: 'B' },
+            ],
+          },
+          {
+            id: 3,
+            question: 'Q3',
+            question_keywords: [
+              { name: 'D' },
+              { name: 'A' },
+              { name: 'B' },
+              { name: 'C' },
+            ],
+          },
+        ],
+      };
+    });
+
+    it('with fromQuestionId', () => {
+      const action = actions.mergeKeyword(1);
+      const expectedState = {
+        ...initialState,
+        keywordToMerge: ['A', 'B'],
+        mergeTo: 'E',
+        replayDialogues: [
+          {
+            id: 1,
+            question: 'Q1',
+            question_keywords: [{ name: 'E' }],
+          },
+          {
+            id: 2,
+            question: 'Q2',
+            question_keywords: [
+              { name: 'A' },
+              { name: 'B' },
+              { name: 'A' },
+              { name: 'B' },
+            ],
+          },
+          {
+            id: 3,
+            question: 'Q3',
+            question_keywords: [
+              { name: 'D' },
+              { name: 'A' },
+              { name: 'B' },
+              { name: 'C' },
+            ],
+          },
+        ],
+      };
+      expect(reducer(currentState, action)).toStrictEqual(expectedState);
+    });
+
+    it('without fromQuestionId', () => {
+      const action = actions.mergeKeyword();
+      const expectedState = {
+        ...initialState,
+        keywordToMerge: ['A', 'B'],
+        mergeTo: 'E',
+        replayDialogues: [
+          {
+            id: 1,
+            question: 'Q1',
+            question_keywords: [{ name: 'E' }],
+          },
+          {
+            id: 2,
+            question: 'Q2',
+            question_keywords: [{ name: 'E' }, { name: 'E' }],
+          },
+          {
+            id: 3,
+            question: 'Q3',
+            question_keywords: [{ name: 'D' }, { name: 'E' }, { name: 'C' }],
           },
         ],
       };
