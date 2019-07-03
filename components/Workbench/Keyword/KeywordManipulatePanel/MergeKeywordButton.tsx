@@ -9,13 +9,6 @@ import KeywordButton from '../shared/KeywordButton';
 import { StateType, ActionContentType } from 'reducers/types';
 import { MergeKeywordButtonProps } from './types';
 
-const useSelector = createSelector(
-  (state: StateType) => addReplayReducer.rootSelector(state).keywordToMerge,
-  (_state: StateType, props: MergeKeywordButtonProps) => props.keyword,
-  (_state: StateType, props: MergeKeywordButtonProps) => props.index,
-  (selectedKeywords, keyword, index) => selectedKeywords[index] === keyword,
-);
-
 const MergeKeywordButton = ({
   keyword,
   isActive,
@@ -29,6 +22,13 @@ const MergeKeywordButton = ({
     content={`${count}: ${keyword}`}
     onClick={() => toggleKeywordToMerge(keyword, index)}
   />
+);
+
+const useSelector = createSelector(
+  (state: StateType) => addReplayReducer.rootSelector(state).keywordToMerge,
+  (_state: StateType, props: MergeKeywordButtonProps) => props.keyword,
+  (_state: StateType, props: MergeKeywordButtonProps) => props.index,
+  (selectedKeywords, keyword, index) => selectedKeywords[index] === keyword,
 );
 
 const mapStateToProps = (

@@ -3,24 +3,16 @@ import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
 
-import { ButtonTransparent, Img, Input, Box } from 'components/General';
 import KeywordBox from '../shared/KeywordBox';
-import pencilIcon from 'svgs/pencil.svg';
+import { ButtonTransparent, Input, Img } from 'components/General';
 import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
-import dustbinIcon from 'svgs/dustbin.svg';
 
 import { KeywordType } from '../shared/types';
-import { KeywordManipulateProps } from './types';
 import { ActionContentType } from 'reducers/types';
+import { KeywordAddProps } from './types';
 
-const KeywordManipulate = ({
-  dialogueId,
-  keyword,
-  keywordIndex,
-  iRenameKeyword,
-  iRemoveKeyword,
-}: KeywordManipulateProps) => {
+const KeywordAdd = ({ iAddKeyword, dialogueId }: KeywordAddProps) => {
   const [edit, setEdit] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null!);
 
@@ -30,9 +22,9 @@ const KeywordManipulate = ({
       <ButtonTransparent
         onClick={() => {
           setEdit(false);
-          const renameTo = inputRef.current.value;
-          if (renameTo === keyword.name || renameTo.trim() === '') return;
-          iRenameKeyword(keywordIndex, renameTo, dialogueId);
+          const keywordName = inputRef.current.value;
+          if (keywordName.trim() === '') return;
+          iAddKeyword(keywordName, dialogueId);
         }}
         height="1.2em"
       >
@@ -44,34 +36,23 @@ const KeywordManipulate = ({
     </KeywordBox>
   ) : (
     <KeywordBox keywordType={KeywordType.DEFAULT}>
-      <Input display="none" ref={inputRef} />
-      <Box px={1}>{keyword.name}</Box>
+      <Input ref={inputRef} display="none" />
       <ButtonTransparent
         height="1.2em"
         onClick={() => {
           setEdit(true);
-          inputRef.current.value = keyword.name;
+          inputRef.current.value = '';
         }}
       >
-        <Img height="1em" src={pencilIcon} alt="edit" />
-      </ButtonTransparent>
-      <ButtonTransparent
-        height="1.2em"
-        onClick={() => iRemoveKeyword(keywordIndex, dialogueId)}
-      >
-        <Img height="1em" src={dustbinIcon} alt="delete" />
+        +
       </ButtonTransparent>
     </KeywordBox>
   );
 };
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  iRemoveKeyword: (index: number, dialogueId: number) =>
-    dispatch(addReplayReducer.actions.iRemoveKeyword(index, dialogueId)),
-  iRenameKeyword: (index: number, renameTo: string, dialogueId: number) =>
-    dispatch(
-      addReplayReducer.actions.iRenameKeyword(index, renameTo, dialogueId),
-    ),
+  iAddKeyword: (keyword: string, dialogueId: number) =>
+    dispatch(addReplayReducer.actions.iAddKeyword(keyword, dialogueId)),
 });
 
 const withRedux = connect(
@@ -79,4 +60,4 @@ const withRedux = connect(
   mapDispatchToProps,
 );
 
-export default withRedux(KeywordManipulate);
+export default withRedux(KeywordAdd);

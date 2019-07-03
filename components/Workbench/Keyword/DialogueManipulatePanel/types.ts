@@ -16,3 +16,8 @@ export type KeywordManipulateProps = {
   iRenameKeyword: (index: number, renameTo: string, dialogueId: number) => void;
   iRemoveKeyword: (index: number, dialogueId: number) => void;
 };
+
+export type KeywordAddProps = {
+  iAddKeyword: (keyword: string, dialogueId: number) => void;
+  dialogueId: number;
+}

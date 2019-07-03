@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
 
@@ -27,7 +28,7 @@ const QuestionMerge = ({
       const shouldMerge = keywordFilter.some(kw => keyword.name === kw);
       const shouldShowNew =
         keywordFilter[keywordFilter.length - 1] === keyword.name;
-      return mergeTo ? (
+      return (
         <React.Fragment
           key={`question-merge-keyword-${dialogue.id}-${index}-${keyword.name}`}
         >
@@ -39,16 +40,11 @@ const QuestionMerge = ({
             {keyword.name}
           </KeywordBox>
           {shouldShowNew && (
-            <KeywordBox keywordType={KeywordType.TO_ADD}>{mergeTo}</KeywordBox>
+            <KeywordBox keywordType={KeywordType.TO_ADD}>
+              {mergeTo || `${keywordFilter[0]}${keywordFilter[1]}`}
+            </KeywordBox>
           )}
         </React.Fragment>
-      ) : (
-        <KeywordBox
-          key={`question-merge-keyword-${dialogue.id}-${index}-${keyword.name}`}
-          keywordType={KeywordType.DEFAULT}
-        >
-          {keyword.name}
-        </KeywordBox>
       );
     })}
     {keywordFilter[0] && keywordFilter[1] && (

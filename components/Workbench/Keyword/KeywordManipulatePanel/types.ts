@@ -44,6 +44,7 @@ export type KeywordMergeProps = {
   keywordKeys: Array<[string, number]>;
   filteredDialogues: Array<ReplayDialogueType>;
   keywordFilter: Array<string | null>;
+  secondKeywords: Array<[string, number]>;
   mergeKeyword: (fromQuestionId?: number) => void;
 };
 

@@ -4,12 +4,10 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import * as addReplayReducer from 'reducers/addReplay';
 
-import { Flex, ButtonTransparent, Box } from 'components/General';
+import { Flex } from 'components/General';
 import KeywordManipulate from './KeywordManipulate';
+import KeywordAdd from './KeywordAdd';
 import KeywordQuestionBox from '../shared/KeywordQuestionBox';
-
-import { FormattedMessage } from 'react-intl';
-import commonMessages from 'messages/common';
 
 import { StateType, ReplayDialogueType } from 'reducers/types';
 import { DialogueManipulateProps } from './types';
@@ -27,11 +25,7 @@ const DialogueManipulate = ({ dialogue }: DialogueManipulateProps) => (
         keywordIndex={index}
       />
     ))}
-    <Box bg="orange.3" ml="auto" borderRadius={1}>
-      <ButtonTransparent fontSize="0.9em">
-        <FormattedMessage {...commonMessages.apply} />
-      </ButtonTransparent>
-    </Box>
+    <KeywordAdd dialogueId={dialogue.id} />
   </Flex>
 );
 

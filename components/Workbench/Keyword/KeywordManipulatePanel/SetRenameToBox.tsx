@@ -15,7 +15,7 @@ const SetRenameToBox = ({
   return (
     <Flex p={1}>
       <Box width={2 / 5} textAlign="center">
-        {keywordFilter}
+        {keywordFilter || '?'}
       </Box>
       <Box width={1 / 5} textAlign="center">
         →

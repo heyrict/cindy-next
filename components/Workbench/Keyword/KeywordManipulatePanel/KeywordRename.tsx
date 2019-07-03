@@ -38,11 +38,9 @@ const KeywordRename = ({
           />
         ))}
       </KeywordPanelKeywords>
-      {keywordFilter && (
-        <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
-          <SetRenameToBox />
-        </Box>
-      )}
+      <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
+        <SetRenameToBox />
+      </Box>
       {keywordFilter && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
           {filteredDialogues.map(dialogue => (

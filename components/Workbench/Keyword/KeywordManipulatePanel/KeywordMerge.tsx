@@ -13,15 +13,21 @@ import QuestionMerge from './QuestionMerge';
 import KeywordPanelKeywords from '../shared/KeywordPanelKeywords';
 import KeywordPanel from '../shared/KeywordPanel';
 
-import { StateType, ActionContentType } from 'reducers/types';
+import {
+  StateType,
+  ActionContentType,
+  ReplayKeywordType,
+} from 'reducers/types';
 import { KeywordMergeProps } from './types';
 import SetMergeToBox from './SetMergeToBox';
 import { filterNeighbor } from 'common/replay';
+import { counter } from '../common';
 
 const KeywordMerge = ({
   keywordKeys,
   filteredDialogues,
   keywordFilter,
+  secondKeywords,
   mergeKeyword,
 }: KeywordMergeProps) => {
   //const [collapse, setCollapse] = useState(true);
@@ -42,7 +48,7 @@ const KeywordMerge = ({
           ))}
         </KeywordPanelKeywords>
         <KeywordPanelKeywords width={1 / 2}>
-          {keywordKeys.map(keyword => (
+          {secondKeywords.map(keyword => (
             <MergeKeywordButton
               key={`merge-right-${keyword[0]}`}
               keyword={keyword[0]}
@@ -52,11 +58,9 @@ const KeywordMerge = ({
           ))}
         </KeywordPanelKeywords>
       </Flex>
-      {keywordFilter[0] && keywordFilter[1] && (
-        <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
-          <SetMergeToBox />
-        </Box>
-      )}
+      <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
+        <SetMergeToBox />
+      </Box>
       {keywordFilter[0] && keywordFilter[1] && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
           {filteredDialogues.map(dialogue => (
@@ -109,10 +113,32 @@ const questionKeywordFilterSelector = createSelector(
         ),
 );
 
+const availableSecondKeywordsSelector = createSelector(
+  (state: StateType) => addReplayReducer.rootSelector(state).keywordToMerge[0],
+  (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
+  (firstKeyword, dialogues) => {
+    const secondKeywords = [] as Array<ReplayKeywordType>;
+    if (!firstKeyword) return [];
+    dialogues.forEach(dialogue => {
+      let prevIsFirstKeyword = false;
+      dialogue.question_keywords.forEach(keyword => {
+        if (keyword.name === firstKeyword) {
+          prevIsFirstKeyword = true;
+        } else if (prevIsFirstKeyword) {
+          secondKeywords.push(keyword);
+        }
+      });
+    });
+    const keywordCounter = counter(secondKeywords);
+    return Object.entries(keywordCounter).sort((a, b) => b[1] - a[1]);
+  },
+);
+
 const mapStateToProps = (state: StateType) => ({
   keywordKeys: keywordKeysSelector(state),
   filteredDialogues: questionKeywordFilterSelector(state),
   keywordFilter: addReplayReducer.rootSelector(state).keywordToMerge,
+  secondKeywords: availableSecondKeywordsSelector(state),
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({

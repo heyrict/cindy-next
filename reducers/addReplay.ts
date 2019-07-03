@@ -29,6 +29,12 @@ export const actionTypes = {
   IRENAME_KEYWORD: `${scope}.IRENAME_KEYWORD`,
   IMERGE_KEYWORD: `${scope}.IMERGE_KEYWORD`,
   ISWAP_KEYWORD: `${scope}.ISWAP_KEYWORD`,
+  IADD_KEYWORD: `${scope}.IADD_KEYWORD`,
+  IEDIT_QUESTION_DIALOGUE: `${scope}.IEDIT_QUESTION_DIALOGUE`,
+  IEDIT_ANSWER_DIALOGUE: `${scope}.IEDIT_ANSWER_DIALOGUE`,
+  ITOGGLE_TRUE_DIALOGUE: `${scope}.ITOGGLE_TRUE_DIALOGUE`,
+  ITOGGLE_GOOD_DIALOGUE: `${scope}.ITOGGLE_GOOD_DIALOGUE`,
+  IREMOVE_DIALOGUE: `${scope}.IREMOVE_DIALOGUE`,
   RENAME_TO: `${scope}.RENAME_TO`,
   MERGE_TO: `${scope}.MERGE_TO`,
 };
@@ -121,6 +127,13 @@ export const actions: ActionSetType = {
       fromQuestionId,
     },
   }),
+  iAddKeyword: (keyword: string, fromQuestionId: number) => ({
+    type: actionTypes.IADD_KEYWORD,
+    payload: {
+      keyword,
+      fromQuestionId,
+    },
+  }),
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -193,9 +206,14 @@ export const reducer = (state = initialState, action: ActionContentType) => {
           };
         case AddReplayPanelType.KEYWORD_MERGE: {
           let keywordToMerge = [...state.keywordToMerge];
+          let mergeTo = state.mergeTo;
           if (index !== undefined) {
             keywordToMerge[index] =
               keywordToMerge[index] === keyword ? null : keyword;
+            if (index === 0) {
+              // reset the second
+              keywordToMerge[1] = null;
+            }
           } else if (keywordToMerge[0] === keyword) {
             keywordToMerge = [null, keywordToMerge[1]];
           } else if (keywordToMerge[1] === keyword) {
@@ -203,7 +221,7 @@ export const reducer = (state = initialState, action: ActionContentType) => {
           } else {
             keywordToMerge = [keywordToMerge[1], keyword];
           }
-          return { ...state, keywordToMerge };
+          return { ...state, mergeTo, keywordToMerge };
         }
         case AddReplayPanelType.KEYWORD_EDIT:
           return {
@@ -291,7 +309,6 @@ export const reducer = (state = initialState, action: ActionContentType) => {
       return { ...state, replayDialogues };
     }
     case actionTypes.MERGE_KEYWORD: {
-      if (state.mergeTo === '') return state;
       const { fromQuestionId } = action.payload as {
         fromQuestionId?: number;
       };
@@ -302,7 +319,11 @@ export const reducer = (state = initialState, action: ActionContentType) => {
             question_keywords: mergeNeighbor<ReplayKeywordType>(
               dialogue.question_keywords,
               (item, index) => item.name === state.keywordToMerge[index],
-              { name: state.mergeTo },
+              {
+                name:
+                  state.mergeTo ||
+                  `${state.keywordToMerge[0]}${state.keywordToMerge[1]}`,
+              },
               state.keywordToMerge.length,
             ),
           };
@@ -351,6 +372,25 @@ export const reducer = (state = initialState, action: ActionContentType) => {
           return {
             ...dialogue,
             question_keywords,
+          };
+        }
+        return dialogue;
+      });
+      return { ...state, replayDialogues };
+    }
+    case actionTypes.IADD_KEYWORD: {
+      const { keyword, fromQuestionId } = action.payload as {
+        keyword: string;
+        fromQuestionId: number;
+      };
+      const replayDialogues = state.replayDialogues.map(dialogue => {
+        if (dialogue.id === fromQuestionId) {
+          return {
+            ...dialogue,
+            question_keywords: [
+              ...dialogue.question_keywords,
+              { name: keyword },
+            ],
           };
         }
         return dialogue;
