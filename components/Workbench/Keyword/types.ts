@@ -1,4 +1,4 @@
-import { ReplayDialogueType } from 'reducers/types';
+import { ReplayDialogueType, AddReplayModeType } from 'reducers/types';
 
 export type KeywordWorkbenchProps = {
   id: number;
@@ -19,3 +19,12 @@ export type KeywordTreeNodeType = {
 export type ResultPreviewProps = {
   keywordTree: KeywordTreeNodeType;
 };
+
+export type ChooseModeToolbarProps = {
+  mode: AddReplayModeType;
+  setMode: (mode: AddReplayModeType) => void;
+};
+
+export type ModeSelectPanelProps = {
+  mode: AddReplayModeType;
+}

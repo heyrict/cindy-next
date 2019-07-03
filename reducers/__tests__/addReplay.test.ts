@@ -11,10 +11,11 @@ import { AddReplayPanelType } from '../types';
 describe('addReplay reducer', () => {
   // {{{ skip actions with helpers
   it.each([
-    actionTypes.KEYWORDS,
+    actionTypes.MODE,
+    actionTypes.KEYWORD_MANIPULATE_PANEL,
+    actionTypes.KEYWORD_COUNTER,
     actionTypes.REPLAY_DIALOGUES,
     actionTypes.KUROMOJI_PROGRESS,
-    actionTypes.KEYWORD_MANIPULATE_PANEL,
     actionTypes.RENAME_TO,
     actionTypes.MERGE_TO,
   ])('handle %s correctly', actionType => {

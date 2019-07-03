@@ -20,7 +20,9 @@ const QuestionRename = ({
   renameKeyword,
 }: QuestionRenameProps) => (
   <Flex width={1} mb={2} flexWrap="wrap" key={dialogue.id}>
-    <KeywordQuestionBox>{dialogue.question}</KeywordQuestionBox>
+    <KeywordQuestionBox qno={dialogue.qno}>
+      {dialogue.question}
+    </KeywordQuestionBox>
     {dialogue.question_keywords.map((keyword, index) => {
       const shouldRename = keyword.name === keywordFilter;
       return renameTo ? (

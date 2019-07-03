@@ -10,7 +10,7 @@ import { getKeywords } from './common';
 
 import { Flex } from 'components/General';
 import KuromojiProgress from './KuromojiProgress';
-import KeywordManipulatePanel from './KeywordManipulatePanel';
+import ModeSelectPanel from './ModeSelectPanel';
 
 import { ActionContentType, ReplayDialogueType } from 'reducers/types';
 import { KeywordWorkbenchProps } from './types';
@@ -40,6 +40,7 @@ const KeywordWorkbench = ({
           const parsed = await getKeywords(dialogue.question);
           calcDialogueKeys.push({
             id: dialogue.id,
+            qno: dialogue.qno,
             question: dialogue.question,
             question_keywords: parsed,
           });
@@ -63,7 +64,7 @@ const KeywordWorkbench = ({
           return (
             <React.Fragment>
               <KuromojiProgress />
-              <KeywordManipulatePanel />
+              <ModeSelectPanel />
             </React.Fragment>
           );
         return null;

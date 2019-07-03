@@ -25,6 +25,7 @@ export type ReplayKeywordType = {
 
 export type ReplayDialogueType = {
   id: number;
+  qno?: number;
   question: string;
   question_keywords: Array<ReplayKeywordType>;
 };
@@ -39,6 +40,11 @@ export enum RightAsideType {
   none,
   content,
   memo,
+}
+
+export enum AddReplayModeType {
+  ROUGH,
+  ONE_BY_ONE,
 }
 
 export enum AddReplayPanelType {

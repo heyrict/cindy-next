@@ -41,17 +41,19 @@ const KeywordSelect = ({
       </KeywordPanelKeywords>
       {keywordFilter && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
-          {filteredDialogues.map(question => (
+          {filteredDialogues.map(dialogue => (
             <Flex
               width={1}
               mb={2}
               flexWrap="wrap"
-              key={`question-delete-${question.id}`}
+              key={`question-delete-${dialogue.id}`}
             >
-              <KeywordQuestionBox>{question.question}</KeywordQuestionBox>
-              {question.question_keywords.map((keyword, index) => (
+              <KeywordQuestionBox qno={dialogue.qno}>
+                {dialogue.question}
+              </KeywordQuestionBox>
+              {dialogue.question_keywords.map((keyword, index) => (
                 <KeywordBox
-                  key={`${question.id}-${index}-${keyword.name}`}
+                  key={`${dialogue.id}-${index}-${keyword.name}`}
                   keywordType={
                     keyword.name === keywordFilter
                       ? KeywordType.TO_DELETE
@@ -64,7 +66,7 @@ const KeywordSelect = ({
               <Box bg="orange.3" ml="auto" borderRadius={1}>
                 <ButtonTransparent
                   fontSize="0.9em"
-                  onClick={() => removeKeyword(keywordFilter, question.id)}
+                  onClick={() => removeKeyword(keywordFilter, dialogue.id)}
                 >
                   <FormattedMessage {...commonMessages.apply} />
                 </ButtonTransparent>

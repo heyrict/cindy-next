@@ -9,25 +9,32 @@ import {
   ActionSetType,
   AddReplayPanelType,
   ReplayKeywordType,
+  AddReplayModeType,
 } from './types';
 import { mergeNeighbor } from 'common/replay';
 
 export const scope = 'addReplay';
 
 export const actionTypes = {
+  MODE: `${scope}.MODE`,
+  KEYWORD_MANIPULATE_PANEL: `${scope}.KEYWORD_MANIPULATE_PANEL`,
   KEYWORD_COUNTER: `${scope}.KEYWORD_COUNTER`,
   REPLAY_DIALOGUES: `${scope}.REPLAY_DIALOGUES`,
   KUROMOJI_PROGRESS: `${scope}.KUROMOJI_PROGRESS`,
-  KEYWORD_MANIPULATE_PANEL: `${scope}.KEYWORD_MANIPULATE_PANEL`,
   SELECT_KEYWORD: `${scope}.SELECT_KEYWORD`,
   REMOVE_KEYWORD: `${scope}.REMOVE_KEYWORD`,
   RENAME_KEYWORD: `${scope}.RENAME_KEYWORD`,
   MERGE_KEYWORD: `${scope}.MERGE_KEYWORD`,
+  IREMOVE_KEYWORD: `${scope}.IREMOVE_KEYWORD`,
+  IRENAME_KEYWORD: `${scope}.IRENAME_KEYWORD`,
+  IMERGE_KEYWORD: `${scope}.IMERGE_KEYWORD`,
+  ISWAP_KEYWORD: `${scope}.ISWAP_KEYWORD`,
   RENAME_TO: `${scope}.RENAME_TO`,
   MERGE_TO: `${scope}.MERGE_TO`,
 };
 
 export const actions: ActionSetType = {
+  ...base.getActions('Mode', actionTypes.MODE),
   ...base.getActions('KeywordCounter', actionTypes.KEYWORD_COUNTER),
   ...array.getActions('ReplayDialogues', actionTypes.REPLAY_DIALOGUES),
   ...base.getActions('KuromojiProgress', actionTypes.KUROMOJI_PROGRESS),
@@ -62,6 +69,13 @@ export const actions: ActionSetType = {
       fromQuestionId,
     },
   }),
+  iRemoveKeyword: (index: number, fromQuestionId: number) => ({
+    type: actionTypes.IREMOVE_KEYWORD,
+    payload: {
+      index,
+      fromQuestionId,
+    },
+  }),
   // Rename one keyword from question.
   // If fromQuestionId is not provided, remove all existing keywords.
   renameKeyword: (keyword: string, fromQuestionId?: number) => ({
@@ -71,9 +85,39 @@ export const actions: ActionSetType = {
       fromQuestionId,
     },
   }),
+  iRenameKeyword: (
+    index: number,
+    renameTo: string,
+    fromQuestionId: number,
+  ) => ({
+    type: actionTypes.IRENAME_KEYWORD,
+    payload: {
+      index,
+      renameTo,
+      fromQuestionId,
+    },
+  }),
+  // Merge two keywords from question.
+  // If fromQuestionId is not provided, remove all existing keywords.
   mergeKeyword: (fromQuestionId?: number) => ({
     type: actionTypes.MERGE_KEYWORD,
     payload: {
+      fromQuestionId,
+    },
+  }),
+  iMergeKeyword: (indexA: number, indexB: number, fromQuestionId: number) => ({
+    type: actionTypes.IMERGE_KEYWORD,
+    payload: {
+      indexA,
+      indexB,
+      fromQuestionId,
+    },
+  }),
+  iSwapKeyword: (indexA: number, indexB: number, fromQuestionId: number) => ({
+    type: actionTypes.ISWAP_KEYWORD,
+    payload: {
+      indexA,
+      indexB,
       fromQuestionId,
     },
   }),
@@ -83,11 +127,12 @@ export const rootSelector = (state: StateType): typeof initialState =>
   state[scope];
 
 export const initialState = {
+  mode: 0 as AddReplayModeType,
+  keywordManipulatePanel: 0 as AddReplayPanelType,
   keywordCounter: {} as ReplayKeywordCounterType,
   countFilterInput: 0,
   replayDialogues: [] as Array<ReplayDialogueType>,
   kuromojiProgress: 0,
-  keywordManipulatePanel: 0,
   keywordToSelect: null as null | string,
   keywordToMerge: [null, null] as Array<null | string>,
   keywordToEdit: null as null | string,
@@ -109,6 +154,11 @@ export const reducer = (state = initialState, action: ActionContentType) => {
       return {
         ...state,
         replayDialogues: array.helper(state.replayDialogues, action.payload),
+      };
+    case actionTypes.MODE:
+      return {
+        ...state,
+        mode: base.helper(state.mode, action.payload),
       };
     case actionTypes.KEYWORD_MANIPULATE_PANEL:
       return {
@@ -184,6 +234,24 @@ export const reducer = (state = initialState, action: ActionContentType) => {
       });
       return { ...state, replayDialogues };
     }
+    case actionTypes.IREMOVE_KEYWORD: {
+      const { index, fromQuestionId } = action.payload as {
+        index: number;
+        fromQuestionId: number;
+      };
+      const replayDialogues = state.replayDialogues.map(dialogue => {
+        if (dialogue.id === fromQuestionId) {
+          const question_keywords = [...dialogue.question_keywords];
+          question_keywords.splice(index, 1);
+          return {
+            ...dialogue,
+            question_keywords,
+          };
+        }
+        return dialogue;
+      });
+      return { ...state, replayDialogues };
+    }
     case actionTypes.RENAME_KEYWORD: {
       if (state.renameTo === '') return state;
       const { keyword, fromQuestionId } = action.payload as {
@@ -197,6 +265,25 @@ export const reducer = (state = initialState, action: ActionContentType) => {
             question_keywords: dialogue.question_keywords.map(k =>
               k.name === keyword ? { ...k, name: state.renameTo } : k,
             ),
+          };
+        }
+        return dialogue;
+      });
+      return { ...state, replayDialogues };
+    }
+    case actionTypes.IRENAME_KEYWORD: {
+      const { index, renameTo, fromQuestionId } = action.payload as {
+        index: number;
+        renameTo: string;
+        fromQuestionId: number;
+      };
+      const replayDialogues = state.replayDialogues.map(dialogue => {
+        if (dialogue.id === fromQuestionId) {
+          const question_keywords = [...dialogue.question_keywords];
+          question_keywords[index] = { name: renameTo };
+          return {
+            ...dialogue,
+            question_keywords,
           };
         }
         return dialogue;
@@ -218,6 +305,52 @@ export const reducer = (state = initialState, action: ActionContentType) => {
               { name: state.mergeTo },
               state.keywordToMerge.length,
             ),
+          };
+        }
+        return dialogue;
+      });
+      return { ...state, replayDialogues };
+    }
+    case actionTypes.IMERGE_KEYWORD: {
+      const { indexA, indexB, fromQuestionId } = action.payload as {
+        indexA: number;
+        indexB: number;
+        fromQuestionId: number;
+      };
+      const replayDialogues = state.replayDialogues.map(dialogue => {
+        if (dialogue.id === fromQuestionId) {
+          const question_keywords = dialogue.question_keywords;
+          const kwA = question_keywords[indexA];
+          const kwB = question_keywords[indexB];
+          question_keywords[indexB] = { name: kwA.name + kwB.name };
+          question_keywords.splice(indexA, 1);
+
+          return {
+            ...dialogue,
+            question_keywords,
+          };
+        }
+        return dialogue;
+      });
+      return { ...state, replayDialogues };
+    }
+    case actionTypes.ISWAP_KEYWORD: {
+      const { indexA, indexB, fromQuestionId } = action.payload as {
+        indexA: number;
+        indexB: number;
+        fromQuestionId: number;
+      };
+      const replayDialogues = state.replayDialogues.map(dialogue => {
+        if (dialogue.id === fromQuestionId) {
+          const question_keywords = dialogue.question_keywords;
+          const kwA = question_keywords[indexA];
+          const kwB = question_keywords[indexB];
+          question_keywords[indexA] = kwB;
+          question_keywords[indexB] = kwA;
+
+          return {
+            ...dialogue,
+            question_keywords,
           };
         }
         return dialogue;

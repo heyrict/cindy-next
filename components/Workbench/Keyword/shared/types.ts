@@ -14,3 +14,7 @@ export enum KeywordType {
 export type KeywordBoxProps = {
   keywordType: KeywordType;
 };
+
+export type KeywordQuestionBoxProps = {
+  qno?: number;
+}
