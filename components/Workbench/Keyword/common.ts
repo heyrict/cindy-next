@@ -46,10 +46,10 @@ export const getKeywords = async (text: string, filter = defaultFilter) => {
     .map(o => ({ name: o.basic_form === '*' ? o.surface_form : o.basic_form }));
 };
 
-export const counter = async (
+export const counter = (
   list: Array<ReplayKeywordType>,
   continueFrom: ReplayKeywordCounterType,
-): Promise<ReplayKeywordCounterType> => {
+): ReplayKeywordCounterType => {
   const counts = continueFrom || (new Object() as ReplayKeywordCounterType);
   list.forEach(k => {
     if (k.name in counts) counts[k.name] += 1;

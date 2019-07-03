@@ -68,12 +68,10 @@ export type ChoosePanelToolbarProps = {
 
 export type SetRenameToBoxProps = {
   keywordFilter: string | null;
-  renameTo: string;
   setRenameTo: (value: string) => void;
 };
 
 export type SetMergeToBoxProps = {
   keywordFilter: Array<string | null>;
-  mergeTo: string;
   setMergeTo: (value: string) => void;
 };

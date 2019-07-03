@@ -1,11 +1,10 @@
-import { ReplayDialogueType, ReplayKeywordCounterType } from 'reducers/types';
+import { ReplayDialogueType } from 'reducers/types';
 
 export type KeywordWorkbenchProps = {
   id: number;
   setReplayDialogues: (data: Array<ReplayDialogueType>) => void;
   setKuromojiProgress: (percentage: number) => void;
   setCountFilterInput: (value: number) => void;
-  setKeywordCounter: (keywords: ReplayKeywordCounterType) => void;
 };
 
 export type KuromojiProgressProps = {

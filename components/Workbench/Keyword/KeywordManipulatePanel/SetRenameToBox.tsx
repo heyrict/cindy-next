@@ -10,7 +10,6 @@ import { SetRenameToBoxProps } from './types';
 
 const SetRenameToBox = ({
   keywordFilter,
-  renameTo,
   setRenameTo,
 }: SetRenameToBoxProps) => {
   return (
@@ -22,11 +21,7 @@ const SetRenameToBox = ({
         →
       </Box>
       <Box width={2 / 5}>
-        <Input
-          width={1}
-          value={renameTo}
-          onChange={e => setRenameTo(e.target.value)}
-        />
+        <Input width={1} onChange={e => setRenameTo(e.target.value)} />
       </Box>
     </Flex>
   );
@@ -34,7 +29,6 @@ const SetRenameToBox = ({
 
 const mapStateToProps = (state: StateType) => ({
   keywordFilter: addReplayReducer.rootSelector(state).keywordToEdit,
-  renameTo: addReplayReducer.rootSelector(state).renameTo,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({

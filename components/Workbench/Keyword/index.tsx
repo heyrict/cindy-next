@@ -6,17 +6,13 @@ import * as addReplayReducer from 'reducers/addReplay';
 import { Query } from 'react-apollo';
 import { PUZZLE_DIALOGUE_QUERY } from 'graphql/Queries/Puzzles';
 
-import { getKeywords, counter } from './common';
+import { getKeywords } from './common';
 
 import { Flex } from 'components/General';
 import KuromojiProgress from './KuromojiProgress';
 import KeywordManipulatePanel from './KeywordManipulatePanel';
 
-import {
-  ActionContentType,
-  ReplayDialogueType,
-  ReplayKeywordCounterType,
-} from 'reducers/types';
+import { ActionContentType, ReplayDialogueType } from 'reducers/types';
 import { KeywordWorkbenchProps } from './types';
 import {
   PuzzleDialogueQuery,
@@ -27,7 +23,6 @@ const KeywordWorkbench = ({
   id,
   setReplayDialogues,
   setKuromojiProgress,
-  setKeywordCounter,
 }: KeywordWorkbenchProps) => (
   <Flex p={2} flexWrap="wrap">
     <Query<PuzzleDialogueQuery, PuzzleDialogueQueryVariables>
@@ -39,12 +34,10 @@ const KeywordWorkbench = ({
       onCompleted={async ({ sui_hei_dialogue }) => {
         // Get keys
         const calcDialogueKeys = [] as Array<ReplayDialogueType>;
-        let keywordCounter = new Object() as ReplayKeywordCounterType;
         setKuromojiProgress(0);
         for (let i = 0; i < sui_hei_dialogue.length; i++) {
           const dialogue = sui_hei_dialogue[i];
           const parsed = await getKeywords(dialogue.question);
-          await counter(parsed, keywordCounter);
           calcDialogueKeys.push({
             id: dialogue.id,
             question: dialogue.question,
@@ -56,7 +49,6 @@ const KeywordWorkbench = ({
 
         setKuromojiProgress(1);
         setReplayDialogues(calcDialogueKeys);
-        setKeywordCounter(keywordCounter);
       }}
     >
       {({ loading, error, data }) => {
@@ -85,8 +77,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(addReplayReducer.actions.setReplayDialogues(data)),
   setKuromojiProgress: (percentage: number) =>
     dispatch(addReplayReducer.actions.setKuromojiProgress(percentage)),
-  setKeywordCounter: (data: ReplayKeywordCounterType) =>
-    dispatch(addReplayReducer.actions.setKeywords(data)),
 });
 
 const withRedux = connect(

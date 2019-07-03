@@ -32,7 +32,7 @@ const KeywordRename = ({
       <KeywordPanelKeywords>
         {keywordKeys.map(keyword => (
           <RenameKeywordButton
-            key={keyword[0]}
+            key={`keyword-rename-${keyword[0]}`}
             keyword={keyword[0]}
             count={keyword[1]}
           />
@@ -46,7 +46,10 @@ const KeywordRename = ({
       {keywordFilter && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
           {filteredDialogues.map(dialogue => (
-            <QuestionRename dialogue={dialogue} />
+            <QuestionRename
+              key={`question-rename-${dialogue.id}`}
+              dialogue={dialogue}
+            />
           ))}
         </Box>
       )}

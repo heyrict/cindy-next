@@ -33,7 +33,7 @@ const KeywordSelect = ({
       <KeywordPanelKeywords>
         {keywordKeys.map(keyword => (
           <SelectKeywordButton
-            key={keyword[0]}
+            key={`keyword-select-${keyword[0]}`}
             keyword={keyword[0]}
             count={keyword[1]}
           />
@@ -42,7 +42,12 @@ const KeywordSelect = ({
       {keywordFilter && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
           {filteredDialogues.map(question => (
-            <Flex width={1} mb={2} flexWrap="wrap" key={question.id}>
+            <Flex
+              width={1}
+              mb={2}
+              flexWrap="wrap"
+              key={`question-delete-${question.id}`}
+            >
               <KeywordQuestionBox>{question.question}</KeywordQuestionBox>
               {question.question_keywords.map((keyword, index) => (
                 <KeywordBox

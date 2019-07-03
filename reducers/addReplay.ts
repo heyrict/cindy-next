@@ -15,7 +15,7 @@ import { mergeNeighbor } from 'common/replay';
 export const scope = 'addReplay';
 
 export const actionTypes = {
-  KEYWORDS: `${scope}.KEYWORDS`,
+  KEYWORD_COUNTER: `${scope}.KEYWORD_COUNTER`,
   REPLAY_DIALOGUES: `${scope}.REPLAY_DIALOGUES`,
   KUROMOJI_PROGRESS: `${scope}.KUROMOJI_PROGRESS`,
   KEYWORD_MANIPULATE_PANEL: `${scope}.KEYWORD_MANIPULATE_PANEL`,
@@ -28,7 +28,7 @@ export const actionTypes = {
 };
 
 export const actions: ActionSetType = {
-  ...base.getActions('Keywords', actionTypes.KEYWORDS),
+  ...base.getActions('KeywordCounter', actionTypes.KEYWORD_COUNTER),
   ...array.getActions('ReplayDialogues', actionTypes.REPLAY_DIALOGUES),
   ...base.getActions('KuromojiProgress', actionTypes.KUROMOJI_PROGRESS),
   ...base.getActions(
@@ -86,7 +86,6 @@ export const initialState = {
   keywordCounter: {} as ReplayKeywordCounterType,
   countFilterInput: 0,
   replayDialogues: [] as Array<ReplayDialogueType>,
-  savedKeywords: [],
   kuromojiProgress: 0,
   keywordManipulatePanel: 0,
   keywordToSelect: null as null | string,
@@ -101,7 +100,7 @@ export const initialState = {
 
 export const reducer = (state = initialState, action: ActionContentType) => {
   switch (action.type) {
-    case actionTypes.KEYWORDS:
+    case actionTypes.KEYWORD_COUNTER:
       return {
         ...state,
         keywordCounter: base.helper(state.keywordCounter, action.payload),

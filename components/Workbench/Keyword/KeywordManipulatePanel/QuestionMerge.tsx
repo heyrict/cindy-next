@@ -26,9 +26,10 @@ const QuestionMerge = ({
       const shouldShowNew =
         keywordFilter[keywordFilter.length - 1] === keyword.name;
       return mergeTo ? (
-        <React.Fragment>
+        <React.Fragment
+          key={`question-merge-keyword-${dialogue.id}-${index}-${keyword.name}`}
+        >
           <KeywordBox
-            key={`${dialogue.id}-${index}-${keyword.name}`}
             keywordType={
               shouldMerge ? KeywordType.TO_DELETE : KeywordType.DEFAULT
             }
@@ -36,17 +37,12 @@ const QuestionMerge = ({
             {keyword.name}
           </KeywordBox>
           {shouldShowNew && (
-            <KeywordBox
-              key={`${dialogue.id}-${index}-${keyword.name}-mergeTo`}
-              keywordType={KeywordType.TO_ADD}
-            >
-              {mergeTo}
-            </KeywordBox>
+            <KeywordBox keywordType={KeywordType.TO_ADD}>{mergeTo}</KeywordBox>
           )}
         </React.Fragment>
       ) : (
         <KeywordBox
-          key={`${dialogue.id}-${index}-${keyword.name}`}
+          key={`question-merge-keyword-${dialogue.id}-${index}-${keyword.name}`}
           keywordType={KeywordType.DEFAULT}
         >
           {keyword.name}

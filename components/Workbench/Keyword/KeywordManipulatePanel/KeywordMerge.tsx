@@ -34,7 +34,7 @@ const KeywordMerge = ({
         <KeywordPanelKeywords width={1 / 2}>
           {keywordKeys.map(keyword => (
             <MergeKeywordButton
-              key={keyword[0]}
+              key={`merge-left-${keyword[0]}`}
               keyword={keyword[0]}
               count={keyword[1]}
               index={0}
@@ -44,7 +44,7 @@ const KeywordMerge = ({
         <KeywordPanelKeywords width={1 / 2}>
           {keywordKeys.map(keyword => (
             <MergeKeywordButton
-              key={keyword[0]}
+              key={`merge-right-${keyword[0]}`}
               keyword={keyword[0]}
               count={keyword[1]}
               index={1}
@@ -60,7 +60,10 @@ const KeywordMerge = ({
       {keywordFilter[0] && keywordFilter[1] && (
         <Box borderTop="2px solid" borderColor="yellow.6" pt={1}>
           {filteredDialogues.map(dialogue => (
-            <QuestionMerge dialogue={dialogue} />
+            <QuestionMerge
+              key={`question-merge-${dialogue.id}`}
+              dialogue={dialogue}
+            />
           ))}
         </Box>
       )}

@@ -24,9 +24,12 @@ const QuestionRename = ({
     {dialogue.question_keywords.map((keyword, index) => {
       const shouldRename = keyword.name === keywordFilter;
       return renameTo ? (
-        <React.Fragment>
+        <React.Fragment
+          key={`question-rename-keywords-${dialogue.id}-${index}-${
+            keyword.name
+          }`}
+        >
           <KeywordBox
-            key={`${dialogue.id}-${index}-${keyword.name}`}
             keywordType={
               shouldRename ? KeywordType.TO_DELETE : KeywordType.DEFAULT
             }
@@ -34,17 +37,14 @@ const QuestionRename = ({
             {keyword.name}
           </KeywordBox>
           {shouldRename && (
-            <KeywordBox
-              key={`${dialogue.id}-${index}-${keyword.name}-renameTo`}
-              keywordType={KeywordType.TO_ADD}
-            >
-              {renameTo}
-            </KeywordBox>
+            <KeywordBox keywordType={KeywordType.TO_ADD}>{renameTo}</KeywordBox>
           )}
         </React.Fragment>
       ) : (
         <KeywordBox
-          key={`${dialogue.id}-${index}-${keyword.name}`}
+          key={`question-rename-keywords-${dialogue.id}-${index}-${
+            keyword.name
+          }`}
           keywordType={KeywordType.DEFAULT}
         >
           {keyword.name}
