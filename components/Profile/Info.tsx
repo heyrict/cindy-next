@@ -96,6 +96,20 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
                 </Box>
                 <Box ml="auto">{user.nickname}</Box>
               </Flex>
+              <Flex {...infoRowProps}>
+                <Box mr="auto" minWidth="8em">
+                  <FormattedMessage {...authMessages.date_joined} />
+                </Box>
+                <Box ml="auto">{user.date_joined}</Box>
+              </Flex>
+              {user.last_login && (
+                <Flex {...infoRowProps}>
+                  <Box mr="auto" minWidth="8em">
+                    <FormattedMessage {...authMessages.last_login} />
+                  </Box>
+                  <Box ml="auto">{user.last_login}</Box>
+                </Flex>
+              )}
               {aggregates.puzzleCount && (
                 <Flex {...infoRowProps}>
                   <Box {...infoRowLabelProps}>
