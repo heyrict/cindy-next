@@ -9,6 +9,8 @@
   "add_replay.description": "問題のリプレイを作ろう！",
   "add_replay.header": "リプレイ作成ページ",
   "add_replay.title": "リプレイ作成ページ",
+  "auth.date_joined": "登録日時",
+  "auth.last_login": "最終ログイン",
   "auth.login": "ログイン",
   "auth.logout": "ログアウト",
   "auth.nickname": "ニックネーム",

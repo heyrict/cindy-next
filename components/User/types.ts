@@ -50,3 +50,7 @@ export type AnonymousUserProps = {
 export type CurrentUserAwardProps = {
   useraward: UserAward;
 };
+
+export type UserBriefProfileProps = {
+  user: InlineUser;
+}

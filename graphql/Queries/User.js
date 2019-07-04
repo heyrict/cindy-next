@@ -12,6 +12,17 @@ export const USER_BRIEF_QUERY = gql`
   ${USER_BRIEF_FRAGMENT}
 `;
 
+export const USER_BRIEF_EXTRA_QUERY = gql`
+  query UserBriefExtraQuery($id: Int!) {
+    sui_hei_user_by_pk(id: $id) {
+      id
+      profile
+      date_joined
+      last_login
+    }
+  }
+`;
+
 export const USER_QUERY = gql`
   query UserQuery($id: Int!) {
     sui_hei_user_by_pk(id: $id) {

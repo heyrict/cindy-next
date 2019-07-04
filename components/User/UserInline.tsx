@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'routes';
+
 import { Img, Flex, Anchor, EditTimeSpan } from 'components/General';
+import UserBriefProfile from './UserBriefProfile';
 import CurrentUserAward from './CurrentUserAward';
 
 import { UserInlineBase } from './shared';
@@ -17,9 +18,7 @@ const UserInline = ({
     <Flex flexWrap="wrap" alignItems="baseline" ml={1}>
       {user.id > 0 ? (
         <React.Fragment>
-          <Link to="user" params={{ id: user.id }} passHref>
-            <Anchor maxWidth="12em">{user.nickname}</Anchor>
-          </Link>
+          <UserBriefProfile user={user} />
           {user.sui_hei_current_useraward && (
             <CurrentUserAward useraward={user.sui_hei_current_useraward} />
           )}
