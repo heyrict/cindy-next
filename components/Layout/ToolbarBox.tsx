@@ -8,14 +8,8 @@ const ToolbarBoxBase = styled.nav<ToolbarBoxBaseProps>`
   left: calc(${p => p.theme.sizes.chatXL});
   height: ${p => p.theme.sizes.toolbar};
   width: ${p => `calc(100% - ${p.theme.sizes.chatXL} - 4px)`};
-  background: repeating-linear-gradient(
-    -30deg,
-    ${p => p.theme.colors.orange[7]},
-    ${p => p.theme.colors.orange[5]} 8px,
-    ${p => p.theme.colors.orange[5]} 12px,
-    ${p => p.theme.colors.orange[7]} 20px
-  );
-  border: 2px solid ${p => p.theme.colors.orange[6]};
+  background: ${p => p.theme.colors.orange[3]};
+  border: 2px solid ${p => p.theme.colors.orange[5]};
   overflow-x: auto;
   overflow-y: hidden;
   z-index: 100;
