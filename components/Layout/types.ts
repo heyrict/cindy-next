@@ -1,3 +1,5 @@
+import { ToolbarResponsiveMenuType } from 'reducers/types';
+
 export type FixedButtonBaseProps = {
   position?: 'left' | 'right';
   show: boolean;
@@ -29,4 +31,8 @@ export type LayoutProps = {
   children: React.ReactElement;
   fetchUser: () => void;
   [prop: string]: any;
-}
+};
+
+export type ToolbarBoxProps = {
+  toolbarMenu: ToolbarResponsiveMenuType;
+};

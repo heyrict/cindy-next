@@ -1,6 +1,11 @@
 import styled from 'theme/styled';
-import { ToolbarBoxBaseProps } from './types';
+import { ToolbarBoxBaseProps, ToolbarBoxProps } from './types';
 import React from 'react';
+
+import { connect } from 'react-redux';
+import * as globalReducer from 'reducers/global';
+
+import { StateType, ToolbarResponsiveMenuType } from 'reducers/types';
 
 const ToolbarBoxBase = styled.nav<ToolbarBoxBaseProps>`
   position: fixed;
@@ -28,7 +33,7 @@ const ToolbarBoxBase = styled.nav<ToolbarBoxBaseProps>`
   }
 `;
 
-class ToolbarBox extends React.Component {
+class ToolbarBox extends React.Component<ToolbarBoxProps> {
   state = {
     showToolbar: true,
   };
@@ -52,11 +57,22 @@ class ToolbarBox extends React.Component {
   };
   render() {
     return (
-      <ToolbarBoxBase show={this.state.showToolbar}>
+      <ToolbarBoxBase
+        show={
+          this.state.showToolbar ||
+          this.props.toolbarMenu !== ToolbarResponsiveMenuType.NULL
+        }
+      >
         {this.props.children}
       </ToolbarBoxBase>
     );
   }
 }
 
-export default ToolbarBox;
+const mapStateToProps = (state: StateType) => ({
+  toolbarMenu: globalReducer.rootSelector(state).toolbarMenu,
+});
+
+const withRedux = connect(mapStateToProps);
+
+export default withRedux(ToolbarBox);

@@ -42,13 +42,20 @@ export const ToolbarDisplayResponsive = styled.div`
 `;
 
 export const ToolbarResponsiveContents = styled.div`
-  position: absolute;
+  position: fixed;
   top: ${p => p.theme.sizes.toolbar};
   left: 0;
   right: 0;
   background: ${p => p.theme.colors.orange[2]};
   display: flex;
   flex-wrap: wrap;
+  ${p => p.theme.mediaQueries.large} {
+    margin-left: ${p => p.theme.sizes.chatLG};
+  }
+  ${p => p.theme.mediaQueries.medium} {
+    margin-left: 0;
+    width: 100%;
+  }
 `;
 
 export const ToolbarResponsiveButton = styled(Box)`
