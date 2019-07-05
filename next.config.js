@@ -7,11 +7,10 @@ module.exports = withTypescript({
       test: /\.svg$/,
       use: [
         {
-          loader: 'svg-url-loader',
+          loader: 'file-loader',
           options: {
-            // Inline files smaller than 10 kB
-            limit: 10 * 1024,
-            noquotes: true,
+            outputPath: 'static/_files',
+            publicPath: '/_next/static/_files',
           },
         },
       ],
