@@ -46,11 +46,35 @@ export const messages = defineMessages({
   },
   setHidden: {
     id: `${scope}.setHidden`,
-    defaultMessage: 'Set As Hidden',
+    defaultMessage: 'Make the puzzle hidden to public',
+  },
+  unsetHidden: {
+    id: `${scope}.unsetHidden`,
+    defaultMessage: 'Make the puzzle open to public',
   },
   memoFromCreator: {
     id: `${scope}.memoFromCreator`,
     defaultMessage: 'Memo from creator',
+  },
+  setGrotesque: {
+    id: `${scope}.setGrotesque`,
+    defaultMessage: 'Show grotesque warning',
+  },
+  unsetGrotesque: {
+    id: `${scope}.unsetGrotesque`,
+    defaultMessage: 'Hide grotesque warning',
+  },
+  setYami: {
+    id: `${scope}.setYami`,
+    defaultMessage: 'Make this puzzle yami',
+  },
+  unsetYami: {
+    id: `${scope}.unsetYami`,
+    defaultMessage: 'Make this puzzle non-yami',
+  },
+  grotesqueWarning: {
+    id: `${scope}.grotesqueWarning`,
+    defaultMessage: 'WARNING! This puzzle has grotesque descriptions',
   },
 });
 

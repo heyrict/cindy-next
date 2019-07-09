@@ -56,19 +56,17 @@ const SetPanelToolbar = ({
         <FormattedMessage {...messages.hint} />
       </ButtonTransparent>
     )}
-    {status === 0 && (
-      <ButtonTransparent
-        {...PanelToolbarButonProps}
-        borderColor={
-          currentPanel === ControlPanelPanelType.PUZZLE_EDIT
-            ? activeColor
-            : 'transparent'
-        }
-        onClick={() => setCurrentPanel(ControlPanelPanelType.PUZZLE_EDIT)}
-      >
-        <FormattedMessage {...messages.general} />
-      </ButtonTransparent>
-    )}
+    <ButtonTransparent
+      {...PanelToolbarButonProps}
+      borderColor={
+        currentPanel === ControlPanelPanelType.PUZZLE_EDIT
+          ? activeColor
+          : 'transparent'
+      }
+      onClick={() => setCurrentPanel(ControlPanelPanelType.PUZZLE_EDIT)}
+    >
+      <FormattedMessage {...messages.general} />
+    </ButtonTransparent>
   </Flex>
 );
 

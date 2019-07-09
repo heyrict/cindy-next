@@ -48,6 +48,7 @@ const PuzzlesSolvedRenderer = ({
 }: PuzzlesSolvedRendererProps) => {
   const [hasMore, setHasMore] = useState(true);
 
+  // Update first 20 questions upon second+ load
   useEffect(() => {
     if (data && data.sui_hei_puzzle && data.sui_hei_puzzle.length !== 0) {
       fetchMore({

@@ -38,7 +38,10 @@ const PuzzleDetail = ({
 
   const shouldShowMemo = puzzle.memo.trim() !== '';
   const shouldShowAnswer =
-    puzzle.status === 1 || puzzle.status === 2 || solvedLongtermYami;
+    puzzle.status === 1 ||
+    puzzle.status === 2 ||
+    (puzzle.status === 3 && isCreator) ||
+    solvedLongtermYami;
   const shouldShowAddQuestionInput =
     puzzle.status === 0 && !isCreator && isUser;
   const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
