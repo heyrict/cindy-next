@@ -40,3 +40,9 @@ export enum RightAsideType {
   content,
   memo,
 }
+
+export enum ToolbarResponsiveMenuType {
+  NULL,
+  GENERAL_MENU,
+  USER_MENU,
+}
