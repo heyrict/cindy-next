@@ -1,0 +1,76 @@
+# Drop sui_hei_award permissions
+## User
+- args:
+    role: user
+    table:
+      name: sui_hei_award
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_award
+      schema: public
+  type: drop_insert_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_award
+      schema: public
+  type: drop_update_permission
+## Anonymous
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_award
+      schema: public
+  type: drop_select_permission
+
+# Drop column
+- args:
+    sql: ALTER TABLE sui_hei_puzzle DROP COLUMN IF EXISTS "groupName";
+  type: run_sql
+
+# Reset sui_hei_award permission
+## User
+- args:
+    permission:
+      columns: "*"
+      check: {}
+    role: user
+    table:
+      name: sui_hei_award
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      columns: "*"
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: sui_hei_award
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_award
+      schema: public
+  type: create_update_permission
+## Anonymous
+- args:
+    permission:
+      allow_aggregations: true
+      columns: "*"
+      filter: {}
+      limit: null
+    role: anonymous
+    table:
+      name: sui_hei_award
+      schema: public
+  type: create_select_permission

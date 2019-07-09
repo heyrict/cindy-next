@@ -1,0 +1,90 @@
+# Drop sui_hei_user permissions
+## User
+- args:
+    role: user
+    table:
+      name: sui_hei_user
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_user
+      schema: public
+  type: drop_update_permission
+## Anonymous
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_user
+      schema: public
+  type: drop_select_permission
+
+# Drop column
+- args:
+    sql: ALTER TABLE sui_hei_user DROP COLUMN IF EXISTS credit;
+  type: run_sql
+
+# Reset sui_hei_user permission
+## User
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 2000
+      filter: {}
+      columns:
+        - id
+        - last_login
+        - username
+        - email
+        - date_joined
+        - nickname
+        - profile
+        - hide_bookmark
+        - current_award_id
+        - last_read_dm_id
+    role: user
+    table:
+      name: sui_hei_user
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns:
+        - last_login
+        - username
+        - email
+        - profile
+        - hide_bookmark
+        - current_award_id
+        - last_read_dm_id
+      filter:
+        id: X-HASURA-USER-ID
+      set:
+        id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_user
+      schema: public
+  type: create_update_permission  
+## Anonymous
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 1000
+      filter: {}
+      columns:
+        - id
+        - last_login
+        - username
+        - email
+        - date_joined
+        - nickname
+        - profile
+        - hide_bookmark
+        - current_award_id
+    role: anonymous
+    table:
+      name: sui_hei_user
+      schema: public
+  type: create_select_permission  
