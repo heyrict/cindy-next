@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Flex, Box } from 'components/General';
+import { Flex, Box, ButtonTransparent } from 'components/General';
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/puzzle';
+import commonMessages from 'messages/common';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -21,6 +22,7 @@ import ControlPanel from './ControlPanel';
 
 import { StateType, ActionContentType } from 'reducers/types';
 import { PuzzleDetailProps } from './types';
+import { Modal } from 'components/Modal';
 
 const PuzzleDetail = ({
   puzzle,
@@ -54,12 +56,20 @@ const PuzzleDetail = ({
 
   const queryWithCurrentUserOnly = puzzle.yami !== 0 && !isCreator;
 
+  const [showGrotesqueModal, setShowGrotesqueModal] = useState(false);
+
   useEffect(() => {
     if (!isHidden) {
       setPuzzleContent(puzzle.content);
       return () => setPuzzleContent('');
     }
   }, [puzzle.content, puzzle.status]);
+
+  useEffect(() => {
+    if (puzzle.grotesque) {
+      setShowGrotesqueModal(true);
+    }
+  }, [puzzle.grotesque]);
 
   useEffect(() => {
     setFalseSolvedLongtermYami();
@@ -88,7 +98,7 @@ const PuzzleDetail = ({
 
   return (
     <React.Fragment>
-      <Flex justifyContent="center" flexWrap="wrap" mb={4}>
+      <Flex justifyContent="center" flexWrap="wrap" mb="100px">
         <PuzzleTitle
           title={puzzle.title}
           genre={puzzle.genre}
@@ -132,6 +142,35 @@ const PuzzleDetail = ({
         {shouldShowReplayPanel && <ReplayPanel puzzleId={puzzle.id} />}
         {shouldShowControlPanel && <ControlPanel puzzle={puzzle} />}
       </Flex>
+      <Modal show={showGrotesqueModal}>
+        <Flex pt={3} flexWrap="wrap" justifyContent="center">
+          <Box width={1} py={4} fontSize={4} color="red.7" textAlign="center">
+            <FormattedMessage {...messages.grotesqueWarning} />
+          </Box>
+          <Flex width={1} mt={2}>
+            <Box width={1} bg="red.6">
+              <ButtonTransparent
+                p={2}
+                width={1}
+                color="red.0"
+                onClick={() => window.history.back()}
+              >
+                <FormattedMessage {...commonMessages.back} />
+              </ButtonTransparent>
+            </Box>
+            <Box width={1} bg="orange.6">
+              <ButtonTransparent
+                p={2}
+                width={1}
+                color="orange.0"
+                onClick={() => setShowGrotesqueModal(false)}
+              >
+                <FormattedMessage {...commonMessages.continue} />
+              </ButtonTransparent>
+            </Box>
+          </Flex>
+        </Flex>
+      </Modal>
     </React.Fragment>
   );
 };

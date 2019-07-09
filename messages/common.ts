@@ -45,7 +45,11 @@ export const messages = defineMessages({
   },
   back: {
     id: `${scope}.back`,
-    defaultMessage: '<< Back',
+    defaultMessage: 'Back',
+  },
+  continue: {
+    id: `${scope}.continue`,
+    defaultMessage: 'Continue',
   },
 });
 
