@@ -51,6 +51,10 @@ export const messages = defineMessages({
     id: `${scope}.continue`,
     defaultMessage: 'Continue',
   },
+  patron: {
+    id: `${scope}.patron`,
+    defaultMessage: 'Patron',
+  },
 });
 
 export default messages;

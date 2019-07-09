@@ -36,3 +36,7 @@ export type LayoutProps = {
 export type ToolbarBoxProps = {
   toolbarMenu: ToolbarResponsiveMenuType;
 };
+
+export type FooterProps = {
+  children: React.ReactElement;
+}

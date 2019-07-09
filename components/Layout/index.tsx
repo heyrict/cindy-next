@@ -17,6 +17,8 @@ import AwardChecker from 'components/AwardChecker';
 import ChatBox from './ChatBox';
 import Page from './Page';
 import ToolbarBox from './ToolbarBox';
+import Footer from './Footer';
+import Patrons from './Patrons';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -311,7 +313,13 @@ const Layout = ({ children, fetchUser }: LayoutProps) => {
       <ToolbarBox>
         <Toolbar />
       </ToolbarBox>
-      <Page>{children}</Page>
+      <Page>
+        {children}
+        <div style={{ height: '20px' }} />
+        <Footer>
+          <Patrons />
+        </Footer>
+      </Page>
       <ToastContainer
         position={toast.POSITION.BOTTOM_RIGHT}
         transition={Slide}

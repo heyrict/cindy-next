@@ -49,3 +49,7 @@ Environment Variables
 | AUTH_PUBLIC_KEY  | Public key for authorization      | Content of `public.pem`                     |
 | AUTH_KEY_ID      | Key identifier for the key        | Hash of \$AUTH_PUBLIC_KEY                   |
 | NODE_ENV         | Node env (development/production) |                                             |
+
+Patrons
+--------
+- [アシカ](https://www.cindythink.com/profile/show/36)
