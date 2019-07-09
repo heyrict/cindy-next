@@ -11,8 +11,8 @@ const awardsMessages = defineMessages({
     id: `${scope}.description`,
     defaultMessage: 'Get awards for use in Cindy!',
   },
-  heading: {
-    id: `${scope}.heading`,
+  header: {
+    id: `${scope}.header`,
     defaultMessage: 'Awards',
   },
   group_puzzleCount: {

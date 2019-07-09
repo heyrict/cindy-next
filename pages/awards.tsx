@@ -18,7 +18,7 @@ const Awards = (_props: {}, context: { intl: IntlShape }) => {
         <meta name="description" content={_(messages.description)} />
       </Head>
       <Heading>
-        <FormattedMessage {...awardsMessages.heading} />
+        <FormattedMessage {...awardsMessages.header} />
       </Heading>
       <AwardsRenderer />
     </React.Fragment>
