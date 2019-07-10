@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import { Heading } from 'components/General';
 import AwardsRenderer from 'components/Award/AwardsRenderer';
+import PuzzleSubbar from 'components/Subbar/Puzzle';
 
 import { intlShape, IntlShape, FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/awards';
@@ -20,6 +21,7 @@ const Awards = (_props: {}, context: { intl: IntlShape }) => {
       <Heading>
         <FormattedMessage {...awardsMessages.header} />
       </Heading>
+      <PuzzleSubbar />
       <AwardsRenderer />
     </React.Fragment>
   );

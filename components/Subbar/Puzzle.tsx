@@ -60,7 +60,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
     </Box>
     <Box
       width={[1 / 3, 1 / 5, 1 / 6, 1 / 8]}
-      bg={route === '/ranking' ? 'yellow.4' : 'orange.4'}
+      bg={route === '/awards' ? 'yellow.4' : 'orange.4'}
       borderRadius={2}
       mr={1}
       p={1}
