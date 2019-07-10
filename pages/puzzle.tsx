@@ -31,7 +31,7 @@ class Puzzle extends React.Component<PuzzleProps> {
     return (
       <React.Fragment>
         <Head>
-          <title>{_(messages.title)}</title>
+          <title>{_(messages.title)} | Cindy</title>
           <meta name="description" content={_(messages.description)} />
         </Head>
         <Query<PuzzleQuery, PuzzleQueryVariables>

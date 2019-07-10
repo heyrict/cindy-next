@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedDate } from 'react-intl';
 import userMessages from 'messages/components/user';
 import userPageMessages from 'messages/pages/user';
 import authMessages from 'messages/components/auth';
@@ -100,14 +100,32 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
                 <Box mr="auto" minWidth="8em">
                   <FormattedMessage {...authMessages.date_joined} />
                 </Box>
-                <Box ml="auto">{user.date_joined}</Box>
+                <Box ml="auto">
+                  <FormattedDate
+                    year="numeric"
+                    month="short"
+                    day="numeric"
+                    hour="numeric"
+                    minute="numeric"
+                    value={user.date_joined}
+                  />
+                </Box>
               </Flex>
               {user.last_login && (
                 <Flex {...infoRowProps}>
                   <Box mr="auto" minWidth="8em">
                     <FormattedMessage {...authMessages.last_login} />
                   </Box>
-                  <Box ml="auto">{user.last_login}</Box>
+                  <Box ml="auto">
+                    <FormattedDate
+                      year="numeric"
+                      month="short"
+                      day="numeric"
+                      hour="numeric"
+                      minute="numeric"
+                      value={user.last_login}
+                    />
+                  </Box>
                 </Flex>
               )}
               {aggregates.puzzleCount && (

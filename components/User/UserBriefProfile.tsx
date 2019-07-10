@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'routes';
 import { toast } from 'react-toastify';
 import { text2raw } from 'common/markdown';
@@ -23,8 +23,17 @@ import {
 const AnchorButton = Anchor.withComponent('button');
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
+let blurHdl = null as number | null;
+
 const UserBriefProfile = ({ user }: UserBriefProfileProps) => {
   const [show, setShow] = useState(false);
+
+  useEffect(() => { // Clear timeout before unmount
+    return () => {
+      if (blurHdl) window.clearTimeout(blurHdl);
+    }
+  }, [])
+
   return (
     <Manager>
       <Reference>

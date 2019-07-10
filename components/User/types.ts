@@ -20,7 +20,7 @@ type Award = {
 
 type UserAward = {
   id: number;
-  created: string;
+  created?: string;
   sui_hei_award: Award;
 };
 
@@ -53,4 +53,4 @@ export type CurrentUserAwardProps = {
 
 export type UserBriefProfileProps = {
   user: InlineUser;
-}
+};
