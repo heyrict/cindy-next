@@ -33,6 +33,7 @@ const ChatroomLogs = ({ chatroomId, relatedPuzzleId }: ChatroomLogsProps) => (
       }}
       renderItems={data => {
         const chatmessages = data.sui_hei_chatmessage;
+        if (!chatmessages) return null;
         return relatedPuzzleId ? (
           <Query<ChatroomPuzzle, ChatroomPuzzleVariables>
             query={CHATROOM_PUZZLE_QUERY}

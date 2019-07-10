@@ -315,7 +315,6 @@ const Layout = ({ children, fetchUser }: LayoutProps) => {
       </ToolbarBox>
       <Page>
         {children}
-        <div style={{ height: '20px' }} />
         <Footer>
           <Patrons />
         </Footer>

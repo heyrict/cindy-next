@@ -26,6 +26,8 @@ class PaginatedQuery<
     numPages: null,
   } as PaginatedQueryStates;
 
+  topRef = React.createRef<HTMLDivElement>();
+
   render() {
     const {
       itemsPerPage,
@@ -36,16 +38,22 @@ class PaginatedQuery<
       ...queryProps
     } = this.props;
 
-    const paginatorBar = this.state.numPages && (
+    const paginatorBar = this.state.numPages !== null && (
       <SimplePaginatorBar
         page={this.state.page}
-        setPage={(page: number) => this.setState({ page })}
+        setPage={(page: number) => {
+          this.setState({ page });
+          if (this.topRef.current) {
+            this.topRef.current.scrollIntoView();
+          }
+        }}
         numPages={this.state.numPages}
       />
     );
 
     return (
       <React.Fragment>
+        <div ref={this.topRef} />
         {Boolean(position & PaginatorBarPosition.TOP) && paginatorBar}
         <Query<TData>
           {...queryProps}
@@ -54,6 +62,7 @@ class PaginatedQuery<
             limit: itemsPerPage,
             offset: (this.state.page - 1) * itemsPerPage,
           }}
+          fetchPolicy="cache-and-network"
           onCompleted={data => {
             const numPages = Math.ceil(getItemCount(data) / itemsPerPage);
             if (this.state.numPages !== numPages)
@@ -63,11 +72,11 @@ class PaginatedQuery<
           }}
         >
           {({ loading, error, data }: QueryResult<TData>) => {
-            if (loading) return <span>Loading...</span>;
             if (error) {
               toast.error(error.message);
               return null;
             }
+            if (loading && !data) return <span>Loading...</span>;
             if (!data) return null;
             return renderItems(data);
           }}
