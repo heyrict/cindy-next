@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
 import ChannelChangeInput from './ChannelChangeInput';
+import FavoriteChatroomsList from './FavoriteChatroomsList';
 
 import * as chatReducer from 'reducers/chat';
 
@@ -22,6 +23,7 @@ const ChannelChangeModal = ({
     </ModalHeader>
     <ModalBody>
       <ChannelChangeInput />
+      <FavoriteChatroomsList />
     </ModalBody>
   </Modal>
 );

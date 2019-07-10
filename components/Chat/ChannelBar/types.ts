@@ -28,15 +28,21 @@ export type FavChatManipulateButtonProps = {
 export type InsertFavChatButtonProps = {
   chatroomId: number;
   chatroomName?: string;
-}
+};
 
 export type DeleteFavChatButtonProps = {
   favchatId: number;
-}
+};
 
 export type ChannelChangeInputProps = {
   channelChangeInput: string;
   setChannelChangeInput: (value: string) => void;
   setChannel: (channel: string) => void;
   setFalseChannelChangeModal: () => void;
-}
+};
+
+export type FavoriteChatroomsListProps = {
+  user: GlobalUserType;
+  setChannel: (channel: string) => void;
+  setFalseChannelChangeModal: () => void;
+};

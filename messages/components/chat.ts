@@ -27,6 +27,10 @@ export const messages = defineMessages({
     id: `${scope}.deleteFromFavoriteChatrooms`,
     defaultMessage: 'Delete From Favorite Chatrooms',
   },
+  favoriteChatrooms: {
+    id: `${scope}.favoriteChatrooms`,
+    defaultMessage: 'My Favorite Chatrooms',
+  },
 });
 
 export default messages;
