@@ -29,3 +29,27 @@ export const CHATROOM_EDIT_MESSAGE_MUTATION = gql`
   }
   ${CHATMESSAGE_FRAGMENT}
 `;
+
+export const INSERT_FAVORITE_CHATROOM_MUTATION = gql`
+  mutation InsertFavoriteChatroomMutation($chatroomId: Int!) {
+    insert_sui_hei_favoritechatroom(objects: [{ chatroom_id: $chatroomId }]) {
+      returning {
+        id
+        sui_hei_chatroom {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const DELETE_FAVORITE_CHATROOM_MUTATION = gql`
+  mutation DeleteFavoriteChatroomMutation($favoriteChatroomId: Int!) {
+    delete_sui_hei_favoritechatroom(
+      where: { id: { _eq: $favoriteChatroomId } }
+    ) {
+      affected_rows
+    }
+  }
+`;

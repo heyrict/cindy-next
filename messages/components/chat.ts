@@ -19,6 +19,14 @@ export const messages = defineMessages({
     id: `${scope}.notExistDescription`,
     defaultMessage: 'This chatroom does not exist!',
   },
+  addToFavoriteChatrooms: {
+    id: `${scope}.addToFavoriteChatrooms`,
+    defaultMessage: 'Add To Favorite Chatrooms',
+  },
+  deleteFromFavoriteChatrooms: {
+    id: `${scope}.deleteFromFavoriteChatrooms`,
+    defaultMessage: 'Delete From Favorite Chatrooms',
+  },
 });
 
 export default messages;

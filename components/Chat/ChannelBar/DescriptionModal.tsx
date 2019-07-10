@@ -6,6 +6,8 @@ import { Query } from 'react-apollo';
 import { CHATROOM_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
 
 import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
+import { Box } from 'components/General';
+import FavChatManipulateButton from './FavChatManipulateButton';
 
 import { connect } from 'react-redux';
 import * as chatReducer from 'reducers/chat';
@@ -59,7 +61,18 @@ const DescriptionModal = ({
               <ModalCloseBtn onClick={() => setFalseDescriptionModal()} />
             </ModalHeader>
             <ModalBody>
+              <Box
+                style={{
+                  float: 'right',
+                }}
+              >
+                <FavChatManipulateButton
+                  chatroomId={chatroom.id}
+                  chatroomName={chatroom.name}
+                />
+              </Box>
               <div
+                style={{ minHeight: '3em' }}
                 dangerouslySetInnerHTML={{
                   __html: line2md(chatroom.description),
                 }}

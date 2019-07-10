@@ -1,3 +1,5 @@
+import { GlobalUserType } from 'reducers/types';
+
 export type ChannelChangeModalProps = {
   channelChangeInput: string;
   channelChangeModal: boolean;
@@ -19,3 +21,18 @@ export type ChannelBarProps = {
   setTrueChannelChangeModal: () => void;
   setTrueDescriptionModal: () => void;
 };
+
+export type FavChatManipulateButtonProps = {
+  user: GlobalUserType;
+  chatroomId: number;
+  chatroomName?: string;
+};
+
+export type InsertFavChatButtonProps = {
+  chatroomId: number;
+  chatroomName?: string;
+}
+
+export type DeleteFavChatButtonProps = {
+  favchatId: number;
+}

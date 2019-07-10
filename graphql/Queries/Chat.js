@@ -45,3 +45,15 @@ export const CHATROOM_DESCRIPTION_QUERY = gql`
   }
   ${CHATROOM_FRAGMENT}
 `;
+
+export const FAVORITE_CHATROOMS_QUERY = gql`
+  query FavoriteChatroomsQuery {
+    sui_hei_favoritechatroom {
+      id
+      sui_hei_chatroom {
+        id
+        name
+      }
+    }
+  }
+`;
