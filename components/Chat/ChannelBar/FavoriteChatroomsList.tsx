@@ -43,6 +43,7 @@ const FavoriteChatroomsList = ({
             </Box>
             {data.sui_hei_favoritechatroom.map(fc => (
               <Box
+                key={fc.id}
                 border="2px solid"
                 borderColor="yellow.6"
                 bg="orange.2"

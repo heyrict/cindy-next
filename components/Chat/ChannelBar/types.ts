@@ -9,6 +9,7 @@ export type DescriptionModalProps = {
   chatroomId: number;
   descriptionModal: boolean;
   setFalseDescriptionModal: () => void;
+  relatedPuzzleId?: number | null;
 };
 
 export type ChannelBarProps = {
@@ -17,6 +18,7 @@ export type ChannelBarProps = {
   currentChannel: string;
   setTrueChannelChangeModal: () => void;
   setTrueDescriptionModal: () => void;
+  relatedPuzzleId?: number | null;
 };
 
 export type FavChatManipulateButtonProps = {
@@ -46,3 +48,8 @@ export type FavoriteChatroomsListProps = {
   setChannel: (channel: string) => void;
   setFalseChannelChangeModal: () => void;
 };
+
+export type ChatroomLogsProps = {
+  chatroomId: number;
+  relatedPuzzleId?: number | null;
+}

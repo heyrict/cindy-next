@@ -43,7 +43,10 @@ class ChatRoom extends React.Component<ChatRoomProps> {
           }
           return (
             <React.Fragment>
-              <ChannelBar chatroomId={chatroomId} />
+              <ChannelBar
+                chatroomId={chatroomId}
+                relatedPuzzleId={relatedPuzzleId}
+              />
               {chatroomId ? (
                 <ChatRoomMessages
                   chatroomId={chatroomId}
