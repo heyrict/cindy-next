@@ -29,6 +29,7 @@ const ChannelBar = ({
   currentChannel,
   setTrueChannelChangeModal,
   setTrueDescriptionModal,
+  relatedPuzzleId,
 }: ChannelBarProps) => {
   return (
     <Box width={1} height="channelbar">
@@ -58,7 +59,12 @@ const ChannelBar = ({
         </ButtonTransparent>
       </Flex>
       <ChannelChangeModal />
-      {chatroomId && <DescriptionModal chatroomId={chatroomId} />}
+      {chatroomId && (
+        <DescriptionModal
+          relatedPuzzleId={relatedPuzzleId}
+          chatroomId={chatroomId}
+        />
+      )}
     </Box>
   );
 };

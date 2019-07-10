@@ -55,6 +55,18 @@ export const messages = defineMessages({
     id: `${scope}.patron`,
     defaultMessage: 'Patron',
   },
+  prev: {
+    id: `${scope}.prev`,
+    defaultMessage: 'Prev',
+  },
+  next: {
+    id: `${scope}.next`,
+    defaultMessage: 'Next',
+  },
+  jump: {
+    id: `${scope}.jump`,
+    defaultMessage: 'Jump',
+  },
 });
 
 export default messages;

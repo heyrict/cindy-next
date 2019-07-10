@@ -2,7 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import { ButtonTransparent, Img } from 'components/General';
-import starFillIcon from 'svgs/starEmpty.svg';
+import starFillIcon from 'svgs/starFill.svg';
 
 import { FormattedMessage } from 'react-intl';
 import chatMessages from 'messages/components/chat';
