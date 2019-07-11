@@ -53,18 +53,18 @@ const Toolbar = ({
         <ToolbarResponsiveContents>
           <Box width={1 / 2}>
             <ToolbarResponsiveButton bg="orange.4" m="1px">
-              <Link to="home" passHref>
+              <Link to="puzzles" passHref>
                 <ButtonTransparentA height={1} width={1} color="orange.9">
-                  <FormattedMessage {...messages.home} />
+                  <FormattedMessage {...messages.puzzle} />
                 </ButtonTransparentA>
               </Link>
             </ToolbarResponsiveButton>
           </Box>
           <Box width={1 / 2}>
             <ToolbarResponsiveButton bg="orange.4" m="1px">
-              <Link to="puzzles" passHref>
+              <Link to="users" passHref>
                 <ButtonTransparentA height={1} width={1} color="orange.9">
-                  <FormattedMessage {...messages.puzzle} />
+                  <FormattedMessage {...messages.users} />
                 </ButtonTransparentA>
               </Link>
             </ToolbarResponsiveButton>

@@ -10,7 +10,10 @@ import { ProfileDisplayProps } from './types';
 
 const ProfileDisplay = ({ profile }: ProfileDisplayProps) =>
   profile ? (
-    <Box dangerouslySetInnerHTML={{ __html: text2md(profile) }} />
+    <Box
+      overflow="auto"
+      dangerouslySetInnerHTML={{ __html: text2md(profile) }}
+    />
   ) : (
     <Box py={2}>
       <FormattedMessage {...userPageMessages.profileIsEmpty} />

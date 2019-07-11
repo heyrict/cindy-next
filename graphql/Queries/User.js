@@ -125,3 +125,21 @@ export const USERAWARD_CHECKER_QUERY = gql`
     }
   }
 `;
+
+export const USER_LIST_QUERY = gql`
+  query UserListQuery($limit: Int, $offset: Int) {
+    sui_hei_user(limit: $limit, offset: $offset, order_by: { id: desc }) {
+      id
+      ...UserBrief
+      profile
+      date_joined
+      last_login
+    }
+    sui_hei_user_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${USER_BRIEF_FRAGMENT}
+`;

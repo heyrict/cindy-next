@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'routes';
 import { FormattedMessage } from 'react-intl';
-import { ButtonTransparent } from 'components/General';
+import { ButtonTransparent, Img } from 'components/General';
 import messages from 'messages/components/toolbar';
 
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import * as globalReducer from 'reducers/global';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import SignupButton from './SignupButton';
+import logoInline from 'svgs/logoInline.svg';
 
 import { StateType } from 'reducers/types';
 import { ToolbarProps } from './types';
@@ -21,17 +22,22 @@ const Toolbar = ({ user }: ToolbarProps) => {
   return (
     <ToolbarFlex alignItems="center" justifyContent="center">
       <ToolbarFlex>
-        <ToolbarButton bg="orange.4" mr="1px">
-          <Link to="home" passHref>
-            <ButtonTransparentA height={1} width={1} color="orange.9">
-              <FormattedMessage {...messages.home} />
-            </ButtonTransparentA>
-          </Link>
-        </ToolbarButton>
+        <Link to="home" passHref>
+          <ButtonTransparentA px={3} height={1} width={1} color="orange.9">
+            <Img height="xs" src={logoInline} />
+          </ButtonTransparentA>
+        </Link>
         <ToolbarButton bg="orange.4" mr="1px">
           <Link to="puzzles" passHref>
             <ButtonTransparentA height={1} width={1} color="orange.9">
               <FormattedMessage {...messages.puzzle} />
+            </ButtonTransparentA>
+          </Link>
+        </ToolbarButton>
+        <ToolbarButton bg="orange.4" mr="1px">
+          <Link to="users" passHref>
+            <ButtonTransparentA height={1} width={1} color="orange.9">
+              <FormattedMessage {...messages.users} />
             </ButtonTransparentA>
           </Link>
         </ToolbarButton>

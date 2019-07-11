@@ -137,13 +137,13 @@ const UserBriefProfile = ({ user }: UserBriefProfileProps) => {
               </Query>
               <Flex width={1} mt={2}>
                 <Link to="user" params={{ id: user.id }} passHref>
-                  <ButtonTransparentA px={1}>
+                  <ButtonTransparentA p={1}>
                     <Img height="xxs" src={homeIcon} alt="profile" />
                   </ButtonTransparentA>
                 </Link>
-                <ButtonTransparentA px={1}>
+                <ButtonTransparent p={1}>
                   <Img height="xxs" src={messageIcon} alt="profile" />
-                </ButtonTransparentA>
+                </ButtonTransparent>
               </Flex>
               <div ref={arrowProps.ref} style={arrowProps.style} />
             </Flex>
