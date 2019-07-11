@@ -28,6 +28,12 @@ class PaginatedQuery<
 
   topRef = React.createRef<HTMLDivElement>();
 
+  componentWillReceiveProps(nextProps: PaginatedQueryProps<TData, TVariables>) {
+    if (nextProps.variables !== this.props.variables) {
+      this.setState({ page: 1 });
+    }
+  }
+
   render() {
     const {
       itemsPerPage,
