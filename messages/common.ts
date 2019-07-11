@@ -67,6 +67,14 @@ export const messages = defineMessages({
     id: `${scope}.jump`,
     defaultMessage: 'Jump',
   },
+  reset: {
+    id: `${scope}.reset`,
+    defaultMessage: 'Reset',
+  },
+  search: {
+    id: `${scope}.search`,
+    defaultMessage: 'Search',
+  },
 });
 
 export default messages;

@@ -119,6 +119,7 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
     $content: String
     $solution: String
     $genre: Int
+    $yami: Int
     $userNickname: String
     $orderBy: [sui_hei_puzzle_order_by!]
   ) {
@@ -130,12 +131,29 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
         content: { _like: $content }
         solution: { _like: $solution }
         genre: { _eq: $genre }
+        yami: { _eq: $yami }
         sui_hei_user: { nickname: { _like: $userNickname } }
       }
       limit: $limit
       offset: $offset
     ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
       ...PuzzleAggregate
+    }
+    sui_hei_puzzle_aggregate(
+      order_by: $orderBy
+      where: {
+        status: { _neq: 0 }
+        title: { _like: $title }
+        content: { _like: $content }
+        solution: { _like: $solution }
+        genre: { _eq: $genre }
+        yami: { _eq: $yami }
+        sui_hei_user: { nickname: { _like: $userNickname } }
+      }
+    ) {
+      aggregate {
+        count
+      }
     }
   }
   ${PUZZLE_AGGREGATE_FRAGMENT}

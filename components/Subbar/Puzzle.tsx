@@ -5,6 +5,7 @@ import puzzlesMessage from 'messages/pages/puzzles';
 import addPuzzleMessage from 'messages/pages/add_puzzle';
 import rankingMessage from 'messages/pages/ranking';
 import awardsMessages from 'messages/pages/awards';
+import searchMessages from 'messages/pages/search';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -68,6 +69,19 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
       <Link to="awards" prefetch passHref>
         <ButtonTransparentA color="red.9" height={1} width={1}>
           <FormattedMessage {...awardsMessages.header} />
+        </ButtonTransparentA>
+      </Link>
+    </Box>
+    <Box
+      width={[1 / 3, 1 / 5, 1 / 6, 1 / 8]}
+      bg={route === '/search' ? 'yellow.4' : 'orange.4'}
+      borderRadius={2}
+      mr={1}
+      p={1}
+    >
+      <Link to="search" prefetch passHref>
+        <ButtonTransparentA color="red.9" height={1} width={1}>
+          <FormattedMessage {...searchMessages.header} />
         </ButtonTransparentA>
       </Link>
     </Box>

@@ -95,20 +95,24 @@ export const PuzzleAddFormInner = ({
           onChange={option => setGenre(option.value)}
           options={[
             {
+              key: 'classic',
               value: 0,
               label: <FormattedMessage {...puzzleMessages.genre_classic} />,
             },
             {
+              key: 'twentyQuestions',
               value: 1,
               label: (
                 <FormattedMessage {...puzzleMessages.genre_twentyQuestions} />
               ),
             },
             {
+              key: 'littleAlbat',
               value: 2,
               label: <FormattedMessage {...puzzleMessages.genre_littleAlbat} />,
             },
             {
+              key: 'others',
               value: 3,
               label: <FormattedMessage {...puzzleMessages.genre_others} />,
             },
@@ -125,14 +129,17 @@ export const PuzzleAddFormInner = ({
           onChange={option => setYami(option.value)}
           options={[
             {
+              key: 'none',
               value: 0,
               label: <FormattedMessage {...commonMessages.none} />,
             },
             {
+              key: 'yami',
               value: 1,
               label: <FormattedMessage {...puzzleMessages.yami_yami} />,
             },
             {
+              key: 'longtermYami',
               value: 2,
               label: <FormattedMessage {...puzzleMessages.yami_longtermYami} />,
             },
@@ -170,10 +177,12 @@ export const PuzzleAddFormInner = ({
           onChange={option => setAnonymous(option.value)}
           options={[
             {
+              key: 'true',
               value: false,
               label: ' X ',
             },
             {
+              key: 'false',
               value: true,
               label: ' O ',
             },
@@ -190,10 +199,12 @@ export const PuzzleAddFormInner = ({
           onChange={option => setGrotesque(option.value)}
           options={[
             {
+              key: 'false',
               value: false,
               label: ' X ',
             },
             {
+              key: 'true',
               value: true,
               label: ' O ',
             },

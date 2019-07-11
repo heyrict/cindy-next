@@ -8,6 +8,7 @@ const routeList = [
   { name: 'home', pattern: '/', page: 'index' },
   { name: 'puzzles', pattern: '/puzzles', page: 'puzzles' },
   { name: '_puzzles', pattern: '/puzzle', page: 'puzzles' },
+  { name: 'search', pattern: '/search', page: 'search' },
   { name: 'puzzle', pattern: '/puzzle/:id(\\d+)', page: 'puzzle' },
   { name: '_puzzle', pattern: '/puzzle/show/:id(\\d+)', page: 'puzzle' },
   { name: 'add/puzzle', pattern: '/add/puzzle', page: 'add/puzzle' },

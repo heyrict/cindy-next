@@ -10,7 +10,7 @@ export enum PaginatorBarPosition {
 }
 
 export const PaginatedQueryDefaultProps = {
-  itemsPerPage: 20,
+  itemsPerPage: 18,
   position: PaginatorBarPosition.BOTH,
 };
 

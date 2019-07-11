@@ -97,6 +97,7 @@
     "@types/react-intl": "^2.3.18",
     "@types/react-portal": "^4.0.2",
     "@types/react-redux": "^7.1.0",
+    "@types/storybook__react": "^4.0.2",
     "@types/styled-system": "^4.2.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-react-intl": "^3.0.1",
