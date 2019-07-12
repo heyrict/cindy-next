@@ -19,6 +19,7 @@ import {
 } from 'components/General';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 import SearchVarSetPanel from 'components/Search/SearchVarSetPanel';
+import SortVarSetPanel from 'components/Search/SortVarSetPanel';
 import PuzzleBrief from 'components/Puzzle/Brief';
 
 import { order_by } from 'generated/globalTypes';
@@ -40,7 +41,8 @@ const inputToLike = (text: string) => {
 
 const Search = (_props: any, context: { intl: IntlShape }) => {
   const _: any = context.intl.formatMessage;
-  const searchRef = useRef<SearchVarSetPanel>(null!);
+  const searchRef = useRef<SearchVarSetPanel>(null);
+  const sortRef = useRef<SortVarSetPanel>(null);
   const [variables, setVariables] = useState({
     title: null,
     content: null,
@@ -48,7 +50,7 @@ const Search = (_props: any, context: { intl: IntlShape }) => {
     userNickname: null,
     genre: null,
     yami: null,
-    orderBy: [],
+    orderBy: [{ id: order_by.desc_nulls_last }],
   } as SearchVariablesStates);
 
   return (
@@ -156,23 +158,75 @@ const Search = (_props: any, context: { intl: IntlShape }) => {
             },
           ]}
         />
+        <SortVarSetPanel
+          ref={sortRef}
+          initialField="id"
+          defaultValue={[{ id: order_by.desc_nulls_last }]}
+          fields={[
+            {
+              key: 'id',
+              fieldName: <FormattedMessage {...puzzleMessages.createdAt} />,
+            },
+            {
+              key: 'modified',
+              fieldName: <FormattedMessage {...puzzleMessages.solvedAt} />,
+            },
+            {
+              key: 'bookmark',
+              getValue: order => ({
+                sui_hei_bookmarks_aggregate: { count: order },
+              }),
+              fieldName: (
+                <FormattedMessage {...searchMessages.order_bookmarkCount} />
+              ),
+            },
+            {
+              key: 'comment',
+              getValue: order => ({
+                sui_hei_comments_aggregate: { count: order },
+              }),
+              fieldName: (
+                <FormattedMessage {...searchMessages.order_commentCount} />
+              ),
+            },
+            {
+              key: 'starCount',
+              getValue: order => ({
+                sui_hei_stars_aggregate: { count: order },
+              }),
+              fieldName: (
+                <FormattedMessage {...searchMessages.order_starCount} />
+              ),
+            },
+            {
+              key: 'starSum',
+              getValue: order => ({
+                sui_hei_stars_aggregate: { sum: { value: order } },
+              }),
+              fieldName: <FormattedMessage {...searchMessages.order_starSum} />,
+            },
+          ]}
+        />
         <Flex width={1}>
           <Box width={1 / 2} p={1} mx={1} bg="orange.4" borderRadius={2}>
             <ButtonTransparent
               width={1}
               onClick={() => {
+                const newVariables = { ...variables };
                 if (searchRef.current) {
                   searchRef.current.reset();
-                  setVariables({
-                    genre: null,
-                    yami: null,
-                    title: null,
-                    content: null,
-                    solution: null,
-                    userNickname: null,
-                    orderBy: [],
-                  });
+                  newVariables.genre = null;
+                  newVariables.yami = null;
+                  newVariables.title = null;
+                  newVariables.content = null;
+                  newVariables.solution = null;
+                  newVariables.userNickname = null;
                 }
+                if (sortRef.current) {
+                  sortRef.current.reset();
+                  newVariables.orderBy = [{ id: order_by.desc_nulls_last }];
+                }
+                setVariables(newVariables);
               }}
             >
               <FormattedMessage {...commonMessages.reset} />
@@ -182,18 +236,22 @@ const Search = (_props: any, context: { intl: IntlShape }) => {
             <ButtonTransparent
               width={1}
               onClick={() => {
+                const newVariables = { ...variables };
                 if (searchRef.current) {
                   const data = searchRef.current.getData();
-                  setVariables({
-                    genre: data.genre,
-                    yami: data.yami,
-                    title: inputToLike(data.title),
-                    content: inputToLike(data.content),
-                    solution: inputToLike(data.solution),
-                    userNickname: inputToLike(data.userNickname),
-                    orderBy: [],
-                  });
+                  newVariables.genre = data.genre;
+                  newVariables.yami = data.yami;
+                  newVariables.title = inputToLike(data.title);
+                  newVariables.content = inputToLike(data.content);
+                  newVariables.solution = inputToLike(data.solution);
+                  newVariables.userNickname = inputToLike(data.userNickname);
+                  newVariables.orderBy = [];
                 }
+                if (sortRef.current) {
+                  const data = sortRef.current.getData();
+                  newVariables.orderBy = data;
+                }
+                setVariables(newVariables);
               }}
             >
               <FormattedMessage {...commonMessages.search} />
@@ -207,15 +265,7 @@ const Search = (_props: any, context: { intl: IntlShape }) => {
           SolvedPuzzlesSearchQueryVariables
         >
           query={SOLVED_PUZZLES_SEARCH_QUERY}
-          variables={{
-            ...variables,
-            orderBy: [
-              ...variables.orderBy,
-              {
-                id: order_by.desc,
-              },
-            ],
-          }}
+          variables={variables}
           fetchPolicy="cache-first"
           getItemCount={data =>
             (data.sui_hei_puzzle_aggregate &&

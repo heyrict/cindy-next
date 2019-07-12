@@ -75,6 +75,18 @@ export const messages = defineMessages({
     id: `${scope}.search`,
     defaultMessage: 'Search',
   },
+  sort: {
+    id: `${scope}.sort`,
+    defaultMessage: 'Sort',
+  },
+  desc: {
+    id: `${scope}.desc`,
+    defaultMessage: 'Descending',
+  },
+  asc: {
+    id: `${scope}.asc`,
+    defaultMessage: 'Ascending',
+  },
 });
 
 export default messages;

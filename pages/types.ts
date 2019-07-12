@@ -6,7 +6,7 @@ import {
   PuzzlesSolvedQueryVariables,
 } from 'graphql/Queries/generated/PuzzlesSolvedQuery';
 import { PuzzlesUnsolvedLiveQuery } from 'graphql/LiveQueries/generated/PuzzlesUnsolvedLiveQuery';
-import { order_by } from 'generated/globalTypes';
+import { sui_hei_puzzle_order_by } from 'generated/globalTypes';
 
 export type PuzzleProps = {
   puzzleId: number;
@@ -34,5 +34,5 @@ export type SearchVariablesStates = {
   userNickname: null | string;
   genre: null | number;
   yami: null | number;
-  orderBy: Array<{ [key: string]: order_by }>;
+  orderBy: Array<sui_hei_puzzle_order_by>;
 };

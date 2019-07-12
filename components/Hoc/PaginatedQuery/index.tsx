@@ -1,4 +1,5 @@
 import React from 'react';
+import isEqual from 'react-fast-compare';
 import { toast } from 'react-toastify';
 
 import SimplePaginatorBar from './SimplePaginatorBar';
@@ -29,7 +30,7 @@ class PaginatedQuery<
   topRef = React.createRef<HTMLDivElement>();
 
   componentWillReceiveProps(nextProps: PaginatedQueryProps<TData, TVariables>) {
-    if (nextProps.variables !== this.props.variables) {
+    if (!isEqual(nextProps.variables, this.props.variables)) {
       this.setState({ page: 1 });
     }
   }
