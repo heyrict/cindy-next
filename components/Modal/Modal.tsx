@@ -1,8 +1,16 @@
 import React from 'react';
 import styled from 'theme/styled';
+import dynamic from 'next/dynamic';
 
-import { Portal } from 'react-portal';
 import { ModalComponentsProps, ModalProps } from './types';
+import { PortalProps } from 'react-portal';
+
+const Portal = dynamic<PortalProps>(
+  () => import('react-portal').then(mod => mod.Portal),
+  {
+    ssr: false,
+  },
+);
 
 export const Shader = styled.div<ModalComponentsProps>`
   z-index: 500;

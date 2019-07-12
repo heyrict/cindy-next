@@ -1,4 +1,5 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { Link } from 'routes';
 import { FormattedMessage } from 'react-intl';
 import { ButtonTransparent, Img, Box } from 'components/General';
@@ -7,7 +8,6 @@ import messages from 'messages/components/toolbar';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { Portal } from 'react-portal';
 import {
   ToolbarFlex,
   ToolbarButton,
@@ -26,7 +26,15 @@ import {
   ToolbarResponsiveMenuType,
   ActionContentType,
 } from 'reducers/types';
+import { PortalProps } from 'react-portal';
 import { ToolbarResponsiveProps } from './types';
+
+const Portal = dynamic<PortalProps>(
+  () => import('react-portal').then(mod => mod.Portal),
+  {
+    ssr: false,
+  },
+);
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
