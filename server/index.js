@@ -13,9 +13,7 @@ const { parse } = require('url');
 const next = require('next');
 const express = require('express');
 const bodyParser = require('body-parser');
-const { execute, subscribe } = require('graphql');
-const { SubscriptionServer } = require('subscriptions-transport-ws');
-const { gql, ApolloServer } = require('apollo-server-express');
+const { ApolloServer } = require('apollo-server-express');
 
 const dev = process.env.NODE_ENV !== 'production';
 const { DEFAULT_LOCALE } = require('../settings');
