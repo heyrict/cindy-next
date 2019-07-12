@@ -42,6 +42,7 @@ const Users = (_props: any, context: { intl: IntlShape }) => {
           }
           renderItems={data => {
             const users = data.sui_hei_user;
+            if (!users) return null;
             return users.map(user => (
               <Box key={user.id} width={userWidth}>
                 <UserPanel user={user} />

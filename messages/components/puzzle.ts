@@ -134,7 +134,11 @@ export const messages = defineMessages({
   hintOnly: {
     id: `${scope}.hintOnly`,
     defaultMessage: '{user} only',
-  }
+  },
+  tags: {
+    id: `${scope}.tags`,
+    defaultMessage: 'Tags',
+  },
 });
 
 export default messages;
