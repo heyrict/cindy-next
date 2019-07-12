@@ -2,7 +2,7 @@
 - args:
     sql: CREATE TABLE "public"."sui_hei_tag"(
            "id" serial NOT NULL,
-           "name" varchar(63) NOT NULL,
+           "name" varchar(63) NOT NULL UNIQUE,
            "created" timestamp with time zone NOT NULL DEFAULT now(),
            PRIMARY KEY ("id")
          );
@@ -161,6 +161,17 @@
       name: sui_hei_tag
       schema: public
   type: create_insert_permission
+- args:
+    permission:
+      check: {}
+      filter: {}
+      columns:
+      - name
+    role: user
+    table:
+      name: sui_hei_tag
+      schema: public
+  type: create_update_permission
 
 # Add triggers
 - args:
