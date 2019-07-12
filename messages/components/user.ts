@@ -7,6 +7,10 @@ export const messages = defineMessages({
     id: `${scope}.anonymousUser`,
     defaultMessage: 'Anonymous User',
   },
+  withAnonymousPatrons: {
+    id: `${scope}.withAnonymousPatrons`,
+    defaultMessage: ', with {count} anonymous patrons.',
+  },
   profile: {
     id: `${scope}.profile`,
     defaultMessage: 'Profile',

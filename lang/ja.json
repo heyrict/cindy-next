@@ -103,6 +103,7 @@
   "components.user.starCount": "スター数",
   "components.user.trueAnswerCount": "正解数",
   "components.user.useraward": "称号",
+  "components.user.withAnonymousPatrons": "と 匿名パトロン {count} 名",
   "home.bestPuzzleOfLastMonth": "先月スター数獲得上位問題",
   "home.body": "Cindy は水平思考パズル「ウミガメのスープ」のリアルタイム出題サイト。\nウミガメのスープは複数ユーザーでプレイする水平思考型推理ゲームです。\nYES/NOで答えることのできる質問をして不可解な謎を一緒に解き明かして行きましょう。",
   "home.description": "リアルタイムでウミガメのスープ問題を遊ぼう！",

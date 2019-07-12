@@ -103,6 +103,7 @@
   "components.user.starCount": "Stars",
   "components.user.trueAnswerCount": "True Answers",
   "components.user.useraward": "Award",
+  "components.user.withAnonymousPatrons": ", with {count} anonymous patrons.",
   "home.bestPuzzleOfLastMonth": "Most Valuable Puzzles of the Last Month",
   "home.body": "Cindy is an active community for chatting lateral thinking problems.",
   "home.description": "Find interesting lateral thinking puzzles here, share with your friends, and even create your own lateral thinking puzzle in minites!",
