@@ -1,0 +1,91 @@
+# Drop permissions
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_puzzle_tag
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_puzzle_tag
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_puzzle_tag
+      schema: public
+  type: drop_insert_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_puzzle_tag
+      schema: public
+  type: drop_delete_permission
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_tag
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_tag
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_tag
+      schema: public
+  type: drop_insert_permission
+
+# Drop relationships
+- args:
+    relationship: sui_hei_puzzle_tags
+    table:
+      name: sui_hei_puzzle
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: sui_hei_puzzle
+    table:
+      name: sui_hei_puzzle_tag
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: sui_hei_tag
+    table:
+      name: sui_hei_puzzle_tag
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: sui_hei_user
+    table:
+      name: sui_hei_puzzle_tag
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: sui_hei_puzzle_tags
+    table:
+      name: sui_hei_tag
+      schema: public
+  type: drop_relationship
+
+# Drop tables
+- args:
+    sql: DROP TABLE "public"."sui_hei_puzzle_tag"
+  type: run_sql
+- args:
+    sql: DROP TABLE "public"."sui_hei_tag"
+  type: run_sql
+
+# Drop triggers
+- args:
+    cascade: false
+    sql: |-
+      DROP TRIGGER IF EXISTS maybe_delete_tag_after_puzzle_tag_delete_trigger ON sui_hei_puzzle;
+      DROP FUNCTION IF EXISTS maybe_delete_tag_after_tag_delete;
+  type: run_sql
