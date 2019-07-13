@@ -22,11 +22,11 @@ import { ActionContentType } from 'reducers/types';
 
 const fieldNameStyle = {
   width: [1, 1 / 6],
-  textAlign: ['initial', 'center'],
+  textAlign: ['initial', 'center'] as ['initial', 'center'],
   borderWidth: [0, 1],
   mx: [0, -1],
   mb: [0, 3],
-  borderStyle: 'solid',
+  borderStyle: 'solid' as 'solid',
   borderColor: 'gray.6',
 };
 
@@ -302,6 +302,9 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   incPuzzles: () => dispatch(awardCheckerReducer.actions.incPuzzles()),
 });
 
-const withRedux = connect(null, mapDispatchToProps);
+const withRedux = connect(
+  null,
+  mapDispatchToProps,
+);
 
 export default withRedux(PuzzleAddFormInner);

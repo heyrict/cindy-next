@@ -30,7 +30,7 @@ const LoginForm = ({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setUsername(e.target.value)
           }
-          width={[1, 0.9]}
+          width={[1, 0.9] as any}
           borderRadius={1}
         />
       </Box>
@@ -47,7 +47,7 @@ const LoginForm = ({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPassword(e.target.value)
           }
-          width={[1, 0.9]}
+          width={[1, 0.9] as any}
           borderRadius={1}
         />
       </Box>

@@ -4,7 +4,7 @@ import {
   TypographyProps,
   LayoutProps,
   FlexboxProps,
-} from 'components/General/types';
+} from 'styled-system';
 
 export type UserBaseProps = SpaceProps &
   ColorProps &
@@ -42,17 +42,20 @@ export type InlineUserExtra = {
 export type UserInlineProps = {
   user: InlineUser;
   timestamp?: React.ReactNode;
-} & UserBaseProps;
+  [styleProp: string]: any;
+};
 
 export type UserColProps = {
   user: InlineUser;
   timestamp?: React.ReactNode;
-} & UserBaseProps;
+  [styleProp: string]: any;
+};
 
 export type AnonymousUserProps = {
   nickname?: string;
   timestamp?: React.ReactNode;
-} & UserBaseProps;
+  [styleProp: string]: any;
+};
 
 export type CurrentUserAwardProps = {
   useraward: UserAward;

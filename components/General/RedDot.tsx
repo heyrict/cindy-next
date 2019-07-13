@@ -1,6 +1,5 @@
 import styled from 'theme/styled';
-import { layout, position } from 'styled-system';
-import { LayoutProps, PositionProps } from './types';
+import { layout, position, LayoutProps, PositionProps } from 'styled-system';
 
 const RedDot = styled.div<LayoutProps & PositionProps>`
   position: absolute;

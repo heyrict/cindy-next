@@ -68,11 +68,17 @@ const AnswerEdit = ({
             />
             <Box width={1 / 2}>
               <FormattedMessage {...puzzleMessages.dialogue_good} />
-              <Switch value={goodSwitch} onClick={() => setGood(!goodSwitch)} />
+              <Switch
+                selected={goodSwitch}
+                onClick={() => setGood(!goodSwitch)}
+              />
             </Box>
             <Box width={1 / 2}>
               <FormattedMessage {...puzzleMessages.dialogue_true} />
-              <Switch value={trueSwitch} onClick={() => setTrue(!trueSwitch)} />
+              <Switch
+                selected={trueSwitch}
+                onClick={() => setTrue(!trueSwitch)}
+              />
             </Box>
           </Flex>
           <Flex

@@ -214,10 +214,7 @@ const PuzzleEditPanel = ({
         {shouldShowToggleGrotesque && (
           <Flex minWidth="16em" alignItems="center" mb={1}>
             <Switch
-              px={3}
-              py={1}
-              color="blue.0"
-              value={grotesque}
+              selected={grotesque}
               onClick={() => {
                 updatePuzzle({
                   variables: {
