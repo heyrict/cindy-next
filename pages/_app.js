@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router } from 'routes';
+import Router from 'next/router';
 import App, { Container } from 'next/app';
 import { compose } from 'redux';
 import { ApolloProvider } from 'react-apollo';

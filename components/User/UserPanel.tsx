@@ -1,5 +1,6 @@
 import React from 'react';
-import { Router, Link } from 'routes';
+import Router from 'next/router';
+import Link from 'next/link';
 import { text2raw } from 'common/markdown';
 
 import {
@@ -30,7 +31,7 @@ const UserPanel = ({ user, maxLength }: UserPanelProps) => (
       <Box mx={1} display="inline-block">
         {user.nickname}
       </Box>
-      <Link to="user" params={{ id: user.id }} passHref>
+      <Link href="/user/[id]" as={`/user/${user.id}`} passHref>
         <ButtonTransparentA p={1}>
           <Img height="xxs" src={homeIcon} alt="Home" />
         </ButtonTransparentA>
@@ -54,7 +55,7 @@ const UserPanel = ({ user, maxLength }: UserPanelProps) => (
       <ButtonTransparent
         width={1}
         onClick={() => {
-          Router.pushRoute('user', { id: user.id });
+          Router.push('/user/[id]', `/user/${user.id}`);
         }}
       >
         <Box

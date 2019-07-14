@@ -44,7 +44,7 @@ export const getKeywords = async (text: string, filter = defaultFilter) => {
 
 export const counter = async (
   list: Array<string>,
-  continueFrom: ReplayKeywordsType,
+  continueFrom?: ReplayKeywordsType,
 ): Promise<ReplayKeywordsType> => {
   const counts = continueFrom || (new Object() as ReplayKeywordsType);
   list.forEach(v => {

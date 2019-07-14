@@ -1,6 +1,6 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { Link } from 'routes';
+import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 import { ButtonTransparent, Img, Box } from 'components/General';
 import messages from 'messages/components/toolbar';
@@ -61,7 +61,7 @@ const Toolbar = ({
         <ToolbarResponsiveContents>
           <Box width={1 / 2}>
             <ToolbarResponsiveButton bg="orange.4" m="1px">
-              <Link to="puzzles" passHref>
+              <Link href="/puzzles" passHref>
                 <ButtonTransparentA height={1} width={1} color="orange.9">
                   <FormattedMessage {...messages.puzzle} />
                 </ButtonTransparentA>
@@ -70,7 +70,7 @@ const Toolbar = ({
           </Box>
           <Box width={1 / 2}>
             <ToolbarResponsiveButton bg="orange.4" m="1px">
-              <Link to="users" passHref>
+              <Link href="/users" passHref>
                 <ButtonTransparentA height={1} width={1} color="orange.9">
                   <FormattedMessage {...messages.users} />
                 </ButtonTransparentA>
@@ -94,7 +94,7 @@ const Toolbar = ({
       </Portal>
     )}
     <ToolbarButton mx="auto">
-      <Link to="home" passHref>
+      <Link href="/home" passHref>
         <ButtonTransparentA height={1} width={1} color="orange.9">
           <Img height="xs" src={logoInline} />
         </ButtonTransparentA>

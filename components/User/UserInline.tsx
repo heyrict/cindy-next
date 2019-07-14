@@ -5,15 +5,11 @@ import UserBriefProfile from './UserBriefProfile';
 import CurrentUserAward from './CurrentUserAward';
 
 import { UserInlineBase } from './shared';
-import { UserInlineProps, UserBaseProps } from './types';
+import { UserInlineProps } from './types';
 
 const AnchorDiv = Anchor.withComponent('span');
 
-const UserInline = ({
-  user,
-  timestamp,
-  ...props
-}: UserInlineProps & UserBaseProps) => {
+const UserInline = ({ user, timestamp, ...props }: UserInlineProps) => {
   const NicknameBlock = (
     <Flex flexWrap="wrap" alignItems="baseline" ml={1}>
       {user.id > 0 ? (

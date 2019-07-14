@@ -4,15 +4,7 @@ import {
   setNodeInChildren,
   constructTree,
 } from '../common';
-
-const questions = [
-  {
-    question: 'Did the man killed himself in the restaurant?',
-  },
-  {
-    question: "Does the man's job count?",
-  },
-];
+import { KeywordTreeNodeType } from '../types';
 
 describe('Test tokenizer', () => {
   it('works', async () => {
@@ -35,7 +27,7 @@ describe('Test counter', () => {
 });
 
 describe('Test setNodeInChildren', () => {
-  let tree;
+  let tree: { name: string; children: KeywordTreeNodeType[] };
   beforeEach(() => {
     tree = {
       name: 'Root',
@@ -110,10 +102,11 @@ describe('Test constructTree', () => {
   it('Multiple arrays', () => {
     const example = [
       {
-        keywords: ['a', 'b', 'c'],
+        question: 'any.1',
+        question_keywords: ['a', 'b', 'c'],
       },
-      { keywords: ['a', 'd'] },
-      { keywords: ['e'] },
+      { question: 'any.2', question_keywords: ['a', 'd'] },
+      { question: 'any.3', question_keywords: ['e'] },
     ];
     const expected = {
       name: 'Root',

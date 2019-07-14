@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
-import { Router } from 'routes';
+import Router from 'next/router';
 import { getMaxDazedDays } from 'settings';
 
 import { connect } from 'react-redux';
@@ -282,7 +282,7 @@ export const PuzzleAddFormInner = ({
                   }
                   incPuzzles();
                   const addedPuzzle = data.insert_sui_hei_puzzle.returning[0];
-                  Router.pushRoute('puzzle', { id: addedPuzzle.id });
+                  Router.push('/puzzle/[id]', `/puzzle/${addedPuzzle.id}`);
                 })
                 .catch((error: ApolloError) => {
                   toast.error(error.message);

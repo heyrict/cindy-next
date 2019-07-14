@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'routes';
+import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { text2raw } from 'common/markdown';
 
@@ -28,11 +28,12 @@ let blurHdl = null as number | null;
 const UserBriefProfile = ({ user }: UserBriefProfileProps) => {
   const [show, setShow] = useState(false);
 
-  useEffect(() => { // Clear timeout before unmount
+  useEffect(() => {
+    // Clear timeout before unmount
     return () => {
       if (blurHdl) window.clearTimeout(blurHdl);
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <Manager>
@@ -136,7 +137,7 @@ const UserBriefProfile = ({ user }: UserBriefProfileProps) => {
                 }}
               </Query>
               <Flex width={1} mt={2}>
-                <Link to="user" params={{ id: user.id }} passHref>
+                <Link href="/user/[id]" as={`/user/${user.id}`} passHref>
                   <ButtonTransparentA p={1}>
                     <Img height="xxs" src={homeIcon} alt="profile" />
                   </ButtonTransparentA>

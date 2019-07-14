@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'routes';
+import Link from 'next/link';
 import { toast } from 'react-toastify';
 
 import { FormattedMessage } from 'react-intl';
@@ -36,7 +36,7 @@ class CheckNotifier extends React.Component<CheckNotifierProps> {
             values={{ count: this.props.puzzles }}
           />
           <Box>
-            <Link route="awards">
+            <Link href="/awards">
               <ButtonTransparentA my={1} color="blue.0">
                 &gt;&gt;
                 <FormattedMessage {...awardCheckMessages.goToAwardsPage} />
@@ -58,7 +58,7 @@ class CheckNotifier extends React.Component<CheckNotifierProps> {
             values={{ count: this.props.dialogues }}
           />
           <Box>
-            <Link route="awards">
+            <Link href="/awards">
               <ButtonTransparentA my={1} color="blue.0">
                 &gt;&gt;
                 <FormattedMessage {...awardCheckMessages.goToAwardsPage} />
@@ -80,7 +80,7 @@ class CheckNotifier extends React.Component<CheckNotifierProps> {
             values={{ count: this.props.goodQuestions }}
           />
           <Box>
-            <Link route="awards">
+            <Link href="/awards">
               <ButtonTransparentA my={1} color="blue.0">
                 &gt;&gt;
                 <FormattedMessage {...awardCheckMessages.goToAwardsPage} />
@@ -102,7 +102,7 @@ class CheckNotifier extends React.Component<CheckNotifierProps> {
             values={{ count: this.props.trueAnswers }}
           />
           <Box>
-            <Link route="awards">
+            <Link href="/awards">
               <ButtonTransparentA my={1} color="blue.0">
                 &gt;&gt;
                 <FormattedMessage {...awardCheckMessages.goToAwardsPage} />

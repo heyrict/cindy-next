@@ -16,6 +16,7 @@ import * as settingReducer from 'reducers/setting';
 import { IntlProvider } from 'react-intl';
 
 import RankedPuzzle from 'components/Puzzle/RankedPuzzle';
+import { RankedPuzzleDisplayType } from 'components/Puzzle/types';
 
 // {{{ puzzle mock
 const puzzle = {
@@ -71,7 +72,21 @@ storiesOf('Showcase | RankedPuzzle', module).add('default', () => (
       <ReduxProvider store={ReduxStore}>
         <Global styles={globalStyle} />
         <Flex width={1}>
-          <RankedPuzzle rank={1} puzzle={puzzle} />
+          <RankedPuzzle
+            rank={1}
+            puzzle={puzzle}
+            display={RankedPuzzleDisplayType.star}
+          />
+          <RankedPuzzle
+            rank={1}
+            puzzle={puzzle}
+            display={RankedPuzzleDisplayType.bookmark}
+          />
+          <RankedPuzzle
+            rank={1}
+            puzzle={puzzle}
+            display={RankedPuzzleDisplayType.comment}
+          />
         </Flex>
       </ReduxProvider>
     </IntlProvider>

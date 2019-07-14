@@ -13,6 +13,10 @@ import { puzzle, dialogues, hints } from './constants';
 describe('<PuzzleDialoguesRenderer />', () => {
   const setParticipantsFn = jest.fn();
   const subscribeFn = jest.fn();
+  const incGoodQuestionsFn = jest.fn();
+  const incTrueAnswersFn = jest.fn();
+  const setTrueSolvedLongtermYamiFn = jest.fn();
+
   const defaultProps = {
     subscribeToMore: subscribeFn,
     data: {
@@ -22,11 +26,19 @@ describe('<PuzzleDialoguesRenderer />', () => {
     variables: {
       puzzleId: puzzle.id,
     },
+    user: {
+      id: undefined,
+      nickname: undefined,
+      username: undefined,
+    },
     puzzleUser: puzzle.sui_hei_user,
     puzzleStatus: puzzle.status,
     anonymous: puzzle.anonymous,
     shouldSubscribe: true,
     setParticipants: setParticipantsFn,
+    incGoodQuestions: incGoodQuestionsFn,
+    incTrueAnswers: incTrueAnswersFn,
+    setTrueSolvedLongtermYami: setTrueSolvedLongtermYamiFn,
     // unused required props
     loading: false,
     error: null as any,

@@ -8,10 +8,6 @@ import {
 import { PuzzlesUnsolvedLiveQuery } from 'graphql/LiveQueries/generated/PuzzlesUnsolvedLiveQuery';
 import { sui_hei_puzzle_order_by } from 'generated/globalTypes';
 
-export type PuzzleProps = {
-  puzzleId: number;
-};
-
 export type PuzzlesSolvedRendererProps = QueryResult<
   PuzzlesSolvedQuery,
   PuzzlesSolvedQueryVariables
@@ -21,10 +17,6 @@ export type PuzzlesUnsolvedRendererProps = {
   loading: boolean;
   data?: PuzzlesUnsolvedLiveQuery | undefined;
   error?: ApolloError | undefined;
-};
-
-export type UserPageProps = {
-  userId: number;
 };
 
 export type SearchVariablesStates = {
