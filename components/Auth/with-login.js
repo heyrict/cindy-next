@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import * as globalReducer from 'reducers/global';
 
 import { webhookPost } from './webhook';
+import { WEBHOOK_SERVER } from 'settings';
 
 const mapDispatchToProps = dispatch => ({
   auth: user => dispatch(globalReducer.actions.auth(user)),
@@ -16,13 +17,15 @@ const withRedux = connect(
   mapDispatchToProps,
 );
 
+const ENDPOINT = `${WEBHOOK_SERVER}/login`;
+
 const withLogin = Wrapped =>
   withRedux(props => (
     <ApolloConsumer>
       {apolloClient => (
         <Wrapped
           login={(username, password) =>
-            webhookPost('/webhook/login', {
+            webhookPost(ENDPOINT, {
               username,
               password,
             })

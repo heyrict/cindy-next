@@ -1,7 +1,7 @@
-const fetch = require('node-fetch');
-const { HttpLink, ApolloClient, InMemoryCache } = require('apollo-boost');
-const gql = require('graphql-tag');
-const { GRAPHQL_SERVER } = require('../../settings');
+import fetch from 'node-fetch';
+import { HttpLink, ApolloClient, InMemoryCache } from 'apollo-boost';
+import gql from 'graphql-tag';
+import { GRAPHQL_SERVER } from '../../settings';
 
 const createClient = () =>
   new ApolloClient({

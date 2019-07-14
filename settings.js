@@ -29,6 +29,10 @@ export const GRAPHQL_CLIENT = {
     : `${wsProtocol}//${host}/subscriptions`,
 };
 
+export const WEBHOOK_SERVER = isDev
+  ? 'http://localhost:3001/webhook'
+  : '/webhook';
+
 // Locale
 export const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
 export const APPLOCALES = ['en', 'ja'];

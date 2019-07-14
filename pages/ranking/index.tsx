@@ -7,8 +7,7 @@ import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, ButtonTransparent, Box } from 'components/General';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
-
-import { RankingProps, RankingContext } from './types';
+import { RankingProps, RankingContext } from 'pageTypes';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 

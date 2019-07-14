@@ -6,7 +6,7 @@ import messages from 'messages/pages/add_replay';
 
 import KeywordWorkbench from 'components/Workbench/Keyword';
 
-import { AddReplayProps } from './types';
+import { AddReplayProps } from 'pageTypes';
 
 class AddReplay extends React.Component<AddReplayProps> {
   static contextTypes = {

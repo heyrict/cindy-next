@@ -1,16 +1,16 @@
 import next from 'next';
 import { parse } from 'url';
-
 import express from 'express';
 
-const IntlPolyfill = require('intl');
+import { DEFAULT_LOCALE } from '../settings';
+import { supportedLanguages, getLocaleDataScript } from './intl';
+import IntlPolyfill from 'intl';
+
 Intl.NumberFormat = IntlPolyfill.NumberFormat;
 Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
-const { supportedLanguages, getLocaleDataScript } = require('./intl');
 
 const dev = process.env.NODE_ENV !== 'production';
 const port = parseInt(process.env.PORT || '3000', 10);
-const { DEFAULT_LOCALE } = require('../settings');
 const app = next({ dev });
 
 app.prepare().then(() => {

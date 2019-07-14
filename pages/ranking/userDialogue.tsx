@@ -20,7 +20,7 @@ import {
   UserDialogueRankingQuery,
   UserDialogueRankingQueryVariables,
 } from 'graphql/Queries/generated/UserDialogueRankingQuery';
-import { RankingProps, RankingContext } from './types';
+import { RankingProps, RankingContext } from 'pageTypes';
 
 const UserDialogueRanking = (_props: RankingProps, context: RankingContext) => {
   const _ = context.intl.formatMessage as any;

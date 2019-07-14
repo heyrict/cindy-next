@@ -1,5 +1,5 @@
-const fs = require('fs');
-const fnv = require('fnv-plus');
+import fs from 'fs';
+import fnv from 'fnv-plus';
 
 // TODO: why does rsaPemToJwk work with a file but not with a variable?
 export const key = (

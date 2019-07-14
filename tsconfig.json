@@ -33,7 +33,6 @@
     "migrations",
     "next.config.js",
     "node_modules",
-    "routes.js",
     "static",
     "storybook-static"
   ],

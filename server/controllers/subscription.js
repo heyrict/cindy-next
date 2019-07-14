@@ -1,6 +1,8 @@
-const triggers = require('../triggers');
-const { query, mutation } = require('../db/hasura');
-const gql = require('graphql-tag');
+import triggers from '../triggers';
+import { query, mutation } from '../db/hasura';
+import gql from 'graphql-tag';
+import { pubsub } from '../pubsub';
+
 const UserBriefQuery = gql`
   query UserBriefQuery($id: Int!) {
     sui_hei_user_by_pk(id: $id) {
@@ -19,8 +21,6 @@ const UserBriefQuery = gql`
     }
   }
 `;
-
-const { pubsub } = require('../pubsub');
 
 const addUserHandler = (data, response) => {
   const { user_id } = data.event.data.new;
@@ -75,4 +75,4 @@ const controller = (request, response) => {
   }
 };
 
-module.exports = controller;
+export default controller;

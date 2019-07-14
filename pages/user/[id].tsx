@@ -6,7 +6,7 @@ import Profile from 'components/Profile';
 
 import messages from 'messages/pages/user';
 
-import { UserPageProps } from './types';
+import { UserPageProps } from 'pageTypes';
 
 class User extends React.Component<UserPageProps> {
   static contextTypes = {

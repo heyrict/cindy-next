@@ -94,7 +94,7 @@ const Toolbar = ({
       </Portal>
     )}
     <ToolbarButton mx="auto">
-      <Link href="/home" passHref>
+      <Link href="/" passHref>
         <ButtonTransparentA height={1} width={1} color="orange.9">
           <Img height="xs" src={logoInline} />
         </ButtonTransparentA>

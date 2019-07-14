@@ -4,7 +4,13 @@ import { createServer } from 'http';
 import { ApolloServer } from 'apollo-server-express';
 
 import { typeDefs, resolvers } from './schema';
-import userController from './controllers/user';
+import {
+  postLogin,
+  postSignup,
+  getCurrentUser,
+  getWebhook,
+  getJwks,
+} from './controllers/user';
 import subscriptionController from './controllers/subscription';
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -25,12 +31,16 @@ apolloServer.applyMiddleware({
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 server.use(bodyParser.json());
+// Enable cors while developing
+if (dev) {
+  server.use(require('cors')());
+}
 // JWT Authorization
-server.use('/webhook/login', userController.postLogin);
-server.use('/webhook/signup', userController.postSignup);
-server.get('/webhook/getcurrent', userController.getCurrentUser);
-server.get('/webhook/webhook', userController.getWebhook);
-server.get('/webhook/jwks', userController.getJwks);
+server.use('/webhook/login', postLogin);
+server.use('/webhook/signup', postSignup);
+server.get('/webhook/getcurrent', getCurrentUser);
+server.get('/webhook/webhook', getWebhook);
+server.get('/webhook/jwks', getJwks);
 server.use('/webhook/subscriptions', subscriptionController);
 
 const websocketServer = createServer(server);

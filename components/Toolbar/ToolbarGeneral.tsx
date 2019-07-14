@@ -22,7 +22,7 @@ const Toolbar = ({ user }: ToolbarProps) => {
   return (
     <ToolbarFlex alignItems="center" justifyContent="center">
       <ToolbarFlex>
-        <Link href="/home" passHref>
+        <Link href="/" passHref>
           <ButtonTransparentA px={3} height={1} width={1} color="orange.9">
             <Img height="xs" src={logoInline} />
           </ButtonTransparentA>
