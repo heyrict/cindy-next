@@ -4,7 +4,6 @@ export type KeywordWorkbenchProps = {
   id: number;
   setReplayDialogues: (data: Array<ReplayDialogueType>) => void;
   setKuromojiProgress: (percentage: number) => void;
-  setCountFilterInput: (value: number) => void;
 };
 
 export type KuromojiProgressProps = {
@@ -27,4 +26,4 @@ export type ChooseModeToolbarProps = {
 
 export type ModeSelectPanelProps = {
   mode: AddReplayModeType;
-}
+};

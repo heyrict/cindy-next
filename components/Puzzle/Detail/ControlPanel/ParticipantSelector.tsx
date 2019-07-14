@@ -16,6 +16,7 @@ const ParticipantSelector = ({ value, setValue }: ParticipantSelectorProps) => {
     (state: StateType) => puzzleReducer.rootSelector(state).participants,
   );
   const participantsOptions = participants.map(participant => ({
+    key: participant.id,
     value: participant.id,
     label: <span>{participant.nickname}</span>,
   }));
@@ -25,6 +26,7 @@ const ParticipantSelector = ({ value, setValue }: ParticipantSelectorProps) => {
       value={value}
       options={[
         {
+          key: 'none',
           value: null,
           label: <FormattedMessage {...commonMessages.all} />,
         },

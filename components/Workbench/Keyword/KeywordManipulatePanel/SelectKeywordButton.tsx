@@ -15,7 +15,8 @@ import { SelectKeywordButtonProps } from './types';
 
 const useSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).keywordToSelect,
-  (_state: StateType, props: SelectKeywordButtonProps) => props.keyword,
+  (_state: StateType, props: Pick<SelectKeywordButtonProps, 'keyword'>) =>
+    props.keyword,
   (selectedKeyword, keyword) => selectedKeyword === keyword,
 );
 
@@ -34,7 +35,7 @@ const SelectKeywordButton = ({
 
 const mapStateToProps = (
   state: StateType,
-  ownProps: SelectKeywordButtonProps,
+  ownProps: Pick<SelectKeywordButtonProps, 'keyword'>,
 ) => ({
   isActive: useSelector(state, ownProps),
 });

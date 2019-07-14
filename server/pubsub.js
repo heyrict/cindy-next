@@ -1,12 +1,10 @@
-const { RedisPubSub } = require('graphql-redis-subscriptions');
-const { PubSub } = require('apollo-server-express');
-const Redis = require('ioredis');
+import { RedisPubSub } from 'graphql-redis-subscriptions';
+import { PubSub } from 'apollo-server-express';
+import Redis from 'ioredis';
 
 const options = {
   host: '127.0.0.1',
   port: '6379,',
 };
 
-const pubsub = new RedisPubSub();
-
-module.exports = { pubsub };
+export const pubsub = new RedisPubSub();

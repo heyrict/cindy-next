@@ -1,10 +1,12 @@
 import * as bool from './helpers/bool';
 import * as base from './helpers/base';
+import * as enumerate from './helpers/enumerate';
 import {
   StateType,
   ActionContentType,
   ActionSetType,
   GlobalUserType,
+  ToolbarResponsiveMenuType,
 } from './types';
 
 export const scope = 'global';
@@ -16,12 +18,14 @@ export const actionTypes = {
   FETCHUSER: `${scope}.FETCHUSER`,
   ROUTECHANGE: `${scope}.ROUTECHANGE`,
   LANGUAGE: `${scope}.LANGUAGE`,
+  TOOLBAR_MENU: `${scope}.TOOLBAR_MENU`,
 };
 
 export const actions: ActionSetType = {
   ...bool.getActions('Aside', actionTypes.ASIDE),
   ...base.getActions('Channel', actionTypes.CHANNEL),
   ...base.getActions('Language', actionTypes.LANGUAGE),
+  ...enumerate.getActions('ToolbarMenu', actionTypes.TOOLBAR_MENU),
   fetchUser: () => ({
     type: actionTypes.FETCHUSER,
   }),
@@ -54,6 +58,7 @@ export const initialState = {
     nickname: undefined,
   } as GlobalUserType,
   route: '',
+  toolbarMenu: ToolbarResponsiveMenuType.NULL,
 };
 
 export const reducer = (
@@ -80,6 +85,11 @@ export const reducer = (
       return {
         ...state,
         user: action.payload,
+      };
+    case actionTypes.TOOLBAR_MENU:
+      return {
+        ...state,
+        toolbarMenu: enumerate.helper(state.toolbarMenu, action.payload),
       };
     case actionTypes.ROUTECHANGE:
       return {

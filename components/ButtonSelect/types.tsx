@@ -1,15 +1,30 @@
-export type ButtonSelectOptionType = {
-  value: any;
+export type ButtonSelectOptionType<TValue = any> = {
+  key: string | number;
+  value: TValue;
   label?: React.ReactNode;
 };
 
 export const buttonSelectDefaultProps = {
-  onChange: (_option: ButtonSelectOptionType): any => {},
   flexProps: {},
   buttonProps: {},
 };
 
-export type ButtonSelectProps = {
-  value: any;
-  options: Array<ButtonSelectOptionType>;
+export type ButtonSelectProps<TValue = any> = {
+  value: TValue;
+  options: Array<ButtonSelectOptionType<TValue>>;
+  onChange?: (option: ButtonSelectOptionType<TValue>) => any;
 } & typeof buttonSelectDefaultProps;
+
+export const buttonSelectStatefulDefaultProps = {
+  flexProps: {},
+  buttonProps: {},
+};
+
+export type ButtonSelectStatefulProps<TValue = any> = {
+  initialValue: TValue;
+  options: Array<ButtonSelectOptionType<TValue>>;
+} & typeof buttonSelectStatefulDefaultProps;
+
+export type ButtonSelectStatefulStates<TValue = any> = {
+  value: TValue;
+};

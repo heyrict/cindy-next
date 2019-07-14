@@ -15,6 +15,10 @@ export const messages = defineMessages({
     id: `${scope}.wiki`,
     defaultMessage: 'Wiki',
   },
+  users: {
+    id: `${scope}.users`,
+    defaultMessage: 'Users',
+  },
 });
 
 export default messages;

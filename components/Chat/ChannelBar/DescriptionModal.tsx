@@ -6,9 +6,15 @@ import { Query } from 'react-apollo';
 import { CHATROOM_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
 
 import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
+import { Box } from 'components/General';
+import FavChatManipulateButton from './FavChatManipulateButton';
+import ChatroomLogs from './ChatroomLogs';
 
 import { connect } from 'react-redux';
 import * as chatReducer from 'reducers/chat';
+
+import { FormattedMessage } from 'react-intl';
+import chatMessages from 'messages/components/chat';
 
 import {
   ChatroomDescription,
@@ -29,6 +35,7 @@ const DescriptionModal = ({
   descriptionModal,
   setFalseDescriptionModal,
   chatroomId,
+  relatedPuzzleId,
 }: DescriptionModalProps) =>
   descriptionModal ? (
     <Query<ChatroomDescription, ChatroomDescriptionVariables>
@@ -59,10 +66,31 @@ const DescriptionModal = ({
               <ModalCloseBtn onClick={() => setFalseDescriptionModal()} />
             </ModalHeader>
             <ModalBody>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: line2md(chatroom.description),
+              <Box
+                style={{
+                  float: 'right',
                 }}
+              >
+                <FavChatManipulateButton
+                  chatroomId={chatroom.id}
+                  chatroomName={chatroom.name}
+                />
+              </Box>
+              {chatroom.description ? (
+                <div
+                  style={{ minHeight: '3em' }}
+                  dangerouslySetInnerHTML={{
+                    __html: line2md(chatroom.description),
+                  }}
+                />
+              ) : (
+                <Box>
+                  <FormattedMessage {...chatMessages.noDescription} />
+                </Box>
+              )}
+              <ChatroomLogs
+                relatedPuzzleId={relatedPuzzleId}
+                chatroomId={chatroom.id}
               />
             </ModalBody>
           </Modal>

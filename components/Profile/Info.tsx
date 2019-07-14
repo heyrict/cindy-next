@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedDate } from 'react-intl';
 import userMessages from 'messages/components/user';
 import userPageMessages from 'messages/pages/user';
 import authMessages from 'messages/components/auth';
@@ -13,7 +13,7 @@ import { ProfileInfoProps } from './types';
 
 const infoRowProps = {
   width: 1,
-  flexWrap: 'wrap',
+  flexWrap: 'wrap' as 'wrap',
 };
 
 const infoRowLabelProps = {
@@ -96,7 +96,39 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
                 </Box>
                 <Box ml="auto">{user.nickname}</Box>
               </Flex>
-              {aggregates.puzzleCount && (
+              <Flex {...infoRowProps}>
+                <Box mr="auto" minWidth="8em">
+                  <FormattedMessage {...authMessages.date_joined} />
+                </Box>
+                <Box ml="auto">
+                  <FormattedDate
+                    year="numeric"
+                    month="short"
+                    day="numeric"
+                    hour="numeric"
+                    minute="numeric"
+                    value={user.date_joined}
+                  />
+                </Box>
+              </Flex>
+              {user.last_login && (
+                <Flex {...infoRowProps}>
+                  <Box mr="auto" minWidth="8em">
+                    <FormattedMessage {...authMessages.last_login} />
+                  </Box>
+                  <Box ml="auto">
+                    <FormattedDate
+                      year="numeric"
+                      month="short"
+                      day="numeric"
+                      hour="numeric"
+                      minute="numeric"
+                      value={user.last_login}
+                    />
+                  </Box>
+                </Flex>
+              )}
+              {typeof aggregates.puzzleCount === 'number' && (
                 <Flex {...infoRowProps}>
                   <Box {...infoRowLabelProps}>
                     <FormattedMessage {...userMessages.puzzleCount} />
@@ -104,7 +136,7 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
                   <Box ml="auto">{aggregates.puzzleCount}</Box>
                 </Flex>
               )}
-              {aggregates.dialogueCount && (
+              {typeof aggregates.dialogueCount === 'number' && (
                 <Flex {...infoRowProps}>
                   <Box {...infoRowLabelProps}>
                     <FormattedMessage {...userMessages.dialogueCount} />
@@ -112,7 +144,7 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
                   <Box ml="auto">{aggregates.dialogueCount}</Box>
                 </Flex>
               )}
-              {aggregates.goodQuestionCount && (
+              {typeof aggregates.goodQuestionCount === 'number' && (
                 <Flex {...infoRowProps}>
                   <Box {...infoRowLabelProps}>
                     <FormattedMessage {...userMessages.goodQuestionCount} />
@@ -120,7 +152,7 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
                   <Box ml="auto">{aggregates.goodQuestionCount}</Box>
                 </Flex>
               )}
-              {aggregates.trueAnswerCount && (
+              {typeof aggregates.trueAnswerCount === 'number' && (
                 <Flex {...infoRowProps}>
                   <Box {...infoRowLabelProps}>
                     <FormattedMessage {...userMessages.trueAnswerCount} />
@@ -128,7 +160,7 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
                   <Box ml="auto">{aggregates.trueAnswerCount}</Box>
                 </Flex>
               )}
-              {aggregates.recvCommentCount && (
+              {typeof aggregates.recvCommentCount === 'number' && (
                 <Flex {...infoRowProps}>
                   <Box {...infoRowLabelProps}>
                     <FormattedMessage {...userMessages.recvCommentCount} />
@@ -136,7 +168,7 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
                   <Box ml="auto">{aggregates.recvCommentCount}</Box>
                 </Flex>
               )}
-              {aggregates.starCount && aggregates.starSum && (
+              {typeof aggregates.starCount === 'number' && aggregates.starSum && (
                 <Flex {...infoRowProps}>
                   <Box {...infoRowLabelProps}>
                     <FormattedMessage {...userMessages.starCount} />
@@ -146,16 +178,17 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
                   </Box>
                 </Flex>
               )}
-              {aggregates.recvStarCount && aggregates.recvStarSum && (
-                <Flex {...infoRowProps}>
-                  <Box {...infoRowLabelProps}>
-                    <FormattedMessage {...userMessages.recvStarCount} />
-                  </Box>
-                  <Box ml="auto">
-                    {aggregates.recvStarCount}({aggregates.recvStarSum})
-                  </Box>
-                </Flex>
-              )}
+              {typeof aggregates.recvStarCount === 'number' &&
+                aggregates.recvStarSum && (
+                  <Flex {...infoRowProps}>
+                    <Box {...infoRowLabelProps}>
+                      <FormattedMessage {...userMessages.recvStarCount} />
+                    </Box>
+                    <Box ml="auto">
+                      {aggregates.recvStarCount}({aggregates.recvStarSum})
+                    </Box>
+                  </Flex>
+                )}
             </Flex>
           </Flex>
           <Flex mx={1} my={2} py={2}>

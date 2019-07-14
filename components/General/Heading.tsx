@@ -1,6 +1,6 @@
 import styled from 'theme/styled';
-import { typography, space, SpaceProps } from 'styled-system';
-import { HeadingDefaultProps, TypographyProps } from './types';
+import { typography, space, SpaceProps, TypographyProps } from 'styled-system';
+import { HeadingDefaultProps } from './types';
 
 const Heading = styled.div<TypographyProps & SpaceProps>`
   color: ${p => p.theme.colors.red[9]};

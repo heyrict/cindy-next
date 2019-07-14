@@ -26,14 +26,16 @@ const MergeKeywordButton = ({
 
 const useSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).keywordToMerge,
-  (_state: StateType, props: MergeKeywordButtonProps) => props.keyword,
-  (_state: StateType, props: MergeKeywordButtonProps) => props.index,
+  (_state: StateType, props: Pick<MergeKeywordButtonProps, 'keyword'>) =>
+    props.keyword,
+  (_state: StateType, props: Pick<MergeKeywordButtonProps, 'index'>) =>
+    props.index,
   (selectedKeywords, keyword, index) => selectedKeywords[index] === keyword,
 );
 
 const mapStateToProps = (
   state: StateType,
-  ownProps: MergeKeywordButtonProps,
+  ownProps: Pick<MergeKeywordButtonProps, 'keyword' | 'index'>,
 ) => ({
   isActive: useSelector(state, ownProps),
 });

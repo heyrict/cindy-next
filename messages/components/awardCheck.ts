@@ -27,6 +27,10 @@ export const messages = defineMessages({
     id: `${scope}.goToAwardsPage`,
     defaultMessage: 'Go to awards page',
   },
+  getAward: {
+    id: `${scope}.getAward`,
+    defaultMessage: "Congratulations! You've got a new award {name}!",
+  },
 });
 
 export default messages;

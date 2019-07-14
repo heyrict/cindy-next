@@ -20,7 +20,7 @@ import {
   PuzzleStarRankingQuery,
   PuzzleStarRankingQueryVariables,
 } from 'graphql/Queries/generated/PuzzleStarRankingQuery';
-import { RankingProps, RankingContext } from './types';
+import { RankingProps, RankingContext } from 'pageTypes';
 
 const PuzzleStarRanking = (_props: RankingProps, context: RankingContext) => {
   const _ = context.intl.formatMessage as any;

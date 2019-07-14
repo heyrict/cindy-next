@@ -17,8 +17,7 @@ const Tree = dynamic(() => import('react-d3-tree'), {
 
 const dialogueSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
-  (state: StateType) => addReplayReducer.rootSelector(state).keywords,
-  (dialogues, keywords) => filterDialogueKeywords(dialogues, keywords),
+  dialogues => filterDialogueKeywords(dialogues),
 );
 
 const treeSelector = createSelector(

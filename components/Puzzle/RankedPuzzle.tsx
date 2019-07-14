@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/pages/puzzle';
@@ -108,7 +108,7 @@ const RankedPuzzle = ({
             <Genre genre={puzzle.genre} />
             <Yami yami={puzzle.yami} />
             <Box width={1}>
-              <Link to="puzzle" params={{ id: puzzle.id }} passHref>
+              <Link href="/puzzle/[id]" as={`/puzzle/${puzzle.id}`} passHref>
                 <Title>{puzzle.title}</Title>
               </Link>
             </Box>
@@ -117,7 +117,7 @@ const RankedPuzzle = ({
           <Box mb={1}>
             <Genre genre={puzzle.genre} />
             <Yami yami={puzzle.yami} />
-            <Link to="puzzle" params={{ id: puzzle.id }} passHref>
+            <Link href="/puzzle/[id]" as={`/puzzle/${puzzle.id}`} passHref>
               <Title>{puzzle.title}</Title>
             </Link>
           </Box>

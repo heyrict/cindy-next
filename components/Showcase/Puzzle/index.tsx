@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'routes';
+import Link from 'next/link';
 import { Waypoint } from 'react-waypoint';
 import { randomUUID } from 'common/random';
 import { line2md } from 'common/markdown';
@@ -204,8 +204,8 @@ class PuzzleShowcase extends React.Component<
               PUZZLE_SHOWCASE_PUZZLEID && (
                 <Box bg="orange.4" width={1} borderRadius={2} mb={2}>
                   <Link
-                    to="puzzle"
-                    params={{ id: PUZZLE_SHOWCASE_PUZZLEID }}
+                    href="/puzzle/[id]"
+                    as={`/puzzle/${PUZZLE_SHOWCASE_PUZZLEID}`}
                     passHref
                   >
                     <ButtonTransparentA

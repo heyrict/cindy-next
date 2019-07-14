@@ -6,6 +6,9 @@ import { toast } from 'react-toastify';
 import * as globalReducer from 'reducers/global';
 
 import { webhookPost } from './webhook';
+import { WEBHOOK_SERVER } from 'settings';
+
+const ENDPOINT = `${WEBHOOK_SERVER}/signup`;
 
 const mapDispatchToProps = dispatch => ({
   auth: user => dispatch(globalReducer.actions.auth(user)),
@@ -22,7 +25,7 @@ const withSignup = Wrapped =>
       {apolloClient => (
         <Wrapped
           signup={(nickname, username, password) =>
-            webhookPost('/webhook/signup', {
+            webhookPost(ENDPOINT, {
               nickname,
               username,
               password,

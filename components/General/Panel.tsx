@@ -7,12 +7,15 @@ import {
   border,
   SpaceProps,
   BorderProps,
+  FlexboxProps,
+  ColorProps,
+  LayoutProps,
 } from 'styled-system';
-import { FlexboxProps, ColorProps, LayoutProps } from './types';
 
-const Panel = styled.div<
+const Panel = styled<
+  'div',
   FlexboxProps & SpaceProps & ColorProps & LayoutProps & BorderProps
->`
+>('div')`
   box-sizing: 'border-box';
   min-width: 0;
   display: flex;

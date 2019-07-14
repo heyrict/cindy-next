@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
-import { Router } from 'routes';
+import Router from 'next/router';
 import { getMaxDazedDays } from 'settings';
 
 import { connect } from 'react-redux';
@@ -22,11 +22,11 @@ import { ActionContentType } from 'reducers/types';
 
 const fieldNameStyle = {
   width: [1, 1 / 6],
-  textAlign: ['initial', 'center'],
+  textAlign: ['initial', 'center'] as ['initial', 'center'],
   borderWidth: [0, 1],
   mx: [0, -1],
   mb: [0, 3],
-  borderStyle: 'solid',
+  borderStyle: 'solid' as 'solid',
   borderColor: 'gray.6',
 };
 
@@ -95,20 +95,24 @@ export const PuzzleAddFormInner = ({
           onChange={option => setGenre(option.value)}
           options={[
             {
+              key: 'classic',
               value: 0,
               label: <FormattedMessage {...puzzleMessages.genre_classic} />,
             },
             {
+              key: 'twentyQuestions',
               value: 1,
               label: (
                 <FormattedMessage {...puzzleMessages.genre_twentyQuestions} />
               ),
             },
             {
+              key: 'littleAlbat',
               value: 2,
               label: <FormattedMessage {...puzzleMessages.genre_littleAlbat} />,
             },
             {
+              key: 'others',
               value: 3,
               label: <FormattedMessage {...puzzleMessages.genre_others} />,
             },
@@ -125,14 +129,17 @@ export const PuzzleAddFormInner = ({
           onChange={option => setYami(option.value)}
           options={[
             {
+              key: 'none',
               value: 0,
               label: <FormattedMessage {...commonMessages.none} />,
             },
             {
+              key: 'yami',
               value: 1,
               label: <FormattedMessage {...puzzleMessages.yami_yami} />,
             },
             {
+              key: 'longtermYami',
               value: 2,
               label: <FormattedMessage {...puzzleMessages.yami_longtermYami} />,
             },
@@ -170,10 +177,12 @@ export const PuzzleAddFormInner = ({
           onChange={option => setAnonymous(option.value)}
           options={[
             {
+              key: 'true',
               value: false,
               label: ' X ',
             },
             {
+              key: 'false',
               value: true,
               label: ' O ',
             },
@@ -190,10 +199,12 @@ export const PuzzleAddFormInner = ({
           onChange={option => setGrotesque(option.value)}
           options={[
             {
+              key: 'false',
               value: false,
               label: ' X ',
             },
             {
+              key: 'true',
               value: true,
               label: ' O ',
             },
@@ -271,7 +282,7 @@ export const PuzzleAddFormInner = ({
                   }
                   incPuzzles();
                   const addedPuzzle = data.insert_sui_hei_puzzle.returning[0];
-                  Router.pushRoute('puzzle', { id: addedPuzzle.id });
+                  Router.push('/puzzle/[id]', `/puzzle/${addedPuzzle.id}`);
                 })
                 .catch((error: ApolloError) => {
                   toast.error(error.message);
@@ -291,6 +302,9 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   incPuzzles: () => dispatch(awardCheckerReducer.actions.incPuzzles()),
 });
 
-const withRedux = connect(null, mapDispatchToProps);
+const withRedux = connect(
+  null,
+  mapDispatchToProps,
+);
 
 export default withRedux(PuzzleAddFormInner);

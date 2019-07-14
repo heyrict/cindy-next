@@ -1,3 +1,5 @@
+import { WEBHOOK_SERVER } from 'settings';
+
 import { takeEvery, put } from 'redux-saga/effects';
 import cookie from 'cookie';
 
@@ -11,7 +13,7 @@ const getAuthToken = () =>
 function* fetchUser() {
   const authToken = getAuthToken();
   if (authToken) {
-    const res = yield fetch('/webhook/getcurrent', {
+    const res = yield fetch(`${WEBHOOK_SERVER}/getcurrent`, {
       credentials: 'same-origin',
       method: 'GET',
       headers: {

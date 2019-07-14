@@ -31,7 +31,8 @@ const DialogueManipulate = ({ dialogue }: DialogueManipulateProps) => (
 
 const dialogueSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
-  (_state: StateType, ownProps: DialogueManipulateProps) => ownProps.dialogueId,
+  (_state: StateType, ownProps: Pick<DialogueManipulateProps, 'dialogueId'>) =>
+    ownProps.dialogueId,
   (dialogues, dialogueId) =>
     dialogues.find(
       dialogue => dialogue.id === dialogueId,
@@ -40,7 +41,7 @@ const dialogueSelector = createSelector(
 
 const mapStateToProps = (
   state: StateType,
-  ownProps: DialogueManipulateProps,
+  ownProps: Pick<DialogueManipulateProps, 'dialogueId'>,
 ) => ({
   dialogue: dialogueSelector(state, ownProps),
 });

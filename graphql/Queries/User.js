@@ -12,12 +12,25 @@ export const USER_BRIEF_QUERY = gql`
   ${USER_BRIEF_FRAGMENT}
 `;
 
+export const USER_BRIEF_EXTRA_QUERY = gql`
+  query UserBriefExtraQuery($id: Int!) {
+    sui_hei_user_by_pk(id: $id) {
+      id
+      profile
+      date_joined
+      last_login
+    }
+  }
+`;
+
 export const USER_QUERY = gql`
   query UserQuery($id: Int!) {
     sui_hei_user_by_pk(id: $id) {
       id
       profile
       ...UserBrief
+      date_joined
+      last_login
       sui_hei_userawards {
         ...UserAward
       }
@@ -111,4 +124,22 @@ export const USERAWARD_CHECKER_QUERY = gql`
       }
     }
   }
+`;
+
+export const USER_LIST_QUERY = gql`
+  query UserListQuery($limit: Int, $offset: Int) {
+    sui_hei_user(limit: $limit, offset: $offset, order_by: { id: desc }) {
+      id
+      ...UserBrief
+      profile
+      date_joined
+      last_login
+    }
+    sui_hei_user_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${USER_BRIEF_FRAGMENT}
 `;

@@ -3,7 +3,7 @@ import { space, color, typography, layout, flexbox } from 'styled-system';
 
 import { UserBaseProps } from './types';
 
-export const UserColBase = styled.div<UserBaseProps>`
+export const UserColBase = styled<'div', UserBaseProps>('div')`
   display: inline-flex;
   overflow: hidden;
   flex-direction: column;
@@ -16,7 +16,7 @@ export const UserColBase = styled.div<UserBaseProps>`
   ${typography}
 `;
 
-export const UserInlineBase = styled.div<UserBaseProps>`
+export const UserInlineBase = styled<'div', UserBaseProps>('div')`
   display: inline-flex;
   flex-wrap: wrap;
   overflow: hidden;

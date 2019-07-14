@@ -72,13 +72,20 @@ export const UPDATE_PUZZLE_MUTATION = gql`
     $grotesque: Boolean
     $dazedOn: date
     $status: Int
+    $yami: Int
   ) {
     update_sui_hei_puzzle(
-      _set: { grotesque: $grotesque, dazed_on: $dazedOn, status: $status }
+      _set: {
+        grotesque: $grotesque
+        dazed_on: $dazedOn
+        status: $status
+        yami: $yami
+      }
       where: { id: { _eq: $puzzleId } }
     ) {
       returning {
         id
+        yami
         grotesque
         dazed_on
         status

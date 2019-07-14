@@ -6,12 +6,16 @@ import {
   border,
   layout,
   SpaceProps,
+  ColorProps,
+  TypographyProps,
+  BorderProps,
+  LayoutProps,
 } from 'styled-system';
-import { ColorProps, LayoutProps, TypographyProps, BorderProps } from './types';
 
-const EditTimeSpan = styled.span<
+const EditTimeSpan = styled<
+  'span',
   SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
->`
+>('span')`
   box-sizing: 'border-box';
   min-width: 0;
   margin-left: ${p => p.theme.space[1]}px;

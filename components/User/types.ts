@@ -4,7 +4,7 @@ import {
   TypographyProps,
   LayoutProps,
   FlexboxProps,
-} from 'components/General/types';
+} from 'styled-system';
 
 export type UserBaseProps = SpaceProps &
   ColorProps &
@@ -20,7 +20,7 @@ type Award = {
 
 type UserAward = {
   id: number;
-  created: string;
+  created?: string;
   sui_hei_award: Award;
 };
 
@@ -32,21 +32,43 @@ export type InlineUser = {
   sui_hei_current_useraward?: UserAward | null;
 };
 
+export type InlineUserExtra = {
+  id: number;
+  profile: string;
+  date_joined: string;
+  last_login: string;
+};
+
 export type UserInlineProps = {
   user: InlineUser;
   timestamp?: React.ReactNode;
-} & UserBaseProps;
+  [styleProp: string]: any;
+};
 
 export type UserColProps = {
   user: InlineUser;
   timestamp?: React.ReactNode;
-} & UserBaseProps;
+  [styleProp: string]: any;
+};
 
 export type AnonymousUserProps = {
   nickname?: string;
   timestamp?: React.ReactNode;
-} & UserBaseProps;
+  [styleProp: string]: any;
+};
 
 export type CurrentUserAwardProps = {
   useraward: UserAward;
 };
+
+export type UserBriefProfileProps = {
+  user: InlineUser;
+};
+
+export const UserPanelDefaultProps = {
+  maxLength: 100,
+}
+
+export type UserPanelProps = {
+  user: InlineUser & InlineUserExtra;
+} & typeof UserPanelDefaultProps;

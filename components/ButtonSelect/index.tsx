@@ -8,14 +8,14 @@ import React from 'react';
 import { Flex, ButtonTransparent, Button } from 'components/General';
 import { ButtonSelectProps, buttonSelectDefaultProps } from './types';
 
-const ButtonSelect = (props: ButtonSelectProps) => {
+function ButtonSelect<TValue = any>(props: ButtonSelectProps<TValue>) {
   const { onChange, buttonProps, flexProps } = props;
   return (
     <Flex flexWrap="wrap" {...flexProps}>
       {props.options.map(option =>
         option.value === props.value ? (
           <Button
-            key={option.value}
+            key={option.key}
             p={1}
             mr={1}
             mb={1}
@@ -25,13 +25,13 @@ const ButtonSelect = (props: ButtonSelectProps) => {
             borderWidth={2}
             borderStyle="solid"
             {...buttonProps}
-            onClick={() => onChange(option)}
+            onClick={() => typeof onChange === 'function' && onChange(option)}
           >
             {option.label || option.value}
           </Button>
         ) : (
           <ButtonTransparent
-            key={option.value}
+            key={option.key}
             p={1}
             mr={1}
             mb={1}
@@ -41,7 +41,7 @@ const ButtonSelect = (props: ButtonSelectProps) => {
             borderWidth={2}
             borderStyle="solid"
             {...buttonProps}
-            onClick={() => onChange(option)}
+            onClick={() => typeof onChange === 'function' && onChange(option)}
           >
             {option.label || option.value}
           </ButtonTransparent>
@@ -49,7 +49,7 @@ const ButtonSelect = (props: ButtonSelectProps) => {
       )}
     </Flex>
   );
-};
+}
 
 ButtonSelect.defaultProps = buttonSelectDefaultProps;
 

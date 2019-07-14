@@ -1,7 +1,7 @@
 export type KeywordButtonProps = {
   on: boolean;
-  content: string;
-  onClick: any;
+  content: React.ReactNode;
+  onClick: (e: React.MouseEvent) => any;
   width?: any;
 };
 

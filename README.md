@@ -41,6 +41,7 @@ Requisitories
 
 Environment Variables
 --------
+### For apollo server
 
 | env              | description                       | default                                     |
 |------------------|-----------------------------------|---------------------------------------------|
@@ -49,3 +50,40 @@ Environment Variables
 | AUTH_PUBLIC_KEY  | Public key for authorization      | Content of `public.pem`                     |
 | AUTH_KEY_ID      | Key identifier for the key        | Hash of \$AUTH_PUBLIC_KEY                   |
 | NODE_ENV         | Node env (development/production) |                                             |
+| PORT             | port to use                       | 3001                                        |
+
+### For next server
+
+| env  | description | default |
+|------|-------------|---------|
+| PORT | port to use | 3000    |
+
+Hard-coded configurations
+--------
+### Global settings
+All variables describe here should be exported directly or indirectly from [./settings.js](./settings.js)
+
+| variable                        | description                                                                                                                                                                                                                |
+|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--|
+| GRAPHQL_SERVER / GRAPHQL_CLIENT | Object of `{ ENDPOINT: string, LIVEQUERY: string, SUBSCRIPTION: string }`                                                                                                                                                  |
+| DEFAULT_LOCALE                  | Locale fallback if requested locale is not provided in APPLOCALES. Default value is `ja`.                                                                                                                                  |
+| APPLOCALES                      | `Array<string>` of Supported locales. Currently supported translations are `en` and `ja`.                                                                                                                                  |
+| MAX_DAZED_DAYS_BY_GENRE         | Cindy have a trandition of automatically solving out-dated unsolved puzzles as `dazed` puzzles. This feature should be manually registered as a cron job. This is the designed time limit for different genres of puzzles. |
+| MAX_DAZED_DAYS_LONGTERM_YAMI    | Puzzles of long-term yami are designed to have a longer time limit.                                                                                                                                                        |
+| DOMAIN_REGEXP                   | Regular expression matching in-site urls. In-site urls are handled differently from cross-site urls.                                                                                                                       |
+
+### Hard-coded award settings
+Awards are hard-coded in script files as custom logic of checking awards are hard to implement with database only.
+**This config must be adjusted to satisfy your awards in the database!**
+
+| variable                | type                                 |
+|-------------------------|--------------------------------------|
+| PuzzleCountAwards       | { [count: number]: /* id */ number } |
+| QuestionCountAwards     | { [count: number]: /* id */ number } |
+| TrueAnswerCountAwards   | { [count: number]: /* id */ number } |
+| GoodQuestionCountAwards | { [count: number]: /* id */ number } |
+
+Patrons
+--------
+- [アシカ](https://www.cindythink.com/profile/show/36)
+- 1 more anonymous patrons

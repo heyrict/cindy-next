@@ -5,22 +5,22 @@
  *
  */
 
-const { User } = require('../db/schema');
-const rasha = require('rasha');
-const jwt = require('jsonwebtoken');
-const jwtConfig = require('../config/jwt');
-const { randomSalt, encodePassword } = require('../db/encode');
-const { getUser, localAuth, bearerAuth } = require('../db/auth');
+import { User } from '../db/schema';
+import rasha from 'rasha';
+import jwt from 'jsonwebtoken';
+import { publicKey } from '../config/jwt';
+import { randomSalt, encodePassword } from '../db/encode';
+import { getUser, localAuth, bearerAuth } from '../db/auth';
 
 /**
  * Sends the JWT key set
  */
-exports.getJwks = async (req, res) => {
+export const getJwks = async (req, res) => {
   const jwk = {
-    ...rasha.importSync({ pem: jwtConfig.publicKey }),
+    ...rasha.importSync({ pem: publicKey }),
     alg: 'RS256',
     use: 'sig',
-    kid: jwtConfig.publicKey,
+    kid: publicKey,
   };
   const jwks = {
     keys: [jwk],
@@ -34,7 +34,7 @@ exports.getJwks = async (req, res) => {
 /**
  * Sign in using username and password and returns JWT
  */
-exports.postLogin = async (req, res) => {
+export const postLogin = async (req, res) => {
   const { username, password } = req.body;
   const errors = [];
   if (!username) {
@@ -62,7 +62,7 @@ exports.postLogin = async (req, res) => {
  * POST /signup
  * Create a new local account
  */
-exports.postSignup = async (req, res) => {
+export const postSignup = async (req, res) => {
   const { nickname, username, password } = req.body;
   const errors = [];
   if (!nickname) {
@@ -115,7 +115,7 @@ exports.postSignup = async (req, res) => {
   }
 };
 
-exports.getCurrentUser = async (req, res) => {
+export const getCurrentUser = async (req, res) => {
   try {
     const bearer = req.headers.authorization;
     const requestedRole = req.headers['x-hasura-role'];
@@ -124,11 +124,8 @@ exports.getCurrentUser = async (req, res) => {
     }
     const token = bearer.slice(7);
     const parsed = await new Promise((resolve, reject) => {
-      jwt.verify(
-        token,
-        jwtConfig.publicKey,
-        { algorithm: 'RS256' },
-        (err, decoded) => (err ? reject(err) : resolve(decoded)),
+      jwt.verify(token, publicKey, { algorithm: 'RS256' }, (err, decoded) =>
+        err ? reject(err) : resolve(decoded),
       );
     });
     const userId =
@@ -146,7 +143,7 @@ exports.getCurrentUser = async (req, res) => {
   }
 };
 
-exports.getWebhook = async (req, res) => {
+export const getWebhook = async (req, res) => {
   try {
     const bearer = req.headers.authorization;
     const requestedRole = req.headers['x-hasura-role'];

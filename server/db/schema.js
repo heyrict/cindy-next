@@ -82,12 +82,6 @@ const User = sequelize.define(
       defaultValue: '',
       allowNull: false,
     },
-    credit: {
-      type: Sequelize.INTEGER,
-      field: 'credit',
-      defaultValue: 0,
-      allowNull: false,
-    },
     hideBookmark: {
       type: Sequelize.BOOLEAN,
       field: 'hide_bookmark',

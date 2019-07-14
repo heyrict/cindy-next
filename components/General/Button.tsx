@@ -6,12 +6,16 @@ import {
   border,
   layout,
   SpaceProps,
+  ColorProps,
+  TypographyProps,
+  BorderProps,
+  LayoutProps,
 } from 'styled-system';
-import { ColorProps, LayoutProps, TypographyProps, BorderProps } from './types';
 
-const Button = styled.button<
+const Button = styled<
+  'button',
   SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
->`
+>('button')`
   background-color: ${p => p.theme.colors.orange[6]};
   color: ${p => p.theme.colors.gray[1]};
   overflow: hidden;

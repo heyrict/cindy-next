@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'routes';
+
 import { Img, Anchor, Box } from 'components/General';
 import { UserColBase } from './shared';
+import UserBriefProfile from './UserBriefProfile';
 import CurrentUserAward from './CurrentUserAward';
 
 import { UserColProps } from './types';
@@ -9,10 +10,8 @@ import { UserColProps } from './types';
 const AnchorDiv = Anchor.withComponent('div');
 
 const UserCol = ({ user, timestamp, ...props }: UserColProps) => {
-  const NicknameBlock = user.id ? (
-    <Link to="user" params={{ id: user.id }} passHref>
-      <Anchor mr={1}>{user.nickname}</Anchor>
-    </Link>
+  const NicknameBlock = user.id > 0 ? (
+    <UserBriefProfile user={user} />
   ) : (
     <AnchorDiv mr={1}>{user.nickname}</AnchorDiv>
   );

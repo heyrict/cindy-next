@@ -64,6 +64,8 @@ export type ProfileUserType = {
   profile: string;
   nickname: string;
   username: string;
+  date_joined: string;
+  last_login?: string;
   sui_hei_userawards: Array<UserAward>;
   sui_hei_current_useraward?: UserAward | null;
   sui_hei_puzzles_aggregate?: PuzzlesAggregate | null;

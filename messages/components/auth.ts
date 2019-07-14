@@ -27,6 +27,14 @@ export const messages = defineMessages({
     id: `${scope}.password`,
     defaultMessage: 'Password',
   },
+  last_login: {
+    id: `${scope}.last_login`,
+    defaultMessage: 'Last Login',
+  },
+  date_joined: {
+    id: `${scope}.date_joined`,
+    defaultMessage: 'Date Joined',
+  },
 });
 
 export default messages;

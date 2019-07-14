@@ -195,6 +195,17 @@ const httpLink = new HttpLink({
           break;
         case 'DialogueHintSubscription':
           return reject(new Error('Not mocked'));
+        case 'UserBriefExtraQuery':
+          data = {
+            sui_hei_user_by_pk: {
+              __typename: 'sui_hei_user',
+              id: parsedParams.variables.id || 1,
+              profile: 'Profile Contents',
+              date_joined: '2019-01-01T00:01:23Z',
+              last_login:  '2019-01-04T00:01:23Z',
+            }
+          }
+          break;
       }
       resolve({
         text: () =>

@@ -5,6 +5,10 @@
 import React, { useEffect } from 'react';
 import { Global, css } from '@emotion/core';
 import { toast, ToastContainer, Slide } from 'react-toastify';
+import { requestNotificationPermission } from 'common/web-notify';
+
+import { FormattedMessage } from 'react-intl';
+import webNotifyMessages from 'messages/webNotify';
 
 import Chat from 'components/Chat';
 import Toolbar from 'components/Toolbar';
@@ -13,11 +17,14 @@ import AwardChecker from 'components/AwardChecker';
 import ChatBox from './ChatBox';
 import Page from './Page';
 import ToolbarBox from './ToolbarBox';
+import Footer from './Footer';
+import Patrons from './Patrons';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import theme from 'theme/theme';
 import { LayoutProps } from './types';
+import { NotificationPermissionType } from 'common/types';
 
 const tabsStyle = css`
   .nav {
@@ -283,6 +290,19 @@ const Layout = ({ children, fetchUser }: LayoutProps) => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    // request notification permission
+    requestNotificationPermission().then(permission => {
+      if (permission === NotificationPermissionType.NOT_SUPPORTED) {
+        toast.info(
+          <FormattedMessage {...webNotifyMessages.notSupportedMessage} />,
+        );
+      } else if (permission === NotificationPermissionType.DENIED) {
+        toast.info(<FormattedMessage {...webNotifyMessages.deniedMessage} />);
+      }
+    });
+  });
+
   return (
     <React.Fragment>
       <Global styles={globalStyle} />
@@ -293,7 +313,12 @@ const Layout = ({ children, fetchUser }: LayoutProps) => {
       <ToolbarBox>
         <Toolbar />
       </ToolbarBox>
-      <Page>{children}</Page>
+      <Page>
+        {children}
+        <Footer>
+          <Patrons />
+        </Footer>
+      </Page>
       <ToastContainer
         position={toast.POSITION.BOTTOM_RIGHT}
         transition={Slide}

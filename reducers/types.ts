@@ -52,3 +52,9 @@ export enum AddReplayPanelType {
   KEYWORD_EDIT,
   KEYWORD_MERGE,
 }
+
+export enum ToolbarResponsiveMenuType {
+  NULL,
+  GENERAL_MENU,
+  USER_MENU,
+}

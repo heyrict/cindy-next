@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { toast } from 'react-toastify';
+import { maybeSendNotification } from 'common/web-notify';
 import { mergeList } from 'common/update';
 
 import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
 import messages from 'messages/pages/puzzles';
+import webNotifyMessages from 'messages/webNotify';
+import puzzleMessages from 'messages/components/puzzle';
 
 import { Query, Subscription } from 'react-apollo';
 import { PUZZLES_SOLVED_QUERY } from 'graphql/Queries/Puzzles';
@@ -26,7 +29,7 @@ import {
 import {
   PuzzlesSolvedRendererProps,
   PuzzlesUnsolvedRendererProps,
-} from './types';
+} from 'pageTypes';
 
 let prevData: PuzzlesUnsolvedLiveQuery_sui_hei_puzzle[] | null = null;
 
@@ -45,6 +48,7 @@ const PuzzlesSolvedRenderer = ({
 }: PuzzlesSolvedRendererProps) => {
   const [hasMore, setHasMore] = useState(true);
 
+  // Update first 20 questions upon second+ load
   useEffect(() => {
     if (data && data.sui_hei_puzzle && data.sui_hei_puzzle.length !== 0) {
       fetchMore({
@@ -181,6 +185,34 @@ const Puzzles = (_props: any, context: { intl: IntlShape }) => {
                   sui_hei_puzzle: [statusChangedPuzzle, ...sui_hei_puzzle],
                 },
               });
+            }
+            if (prevData && prevData.length < newUnsolved.length) {
+              // new puzzle added
+              let genreMessage = '';
+              switch (newUnsolved[0].genre) {
+                case 0:
+                  genreMessage = _(puzzleMessages.genre_classic);
+                  break;
+                case 1:
+                  genreMessage = _(puzzleMessages.genre_twentyQuestions);
+                  break;
+                case 2:
+                  genreMessage = _(puzzleMessages.genre_littleAlbat);
+                  break;
+                case 3:
+                  genreMessage = _(puzzleMessages.genre_others);
+                  break;
+              }
+              if (document.hidden) {
+                maybeSendNotification(_(webNotifyMessages.newPuzzleAdded), {
+                  body: _(webNotifyMessages.newPuzzleAddedDetail, {
+                    user: newUnsolved[0].sui_hei_user.nickname,
+                    puzzle: newUnsolved[0].title,
+                    genre: genreMessage,
+                  }),
+                  renotify: true,
+                });
+              }
             }
             prevData = newUnsolved;
           }}

@@ -8,7 +8,7 @@ import {
 } from '../global';
 
 describe('global reducer', () => {
-  it.each([actionTypes.ASIDE, actionTypes.CHANNEL, actionTypes.LANGUAGE])(
+  it.each([actionTypes.ASIDE, actionTypes.CHANNEL, actionTypes.LANGUAGE, actionTypes.TOOLBAR_MENU])(
     'handle %s correctly',
     actionType => {
       const action = {

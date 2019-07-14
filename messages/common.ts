@@ -49,7 +49,47 @@ export const messages = defineMessages({
   },
   back: {
     id: `${scope}.back`,
-    defaultMessage: '<< Back',
+    defaultMessage: 'Back',
+  },
+  continue: {
+    id: `${scope}.continue`,
+    defaultMessage: 'Continue',
+  },
+  patron: {
+    id: `${scope}.patron`,
+    defaultMessage: 'Patron',
+  },
+  prev: {
+    id: `${scope}.prev`,
+    defaultMessage: 'Prev',
+  },
+  next: {
+    id: `${scope}.next`,
+    defaultMessage: 'Next',
+  },
+  jump: {
+    id: `${scope}.jump`,
+    defaultMessage: 'Jump',
+  },
+  reset: {
+    id: `${scope}.reset`,
+    defaultMessage: 'Reset',
+  },
+  search: {
+    id: `${scope}.search`,
+    defaultMessage: 'Search',
+  },
+  sort: {
+    id: `${scope}.sort`,
+    defaultMessage: 'Sort',
+  },
+  desc: {
+    id: `${scope}.desc`,
+    defaultMessage: 'Descending',
+  },
+  asc: {
+    id: `${scope}.asc`,
+    defaultMessage: 'Ascending',
   },
   filter: {
     id: `${scope}.filter`,

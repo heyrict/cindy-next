@@ -16,6 +16,27 @@ export const CHATROOM_CHATMESSAGES_QUERY = gql`
   ${CHATMESSAGE_FRAGMENT}
 `;
 
+export const CHATROOM_LOGS_QUERY = gql`
+  query ChatroomLogsQuery($chatroomId: Int, $limit: Int, $offset: Int) {
+    sui_hei_chatmessage(
+      where: { chatroom_id: { _eq: $chatroomId } }
+      limit: $limit
+      offset: $offset
+      order_by: [{ id: asc }]
+    ) {
+      ...Chatmessage
+    }
+    sui_hei_chatmessage_aggregate(
+      where: { chatroom_id: { _eq: $chatroomId } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${CHATMESSAGE_FRAGMENT}
+`;
+
 export const CHATROOM_PUZZLE_QUERY = gql`
   query ChatroomPuzzle($puzzleId: Int!) {
     sui_hei_puzzle_by_pk(id: $puzzleId) {
@@ -44,4 +65,16 @@ export const CHATROOM_DESCRIPTION_QUERY = gql`
     }
   }
   ${CHATROOM_FRAGMENT}
+`;
+
+export const FAVORITE_CHATROOMS_QUERY = gql`
+  query FavoriteChatroomsQuery {
+    sui_hei_favoritechatroom {
+      id
+      sui_hei_chatroom {
+        id
+        name
+      }
+    }
+  }
 `;

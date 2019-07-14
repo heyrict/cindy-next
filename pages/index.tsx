@@ -1,11 +1,12 @@
 import React from 'react';
 import Head from 'next/head';
-import { Link } from 'routes';
+import Link from 'next/link';
 import styled from 'theme/styled';
 import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
 import { line2md } from 'common/markdown';
-import { Flex, Box, LinkButton } from 'components/General';
+import { Flex, Box, LinkButton, Img } from 'components/General';
 import PuzzleShowcase from 'components/Showcase/Puzzle';
+import logoInline from 'svgs/logoInlineLight.svg';
 
 import messages from 'messages/pages/home';
 
@@ -76,7 +77,7 @@ const HomePage = (_props: any, context: { intl: IntlShape }) => {
         <H1>
           <FormattedMessage
             {...messages.header}
-            values={{ cindy: <b>Cindy</b> }}
+            values={{ cindy: <Img src={logoInline} height="md" alt="Cindy" /> }}
           />
         </H1>
       </Flex>
@@ -94,7 +95,7 @@ const HomePage = (_props: any, context: { intl: IntlShape }) => {
           />
         </Flex>
       </Flex>
-      <Link to="puzzles" prefetch passHref>
+      <Link href="/puzzles" passHref>
         <StartBox>
           <FormattedMessage {...messages.start} />
         </StartBox>
