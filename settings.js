@@ -4,7 +4,7 @@ export const isDev = process.env.NODE_ENV !== 'production';
 export const GRAPHQL_SERVER = {
   ENDPOINT: 'http://localhost:8080/v1/graphql',
   LIVEQUERY: 'ws://localhost:8080/v1/graphql',
-  SUBSCRIPTION: 'ws://localhost:3000/subscriptions',
+  SUBSCRIPTION: 'ws://localhost:3001/subscriptions',
 };
 
 const defaultLocation = {
@@ -25,9 +25,13 @@ export const GRAPHQL_CLIENT = {
     ? 'ws://localhost:8080/v1/graphql'
     : `${wsProtocol}//${host}/v1/graphql`,
   SUBSCRIPTION: isDev
-    ? 'ws://localhost:3000/subscriptions'
+    ? 'ws://localhost:3001/subscriptions'
     : `${wsProtocol}//${host}/subscriptions`,
 };
+
+export const WEBHOOK_SERVER = isDev
+  ? 'http://localhost:3001/webhook'
+  : '/webhook';
 
 // Locale
 export const DEFAULT_LOCALE = isDev ? 'en' : 'ja';

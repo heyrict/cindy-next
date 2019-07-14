@@ -5,14 +5,24 @@ import {
   typography,
   border,
   layout,
+  overflow,
   SpaceProps,
+  ColorProps,
+  TypographyProps,
+  BorderProps,
+  LayoutProps,
+  OverflowProps,
 } from 'styled-system';
 
-import { ColorProps, LayoutProps, TypographyProps, BorderProps } from './types';
-
-const Box = styled.div<
-  SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
->`
+const Box = styled<
+  'div',
+  SpaceProps &
+    ColorProps &
+    TypographyProps &
+    BorderProps &
+    LayoutProps &
+    OverflowProps
+>('div')`
   box-sizing: 'border-box';
   min-width: 0;
   ${space}
@@ -20,6 +30,7 @@ const Box = styled.div<
   ${typography}
   ${border}
   ${layout}
+  ${overflow}
 `;
 
 export default Box;

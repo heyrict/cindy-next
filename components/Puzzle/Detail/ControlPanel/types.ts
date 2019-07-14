@@ -52,5 +52,5 @@ export type PuzzleEditPanelProps = {
 
 export type ParticipantSelectorProps = {
   value: number | null;
-  setValue: (value: number) => void;
+  setValue: (value: number | null) => void;
 };

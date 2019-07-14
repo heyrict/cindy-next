@@ -20,7 +20,7 @@ import {
   UserPuzzleRankingQuery,
   UserPuzzleRankingQueryVariables,
 } from 'graphql/Queries/generated/UserPuzzleRankingQuery';
-import { RankingProps, RankingContext } from './types';
+import { RankingProps, RankingContext } from 'pageTypes';
 
 const UserPuzzleRanking = (_props: RankingProps, context: RankingContext) => {
   const _ = context.intl.formatMessage as any;

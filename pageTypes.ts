@@ -1,3 +1,4 @@
+import { IntlShape } from 'react-intl';
 import { QueryResult } from 'react-apollo';
 import { ApolloError } from 'apollo-client';
 
@@ -8,8 +9,8 @@ import {
 import { PuzzlesUnsolvedLiveQuery } from 'graphql/LiveQueries/generated/PuzzlesUnsolvedLiveQuery';
 import { sui_hei_puzzle_order_by } from 'generated/globalTypes';
 
-export type PuzzleProps = {
-  puzzleId: number;
+export type UserPageProps = {
+  userId: number;
 };
 
 export type PuzzlesSolvedRendererProps = QueryResult<
@@ -23,10 +24,6 @@ export type PuzzlesUnsolvedRendererProps = {
   error?: ApolloError | undefined;
 };
 
-export type UserPageProps = {
-  userId: number;
-};
-
 export type SearchVariablesStates = {
   title: null | string;
   content: null | string;
@@ -35,4 +32,17 @@ export type SearchVariablesStates = {
   genre: null | number;
   yami: null | number;
   orderBy: Array<sui_hei_puzzle_order_by>;
+};
+
+export type RankingProps = {};
+export type RankingContext = {
+  intl: IntlShape;
+};
+
+export type PuzzleProps = {
+  puzzleId: number;
+};
+
+export type AddReplayProps = {
+  puzzleId: number;
 };

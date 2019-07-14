@@ -13,7 +13,7 @@ import { ProfileInfoProps } from './types';
 
 const infoRowProps = {
   width: 1,
-  flexWrap: 'wrap',
+  flexWrap: 'wrap' as 'wrap',
 };
 
 const infoRowLabelProps = {

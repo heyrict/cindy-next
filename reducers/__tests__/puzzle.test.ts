@@ -2,7 +2,6 @@ import {
   scope,
   rootSelector,
   actionTypes,
-  actions,
   initialState,
   reducer,
 } from '../puzzle';

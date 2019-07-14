@@ -1,6 +1,5 @@
 import styled from 'theme/styled';
-import { space, layout, SpaceProps } from 'styled-system';
-import { LayoutProps } from './types';
+import { space, layout, SpaceProps, LayoutProps } from 'styled-system';
 
 const Anchor = styled.a<SpaceProps & LayoutProps>`
   display: inline-block;

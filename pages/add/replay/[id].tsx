@@ -1,25 +1,25 @@
 import React from 'react';
 import Head from 'next/head';
+
 import { intlShape } from 'react-intl';
+import messages from 'messages/pages/add_replay';
 
-import Profile from 'components/Profile';
+import KeywordWorkbench from 'components/Workbench/Keyword';
 
-import messages from 'messages/pages/user';
+import { AddReplayProps } from 'pageTypes';
 
-import { UserPageProps } from './types';
-
-class User extends React.Component<UserPageProps> {
+class AddReplay extends React.Component<AddReplayProps> {
   static contextTypes = {
     intl: intlShape,
   };
 
   static async getInitialProps({ query }: { query: { id: string } }) {
-    return { userId: query && query.id };
+    return { puzzleId: parseInt(query.id) };
   }
 
   render() {
     const _ = this.context.intl.formatMessage;
-    const { userId } = this.props;
+    const { puzzleId } = this.props;
 
     return (
       <React.Fragment>
@@ -27,10 +27,10 @@ class User extends React.Component<UserPageProps> {
           <title>{_(messages.title)} | Cindy</title>
           <meta name="description" content={_(messages.description)} />
         </Head>
-        <Profile userId={userId} />
+        <KeywordWorkbench id={puzzleId} />
       </React.Fragment>
     );
   }
 }
 
-export default User;
+export default AddReplay;

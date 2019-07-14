@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { Link } from 'routes';
+import Link from 'next/link';
 import styled from 'theme/styled';
 import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
 import { line2md } from 'common/markdown';
@@ -95,7 +95,7 @@ const HomePage = (_props: any, context: { intl: IntlShape }) => {
           />
         </Flex>
       </Flex>
-      <Link to="puzzles" prefetch passHref>
+      <Link href="/puzzles" passHref>
         <StartBox>
           <FormattedMessage {...messages.start} />
         </StartBox>

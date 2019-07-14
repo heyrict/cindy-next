@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'theme/styled';
 
 import { Box, Flex, Img, Button } from 'components/General';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 import replayIcon from 'svgs/puzzleDetailReplay.svg';
 
@@ -23,7 +23,7 @@ const ReplayPanel = ({ puzzleId }: ReplayPanelProps) => {
     <React.Fragment>
       <Box width={[1, 1 / 2]} mb={2}>
         <Box px={2}>
-          <Link to="add/replay" params={{ id: puzzleId }} passHref>
+          <Link href="/add/replay/[id]" as={`/add/replay/${puzzleId}`} passHref>
             <ReplayButton
               width={1}
               height="4em"

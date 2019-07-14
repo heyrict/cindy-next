@@ -11,7 +11,7 @@ import {
   PuzzleQueryVariables,
 } from 'graphql/Queries/generated/PuzzleQuery';
 
-import { PuzzleProps } from './types';
+import { PuzzleProps } from 'pageTypes';
 
 import PuzzleRenderer from 'components/Puzzle/PuzzleRenderer';
 

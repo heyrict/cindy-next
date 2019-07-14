@@ -28,7 +28,7 @@ import {
   SolvedPuzzlesSearchQueryVariables,
 } from 'graphql/Queries/generated/SolvedPuzzlesSearchQuery';
 import { FilterFieldTypeEnum } from 'components/Search/types';
-import { SearchVariablesStates } from './types';
+import { SearchVariablesStates } from 'pageTypes';
 
 const puzzleWidth = [1, 1 / 2, 1, 1 / 2, 1 / 3];
 

@@ -29,7 +29,7 @@ import {
 import {
   PuzzlesSolvedRendererProps,
   PuzzlesUnsolvedRendererProps,
-} from './types';
+} from 'pageTypes';
 
 let prevData: PuzzlesUnsolvedLiveQuery_sui_hei_puzzle[] | null = null;
 

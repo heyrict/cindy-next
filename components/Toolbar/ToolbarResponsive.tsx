@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'routes';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 import { ButtonTransparent, Img, Box } from 'components/General';
 import messages from 'messages/components/toolbar';
@@ -7,7 +8,6 @@ import messages from 'messages/components/toolbar';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { Portal } from 'react-portal';
 import {
   ToolbarFlex,
   ToolbarButton,
@@ -26,7 +26,15 @@ import {
   ToolbarResponsiveMenuType,
   ActionContentType,
 } from 'reducers/types';
+import { PortalProps } from 'react-portal';
 import { ToolbarResponsiveProps } from './types';
+
+const Portal = dynamic<PortalProps>(
+  () => import('react-portal').then(mod => mod.Portal),
+  {
+    ssr: false,
+  },
+);
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -53,7 +61,7 @@ const Toolbar = ({
         <ToolbarResponsiveContents>
           <Box width={1 / 2}>
             <ToolbarResponsiveButton bg="orange.4" m="1px">
-              <Link to="puzzles" passHref>
+              <Link href="/puzzles" passHref>
                 <ButtonTransparentA height={1} width={1} color="orange.9">
                   <FormattedMessage {...messages.puzzle} />
                 </ButtonTransparentA>
@@ -62,7 +70,7 @@ const Toolbar = ({
           </Box>
           <Box width={1 / 2}>
             <ToolbarResponsiveButton bg="orange.4" m="1px">
-              <Link to="users" passHref>
+              <Link href="/users" passHref>
                 <ButtonTransparentA height={1} width={1} color="orange.9">
                   <FormattedMessage {...messages.users} />
                 </ButtonTransparentA>
@@ -86,7 +94,7 @@ const Toolbar = ({
       </Portal>
     )}
     <ToolbarButton mx="auto">
-      <Link to="home" passHref>
+      <Link href="/" passHref>
         <ButtonTransparentA height={1} width={1} color="orange.9">
           <Img height="xs" src={logoInline} />
         </ButtonTransparentA>

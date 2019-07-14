@@ -31,7 +31,11 @@ const EditorWithText = ({ initialValue }: EditorWithTextProps) => {
         <SimpleLegacyEditor
           ref={pEditor}
           initialValue={initialValue}
-          onSubmit={value => setText(value)}
+          onSubmit={value =>
+            new Promise(resolve => {
+              resolve(setText(value));
+            })
+          }
         />
         <pre>
           <code>{text}</code>

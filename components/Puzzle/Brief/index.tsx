@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'theme/styled';
-import { Link } from 'routes';
+import Link from 'next/link';
 import { Box, Flex } from 'components/General';
 
 import UserCol from 'components/User/UserCol';
@@ -122,7 +122,7 @@ export const Brief = ({
             <Genre genre={puzzle.genre} />
             <Yami yami={puzzle.yami} />
             <Box width={1}>
-              <Link to="puzzle" params={{ id: puzzle.id }} passHref>
+              <Link href="/puzzle/[id]" as={`/puzzle/${puzzle.id}`} passHref>
                 <Title>{puzzle.title}</Title>
               </Link>
             </Box>
@@ -131,7 +131,7 @@ export const Brief = ({
           <Box mb={1}>
             <Genre genre={puzzle.genre} />
             <Yami yami={puzzle.yami} />
-            <Link to="puzzle" params={{ id: puzzle.id }} passHref>
+            <Link href="/puzzle/[id]" as={`/puzzle/${puzzle.id}`} passHref>
               <Title>{puzzle.title}</Title>
             </Link>
           </Box>

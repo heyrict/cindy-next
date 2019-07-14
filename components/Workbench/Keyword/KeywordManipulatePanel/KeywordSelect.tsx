@@ -9,7 +9,6 @@ import messages from 'messages/components/workbench';
 
 import { Flex, Box } from 'components/General';
 import SelectKeywordButton from './SelectKeywordButton';
-import KeywordSelectToolbar from './KeywordSelectToolbar';
 
 import { StateType } from 'reducers/types';
 import { KeywordSelectProps } from './types';
@@ -48,7 +47,6 @@ const KeywordSelect = ({ keywordKeys }: KeywordSelectProps) => {
       <Box fontSize={3}>
         <FormattedMessage {...messages.keywords} />
       </Box>
-      <KeywordSelectToolbar />
       <KeywordSelectWrapper>
         {keywordKeys.map(keyword => (
           <SelectKeywordButton key={keyword} keyword={keyword} />

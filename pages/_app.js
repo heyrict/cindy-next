@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router } from 'routes';
+import Router from 'next/router';
 import App, { Container } from 'next/app';
 import { compose } from 'redux';
 import { ApolloProvider } from 'react-apollo';
@@ -38,10 +38,10 @@ class MyApp extends App {
     // Get the `locale` and `messages` from the request object on the server.
     // In the browser, use the same values that the server serialized.
     const { req } = ctx;
-    const { locale, messages } = req || window.__NEXT_DATA__.props;
+    const { locale } = req || window.__NEXT_DATA__.props;
     const initialNow = Date.now();
 
-    return { pageProps, locale, messages, initialNow };
+    return { pageProps, locale, initialNow };
   }
 
   componentDidMount() {
@@ -90,7 +90,6 @@ class MyApp extends App {
       reduxStore,
       initialNow,
       locale,
-      messages,
       pageProps,
     } = this.props;
 

@@ -1,14 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 import { FormattedMessage, intlShape } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, ButtonTransparent, Box } from 'components/General';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
-
-import { RankingProps, RankingContext } from './types';
+import { RankingProps, RankingContext } from 'pageTypes';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -39,7 +38,7 @@ const Ranking = (_props: RankingProps, context: RankingContext) => {
       <Flex width={1} flexWrap="wrap">
         <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
           <Box m={2} bg="yellow.7" borderRadius={2}>
-            <Link to="ranking/puzzle_star" passHref>
+            <Link href="ranking/puzzle_star" passHref>
               <ButtonTransparentA
                 width={1}
                 py={2}
@@ -55,7 +54,7 @@ const Ranking = (_props: RankingProps, context: RankingContext) => {
         </Box>
         <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
           <Box m={2} bg="yellow.7" borderRadius={2}>
-            <Link to="ranking/user_dialogue" passHref>
+            <Link href="ranking/user_dialogue" passHref>
               <ButtonTransparentA
                 width={1}
                 py={2}
@@ -71,7 +70,7 @@ const Ranking = (_props: RankingProps, context: RankingContext) => {
         </Box>
         <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
           <Box m={2} bg="yellow.7" borderRadius={2}>
-            <Link to="ranking/user_puzzle" passHref>
+            <Link href="ranking/user_puzzle" passHref>
               <ButtonTransparentA
                 width={1}
                 py={2}

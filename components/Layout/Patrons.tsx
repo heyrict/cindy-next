@@ -4,6 +4,7 @@ import patronsList from 'patrons.json';
 
 import { FormattedMessage } from 'react-intl';
 import commonMessages from 'messages/common';
+import userMessages from 'messages/components/user';
 
 import { Box, Flex } from 'components/General';
 
@@ -21,10 +22,10 @@ const WhiteSpan = WhiteAnchor.withComponent('span');
 
 const Patrons = () => (
   <Flex flexWrap="wrap" alignItems="center" color="gray.1">
-    <Box ml={1} mr={3}>
+    <Box mx={1}>
       <FormattedMessage {...commonMessages.patron} />:
     </Box>
-    {patronsList.map(patron =>
+    {patronsList.patrons.map(patron =>
       patron.url ? (
         <WhiteAnchor key={patron.name} href={patron.url}>
           {patron.name}
@@ -32,6 +33,14 @@ const Patrons = () => (
       ) : (
         <WhiteSpan key={patron.name}>patron.name</WhiteSpan>
       ),
+    )}
+    {patronsList.anonymousPatrons > 0 && (
+      <Box mx={1}>
+        <FormattedMessage
+          {...userMessages.withAnonymousPatrons}
+          values={{ count: patronsList.anonymousPatrons }}
+        />
+      </Box>
     )}
     <img
       style={{ paddingLeft: '1em', height: 'max-content' }}

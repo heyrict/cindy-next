@@ -21,7 +21,7 @@ export const getMonthlyDate = (now: Date) => {
 
 export const rankingPanelProps = {
   m: 2,
-  flexWrap: 'wrap',
+  flexWrap: 'wrap' as 'wrap',
   borderRadius: 2,
   border: '5px double',
   borderColor: 'yellow.8',

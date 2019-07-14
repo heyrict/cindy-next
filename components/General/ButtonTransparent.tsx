@@ -6,12 +6,16 @@ import {
   border,
   layout,
   SpaceProps,
+  ColorProps,
+  TypographyProps,
+  BorderProps,
+  LayoutProps,
 } from 'styled-system';
-import { ColorProps, LayoutProps, TypographyProps, BorderProps } from './types';
 
-const ButtonTransparent = styled.button<
+const ButtonTransparent = styled<
+  'button',
   SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
->`
+>('button')`
   background-color: transparent;
   overflow: hidden;
   border: none;

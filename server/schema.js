@@ -1,10 +1,10 @@
-const gql = require('graphql-tag');
-const { withFilter } = require('graphql-subscriptions');
+import gql from 'graphql-tag';
+import { withFilter } from 'graphql-subscriptions';
 
-const { pubsub } = require('./pubsub');
-const triggers = require('./triggers');
+import { pubsub } from './pubsub';
+import triggers from './triggers';
 
-const typeDefs = gql`
+export const typeDefs = gql`
   # Query should not be empty according to graphql spec.
   scalar timestamptz
   scalar date
@@ -182,7 +182,7 @@ const typeDefs = gql`
   }
 `;
 
-const resolvers = {
+export const resolvers = {
   Query: {
     dummy: () => true,
   },
@@ -276,5 +276,3 @@ const resolvers = {
     },
   },
 };
-
-module.exports = { typeDefs, resolvers };

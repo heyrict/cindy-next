@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'routes';
+import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 import { ButtonTransparent, Img } from 'components/General';
 import messages from 'messages/components/toolbar';
@@ -22,20 +22,20 @@ const Toolbar = ({ user }: ToolbarProps) => {
   return (
     <ToolbarFlex alignItems="center" justifyContent="center">
       <ToolbarFlex>
-        <Link to="home" passHref>
+        <Link href="/" passHref>
           <ButtonTransparentA px={3} height={1} width={1} color="orange.9">
             <Img height="xs" src={logoInline} />
           </ButtonTransparentA>
         </Link>
         <ToolbarButton bg="orange.4" mr="1px">
-          <Link to="puzzles" passHref>
+          <Link href="/puzzles" passHref>
             <ButtonTransparentA height={1} width={1} color="orange.9">
               <FormattedMessage {...messages.puzzle} />
             </ButtonTransparentA>
           </Link>
         </ToolbarButton>
         <ToolbarButton bg="orange.4" mr="1px">
-          <Link to="users" passHref>
+          <Link href="/users" passHref>
             <ButtonTransparentA height={1} width={1} color="orange.9">
               <FormattedMessage {...messages.users} />
             </ButtonTransparentA>

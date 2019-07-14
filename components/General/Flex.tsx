@@ -6,12 +6,16 @@ import {
   color,
   layout,
   SpaceProps,
+  FlexboxProps,
+  BorderProps,
+  ColorProps,
+  LayoutProps,
 } from 'styled-system';
-import { LayoutProps, FlexboxProps, ColorProps, BorderProps } from './types';
 
-const Flex = styled.div<
+const Flex = styled<
+  'div',
   SpaceProps & FlexboxProps & BorderProps & ColorProps & LayoutProps
->`
+>('div')`
   box-sizing: 'border-box';
   min-width: 0;
   display: flex;

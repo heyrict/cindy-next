@@ -1,8 +1,14 @@
 import styled from 'theme/styled';
-import { space, border, layout, SpaceProps } from 'styled-system';
-import { LayoutStrictProps, BorderProps } from './types';
+import {
+  space,
+  border,
+  layout,
+  SpaceProps,
+  BorderProps,
+  LayoutProps,
+} from 'styled-system';
 
-const Img = styled.img<SpaceProps & BorderProps & LayoutStrictProps>`
+const Img = styled<'img', SpaceProps & BorderProps & LayoutProps>('img')`
   overflow: hidden;
   vertical-align: middle;
   ${layout}

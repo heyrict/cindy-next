@@ -2,10 +2,10 @@ import styled from 'theme/styled';
 
 import { SwitchProps } from './types';
 
-export const Switch = styled.button<SwitchProps>`
+export const Switch = styled<'button', SwitchProps>('button')`
   margin: 2px 5px;
   background-color: ${p =>
-    p.value ? p.theme.colors.blue[6] : p.theme.colors.blue[0]};
+    p.selected ? p.theme.colors.blue[6] : p.theme.colors.blue[0]};
   border-radius: 24px;
   display: inline-flex;
   width: 40px;
@@ -29,7 +29,7 @@ export const Switch = styled.button<SwitchProps>`
     transition-timing-function: ease-out;
     transform: translateX(${p => (p.value ? '16px' : '0')});
     background-color: ${p =>
-      p.value ? p.theme.colors.blue[0] : p.theme.colors.blue[6]};
+      p.selected ? p.theme.colors.blue[0] : p.theme.colors.blue[6]};
   }
 `;
 

@@ -14,7 +14,6 @@ describe('login reducer', () => {
     actionTypes.NICKNAME,
     actionTypes.USERNAME,
     actionTypes.PASSWORD,
-    actionTypes.ERRORS,
   ])('handle %s correctly', actionType => {
     const action = {
       type: actionType,

@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 import { StateType } from 'reducers/types';
 import { PuzzleSubbarProps } from './types';
@@ -27,7 +27,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         ml={1}
         p={1}
       >
-        <Link to="puzzles" prefetch passHref>
+        <Link href="/puzzles" prefetch passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...puzzlesMessage.header} />
           </ButtonTransparentA>
@@ -41,7 +41,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         ml={1}
         p={1}
       >
-        <Link to="add/puzzle" prefetch passHref>
+        <Link href="/add/puzzle" prefetch passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...addPuzzleMessage.header} />
           </ButtonTransparentA>
@@ -55,7 +55,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         ml={1}
         p={1}
       >
-        <Link to="ranking" prefetch passHref>
+        <Link href="/ranking" prefetch passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...rankingMessage.header} />
           </ButtonTransparentA>
@@ -69,7 +69,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         ml={1}
         p={1}
       >
-        <Link to="awards" prefetch passHref>
+        <Link href="/awards" prefetch passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...awardsMessages.header} />
           </ButtonTransparentA>
@@ -83,7 +83,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         ml={1}
         p={1}
       >
-        <Link to="search" prefetch passHref>
+        <Link href="/search" prefetch passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...searchMessages.header} />
           </ButtonTransparentA>

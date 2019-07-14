@@ -4,9 +4,9 @@ import { shallow } from 'enzyme';
 import ButtonSelect from '../index';
 
 const options = [
-  { value: 1, label: 'One' },
-  { value: 2, label: 'Two' },
-  { value: 3 },
+  { key: '1', value: 1, label: 'One' },
+  { key: '2', value: 2, label: 'Two' },
+  { key: '3', value: 3 },
 ];
 
 describe('<ButtonSelect />', () => {
