@@ -44,7 +44,7 @@ const Patrons = () => (
     )}
     <img
       style={{ paddingLeft: '1em', height: 'max-content' }}
-      src="http://img.shields.io/liberapay/receives/heyrict.svg?logo=liberapay"
+      src="https://img.shields.io/liberapay/receives/heyrict.svg?logo=liberapay"
     />
     <a style={{ paddingLeft: '1em' }} href="https://liberapay.com/heyrict">
       <img
