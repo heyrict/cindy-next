@@ -21,7 +21,7 @@ const presets = pkg.babel.presets;
 const plugins = pkg.babel.plugins || [];
 */
 
-const presets = ['next/babel', '@zeit/next-typescript/babel'];
+const presets = ['next/babel'];
 const plugins = [];
 
 const { DEFAULT_LOCALE, APPLOCALES } = require('../settings');
