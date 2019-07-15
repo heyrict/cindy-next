@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import Head from 'next/head';
+import { asSearch } from 'common/search';
 
 import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
 import searchMessages from 'messages/pages/search';
@@ -31,13 +32,6 @@ import { FilterFieldTypeEnum } from 'components/Search/types';
 import { SearchVariablesStates } from 'pageTypes';
 
 const puzzleWidth = [1, 1 / 2, 1, 1 / 2, 1 / 3];
-
-const SPACES_REGEX = new RegExp('[ 　]+');
-const inputToLike = (text: string) => {
-  const trimmed = text.trim();
-  if (!trimmed) return null;
-  return `%${trimmed.replace(SPACES_REGEX, '%')}%`;
-};
 
 const Search = (_props: any, context: { intl: IntlShape }) => {
   const _: any = context.intl.formatMessage;
@@ -241,10 +235,10 @@ const Search = (_props: any, context: { intl: IntlShape }) => {
                   const data = searchRef.current.getData();
                   newVariables.genre = data.genre;
                   newVariables.yami = data.yami;
-                  newVariables.title = inputToLike(data.title);
-                  newVariables.content = inputToLike(data.content);
-                  newVariables.solution = inputToLike(data.solution);
-                  newVariables.userNickname = inputToLike(data.userNickname);
+                  newVariables.title = asSearch(data.title);
+                  newVariables.content = asSearch(data.content);
+                  newVariables.solution = asSearch(data.solution);
+                  newVariables.userNickname = asSearch(data.userNickname);
                   newVariables.orderBy = [];
                 }
                 if (sortRef.current) {

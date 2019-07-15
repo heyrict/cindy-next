@@ -19,6 +19,7 @@ import CommentPanel from './CommentPanel';
 import BookmarkPanel from './BookmarkPanel';
 import ReplayPanel from './ReplayPanel';
 import ControlPanel from './ControlPanel';
+import PuzzleTags from './PuzzleTags';
 
 import { StateType, ActionContentType } from 'reducers/types';
 import { PuzzleDetailProps } from './types';
@@ -38,6 +39,7 @@ const PuzzleDetail = ({
   const isForbidden = puzzle.status === 4;
   const isCreator = puzzle.sui_hei_user.id === userId;
 
+  const shouldShowTags = isCreator || (!isHidden && !isForbidden);
   const shouldShowMemo = puzzle.memo.trim() !== '';
   const shouldShowAnswer =
     puzzle.status === 1 ||
@@ -112,6 +114,13 @@ const PuzzleDetail = ({
           created={puzzle.created}
           solved={puzzle.status === 0 ? undefined : puzzle.modified}
         />
+        {shouldShowTags && (
+          <PuzzleTags
+            puzzleId={puzzle.id}
+            puzzleUserId={puzzle.sui_hei_user.id}
+            userId={userId}
+          />
+        )}
         {shouldShowMemo && <MemoFrame memo={puzzle.memo} />}
         {shouldShowPuzzleDialogues && (
           <PuzzleDialogues

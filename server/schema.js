@@ -14,6 +14,14 @@ export const typeDefs = gql`
     UPDATE
     DELETE
   }
+  enum order_by {
+    asc
+    asc_nulls_first
+    asc_nulls_last
+    desc
+    desc_nulls_first
+    desc_nulls_last
+  }
   type Query {
     dummy: Boolean
   }
@@ -81,6 +89,20 @@ export const typeDefs = gql`
     receiver_id: Int!
     sender_id: Int!
   }
+  type sui_hei_tag {
+    id: Int!
+    name: String!
+    created: timestamptz!
+  }
+  type sui_hei_puzzle_tag {
+    id: Int!
+    puzzle_id: Int!
+    tag_id: Int!
+    user_id: Int!
+    sui_hei_puzzle: sui_hei_puzzle!
+    sui_hei_tag: sui_hei_tag!
+    sui_hei_user: sui_hei_user!
+  }
   type sui_hei_puzzle {
     id: Int!
     title: String!
@@ -96,6 +118,38 @@ export const typeDefs = gql`
     grotesque: Boolean!
     user_id: Int!
     sui_hei_user: sui_hei_user!
+    sui_hei_stars_aggregate: sui_hei_star_aggregate
+    sui_hei_bookmarks_aggregate: sui_hei_bookmark_aggregate
+    sui_hei_comments_aggregate: sui_hei_comment_aggregate
+    sui_hei_dialogues_aggregate: sui_hei_dialogue_aggregate
+  }
+  type sui_hei_star_aggregate {
+    aggregate: sui_hei_star_aggregate_fields
+  }
+  type sui_hei_bookmark_aggregate {
+    aggregate: sui_hei_bookmark_aggregate_fields
+  }
+  type sui_hei_comment_aggregate {
+    aggregate: sui_hei_comment_aggregate_fields
+  }
+  type sui_hei_dialogue_aggregate {
+    aggregate: sui_hei_dialogue_aggregate_fields
+  }
+  type sui_hei_star_aggregate_fields {
+    count: Int
+    sum: sui_hei_star_sum_aggregate_fields
+  }
+  type sui_hei_star_sum_aggregate_fields {
+    value: Int
+  }
+  type sui_hei_bookmark_aggregate_fields {
+    count: Int
+  }
+  type sui_hei_comment_aggregate_fields {
+    count: Int
+  }
+  type sui_hei_dialogue_aggregate_fields {
+    count: Int
   }
   type hasura_user_ranking_trigger {
     # An object relationship

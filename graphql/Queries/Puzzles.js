@@ -121,6 +121,7 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
     $genre: Int
     $yami: Int
     $userNickname: String
+    $tags: [Int]
     $orderBy: [sui_hei_puzzle_order_by!]
   ) {
     sui_hei_puzzle(
@@ -133,6 +134,7 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
         genre: { _eq: $genre }
         yami: { _eq: $yami }
         sui_hei_user: { nickname: { _like: $userNickname } }
+        sui_hei_puzzle_tags: { tag_id: { _in: $tags } }
       }
       limit: $limit
       offset: $offset
@@ -149,7 +151,35 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
         genre: { _eq: $genre }
         yami: { _eq: $yami }
         sui_hei_user: { nickname: { _like: $userNickname } }
+        sui_hei_puzzle_tags: { tag_id: { _in: $tags } }
       }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${PUZZLE_AGGREGATE_FRAGMENT}
+`;
+
+export const TAG_PUZZLES_QUERY = gql`
+  query TagPuzzlesQuery(
+    $limit: Int
+    $offset: Int
+    $tagId: Int!
+    $orderBy: [sui_hei_puzzle_order_by!]
+  ) {
+    sui_hei_puzzle(
+      order_by: $orderBy
+      where: { sui_hei_puzzle_tags: { tag_id: { _eq: $tagId } } }
+      limit: $limit
+      offset: $offset
+    ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
+      ...PuzzleAggregate
+    }
+    sui_hei_puzzle_aggregate(
+      order_by: $orderBy
+      where: { sui_hei_puzzle_tags: { tag_id: { _eq: $tagId } } }
     ) {
       aggregate {
         count
