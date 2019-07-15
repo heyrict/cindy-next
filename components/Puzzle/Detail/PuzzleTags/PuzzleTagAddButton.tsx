@@ -6,8 +6,9 @@ import { Mutation } from 'react-apollo';
 import { ADD_PUZZLE_TAG_MUTATION } from 'graphql/Mutations/Tag';
 import { PUZZLE_PAGE_TAGS_QUERY } from 'graphql/Queries/Tag';
 
-import { ButtonTransparent, Input, Img } from 'components/General';
+import { ButtonTransparent, Img } from 'components/General';
 import { PuzzleTagBubbleBox } from './shared';
+import PuzzleTagInput from './PuzzleTagInput';
 import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
 import plusPlainIcon from 'svgs/plusPlain.svg';
@@ -25,13 +26,13 @@ import {
 
 const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
   const [edit, setEdit] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null!);
+  const inputRef = useRef<PuzzleTagInput>(null);
 
   return (
     <PuzzleTagBubbleBox>
       {edit ? (
         <React.Fragment>
-          <Input ref={inputRef} />
+          <PuzzleTagInput ref={inputRef} />
           <Mutation<AddPuzzleTagMutation, AddPuzzleTagMutationVariables>
             mutation={ADD_PUZZLE_TAG_MUTATION}
             update={(proxy, { data }) => {
@@ -68,7 +69,9 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                 p={1}
                 onClick={() => {
                   if (!inputRef.current) return;
-                  const tagName = inputRef.current.value;
+                  const tagName = inputRef.current.getValue();
+                  if (!tagName) return;
+
                   addPuzzleTag({
                     variables: {
                       puzzleId,

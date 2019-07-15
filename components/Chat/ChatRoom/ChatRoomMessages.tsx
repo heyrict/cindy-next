@@ -167,7 +167,7 @@ const ChatRoomMessagesBody = ({
                   if (!res.data) return <div>No messages</div>;
 
                   const { sui_hei_puzzle_by_pk: relatedPuzzle } = res.data;
-                  if (relatedPuzzle === null) return null;
+                  if (!relatedPuzzle) return null;
                   if (relatedPuzzle.anonymous) {
                     return chatmessages.map(cm => (
                       <Chatmessage

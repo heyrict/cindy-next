@@ -25,7 +25,7 @@ const PuzzleTagBubble = ({
 }: PuzzleTagBubbleProps) => {
   return (
     <PuzzleTagBubbleBox>
-      <Box pl={1}>{puzzleTag.sui_hei_tag.name}</Box>
+      <Box pl={1} pr={canDelete ? 0 : 1}>{puzzleTag.sui_hei_tag.name}</Box>
       {canDelete && (
         <Mutation<DeletePuzzleTagMutation, DeletePuzzleTagMutationVariables>
           mutation={DELETE_PUZZLE_TAG_MUTATION}

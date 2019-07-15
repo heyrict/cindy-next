@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { PUZZLE_TAG_FRAGMENT } from '../Fragments/Tag';
+import { PUZZLE_TAG_FRAGMENT, TAG_FRAGMENT } from '../Fragments/Tag';
 
 export const PUZZLE_PAGE_TAGS_QUERY = gql`
   query PuzzlePageTagsQuery($puzzleId: Int!) {
@@ -9,4 +9,17 @@ export const PUZZLE_PAGE_TAGS_QUERY = gql`
     }
   }
   ${PUZZLE_TAG_FRAGMENT}
+`;
+
+export const PUZZLE_TAGS_SEARCH_QUERY = gql`
+  query PuzzleTagsSearchQuery($search: String, $limit: Int!) {
+    sui_hei_tag(
+      where: { name: { _like: $search } }
+      order_by: { sui_hei_puzzle_tags_aggregate: { count: desc } }
+      limit: $limit
+    ) {
+      ...Tag
+    }
+  }
+  ${TAG_FRAGMENT}
 `;

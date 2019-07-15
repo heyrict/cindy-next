@@ -15,3 +15,9 @@ export type PuzzleTagBubbleProps = {
 export type PuzzleTagAddButtonProps = {
   puzzleId: number;
 };
+
+export type PuzzleTagInputOptionType = {
+  id: number;
+  value: string;
+  label: React.ReactNode;
+}
