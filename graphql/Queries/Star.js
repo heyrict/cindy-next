@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
 export const PUZZLE_STAR_QUERY = gql`
-  query PuzzleStarQuery($puzzleId: Int!) {
-    sui_hei_star(where: { puzzle_id: { _eq: $puzzleId } }) {
+  query PuzzleStarQuery($puzzleId: Int!, $limit: Int) {
+    sui_hei_star(where: { puzzle_id: { _eq: $puzzleId } }, limit: $limit) {
       id
       value
       sui_hei_user {
@@ -24,6 +24,17 @@ export const PUZZLE_STAR_AGGREGATE_QUERY = gql`
           value
         }
       }
+    }
+  }
+`;
+
+export const PREVIOUS_STAR_VALUE_QUERY = gql`
+  query PreviousStarValueQuery($userId: Int!, $puzzleId: Int!) {
+    sui_hei_star(
+      where: { puzzle_id: { _eq: $puzzleId }, user_id: { _eq: $userId } }
+    ) {
+      id
+      value
     }
   }
 `;

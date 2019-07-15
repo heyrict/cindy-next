@@ -36,10 +36,6 @@ export type CommentPanelProps = {
   puzzleId: number;
 };
 
-export type StarPanelProps = {
-  puzzleId: number;
-};
-
 export type ReplayPanelProps = {
   puzzleId: number;
 };
