@@ -49,12 +49,6 @@
       name: sui_hei_tag
       schema: public
   type: drop_insert_permission
-- args:
-    role: user
-    table:
-      name: sui_hei_tag
-      schema: public
-  type: drop_update_permission
 
 # Drop relationships
 - args:

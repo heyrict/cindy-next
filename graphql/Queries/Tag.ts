@@ -11,6 +11,15 @@ export const PUZZLE_PAGE_TAGS_QUERY = gql`
   ${PUZZLE_TAG_FRAGMENT}
 `;
 
+export const TAG_QUERY = gql`
+  query TagQuery($tagId: Int!) {
+    sui_hei_tag_by_pk(id: $tagId) {
+      ...Tag
+    }
+  }
+  ${TAG_FRAGMENT}
+`
+
 export const PUZZLE_TAGS_SEARCH_QUERY = gql`
   query PuzzleTagsSearchQuery($search: String, $limit: Int!) {
     sui_hei_tag(

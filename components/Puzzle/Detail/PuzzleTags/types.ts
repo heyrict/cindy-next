@@ -20,4 +20,6 @@ export type PuzzleTagInputOptionType = {
   id: number;
   value: string;
   label: React.ReactNode;
+  created?: string;
+  __isNew__?: boolean;
 }

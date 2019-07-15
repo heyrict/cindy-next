@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 import { Mutation } from 'react-apollo';
 import { DELETE_PUZZLE_TAG_MUTATION } from 'graphql/Mutations/Tag';
@@ -18,6 +19,8 @@ import {
   PuzzlePageTagsQueryVariables,
 } from 'graphql/Queries/generated/PuzzlePageTagsQuery';
 
+const ButtonTransparentA = ButtonTransparent.withComponent('a');
+
 const PuzzleTagBubble = ({
   puzzleId,
   puzzleTag,
@@ -25,7 +28,13 @@ const PuzzleTagBubble = ({
 }: PuzzleTagBubbleProps) => {
   return (
     <PuzzleTagBubbleBox>
-      <Box pl={1} pr={canDelete ? 0 : 1}>{puzzleTag.sui_hei_tag.name}</Box>
+      <Box>
+        <Link href="/tag/[id]" as={`/tag/${puzzleTag.sui_hei_tag.id}`} passHref>
+          <ButtonTransparentA pl={1} pr={canDelete ? 0 : 1}>
+            {puzzleTag.sui_hei_tag.name}
+          </ButtonTransparentA>
+        </Link>
+      </Box>
       {canDelete && (
         <Mutation<DeletePuzzleTagMutation, DeletePuzzleTagMutationVariables>
           mutation={DELETE_PUZZLE_TAG_MUTATION}

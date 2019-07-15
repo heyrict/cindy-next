@@ -161,17 +161,6 @@
       name: sui_hei_tag
       schema: public
   type: create_insert_permission
-- args:
-    permission:
-      check: {}
-      filter: {}
-      columns:
-      - name
-    role: user
-    table:
-      name: sui_hei_tag
-      schema: public
-  type: create_update_permission
 
 # Add triggers
 - args:

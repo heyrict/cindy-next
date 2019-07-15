@@ -17,7 +17,7 @@ import { PuzzleTagInputOptionType } from './types';
 let waitHandle: number | null = null;
 
 class PuzzleTagInput extends React.PureComponent {
-  value: string | undefined;
+  value: PuzzleTagInputOptionType | undefined;
 
   render() {
     return (
@@ -34,12 +34,13 @@ class PuzzleTagInput extends React.PureComponent {
               }),
             }}
             onChange={(value, { action }) => {
+              console.log(value);
               if (action === 'clear') {
                 this.value = undefined;
                 return;
               }
               if (!value) return;
-              this.value = (value as PuzzleTagInputOptionType).value;
+              this.value = value as PuzzleTagInputOptionType;
             }}
             loadOptions={inputValue =>
               new Promise(resolve => {
@@ -67,6 +68,7 @@ class PuzzleTagInput extends React.PureComponent {
                         id: tag.id,
                         value: tag.name,
                         label: tag.name,
+                        created: tag.created,
                       }));
                     }),
                 );
