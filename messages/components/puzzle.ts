@@ -155,6 +155,22 @@ export const messages = defineMessages({
     id: `${scope}.addStars`,
     defaultMessage: 'Add Stars',
   },
+  spoiler: {
+    id: `${scope}.spoiler`,
+    defaultMessage: 'Spoiler',
+  },
+  spoilerWarning: {
+    id: `${scope}.spoilerWarning`,
+    defaultMessage: 'This comment may contain spoiler contents.',
+  },
+  yourComment: {
+    id: `${scope}.yourComment`,
+    defaultMessage: 'Your Comment',
+  },
+  addComment: {
+    id: `${scope}.addComment`,
+    defaultMessage: 'Add Comment',
+  },
 });
 
 export default messages;

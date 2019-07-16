@@ -27,7 +27,7 @@ export const Switch = styled<'button', SwitchProps>('button')`
     transition-property: transform, color;
     transition-duration: 0.1s;
     transition-timing-function: ease-out;
-    transform: translateX(${p => (p.value ? '16px' : '0')});
+    transform: translateX(${p => (p.selected ? '16px' : '0')});
     background-color: ${p =>
       p.selected ? p.theme.colors.blue[0] : p.theme.colors.blue[6]};
   }

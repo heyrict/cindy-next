@@ -31,7 +31,7 @@ const StarButton = styled(Button)`
   }
 `;
 
-const StarPanel = ({ puzzleId }: StarPanelProps) => {
+const StarPanel = ({ puzzleId, canAddStar }: StarPanelProps) => {
   const [loaded, setLoaded] = useState(false);
   const [show, setShow] = useState(false);
   let buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -124,6 +124,7 @@ const StarPanel = ({ puzzleId }: StarPanelProps) => {
                               starCount={agg.starCount}
                               setShow={setShow}
                               buttonRef={buttonRef}
+                              canAddStar={canAddStar}
                             />
                           </Flex>
                         )}

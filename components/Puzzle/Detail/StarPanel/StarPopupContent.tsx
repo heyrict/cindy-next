@@ -42,6 +42,7 @@ const StarPopupContent = ({
   starCount,
   setShow,
   buttonRef,
+  canAddStar,
 }: StarPopupContentProps) => {
   const contentRef = useRef<HTMLDivElement>(null!);
   const notifHdlRef = useRef<React.ReactText | null>(null);
@@ -99,7 +100,7 @@ const StarPopupContent = ({
         }}
       </Query>
       <Flex width={1} justifyContent="space-around" alignItems="center">
-        {userId && (
+        {userId && canAddStar && (
           <Query<PreviousStarValueQuery, PreviousStarValueQueryVariables>
             query={PREVIOUS_STAR_VALUE_QUERY}
             variables={{
@@ -166,7 +167,10 @@ const StarPopupContent = ({
                                 returning: [
                                   {
                                     __typename: 'sui_hei_star',
-                                    id: -1,
+                                    id:
+                                      data.sui_hei_star.length > 0
+                                        ? data.sui_hei_star[0].id
+                                        : -1,
                                     value,
                                   },
                                 ],
@@ -189,6 +193,8 @@ const StarPopupContent = ({
                               }
                             })
                             .catch((e: ApolloError) => {
+                              if (notifHdlRef.current)
+                                toast.dismiss(notifHdlRef.current);
                               toast.error(e.message);
                             });
                           notifHdlRef.current = toast.info(
