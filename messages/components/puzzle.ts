@@ -147,6 +147,14 @@ export const messages = defineMessages({
     id: `${scope}.starUsersWithExtra`,
     defaultMessage: '{users} and {count} users add stars to this puzzle.',
   },
+  yourStars: {
+    id: `${scope}.yourStars`,
+    defaultMessage: 'Your Stars',
+  },
+  addStars: {
+    id: `${scope}.addStars`,
+    defaultMessage: 'Add Stars',
+  },
 });
 
 export default messages;
