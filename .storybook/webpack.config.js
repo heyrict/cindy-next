@@ -13,7 +13,7 @@ module.exports = async ({ config, mode }) => {
     test: /\.(ts|tsx)$/,
     loader: require.resolve('babel-loader'),
     options: {
-      presets: ['next/babel', '@zeit/next-typescript/babel'],
+      presets: ['next/babel'],
     },
   });
   config.resolve.extensions.push('.ts', '.tsx');
