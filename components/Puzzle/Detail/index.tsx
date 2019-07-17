@@ -50,8 +50,8 @@ const PuzzleDetail = ({
     puzzle.status === 0 && !isCreator && isUser;
   const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
 
-  const shouldShowStarPanel = shouldShowAnswer && !isCreator;
-  const shouldShowCommentPanel = shouldShowAnswer && !isCreator;
+  const shouldShowStarPanel = shouldShowAnswer;
+  const shouldShowCommentPanel = shouldShowAnswer;
   const shouldShowBookmarkPanel = shouldShowAnswer;
   const shouldShowReplayPanel = shouldShowAnswer;
   const shouldShowControlPanel = isCreator;
@@ -145,8 +145,12 @@ const PuzzleDetail = ({
             user={puzzle.sui_hei_user}
           />
         )}
-        {shouldShowStarPanel && <StarPanel puzzleId={puzzle.id} />}
-        {shouldShowCommentPanel && <CommentPanel puzzleId={puzzle.id} />}
+        {shouldShowStarPanel && (
+          <StarPanel puzzleId={puzzle.id} canAddStar={!isCreator} />
+        )}
+        {shouldShowCommentPanel && (
+          <CommentPanel puzzleId={puzzle.id} canAddComment={!isCreator} />
+        )}
         {shouldShowBookmarkPanel && <BookmarkPanel puzzleId={puzzle.id} />}
         {shouldShowReplayPanel && <ReplayPanel puzzleId={puzzle.id} />}
         {shouldShowControlPanel && <ControlPanel puzzle={puzzle} />}

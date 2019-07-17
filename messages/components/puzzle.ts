@@ -139,6 +139,46 @@ export const messages = defineMessages({
     id: `${scope}.tags`,
     defaultMessage: 'Tags',
   },
+  starUsers: {
+    id: `${scope}.starUsers`,
+    defaultMessage: '{users} add stars to this puzzle.',
+  },
+  starUsersWithExtra: {
+    id: `${scope}.starUsersWithExtra`,
+    defaultMessage: '{users} and {count} users add stars to this puzzle.',
+  },
+  yourStars: {
+    id: `${scope}.yourStars`,
+    defaultMessage: 'Your Stars',
+  },
+  addStars: {
+    id: `${scope}.addStars`,
+    defaultMessage: 'Add Stars',
+  },
+  yourBookmarks: {
+    id: `${scope}.yourBookmarks`,
+    defaultMessage: 'Your Bookmarks',
+  },
+  addBookmarks: {
+    id: `${scope}.addBookmarks`,
+    defaultMessage: 'Add Bookmarks',
+  },
+  spoiler: {
+    id: `${scope}.spoiler`,
+    defaultMessage: 'Spoiler',
+  },
+  spoilerWarning: {
+    id: `${scope}.spoilerWarning`,
+    defaultMessage: 'This comment may contain spoiler contents.',
+  },
+  yourComment: {
+    id: `${scope}.yourComment`,
+    defaultMessage: 'Your Comment',
+  },
+  addComment: {
+    id: `${scope}.addComment`,
+    defaultMessage: 'Add Comment',
+  },
 });
 
 export default messages;

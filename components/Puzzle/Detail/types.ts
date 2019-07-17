@@ -28,18 +28,6 @@ export type AddQuestionInputProps = {
   incDialogues: () => void;
 };
 
-export type BookmarkPanelProps = {
-  puzzleId: number;
-};
-
-export type CommentPanelProps = {
-  puzzleId: number;
-};
-
-export type StarPanelProps = {
-  puzzleId: number;
-};
-
 export type ReplayPanelProps = {
   puzzleId: number;
 };
@@ -56,7 +44,7 @@ export type ContentsFrameType = {
 export type MemoFrameType = {
   memo: string;
   setRightAside: (rightAside: RightAsideType) => void;
-}
+};
 
 export type PuzzleTitleProps = {
   title: string;

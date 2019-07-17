@@ -76,7 +76,7 @@ export type PuzzleType = {
 
 export type PuzzlePaneProps = {
   status: number;
-}
+};
 
 export type PuzzleBriefProps = {
   puzzle: PuzzleType;
@@ -88,4 +88,9 @@ export type PuzzleBriefProps = {
   dialogueMaxAnsweredtime?: string;
   dialogueMaxCreated?: string;
   showGenreImage: boolean;
+};
+
+export type CommentProps = {
+  count: number;
+  puzzleId: number;
 };

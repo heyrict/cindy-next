@@ -1,0 +1,3 @@
+- args:
+    sql: ALTER TABLE sui_hei_bookmark ALTER COLUMN value TYPE SMALLINT;
+  type: run_sql

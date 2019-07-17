@@ -87,6 +87,22 @@ export const messages = defineMessages({
     id: `${scope}.asc`,
     defaultMessage: 'Ascending',
   },
+  save: {
+    id: `${scope}.save`,
+    defaultMessage: 'Save',
+  },
+  saved: {
+    id: `${scope}.saved`,
+    defaultMessage: 'Saved!',
+  },
+  saving: {
+    id: `${scope}.saving`,
+    defaultMessage: 'Saving...',
+  },
+  send: {
+    id: `${scope}.send`,
+    defaultMessage: 'Send',
+  },
 });
 
 export default messages;

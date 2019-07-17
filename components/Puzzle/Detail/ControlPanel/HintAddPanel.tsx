@@ -59,30 +59,19 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
           const { sui_hei_hint, sui_hei_dialogue } = prevDialogueHints;
 
           const newItem = data.insert_sui_hei_hint.returning[0];
-          if (newItem.id === -1) {
-            // Optimistic response
-            cache.writeQuery({
-              query: DIALOGUE_HINT_QUERY,
-              variables: {
-                puzzleId,
-              },
-              data: {
-                sui_hei_hint: [...sui_hei_hint, newItem],
-                sui_hei_dialogue,
-              },
-            });
-          } else {
-            cache.writeQuery({
-              query: DIALOGUE_HINT_QUERY,
-              variables: {
-                puzzleId,
-              },
-              data: {
-                sui_hei_hint: upsertItem(sui_hei_hint, newItem),
-                sui_hei_dialogue,
-              },
-            });
-          }
+          cache.writeQuery({
+            query: DIALOGUE_HINT_QUERY,
+            variables: {
+              puzzleId,
+            },
+            data: {
+              sui_hei_hint:
+                newItem.id === -1
+                  ? [...sui_hei_hint, newItem]
+                  : upsertItem(sui_hei_hint, newItem),
+              sui_hei_dialogue,
+            },
+          });
         }}
       >
         {addHint => (

@@ -76,6 +76,10 @@ export const messages = defineMessages({
     id: `${scope}.grotesqueWarning`,
     defaultMessage: 'WARNING! This puzzle has grotesque descriptions',
   },
+  goToPuzzlePage: {
+    id: `${scope}.goToPuzzlePage`,
+    defaultMessage: 'Go To Puzzle Page',
+  },
 });
 
 export default messages;
