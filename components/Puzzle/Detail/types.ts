@@ -28,10 +28,6 @@ export type AddQuestionInputProps = {
   incDialogues: () => void;
 };
 
-export type BookmarkPanelProps = {
-  puzzleId: number;
-};
-
 export type ReplayPanelProps = {
   puzzleId: number;
 };

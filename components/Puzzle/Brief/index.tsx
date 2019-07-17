@@ -179,7 +179,7 @@ export const Brief = ({
             )}
           {typeof aggregates.commentCount === 'number' &&
             aggregates.commentCount > 0 && (
-              <Comment count={aggregates.commentCount} />
+              <Comment puzzleId={puzzle.id} count={aggregates.commentCount} />
             )}
           {typeof aggregates.bookmarkCount === 'number' &&
             aggregates.bookmarkCount > 0 && (

@@ -1,11 +1,11 @@
 import gql from 'graphql-tag';
 
-export const ADD_STAR_MUTATION = gql`
-  mutation AddStarMutation($puzzleId: Int!, $value: smallint!) {
-    insert_sui_hei_star(
+export const ADD_BOOKMARK_MUTATION = gql`
+  mutation AddBookmarkMutation($puzzleId: Int!, $value: smallint!) {
+    insert_sui_hei_bookmark(
       objects: { puzzle_id: $puzzleId, value: $value }
       on_conflict: {
-        constraint: sui_hei_star_puzzle_id_user_id_key
+        constraint: sui_hei_bookmark_puzzle_id_user_id_key
         update_columns: [value]
       }
     ) {

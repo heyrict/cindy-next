@@ -155,6 +155,14 @@ export const messages = defineMessages({
     id: `${scope}.addStars`,
     defaultMessage: 'Add Stars',
   },
+  yourBookmarks: {
+    id: `${scope}.yourBookmarks`,
+    defaultMessage: 'Your Bookmarks',
+  },
+  addBookmarks: {
+    id: `${scope}.addBookmarks`,
+    defaultMessage: 'Add Bookmarks',
+  },
   spoiler: {
     id: `${scope}.spoiler`,
     defaultMessage: 'Spoiler',
