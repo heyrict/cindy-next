@@ -10,8 +10,13 @@ import {
   Img,
   Textarea,
 } from 'components/General';
+import Tooltip from 'components/Hoc/Tooltip';
 import StampList from '../StampList';
 import { ButtonFont } from '../components';
+
+import { FormattedMessage } from 'react-intl';
+import tooltipMessages from 'messages/tooltip';
+import commonMessages from 'messages/common';
 
 import paperPlaneIcon from 'svgs/paperPlane.svg';
 import expandIcon from 'svgs/expand.svg';
@@ -130,66 +135,114 @@ class SimpleLegacyEditor extends React.Component<
               width={1}
               bg="orange.3"
             >
-              <ButtonTransparent
-                height="2.2em"
-                onClick={(e: React.MouseEvent) => this.onClickWrap(e, '**')}
-              >
-                <ButtonFont>
-                  <b>B</b>
-                </ButtonFont>
-              </ButtonTransparent>
-              <ButtonTransparent
-                height="2.2em"
-                onClick={(e: React.MouseEvent) => this.onClickWrap(e, '*')}
-              >
-                <ButtonFont>
-                  <i>I</i>
-                </ButtonFont>
-              </ButtonTransparent>
-              <ButtonTransparent
-                height="2.2em"
-                onClick={(e: React.MouseEvent) =>
-                  this.onClickWrap(e, '<u>', '</u>')
+              <Tooltip
+                reference={
+                  <ButtonTransparent
+                    height="2.2em"
+                    onClick={(e: React.MouseEvent) => this.onClickWrap(e, '**')}
+                  >
+                    <ButtonFont>
+                      <b>B</b>
+                    </ButtonFont>
+                  </ButtonTransparent>
                 }
-              >
-                <ButtonFont>
-                  <u>U</u>
-                </ButtonFont>
-              </ButtonTransparent>
-              <ButtonTransparent
-                height="2.2em"
-                onClick={(e: React.MouseEvent) =>
-                  this.onClickWrap(e, '<del>', '</del>')
+                tooltip={<FormattedMessage {...tooltipMessages.bold} />}
+                delay={800}
+              />
+              <Tooltip
+                reference={
+                  <ButtonTransparent
+                    height="2.2em"
+                    onClick={(e: React.MouseEvent) => this.onClickWrap(e, '*')}
+                  >
+                    <ButtonFont>
+                      <i>I</i>
+                    </ButtonFont>
+                  </ButtonTransparent>
                 }
-              >
-                <ButtonFont>
-                  <del>D</del>
-                </ButtonFont>
-              </ButtonTransparent>
+                tooltip={<FormattedMessage {...tooltipMessages.italic} />}
+                delay={800}
+              />
+              <Tooltip
+                reference={
+                  <ButtonTransparent
+                    height="2.2em"
+                    onClick={(e: React.MouseEvent) =>
+                      this.onClickWrap(e, '<u>', '</u>')
+                    }
+                  >
+                    <ButtonFont>
+                      <u>U</u>
+                    </ButtonFont>
+                  </ButtonTransparent>
+                }
+                tooltip={<FormattedMessage {...tooltipMessages.underline} />}
+                delay={800}
+              />
+              <Tooltip
+                reference={
+                  <ButtonTransparent
+                    height="2.2em"
+                    onClick={(e: React.MouseEvent) =>
+                      this.onClickWrap(e, '<del>', '</del>')
+                    }
+                  >
+                    <ButtonFont>
+                      <del>D</del>
+                    </ButtonFont>
+                  </ButtonTransparent>
+                }
+                tooltip={<FormattedMessage {...tooltipMessages.delete} />}
+                delay={800}
+              />
               <ButtonFont>|</ButtonFont>
-              <ButtonTransparent
-                height="2.2em"
-                onClick={(e: React.MouseEvent) =>
-                  this.onClickInsert(e, '![Image](https://foo.bar/image.png)')
+              <Tooltip
+                reference={
+                  <ButtonTransparent
+                    height="2.2em"
+                    onClick={(e: React.MouseEvent) =>
+                      this.onClickInsert(
+                        e,
+                        '![Image](https://foo.bar/image.png)',
+                      )
+                    }
+                  >
+                    <Img src={photoIcon} height="1.2em" />
+                  </ButtonTransparent>
                 }
-              >
-                <Img src={photoIcon} height="1.2em" />
-              </ButtonTransparent>
-              <ButtonTransparent
-                height="2.2em"
-                onClick={(e: React.MouseEvent) =>
-                  this.onClickInsert(e, '[Cindy](https://www.cindythink.com/)')
+                tooltip={<FormattedMessage {...tooltipMessages.picture} />}
+                delay={800}
+              />
+              <Tooltip
+                reference={
+                  <ButtonTransparent
+                    height="2.2em"
+                    onClick={(e: React.MouseEvent) =>
+                      this.onClickInsert(
+                        e,
+                        '[Cindy](https://www.cindythink.com/)',
+                      )
+                    }
+                  >
+                    <Img src={urlIcon} height="1.2em" />
+                  </ButtonTransparent>
                 }
-              >
-                <Img src={urlIcon} height="1.2em" />
-              </ButtonTransparent>
+                tooltip={<FormattedMessage {...tooltipMessages.href} />}
+                delay={800}
+              />
               <ButtonFont>|</ButtonFont>
-              <ButtonTransparent
-                height="2.2em"
-                onClick={() => this.toggleStampToolbar()}
-              >
-                <Img src={stampIcon} height="1.2em" />
-              </ButtonTransparent>
+              <Tooltip
+                reference={
+                  <ButtonTransparent
+                    height="2.2em"
+                    onClick={() => this.toggleStampToolbar()}
+                  >
+                    <Img src={stampIcon} height="1.2em" />
+                  </ButtonTransparent>
+                }
+                tooltip={<FormattedMessage {...tooltipMessages.stamp} />}
+                delay={800}
+              />
               <ButtonFont>|</ButtonFont>
               <ButtonTransparent
                 height="2.2em"
@@ -207,7 +260,9 @@ class SimpleLegacyEditor extends React.Component<
                 height="2.2em"
                 onClick={() => this.togglePreview()}
               >
-                <ButtonFont on={this.state.preview}>Preview</ButtonFont>
+                <ButtonFont on={this.state.preview}>
+                  <FormattedMessage {...tooltipMessages.preview} />
+                </ButtonFont>
               </ButtonTransparent>
             </Flex>
             {this.state.stampToolbar && (
@@ -299,37 +354,55 @@ class SimpleLegacyEditor extends React.Component<
             {inlineEditor}
           </Box>
           <Flex flexDirection="column" pr={1}>
-            <ButtonTransparent onClick={() => this.toggleShowModal()}>
-              <Img height="xxs" src={expandIcon} />
-            </ButtonTransparent>
-            <ButtonTransparent onClick={() => this.toggleStampToolbar()}>
-              <Img height="xxs" src={stampIcon} />
-            </ButtonTransparent>
-            <ButtonTransparent
-              onClick={() => {
-                const text = this.getText();
-                this.props
-                  .onSubmit(text)
-                  .then(returns => {
-                    if (!returns) {
-                      // Cancelled
-                      this.setText(text);
-                      return;
-                    }
-                    if (returns.errors) {
-                      toast.error(JSON.stringify(returns.errors));
-                      this.setText(text);
-                    }
-                  })
-                  .catch(error => {
-                    toast.error(JSON.stringify(error));
-                    this.setText(text);
-                  });
-                this.setText('');
-              }}
-            >
-              <Img height="xxs" src={paperPlaneIcon} />
-            </ButtonTransparent>
+            <Tooltip
+              reference={
+                <ButtonTransparent onClick={() => this.toggleShowModal()}>
+                  <Img height="xxs" src={expandIcon} />
+                </ButtonTransparent>
+              }
+              tooltip={<FormattedMessage {...tooltipMessages.expand} />}
+              delay={800}
+            />
+            <Tooltip
+              reference={
+                <ButtonTransparent onClick={() => this.toggleStampToolbar()}>
+                  <Img height="xxs" src={stampIcon} />
+                </ButtonTransparent>
+              }
+              tooltip={<FormattedMessage {...tooltipMessages.stamp} />}
+              delay={800}
+            />
+            <Tooltip
+              reference={
+                <ButtonTransparent
+                  onClick={() => {
+                    const text = this.getText();
+                    this.props
+                      .onSubmit(text)
+                      .then(returns => {
+                        if (!returns) {
+                          // Cancelled
+                          this.setText(text);
+                          return;
+                        }
+                        if (returns.errors) {
+                          toast.error(JSON.stringify(returns.errors));
+                          this.setText(text);
+                        }
+                      })
+                      .catch(error => {
+                        toast.error(JSON.stringify(error));
+                        this.setText(text);
+                      });
+                    this.setText('');
+                  }}
+                >
+                  <Img height="xxs" src={paperPlaneIcon} />
+                </ButtonTransparent>
+              }
+              tooltip={<FormattedMessage {...commonMessages.send} />}
+              delay={800}
+            />
           </Flex>
         </Flex>
       </React.Fragment>

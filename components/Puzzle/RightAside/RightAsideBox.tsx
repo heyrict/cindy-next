@@ -6,7 +6,9 @@ import * as puzzleReducer from 'reducers/puzzle';
 
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
+import tooltipMessages from 'messages/tooltip';
 
+import Tooltip from 'components/Hoc/Tooltip';
 import { Img, RedDot } from 'components/General';
 import soupIcon from 'svgs/soup.svg';
 import memoIcon from 'svgs/memo.svg';
@@ -99,90 +101,145 @@ class RightAsideBox extends React.Component<
         mini={this.state.mini}
         show={!this.state.mini || this.state.showMini}
       >
-        <RightAsideBoxButton
-          width="100%"
-          height={this.state.mini ? '2em' : '3em'}
-          on={rightAside === RightAsideType.content}
-          onClick={() =>
-            setRightAside(
-              rightAside === RightAsideType.content
-                ? RightAsideType.none
-                : RightAsideType.content,
+        <Tooltip
+          referenceStyles={{
+            width: '100%',
+          }}
+          reference={
+            <RightAsideBoxButton
+              width="100%"
+              height={this.state.mini ? '2em' : '3em'}
+              on={rightAside === RightAsideType.content}
+              onClick={() =>
+                setRightAside(
+                  rightAside === RightAsideType.content
+                    ? RightAsideType.none
+                    : RightAsideType.content,
+                )
+              }
+            >
+              <Img
+                height={this.state.mini ? '1em' : '2em'}
+                src={soupIcon}
+                alt="Soup"
+              />
+              {!this.state.mini && (
+                <FormattedMessage {...puzzleMessages.content} />
+              )}
+            </RightAsideBoxButton>
+          }
+          tooltip={<FormattedMessage {...puzzleMessages.content} />}
+          delay={800}
+        />
+        {puzzleMemo !== '' && (
+          <Tooltip
+            referenceStyles={{
+              width: '100%',
+            }}
+            reference={
+              <RightAsideBoxButton
+                width="100%"
+                height={this.state.mini ? '2em' : '3em'}
+                on={rightAside === RightAsideType.memo}
+                onClick={() =>
+                  setRightAside(
+                    rightAside === RightAsideType.memo
+                      ? RightAsideType.none
+                      : RightAsideType.memo,
+                  )
+                }
+              >
+                {puzzleMemoHasnew && (
+                  <RedDot right={this.state.mini ? 0 : '0.5em'} />
+                )}
+                <Img
+                  height={this.state.mini ? '1em' : '2em'}
+                  src={memoIcon}
+                  alt="Memo"
+                />
+                {!this.state.mini && (
+                  <FormattedMessage {...puzzleMessages.memo} />
+                )}
+              </RightAsideBoxButton>
+            }
+            tooltip={<FormattedMessage {...puzzleMessages.memo} />}
+            delay={800}
+          />
+        )}
+        <Tooltip
+          referenceStyles={{
+            width: this.state.mini ? '100%' : '50%',
+          }}
+          reference={
+            <RightAsideBoxButton
+              width="100%"
+              height={this.state.mini ? '2em' : '3em'}
+              onClick={() =>
+                window && window.scrollTo({ top: 0, behavior: 'smooth' })
+              }
+            >
+              <Img
+                height={this.state.mini ? '1em' : '2em'}
+                src={toTopIcon}
+                alt="Top"
+              />
+            </RightAsideBoxButton>
+          }
+          tooltip={<FormattedMessage {...tooltipMessages.scrollToTop} />}
+          delay={800}
+        />
+        <Tooltip
+          referenceStyles={{
+            width: this.state.mini ? '100%' : '50%',
+          }}
+          reference={
+            <RightAsideBoxButton
+              width="100%"
+              height={this.state.mini ? '2em' : '3em'}
+              onClick={() =>
+                window &&
+                window.scrollTo({
+                  top: (document && document.body.scrollHeight) || 99999,
+                  behavior: 'smooth',
+                })
+              }
+            >
+              <Img
+                height={this.state.mini ? '1em' : '2em'}
+                src={toBottomIcon}
+                alt="Bottom"
+              />
+            </RightAsideBoxButton>
+          }
+          tooltip={<FormattedMessage {...tooltipMessages.scrollToBottom} />}
+          delay={800}
+        />
+        <Tooltip
+          referenceStyles={{
+            width: '100%',
+          }}
+          reference={
+            <RightAsideBoxButton
+              width="100%"
+              height="2em"
+              onClick={() => this.setState(p => ({ mini: !p.mini }))}
+            >
+              <Img
+                height="0.8em"
+                src={this.state.mini ? expandIcon : collapseIcon}
+                alt="Expand"
+              />
+            </RightAsideBoxButton>
+          }
+          tooltip={
+            this.state.mini ? (
+              <FormattedMessage {...tooltipMessages.expand} />
+            ) : (
+              <FormattedMessage {...tooltipMessages.collapse} />
             )
           }
-        >
-          <Img
-            height={this.state.mini ? '1em' : '2em'}
-            src={soupIcon}
-            alt="Soup"
-          />
-          {!this.state.mini && <FormattedMessage {...puzzleMessages.content} />}
-        </RightAsideBoxButton>
-        {puzzleMemo !== '' && (
-          <RightAsideBoxButton
-            width="100%"
-            height={this.state.mini ? '2em' : '3em'}
-            on={rightAside === RightAsideType.memo}
-            onClick={() =>
-              setRightAside(
-                rightAside === RightAsideType.memo
-                  ? RightAsideType.none
-                  : RightAsideType.memo,
-              )
-            }
-          >
-            {puzzleMemoHasnew && (
-              <RedDot right={this.state.mini ? 0 : '0.5em'} />
-            )}
-            <Img
-              height={this.state.mini ? '1em' : '2em'}
-              src={memoIcon}
-              alt="Memo"
-            />
-            {!this.state.mini && <FormattedMessage {...puzzleMessages.memo} />}
-          </RightAsideBoxButton>
-        )}
-        <RightAsideBoxButton
-          width={this.state.mini ? '100%' : '50%'}
-          height={this.state.mini ? '2em' : '3em'}
-          onClick={() =>
-            window && window.scrollTo({ top: 0, behavior: 'smooth' })
-          }
-        >
-          <Img
-            height={this.state.mini ? '1em' : '2em'}
-            src={toTopIcon}
-            alt="Top"
-          />
-        </RightAsideBoxButton>
-        <RightAsideBoxButton
-          width={this.state.mini ? '100%' : '50%'}
-          height={this.state.mini ? '2em' : '3em'}
-          onClick={() =>
-            window &&
-            window.scrollTo({
-              top: document && document.body.scrollHeight,
-              behavior: 'smooth',
-            })
-          }
-        >
-          <Img
-            height={this.state.mini ? '1em' : '2em'}
-            src={toBottomIcon}
-            alt="Bottom"
-          />
-        </RightAsideBoxButton>
-        <RightAsideBoxButton
-          width="100%"
-          height="2em"
-          onClick={() => this.setState(p => ({ mini: !p.mini }))}
-        >
-          <Img
-            height="0.8em"
-            src={this.state.mini ? expandIcon : collapseIcon}
-            alt="Expand"
-          />
-        </RightAsideBoxButton>
+          delay={800}
+        />
       </RightAsideBoxBase>
     );
   }

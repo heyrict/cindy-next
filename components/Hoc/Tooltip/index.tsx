@@ -1,8 +1,10 @@
+import React, { useRef, useState } from 'react';
+
+import { Portal } from 'react-portal';
 import { Manager, Reference, Popper } from 'react-popper';
 import Box from 'components/General/Box';
 
 import { TooltipProps, TooltipDefaultProps } from './types';
-import { useRef, useState } from 'react';
 
 const Tooltip = ({
   reference,
@@ -40,25 +42,27 @@ const Tooltip = ({
         )}
       </Reference>
       {show && (
-        <Popper {...popperProps}>
-          {({ ref, style, placement }) => (
-            <Box
-              color="gray.1"
-              bg="gray.9"
-              borderRadius={2}
-              p={1}
-              ref={ref}
-              style={{
-                ...style,
-                zIndex: 13,
-                ...popperStyles,
-              }}
-              data-placement={placement}
-            >
-              {tooltip}
-            </Box>
-          )}
-        </Popper>
+        <Portal>
+          <Popper {...popperProps}>
+            {({ ref, style, placement }) => (
+              <Box
+                color="gray.1"
+                bg="gray.9"
+                borderRadius={2}
+                p={1}
+                ref={ref}
+                style={{
+                  ...style,
+                  zIndex: 800,
+                  ...popperStyles,
+                }}
+                data-placement={placement}
+              >
+                {tooltip}
+              </Box>
+            )}
+          </Popper>
+        </Portal>
       )}
     </Manager>
   );
