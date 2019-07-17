@@ -22,3 +22,16 @@ export type RankedPuzzleProps = {
   rank: number;
   display: RankedPuzzleDisplayType;
 };
+
+export type PuzzleWithAnyProps = {
+  puzzle: PuzzleType;
+  cap?: React.ReactNode;
+  bookmarkCount?: number;
+  commentCount?: number;
+  starCount?: number;
+  starSum?: number;
+  dialogueCount?: number;
+  dialogueMaxAnsweredtime?: string;
+  dialogueMaxCreated?: string;
+  showGenreImage: boolean;
+};

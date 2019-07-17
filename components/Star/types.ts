@@ -15,6 +15,10 @@ export type StarInputStates = {
   hover: boolean;
 };
 
+export type StarDisplayProps = {
+  value: number;
+} & typeof StarInputDefaultProps;
+
 export type StarProps = {
   active?: boolean;
   half?: boolean;

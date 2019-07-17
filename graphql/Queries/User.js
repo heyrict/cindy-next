@@ -31,6 +31,7 @@ export const USER_QUERY = gql`
       ...UserBrief
       date_joined
       last_login
+      hide_bookmark
       sui_hei_userawards {
         ...UserAward
       }

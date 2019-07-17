@@ -2,7 +2,6 @@ import React from 'react';
 
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import userMessages from 'messages/components/user';
-import userPageMessages from 'messages/pages/user';
 import authMessages from 'messages/components/auth';
 
 import { Flex, Box } from 'components/General';
@@ -69,14 +68,6 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
 
   return (
     <React.Fragment>
-      <Box width={1} fontSize={4} py={3}>
-        <Box mx={1} px={2} py={4} bg="orange.2" borderRadius={2}>
-          <FormattedMessage
-            {...userPageMessages.profileOf}
-            values={{ nickname: user.nickname }}
-          />
-        </Box>
-      </Box>
       <Flex flexWrap="wrap" alignItems="flex-start">
         <Box width={[1, 1 / 3, 1, 1 / 3]} mx={['auto', 0, 'auto', 0]} my={1}>
           <Flex

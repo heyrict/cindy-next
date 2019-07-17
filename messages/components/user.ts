@@ -51,6 +51,10 @@ export const messages = defineMessages({
     id: `${scope}.recvStarCount`,
     defaultMessage: 'Stars Received',
   },
+  hideBookmark: {
+    id: `${scope}.hideBookmark`,
+    defaultMessage: 'Hide Bookmark',
+  },
 });
 
 export default messages;

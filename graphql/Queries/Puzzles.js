@@ -188,3 +188,92 @@ export const TAG_PUZZLES_QUERY = gql`
   }
   ${PUZZLE_AGGREGATE_FRAGMENT}
 `;
+
+export const PROFILE_PUZZLES_QUERY = gql`
+  query ProfilePuzzlesQuery(
+    $limit: Int
+    $offset: Int
+    $userId: Int
+    $orderBy: [sui_hei_puzzle_order_by!]
+  ) {
+    sui_hei_puzzle(
+      order_by: $orderBy
+      where: { user_id: { _eq: $userId } }
+      limit: $limit
+      offset: $offset
+    ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
+      ...PuzzleAggregate
+    }
+    sui_hei_puzzle_aggregate(
+      order_by: $orderBy
+      where: { user_id: { _eq: $userId } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${PUZZLE_AGGREGATE_FRAGMENT}
+`;
+
+export const PROFILE_STARS_QUERY = gql`
+  query ProfileStarsQuery(
+    $limit: Int
+    $offset: Int
+    $userId: Int
+    $orderBy: [sui_hei_star_order_by!]
+  ) {
+    sui_hei_star(
+      order_by: $orderBy
+      where: { user_id: { _eq: $userId } }
+      limit: $limit
+      offset: $offset
+    ) @connection(key: "sui_hei_star", filter: ["order_by", "where"]) {
+      id
+      value
+      sui_hei_puzzle {
+        ...PuzzleAggregate
+      }
+    }
+    sui_hei_star_aggregate(
+      order_by: $orderBy
+      where: { user_id: { _eq: $userId } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${PUZZLE_AGGREGATE_FRAGMENT}
+`;
+
+export const PROFILE_BOOKMARKS_QUERY = gql`
+  query ProfileBookmarksQuery(
+    $limit: Int
+    $offset: Int
+    $userId: Int
+    $orderBy: [sui_hei_bookmark_order_by!]
+  ) {
+    sui_hei_bookmark(
+      order_by: $orderBy
+      where: { user_id: { _eq: $userId } }
+      limit: $limit
+      offset: $offset
+    ) @connection(key: "sui_hei_bookmark", filter: ["order_by", "where"]) {
+      id
+      value
+      sui_hei_puzzle {
+        ...PuzzleAggregate
+      }
+    }
+    sui_hei_bookmark_aggregate(
+      order_by: $orderBy
+      where: { user_id: { _eq: $userId } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${PUZZLE_AGGREGATE_FRAGMENT}
+`;

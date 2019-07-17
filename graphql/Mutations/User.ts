@@ -32,3 +32,17 @@ export const CHANGE_CURRERNT_USERAWARD_MUTATION = gql`
   }
   ${USERAWARD_FRAGMENT}
 `;
+
+export const CHANGE_HIDE_BOOKMARK_MUTATION = gql`
+  mutation ChangeHideBookmarkMutation($userId: Int!, $hideBookmark: Boolean!) {
+    update_sui_hei_user(
+      _set: { hide_bookmark: $hideBookmark }
+      where: { id: { _eq: $userId } }
+    ) {
+      returning {
+        id
+        hide_bookmark
+      }
+    }
+  }
+`;

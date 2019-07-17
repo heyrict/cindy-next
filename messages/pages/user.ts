@@ -24,6 +24,14 @@ export const messages = defineMessages({
     defaultMessage:
       "It seems that you haven't written a profile yet. Introduce your self in a few words now!",
   },
+  tab_info: {
+    id: `${scope}.tab_info`,
+    defaultMessage: 'Info',
+  },
+  tab_puzzles: {
+    id: `${scope}.tab_puzzles`,
+    defaultMessage: 'Puzzles',
+  },
 });
 
 export default messages;

@@ -3,6 +3,7 @@ import {
   UserQuery,
   UserQueryVariables,
 } from 'graphql/Queries/generated/UserQuery';
+import { GlobalUserType } from 'reducers/types';
 
 type Award = {
   __typename: 'sui_hei_award';
@@ -78,10 +79,9 @@ export type ProfileUserType = {
   received_stars_aggregate?: StarsAggregate | null;
 };
 
-export type ProfileInfoRendererProps = QueryResult<
-  UserQuery,
-  UserQueryVariables
->;
+export type ProfileInfoRendererProps = {
+  currentUser: GlobalUserType;
+} & QueryResult<UserQuery, UserQueryVariables>;
 
 export type ProfileInfoProps = {
   user: ProfileUserType;
@@ -89,4 +89,18 @@ export type ProfileInfoProps = {
 
 export type ProfileProps = {
   userId: number;
+};
+
+export enum ProfileTabType {
+  INFO,
+  PUZZLES,
+  STARS,
+  COMMENTS,
+  BOOKMARKS,
+}
+
+export type ProfileSubbarProps = {
+  tab: ProfileTabType;
+  setTab: (tab: ProfileTabType) => void;
+  hideBookmark: boolean;
 };
