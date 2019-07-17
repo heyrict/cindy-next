@@ -14,10 +14,9 @@ import {
 } from 'graphql/Queries/generated/PuzzleTagsSearchQuery';
 import { PuzzleTagInputOptionType } from './types';
 
-let waitHandle: number | null = null;
-
 class PuzzleTagInput extends React.PureComponent {
   value: PuzzleTagInputOptionType | undefined;
+  waitHandle: number | null = null;
 
   render() {
     return (
@@ -44,35 +43,35 @@ class PuzzleTagInput extends React.PureComponent {
             }}
             loadOptions={inputValue =>
               new Promise(resolve => {
-                if (waitHandle) window.clearTimeout(waitHandle);
-                waitHandle = window.setTimeout(() => {
-                resolve(
-                  client
-                    .query<
-                      PuzzleTagsSearchQuery,
-                      PuzzleTagsSearchQueryVariables
-                    >({
-                      query: PUZZLE_TAGS_SEARCH_QUERY,
-                      variables: {
-                        search: asSearch(inputValue),
-                        limit: 8,
-                      },
-                    })
-                    .then(({ data, errors }) => {
-                      if (errors) {
-                        toast.error(JSON.stringify(errors));
-                        return [];
-                      }
-                      if (!data || !data.sui_hei_tag) return [];
-                      return data.sui_hei_tag.map(tag => ({
-                        id: tag.id,
-                        value: tag.name,
-                        label: tag.name,
-                        created: tag.created,
-                      }));
-                    }),
-                );
-                }, 1000)
+                if (this.waitHandle) window.clearTimeout(this.waitHandle);
+                this.waitHandle = window.setTimeout(() => {
+                  resolve(
+                    client
+                      .query<
+                        PuzzleTagsSearchQuery,
+                        PuzzleTagsSearchQueryVariables
+                      >({
+                        query: PUZZLE_TAGS_SEARCH_QUERY,
+                        variables: {
+                          search: asSearch(inputValue),
+                          limit: 8,
+                        },
+                      })
+                      .then(({ data, errors }) => {
+                        if (errors) {
+                          toast.error(JSON.stringify(errors));
+                          return [];
+                        }
+                        if (!data || !data.sui_hei_tag) return [];
+                        return data.sui_hei_tag.map(tag => ({
+                          id: tag.id,
+                          value: tag.name,
+                          label: tag.name,
+                          created: tag.created,
+                        }));
+                      }),
+                  );
+                }, 1000);
               })
             }
           />
