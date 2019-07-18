@@ -7,7 +7,7 @@ import { IntlProvider, addLocaleData } from 'react-intl';
 import { ThemeProvider } from 'emotion-theming';
 import { Provider as ReduxProvider } from 'react-redux';
 import { changeTabularTab } from 'common/markdown/plugin-tabs';
-import { domainFilter, isDev } from 'settings';
+import { domainFilter } from 'settings';
 
 //import Chat from 'components/Chat';
 import GlobalLayout from 'components/Layout';
@@ -18,7 +18,7 @@ import theme from 'theme';
 
 import { actions as globalActions } from 'reducers/global';
 
-if (!isDev) {
+if (process.browser) {
   const smoothscroll = require('smoothscroll-polyfill');
   smoothscroll.polyfill();
 }
