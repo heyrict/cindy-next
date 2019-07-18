@@ -7,7 +7,7 @@ import { IntlProvider, addLocaleData } from 'react-intl';
 import { ThemeProvider } from 'emotion-theming';
 import { Provider as ReduxProvider } from 'react-redux';
 import { changeTabularTab } from 'common/markdown/plugin-tabs';
-import { domainFilter } from 'settings';
+import { domainFilter, isDev } from 'settings';
 
 //import Chat from 'components/Chat';
 import GlobalLayout from 'components/Layout';
@@ -18,9 +18,10 @@ import theme from 'theme';
 
 import { actions as globalActions } from 'reducers/global';
 
-// Polyfill for scroll in Edge
-import smoothscroll from 'smoothscroll-polyfill';
-smoothscroll.polyfill();
+if (!isDev) {
+  const smoothscroll = require('smoothscroll-polyfill');
+  smoothscroll.polyfill();
+}
 
 // Register React Intl's locale data for the user's locale in the browser. This
 // locale data was added to the page by `pages/_document.js`. This only happens
