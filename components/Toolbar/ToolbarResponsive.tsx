@@ -203,7 +203,7 @@ const Toolbar = ({
               color="gray.1"
               onClick={() => closeToolbarMenu()}
             >
-              <ButtonTransparent height={1} onClick={() => setLanguage('jp')}>
+              <ButtonTransparent height={1} onClick={() => setLanguage('ja')}>
                 <Img px={1} src={countryJPIcon} height="xs" />
               </ButtonTransparent>
               <ButtonTransparent height={1} onClick={() => setLanguage('en')}>
