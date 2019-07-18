@@ -18,6 +18,10 @@ import theme from 'theme';
 
 import { actions as globalActions } from 'reducers/global';
 
+// Polyfill for scroll in Edge
+import smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
+
 // Register React Intl's locale data for the user's locale in the browser. This
 // locale data was added to the page by `pages/_document.js`. This only happens
 // once, on initial page load in the browser.
