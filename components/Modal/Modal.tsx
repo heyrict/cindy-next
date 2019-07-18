@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'theme/styled';
 import dynamic from 'next/dynamic';
 
@@ -56,21 +56,36 @@ export const Container = styled.div<ModalComponentsProps>`
   width: 80%;
 `;
 
-class Modal extends React.PureComponent<ModalProps> {
-  render() {
-    return (
-      <Portal>
-        <React.Fragment>
-          <Shader className="modal-shade" show={this.props.show} />
-          <ModalContainer className="modal-container" show={this.props.show}>
-            <Container className="modal" show={this.props.show}>
-              {this.props.children}
-            </Container>
-          </ModalContainer>
-        </React.Fragment>
-      </Portal>
-    );
-  }
-}
+const Modal = ({ show, children, closefn }: ModalProps) => {
+  const shaderRef = useRef<HTMLDivElement | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (!shaderRef.current || !modalRef.current) return;
+      if (
+        shaderRef.current.contains(e.target as Node | null) &&
+        !modalRef.current.contains(e.target as Node | null)
+      ) {
+        if (closefn) closefn();
+      }
+    };
+    window.addEventListener('click', handleOutsideClick);
+    return () => window.removeEventListener('click', handleOutsideClick);
+  }, []);
+
+  return (
+    <Portal>
+      <React.Fragment>
+        <Shader className="modal-shade" show={show} />
+        <ModalContainer ref={shaderRef} className="modal-container" show={show}>
+          <Container ref={modalRef} className="modal" show={show}>
+            {children}
+          </Container>
+        </ModalContainer>
+      </React.Fragment>
+    </Portal>
+  );
+};
 
 export default Modal;
