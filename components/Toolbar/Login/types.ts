@@ -1,8 +1,11 @@
 import { WithLoginProps } from 'components/Auth/types';
 
 export type LoginButtonProps = {
-  loginModal: boolean;
   setTrueLoginModal: () => void;
+};
+
+export type LoginModalProps = {
+  loginModal: boolean;
   setFalseLoginModal: () => void;
 } & WithLoginProps;
 

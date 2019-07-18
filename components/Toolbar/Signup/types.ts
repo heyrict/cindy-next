@@ -1,8 +1,11 @@
 import { WithSignupProps } from 'components/Auth/types';
 
 export type SignupButtonProps = {
-  signupModal: boolean;
   setTrueSignupModal: () => void;
+};
+
+export type SignupModalProps = {
+  signupModal: boolean;
   setFalseSignupModal: () => void;
 } & WithSignupProps;
 

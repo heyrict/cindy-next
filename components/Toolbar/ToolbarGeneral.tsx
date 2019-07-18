@@ -11,9 +11,11 @@ import * as globalReducer from 'reducers/global';
 import { Portal } from 'react-portal';
 import { Manager, Reference, Popper } from 'react-popper';
 import { ButtonTransparent, Img } from 'components/General';
-import LoginButton from './LoginButton';
+import LoginButton from './Login/LoginButton';
+import LoginModal from './Login/LoginModal';
 import LogoutButton from './LogoutButton';
-import SignupButton from './SignupButton';
+import SignupButton from './Signup/SignupButton';
+import SignupModal from './Signup/SignupModal';
 import logoInline from 'svgs/logoInline.svg';
 import chevronUpIcon from 'svgs/chevronUp.svg';
 import chevronDownIcon from 'svgs/chevronDown.svg';
@@ -46,7 +48,7 @@ const Toolbar = ({ user, setLanguage }: ToolbarProps) => {
     };
     window.addEventListener('click', handleOutsideClick);
     return () => window.removeEventListener('click', handleOutsideClick);
-  });
+  }, []);
 
   return (
     <ToolbarFlex alignItems="center" justifyContent="center">
@@ -200,6 +202,8 @@ const Toolbar = ({ user, setLanguage }: ToolbarProps) => {
           </Portal>
         )}
       </Manager>
+      <LoginModal />
+      <SignupModal />
     </ToolbarFlex>
   );
 };

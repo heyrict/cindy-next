@@ -15,9 +15,11 @@ import {
   ToolbarResponsiveContents,
   ToolbarResponsiveButton,
 } from './shared';
-import LoginButton from './LoginButton';
+import LoginButton from './Login/LoginButton';
+import LoginModal from './Login/LoginModal';
 import LogoutButton from './LogoutButton';
-import SignupButton from './SignupButton';
+import SignupButton from './Signup/SignupButton';
+import SignupModal from './Signup/SignupModal';
 import menuIcon from 'svgs/menu.svg';
 import userIcon from 'svgs/user.svg';
 import logoInline from 'svgs/logoInline.svg';
@@ -65,7 +67,7 @@ const Toolbar = ({
     };
     window.addEventListener('click', handleOutsideClick);
     return () => window.removeEventListener('click', handleOutsideClick);
-  });
+  }, []);
 
   return (
     <ToolbarFlex alignItems="center" justifyContent="center">
@@ -211,6 +213,8 @@ const Toolbar = ({
           </ToolbarResponsiveContents>
         </Portal>
       )}
+      <LoginModal />
+      <SignupModal />
     </ToolbarFlex>
   );
 };
