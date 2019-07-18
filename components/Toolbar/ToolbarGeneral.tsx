@@ -185,7 +185,7 @@ const Toolbar = ({ user, setLanguage }: ToolbarProps) => {
                   <ToolbarButton bg="orange.5" color="gray.1">
                     <ButtonTransparent
                       height={1}
-                      onClick={() => setLanguage('jp')}
+                      onClick={() => setLanguage('ja')}
                     >
                       <Img px={1} src={countryJPIcon} height="xs" />
                     </ButtonTransparent>
