@@ -48,7 +48,7 @@ const StarPopupContent = ({
   const notifHdlRef = useRef<React.ReactText | null>(null);
 
   useEffect(() => {
-    return window.addEventListener('click', e => {
+    const handleOutsideClick = (e: MouseEvent) => {
       if (
         contentRef.current &&
         !contentRef.current.contains(e.target as Node | null) &&
@@ -57,7 +57,9 @@ const StarPopupContent = ({
       ) {
         setShow(false);
       }
-    });
+    };
+    window.addEventListener('click', handleOutsideClick);
+    return () => window.removeEventListener('click', handleOutsideClick);
   }, []);
 
   return (

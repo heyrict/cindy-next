@@ -19,6 +19,10 @@ export const messages = defineMessages({
     id: `${scope}.users`,
     defaultMessage: 'Users',
   },
+  settings: {
+    id: `${scope}.settings`,
+    defaultMessage: 'Settings',
+  },
 });
 
 export default messages;

@@ -327,6 +327,7 @@ const Layout = ({ children, fetchUser }: LayoutProps) => {
         draggable
       />
       <AwardChecker />
+      <div id="portal-dest" />
     </React.Fragment>
   );
 };

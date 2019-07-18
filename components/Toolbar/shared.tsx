@@ -44,15 +44,18 @@ export const ToolbarDisplayResponsive = styled.div`
 export const ToolbarResponsiveContents = styled.div`
   position: fixed;
   top: ${p => p.theme.sizes.toolbar};
-  left: 0;
+  left: calc(${p => p.theme.sizes.chatXL});
+  width: ${p => `calc(100% - ${p.theme.sizes.chatXL} - 4px)`};
   right: 0;
   background: ${p => p.theme.colors.orange[2]};
   display: flex;
   flex-wrap: wrap;
   ${p => p.theme.mediaQueries.large} {
-    margin-left: ${p => p.theme.sizes.chatLG};
+    left: calc(${p => p.theme.sizes.chatLG});
+    width: ${p => `calc(100% - ${p.theme.sizes.chatLG} - 4px)`};
   }
   ${p => p.theme.mediaQueries.medium} {
+    left: 0;
     margin-left: 0;
     width: 100%;
   }
@@ -61,4 +64,15 @@ export const ToolbarResponsiveContents = styled.div`
 export const ToolbarResponsiveButton = styled(Box)`
   height: ${p => p.theme.sizes.toolbar};
   overflow: hidden;
+`;
+
+export const ToolbarDropdownContents = styled.div`
+  position: fixed;
+  top: ${p => p.theme.sizes.toolbar};
+  right: 0;
+  min-width: ${p => p.theme.sizes.toolbuttonMin};
+  max-width: ${p => p.theme.sizes.toolbuttonMax};
+  background: ${p => p.theme.colors.orange[2]};
+  display: flex;
+  flex-direction: column;
 `;
