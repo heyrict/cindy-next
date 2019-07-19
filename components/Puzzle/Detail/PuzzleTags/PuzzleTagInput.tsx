@@ -56,6 +56,7 @@ class PuzzleTagInput extends React.PureComponent {
                           search: asSearch(inputValue),
                           limit: 8,
                         },
+                        fetchPolicy: 'network-only',
                       })
                       .then(({ data, errors }) => {
                         if (errors) {

@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
+
+import { FormattedMessage } from 'react-intl';
+import commonMessages from 'messages/common';
+import puzzlePageMessages from 'messages/pages/puzzle';
 
 import { Mutation } from 'react-apollo';
 import { DELETE_PUZZLE_TAG_MUTATION } from 'graphql/Mutations/Tag';
@@ -18,6 +23,7 @@ import {
   PuzzlePageTagsQuery,
   PuzzlePageTagsQueryVariables,
 } from 'graphql/Queries/generated/PuzzlePageTagsQuery';
+import { ApolloError } from 'apollo-client/errors/ApolloError';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -26,6 +32,8 @@ const PuzzleTagBubble = ({
   puzzleTag,
   canDelete,
 }: PuzzleTagBubbleProps) => {
+  const warnHdl = useRef<React.ReactText | null>(null);
+
   return (
     <PuzzleTagBubbleBox>
       <Box>
@@ -66,17 +74,58 @@ const PuzzleTagBubble = ({
             <ButtonTransparent
               p={1}
               onClick={() => {
-                deletePuzzleTag({
-                  variables: {
-                    puzzleTagId: puzzleTag.id,
-                  },
-                  optimisticResponse: {
-                    delete_sui_hei_puzzle_tag: {
-                      __typename: 'sui_hei_puzzle_tag_mutation_response',
-                      affected_rows: 1,
-                    },
-                  },
-                });
+                if (warnHdl.current) toast.dismiss(warnHdl.current);
+                warnHdl.current = toast.warn(
+                  <Box>
+                    <FormattedMessage
+                      {...puzzlePageMessages.deleteTagConfirm}
+                      values={{
+                        tag: puzzleTag.sui_hei_tag.name,
+                      }}
+                    />
+                    <Box
+                      bg="red.4"
+                      border="3px solid"
+                      borderColor="red.7"
+                      borderRadius={2}
+                    >
+                      <ButtonTransparent
+                        p={2}
+                        width={1}
+                        color="red.1"
+                        fontWeight="bold"
+                        onClick={() => {
+                          deletePuzzleTag({
+                            variables: {
+                              puzzleTagId: puzzleTag.id,
+                            },
+                            optimisticResponse: {
+                              delete_sui_hei_puzzle_tag: {
+                                __typename:
+                                  'sui_hei_puzzle_tag_mutation_response',
+                                affected_rows: 1,
+                              },
+                            },
+                          })
+                            .then(res => {
+                              if (!res) return;
+                              const { errors } = res;
+                              if (errors) {
+                                toast.error(JSON.stringify(errors));
+                              }
+                            })
+                            .catch((e: ApolloError) => {
+                              toast.error(e.message);
+                            });
+                          if (warnHdl.current)
+                            toast.dismiss(warnHdl.current);
+                        }}
+                      >
+                        <FormattedMessage {...commonMessages.confirm} />
+                      </ButtonTransparent>
+                    </Box>
+                  </Box>,
+                );
               }}
             >
               <Img src={denyPlainIcon} height="0.8em" alt="x" />

@@ -23,6 +23,10 @@ export const messages = defineMessages({
     id: `${scope}.apply`,
     defaultMessage: 'Apply',
   },
+  confirm: {
+    id: `${scope}.confirm`,
+    defaultMessage: 'Confirm',
+  },
   editTimes: {
     id: `${scope}.editTimes`,
     defaultMessage: '[Edited ({count})]',

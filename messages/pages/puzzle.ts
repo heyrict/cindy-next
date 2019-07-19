@@ -80,6 +80,11 @@ export const messages = defineMessages({
     id: `${scope}.goToPuzzlePage`,
     defaultMessage: 'Go To Puzzle Page',
   },
+  deleteTagConfirm: {
+    id: `${scope}.deleteTagConfirm`,
+    defaultMessage:
+      'Your are going to delete this tag "{tag}". This operation cannot be reverted. Are you sure?',
+  },
 });
 
 export default messages;
