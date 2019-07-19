@@ -16,12 +16,14 @@ export const actionTypes = {
   SEND_QUESTION_TRIGGER: `${scope}.SEND_QUESTION_TRIGGER`,
   EDIT_QUESTION_TRIGGER: `${scope}.EDIT_QUESTION_TRIGGER`,
   SEND_ANSWER_TRIGGER: `${scope}.SEND_ANSWER_TRIGGER`,
+  RIGHT_ASIDE_MINI: `${scope}.RIGHT_ASIDE_MINI`,
   SET_STATE: `${scope}.SET_STATE`,
 };
 
 export const actions = {
   ...bool.getActions('SettingsModal', actionTypes.SETTINGS_MODAL),
   ...bool.getActions('PuzzleGenreImg', actionTypes.PUZZLE_GENRE_IMG),
+  ...bool.getActions('RightAsideMini', actionTypes.RIGHT_ASIDE_MINI),
   ...mask.getActions('SendChatTrigger', actionTypes.SEND_CHAT_TRIGGER),
   ...mask.getActions('EditQuestionTrigger', actionTypes.EDIT_QUESTION_TRIGGER),
   ...mask.getActions('SendQuestionTrigger', actionTypes.SEND_QUESTION_TRIGGER),
@@ -44,6 +46,7 @@ export const initialState = {
   sendQuestionTrigger: SendMessageTriggerType.ON_ENTER as number,
   editQuestionTrigger: SendMessageTriggerType.ON_SHIFT_ENTER as number,
   sendAnswerTrigger: SendMessageTriggerType.ON_ENTER as number,
+  rightAsideMini: false,
 };
 
 export const loadInitialState = (): typeof initialState => {
@@ -107,6 +110,11 @@ export const reducer = (state = initialState, action: ActionContentType) => {
       return {
         ...state,
         ...action.payload,
+      };
+    case actionTypes.RIGHT_ASIDE_MINI:
+      return {
+        ...state,
+        rightAsideMini: bool.helper(state.rightAsideMini, action.payload),
       };
     default:
       return state;

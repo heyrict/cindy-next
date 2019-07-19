@@ -71,12 +71,14 @@ const SettingsModal = ({
   sendAnswerTrigger,
   sendChatTrigger,
   sendQuestionTrigger,
+  rightAsideMini,
 }: SettingsModalProps) => {
-  const puzzleGenreImgRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const sendChatTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const sendAnswerTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const sendQuestionTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const editQuestionTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
+  const puzzleGenreImgRef = useRef<ButtonSelectStateful<boolean>>(null!);
+  const rightAsideMiniRef = useRef<ButtonSelectStateful<boolean>>(null!);
 
   return (
     <Modal show={settingsModal} closefn={() => setFalseSettingsModal()}>
@@ -157,6 +159,30 @@ const SettingsModal = ({
               options={booleanOptions}
             />
           </Box>
+          <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
+            <FormattedMessage {...settingMessages.rightAsideMini}>
+              {msg => <label>{msg}</label>}
+            </FormattedMessage>
+          </Box>
+          <Box width={[1, 2 / 3, 4 / 5]} mb={2}>
+            <ButtonSelectStateful<boolean>
+              ref={rightAsideMiniRef}
+              flexProps={{ px: 2 }}
+              initialValue={rightAsideMini}
+              options={[
+                {
+                  key: 'false',
+                  value: false,
+                  label: <FormattedMessage {...commonMessages.big} />,
+                },
+                {
+                  key: 'true',
+                  value: true,
+                  label: <FormattedMessage {...commonMessages.small} />,
+                },
+              ]}
+            />
+          </Box>
         </Flex>
       </ModalBody>
       <ModalFooter>
@@ -167,10 +193,11 @@ const SettingsModal = ({
             setState({
               settingsModal: false,
               editQuestionTrigger: editQuestionTriggerRef.current.state.value,
-              puzzleGenreImg: puzzleGenreImgRef.current.state.value,
               sendChatTrigger: sendChatTriggerRef.current.state.value,
               sendAnswerTrigger: sendAnswerTriggerRef.current.state.value,
               sendQuestionTrigger: sendQuestionTriggerRef.current.state.value,
+              puzzleGenreImg: puzzleGenreImgRef.current.state.value,
+              rightAsideMini: rightAsideMiniRef.current.state.value,
             })
           }
         >
