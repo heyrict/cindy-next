@@ -8,6 +8,7 @@ import { QueryResult } from 'react-apollo';
 export type ChatRoomInputProps = {
   chatroomId: number;
   user: GlobalUserType;
+  sendChatTrigger: number;
 };
 
 export type ChatRoomMessagesBodyProps = {

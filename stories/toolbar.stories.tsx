@@ -8,6 +8,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import * as globalReducer from 'reducers/global';
 import * as loginReducer from 'reducers/login';
+import * as settingReducer from 'reducers/setting';
 
 import { ThemeProvider } from 'emotion-theming';
 import theme from 'theme/theme';
@@ -43,6 +44,7 @@ const getReduxStore = (user: GlobalUserType) =>
     combineReducers({
       [globalReducer.scope]: globalReducer.reducer,
       [loginReducer.scope]: loginReducer.reducer,
+      [settingReducer.scope]: settingReducer.reducer,
     }),
     {
       [globalReducer.scope]: {

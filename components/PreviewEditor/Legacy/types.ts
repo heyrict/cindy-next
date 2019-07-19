@@ -1,4 +1,5 @@
 import { stampNamespaces } from 'stamps/types';
+import { Omit } from 'react-redux';
 
 export const SimpleLegacyEditorDefaultProps = {
   placeholder: '',
@@ -6,10 +7,16 @@ export const SimpleLegacyEditorDefaultProps = {
   initialValue: '',
 };
 
+export type TextareaProps = Omit<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  'onSubmit' | 'value'
+>;
+
 export type SimpleLegacyEditorProps = {
   useNamespaces?: Array<stampNamespaces>;
   onSubmit: (text: string) => Promise<{ errors?: any } | void>;
-} & typeof SimpleLegacyEditorDefaultProps;
+} & typeof SimpleLegacyEditorDefaultProps &
+  TextareaProps;
 
 export type SimpleLegacyEditorStates = {
   preview: boolean;
@@ -24,7 +31,8 @@ export const LegacyEditorDefaultProps = {
 
 export type LegacyEditorProps = {
   useNamespaces?: Array<stampNamespaces>;
-} & typeof LegacyEditorDefaultProps;
+} & typeof LegacyEditorDefaultProps &
+  TextareaProps;
 
 export type LegacyEditorStates = {
   preview: boolean;

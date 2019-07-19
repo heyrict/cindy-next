@@ -3,7 +3,9 @@ import { toast } from 'react-toastify';
 import styled from 'theme/styled';
 
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import * as awardCheckerReducer from 'reducers/awardChecker';
+import * as settingReducer from 'reducers/setting';
 
 import { Flex, Textarea, Img, Button } from 'components/General';
 import { FormattedMessage } from 'react-intl';
@@ -27,7 +29,11 @@ import {
   DialogueHintQueryVariables,
 } from 'graphql/Queries/generated/DialogueHintQuery';
 import { ApolloError } from 'apollo-client/errors/ApolloError';
-import { ActionContentType } from 'reducers/types';
+import {
+  ActionContentType,
+  SendMessageTriggerType,
+  StateType,
+} from 'reducers/types';
 
 export const ExpandButton = styled(Button)`
   background-color: transparent;
@@ -39,61 +45,83 @@ export const ExpandButton = styled(Button)`
   }
 `;
 
-export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
-  const inputRef = useRef<HTMLTextAreaElement>(null!);
-  let [expanded, setExpanded] = useState(false);
-  return (
-    <Flex
-      width={1}
-      mx={widthSplits[1]}
-      my={2}
-      borderRadius={1}
-      borderStyle="solid"
-      borderColor="orange.6"
-      borderWidth={2}
-      bg="orange.1"
-    >
-      <Textarea
-        ref={inputRef}
-        onKeyPress={(_e: React.KeyboardEvent) => {
-          /*
-           * TODO: handle submit from input settings
-           */
-          /*
-          if (e.nativeEvent.keyCode === 13 && !expanded) {
-            onSubmit(input).catch((error: ApolloError) => {
-              toast.error(error.message);
-              setInput(input);
-            });
-            setInput('');
-          }
-           */
-        }}
-        border="none"
-        bg="transparent"
-      />
-      <ExpandButton onClick={() => setExpanded(!expanded)} bg="transparent">
-        <Img size="xs" src={expand} />
-      </ExpandButton>
-      <Button
-        onClick={() => {
-          const input = inputRef.current.value;
-          onSubmit(input).catch((error: ApolloError) => {
-            toast.error(error.message);
-            inputRef.current.value = input;
-          });
-          inputRef.current.value = '';
-        }}
-        px={2}
-        minWidth="50px"
-      >
-        <FormattedMessage {...messages.putQuestion} />
-      </Button>
-    </Flex>
-  );
-};
+const withTrigger = connect((state: StateType) => ({
+  sendQuestionTrigger: settingReducer.rootSelector(state).sendQuestionTrigger,
+}));
 
-const AddQuestionInput = ({ puzzleId, userId, incDialogues }: AddQuestionInputProps) => {
+export const QuestionInputWidget = compose(withTrigger)(
+  ({ onSubmit, sendQuestionTrigger }: QuestionInputWidgetProps) => {
+    const editorRef = useRef<HTMLTextAreaElement>(null!);
+    let [expanded, setExpanded] = useState(false);
+
+    const handleSubmit = () => {
+      const input = editorRef.current.value;
+      onSubmit(input).catch((error: ApolloError) => {
+        toast.error(error.message);
+        editorRef.current.value = input;
+      });
+      editorRef.current.value = '';
+    };
+
+    return (
+      <Flex
+        width={1}
+        mx={widthSplits[1]}
+        my={2}
+        borderRadius={1}
+        borderStyle="solid"
+        borderColor="orange.6"
+        borderWidth={2}
+        bg="orange.1"
+      >
+        <Textarea
+          ref={editorRef}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (sendQuestionTrigger & SendMessageTriggerType.ON_ENTER) {
+              if (
+                e.nativeEvent.keyCode === 13 &&
+                !e.nativeEvent.shiftKey &&
+                !e.nativeEvent.ctrlKey
+              ) {
+                handleSubmit();
+                e.preventDefault();
+                return;
+              }
+            }
+            if (sendQuestionTrigger & SendMessageTriggerType.ON_CTRL_ENTER) {
+              if (e.nativeEvent.keyCode === 13 && e.nativeEvent.ctrlKey) {
+                handleSubmit();
+                e.preventDefault();
+                return;
+              }
+            }
+            if (sendQuestionTrigger & SendMessageTriggerType.ON_SHIFT_ENTER) {
+              if (e.nativeEvent.keyCode === 13 && e.nativeEvent.shiftKey) {
+                handleSubmit();
+                e.preventDefault();
+                return;
+              }
+            }
+          }}
+          border="none"
+          bg="transparent"
+        />
+        <ExpandButton onClick={() => setExpanded(!expanded)} bg="transparent">
+          <Img size="xs" src={expand} />
+        </ExpandButton>
+        <Button onClick={handleSubmit} px={2} minWidth="50px">
+          <FormattedMessage {...messages.putQuestion} />
+        </Button>
+      </Flex>
+    );
+  },
+);
+
+const AddQuestionInput = ({
+  puzzleId,
+  userId,
+  incDialogues,
+}: AddQuestionInputProps) => {
   return (
     <Mutation<AddQuestionMutation, AddQuestionMutationVariables>
       mutation={ADD_QUESTION_MUTATION}
@@ -145,58 +173,63 @@ const AddQuestionInput = ({ puzzleId, userId, incDialogues }: AddQuestionInputPr
         }
       }}
     >
-      {addQuestion => (
-        <QuestionInputWidget
-          onSubmit={input => {
-            if (input.trim() === '')
-              return new Promise((_resolve, reject) => {
-                reject({ messages: 'Question is empty' });
-              });
+      {addQuestion => {
+        return (
+          <QuestionInputWidget
+            onSubmit={(content: string) => {
+              if (content.trim() === '')
+                return new Promise((_resolve, reject) => {
+                  reject({ messages: 'Question is empty' });
+                });
 
-            return addQuestion({
-              variables: {
-                question: input,
-                puzzleId,
-              },
-              optimisticResponse: {
-                insert_sui_hei_dialogue: {
-                  __typename: 'sui_hei_dialogue_mutation_response',
-                  returning: [
-                    {
-                      __typename: 'sui_hei_dialogue',
-                      id: -1,
-                      qno: -1,
-                      good: false,
-                      true: false,
-                      question: input,
-                      questionEditTimes: 0,
-                      answer: '',
-                      answerEditTimes: 0,
-                      created: Date.now(),
-                      answeredtime: null,
-                      sui_hei_user: {
-                        __typename: 'sui_hei_user',
-                        id: -1,
-                        nickname: '...',
-                        username: '...',
-                        sui_hei_current_useraward: null,
-                      },
-                    },
-                  ],
+              return addQuestion({
+                variables: {
+                  question: content,
+                  puzzleId,
                 },
-              },
-            });
-          }}
-        />
-      )}
+                optimisticResponse: {
+                  insert_sui_hei_dialogue: {
+                    __typename: 'sui_hei_dialogue_mutation_response',
+                    returning: [
+                      {
+                        __typename: 'sui_hei_dialogue',
+                        id: -1,
+                        qno: -1,
+                        good: false,
+                        true: false,
+                        question: content,
+                        questionEditTimes: 0,
+                        answer: '',
+                        answerEditTimes: 0,
+                        created: Date.now(),
+                        answeredtime: null,
+                        sui_hei_user: {
+                          __typename: 'sui_hei_user',
+                          id: -1,
+                          nickname: '...',
+                          username: '...',
+                          sui_hei_current_useraward: null,
+                        },
+                      },
+                    ],
+                  },
+                },
+              });
+            }}
+          />
+        );
+      }}
     </Mutation>
   );
 };
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   incDialogues: () => dispatch(awardCheckerReducer.actions.incDialogues()),
-})
+});
 
-const withRedux = connect(null, mapDispatchToProps);
+const withRedux = connect(
+  null,
+  mapDispatchToProps,
+);
 
 export default withRedux(AddQuestionInput);

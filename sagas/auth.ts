@@ -38,7 +38,7 @@ function* fetchUser() {
 }
 
 function* authRootSaga() {
-  yield takeEvery(globalReducer.actionTypes.FETCHUSER, fetchUser);
+  yield takeEvery(globalReducer.actionTypes.APPINIT, fetchUser);
 }
 
 export default authRootSaga;

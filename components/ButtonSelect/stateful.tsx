@@ -23,16 +23,16 @@ class ButtonSelectStateful<TValue = any> extends React.PureComponent<
   }
 
   render() {
-    const { options, ...others } = this.props;
+    const { options, onChange, ...others } = this.props;
 
     return (
       <ButtonSelect<TValue>
         value={this.state.value}
         options={options}
         onChange={option => {
-          this.setState({
-            value: option.value,
-          });
+          this.setState(({ value }) => ({
+            value: onChange ? onChange(option.value, value) : option.value,
+          }));
         }}
         {...others}
       />

@@ -8,7 +8,7 @@ import toolbarMessages from 'messages/components/toolbar';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { ButtonTransparent, Img, Box, Flex } from 'components/General';
+import { ButtonTransparent, Img, Box } from 'components/General';
 import {
   ToolbarFlex,
   ToolbarButton,
@@ -16,14 +16,12 @@ import {
   ToolbarResponsiveButton,
 } from './shared';
 import LoginButton from './Login/LoginButton';
-import LoginModal from './Login/LoginModal';
 import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
-import SignupModal from './Signup/SignupModal';
+import SettingsButton from './Settings/SettingsButton';
 import menuIcon from 'svgs/menu.svg';
 import userIcon from 'svgs/user.svg';
 import logoInline from 'svgs/logoInline.svg';
-import gearIcon from 'svgs/gear.svg';
 import countryJPIcon from 'svgs/countries/ja_JP.svg';
 import countryUSIcon from 'svgs/countries/en_US.svg';
 
@@ -87,7 +85,7 @@ const Toolbar = ({
         <Portal>
           <ToolbarResponsiveContents>
             <Box width={1 / 2}>
-              <ToolbarResponsiveButton bg="orange.4" m="1px">
+              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
                 <Link href="/puzzles" passHref>
                   <ButtonTransparentA height={1} width={1} color="orange.9">
                     <FormattedMessage {...toolbarMessages.puzzle} />
@@ -96,7 +94,7 @@ const Toolbar = ({
               </ToolbarResponsiveButton>
             </Box>
             <Box width={1 / 2}>
-              <ToolbarResponsiveButton bg="orange.4" m="1px">
+              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
                 <Link href="/users" passHref>
                   <ButtonTransparentA height={1} width={1} color="orange.9">
                     <FormattedMessage {...toolbarMessages.users} />
@@ -105,7 +103,7 @@ const Toolbar = ({
               </ToolbarResponsiveButton>
             </Box>
             <Box width={1 / 2}>
-              <ToolbarResponsiveButton bg="orange.4" m="1px">
+              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
                 <ButtonTransparentA
                   href="https://wiki3.jp/cindy-lat"
                   target="_blank"
@@ -142,7 +140,7 @@ const Toolbar = ({
           <ToolbarResponsiveContents>
             {user.id && (
               <Box width={1 / 2}>
-                <ToolbarResponsiveButton m="1px" bg="orange.5">
+                <ToolbarResponsiveButton mr="1px" mb="1px" bg="orange.5">
                   <ButtonTransparentA height={1} width={1} color="gray.1">
                     {user.nickname}
                   </ButtonTransparentA>
@@ -152,7 +150,8 @@ const Toolbar = ({
             {user.id && (
               <Box width={1 / 2}>
                 <ToolbarResponsiveButton
-                  m="1px"
+                  mr="1px"
+                  mb="1px"
                   bg="orange.5"
                   color="gray.1"
                   style={{
@@ -166,7 +165,8 @@ const Toolbar = ({
             {!user.id && (
               <Box width={1 / 2}>
                 <ToolbarResponsiveButton
-                  m="1px"
+                  mr="1px"
+                  mb="1px"
                   bg="orange.5"
                   color="gray.1"
                   style={{
@@ -179,22 +179,24 @@ const Toolbar = ({
             )}
             {!user.id && (
               <Box width={1 / 2}>
-                <ToolbarResponsiveButton bg="orange.5" color="gray.1" m="1px">
+                <ToolbarResponsiveButton
+                  bg="orange.5"
+                  color="gray.1"
+                  mr="1px"
+                  mb="1px"
+                >
                   <SignupButton />
                 </ToolbarResponsiveButton>
               </Box>
             )}
             <Box width={1 / 2}>
               <ToolbarResponsiveButton
-                m="1px"
+                mx="1px"
+                mb="1px"
                 bg="orange.5"
                 color="gray.1"
-                onClick={() => closeToolbarMenu()}
               >
-                <Flex height={1} alignItems="center" justifyContent="center">
-                  <Img mr={1} src={gearIcon} height="xs" />
-                  <FormattedMessage {...toolbarMessages.settings} />
-                </Flex>
+                <SettingsButton />
               </ToolbarResponsiveButton>
             </Box>
             <ToolbarResponsiveButton
@@ -213,8 +215,6 @@ const Toolbar = ({
           </ToolbarResponsiveContents>
         </Portal>
       )}
-      <LoginModal />
-      <SignupModal />
     </ToolbarFlex>
   );
 };

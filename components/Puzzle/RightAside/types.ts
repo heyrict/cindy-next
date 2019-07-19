@@ -16,6 +16,7 @@ export type RightAsideBoxProps = {
   puzzleMemoHasnew: boolean;
   rightAside: RightAsideType;
   setRightAside: (rightAside: RightAsideType) => void;
+  rightAsideMini: boolean;
 };
 
 export type RightAsideBoxState = {

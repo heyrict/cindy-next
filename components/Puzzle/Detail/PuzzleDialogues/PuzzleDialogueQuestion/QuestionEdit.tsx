@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
+import { connect } from 'react-redux';
+import * as settingReducer from 'reducers/setting';
+
 import { Mutation } from 'react-apollo';
 import { EDIT_QUESTION_MUTATION } from 'graphql/Mutations/Dialogue';
 
@@ -15,8 +18,14 @@ import {
   EditQuestionMutationVariables,
 } from 'graphql/Mutations/generated/EditQuestionMutation';
 import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { StateType, SendMessageTriggerType } from 'reducers/types';
 
-const QuestionEdit = ({ question, dialogueId, setMode }: QuestionEditProps) => {
+const QuestionEdit = ({
+  question,
+  dialogueId,
+  setMode,
+  editQuestionTrigger,
+}: QuestionEditProps) => {
   const [text, setText] = useState(question);
   useEffect(() => {
     setText(question);
@@ -26,91 +35,128 @@ const QuestionEdit = ({ question, dialogueId, setMode }: QuestionEditProps) => {
     <Mutation<EditQuestionMutation, EditQuestionMutationVariables>
       mutation={EDIT_QUESTION_MUTATION}
     >
-      {editQuestion => (
-        <React.Fragment>
-          <Textarea
-            width={1}
-            ml={-1}
-            borderWidth="2px"
-            borderColor="red.7"
-            borderStyle="solid"
-            bg="red.0"
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setText(e.target.value)
-            }
-            value={text}
-          />
-          <Flex
-            width={1}
-            borderWidth="3px"
-            borderColor="red.7"
-            borderStyle="solid"
-          >
-            <ButtonTransparent
+      {editQuestion => {
+        const handleSubmit = () => {
+          const newQuestion = text.trimRight();
+          if (newQuestion === question.trimRight()) {
+            setMode(QuestionModes.DISPLAY);
+          } else {
+            editQuestion({
+              variables: {
+                dialogueId,
+                question: newQuestion,
+              },
+              optimisticResponse: {
+                update_sui_hei_dialogue: {
+                  __typename: 'sui_hei_dialogue_mutation_response',
+                  returning: [
+                    {
+                      __typename: 'sui_hei_dialogue',
+                      id: dialogueId,
+                      question: newQuestion,
+                      questionEditTimes: 0,
+                    },
+                  ],
+                },
+              },
+            })
+              .then(result => {
+                if (!result) return;
+                const { errors } = result;
+                if (errors) {
+                  toast.error(JSON.stringify(errors));
+                  setMode(QuestionModes.EDIT);
+                  setText(question);
+                }
+              })
+              .catch((error: ApolloError) => {
+                toast.error(error.message);
+                setMode(QuestionModes.EDIT);
+                setText(question);
+              });
+            setMode(QuestionModes.DISPLAY);
+          }
+        };
+
+        return (
+          <React.Fragment>
+            <Textarea
               width={1}
-              p={1}
-              borderLeft={0}
-              borderTop={0}
-              borderRight="3px"
-              borderBottom={0}
+              ml={-1}
+              borderWidth="2px"
               borderColor="red.7"
               borderStyle="solid"
-              onClick={() => setMode(QuestionModes.DISPLAY)}
-            >
-              <Img size="xs" src={crossIcon} />
-            </ButtonTransparent>
-            <ButtonTransparent
-              width={1}
-              p={1}
-              onClick={() => {
-                const newQuestion = text.trimRight();
-                if (newQuestion === question.trimRight()) {
-                  setMode(QuestionModes.DISPLAY);
-                } else {
-                  editQuestion({
-                    variables: {
-                      dialogueId,
-                      question: newQuestion,
-                    },
-                    optimisticResponse: {
-                      update_sui_hei_dialogue: {
-                        __typename: 'sui_hei_dialogue_mutation_response',
-                        returning: [
-                          {
-                            __typename: 'sui_hei_dialogue',
-                            id: dialogueId,
-                            question: newQuestion,
-                            questionEditTimes: 0,
-                          },
-                        ],
-                      },
-                    },
-                  })
-                    .then(result => {
-                      if (!result) return;
-                      const { errors } = result;
-                      if (errors) {
-                        toast.error(JSON.stringify(errors));
-                        setMode(QuestionModes.EDIT);
-                        setText(question);
-                      }
-                    })
-                    .catch((error: ApolloError) => {
-                      toast.error(error.message);
-                      setMode(QuestionModes.EDIT);
-                      setText(question);
-                    });
-                  setMode(QuestionModes.DISPLAY);
+              bg="red.0"
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setText(e.target.value)
+              }
+              onKeyDown={(e: React.KeyboardEvent) => {
+                if (editQuestionTrigger & SendMessageTriggerType.ON_ENTER) {
+                  if (
+                    e.nativeEvent.keyCode === 13 &&
+                    !e.nativeEvent.shiftKey &&
+                    !e.nativeEvent.ctrlKey
+                  ) {
+                    handleSubmit();
+                    e.preventDefault();
+                    return;
+                  }
+                }
+                if (
+                  editQuestionTrigger & SendMessageTriggerType.ON_CTRL_ENTER
+                ) {
+                  if (e.nativeEvent.keyCode === 13 && e.nativeEvent.ctrlKey) {
+                    handleSubmit();
+                    e.preventDefault();
+                    return;
+                  }
+                }
+                if (
+                  editQuestionTrigger & SendMessageTriggerType.ON_SHIFT_ENTER
+                ) {
+                  if (e.nativeEvent.keyCode === 13 && e.nativeEvent.shiftKey) {
+                    handleSubmit();
+                    e.preventDefault();
+                    return;
+                  }
                 }
               }}
+              value={text}
+            />
+            <Flex
+              width={1}
+              borderWidth="3px"
+              borderColor="red.7"
+              borderStyle="solid"
             >
-              <Img size="xs" src={tickIcon} />
-            </ButtonTransparent>
-          </Flex>
-        </React.Fragment>
-      )}
+              <ButtonTransparent
+                width={1}
+                p={1}
+                borderLeft={0}
+                borderTop={0}
+                borderRight="3px"
+                borderBottom={0}
+                borderColor="red.7"
+                borderStyle="solid"
+                onClick={() => setMode(QuestionModes.DISPLAY)}
+              >
+                <Img size="xs" src={crossIcon} />
+              </ButtonTransparent>
+              <ButtonTransparent width={1} p={1} onClick={handleSubmit}>
+                <Img size="xs" src={tickIcon} />
+              </ButtonTransparent>
+            </Flex>
+          </React.Fragment>
+        );
+      }}
     </Mutation>
   );
 };
 
-export default QuestionEdit;
+const mapStateToProps = (state: StateType) => ({
+  editQuestionTrigger: settingReducer.rootSelector(state).editQuestionTrigger,
+});
+
+const withRedux = connect(mapStateToProps);
+
+export default withRedux(QuestionEdit);

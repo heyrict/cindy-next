@@ -103,6 +103,18 @@ export const messages = defineMessages({
     id: `${scope}.send`,
     defaultMessage: 'Send',
   },
+  others: {
+    id: `${scope}.others`,
+    defaultMessage: 'Others',
+  },
+  big: {
+    id: `${scope}.big`,
+    defaultMessage: 'Big',
+  },
+  small: {
+    id: `${scope}.small`,
+    defaultMessage: 'Small',
+  },
 });
 
 export default messages;

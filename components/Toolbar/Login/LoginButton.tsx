@@ -17,9 +17,7 @@ const LoginButton = ({ setTrueLoginModal }: LoginButtonProps) => (
       height={1}
       p={0}
       color="gray.1"
-      style={{
-        fontWeight: 'bold',
-      }}
+      fontWeight="bold"
       onClick={() => setTrueLoginModal()}
     >
       <FormattedMessage {...messages.login} />

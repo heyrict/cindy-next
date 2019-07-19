@@ -9,6 +9,7 @@ export type QuestionEditProps = {
   question: string;
   dialogueId: number;
   setMode: (mode: symbol) => any;
+  editQuestionTrigger: number;
 };
 
 export type QuestionModeSelectorProps = {

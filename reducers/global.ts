@@ -15,7 +15,7 @@ export const actionTypes = {
   ASIDE: `${scope}.ASIDE`,
   CHANNEL: `${scope}.CHANNEL`,
   SETUSER: `${scope}.SETUSER`,
-  FETCHUSER: `${scope}.FETCHUSER`,
+  APPINIT: `${scope}.APPINIT`,
   ROUTECHANGE: `${scope}.ROUTECHANGE`,
   LANGUAGE: `${scope}.LANGUAGE`,
   TOOLBAR_MENU: `${scope}.TOOLBAR_MENU`,
@@ -26,8 +26,8 @@ export const actions: ActionSetType = {
   ...base.getActions('Channel', actionTypes.CHANNEL),
   ...base.getActions('Language', actionTypes.LANGUAGE),
   ...enumerate.getActions('ToolbarMenu', actionTypes.TOOLBAR_MENU),
-  fetchUser: () => ({
-    type: actionTypes.FETCHUSER,
+  appInit: () => ({
+    type: actionTypes.APPINIT,
   }),
   routeChange: (url: string) => ({
     type: actionTypes.ROUTECHANGE,

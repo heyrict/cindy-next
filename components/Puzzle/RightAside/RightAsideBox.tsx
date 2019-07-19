@@ -3,6 +3,7 @@ import styled from 'theme/styled';
 
 import { connect } from 'react-redux';
 import * as puzzleReducer from 'reducers/puzzle';
+import * as settingReducer from 'reducers/setting';
 
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
@@ -65,10 +66,14 @@ class RightAsideBox extends React.Component<
   RightAsideBoxProps,
   RightAsideBoxState
 > {
-  state = {
-    mini: false,
-    showMini: true,
-  };
+  constructor(props: RightAsideBoxProps) {
+    super(props);
+    this.state = {
+      mini: props.rightAsideMini,
+      showMini: true,
+    };
+  }
+
   lastScrollTop = process.browser
     ? window.pageYOffset || document.documentElement.scrollTop
     : 0;
@@ -249,6 +254,7 @@ const mapStateToProps = (state: StateType) => ({
   puzzleMemo: puzzleReducer.rootSelector(state).puzzleMemo,
   puzzleMemoHasnew: puzzleReducer.rootSelector(state).puzzleMemoHasnew,
   rightAside: puzzleReducer.rootSelector(state).rightAside,
+  rightAsideMini: settingReducer.rootSelector(state).rightAsideMini,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
