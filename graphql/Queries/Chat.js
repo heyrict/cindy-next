@@ -55,12 +55,21 @@ export const CHATROOM_ID_QUERY = gql`
       id
     }
   }
-  ${CHATROOM_FRAGMENT}
 `;
 
 export const CHATROOM_DESCRIPTION_QUERY = gql`
   query ChatroomDescription($chatroomId: Int!) {
     sui_hei_chatroom_by_pk(id: $chatroomId) {
+      ...Chatroom
+    }
+  }
+  ${CHATROOM_FRAGMENT}
+`;
+
+export const CHATROOM_ID_DESCRIPTION_QUERY = gql`
+  query ChatroomIdDescription($chatroomName: String) {
+    sui_hei_chatroom(where: { name: { _eq: $chatroomName } }, limit: 1) {
+      id
       ...Chatroom
     }
   }
