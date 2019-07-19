@@ -86,4 +86,4 @@ Awards are hard-coded in script files as custom logic of checking awards are har
 Patrons
 --------
 - [アシカ](https://www.cindythink.com/profile/show/36)
-- 1 more anonymous patrons
+- 2 more anonymous patrons
