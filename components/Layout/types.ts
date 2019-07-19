@@ -29,7 +29,7 @@ export type ToolbarBoxBaseProps = {
 
 export type LayoutProps = {
   children: React.ReactElement;
-  fetchUser: () => void;
+  appInit: () => void;
   [prop: string]: any;
 };
 

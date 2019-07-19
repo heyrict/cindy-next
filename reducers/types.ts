@@ -46,3 +46,10 @@ export enum ToolbarResponsiveMenuType {
   GENERAL_MENU,
   USER_MENU,
 }
+
+export enum SendMessageTriggerType {
+  NONE = 0b0,
+  ON_ENTER = 0b10,
+  ON_CTRL_ENTER = 0b100,
+  ON_SHIFT_ENTER = 0b1000,
+}

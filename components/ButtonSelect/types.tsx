@@ -23,6 +23,7 @@ export const buttonSelectStatefulDefaultProps = {
 export type ButtonSelectStatefulProps<TValue = any> = {
   initialValue: TValue;
   options: Array<ButtonSelectOptionType<TValue>>;
+  onChange?: (next: TValue, prev: TValue) => TValue;
 } & typeof buttonSelectStatefulDefaultProps;
 
 export type ButtonSelectStatefulStates<TValue = any> = {

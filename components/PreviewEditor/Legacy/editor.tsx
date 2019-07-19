@@ -66,7 +66,7 @@ class LegacyEditor extends React.Component<
 
   // {{{1 render
   render() {
-    const { placeholder } = this.props;
+    const { initialValue, useNamespaces, ...textareaProps } = this.props;
     return (
       <Box bg="orange.1">
         <Flex flexWrap="wrap" alignItems="flex-start" width={1} bg="orange.3">
@@ -231,7 +231,7 @@ class LegacyEditor extends React.Component<
         </Flex>
         {this.state.stampToolbar && (
           <StampList
-            useNamespaces={this.props.useNamespaces}
+            useNamespaces={useNamespaces}
             onClick={({ key, src }) => this.onClickStamp({ key, src })}
           />
         )}
@@ -243,8 +243,8 @@ class LegacyEditor extends React.Component<
             bg="transparent"
             border="none"
             padding={0}
-            placeholder={placeholder}
             ref={this.editor}
+            {...textareaProps}
           />
         </Box>
         {this.state.preview && (

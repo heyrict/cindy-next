@@ -12,15 +12,13 @@ import { Portal } from 'react-portal';
 import { Manager, Reference, Popper } from 'react-popper';
 import { ButtonTransparent, Img } from 'components/General';
 import LoginButton from './Login/LoginButton';
-import LoginModal from './Login/LoginModal';
 import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
-import SignupModal from './Signup/SignupModal';
+import SettingsButton from './Settings/SettingsButton';
 import logoInline from 'svgs/logoInline.svg';
 import chevronUpIcon from 'svgs/chevronUp.svg';
 import chevronDownIcon from 'svgs/chevronDown.svg';
 import userIcon from 'svgs/user.svg';
-import gearIcon from 'svgs/gear.svg';
 import countryJPIcon from 'svgs/countries/ja_JP.svg';
 import countryUSIcon from 'svgs/countries/en_US.svg';
 
@@ -172,15 +170,7 @@ const Toolbar = ({ user, setLanguage }: ToolbarProps) => {
                     </ToolbarButton>
                   )}
                   <ToolbarButton bg="orange.5" color="gray.1">
-                    <ButtonTransparent
-                      height={1}
-                      width={1}
-                      color="gray.1"
-                      onClick={() => setDropDown(!dropDown)}
-                    >
-                      <Img mr={1} src={gearIcon} height="xs" />
-                      <FormattedMessage {...toolbarMessages.settings} />
-                    </ButtonTransparent>
+                    <SettingsButton />
                   </ToolbarButton>
                   <ToolbarButton bg="orange.5" color="gray.1">
                     <ButtonTransparent
@@ -202,8 +192,6 @@ const Toolbar = ({ user, setLanguage }: ToolbarProps) => {
           </Portal>
         )}
       </Manager>
-      <LoginModal />
-      <SignupModal />
     </ToolbarFlex>
   );
 };

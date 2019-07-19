@@ -4,6 +4,7 @@ import authSaga from './auth';
 import routeSaga from './route';
 import puzzleSaga from './puzzle';
 import chatSaga from './chat';
+import settingSaga from './setting';
 
 function* rootSaga() {
   yield all([
@@ -11,6 +12,7 @@ function* rootSaga() {
     call(routeSaga),
     call(puzzleSaga),
     call(chatSaga),
+    call(settingSaga),
   ]);
 }
 

@@ -285,9 +285,9 @@ export const globalStyle = css`
   ${toastifyStyle}
 `;
 
-const Layout = ({ children, fetchUser }: LayoutProps) => {
+const Layout = ({ children, appInit }: LayoutProps) => {
   useEffect(() => {
-    fetchUser();
+    appInit();
   }, []);
 
   useEffect(() => {
@@ -335,7 +335,7 @@ const Layout = ({ children, fetchUser }: LayoutProps) => {
 const withRedux = connect(
   null,
   dispatch => ({
-    fetchUser: () => dispatch(globalReducer.actions.fetchUser()),
+    appInit: () => dispatch(globalReducer.actions.appInit()),
   }),
 );
 

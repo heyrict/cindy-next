@@ -93,30 +93,36 @@ class SimpleLegacyEditor extends React.Component<
 
   // {{{1 render
   render() {
-    const { placeholder } = this.props;
+    const {
+      height,
+      initialValue,
+      useNamespaces,
+      onSubmit,
+      ...textareaProps
+    } = this.props;
     const inlineEditor = (
       <Textarea
         width={1}
         minWidth={1}
-        minHeight={`${this.props.height}em`}
-        maxHeight={`${this.props.height}em`}
+        minHeight={`${height}em`}
+        maxHeight={`${height}em`}
         bg="transparent"
         border="none"
         padding={0}
-        placeholder={placeholder}
         ref={this.inlineEditor}
+        {...textareaProps}
       />
     );
     const modalEditor = (
       <Textarea
         width={1}
         minWidth={1}
-        height={`${this.props.height}em`}
+        height={`${height}em`}
         bg="transparent"
         border="none"
         padding={0}
-        placeholder={placeholder}
         ref={this.modalEditor}
+        {...textareaProps}
       />
     );
 
@@ -267,7 +273,7 @@ class SimpleLegacyEditor extends React.Component<
             </Flex>
             {this.state.stampToolbar && (
               <StampList
-                useNamespaces={this.props.useNamespaces}
+                useNamespaces={useNamespaces}
                 onClick={({ key, src }) => this.onClickStamp({ key, src })}
               />
             )}
@@ -321,7 +327,7 @@ class SimpleLegacyEditor extends React.Component<
               m={1}
               flexWrap="wrap"
               bg="orange.4"
-              height={`${this.props.height}em`}
+              height={`${height}em`}
               width={1}
               style={{ overflow: 'hidden' }}
               borderWidth="1px"
@@ -339,7 +345,7 @@ class SimpleLegacyEditor extends React.Component<
           <Box
             m={1}
             width={1}
-            height={`${this.props.height}em`}
+            height={`${height}em`}
             style={{
               overflow: 'hidden',
               flexGrow: 1,
@@ -377,8 +383,7 @@ class SimpleLegacyEditor extends React.Component<
                 <ButtonTransparent
                   onClick={() => {
                     const text = this.getText();
-                    this.props
-                      .onSubmit(text)
+                    onSubmit(text)
                       .then(returns => {
                         if (!returns) {
                           // Cancelled
