@@ -34,7 +34,8 @@ export const actions = {
   }),
 } as ActionSetType;
 
-export const rootSelector = (state: StateType) => state[scope];
+export const rootSelector = (state: StateType) =>
+  state[scope] as typeof initialState;
 
 export const initialState = {
   settingsModal: false,
@@ -64,10 +65,7 @@ export const saveState = (state: typeof initialState): void => {
   window.localStorage.setItem(`reducer:${scope}`, storedItem);
 };
 
-export const reducer = (
-  state = initialState,
-  action: ActionContentType,
-) => {
+export const reducer = (state = initialState, action: ActionContentType) => {
   switch (action.type) {
     case actionTypes.SETTINGS_MODAL:
       return {

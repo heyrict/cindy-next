@@ -136,7 +136,7 @@ const ChatRoomInput = ({
                   toast.error(JSON.stringify(error));
                   editorRef.current.setText(text);
                 });
-            }
+            };
 
             return (
               <SimpleLegacyEditor
@@ -146,7 +146,8 @@ const ChatRoomInput = ({
                   if (sendChatTrigger & SendMessageTriggerType.ON_ENTER) {
                     if (
                       e.nativeEvent.keyCode === 13 &&
-                      !e.nativeEvent.shiftKey
+                      !e.nativeEvent.shiftKey &&
+                      !e.nativeEvent.ctrlKey
                     ) {
                       handleSubmitWithError(editorRef.current.getText());
                       e.preventDefault();

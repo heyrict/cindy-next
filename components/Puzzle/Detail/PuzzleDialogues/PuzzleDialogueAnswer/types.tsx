@@ -15,6 +15,7 @@ export type AnswerEditProps = {
   answeredtime?: string | null;
   setMode: (mode: symbol) => any;
   puzzleStatus: number;
+  sendAnswerTrigger: number;
 };
 
 export type AnswerModeSelectorProps = {
