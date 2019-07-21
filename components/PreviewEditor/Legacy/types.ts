@@ -1,5 +1,4 @@
 import { stampNamespaces } from 'stamps/types';
-import { Omit } from 'react-redux';
 
 export const SimpleLegacyEditorDefaultProps = {
   placeholder: '',

@@ -1,5 +1,4 @@
 import { PopperProps } from 'react-popper';
-import { Omit } from 'react-redux';
 
 export const TooltipDefaultProps = {
   delay: 2000,

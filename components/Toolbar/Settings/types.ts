@@ -1,5 +1,4 @@
 import * as settingReducer from 'reducers/setting';
-import { Omit } from 'react-redux';
 
 export type SettingsButtonProps = {
   setTrueSettingsModal: () => void;
