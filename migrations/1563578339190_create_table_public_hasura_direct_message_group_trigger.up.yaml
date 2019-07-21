@@ -1,0 +1,14 @@
+- args:
+    sql: CREATE TABLE "public"."hasura_directmessage_group_trigger" ( 
+           "user_id" integer NOT NULL,
+           "last_dm_id" integer NOT NULL,
+           PRIMARY KEY ("user_id"),
+           FOREIGN KEY ("user_id")
+           REFERENCES "public"."sui_hei_user"("id") ON UPDATE restrict ON DELETE restrict
+         );
+         COMMENT ON TABLE "public"."hasura_directmessage_group_trigger" IS 'Trigger table for direct message group'
+  type: run_sql
+- args:
+    name: hasura_directmessage_group_trigger
+    schema: public
+  type: add_existing_table_or_view

@@ -1,0 +1,14 @@
+- args:
+    name: suiHeiUserBySenderId
+    new_name: sender
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_user
+    new_name: receiver
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: rename_relationship

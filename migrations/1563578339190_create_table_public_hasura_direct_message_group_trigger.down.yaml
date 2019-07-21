@@ -1,0 +1,3 @@
+- args:
+    sql: DROP TABLE "public"."hasura_directmessage_group_trigger"
+  type: run_sql
