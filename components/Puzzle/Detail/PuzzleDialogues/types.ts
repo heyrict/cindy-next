@@ -46,6 +46,7 @@ export type PuzzleDialoguesRendererProps = {
   puzzleStatus: number;
   anonymous: boolean;
   shouldSubscribe: boolean;
+  pushNotification: boolean;
   setTrueSolvedLongtermYami: () => void;
   setParticipants: (participants: Array<UserFilterSwitcherUserType>) => void;
   user: GlobalUserType;

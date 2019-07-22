@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import * as puzzleReducer from 'reducers/puzzle';
 import * as globalReducer from 'reducers/global';
 import * as awardCheckerReducer from 'reducers/awardChecker';
+import * as settingReducer from 'reducers/setting';
 
 import { Flex } from 'components/General';
 import PuzzleDialogue from './PuzzleDialogue';
@@ -83,6 +84,7 @@ export const PuzzleDialoguesRenderer = (
     puzzleUser,
     puzzleStatus,
     anonymous,
+    pushNotification,
     setParticipants,
     setTrueSolvedLongtermYami,
     updateSolvedLongTermYamiOnSubscribe,
@@ -151,7 +153,11 @@ export const PuzzleDialoguesRenderer = (
             }
 
             // Notification for creator
-            if (document.hidden && puzzleUser.id === user.id) {
+            if (
+              pushNotification &&
+              document.hidden &&
+              puzzleUser.id === user.id
+            ) {
               maybeSendNotification(_(webNotifyMessages.newDialogueAdded), {
                 body: sui_hei_dialogue.question,
                 renotify: true,
@@ -233,6 +239,7 @@ PuzzleDialoguesRenderer.contextTypes = {
 
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
+  pushNotification: settingReducer.rootSelector(state).pushNotification,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({

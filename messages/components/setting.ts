@@ -35,6 +35,14 @@ export const settingMessages = defineMessages({
     id: `${scope}.rightAsideMini`,
     defaultMessage: '(Puzzle Page) Floating box size',
   },
+  notification: {
+    id: `${scope}.notification`,
+    defaultMessage: 'Notification',
+  },
+  pushNotification: {
+    id: `${scope}.pushNotification`,
+    defaultMessage: 'Push Notification',
+  },
 });
 
 export default settingMessages;

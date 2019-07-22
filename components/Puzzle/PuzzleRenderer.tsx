@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Head from 'next/head';
 import { toast } from 'react-toastify';
 import { maybeSendNotification } from 'common/web-notify';
 
 import PuzzleDetail from 'components/Puzzle/Detail';
+
+import { connect } from 'react-redux';
+import * as settingReducer from 'reducers/setting';
 
 import { PUZZLE_LIVEQUERY } from 'graphql/LiveQueries/Puzzles';
 
@@ -22,8 +25,6 @@ import {
   PuzzleQueryVariables,
 } from 'graphql/Queries/generated/PuzzleQuery';
 
-let hasNotifiedSolved = false;
-
 const PuzzleRenderer = ({
   loading,
   error,
@@ -31,7 +32,9 @@ const PuzzleRenderer = ({
   subscribeToMore,
   formatMessage,
   puzzleId,
+  pushNotification,
 }: PuzzleRendererProps) => {
+  const hasNotifiedSolvedRef = useRef<boolean>(false);
   const _ = formatMessage;
   const puzzleNotExistElement = (
     <React.Fragment>
@@ -56,8 +59,13 @@ const PuzzleRenderer = ({
           const oldPuzzle = prev.sui_hei_puzzle_by_pk;
           if (!oldPuzzle) return subscriptionData.data;
           if (!newPuzzle) return prev;
-          if (document.hidden && newPuzzle.status === 1 && !hasNotifiedSolved) {
-            hasNotifiedSolved = true;
+          if (
+            pushNotification &&
+            document.hidden &&
+            newPuzzle.status === 1 &&
+            !hasNotifiedSolvedRef.current
+          ) {
+            hasNotifiedSolvedRef.current = true;
             const not = maybeSendNotification(
               _(webNotifyMessages.puzzleSolved, {
                 puzzle: oldPuzzle.title,
@@ -102,4 +110,8 @@ const PuzzleRenderer = ({
   return puzzleNotExistElement;
 };
 
-export default PuzzleRenderer;
+const withRedux = connect(state => ({
+  pushNotification: settingReducer.rootSelector(state).pushNotification,
+}));
+
+export default withRedux(PuzzleRenderer);

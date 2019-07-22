@@ -121,7 +121,7 @@ const PuzzleTagBubble = ({
                             toast.dismiss(warnHdl.current);
                         }}
                       >
-                        <FormattedMessage {...commonMessages.confirm} />
+                        <FormattedMessage {...commonMessages.continue} />
                       </ButtonTransparent>
                     </Box>
                   </Box>,

@@ -2,14 +2,16 @@
  * This is the global layout wrapping `Component` in nextjs _app.js.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Global, css } from '@emotion/core';
 import { toast, ToastContainer, Slide } from 'react-toastify';
 import { requestNotificationPermission } from 'common/web-notify';
 
 import { FormattedMessage } from 'react-intl';
 import webNotifyMessages from 'messages/webNotify';
+import commonMessages from 'messages/common';
 
+import { Flex, Box, ButtonTransparent } from 'components/General';
 import Chat from 'components/Chat';
 import Toolbar from 'components/Toolbar';
 import PuzzleRightAside from 'components/Puzzle/RightAside';
@@ -22,6 +24,8 @@ import Patrons from './Patrons';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
+import * as settingReducer from 'reducers/setting';
+
 import theme from 'theme/theme';
 import { LayoutProps } from './types';
 import { NotificationPermissionType } from 'common/types';
@@ -285,22 +289,82 @@ export const globalStyle = css`
   ${toastifyStyle}
 `;
 
-const Layout = ({ children, appInit }: LayoutProps) => {
+const Layout = ({
+  children,
+  appInit,
+  pushNotification,
+  setFalsePushNotification,
+}: LayoutProps) => {
+  const notifHdlRef = useRef<React.ReactText | null>(null);
+
   useEffect(() => {
     appInit();
   }, []);
 
   useEffect(() => {
     // request notification permission
-    requestNotificationPermission().then(permission => {
-      if (permission === NotificationPermissionType.NOT_SUPPORTED) {
-        toast.info(
-          <FormattedMessage {...webNotifyMessages.notSupportedMessage} />,
-        );
-      } else if (permission === NotificationPermissionType.DENIED) {
-        toast.info(<FormattedMessage {...webNotifyMessages.deniedMessage} />);
-      }
-    });
+    if (pushNotification)
+      requestNotificationPermission().then(permission => {
+        if (permission === NotificationPermissionType.NOT_SUPPORTED) {
+          notifHdlRef.current = toast.info(
+            <Box>
+              <FormattedMessage {...webNotifyMessages.notSupportedMessage} />
+              <Flex mt={2} width={1}>
+                <Box width={1} bg="green.6" borderRadius={1}>
+                  <ButtonTransparent
+                    height={1}
+                    width={1}
+                    py={2}
+                    color="green.1"
+                    onClick={() => requestNotificationPermission()}
+                  >
+                    <FormattedMessage {...commonMessages.enable} />
+                  </ButtonTransparent>
+                </Box>
+                <Box width={1} bg="pink.6" borderRadius={1}>
+                  <ButtonTransparent
+                    height={1}
+                    width={1}
+                    py={2}
+                    color="pink.1"
+                    onClick={() => {
+                      setFalsePushNotification();
+                      if (notifHdlRef.current)
+                        toast.dismiss(notifHdlRef.current);
+                    }}
+                  >
+                    <FormattedMessage {...commonMessages.doNotNotifyAgain} />
+                  </ButtonTransparent>
+                </Box>
+              </Flex>
+            </Box>,
+          );
+        } else if (
+          permission === NotificationPermissionType.DENIED ||
+          permission === NotificationPermissionType.DEFAULT
+        ) {
+          notifHdlRef.current = toast.info(
+            <Box>
+              <FormattedMessage {...webNotifyMessages.deniedMessage} />
+              <Box width={1} mt={2} bg="pink.6">
+                <ButtonTransparent
+                  height={1}
+                  width={1}
+                  py={2}
+                  color="pink.1"
+                  onClick={() => {
+                    setFalsePushNotification();
+                    if (notifHdlRef.current)
+                      toast.dismiss(notifHdlRef.current);
+                  }}
+                >
+                  <FormattedMessage {...commonMessages.doNotNotifyAgain} />
+                </ButtonTransparent>
+              </Box>
+            </Box>,
+          );
+        }
+      });
   });
 
   return (
@@ -333,9 +397,13 @@ const Layout = ({ children, appInit }: LayoutProps) => {
 };
 
 const withRedux = connect(
-  null,
+  state => ({
+    pushNotification: settingReducer.rootSelector(state).pushNotification,
+  }),
   dispatch => ({
     appInit: () => dispatch(globalReducer.actions.appInit()),
+    setFalsePushNotification: () =>
+      dispatch(settingReducer.actions.pushNotification.setFalse()),
   }),
 );
 

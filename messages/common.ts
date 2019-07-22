@@ -119,6 +119,14 @@ export const messages = defineMessages({
     id: `${scope}.small`,
     defaultMessage: 'Small',
   },
+  doNotNotifyAgain: {
+    id: `${scope}.doNotNotifyAgain`,
+    defaultMessage: 'Do not notify me again',
+  },
+  enable: {
+    id: `${scope}.enable`,
+    defaultMessage: 'Enable',
+  },
 });
 
 export default messages;

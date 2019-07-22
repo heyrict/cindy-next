@@ -73,6 +73,7 @@ const SettingsModal = ({
   sendChatTrigger,
   sendQuestionTrigger,
   rightAsideMini,
+  pushNotification,
 }: SettingsModalProps) => {
   const sendChatTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const sendAnswerTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
@@ -80,6 +81,7 @@ const SettingsModal = ({
   const editQuestionTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const puzzleGenreImgRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const rightAsideMiniRef = useRef<ButtonSelectStateful<boolean>>(null!);
+  const pushNotificationRef = useRef<ButtonSelectStateful<boolean>>(null!);
 
   return (
     <Modal show={settingsModal} closefn={() => setFalseSettingsModal()}>
@@ -145,6 +147,22 @@ const SettingsModal = ({
             />
           </Box>
           <Box width={1} borderBottom="2px solid" borderColor="orange.7" mb={2}>
+            <FormattedMessage {...settingMessages.notification} />
+          </Box>
+          <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
+            <FormattedMessage {...settingMessages.pushNotification}>
+              {msg => <label>{msg}</label>}
+            </FormattedMessage>
+          </Box>
+          <Box width={[1, 2 / 3, 4 / 5]} mb={2}>
+            <ButtonSelectStateful<boolean>
+              ref={pushNotificationRef}
+              flexProps={{ px: 2 }}
+              initialValue={pushNotification}
+              options={booleanOptions}
+            />
+          </Box>
+          <Box width={1} borderBottom="2px solid" borderColor="orange.7" mb={2}>
             <FormattedMessage {...commonMessages.others} />
           </Box>
           <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
@@ -199,6 +217,7 @@ const SettingsModal = ({
               sendQuestionTrigger: sendQuestionTriggerRef.current.state.value,
               puzzleGenreImg: puzzleGenreImgRef.current.state.value,
               rightAsideMini: rightAsideMiniRef.current.state.value,
+              pushNotification: pushNotificationRef.current.state.value,
             })
           }
         >

@@ -20,6 +20,7 @@ function* loadSettings() {
 function* authRootSaga() {
   yield all([
     takeLatest(settingReducer.actionTypes.SET_STATE, saveSettings),
+    takeLatest(settingReducer.actionTypes.PUSH_NOTIFICATION, saveSettings),
     takeLatest(globalReducer.actionTypes.APPINIT, loadSettings),
   ])
 }

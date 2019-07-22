@@ -17,6 +17,7 @@ export enum actionTypes {
   EDIT_QUESTION_TRIGGER = 'setting.EDIT_QUESTION_TRIGGER',
   SEND_ANSWER_TRIGGER = 'setting.SEND_ANSWER_TRIGGER',
   RIGHT_ASIDE_MINI = 'setting.RIGHT_ASIDE_MINI',
+  PUSH_NOTIFICATION = 'setting.PUSH_NOTIFICATION',
   SET_STATE = 'setting.SET_STATE',
 }
 
@@ -28,6 +29,7 @@ export type ActionPayloadType = {
   SEND_QUESTION_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
   EDIT_QUESTION_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
   SEND_ANSWER_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
+  PUSH_NOTIFICATION: ReturnType<ValueOf<bool.HelperActionType>>;
   SET_STATE: { state: typeof initialState };
 };
 
@@ -39,6 +41,7 @@ export const actions = {
   editQuestionTrigger: mask.wrapActions(actionTypes.EDIT_QUESTION_TRIGGER),
   sendQuestionTrigger: mask.wrapActions(actionTypes.SEND_QUESTION_TRIGGER),
   sendAnswerTrigger: mask.wrapActions(actionTypes.SEND_ANSWER_TRIGGER),
+  pushNotification: bool.wrapActions(actionTypes.PUSH_NOTIFICATION),
   setState: (
     state: { [key in keyof typeof initialState]?: typeof initialState[key] },
   ) =>
@@ -59,6 +62,7 @@ export const initialState = {
   editQuestionTrigger: SendMessageTriggerType.ON_SHIFT_ENTER as number,
   sendAnswerTrigger: SendMessageTriggerType.ON_ENTER as number,
   rightAsideMini: false,
+  pushNotification: true,
 };
 
 export const loadInitialState = (): typeof initialState => {
@@ -83,7 +87,7 @@ export const saveState = (state: typeof initialState): void => {
 export const reducer = (
   state = initialState,
   action: ActionContentType<typeof actionTypes, ActionPayloadType>,
-) => {
+): typeof initialState => {
   switch (action.type) {
     case actionTypes.SETTINGS_MODAL:
       return {
@@ -130,6 +134,11 @@ export const reducer = (
       return {
         ...state,
         rightAsideMini: bool.helper(state.rightAsideMini, action.payload),
+      };
+    case actionTypes.PUSH_NOTIFICATION:
+      return {
+        ...state,
+        pushNotification: bool.helper(state.pushNotification, action.payload),
       };
     default:
       return state;

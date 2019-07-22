@@ -8,6 +8,7 @@ import { PuzzleType } from './Brief/types';
 export type PuzzleRendererProps = {
   formatMessage: any;
   puzzleId: number;
+  pushNotification: boolean;
 } & QueryResult<PuzzleQuery, PuzzleQueryVariables>;
 
 export enum RankedPuzzleDisplayType {
