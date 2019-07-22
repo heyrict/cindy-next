@@ -1,4 +1,5 @@
 import * as settingReducer from 'reducers/setting';
+import { ArgumentsType } from 'utilities';
 
 export type SettingsButtonProps = {
   setTrueSettingsModal: () => void;
@@ -7,11 +8,11 @@ export type SettingsButtonProps = {
 export type SettingsModalProps = {
   setFalseSettingsModal: () => void;
   setState: (
-    state: {
-      [key in keyof typeof settingReducer.initialState]?: typeof settingReducer.initialState[key]
-    },
+    ...args: ArgumentsType<typeof settingReducer.actions.setState>
   ) => void;
 } & typeof settingReducer.initialState;
 
-export type SettingsFormProps = {
-} & Omit<typeof settingReducer.initialState, 'settingsModal'>;
+export type SettingsFormProps = {} & Omit<
+  typeof settingReducer.initialState,
+  'settingsModal'
+>;

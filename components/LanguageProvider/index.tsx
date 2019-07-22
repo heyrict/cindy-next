@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { IntlProvider } from 'react-intl';
+import { DEFAULT_LOCALE, APPLOCALES } from 'settings';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 import { ActionContentType, StateType } from 'reducers/types';
 import { LanguageProviderProps } from './types';
-import { DEFAULT_LOCALE } from 'settings';
 
 const getMessages = (locale: string) => require(`lang/${locale}.json`);
 
@@ -43,7 +43,8 @@ const mapStateToProps = (state: StateType) => ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setLanguage: (lang: string) =>
-    dispatch(globalReducer.actions.setLanguage(lang)),
+    APPLOCALES.findIndex(v => v === lang) >= 0 &&
+    dispatch(globalReducer.actions.language.set(lang as typeof APPLOCALES[0])),
 });
 
 const withRedux = connect(

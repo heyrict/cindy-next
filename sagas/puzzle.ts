@@ -11,7 +11,7 @@ import { RightAsideType, ActionContentType, StateType } from 'reducers/types';
 import { MemoStatStoreType } from './types';
 
 function* resetPuzzleAside() {
-  yield put(puzzleReducer.actions.setRightAside(RightAsideType.none));
+  yield put(puzzleReducer.actions.rightAside.set(RightAsideType.none));
 }
 
 const PUZZLE_MEMO_HASNEW_HASH_STORE_KEY = 'puzzleMemoStatus';
@@ -33,7 +33,7 @@ function* setPuzzleMemoHasnew(action: ActionContentType) {
       if (innerAction.value === '') return;
       const memoHash = hash(innerAction.value);
       if (memoHash !== memoStatStore[puzzleId])
-        yield put(puzzleReducer.actions.setTruePuzzleMemoHasnew());
+        yield put(puzzleReducer.actions.puzzleMemoHasnew.setTrue());
     }
     default:
       return;
@@ -61,7 +61,7 @@ function* updatePuzzleMemoStat(action: ActionContentType) {
   switch (innerAction.value) {
     case RightAsideType.memo: {
       if (puzzleMemoHasnew === true)
-        yield put(puzzleReducer.actions.setFalsePuzzleMemoHasnew());
+        yield put(puzzleReducer.actions.puzzleMemoHasnew.setFalse());
 
       const memoHash = hash(puzzleMemo);
       const prevMemoHash = memoStatStore[puzzleId];

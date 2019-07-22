@@ -19,7 +19,7 @@ describe('login reducer', () => {
       type: actionType,
       payload: {},
     };
-    expect(reducer(initialState, action)).toStrictEqual(initialState);
+    expect(reducer(initialState, action as any)).toStrictEqual(initialState);
   });
 
   it('handle login.RESET_FORM correctly', () => {
@@ -39,7 +39,7 @@ describe('login reducer', () => {
     const action = {
       type: 'UNKNOWN',
     };
-    expect(reducer(undefined, action)).toBe(initialState);
+    expect(reducer(undefined, action as any)).toBe(initialState);
   });
 });
 

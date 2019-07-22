@@ -76,9 +76,9 @@ const mapStateToProps = (state: StateType) => ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setTrueDescriptionModal: () =>
-    dispatch(chatReducer.actions.setTrueDescriptionModal()),
+    dispatch(chatReducer.actions.descriptionModal.setTrue()),
   setTrueChannelChangeModal: () =>
-    dispatch(chatReducer.actions.setTrueChannelChangeModal()),
+    dispatch(chatReducer.actions.channelChangeModal.setTrue()),
 });
 
 const withRedux = connect(

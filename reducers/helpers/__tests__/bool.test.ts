@@ -1,6 +1,6 @@
 import { actions, helper } from '../bool';
 
-let initialState: boolean | null = null;
+let initialState: boolean = false;
 
 describe('bool helper', () => {
   it("action 'set' sets value correctly", () => {
@@ -22,6 +22,6 @@ describe('bool helper', () => {
   });
 
   it('helper should ignore unknown actions', () => {
-    expect(helper(initialState, { type: 'UNKNOWN' })).toBe(initialState);
+    expect(helper(initialState, { type: 'UNKNOWN' } as any)).toBe(initialState);
   });
 });

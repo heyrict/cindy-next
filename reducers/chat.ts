@@ -1,31 +1,44 @@
 import * as bool from './helpers/bool';
 import * as base from './helpers/base';
-import { ActionSetType, StateType, ActionContentType } from './types';
+import { StateType, ActionContentType, ValueOf } from './types';
 
 export const scope = 'chat';
 
-export const actionTypes = {
-  CHANNEL_CHANGE_INPUT: `${scope}.CHANNEL_CHANGE_INPUT`,
-  CHANNEL_CHANGE_MODAL: `${scope}.CHANNEL_CHANGE_MODAL`,
-  CHAT_INPUT_MODAL: `${scope}.CHAT_INPUT_MODAL`,
-  DESCRIPTION_MODAL: `${scope}.DESCRIPTION_MODAL`,
-  CHAT_HASNEW: `${scope}.CHAT_HASNEW`,
-  CHATMESSAGE_UPDATE: `${scope}.CHATMESSAGE_UPDATE`,
+export enum actionTypes {
+  CHANNEL_CHANGE_INPUT = 'chat.CHANNEL_CHANGE_INPUT',
+  CHANNEL_CHANGE_MODAL = 'chat.CHANNEL_CHANGE_MODAL',
+  CHAT_INPUT_MODAL = 'chat.CHAT_INPUT_MODAL',
+  DESCRIPTION_MODAL = 'chat.DESCRIPTION_MODAL',
+  CHAT_HASNEW = 'chat.CHAT_HASNEW',
+  CHATMESSAGE_UPDATE = 'chat.CHATMESSAGE_UPDATE',
+}
+
+export type ActionPayloadType = {
+  CHANNEL_CHANGE_INPUT: ReturnType<ValueOf<base.HelperActionType<string>>>;
+  CHANNEL_CHANGE_MODAL: ReturnType<ValueOf<bool.HelperActionType>>;
+  CHAT_INPUT_MODAL: ReturnType<ValueOf<bool.HelperActionType>>;
+  DESCRIPTION_MODAL: ReturnType<ValueOf<bool.HelperActionType>>;
+  CHAT_HASNEW: ReturnType<ValueOf<bool.HelperActionType>>;
+  CHATMESSAGE_UPDATE: {
+    chatroomId: number;
+    messagesHash: number;
+  };
 };
 
-export const actions: ActionSetType = {
-  ...base.getActions('ChannelChangeInput', actionTypes.CHANNEL_CHANGE_INPUT),
-  ...bool.getActions('ChannelChangeModal', actionTypes.CHANNEL_CHANGE_MODAL),
-  ...bool.getActions('ChatInputModal', actionTypes.CHAT_INPUT_MODAL),
-  ...bool.getActions('DescriptionModal', actionTypes.DESCRIPTION_MODAL),
-  ...bool.getActions('ChatHasnew', actionTypes.CHAT_HASNEW),
-  chatmessageUpdate: (chatroomId: number, messagesHash: number) => ({
-    type: actionTypes.CHATMESSAGE_UPDATE,
-    payload: {
-      chatroomId,
-      messagesHash,
-    },
-  }),
+export const actions = {
+  channelChangeInput: base.wrapActions(actionTypes.CHANNEL_CHANGE_INPUT),
+  channelChangeModal: bool.wrapActions(actionTypes.CHANNEL_CHANGE_MODAL),
+  chatInputModal: bool.wrapActions(actionTypes.CHAT_INPUT_MODAL),
+  descriptionModal: bool.wrapActions(actionTypes.DESCRIPTION_MODAL),
+  chatHasnew: bool.wrapActions(actionTypes.CHAT_HASNEW),
+  chatmessageUpdate: (chatroomId: number, messagesHash: number) =>
+    ({
+      type: actionTypes.CHATMESSAGE_UPDATE,
+      payload: {
+        chatroomId,
+        messagesHash,
+      },
+    } as const),
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -41,7 +54,7 @@ export const initialState = {
 
 export const reducer = (
   state = initialState,
-  action: ActionContentType,
+  action: ActionContentType<typeof actionTypes, ActionPayloadType>,
 ): typeof initialState => {
   switch (action.type) {
     case actionTypes.CHANNEL_CHANGE_INPUT:

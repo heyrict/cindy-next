@@ -13,13 +13,13 @@ import * as awardCheckerReducer from './awardChecker';
 import { StateType, ExtendedStore } from './types';
 
 const reducer = combineReducers({
-  [globalReducer.scope]: globalReducer.reducer,
-  [chatReducer.scope]: chatReducer.reducer,
-  [loginReducer.scope]: loginReducer.reducer,
-  [settingReducer.scope]: settingReducer.reducer,
-  [addReplayReducer.scope]: addReplayReducer.reducer,
-  [puzzleReducer.scope]: puzzleReducer.reducer,
-  [awardCheckerReducer.scope]: awardCheckerReducer.reducer,
+  [globalReducer.scope]: globalReducer.reducer as any,
+  [chatReducer.scope]: chatReducer.reducer as any,
+  [loginReducer.scope]: loginReducer.reducer as any,
+  [settingReducer.scope]: settingReducer.reducer as any,
+  [addReplayReducer.scope]: addReplayReducer.reducer as any,
+  [puzzleReducer.scope]: puzzleReducer.reducer as any,
+  [awardCheckerReducer.scope]: awardCheckerReducer.reducer as any,
 });
 
 const composeEnhancers =

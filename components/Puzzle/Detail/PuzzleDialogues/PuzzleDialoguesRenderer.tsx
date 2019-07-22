@@ -237,13 +237,13 @@ const mapStateToProps = (state: StateType) => ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setParticipants: (participants: Array<UserFilterSwitcherUserType>) =>
-    dispatch(puzzleReducer.actions.setParticipants(participants)),
+    dispatch(puzzleReducer.actions.participants.set(participants)),
   setTrueSolvedLongtermYami: () =>
-    dispatch(puzzleReducer.actions.setTrueSolvedLongtermYami()),
+    dispatch(puzzleReducer.actions.solvedLongtermYami.setTrue()),
   incGoodQuestions: (value?: number) =>
-    dispatch(awardCheckerReducer.actions.incGoodQuestions(value)),
+    dispatch(awardCheckerReducer.actions.goodQuestions.inc(value)),
   incTrueAnswers: (value?: number) =>
-    dispatch(awardCheckerReducer.actions.incTrueAnswers(value)),
+    dispatch(awardCheckerReducer.actions.trueAnswers.inc(value)),
 });
 
 const withRedux = connect(

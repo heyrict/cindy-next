@@ -8,19 +8,21 @@ import {
 } from '../global';
 
 describe('global reducer', () => {
-  it.each([actionTypes.ASIDE, actionTypes.CHANNEL, actionTypes.LANGUAGE, actionTypes.TOOLBAR_MENU])(
-    'handle %s correctly',
-    actionType => {
-      const action = {
-        type: actionType,
-        payload: {},
-      };
-      expect(reducer(initialState, action)).toStrictEqual(initialState);
-    },
-  );
+  it.each([
+    actionTypes.ASIDE,
+    actionTypes.CHANNEL,
+    actionTypes.LANGUAGE,
+    actionTypes.TOOLBAR_MENU,
+  ])('handle %s correctly', actionType => {
+    const action = {
+      type: actionType,
+      payload: {},
+    };
+    expect(reducer(initialState, action as any)).toStrictEqual(initialState);
+  });
 
-  it('can fire fetchUser action', () => {
-    actions.fetchUser();
+  it('can fire appInit action', () => {
+    actions.appInit();
   });
 
   it('handle global.ROUTECHANGE correctly', () => {
@@ -47,8 +49,9 @@ describe('global reducer', () => {
   it('ignores unknown actions', () => {
     const action = {
       type: 'UNKNOWN',
+      payload: undefined,
     };
-    expect(reducer(undefined, action)).toBe(initialState);
+    expect(reducer(undefined, action as any)).toBe(initialState);
   });
 });
 

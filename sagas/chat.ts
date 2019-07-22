@@ -41,7 +41,7 @@ function* setChatHasnew(action: ActionContentType) {
       !aside &&
       chatStatStore[innerAction.chatroomId] !== innerAction.messagesHash
     )
-      yield put(chatReducer.actions.setTrueChatHasnew());
+      yield put(chatReducer.actions.chatHasnew.setTrue());
   }
 }
 
@@ -57,14 +57,14 @@ function* readChat() {
     // When open or close aside, update last read message
     chatStatStore[lastChatroomId] = lastMessagesHash;
     setHashStore(CHAT_HASNEW_HASH_STORE_KEY, chatStatStore);
-    if (aside) yield put(chatReducer.actions.setFalseChatHasnew());
+    if (aside) yield put(chatReducer.actions.chatHasnew.setFalse());
   }
 }
 
 function* closeChatAndToolbarMenu() {
-  yield put(globalReducer.actions.setFalseAside());
+  yield put(globalReducer.actions.aside.setFalse());
   yield put(
-    globalReducer.actions.setToolbarMenu(ToolbarResponsiveMenuType.NULL),
+    globalReducer.actions.toolbarMenu.set(ToolbarResponsiveMenuType.NULL),
   );
 }
 

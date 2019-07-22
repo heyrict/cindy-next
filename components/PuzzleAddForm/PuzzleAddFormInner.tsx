@@ -299,7 +299,7 @@ export const PuzzleAddFormInner = ({
 };
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  incPuzzles: () => dispatch(awardCheckerReducer.actions.incPuzzles()),
+  incPuzzles: () => dispatch(awardCheckerReducer.actions.puzzles.inc()),
 });
 
 const withRedux = connect(

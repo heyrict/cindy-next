@@ -1,4 +1,4 @@
-import { getSubsetActions } from '../common';
+import { getSubsetActions, wrapSubsetActions } from '../common';
 
 const actionSubset = {
   actionOne: () => ({ type: 'ActionOneType' }),
@@ -29,3 +29,22 @@ describe('getSubsetActions(...)', () => {
     });
   });
 });
+
+describe.only('wrapSubsetActions(...)', () => {
+  let transformedActions: { [x: string]: any };
+
+  beforeAll(() => {
+    transformedActions = wrapSubsetActions(actionSubset)(actionType);
+  });
+
+  it('correctly passes parameters to subset', () => {
+    expect(transformedActions.actionOne()).toStrictEqual({
+      type: actionType,
+      payload: actionSubset.actionOne(),
+    });
+    expect(transformedActions.actionTwo(params)).toStrictEqual({
+      type: actionType,
+      payload: actionSubset.actionTwo(params),
+    });
+  });
+})

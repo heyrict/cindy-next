@@ -1,25 +1,38 @@
 import * as integer from './helpers/integer';
-import { StateType, ActionContentType, ActionSetType } from './types';
+import { StateType, ActionContentType, ValueOf } from './types';
 
 export const scope = 'awardChecker';
 
-export const actionTypes = {
-  INIT: `${scope}.INIT`,
-  PUZZLES: `${scope}.PUZZLES`,
-  GOOD_QUESTIONS: `${scope}.GOOD_QUESTIONS`,
-  TRUE_ANSWERS: `${scope}.TRUE_ANSWERS`,
-  DIALOGUES: `${scope}.DIALOGUES`,
+export enum actionTypes {
+  INIT = 'awardChecker.INIT',
+  PUZZLES = 'awardChecker.PUZZLES',
+  GOOD_QUESTIONS = 'awardChecker.GOOD_QUESTIONS',
+  TRUE_ANSWERS = 'awardChecker.TRUE_ANSWERS',
+  DIALOGUES = 'awardChecker.DIALOGUES',
+}
+
+export type ActionPayloadType = {
+  INIT: {
+    state: Partial<typeof initialState>;
+  };
+  PUZZLES: ReturnType<ValueOf<integer.HelperActionType>>;
+  GOOD_QUESTIONS: ReturnType<ValueOf<integer.HelperActionType>>;
+  TRUE_ANSWERS: ReturnType<ValueOf<integer.HelperActionType>>;
+  DIALOGUES: ReturnType<ValueOf<integer.HelperActionType>>;
 };
 
-export const actions: ActionSetType = {
-  ...integer.getActions('Puzzles', actionTypes.PUZZLES),
-  ...integer.getActions('GoodQuestions', actionTypes.GOOD_QUESTIONS),
-  ...integer.getActions('TrueAnswers', actionTypes.TRUE_ANSWERS),
-  ...integer.getActions('Dialogues', actionTypes.DIALOGUES),
-  initialize: (state: typeof initialState) => ({
-    type: actionTypes.INIT,
-    payload: state,
-  }),
+export const actions = {
+  puzzles: integer.wrapActions(actionTypes.PUZZLES),
+  goodQuestions: integer.wrapActions(actionTypes.GOOD_QUESTIONS),
+  trueAnswers: integer.wrapActions(actionTypes.TRUE_ANSWERS),
+  dialogues: integer.wrapActions(actionTypes.DIALOGUES),
+  initialize: (state: typeof initialState) =>
+    ({
+      type: actionTypes.INIT,
+      payload: {
+        state,
+      },
+    } as const),
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -34,13 +47,13 @@ export const initialState = {
 
 export const reducer = (
   state = initialState,
-  action: ActionContentType,
+  action: ActionContentType<typeof actionTypes, ActionPayloadType>,
 ): typeof initialState => {
   switch (action.type) {
     case actionTypes.INIT:
       return {
         ...state,
-        ...action.payload,
+        ...action.payload.state,
       };
     case actionTypes.PUZZLES:
       return {

@@ -134,11 +134,11 @@ const mapStateToProps = (state: StateType) => ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setChannelChangeInput: (value: string) =>
-    dispatch(chatReducer.actions.setChannelChangeInput(value)),
+    dispatch(chatReducer.actions.channelChangeInput.set(value)),
   setChannel: (value: string) =>
-    dispatch(globalReducer.actions.setChannel(value)),
+    dispatch(globalReducer.actions.channel.set(value)),
   setFalseChannelChangeModal: () =>
-    dispatch(chatReducer.actions.setFalseChannelChangeModal()),
+    dispatch(chatReducer.actions.channelChangeModal.setFalse()),
 });
 
 const withRedux = connect(

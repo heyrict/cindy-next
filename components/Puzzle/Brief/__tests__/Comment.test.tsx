@@ -7,7 +7,7 @@ import theme from 'theme';
 const count = 42;
 
 describe('<Comment />', () => {
-  const node = shallow(<Comment count={count} />);
+  const node = shallow(<Comment puzzleId={1} count={count} />);
 
   it('component renders', () => {
     expect(node.exists()).toBe(true);

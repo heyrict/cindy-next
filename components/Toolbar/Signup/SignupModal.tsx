@@ -54,7 +54,7 @@ const mapStateToProps = (state: StateType) => ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setFalseSignupModal: () =>
-    dispatch(loginReducer.actions.setFalseSignupModal()),
+    dispatch(loginReducer.actions.signupModal.setFalse()),
 });
 
 const withRedux = connect(

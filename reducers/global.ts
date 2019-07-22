@@ -4,45 +4,67 @@ import * as enumerate from './helpers/enumerate';
 import {
   StateType,
   ActionContentType,
-  ActionSetType,
   GlobalUserType,
   ToolbarResponsiveMenuType,
+  ValueOf,
 } from './types';
+import { APPLOCALES } from 'settings';
 
 export const scope = 'global';
 
-export const actionTypes = {
-  ASIDE: `${scope}.ASIDE`,
-  CHANNEL: `${scope}.CHANNEL`,
-  SETUSER: `${scope}.SETUSER`,
-  APPINIT: `${scope}.APPINIT`,
-  ROUTECHANGE: `${scope}.ROUTECHANGE`,
-  LANGUAGE: `${scope}.LANGUAGE`,
-  TOOLBAR_MENU: `${scope}.TOOLBAR_MENU`,
+export enum actionTypes {
+  ASIDE = 'global.ASIDE',
+  CHANNEL = 'global.CHANNEL',
+  SETUSER = 'global.SETUSER',
+  APPINIT = 'global.APPINIT',
+  ROUTECHANGE = 'global.ROUTECHANGE',
+  LANGUAGE = 'global.LANGUAGE',
+  TOOLBAR_MENU = 'global.TOOLBAR_MENU',
+}
+
+export type ActionPayloadType = {
+  ASIDE: ReturnType<ValueOf<bool.HelperActionType>>;
+  CHANNEL: ReturnType<ValueOf<base.HelperActionType<string>>>;
+  SETUSER: GlobalUserType;
+  ROUTECHANGE: { url: string };
+  LANGUAGE: ReturnType<
+    ValueOf<base.HelperActionType<typeof APPLOCALES[0] | undefined>>
+  >;
+  TOOLBAR_MENU: ReturnType<
+    ValueOf<enumerate.HelperActionType<ToolbarResponsiveMenuType>>
+  >;
 };
 
-export const actions: ActionSetType = {
-  ...bool.getActions('Aside', actionTypes.ASIDE),
-  ...base.getActions('Channel', actionTypes.CHANNEL),
-  ...base.getActions('Language', actionTypes.LANGUAGE),
-  ...enumerate.getActions('ToolbarMenu', actionTypes.TOOLBAR_MENU),
-  appInit: () => ({
-    type: actionTypes.APPINIT,
-  }),
-  routeChange: (url: string) => ({
-    type: actionTypes.ROUTECHANGE,
-    payload: {
-      url,
-    },
-  }),
-  auth: (user: any) => ({
-    type: actionTypes.SETUSER,
-    payload: user,
-  }),
-  deauth: () => ({
-    type: actionTypes.SETUSER,
-    payload: initialState.user,
-  }),
+export const actions = {
+  aside: bool.wrapActions(actionTypes.ASIDE),
+  channel: base.wrapActions<string>(actionTypes.CHANNEL),
+  language: base.wrapActions<typeof APPLOCALES[0] | undefined>(
+    actionTypes.LANGUAGE,
+  ),
+  toolbarMenu: enumerate.wrapActions<ToolbarResponsiveMenuType>(
+    actionTypes.TOOLBAR_MENU,
+  ),
+  appInit: () =>
+    ({
+      type: actionTypes.APPINIT,
+    } as const),
+  routeChange: (url: string) =>
+    ({
+      type: actionTypes.ROUTECHANGE,
+      payload: {
+        url,
+      },
+    } as const),
+  auth: (user: any) =>
+    ({
+      type: actionTypes.SETUSER,
+      payload: user,
+    } as const),
+  deauth: () =>
+    ({
+      type: actionTypes.SETUSER,
+      payload: initialState.user,
+    } as const),
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -51,7 +73,7 @@ export const rootSelector = (state: StateType): typeof initialState =>
 export const initialState = {
   aside: false,
   channel: '',
-  language: undefined,
+  language: undefined as typeof APPLOCALES[0] | undefined,
   user: {
     id: undefined,
     username: undefined,
@@ -63,7 +85,7 @@ export const initialState = {
 
 export const reducer = (
   state = initialState,
-  action: ActionContentType,
+  action: ActionContentType<typeof actionTypes, ActionPayloadType>,
 ): typeof initialState => {
   switch (action.type) {
     case actionTypes.ASIDE:

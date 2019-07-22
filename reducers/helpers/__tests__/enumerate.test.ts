@@ -15,6 +15,6 @@ describe('string helper', () => {
   });
 
   it('helper should ignore unknown actions', () => {
-    expect(helper(initialState, { type: 'UNKNOWN' })).toBe(initialState);
+    expect(helper(initialState, { type: 'UNKNOWN' } as any)).toBe(initialState);
   });
 });

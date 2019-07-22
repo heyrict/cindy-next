@@ -26,7 +26,7 @@ const LoginButton = ({ setTrueLoginModal }: LoginButtonProps) => (
 );
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  setTrueLoginModal: () => dispatch(loginReducer.actions.setTrueLoginModal()),
+  setTrueLoginModal: () => dispatch(loginReducer.actions.loginModal.setTrue()),
 });
 
 const withRedux = connect(

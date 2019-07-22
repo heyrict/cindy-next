@@ -259,7 +259,7 @@ const mapStateToProps = (state: StateType) => ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setRightAside: (rightAside: RightAsideType) =>
-    dispatch(puzzleReducer.actions.setRightAside(rightAside)),
+    dispatch(puzzleReducer.actions.rightAside.set(rightAside)),
 });
 
 const withRedux = connect(

@@ -147,7 +147,7 @@ const PuzzleDialogues = ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setTrueSolvedLongtermYami: () =>
-    dispatch(puzzleReducer.actions.setTrueSolvedLongtermYami()),
+    dispatch(puzzleReducer.actions.solvedLongtermYami.setTrue()),
 });
 
 const withRedux = connect(
