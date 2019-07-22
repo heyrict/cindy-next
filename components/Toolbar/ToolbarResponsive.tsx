@@ -20,6 +20,7 @@ import LoginButton from './Login/LoginButton';
 import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
 import SettingsButton from './Settings/SettingsButton';
+import MessageBoxButton from './MessageBoxButton';
 import menuIcon from 'svgs/menu.svg';
 import userIcon from 'svgs/user.svg';
 import logoInline from 'svgs/logoInline.svg';
@@ -155,9 +156,19 @@ const Toolbar = ({
                   mb="1px"
                   bg="orange.5"
                   color="gray.1"
-                  style={{
-                    fontWeight: 'bold',
-                  }}
+                >
+                  <MessageBoxButton />
+                </ToolbarResponsiveButton>
+              </Box>
+            )}
+            {user.id && (
+              <Box width={1 / 2}>
+                <ToolbarResponsiveButton
+                  mr="1px"
+                  mb="1px"
+                  bg="orange.5"
+                  color="gray.1"
+                  fontWeight="bold"
                 >
                   <LogoutButton />
                 </ToolbarResponsiveButton>
@@ -170,9 +181,7 @@ const Toolbar = ({
                   mb="1px"
                   bg="orange.5"
                   color="gray.1"
-                  style={{
-                    fontWeight: 'bold',
-                  }}
+                  fontWeight="bold"
                 >
                   <LoginButton />
                 </ToolbarResponsiveButton>

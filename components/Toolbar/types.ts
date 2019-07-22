@@ -16,3 +16,7 @@ export type ToolbarResponsiveProps = {
 };
 
 export type LogoutButtonProps = WithLogoutProps;
+
+export type MessageBoxButtonProps = {
+  setTrueDirectModal: () => void;
+}
