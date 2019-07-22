@@ -224,7 +224,7 @@ const AddQuestionInput = ({
 };
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  incDialogues: () => dispatch(awardCheckerReducer.actions.incDialogues()),
+  incDialogues: () => dispatch(awardCheckerReducer.actions.dialogues.inc()),
 });
 
 const withRedux = connect(

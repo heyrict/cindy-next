@@ -1,27 +1,36 @@
 import * as bool from './helpers/bool';
 import * as base from './helpers/base';
-import { ActionSetType, StateType, ActionContentType } from './types';
+import { StateType, ActionContentType, ValueOf } from './types';
 
 export const scope = 'login';
 
-export const actionTypes = {
-  LOGIN_MODAL: `${scope}.LOGIN_MODAL`,
-  SIGNUP_MODAL: `${scope}.SIGNUP_MODAL`,
-  NICKNAME: `${scope}.NICKNAME`,
-  USERNAME: `${scope}.USERNAME`,
-  PASSWORD: `${scope}.PASSWORD`,
-  RESET_FORM: `${scope}.RESET_FORM`,
+export enum actionTypes {
+  LOGIN_MODAL = 'login.LOGIN_MODAL',
+  SIGNUP_MODAL = 'login.SIGNUP_MODAL',
+  NICKNAME = 'login.NICKNAME',
+  USERNAME = 'login.USERNAME',
+  PASSWORD = 'login.PASSWORD',
+  RESET_FORM = 'login.RESET_FORM',
+}
+
+export type ActionPayloadType = {
+  LOGIN_MODAL: ReturnType<ValueOf<bool.HelperActionType>>;
+  SIGNUP_MODAL: ReturnType<ValueOf<bool.HelperActionType>>;
+  NICKNAME: ReturnType<ValueOf<base.HelperActionType<string>>>;
+  USERNAME: ReturnType<ValueOf<base.HelperActionType<string>>>;
+  PASSWORD: ReturnType<ValueOf<base.HelperActionType<string>>>;
 };
 
-export const actions: ActionSetType = {
-  ...bool.getActions('LoginModal', actionTypes.LOGIN_MODAL),
-  ...bool.getActions('SignupModal', actionTypes.SIGNUP_MODAL),
-  ...base.getActions('Nickname', actionTypes.NICKNAME),
-  ...base.getActions('Username', actionTypes.USERNAME),
-  ...base.getActions('Password', actionTypes.PASSWORD),
-  resetForm: () => ({
-    type: actionTypes.RESET_FORM,
-  }),
+export const actions = {
+  loginModal: bool.wrapActions(actionTypes.LOGIN_MODAL),
+  signupModal: bool.wrapActions(actionTypes.SIGNUP_MODAL),
+  nickname: base.wrapActions(actionTypes.NICKNAME),
+  username: base.wrapActions(actionTypes.USERNAME),
+  password: base.wrapActions(actionTypes.PASSWORD),
+  resetForm: () =>
+    ({
+      type: actionTypes.RESET_FORM as actionTypes.RESET_FORM,
+    } as const),
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -35,7 +44,10 @@ export const initialState = {
   password: '',
 };
 
-export const reducer = (state = initialState, action: ActionContentType) => {
+export const reducer = (
+  state = initialState,
+  action: ActionContentType<typeof actionTypes, ActionPayloadType>,
+) => {
   switch (action.type) {
     case actionTypes.LOGIN_MODAL:
       return {

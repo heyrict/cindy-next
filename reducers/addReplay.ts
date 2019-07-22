@@ -6,44 +6,69 @@ import {
   ReplayDialogueType,
   StateType,
   ActionContentType,
-  ActionSetType,
+  ValueOf,
 } from './types';
+import { PanelEnum } from 'components/Workbench/Keyword/KeywordManipulatePanel/types';
 
 export const scope = 'addReplay';
 
-export const actionTypes = {
-  KEYWORDS: `${scope}.KEYWORDS`,
-  COUNT_FILTER_INPUT: `${scope}.COUNT_FILTER_INPUT`,
-  REPLAY_DIALOGUES: `${scope}.REPLAY_DIALOGUES`,
-  SAVED_KEYWORDS: `${scope}.SAVED_KEYWORDS`,
-  KUROMOJI_PROGRESS: `${scope}.KUROMOJI_PROGRESS`,
-  KEYWORDS_TOGGLE: `${scope}.KEYWORDS_TOGGLE`,
-  KEYWORDS_USEMINCOUNT: `${scope}.KEYWORDS_USEMINCOUNT`,
-  KEYWORD_MANIPULATE_PANEL: `${scope}.KEYWORD_MANIPULATE_PANEL`,
+export enum actionTypes {
+  KEYWORDS = 'addReplay.KEYWORDS',
+  COUNT_FILTER_INPUT = 'addReplay.COUNT_FILTER_INPUT',
+  REPLAY_DIALOGUES = 'addReplay.REPLAY_DIALOGUES',
+  SAVED_KEYWORDS = 'addReplay.SAVED_KEYWORDS',
+  KUROMOJI_PROGRESS = 'addReplay.KUROMOJI_PROGRESS',
+  KEYWORDS_TOGGLE = 'addReplay.KEYWORDS_TOGGLE',
+  KEYWORDS_USEMINCOUNT = 'addReplay.KEYWORDS_USEMINCOUNT',
+  KEYWORD_MANIPULATE_PANEL = 'addReplay.KEYWORD_MANIPULATE_PANEL',
+}
+
+export type ActionPayloadType = {
+  KEYWORDS: ReturnType<ValueOf<base.HelperActionType<ReplayKeywordsType>>>;
+  COUNT_FILTER_INPUT: ReturnType<ValueOf<base.HelperActionType<number>>>;
+  REPLAY_DIALOGUES: ReturnType<
+    ValueOf<array.HelperActionType<ReplayDialogueType>>
+  >;
+  SAVED_KEYWORDS: ReturnType<
+    ValueOf<array.HelperActionType<ReplayKeywordsType>>
+  >;
+  KUROMOJI_PROGRESS: ReturnType<ValueOf<base.HelperActionType<number>>>;
+  KEYWORD_MANIPULATE_PANEL: ReturnType<
+    ValueOf<base.HelperActionType<PanelEnum>>
+  >;
+  KEYWORDS_TOGGLE: {
+    keyword: string;
+  };
+  KEYWORDS_USEMINCOUNT: {
+    count: number;
+  };
 };
 
-export const actions: ActionSetType = {
-  ...base.getActions('CountFilterInput', actionTypes.COUNT_FILTER_INPUT),
-  ...base.getActions('Keywords', actionTypes.KEYWORDS),
-  ...array.getActions('ReplayDialogues', actionTypes.REPLAY_DIALOGUES),
-  ...array.getActions('SavedKeywords', actionTypes.SAVED_KEYWORDS),
-  ...base.getActions('KuromojiProgress', actionTypes.KUROMOJI_PROGRESS),
-  ...base.getActions(
-    'KeywordManipulatePanel',
+export const actions = {
+  countFilterInput: base.wrapActions<number>(actionTypes.COUNT_FILTER_INPUT),
+  keywords: base.wrapActions<ReplayKeywordsType>(actionTypes.KEYWORDS),
+  replayDialogues: array.wrapActions<ReplayDialogueType>(
+    actionTypes.REPLAY_DIALOGUES,
+  ),
+  savedKeywords: array.wrapActions(actionTypes.SAVED_KEYWORDS),
+  kuromojiProgress: base.wrapActions<number>(actionTypes.KUROMOJI_PROGRESS),
+  keywordManipulatePanel: base.wrapActions<PanelEnum>(
     actionTypes.KEYWORD_MANIPULATE_PANEL,
   ),
-  toggleKeywordUse: (keyword: any) => ({
-    type: actionTypes.KEYWORDS_TOGGLE,
-    payload: {
-      keyword,
-    },
-  }),
-  setKeywordsUseMinCount: (count: number) => ({
-    type: actionTypes.KEYWORDS_USEMINCOUNT,
-    payload: {
-      count,
-    },
-  }),
+  toggleKeywordUse: (keyword: string) =>
+    ({
+      type: actionTypes.KEYWORDS_TOGGLE,
+      payload: {
+        keyword,
+      },
+    } as const),
+  setKeywordsUseMinCount: (count: number) =>
+    ({
+      type: actionTypes.KEYWORDS_USEMINCOUNT,
+      payload: {
+        count,
+      },
+    } as const),
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -55,10 +80,13 @@ export const initialState = {
   replayDialogues: [] as Array<ReplayDialogueType>,
   savedKeywords: [],
   kuromojiProgress: 0,
-  keywordManipulatePanel: 0,
+  keywordManipulatePanel: PanelEnum.SELECT,
 };
 
-export const reducer = (state = initialState, action: ActionContentType) => {
+export const reducer = (
+  state = initialState,
+  action: ActionContentType<typeof actionTypes, ActionPayloadType>,
+) => {
   switch (action.type) {
     case actionTypes.KEYWORDS:
       return {
@@ -68,7 +96,7 @@ export const reducer = (state = initialState, action: ActionContentType) => {
     case actionTypes.COUNT_FILTER_INPUT:
       return {
         ...state,
-        countFilterInput: base.helper(state.keywords, action.payload),
+        countFilterInput: base.helper(state.countFilterInput, action.payload),
       };
     case actionTypes.REPLAY_DIALOGUES:
       return {

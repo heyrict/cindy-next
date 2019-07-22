@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { APPLOCALES } from 'settings';
 
 import { FormattedMessage } from 'react-intl';
 import toolbarMessages from 'messages/components/toolbar';
@@ -201,8 +202,8 @@ const mapStateToProps = (state: StateType) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  setLanguage: (lang: string) =>
-    dispatch(globalReducer.actions.setLanguage(lang)),
+  setLanguage: (lang: typeof APPLOCALES[0]) =>
+    dispatch(globalReducer.actions.language.set(lang)),
 });
 
 const withRedux = connect(

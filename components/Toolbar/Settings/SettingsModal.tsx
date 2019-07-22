@@ -25,6 +25,7 @@ import {
   SendMessageTriggerType,
 } from 'reducers/types';
 import { SettingsModalProps } from './types';
+import { ArgumentsType } from 'utilities';
 
 const booleanOptions = [
   {
@@ -221,12 +222,9 @@ const mapStateToProps = (
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setFalseSettingsModal: () =>
-    dispatch(settingReducer.actions.setFalseSettingsModal()),
-  setState: (
-    state: {
-      [key in keyof typeof settingReducer.initialState]?: typeof settingReducer.initialState[key]
-    },
-  ) => dispatch(settingReducer.actions.setState(state)),
+    dispatch(settingReducer.actions.settingsModal.setFalse()),
+  setState: (state: ArgumentsType<typeof settingReducer.actions.setState>[0]) =>
+    dispatch(settingReducer.actions.setState(state)),
 });
 
 const withRedux = connect(

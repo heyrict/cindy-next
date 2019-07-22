@@ -29,7 +29,7 @@ const SettingsButton = ({ setTrueSettingsModal }: SettingsButtonProps) => (
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setTrueSettingsModal: () =>
-    dispatch(settingReducer.actions.setTrueSettingsModal()),
+    dispatch(settingReducer.actions.settingsModal.setTrue()),
 });
 
 const withRedux = connect(

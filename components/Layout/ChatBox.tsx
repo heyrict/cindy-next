@@ -84,8 +84,8 @@ const mapStateToProps = (state: StateType) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  setTrueAside: () => dispatch(globalReducer.actions.setTrueAside()),
-  setFalseAside: () => dispatch(globalReducer.actions.setFalseAside()),
+  setTrueAside: () => dispatch(globalReducer.actions.aside.setTrue()),
+  setFalseAside: () => dispatch(globalReducer.actions.aside.setFalse()),
 });
 
 const withRedux = connect(

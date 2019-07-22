@@ -88,13 +88,13 @@ const KeywordWorkbench = ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setReplayDialogues: (data: Array<ReplayDialogueType>) =>
-    dispatch(addReplayReducer.actions.setReplayDialogues(data)),
+    dispatch(addReplayReducer.actions.replayDialogues.set(data)),
   setCountFilterInput: (value: number) =>
-    dispatch(addReplayReducer.actions.setCountFilterInput(value)),
+    dispatch(addReplayReducer.actions.countFilterInput.set(value)),
   setKuromojiProgress: (percentage: number) =>
-    dispatch(addReplayReducer.actions.setKuromojiProgress(percentage)),
+    dispatch(addReplayReducer.actions.kuromojiProgress.set(percentage)),
   setKeywords: (data: ReplayKeywordsType) =>
-    dispatch(addReplayReducer.actions.setKeywords(data)),
+    dispatch(addReplayReducer.actions.keywords.set(data)),
 });
 
 const withRedux = connect(

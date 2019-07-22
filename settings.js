@@ -35,6 +35,7 @@ export const WEBHOOK_SERVER = isDev
 
 // Locale
 export const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
+/** @type {Array<'en' | 'ja'>} */
 export const APPLOCALES = ['en', 'ja'];
 
 // Max dazed days

@@ -44,7 +44,7 @@ const mapStateToProps = (state: StateType) => ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setKeywordManipulatePanel: (panel: PanelEnum) =>
-    dispatch(addReplayReducer.actions.setKeywordManipulatePanel(panel)),
+    dispatch(addReplayReducer.actions.keywordManipulatePanel.set(panel)),
 });
 
 const withRedux = connect(

@@ -195,11 +195,11 @@ const mapStateToProps = (state: StateType) => ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setPuzzleContent: (content: string) =>
-    dispatch(puzzleReducer.actions.setPuzzleContent(content)),
+    dispatch(puzzleReducer.actions.puzzleContent.set(content)),
   setPuzzleMemo: (memo: string) =>
-    dispatch(puzzleReducer.actions.setPuzzleMemo(memo)),
+    dispatch(puzzleReducer.actions.puzzleMemo.set(memo)),
   setFalseSolvedLongtermYami: () =>
-    dispatch(puzzleReducer.actions.setFalseSolvedLongtermYami()),
+    dispatch(puzzleReducer.actions.solvedLongtermYami.setFalse()),
 });
 
 const withRedux = connect(

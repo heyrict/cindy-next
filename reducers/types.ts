@@ -1,3 +1,5 @@
+export type ValueOf<T> = T[keyof T];
+
 export interface ExtendedStore {
   sagaTask: any;
 }
@@ -6,10 +8,22 @@ export type StateType = {
   [scope: string]: any;
 };
 
-export type ActionContentType = {
-  type: string;
-  payload?: any;
-};
+export type ActionContentType<
+  T extends object = { [K: string]: string }, // action types
+  P extends { [K in keyof T]?: any } = {} // payload types
+> = ValueOf<
+  {
+    [K in keyof T]: K extends keyof P
+      ? {
+          type: T[K];
+          payload: P[K];
+        }
+      : {
+          type: T[K];
+          payload?: any;
+        }
+  }
+>;
 
 export interface ActionSetType {
   [actionName: string]: (...params: any) => ActionContentType;

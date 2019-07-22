@@ -28,7 +28,8 @@ const SignupButton = ({ setTrueSignupModal }: SignupButtonProps) => (
 );
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  setTrueSignupModal: () => dispatch(loginReducer.actions.setTrueSignupModal()),
+  setTrueSignupModal: () =>
+    dispatch(loginReducer.actions.signupModal.setTrue()),
 });
 
 const withRedux = connect(

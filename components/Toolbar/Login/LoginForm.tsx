@@ -62,9 +62,9 @@ const mapStateToProps = (state: StateType) => ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setUsername: (username: string) =>
-    dispatch(loginReducer.actions.setUsername(username)),
+    dispatch(loginReducer.actions.username.set(username)),
   setPassword: (password: string) =>
-    dispatch(loginReducer.actions.setPassword(password)),
+    dispatch(loginReducer.actions.password.set(password)),
 });
 
 const withRedux = connect(

@@ -19,7 +19,7 @@ describe('chat reducer', () => {
       type: actionType,
       payload: {},
     };
-    expect(reducer(initialState, action)).toStrictEqual(initialState);
+    expect(reducer(initialState, action as any)).toStrictEqual(initialState);
   });
 
   it('handle chatmessageUpdate correctly', () => {
@@ -32,8 +32,9 @@ describe('chat reducer', () => {
   it('ignores unknown actions', () => {
     const action = {
       type: 'UNKNOWN',
+      payload: undefined,
     };
-    expect(reducer(undefined, action)).toBe(initialState);
+    expect(reducer(undefined, action as any)).toBe(initialState);
   });
 });
 

@@ -1,32 +1,40 @@
 import * as array from './helpers/array';
 import * as base from './helpers/base';
 import * as bool from './helpers/bool';
-import {
-  StateType,
-  ActionContentType,
-  ActionSetType,
-  RightAsideType,
-} from './types';
+import { StateType, ActionContentType, RightAsideType, ValueOf } from './types';
 import { UserFilterSwitcherUserType } from 'components/Puzzle/Detail/PuzzleDialogues/types';
 
 export const scope = 'puzzle';
 
-export const actionTypes = {
-  PARTICIPANTS: `${scope}.PARTICIPANTS`,
-  PUZZLE_CONTENT: `${scope}.PUZZLE_CONTENT`,
-  PUZZLE_MEMO: `${scope}.PUZZLE_MEMO`,
-  PUZZLE_MEMO_HASNEW: `${scope}.PUZZLE_MEMO_HASNEW`,
-  SOLVED_LONGTERM_YAMI: `${scope}.SOLVED_LONGTERM_YAMI`,
-  RIGHT_ASIDE: `${scope}.RIGHT_ASIDE`,
+export enum actionTypes {
+  PARTICIPANTS = 'puzzle.PARTICIPANTS',
+  PUZZLE_CONTENT = 'puzzle.PUZZLE_CONTENT',
+  PUZZLE_MEMO = 'puzzle.PUZZLE_MEMO',
+  PUZZLE_MEMO_HASNEW = 'puzzle.PUZZLE_MEMO_HASNEW',
+  SOLVED_LONGTERM_YAMI = 'puzzle.SOLVED_LONGTERM_YAMI',
+  RIGHT_ASIDE = 'puzzle.RIGHT_ASIDE',
+}
+
+export type ActionPayloadType = {
+  PARTICIPANTS: ReturnType<
+    ValueOf<array.HelperActionType<UserFilterSwitcherUserType>>
+  >;
+  PUZZLE_CONTENT: ReturnType<ValueOf<base.HelperActionType<string>>>;
+  PUZZLE_MEMO: ReturnType<ValueOf<base.HelperActionType<string>>>;
+  PUZZLE_MEMO_HASNEW: ReturnType<ValueOf<bool.HelperActionType>>;
+  SOLVED_LONGTERM_YAMI: ReturnType<ValueOf<bool.HelperActionType>>;
+  RIGHT_ASIDE: ReturnType<ValueOf<base.HelperActionType<RightAsideType>>>;
 };
 
-export const actions: ActionSetType = {
-  ...array.getActions('Participants', actionTypes.PARTICIPANTS),
-  ...base.getActions('PuzzleContent', actionTypes.PUZZLE_CONTENT),
-  ...base.getActions('PuzzleMemo', actionTypes.PUZZLE_MEMO),
-  ...bool.getActions('PuzzleMemoHasnew', actionTypes.PUZZLE_MEMO_HASNEW),
-  ...bool.getActions('SolvedLongtermYami', actionTypes.SOLVED_LONGTERM_YAMI),
-  ...base.getActions('RightAside', actionTypes.RIGHT_ASIDE),
+export const actions = {
+  participants: array.wrapActions<UserFilterSwitcherUserType>(
+    actionTypes.PARTICIPANTS,
+  ),
+  puzzleContent: base.wrapActions<string>(actionTypes.PUZZLE_CONTENT),
+  puzzleMemo: base.wrapActions<string>(actionTypes.PUZZLE_MEMO),
+  puzzleMemoHasnew: bool.wrapActions(actionTypes.PUZZLE_MEMO_HASNEW),
+  solvedLongtermYami: bool.wrapActions(actionTypes.SOLVED_LONGTERM_YAMI),
+  rightAside: base.wrapActions<RightAsideType>(actionTypes.RIGHT_ASIDE),
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -43,7 +51,7 @@ export const initialState = {
 
 export const reducer = (
   state = initialState,
-  action: ActionContentType,
+  action: ActionContentType<typeof actionTypes, ActionPayloadType>,
 ): typeof initialState => {
   switch (action.type) {
     case actionTypes.PARTICIPANTS:

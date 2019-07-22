@@ -4,37 +4,49 @@ import {
   StateType,
   ActionContentType,
   SendMessageTriggerType,
-  ActionSetType,
+  ValueOf,
 } from './types';
 
 export const scope = 'setting';
 
-export const actionTypes = {
-  SETTINGS_MODAL: `${scope}.SETTINGS_MODAL`,
-  PUZZLE_GENRE_IMG: `${scope}.PUZZLE_GENRE_IMG`,
-  SEND_CHAT_TRIGGER: `${scope}.SEND_CHAT_TRIGGER`,
-  SEND_QUESTION_TRIGGER: `${scope}.SEND_QUESTION_TRIGGER`,
-  EDIT_QUESTION_TRIGGER: `${scope}.EDIT_QUESTION_TRIGGER`,
-  SEND_ANSWER_TRIGGER: `${scope}.SEND_ANSWER_TRIGGER`,
-  RIGHT_ASIDE_MINI: `${scope}.RIGHT_ASIDE_MINI`,
-  SET_STATE: `${scope}.SET_STATE`,
+export enum actionTypes {
+  SETTINGS_MODAL = 'setting.SETTINGS_MODAL',
+  PUZZLE_GENRE_IMG = 'setting.PUZZLE_GENRE_IMG',
+  SEND_CHAT_TRIGGER = 'setting.SEND_CHAT_TRIGGER',
+  SEND_QUESTION_TRIGGER = 'setting.SEND_QUESTION_TRIGGER',
+  EDIT_QUESTION_TRIGGER = 'setting.EDIT_QUESTION_TRIGGER',
+  SEND_ANSWER_TRIGGER = 'setting.SEND_ANSWER_TRIGGER',
+  RIGHT_ASIDE_MINI = 'setting.RIGHT_ASIDE_MINI',
+  SET_STATE = 'setting.SET_STATE',
+}
+
+export type ActionPayloadType = {
+  SETTINGS_MODAL: ReturnType<ValueOf<bool.HelperActionType>>;
+  PUZZLE_GENRE_IMG: ReturnType<ValueOf<bool.HelperActionType>>;
+  RIGHT_ASIDE_MINI: ReturnType<ValueOf<bool.HelperActionType>>;
+  SEND_CHAT_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
+  SEND_QUESTION_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
+  EDIT_QUESTION_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
+  SEND_ANSWER_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
+  SET_STATE: { state: typeof initialState };
 };
 
 export const actions = {
-  ...bool.getActions('SettingsModal', actionTypes.SETTINGS_MODAL),
-  ...bool.getActions('PuzzleGenreImg', actionTypes.PUZZLE_GENRE_IMG),
-  ...bool.getActions('RightAsideMini', actionTypes.RIGHT_ASIDE_MINI),
-  ...mask.getActions('SendChatTrigger', actionTypes.SEND_CHAT_TRIGGER),
-  ...mask.getActions('EditQuestionTrigger', actionTypes.EDIT_QUESTION_TRIGGER),
-  ...mask.getActions('SendQuestionTrigger', actionTypes.SEND_QUESTION_TRIGGER),
-  ...mask.getActions('SendAnswerTrigger', actionTypes.SEND_ANSWER_TRIGGER),
+  settingsModal: bool.wrapActions(actionTypes.SETTINGS_MODAL),
+  puzzleGenreImg: bool.wrapActions(actionTypes.PUZZLE_GENRE_IMG),
+  rightAsideMini: bool.wrapActions(actionTypes.RIGHT_ASIDE_MINI),
+  sendChatTrigger: mask.wrapActions(actionTypes.SEND_CHAT_TRIGGER),
+  editQuestionTrigger: mask.wrapActions(actionTypes.EDIT_QUESTION_TRIGGER),
+  sendQuestionTrigger: mask.wrapActions(actionTypes.SEND_QUESTION_TRIGGER),
+  sendAnswerTrigger: mask.wrapActions(actionTypes.SEND_ANSWER_TRIGGER),
   setState: (
     state: { [key in keyof typeof initialState]?: typeof initialState[key] },
-  ) => ({
-    type: actionTypes.SET_STATE,
-    payload: state,
-  }),
-} as ActionSetType;
+  ) =>
+    ({
+      type: actionTypes.SET_STATE,
+      payload: state,
+    } as const),
+};
 
 export const rootSelector = (state: StateType) =>
   state[scope] as typeof initialState;
@@ -68,7 +80,10 @@ export const saveState = (state: typeof initialState): void => {
   window.localStorage.setItem(`reducer:${scope}`, storedItem);
 };
 
-export const reducer = (state = initialState, action: ActionContentType) => {
+export const reducer = (
+  state = initialState,
+  action: ActionContentType<typeof actionTypes, ActionPayloadType>,
+) => {
   switch (action.type) {
     case actionTypes.SETTINGS_MODAL:
       return {
