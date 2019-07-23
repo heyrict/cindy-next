@@ -4,7 +4,12 @@ import isEqual from 'react-fast-compare';
  *
  * Literally concatenating listA with listB.
  */
-export const concatList = (listA, listB) => [...listA, ...listB];
+export function concatList<V = any>(
+  listA: Array<V>,
+  listB: Array<V>,
+): Array<V> {
+  return [...listA, ...listB];
+}
 
 /*
  * function mergeList(listA, listB, sort = 'asc')
@@ -19,7 +24,12 @@ export const concatList = (listA, listB) => [...listA, ...listB];
  * Items with id greater than the id of the last item in listA
  * are considered new items and will be appended to the tail.
  */
-export const mergeList = (a, b, key = 'id', sort = 'asc') => {
+export function mergeList<V = any>(
+  a: Array<V>,
+  b: Array<V>,
+  key: keyof V = 'id' as keyof V,
+  sort: 'asc' | 'desc' = 'asc',
+): Array<V> {
   let answer = new Array(a.length + b.length);
   let i = 0;
   let j = 0;
@@ -59,13 +69,18 @@ export const mergeList = (a, b, key = 'id', sort = 'asc') => {
     k++;
   }
   return answer.filter(o => o !== undefined);
-};
+}
 
 /*
  * function updateItem(list, item)
  * update item if list contains an item with same `id`.
  */
-export const updateItem = (list, item, key = 'id', itemIndex = undefined) => {
+export function updateItem<V = any>(
+  list: Array<V>,
+  item: V,
+  key: keyof V = 'id' as keyof V,
+  itemIndex: any = undefined,
+): Array<V> {
   let index =
     itemIndex === undefined
       ? list.findIndex(o => o[key] === item[key])
@@ -75,9 +90,14 @@ export const updateItem = (list, item, key = 'id', itemIndex = undefined) => {
   const newList = [...list];
   newList[index] = { ...list[index], ...item };
   return newList;
-};
+}
 
-export const insertItem = (list, item, key = 'id', sort = 'asc') => {
+export function insertItem<V = any>(
+  list: Array<V>,
+  item: V,
+  key: keyof V = 'id' as keyof V,
+  sort: 'asc' | 'desc' = 'asc',
+): Array<V> {
   if (list.length <= 0) {
     return [item];
   }
@@ -97,12 +117,17 @@ export const insertItem = (list, item, key = 'id', sort = 'asc') => {
       ...list.slice(indexToInsert),
     ];
   }
-};
+}
 
-export const upsertItem = (list, item, key = 'id', sort = 'asc') => {
+export function upsertItem<V = any>(
+  list: Array<V>,
+  item: V,
+  key: keyof V = 'id' as keyof V,
+  sort: 'asc' | 'desc' = 'asc',
+): Array<V> {
   let index = list.findIndex(o => o[key] === item[key]);
   if (index === -1) {
     return insertItem(list, item, key, sort);
   }
   return updateItem(list, item, key, index);
-};
+}
