@@ -71,11 +71,13 @@ const SettingsModal = ({
   puzzleGenreImg,
   sendAnswerTrigger,
   sendChatTrigger,
+  sendDirectmessageTrigger,
   sendQuestionTrigger,
   rightAsideMini,
   pushNotification,
 }: SettingsModalProps) => {
   const sendChatTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
+  const sendDirectmessageTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const sendAnswerTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const sendQuestionTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const editQuestionTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
@@ -104,6 +106,19 @@ const SettingsModal = ({
               ref={sendChatTriggerRef}
               flexProps={{ px: 2 }}
               initialValue={sendChatTrigger}
+              options={sendMessageTriggerOptions}
+            />
+          </Box>
+          <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
+            <FormattedMessage {...settingMessages.sendDirectmessageTrigger}>
+              {msg => <label>{msg}</label>}
+            </FormattedMessage>
+          </Box>
+          <Box width={[1, 2 / 3, 4 / 5]} mb={2}>
+            <ButtonSelectStateful
+              ref={sendDirectmessageTriggerRef}
+              flexProps={{ px: 2 }}
+              initialValue={sendDirectmessageTrigger}
               options={sendMessageTriggerOptions}
             />
           </Box>
@@ -213,6 +228,7 @@ const SettingsModal = ({
               settingsModal: false,
               editQuestionTrigger: editQuestionTriggerRef.current.state.value,
               sendChatTrigger: sendChatTriggerRef.current.state.value,
+              sendDirectmessageTrigger: sendDirectmessageTriggerRef.current.state.value,
               sendAnswerTrigger: sendAnswerTriggerRef.current.state.value,
               sendQuestionTrigger: sendQuestionTriggerRef.current.state.value,
               puzzleGenreImg: puzzleGenreImgRef.current.state.value,

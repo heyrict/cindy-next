@@ -29,7 +29,7 @@ const ToolbarBoxBase = styled.nav<ToolbarBoxBaseProps>`
   }
   ${p => p.theme.mediaQueries.medium} {
     left: 0;
-    width: 100%;
+    width: calc(100% - 4px);
   }
 `;
 

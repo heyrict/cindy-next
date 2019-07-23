@@ -5,10 +5,12 @@ import { APPLOCALES } from 'settings';
 export type ToolbarProps = {
   user: GlobalUserType;
   setLanguage: (lang: typeof APPLOCALES[0]) => void;
+  directHasnew: boolean;
 };
 
 export type ToolbarResponsiveProps = {
   user: GlobalUserType;
+  directHasnew: boolean;
   toolbarMenu: ToolbarResponsiveMenuType;
   toggleToolbarMenu: (value: ToolbarResponsiveMenuType) => void;
   closeToolbarMenu: () => void;
@@ -16,3 +18,7 @@ export type ToolbarResponsiveProps = {
 };
 
 export type LogoutButtonProps = WithLogoutProps;
+
+export type MessageBoxButtonProps = {
+  setTrueDirectModal: () => void;
+}

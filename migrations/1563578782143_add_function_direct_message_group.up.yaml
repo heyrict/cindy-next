@@ -1,0 +1,29 @@
+- args:
+    cascade: true
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.direct_message_group(
+        user_id integer
+      ) RETURNS SETOF hasura_directmessage_group_trigger LANGUAGE sql STABLE AS $$
+      select
+        CASE WHEN sender_id = user_id THEN receiver_id ELSE sender_id END as dm_user_id,
+        max(id) as last_dm_id
+      from
+        sui_hei_directmessage
+      where
+        sender_id = user_id or receiver_id = user_id
+      group by
+        dm_user_id
+      $$
+  type: run_sql
+- args:
+    name: direct_message_group
+    schema: public
+  type: track_function
+- args:
+    name: sui_hei_user
+    table:
+      name: hasura_directmessage_group_trigger
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship

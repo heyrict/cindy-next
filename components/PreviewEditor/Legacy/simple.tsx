@@ -98,6 +98,7 @@ class SimpleLegacyEditor extends React.Component<
       initialValue,
       useNamespaces,
       onSubmit,
+      canExpand,
       ...textareaProps
     } = this.props;
     const inlineEditor = (
@@ -360,15 +361,17 @@ class SimpleLegacyEditor extends React.Component<
             {inlineEditor}
           </Box>
           <Flex flexDirection="column" pr={1}>
-            <Tooltip
-              reference={
-                <ButtonTransparent onClick={() => this.toggleShowModal()}>
-                  <Img height="xxs" src={expandIcon} />
-                </ButtonTransparent>
-              }
-              tooltip={<FormattedMessage {...tooltipMessages.expand} />}
-              delay={800}
-            />
+            {canExpand && (
+              <Tooltip
+                reference={
+                  <ButtonTransparent onClick={() => this.toggleShowModal()}>
+                    <Img height="xxs" src={expandIcon} />
+                  </ButtonTransparent>
+                }
+                tooltip={<FormattedMessage {...tooltipMessages.expand} />}
+                delay={800}
+              />
+            )}
             <Tooltip
               reference={
                 <ButtonTransparent onClick={() => this.toggleStampToolbar()}>

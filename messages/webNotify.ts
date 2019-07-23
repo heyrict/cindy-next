@@ -37,6 +37,10 @@ export const webNotifyMessages = defineMessages({
     id: `${scope}.puzzleSolved`,
     defaultMessage: 'Puzzle "{puzzle}" has been solved',
   },
+  newDMReceived: {
+    id: `${scope}.newDMReceived`,
+    defaultMessage: "You've just received a direct message from {user}",
+  },
 });
 
 export default webNotifyMessages;

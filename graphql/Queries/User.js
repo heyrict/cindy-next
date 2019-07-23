@@ -144,3 +144,13 @@ export const USER_LIST_QUERY = gql`
   }
   ${USER_BRIEF_FRAGMENT}
 `;
+
+export const USER_LAST_READ_DM_QUERY = gql`
+  query UserLastReadDmQuery($id: Int!) {
+    sui_hei_user_by_pk(id: $id) {
+      id
+      last_read_dm_id
+    }
+  }
+  ${USER_BRIEF_FRAGMENT}
+`;

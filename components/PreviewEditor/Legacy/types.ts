@@ -4,6 +4,7 @@ export const SimpleLegacyEditorDefaultProps = {
   placeholder: '',
   height: 6,
   initialValue: '',
+  canExpand: true,
 };
 
 export type TextareaProps = Omit<

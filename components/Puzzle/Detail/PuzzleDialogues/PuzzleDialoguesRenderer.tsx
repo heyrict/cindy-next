@@ -43,7 +43,9 @@ export const PuzzleDialoguesRendererInner = ({
 }: PuzzleDialoguesRendererInnerProps) => {
   const dialogueHints: Array<
     DialogueHintQuery_sui_hei_dialogue | DialogueHintQuery_sui_hei_hint
-  > = mergeList(dialogues, hints, 'created', 'asc');
+  > = mergeList<
+    DialogueHintQuery_sui_hei_dialogue | DialogueHintQuery_sui_hei_hint
+  >(dialogues, hints, 'created', 'asc');
 
   return (
     <React.Fragment>

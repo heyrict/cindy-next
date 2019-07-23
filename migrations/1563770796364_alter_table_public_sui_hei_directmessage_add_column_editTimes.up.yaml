@@ -1,0 +1,65 @@
+# Drop old permissions
+- args:
+    role: user
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: drop_insert_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: drop_update_permission
+
+# SQL
+- args:
+    sql: ALTER TABLE "public"."sui_hei_directmessage" ADD COLUMN "editTimes" integer
+      NOT NULL DEFAULT 0
+  type: run_sql
+
+# Create new permissions
+- args:
+    permission:
+      check:
+        sender_id: X-HASURA-USER-ID
+      set:
+        sender_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 2000
+      filter:
+        $or:
+          - sender_id: X-HASURA-USER-ID
+          - receiver_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: create_select_permission  
+- args:
+    permission:
+      columns: "*"
+      filter:
+        sender_id: X-HASURA-USER-ID
+      set:
+        sender_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: create_update_permission  

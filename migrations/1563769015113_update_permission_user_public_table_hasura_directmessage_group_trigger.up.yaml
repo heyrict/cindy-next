@@ -1,0 +1,13 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - last_dm_id
+      - user_id
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: hasura_directmessage_group_trigger
+      schema: public
+  type: create_select_permission

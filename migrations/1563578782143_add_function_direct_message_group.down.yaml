@@ -1,0 +1,15 @@
+- args:
+    relationship: sui_hei_user
+    table:
+      name: hasura_directmessage_group_trigger
+      schema: public
+  type: drop_relationship
+- args:
+    name: direct_message_group
+    schema: public
+  type: untrack_function
+- args:
+    sql: |-
+      DROP FUNCTION public.direct_message_group
+  type: run_sql
+

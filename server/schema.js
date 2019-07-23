@@ -88,6 +88,15 @@ export const typeDefs = gql`
     created: timestamptz!
     receiver_id: Int!
     sender_id: Int!
+    editTimes: Int!
+    sender: sui_hei_user!
+    receiver: sui_hei_user!
+  }
+  type sui_hei_comment {
+    id: Int!
+    content: String!
+    spoiler: Boolean!
+    sui_hei_user: sui_hei_user!
   }
   type sui_hei_tag {
     id: Int!

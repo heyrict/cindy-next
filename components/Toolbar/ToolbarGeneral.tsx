@@ -8,14 +8,16 @@ import userMessages from 'messages/components/user';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
+import * as directReducer from 'reducers/direct';
 
 import { Portal } from 'react-portal';
 import { Manager, Reference, Popper } from 'react-popper';
-import { ButtonTransparent, Img } from 'components/General';
+import { ButtonTransparent, Img, RedDot } from 'components/General';
 import LoginButton from './Login/LoginButton';
 import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
 import SettingsButton from './Settings/SettingsButton';
+import MessageBoxButton from './MessageBoxButton';
 import logoInline from 'svgs/logoInline.svg';
 import chevronUpIcon from 'svgs/chevronUp.svg';
 import chevronDownIcon from 'svgs/chevronDown.svg';
@@ -29,10 +31,12 @@ import { ToolbarFlex, ToolbarButton, ToolbarDropdownContents } from './shared';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
-const Toolbar = ({ user, setLanguage }: ToolbarProps) => {
+const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
   const [dropDown, setDropDown] = useState(false);
   const userBtnRef = useRef<HTMLDivElement | null>(null);
   const dropDownRef = useRef<HTMLDivElement | null>(null);
+
+  const hasnew = directHasnew;
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
@@ -95,6 +99,7 @@ const Toolbar = ({ user, setLanguage }: ToolbarProps) => {
               bg="orange.5"
             >
               <ButtonTransparentA
+                style={{ position: 'relative' }}
                 height={1}
                 width={1}
                 color="gray.1"
@@ -108,8 +113,12 @@ const Toolbar = ({ user, setLanguage }: ToolbarProps) => {
                 <Img
                   pl={1}
                   src={dropDown ? chevronUpIcon : chevronDownIcon}
-                  width="xxs"
+                  minWidth="xxs"
+                  maxWidth="xxs"
                 />
+                {hasnew && (
+                  <RedDot right={20} top={8} />
+                )}
               </ButtonTransparentA>
             </ToolbarButton>
           )}
@@ -145,6 +154,19 @@ const Toolbar = ({ user, setLanguage }: ToolbarProps) => {
                           <FormattedMessage {...userMessages.profile} />
                         </ButtonTransparentA>
                       </Link>
+                    </ToolbarButton>
+                  )}
+                  {user.id && (
+                    <ToolbarButton
+                      style={{ position: 'relative' }}
+                      bg="orange.5"
+                      color="gray.1"
+                      fontWeight="bold"
+                    >
+                      <MessageBoxButton />
+                      {directHasnew && (
+                        <RedDot right={20} top={8} />
+                      )}
                     </ToolbarButton>
                   )}
                   {user.id && (
@@ -199,6 +221,7 @@ const Toolbar = ({ user, setLanguage }: ToolbarProps) => {
 
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
+  directHasnew: directReducer.rootSelector(state).directHasnew,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({

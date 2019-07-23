@@ -1,0 +1,20 @@
+- args:
+    name: sui_hei_directmessage
+    table:
+      name: sui_hei_user
+      schema: public
+    using:
+      foreign_key_constraint_on: last_read_dm_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_users
+    table:
+      name: sui_hei_directmessage
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: last_read_dm_id
+        table:
+          name: sui_hei_user
+          schema: public
+  type: create_array_relationship

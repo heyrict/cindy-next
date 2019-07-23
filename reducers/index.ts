@@ -10,6 +10,7 @@ import * as settingReducer from './setting';
 import * as addReplayReducer from './addReplay';
 import * as puzzleReducer from './puzzle';
 import * as awardCheckerReducer from './awardChecker';
+import * as directReducer from './direct';
 import { StateType, ExtendedStore } from './types';
 
 const reducer = combineReducers({
@@ -20,6 +21,7 @@ const reducer = combineReducers({
   [addReplayReducer.scope]: addReplayReducer.reducer as any,
   [puzzleReducer.scope]: puzzleReducer.reducer as any,
   [awardCheckerReducer.scope]: awardCheckerReducer.reducer as any,
+  [directReducer.scope]: directReducer.reducer as any,
 });
 
 const composeEnhancers =

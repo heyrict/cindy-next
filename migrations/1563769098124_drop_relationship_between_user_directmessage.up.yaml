@@ -1,0 +1,12 @@
+- args:
+    relationship: sui_hei_directmessage
+    table:
+      name: sui_hei_user
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: sui_hei_users
+    table:
+      name: sui_hei_directmessage
+      schema: public
+  type: drop_relationship

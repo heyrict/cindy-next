@@ -42,6 +42,33 @@ const addReceiverHandler = (data, response) => {
     pubsub.publish(data.trigger.name, data);
     return;
   }
+  Promise.all([
+    query({
+      query: UserBriefQuery,
+      variables: {
+        id: receiver_id,
+      },
+    }),
+    query({
+      query: UserBriefQuery,
+      variables: {
+        id: sender_id,
+      },
+    }),
+  ]).then(([receiverResult, senderResult]) => {
+    const newData = { ...data };
+    newData.event.data.new.receiver = receiverResult.data.sui_hei_user_by_pk;
+    newData.event.data.new.sender = senderResult.data.sui_hei_user_by_pk;
+    pubsub.publish(data.trigger.name, newData);
+  });
+};
+
+const addSenderReceiverHandler = (data, response) => {
+  const { sender_id, receiver_id } = data.event.data.new;
+  if (!receiver_id || !sender_id) {
+    pubsub.publish(data.trigger.name, data);
+    return;
+  }
   query({
     query: UserBriefQuery,
     variables: {
@@ -61,6 +88,8 @@ const controller = (request, response) => {
       case triggers.ON_CHATMESSAGE_CHANGE:
       case triggers.ON_DIALOGUE_CHANGE:
       case triggers.ON_DIRECTMESSAGE_CHANGE:
+        addSenderReceiverHandler(data, response);
+        break;
       case triggers.ON_PUZZLE_CHANGE:
         addUserHandler(data, response);
         break;
