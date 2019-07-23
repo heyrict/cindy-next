@@ -8,8 +8,9 @@ import toolbarMessages from 'messages/components/toolbar';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
+import * as directReducer from 'reducers/direct';
 
-import { ButtonTransparent, Img, Box } from 'components/General';
+import { ButtonTransparent, Img, Box, RedDot } from 'components/General';
 import {
   ToolbarFlex,
   ToolbarButton,
@@ -46,6 +47,7 @@ const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
 const Toolbar = ({
   user,
+  directHasnew,
   toolbarMenu,
   toggleToolbarMenu,
   closeToolbarMenu,
@@ -53,6 +55,8 @@ const Toolbar = ({
 }: ToolbarResponsiveProps) => {
   const toolbarRef = useRef<HTMLDivElement | null>(null);
   const toolbarMenuRef = useRef<HTMLDivElement | null>(null);
+
+  const hasnew = directHasnew;
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
@@ -129,12 +133,16 @@ const Toolbar = ({
       </ToolbarButton>
       <ToolbarButton ml="auto">
         <ButtonTransparent
+          style={{ position: 'relative' }}
           height={1}
           width={1}
           color="orange.9"
           onClick={() => toggleToolbarMenu(ToolbarResponsiveMenuType.USER_MENU)}
         >
           <Img height="xs" src={userIcon} />
+          {hasnew && (
+            <RedDot right={20} top={8} />
+          )}
         </ButtonTransparent>
       </ToolbarButton>
       {toolbarMenu === ToolbarResponsiveMenuType.USER_MENU && (
@@ -158,6 +166,9 @@ const Toolbar = ({
                   color="gray.1"
                 >
                   <MessageBoxButton />
+                  {directHasnew && (
+                    <RedDot right={20} top={8} />
+                  )}
                 </ToolbarResponsiveButton>
               </Box>
             )}
@@ -231,6 +242,7 @@ const Toolbar = ({
 
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
+  directHasnew: directReducer.rootSelector(state).directHasnew,
   toolbarMenu: globalReducer.rootSelector(state).toolbarMenu,
 });
 

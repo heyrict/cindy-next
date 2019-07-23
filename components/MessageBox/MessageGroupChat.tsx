@@ -18,7 +18,11 @@ import { Flex, Box, ButtonTransparent } from 'components/General';
 import Directmessage from 'components/Chat/Directmessage';
 import SimpleLegacyEditor from 'components/PreviewEditor/Legacy/simple';
 
-import { StateType, SendMessageTriggerType, GlobalUserType } from 'reducers/types';
+import {
+  StateType,
+  SendMessageTriggerType,
+  GlobalUserType,
+} from 'reducers/types';
 import { MessageGroupChatProps, MessageGroupChatInnerProps } from './types';
 import {
   DirectmessageGroupMessagesQuery,
@@ -43,7 +47,7 @@ const MessageGroupChatInner = ({
   data,
   error,
   fetchMore,
-  sendChatTrigger,
+  sendDirectmessageTrigger,
 }: MessageGroupChatInnerProps) => {
   const [hasMore, setHasMore] = useState(false);
   const editorRef = useRef<SimpleLegacyEditor>(null!);
@@ -100,10 +104,7 @@ const MessageGroupChatInner = ({
                 withUserId: directGroupUser,
               },
               data: {
-                sui_hei_directmessage: [
-                  newMessage,
-                  ...sui_hei_directmessage,
-                ],
+                sui_hei_directmessage: [newMessage, ...sui_hei_directmessage],
               },
             });
           } else {
@@ -114,7 +115,12 @@ const MessageGroupChatInner = ({
                 withUserId: directGroupUser,
               },
               data: {
-                sui_hei_directmessage: upsertItem(sui_hei_directmessage, newMessage, 'id', 'desc'),
+                sui_hei_directmessage: upsertItem(
+                  sui_hei_directmessage,
+                  newMessage,
+                  'id',
+                  'desc',
+                ),
               },
             });
           }
@@ -137,13 +143,18 @@ const MessageGroupChatInner = ({
               userId,
             },
             data: {
-              direct_message_group: updateItem(direct_message_group, {
-                __typename: 'hasura_directmessage_group_trigger',
-                last_dm_id: newMessage.id,
-                sui_hei_user: {
-                  ...newMessage.receiver,
+              direct_message_group: updateItem(
+                direct_message_group,
+                {
+                  __typename: 'hasura_directmessage_group_trigger',
+                  last_dm_id: newMessage.id,
+                  user_id: newMessage.receiver.id,
+                  sui_hei_user: {
+                    ...newMessage.receiver,
+                  },
                 },
-              }, 'user_id'),
+                'user_id',
+              ),
             },
           });
         }}
@@ -224,7 +235,7 @@ const MessageGroupChatInner = ({
                 ref={editorRef}
                 useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
                 onKeyDown={(e: React.KeyboardEvent) => {
-                  if (sendChatTrigger & SendMessageTriggerType.ON_ENTER) {
+                  if (sendDirectmessageTrigger & SendMessageTriggerType.ON_ENTER) {
                     if (
                       e.nativeEvent.keyCode === 13 &&
                       !e.nativeEvent.shiftKey &&
@@ -235,14 +246,14 @@ const MessageGroupChatInner = ({
                       return;
                     }
                   }
-                  if (sendChatTrigger & SendMessageTriggerType.ON_CTRL_ENTER) {
+                  if (sendDirectmessageTrigger & SendMessageTriggerType.ON_CTRL_ENTER) {
                     if (e.nativeEvent.keyCode === 13 && e.nativeEvent.ctrlKey) {
                       handleSubmitWithError(editorRef.current.getText());
                       e.preventDefault();
                       return;
                     }
                   }
-                  if (sendChatTrigger & SendMessageTriggerType.ON_SHIFT_ENTER) {
+                  if (sendDirectmessageTrigger & SendMessageTriggerType.ON_SHIFT_ENTER) {
                     if (
                       e.nativeEvent.keyCode === 13 &&
                       e.nativeEvent.shiftKey
@@ -301,7 +312,7 @@ const MessageGroupChatInner = ({
 const MessageGroupChat = ({
   user,
   directGroupUser,
-  sendChatTrigger,
+  sendDirectmessageTrigger,
 }: MessageGroupChatProps) =>
   directGroupUser && user.id ? (
     <Query<
@@ -319,7 +330,7 @@ const MessageGroupChat = ({
         <MessageGroupChatInner
           user={user as Required<GlobalUserType>}
           directGroupUser={directGroupUser}
-          sendChatTrigger={sendChatTrigger}
+          sendDirectmessageTrigger={sendDirectmessageTrigger}
           {...params}
         />
       )}
@@ -329,7 +340,7 @@ const MessageGroupChat = ({
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
   directGroupUser: directReducer.rootSelector(state).directGroupUser,
-  sendChatTrigger: settingReducer.rootSelector(state).sendChatTrigger,
+  sendDirectmessageTrigger: settingReducer.rootSelector(state).sendDirectmessageTrigger,
 });
 
 const withRedux = connect(mapStateToProps);

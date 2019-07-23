@@ -19,6 +19,10 @@ export const settingMessages = defineMessages({
     id: `${scope}.sendChatTrigger`,
     defaultMessage: 'Send Chat Message',
   },
+  sendDirectmessageTrigger: {
+    id: `${scope}.sendDirectmessageTrigger`,
+    defaultMessage: 'Send Direct Message',
+  },
   sendQuestionTrigger: {
     id: `${scope}.sendQuestionTrigger`,
     defaultMessage: 'Send Question',

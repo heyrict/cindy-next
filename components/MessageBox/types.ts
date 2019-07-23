@@ -4,6 +4,10 @@ import {
   DirectmessageGroupMessagesQueryVariables,
 } from 'graphql/Queries/generated/DirectmessageGroupMessagesQuery';
 import { GlobalUserType, SendMessageTriggerType } from 'reducers/types';
+import {
+  DirectmessageGroupQuery,
+  DirectmessageGroupQueryVariables,
+} from 'graphql/Queries/generated/DirectmessageGroupQuery';
 
 export type MessageBoxProps = {
   directModal: boolean;
@@ -12,15 +16,22 @@ export type MessageBoxProps = {
   setDirectGroupUser: (userId: number | null) => void;
 };
 
+export type MessageGroupSelectRendererProps = {
+  userId: number;
+  setDirectGroupUser: (userId: number) => void;
+  setDirectHasnew: (hasnew: boolean) => void,
+} & QueryResult<DirectmessageGroupQuery, DirectmessageGroupQueryVariables>;
+
 export type MessageGroupSelectProps = {
   userId?: number;
   setDirectGroupUser: (userId: number) => void;
+  setDirectHasnew: (hasnew: boolean) => void,
 };
 
 export type MessageGroupChatInnerProps = {
   user: Required<GlobalUserType>;
   directGroupUser: number;
-  sendChatTrigger: SendMessageTriggerType;
+  sendDirectmessageTrigger: SendMessageTriggerType;
 } & QueryResult<
   DirectmessageGroupMessagesQuery,
   DirectmessageGroupMessagesQueryVariables
@@ -29,5 +40,5 @@ export type MessageGroupChatInnerProps = {
 export type MessageGroupChatProps = {
   user: GlobalUserType;
   directGroupUser: number | null;
-  sendChatTrigger: SendMessageTriggerType;
+  sendDirectmessageTrigger: SendMessageTriggerType;
 };

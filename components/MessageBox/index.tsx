@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import dmMessages from 'messages/components/dm';
 import commonMessages from 'messages/common';
 
-import { Button } from 'components/General';
+import { Button, Box } from 'components/General';
 import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
 import MessageGroupSelect from './MessageGroupSelect';
 import MessageGroupChat from './MessageGroupChat';
@@ -44,7 +44,11 @@ export const MessageBox = ({
             if (!data || !data.sui_hei_user_by_pk) return null;
             return (
               <React.Fragment>
-                <Button mr={2} display="inline-box" onClick={() => setDirectGroupUser(null)}>
+                <Button
+                  mr={2}
+                  display="inline-box"
+                  onClick={() => setDirectGroupUser(null)}
+                >
                   « <FormattedMessage {...commonMessages.back} />
                 </Button>
                 {data.sui_hei_user_by_pk.nickname}
@@ -58,7 +62,10 @@ export const MessageBox = ({
       <ModalCloseBtn onClick={() => setFalseDirectModal()} />
     </ModalHeader>
     <ModalBody>
-      {directGroupUser ? <MessageGroupChat /> : <MessageGroupSelect />}
+      <Box display={directGroupUser ? 'none' : 'block'} width={1}>
+        <MessageGroupSelect />
+      </Box>
+      {directGroupUser && <MessageGroupChat />}
     </ModalBody>
   </Modal>
 );

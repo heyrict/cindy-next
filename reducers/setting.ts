@@ -13,6 +13,7 @@ export enum actionTypes {
   SETTINGS_MODAL = 'setting.SETTINGS_MODAL',
   PUZZLE_GENRE_IMG = 'setting.PUZZLE_GENRE_IMG',
   SEND_CHAT_TRIGGER = 'setting.SEND_CHAT_TRIGGER',
+  SEND_DIRECTMESSAGE_TRIGGER = 'setting.SEND_DIRECTMESSAGE_TRIGGER',
   SEND_QUESTION_TRIGGER = 'setting.SEND_QUESTION_TRIGGER',
   EDIT_QUESTION_TRIGGER = 'setting.EDIT_QUESTION_TRIGGER',
   SEND_ANSWER_TRIGGER = 'setting.SEND_ANSWER_TRIGGER',
@@ -25,6 +26,7 @@ export type ActionPayloadType = {
   PUZZLE_GENRE_IMG: ReturnType<ValueOf<bool.HelperActionType>>;
   RIGHT_ASIDE_MINI: ReturnType<ValueOf<bool.HelperActionType>>;
   SEND_CHAT_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
+  SEND_DIRECTMESSAGE_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
   SEND_QUESTION_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
   EDIT_QUESTION_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
   SEND_ANSWER_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
@@ -36,6 +38,7 @@ export const actions = {
   puzzleGenreImg: bool.wrapActions(actionTypes.PUZZLE_GENRE_IMG),
   rightAsideMini: bool.wrapActions(actionTypes.RIGHT_ASIDE_MINI),
   sendChatTrigger: mask.wrapActions(actionTypes.SEND_CHAT_TRIGGER),
+  sendDirectmessageTrigger: mask.wrapActions(actionTypes.SEND_DIRECTMESSAGE_TRIGGER),
   editQuestionTrigger: mask.wrapActions(actionTypes.EDIT_QUESTION_TRIGGER),
   sendQuestionTrigger: mask.wrapActions(actionTypes.SEND_QUESTION_TRIGGER),
   sendAnswerTrigger: mask.wrapActions(actionTypes.SEND_ANSWER_TRIGGER),
@@ -55,6 +58,7 @@ export const initialState = {
   settingsModal: false,
   puzzleGenreImg: true,
   sendChatTrigger: SendMessageTriggerType.ON_ENTER as number,
+  sendDirectmessageTrigger: SendMessageTriggerType.ON_SHIFT_ENTER as number,
   sendQuestionTrigger: SendMessageTriggerType.ON_ENTER as number,
   editQuestionTrigger: SendMessageTriggerType.ON_SHIFT_ENTER as number,
   sendAnswerTrigger: SendMessageTriggerType.ON_ENTER as number,
@@ -99,6 +103,11 @@ export const reducer = (
       return {
         ...state,
         sendChatTrigger: mask.helper(state.sendChatTrigger, action.payload),
+      };
+    case actionTypes.SEND_DIRECTMESSAGE_TRIGGER:
+      return {
+        ...state,
+        sendDirectmessageTrigger: mask.helper(state.sendDirectmessageTrigger, action.payload),
       };
     case actionTypes.SEND_QUESTION_TRIGGER:
       return {
