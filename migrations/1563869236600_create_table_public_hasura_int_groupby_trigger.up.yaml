@@ -1,0 +1,8 @@
+- args:
+    sql: CREATE TABLE "public"."hasura_int_groupby_trigger"("group" integer NOT NULL,
+      "value" bigint NOT NULL, PRIMARY KEY ("group") );
+  type: run_sql
+- args:
+    name: hasura_int_groupby_trigger
+    schema: public
+  type: add_existing_table_or_view

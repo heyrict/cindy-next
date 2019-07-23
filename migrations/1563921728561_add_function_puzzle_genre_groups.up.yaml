@@ -1,0 +1,17 @@
+- args:
+    cascade: true
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.user_puzzle_genre_groups(
+        "userId" integer
+      ) RETURNS SETOF hasura_int_groupby_trigger LANGUAGE sql STABLE AS $$
+      select
+        genre as group,
+        count(id) as value
+      from sui_hei_puzzle
+      where sui_hei_puzzle.user_id = "userId"
+      group by genre $$
+  type: run_sql
+- args:
+    name: user_puzzle_genre_groups
+    schema: public
+  type: track_function

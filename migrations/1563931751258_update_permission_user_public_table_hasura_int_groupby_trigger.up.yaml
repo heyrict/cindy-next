@@ -1,0 +1,13 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - group
+      - value
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: hasura_int_groupby_trigger
+      schema: public
+  type: create_select_permission

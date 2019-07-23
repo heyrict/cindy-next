@@ -1,0 +1,8 @@
+- args:
+    name: user_puzzle_genre_groups
+    schema: public
+  type: untrack_function
+- args:
+    sql: |-
+      DROP FUNCTION public.user_puzzle_genre_groups
+  type: run_sql

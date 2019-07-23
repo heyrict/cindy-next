@@ -1,0 +1,8 @@
+- args:
+    name: user_star_groups
+    schema: public
+  type: untrack_function
+- args:
+    sql: |-
+      DROP FUNCTION public.user_star_groups
+  type: run_sql
