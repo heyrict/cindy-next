@@ -18,6 +18,7 @@ describe('<PuzzleDialoguesRenderer />', () => {
   const setTrueSolvedLongtermYamiFn = jest.fn();
 
   const defaultProps = {
+    pushNotification: true,
     subscribeToMore: subscribeFn,
     data: {
       sui_hei_dialogue: dialogues,
