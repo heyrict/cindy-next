@@ -179,6 +179,11 @@ export const messages = defineMessages({
     id: `${scope}.addComment`,
     defaultMessage: 'Add Comment',
   },
+  commentDescribe: {
+    id: `${scope}.commentDescribe`,
+    defaultMessage:
+      "{user} adds a comment on {puzzle_user}'s puzzle {puzzle_title}",
+  },
 });
 
 export default messages;

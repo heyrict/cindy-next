@@ -1,6 +1,9 @@
 import gql from 'graphql-tag';
 
-import { COMMENT_FRAGMENT } from '../Fragments/Comment';
+import {
+  COMMENT_FRAGMENT,
+  COMMENT_DETAIL_FRAGMENT,
+} from '../Fragments/Comment';
 
 export const PUZZLE_COMMENT_QUERY = gql`
   query PuzzleCommentQuery($puzzleId: Int!) {
@@ -33,4 +36,58 @@ export const PREVIOUS_COMMENT_VALUE_QUERY = gql`
     }
   }
   ${COMMENT_FRAGMENT}
+`;
+
+export const PROFILE_COMMENTS_QUERY = gql`
+  query ProfileCommentsQuery(
+    $limit: Int
+    $offset: Int
+    $userId: Int
+    $orderBy: [sui_hei_comment_order_by!]
+  ) {
+    sui_hei_comment(
+      order_by: $orderBy
+      where: { user_id: { _eq: $userId } }
+      limit: $limit
+      offset: $offset
+    ) @connection(key: "sui_hei_comment", filter: ["order_by", "where"]) {
+      ...CommentDetail
+    }
+    sui_hei_comment_aggregate(
+      order_by: $orderBy
+      where: { user_id: { _eq: $userId } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${COMMENT_DETAIL_FRAGMENT}
+`;
+
+export const PROFILE_COMMENTS_RECEIVED_QUERY = gql`
+  query ProfileCommentsReceivedQuery(
+    $limit: Int
+    $offset: Int
+    $userId: Int
+    $orderBy: [sui_hei_comment_order_by!]
+  ) {
+    sui_hei_comment(
+      order_by: $orderBy
+      where: { sui_hei_puzzle: { user_id: { _eq: $userId } } }
+      limit: $limit
+      offset: $offset
+    ) @connection(key: "sui_hei_comment", filter: ["order_by", "where"]) {
+      ...CommentDetail
+    }
+    sui_hei_comment_aggregate(
+      order_by: $orderBy
+      where: { user_id: { _eq: $userId } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${COMMENT_DETAIL_FRAGMENT}
 `;

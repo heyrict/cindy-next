@@ -13,4 +13,4 @@ export const HINT_SHARED_FRAGMENT = gql`
     }
   }
   ${USER_BRIEF_FRAGMENT}
-`
+`;

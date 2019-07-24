@@ -13,3 +13,19 @@ export const COMMENT_FRAGMENT = gql`
   }
   ${USER_BRIEF_FRAGMENT}
 `;
+
+export const COMMENT_DETAIL_FRAGMENT = gql`
+  fragment CommentDetail on sui_hei_comment {
+    ...Comment
+    sui_hei_puzzle {
+      id
+      title
+      genre
+      yami
+      sui_hei_user {
+        ...UserBrief
+      }
+    }
+  }
+  ${COMMENT_FRAGMENT}
+`;

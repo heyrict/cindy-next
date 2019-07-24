@@ -18,7 +18,7 @@ export const TAG_QUERY = gql`
     }
   }
   ${TAG_FRAGMENT}
-`
+`;
 
 export const PUZZLE_TAGS_SEARCH_QUERY = gql`
   query PuzzleTagsSearchQuery($search: String, $limit: Int!) {

@@ -4,6 +4,7 @@ import {
 } from 'graphql/Queries/generated/PuzzleQuery';
 import { QueryResult } from 'react-apollo';
 import { PuzzleType } from './Brief/types';
+import { CommentDetail } from 'graphql/Fragments/generated/CommentDetail';
 
 export type PuzzleRendererProps = {
   formatMessage: any;
@@ -36,3 +37,15 @@ export type PuzzleWithAnyProps = {
   dialogueMaxCreated?: string;
   showGenreImage: boolean;
 };
+
+export type CommentContentProps = {
+  on: boolean;
+}
+
+export type CommentDisplayProps = {
+  comment: CommentDetail;
+};
+
+export type CommentDisplayStates = {
+  on: boolean;
+}

@@ -81,6 +81,7 @@
   "components.puzzle.anonymous": "匿名",
   "components.puzzle.bookmark": "ブクマ",
   "components.puzzle.comment": "コメント",
+  "components.puzzle.commentDescribe": "{user} が {puzzle_user} の問題「{puzzle_title}」に新しいコメントを追加しました。",
   "components.puzzle.content": "問題文",
   "components.puzzle.createdAt": "出題時間",
   "components.puzzle.dazedOn": "迷宮入り時間",

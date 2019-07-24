@@ -81,6 +81,7 @@
   "components.puzzle.anonymous": "Anonymous",
   "components.puzzle.bookmark": "Bookmark",
   "components.puzzle.comment": "Comment",
+  "components.puzzle.commentDescribe": "{user} adds a comment on {puzzle_user}'s puzzle {puzzle_title}",
   "components.puzzle.content": "Content",
   "components.puzzle.createdAt": "Created At",
   "components.puzzle.dazedOn": "Dazed On",

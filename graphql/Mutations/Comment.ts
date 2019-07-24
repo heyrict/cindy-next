@@ -9,11 +9,7 @@ export const ADD_COMMENT_MUTATION = gql`
     $spoiler: Boolean!
   ) {
     insert_sui_hei_comment(
-      objects: {
-        puzzle_id: $puzzleId
-        content: $content
-        spoiler: $spoiler
-      }
+      objects: { puzzle_id: $puzzleId, content: $content, spoiler: $spoiler }
       on_conflict: {
         constraint: sui_hei_comment_puzzle_id_user_id_key
         update_columns: [content, spoiler]
