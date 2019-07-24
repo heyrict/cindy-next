@@ -9,6 +9,8 @@ export type ChatRoomInputProps = {
   chatroomId: number;
   user: GlobalUserType;
   sendChatTrigger: number;
+  setTrueLoginModal: () => void;
+  setTrueSignupModal: () => void;
 };
 
 export type ChatRoomMessagesBodyProps = {

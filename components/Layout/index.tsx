@@ -296,6 +296,7 @@ const Layout = ({
   setFalsePushNotification,
 }: LayoutProps) => {
   const notifHdlRef = useRef<React.ReactText | null>(null);
+  const waitPushHdlRef = useRef<number | null>(null);
 
   useEffect(() => {
     appInit();
@@ -303,25 +304,52 @@ const Layout = ({
 
   useEffect(() => {
     // request notification permission
-    if (pushNotification)
-      requestNotificationPermission().then(permission => {
-        if (permission === NotificationPermissionType.NOT_SUPPORTED) {
-          notifHdlRef.current = toast.info(
-            <Box>
-              <FormattedMessage {...webNotifyMessages.notSupportedMessage} />
-              <Flex mt={2} width={1}>
-                <Box width={1} bg="green.6" borderRadius={1}>
-                  <ButtonTransparent
-                    height={1}
-                    width={1}
-                    py={2}
-                    color="green.1"
-                    onClick={() => requestNotificationPermission()}
-                  >
-                    <FormattedMessage {...commonMessages.enable} />
-                  </ButtonTransparent>
-                </Box>
-                <Box width={1} bg="pink.6" borderRadius={1}>
+    if (waitPushHdlRef.current) window.clearTimeout(waitPushHdlRef.current);
+    waitPushHdlRef.current = window.setTimeout(() => {
+      if (pushNotification)
+        requestNotificationPermission().then(permission => {
+          if (permission === NotificationPermissionType.NOT_SUPPORTED) {
+            notifHdlRef.current = toast.info(
+              <Box>
+                <FormattedMessage {...webNotifyMessages.notSupportedMessage} />
+                <Flex mt={2} width={1}>
+                  <Box width={1} bg="green.6" borderRadius={1}>
+                    <ButtonTransparent
+                      height={1}
+                      width={1}
+                      py={2}
+                      color="green.1"
+                      onClick={() => requestNotificationPermission()}
+                    >
+                      <FormattedMessage {...commonMessages.enable} />
+                    </ButtonTransparent>
+                  </Box>
+                  <Box width={1} bg="pink.6" borderRadius={1}>
+                    <ButtonTransparent
+                      height={1}
+                      width={1}
+                      py={2}
+                      color="pink.1"
+                      onClick={() => {
+                        setFalsePushNotification();
+                        if (notifHdlRef.current)
+                          toast.dismiss(notifHdlRef.current);
+                      }}
+                    >
+                      <FormattedMessage {...commonMessages.doNotNotifyAgain} />
+                    </ButtonTransparent>
+                  </Box>
+                </Flex>
+              </Box>,
+            );
+          } else if (
+            permission === NotificationPermissionType.DENIED ||
+            permission === NotificationPermissionType.DEFAULT
+          ) {
+            notifHdlRef.current = toast.info(
+              <Box>
+                <FormattedMessage {...webNotifyMessages.deniedMessage} />
+                <Box width={1} mt={2} bg="pink.6">
                   <ButtonTransparent
                     height={1}
                     width={1}
@@ -336,36 +364,12 @@ const Layout = ({
                     <FormattedMessage {...commonMessages.doNotNotifyAgain} />
                   </ButtonTransparent>
                 </Box>
-              </Flex>
-            </Box>,
-          );
-        } else if (
-          permission === NotificationPermissionType.DENIED ||
-          permission === NotificationPermissionType.DEFAULT
-        ) {
-          notifHdlRef.current = toast.info(
-            <Box>
-              <FormattedMessage {...webNotifyMessages.deniedMessage} />
-              <Box width={1} mt={2} bg="pink.6">
-                <ButtonTransparent
-                  height={1}
-                  width={1}
-                  py={2}
-                  color="pink.1"
-                  onClick={() => {
-                    setFalsePushNotification();
-                    if (notifHdlRef.current)
-                      toast.dismiss(notifHdlRef.current);
-                  }}
-                >
-                  <FormattedMessage {...commonMessages.doNotNotifyAgain} />
-                </ButtonTransparent>
-              </Box>
-            </Box>,
-          );
-        }
-      });
-  });
+              </Box>,
+            );
+          }
+        });
+    }, 5000);
+  }, [pushNotification]);
 
   return (
     <React.Fragment>

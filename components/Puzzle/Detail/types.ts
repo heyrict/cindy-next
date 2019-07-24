@@ -61,3 +61,8 @@ export type PuzzleDetailProps = {
   setPuzzleContent: (content: string) => void;
   setPuzzleMemo: (memo: string) => void;
 };
+
+export type NotLoggedInMessageProps = {
+  setTrueLoginModal: () => void;
+  setTrueSignupModal: () => void;
+};

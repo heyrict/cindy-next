@@ -47,6 +47,7 @@
   "common.jump": "Jump",
   "common.loadMore": "Load More",
   "common.loading": "Loading...",
+  "common.loginOrSignup": "Please {login} or {signup} to join",
   "common.next": "Next",
   "common.none": "None",
   "common.notExist": "Page Not Exists",

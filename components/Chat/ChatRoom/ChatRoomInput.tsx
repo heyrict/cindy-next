@@ -2,13 +2,20 @@ import React, { useRef } from 'react';
 import styled from 'theme/styled';
 import { toast } from 'react-toastify';
 
+import { ButtonTransparent } from 'components/General';
+
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as settingReducer from 'reducers/setting';
+import * as loginReducer from 'reducers/login';
 
 import { Mutation } from 'react-apollo';
 import { CHATROOM_CHATMESSAGES_QUERY } from 'graphql/Queries/Chat';
 import { CHATROOM_SEND_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
+
+import { FormattedMessage } from 'react-intl';
+import commonMessages from 'messages/common';
+import authMessages from 'messages/components/auth';
 
 import { SimpleLegacyEditor } from 'components/PreviewEditor';
 
@@ -17,7 +24,11 @@ import {
   ChatroomSendMessageVariables,
 } from 'graphql/Mutations/generated/ChatroomSendMessage';
 import { ChatRoomInputProps } from './types';
-import { StateType, SendMessageTriggerType } from 'reducers/types';
+import {
+  StateType,
+  SendMessageTriggerType,
+  ActionContentType,
+} from 'reducers/types';
 import {
   ChatroomChatmessages,
   ChatroomChatmessagesVariables,
@@ -49,6 +60,8 @@ const ChatRoomInput = ({
   user,
   chatroomId,
   sendChatTrigger,
+  setTrueLoginModal,
+  setTrueSignupModal,
 }: ChatRoomInputProps) => {
   const editorRef = useRef<SimpleLegacyEditor>(null!);
 
@@ -178,7 +191,31 @@ const ChatRoomInput = ({
           }}
         </Mutation>
       ) : (
-        <LoginRequiredBlock>You need login to send messages</LoginRequiredBlock>
+        <LoginRequiredBlock>
+          <FormattedMessage
+            {...commonMessages.loginOrSignup}
+            values={{
+              login: (
+                <ButtonTransparent
+                  color="blue.0"
+                  px={1}
+                  onClick={() => setTrueLoginModal()}
+                >
+                  <FormattedMessage {...authMessages.login} />
+                </ButtonTransparent>
+              ),
+              signup: (
+                <ButtonTransparent
+                  color="blue.0"
+                  px={1}
+                  onClick={() => setTrueSignupModal()}
+                >
+                  <FormattedMessage {...authMessages.signup} />
+                </ButtonTransparent>
+              ),
+            }}
+          />
+        </LoginRequiredBlock>
       )}
     </ChatRoomInputWrapper>
   );
@@ -189,6 +226,15 @@ const mapStateToProps = (state: StateType) => ({
   sendChatTrigger: settingReducer.rootSelector(state).sendChatTrigger,
 });
 
-const withRedux = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  setTrueLoginModal: () => dispatch(loginReducer.actions.loginModal.setTrue()),
+  setTrueSignupModal: () =>
+    dispatch(loginReducer.actions.signupModal.setTrue()),
+});
+
+const withRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default withRedux(ChatRoomInput);

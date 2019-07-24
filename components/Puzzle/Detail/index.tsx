@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as puzzleReducer from 'reducers/puzzle';
 
+import { Modal } from 'components/Modal';
 import PuzzleTitle from './PuzzleTitle';
 import ContentsFrame from './ContentsFrame';
 import MemoFrame from './MemoFrame';
@@ -20,10 +21,10 @@ import BookmarkPanel from './BookmarkPanel';
 import ReplayPanel from './ReplayPanel';
 import ControlPanel from './ControlPanel';
 import PuzzleTags from './PuzzleTags';
+import NotLoggedInMessage from './NotLoggedInMessage';
 
 import { StateType, ActionContentType } from 'reducers/types';
 import { PuzzleDetailProps } from './types';
-import { Modal } from 'components/Modal';
 
 const PuzzleDetail = ({
   puzzle,
@@ -49,6 +50,7 @@ const PuzzleDetail = ({
   const shouldShowAddQuestionInput =
     puzzle.status === 0 && !isCreator && isUser;
   const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
+  const shouldShowNotLoggedInMessage = !isUser;
 
   const shouldShowStarPanel = shouldShowAnswer;
   const shouldShowCommentPanel = shouldShowAnswer;
@@ -145,6 +147,7 @@ const PuzzleDetail = ({
             user={puzzle.sui_hei_user}
           />
         )}
+        {shouldShowNotLoggedInMessage && <NotLoggedInMessage />}
         {shouldShowStarPanel && (
           <StarPanel puzzleId={puzzle.id} canAddStar={!isCreator} />
         )}
