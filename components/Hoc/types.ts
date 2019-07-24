@@ -41,3 +41,10 @@ export type LoadMoreVisProps = {
   children?: React.ReactNode;
   key?: string;
 };
+
+export type DelayRenderingProps = {
+  wait?: number;
+  loading?: React.ReactNode;
+  children?: React.ReactNode;
+  key?: string;
+};

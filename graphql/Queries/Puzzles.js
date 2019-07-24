@@ -277,3 +277,19 @@ export const PROFILE_BOOKMARKS_QUERY = gql`
   }
   ${PUZZLE_AGGREGATE_FRAGMENT}
 `;
+
+export const YAMI_PUZZLE_COUNT_QUERY = gql`
+  query YamiPuzzleCountQuery($userId: Int!) {
+    sui_hei_puzzle(
+      where: { yami: { _neq: 0 }, user_id: { _eq: $userId } }
+      order_by: { sui_hei_dialogues_aggregate: { count: desc } }
+      limit: 1
+    ) {
+      sui_hei_dialogues_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+`;

@@ -4,17 +4,20 @@ import { Waypoint } from 'react-waypoint';
 import { randomUUID } from 'common/random';
 
 import messages from 'messages/common';
-import { LoadMoreVisProps } from './types';
+import { DelayRenderingProps } from './types';
 
-class LoadMoreVis extends React.Component<LoadMoreVisProps> {
+class DelayRendering extends React.Component<DelayRenderingProps> {
   static defaultProps = {
     wait: 500,
   };
 
-  timerHandle?: number;
+  state = {
+    rendered: false,
+  };
   key: string;
+  timerHandle?: number;
 
-  constructor(props: LoadMoreVisProps) {
+  constructor(props: DelayRenderingProps) {
     super(props);
     this.key = props.key || randomUUID();
 
@@ -24,12 +27,13 @@ class LoadMoreVis extends React.Component<LoadMoreVisProps> {
   }
 
   _startTimer() {
+    if (this.state.rendered) return;
     this.timerHandle = window.setTimeout(this._onTimerEnds, this.props.wait);
   }
 
   _onTimerEnds() {
-    this.props.loadMore();
     this._stopTimer();
+    this.setState({ rendered: true });
   }
 
   _stopTimer() {
@@ -45,7 +49,9 @@ class LoadMoreVis extends React.Component<LoadMoreVisProps> {
         onEnter={this._startTimer}
         onLeave={this._stopTimer}
       >
-        {this.props.children || (
+        {this.state.rendered ? (
+          this.props.children
+        ) : this.props.loading || (
           <div>
             <FormattedMessage {...messages.loading} />
           </div>
@@ -55,4 +61,4 @@ class LoadMoreVis extends React.Component<LoadMoreVisProps> {
   }
 }
 
-export default LoadMoreVis;
+export default DelayRendering;

@@ -27,7 +27,7 @@ class CheckNotifier extends React.Component<CheckNotifierProps> {
     // puzzle count
     if (
       this.props.puzzles - prevProps.puzzles === 1 &&
-      this.props.puzzles in PuzzleCountAwards
+      Object.values(PuzzleCountAwards).some(v => v === this.props.puzzles)
     ) {
       toast.info(
         <Box>
@@ -49,7 +49,7 @@ class CheckNotifier extends React.Component<CheckNotifierProps> {
     // dialogue count
     if (
       this.props.dialogues - prevProps.dialogues === 1 &&
-      this.props.dialogues in QuestionCountAwards
+      Object.values(QuestionCountAwards).some(v => v === this.props.dialogues)
     ) {
       toast.info(
         <Box>
@@ -71,7 +71,9 @@ class CheckNotifier extends React.Component<CheckNotifierProps> {
     // good question count
     if (
       this.props.goodQuestions - prevProps.goodQuestions === 1 &&
-      this.props.goodQuestions in GoodQuestionCountAwards
+      Object.values(GoodQuestionCountAwards).some(
+        v => v === this.props.goodQuestions,
+      )
     ) {
       toast.info(
         <Box>
@@ -93,7 +95,9 @@ class CheckNotifier extends React.Component<CheckNotifierProps> {
     // true answer count
     if (
       this.props.trueAnswers - prevProps.trueAnswers === 1 &&
-      this.props.trueAnswers in TrueAnswerCountAwards
+      Object.values(TrueAnswerCountAwards).some(
+        v => v === this.props.trueAnswers,
+      )
     ) {
       toast.info(
         <Box>

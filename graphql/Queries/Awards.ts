@@ -23,6 +23,13 @@ export const AWARDS_INFO_QUERY = gql`
           count
         }
       }
+      yami_puzzles_aggregate: sui_hei_puzzles_aggregate(
+        where: { yami: { _neq: 0 } }
+      ) {
+        aggregate {
+          count
+        }
+      }
       good_questions_aggregate: sui_hei_dialogues_aggregate(
         where: { good: { _eq: true } }
       ) {
@@ -42,6 +49,24 @@ export const AWARDS_INFO_QUERY = gql`
           count
         }
       }
+    }
+  }
+`;
+
+export const PUZZLE_GENRE_GROUPS_QUERY = gql`
+  query PuzzleGenreGroupsQuery($userId: Int!) {
+    user_puzzle_genre_groups(args: { userId: $userId }) {
+      group
+      value
+    }
+  }
+`;
+
+export const PUZZLE_STAR_COUNT_GROUPS_QUERY = gql`
+  query PuzzleStarCountGroupsQuery($userId: Int!) {
+    user_star_groups(args: { userId: $userId }) {
+      group
+      value
     }
   }
 `;
