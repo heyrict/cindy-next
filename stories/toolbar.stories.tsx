@@ -51,7 +51,7 @@ const getReduxStore = (user: GlobalUserType) =>
         ...globalReducer.initialState,
         user,
       },
-    },
+    } as any,
   );
 
 const noAuthReduxStore = getReduxStore({

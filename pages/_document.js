@@ -1,5 +1,6 @@
 import Document, { Head, Main, NextScript } from 'next/document';
 
+import { hash } from 'common/math';
 import { SCRIPTS } from 'settings';
 
 // The document (which is SSR-only) needs to be customized to expose the locale
@@ -27,7 +28,7 @@ export default class IntlDocument extends Document {
       <html>
         <Head>
           {SCRIPTS.map(s => (
-            <script dangerouslySetInnerHTML={{ __html: s }} />
+            <script key={hash(s)} dangerouslySetInnerHTML={{ __html: s }} />
           ))}
         </Head>
         <body>

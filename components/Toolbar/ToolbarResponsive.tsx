@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as directReducer from 'reducers/direct';
 
-import { ButtonTransparent, Img, Box, RedDot } from 'components/General';
+import { Flex, ButtonTransparent, Img, Box, RedDot } from 'components/General';
+import ActiveUserCounter from 'components/ActiveUserCounter';
 import {
   ToolbarFlex,
   ToolbarButton,
@@ -121,6 +122,9 @@ const Toolbar = ({
                 </ButtonTransparentA>
               </ToolbarResponsiveButton>
             </Box>
+            <Flex width={1 / 2} alignItems="center" justifyContent="center">
+              <ActiveUserCounter />
+            </Flex>
           </ToolbarResponsiveContents>
         </Portal>
       )}
@@ -140,9 +144,7 @@ const Toolbar = ({
           onClick={() => toggleToolbarMenu(ToolbarResponsiveMenuType.USER_MENU)}
         >
           <Img height="xs" src={userIcon} />
-          {hasnew && (
-            <RedDot right={20} top={8} />
-          )}
+          {hasnew && <RedDot right={20} top={8} />}
         </ButtonTransparent>
       </ToolbarButton>
       {toolbarMenu === ToolbarResponsiveMenuType.USER_MENU && (
@@ -166,9 +168,7 @@ const Toolbar = ({
                   color="gray.1"
                 >
                   <MessageBoxButton />
-                  {directHasnew && (
-                    <RedDot right={20} top={8} />
-                  )}
+                  {directHasnew && <RedDot right={20} top={8} />}
                 </ToolbarResponsiveButton>
               </Box>
             )}

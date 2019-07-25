@@ -40,7 +40,9 @@ export const actions = {
   puzzleGenreImg: bool.wrapActions(actionTypes.PUZZLE_GENRE_IMG),
   rightAsideMini: bool.wrapActions(actionTypes.RIGHT_ASIDE_MINI),
   sendChatTrigger: mask.wrapActions(actionTypes.SEND_CHAT_TRIGGER),
-  sendDirectmessageTrigger: mask.wrapActions(actionTypes.SEND_DIRECTMESSAGE_TRIGGER),
+  sendDirectmessageTrigger: mask.wrapActions(
+    actionTypes.SEND_DIRECTMESSAGE_TRIGGER,
+  ),
   editQuestionTrigger: mask.wrapActions(actionTypes.EDIT_QUESTION_TRIGGER),
   sendQuestionTrigger: mask.wrapActions(actionTypes.SEND_QUESTION_TRIGGER),
   sendAnswerTrigger: mask.wrapActions(actionTypes.SEND_ANSWER_TRIGGER),
@@ -111,7 +113,10 @@ export const reducer = (
     case actionTypes.SEND_DIRECTMESSAGE_TRIGGER:
       return {
         ...state,
-        sendDirectmessageTrigger: mask.helper(state.sendDirectmessageTrigger, action.payload),
+        sendDirectmessageTrigger: mask.helper(
+          state.sendDirectmessageTrigger,
+          action.payload,
+        ),
       };
     case actionTypes.SEND_QUESTION_TRIGGER:
       return {
