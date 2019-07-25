@@ -122,6 +122,15 @@ const Toolbar = ({
                 </ButtonTransparentA>
               </ToolbarResponsiveButton>
             </Box>
+            <Box width={1 / 2}>
+              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
+                <Link href="/eula" passHref>
+                  <ButtonTransparentA height={1} width={1} color="orange.9">
+                    <FormattedMessage {...toolbarMessages.eula} />
+                  </ButtonTransparentA>
+                </Link>
+              </ToolbarResponsiveButton>
+            </Box>
             <Flex width={1 / 2} alignItems="center" justifyContent="center">
               <ActiveUserCounter />
             </Flex>

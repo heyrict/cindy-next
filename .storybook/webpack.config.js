@@ -10,6 +10,10 @@ module.exports = async ({ config, mode }) => {
     ),
   );
   config.module.rules.push({
+    test: /\.md$/,
+    use: 'raw-loader',
+  });
+  config.module.rules.push({
     test: /\.(ts|tsx)$/,
     loader: require.resolve('babel-loader'),
     options: {

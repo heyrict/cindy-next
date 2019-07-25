@@ -87,6 +87,13 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
             <FormattedMessage {...toolbarMessages.wiki} />
           </ButtonTransparentA>
         </ToolbarButton>
+        <ToolbarButton bg="orange.4" mr="1px">
+          <Link href="/eula" passHref>
+            <ButtonTransparentA height={1} width={1} color="orange.9">
+              <FormattedMessage {...toolbarMessages.eula} />
+            </ButtonTransparentA>
+          </Link>
+        </ToolbarButton>
         <Flex
           ml={1}
           minWidth="max-content"
