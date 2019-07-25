@@ -178,8 +178,7 @@ const MessageGroupSelectRenderer = ({
 
           if (directMessageGroup.some(grp => grp.last_dm_id > lastReadId))
             setDirectHasnew(true);
-          else
-            setDirectHasnew(false);
+          else setDirectHasnew(false);
         }}
       >
         {({ data: userData, error }) => {
@@ -216,7 +215,8 @@ const MessageGroupSelectRenderer = ({
                                 },
                                 optimisticResponse: {
                                   update_sui_hei_user: {
-                                    __typename: 'sui_hei_user_mutation_response',
+                                    __typename:
+                                      'sui_hei_user_mutation_response',
                                     returning: [
                                       {
                                         __typename: 'sui_hei_user',

@@ -77,7 +77,9 @@ const SettingsModal = ({
   pushNotification,
 }: SettingsModalProps) => {
   const sendChatTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
-  const sendDirectmessageTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
+  const sendDirectmessageTriggerRef = useRef<ButtonSelectStateful<number>>(
+    null!,
+  );
   const sendAnswerTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const sendQuestionTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const editQuestionTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
@@ -228,7 +230,8 @@ const SettingsModal = ({
               settingsModal: false,
               editQuestionTrigger: editQuestionTriggerRef.current.state.value,
               sendChatTrigger: sendChatTriggerRef.current.state.value,
-              sendDirectmessageTrigger: sendDirectmessageTriggerRef.current.state.value,
+              sendDirectmessageTrigger:
+                sendDirectmessageTriggerRef.current.state.value,
               sendAnswerTrigger: sendAnswerTriggerRef.current.state.value,
               sendQuestionTrigger: sendQuestionTriggerRef.current.state.value,
               puzzleGenreImg: puzzleGenreImgRef.current.state.value,

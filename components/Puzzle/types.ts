@@ -40,7 +40,7 @@ export type PuzzleWithAnyProps = {
 
 export type CommentContentProps = {
   on: boolean;
-}
+};
 
 export type CommentDisplayProps = {
   comment: CommentDetail;
@@ -48,4 +48,4 @@ export type CommentDisplayProps = {
 
 export type CommentDisplayStates = {
   on: boolean;
-}
+};

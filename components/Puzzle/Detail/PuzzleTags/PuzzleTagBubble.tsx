@@ -117,8 +117,7 @@ const PuzzleTagBubble = ({
                             .catch((e: ApolloError) => {
                               toast.error(e.message);
                             });
-                          if (warnHdl.current)
-                            toast.dismiss(warnHdl.current);
+                          if (warnHdl.current) toast.dismiss(warnHdl.current);
                         }}
                       >
                         <FormattedMessage {...commonMessages.continue} />

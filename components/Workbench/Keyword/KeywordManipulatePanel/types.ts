@@ -16,10 +16,10 @@ export type KeywordManipulatePanelProps = {
 };
 
 export type KeywordSelectProps = {
-  keywordKeys: Array<string>,
-}
+  keywordKeys: Array<string>;
+};
 
 export type ChoosePanelToolbarProps = {
   keywordManipulatePanel: PanelEnum;
   setKeywordManipulatePanel: (panel: PanelEnum) => void;
-}
+};

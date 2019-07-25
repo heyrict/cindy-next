@@ -18,7 +18,7 @@ export const ProcessBase = styled.div`
 
 export type ProcessProps = {
   count: number;
-}
+};
 
 const Process = ({ count }: ProcessProps) => (
   <ProcessBase>

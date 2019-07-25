@@ -23,7 +23,9 @@ export const markup = (node: any) => {
         break;
       default:
         console.warn(
-          `Unhandled mark type ${mark.type} at PreviewEditor.slate.convert.markup`,
+          `Unhandled mark type ${
+            mark.type
+          } at PreviewEditor.slate.convert.markup`,
         );
     }
   });

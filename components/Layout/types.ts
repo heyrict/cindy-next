@@ -41,4 +41,4 @@ export type ToolbarBoxProps = {
 
 export type FooterProps = {
   children: React.ReactElement;
-}
+};

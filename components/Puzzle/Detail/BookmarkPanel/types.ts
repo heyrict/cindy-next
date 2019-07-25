@@ -11,8 +11,8 @@ export type BookmarkPopoverContentProps = {
 
 export type BookmarkInputProps = {
   initialValue?: number;
-}
+};
 
 export type BookmarkInputStates = {
   value: number;
-}
+};

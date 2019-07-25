@@ -41,7 +41,10 @@ const PuzzleTags = ({ puzzleId, puzzleUserId, userId }: PuzzleTagsProps) => {
                   key={puzzleTag.id}
                   puzzleId={puzzleId}
                   puzzleTag={puzzleTag}
-                  canDelete={puzzleUserId === userId || puzzleTag.sui_hei_user.id === userId}
+                  canDelete={
+                    puzzleUserId === userId ||
+                    puzzleTag.sui_hei_user.id === userId
+                  }
                 />
               ))}
               {userId !== undefined && (

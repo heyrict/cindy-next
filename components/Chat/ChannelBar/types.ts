@@ -52,4 +52,4 @@ export type FavoriteChatroomsListProps = {
 export type ChatroomLogsProps = {
   chatroomId: number;
   relatedPuzzleId?: number | null;
-}
+};

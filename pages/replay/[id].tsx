@@ -19,14 +19,8 @@ class Replay extends React.Component<{ replayId: string }> {
     return (
       <React.Fragment>
         <Head>
-          <title>
-            {_(messages.title)}{' '}
-            | Cindy
-          </title>
-          <meta
-            name="description"
-            content={_(messages.description)}
-          />
+          <title>{_(messages.title)} | Cindy</title>
+          <meta name="description" content={_(messages.description)} />
         </Head>
         <div>{this.props.replayId}</div>
       </React.Fragment>

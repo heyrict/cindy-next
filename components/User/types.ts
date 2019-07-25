@@ -67,7 +67,7 @@ export type UserBriefProfileProps = {
 
 export const UserPanelDefaultProps = {
   maxLength: 100,
-}
+};
 
 export type UserPanelProps = {
   user: InlineUser & InlineUserExtra;

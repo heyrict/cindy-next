@@ -15,11 +15,11 @@ import { GenreType } from './types';
 
 export type GenreInnerProps = {
   genre: GenreType;
-}
+};
 
 export type GenreProps = {
   showGenreImage: boolean;
-} & GenreInnerProps
+} & GenreInnerProps;
 
 export const GenreText = ({ genre }: GenreInnerProps) => {
   switch (genre) {

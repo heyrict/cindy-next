@@ -4,4 +4,3 @@ export const asSearch = (text: string) => {
   if (!trimmed) return null;
   return `%${trimmed.replace(SPACES_REGEX, '%')}%`;
 };
-

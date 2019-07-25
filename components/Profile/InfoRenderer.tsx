@@ -7,7 +7,10 @@ import { PROFILE_PUZZLES_QUERY } from 'graphql/Queries/Puzzles';
 import { PROFILE_STARS_QUERY } from 'graphql/Queries/Star';
 import { PROFILE_BOOKMARKS_QUERY } from 'graphql/Queries/Bookmark';
 import { CHANGE_HIDE_BOOKMARK_MUTATION } from 'graphql/Mutations/User';
-import { PROFILE_COMMENTS_QUERY, PROFILE_COMMENTS_RECEIVED_QUERY } from 'graphql/Queries/Comment';
+import {
+  PROFILE_COMMENTS_QUERY,
+  PROFILE_COMMENTS_RECEIVED_QUERY,
+} from 'graphql/Queries/Comment';
 
 import { FormattedMessage } from 'react-intl';
 import userPageMessages from 'messages/pages/user';
@@ -53,7 +56,7 @@ import {
 } from 'graphql/Queries/generated/ProfileCommentsQuery';
 import {
   ProfileCommentsReceivedQuery,
-  ProfileCommentsReceivedQueryVariables
+  ProfileCommentsReceivedQueryVariables,
 } from 'graphql/Queries/generated/ProfileCommentsReceivedQuery';
 
 const ProfileInfoRenderer = ({
@@ -249,7 +252,10 @@ const ProfileInfoRenderer = ({
         {tab === ProfileTabType.COMMENTS && (
           <Flex alignItems="baseline" justifyContent="center">
             <Flex flexWrap="wrap" width={1 / 2}>
-              <PaginatedQuery<ProfileCommentsQuery, ProfileCommentsQueryVariables>
+              <PaginatedQuery<
+                ProfileCommentsQuery,
+                ProfileCommentsQueryVariables
+              >
                 query={PROFILE_COMMENTS_QUERY}
                 variables={{
                   userId: user.id,
@@ -272,7 +278,10 @@ const ProfileInfoRenderer = ({
               />
             </Flex>
             <Flex flexWrap="wrap" width={1 / 2}>
-              <PaginatedQuery<ProfileCommentsReceivedQuery, ProfileCommentsReceivedQueryVariables>
+              <PaginatedQuery<
+                ProfileCommentsReceivedQuery,
+                ProfileCommentsReceivedQueryVariables
+              >
                 query={PROFILE_COMMENTS_RECEIVED_QUERY}
                 variables={{
                   userId: user.id,

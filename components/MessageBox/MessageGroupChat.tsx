@@ -235,7 +235,9 @@ const MessageGroupChatInner = ({
                 ref={editorRef}
                 useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
                 onKeyDown={(e: React.KeyboardEvent) => {
-                  if (sendDirectmessageTrigger & SendMessageTriggerType.ON_ENTER) {
+                  if (
+                    sendDirectmessageTrigger & SendMessageTriggerType.ON_ENTER
+                  ) {
                     if (
                       e.nativeEvent.keyCode === 13 &&
                       !e.nativeEvent.shiftKey &&
@@ -246,14 +248,20 @@ const MessageGroupChatInner = ({
                       return;
                     }
                   }
-                  if (sendDirectmessageTrigger & SendMessageTriggerType.ON_CTRL_ENTER) {
+                  if (
+                    sendDirectmessageTrigger &
+                    SendMessageTriggerType.ON_CTRL_ENTER
+                  ) {
                     if (e.nativeEvent.keyCode === 13 && e.nativeEvent.ctrlKey) {
                       handleSubmitWithError(editorRef.current.getText());
                       e.preventDefault();
                       return;
                     }
                   }
-                  if (sendDirectmessageTrigger & SendMessageTriggerType.ON_SHIFT_ENTER) {
+                  if (
+                    sendDirectmessageTrigger &
+                    SendMessageTriggerType.ON_SHIFT_ENTER
+                  ) {
                     if (
                       e.nativeEvent.keyCode === 13 &&
                       e.nativeEvent.shiftKey
@@ -270,7 +278,14 @@ const MessageGroupChatInner = ({
           );
         }}
       </Mutation>
-      <Flex borderRadius={2} py={2} bg="orange.3" flexDirection="column">
+      <Flex
+        borderRadius={2}
+        py={2}
+        bg="orange.1"
+        border="3px solid"
+        borderColor="orange.3"
+        flexDirection="column"
+      >
         {directmessages.map(dm => (
           <Directmessage key={dm.id} directmessage={dm} />
         ))}
@@ -340,7 +355,8 @@ const MessageGroupChat = ({
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
   directGroupUser: directReducer.rootSelector(state).directGroupUser,
-  sendDirectmessageTrigger: settingReducer.rootSelector(state).sendDirectmessageTrigger,
+  sendDirectmessageTrigger: settingReducer.rootSelector(state)
+    .sendDirectmessageTrigger,
 });
 
 const withRedux = connect(mapStateToProps);

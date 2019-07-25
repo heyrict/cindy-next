@@ -19,13 +19,13 @@ export type MessageBoxProps = {
 export type MessageGroupSelectRendererProps = {
   userId: number;
   setDirectGroupUser: (userId: number) => void;
-  setDirectHasnew: (hasnew: boolean) => void,
+  setDirectHasnew: (hasnew: boolean) => void;
 } & QueryResult<DirectmessageGroupQuery, DirectmessageGroupQueryVariables>;
 
 export type MessageGroupSelectProps = {
   userId?: number;
   setDirectGroupUser: (userId: number) => void;
-  setDirectHasnew: (hasnew: boolean) => void,
+  setDirectHasnew: (hasnew: boolean) => void;
 };
 
 export type MessageGroupChatInnerProps = {

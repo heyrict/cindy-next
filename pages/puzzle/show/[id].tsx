@@ -1,3 +1,3 @@
-import PuzzleShowPage from "../[id]";
+import PuzzleShowPage from '../[id]';
 
 export default PuzzleShowPage;

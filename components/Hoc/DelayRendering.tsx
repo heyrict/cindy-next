@@ -49,13 +49,13 @@ class DelayRendering extends React.Component<DelayRenderingProps> {
         onEnter={this._startTimer}
         onLeave={this._stopTimer}
       >
-        {this.state.rendered ? (
-          this.props.children
-        ) : this.props.loading || (
-          <div>
-            <FormattedMessage {...messages.loading} />
-          </div>
-        )}
+        {this.state.rendered
+          ? this.props.children
+          : this.props.loading || (
+              <div>
+                <FormattedMessage {...messages.loading} />
+              </div>
+            )}
       </Waypoint>
     );
   }

@@ -19,7 +19,7 @@ export const StarBase = styled.div`
 export type StarProps = {
   count: number;
   sum: number;
-}
+};
 
 const Star = ({ count, sum }: StarProps) => (
   <StarBase>

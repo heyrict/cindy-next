@@ -9,4 +9,4 @@ enum actionTypes {
   SWAP = 'ARRAY_SWAP',
 }
 
-export default actionTypes
+export default actionTypes;

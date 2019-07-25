@@ -10,11 +10,12 @@ import { UserColProps } from './types';
 const AnchorDiv = Anchor.withComponent('div');
 
 const UserCol = ({ user, timestamp, ...props }: UserColProps) => {
-  const NicknameBlock = user.id > 0 ? (
-    <UserBriefProfile user={user} />
-  ) : (
-    <AnchorDiv mr={1}>{user.nickname}</AnchorDiv>
-  );
+  const NicknameBlock =
+    user.id > 0 ? (
+      <UserBriefProfile user={user} />
+    ) : (
+      <AnchorDiv mr={1}>{user.nickname}</AnchorDiv>
+    );
 
   return (
     <UserColBase {...props}>
