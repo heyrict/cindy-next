@@ -1,5 +1,8 @@
 import Document, { Head, Main, NextScript } from 'next/document';
 
+import { hash } from 'common/math';
+import { SCRIPTS } from 'settings';
+
 // The document (which is SSR-only) needs to be customized to expose the locale
 // data for the user's locale for React Intl to work in the browser.
 export default class IntlDocument extends Document {
@@ -23,7 +26,15 @@ export default class IntlDocument extends Document {
 
     return (
       <html>
-        <Head />
+        <Head>
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          />
+          {SCRIPTS.map(s => (
+            <script key={hash(s)} dangerouslySetInnerHTML={{ __html: s }} />
+          ))}
+        </Head>
         <body>
           <Main />
           <script async src={polyfill} />

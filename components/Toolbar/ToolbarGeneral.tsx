@@ -12,7 +12,8 @@ import * as directReducer from 'reducers/direct';
 
 import { Portal } from 'react-portal';
 import { Manager, Reference, Popper } from 'react-popper';
-import { ButtonTransparent, Img, RedDot } from 'components/General';
+import { Flex, ButtonTransparent, Img, RedDot } from 'components/General';
+import ActiveUserCounter from 'components/ActiveUserCounter';
 import LoginButton from './Login/LoginButton';
 import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
@@ -86,6 +87,21 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
             <FormattedMessage {...toolbarMessages.wiki} />
           </ButtonTransparentA>
         </ToolbarButton>
+        <ToolbarButton bg="orange.4" mr="1px">
+          <Link href="/eula" passHref>
+            <ButtonTransparentA height={1} width={1} color="orange.9">
+              <FormattedMessage {...toolbarMessages.eula} />
+            </ButtonTransparentA>
+          </Link>
+        </ToolbarButton>
+        <Flex
+          ml={1}
+          minWidth="max-content"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <ActiveUserCounter />
+        </Flex>
       </ToolbarFlex>
       <Manager>
         <Reference>
@@ -116,9 +132,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                   minWidth="xxs"
                   maxWidth="xxs"
                 />
-                {hasnew && (
-                  <RedDot right={20} top={8} />
-                )}
+                {hasnew && <RedDot right={20} top={8} />}
               </ButtonTransparentA>
             </ToolbarButton>
           )}
@@ -164,9 +178,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                       fontWeight="bold"
                     >
                       <MessageBoxButton />
-                      {directHasnew && (
-                        <RedDot right={20} top={8} />
-                      )}
+                      {directHasnew && <RedDot right={20} top={8} />}
                     </ToolbarButton>
                   )}
                   {user.id && (

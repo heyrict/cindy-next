@@ -66,3 +66,8 @@ export const domainFilter = url => {
     url: url.replace(DOMAIN_REGEXP, '$6'),
   };
 };
+
+export const SCRIPTS = [
+  '(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(54573919,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});',
+  '(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-7445097696449097",enable_page_ads:true});',
+];

@@ -40,7 +40,10 @@ function* fetchUser() {
   }
 }
 
-function* cleanUpLogout(action: { type: globalReducer.actionTypes.SETUSER, payload: GlobalUserType }) {
+function* cleanUpLogout(action: {
+  type: globalReducer.actionTypes.SETUSER;
+  payload: GlobalUserType;
+}) {
   if (action.payload.id === undefined) {
     yield put(directReducer.actions.directHasnew.set(false));
   }
