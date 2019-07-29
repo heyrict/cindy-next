@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 import gunicorn.app.base
@@ -6,6 +7,8 @@ from gunicorn.six import iteritems
 from twitter import OAuth, Twitter
 
 from query import post
+
+logger = logging.Logger(__name__)
 
 LOCALE = "ja"
 PORT = os.environ.get("PORT", 3002)
@@ -36,12 +39,15 @@ def add_puzzle_callback(event):
             'userId': puzzle["user_id"],
         }
     })["sui_hei_user_by_pk"]
-    msg = MESSAGES.ADD_PUZZLE_TWEET.format({
+    msg = MESSAGES.ADD_PUZZLE_TWEET % {
         "id": puzzle["id"],
         "title": puzzle["title"],
         "user_nickname": puzzle_user["nickname"],
-    }) # yapf: disable
-    print(msg)
+    } # yapf: disable
+
+    logger.info("Puzzle Added with id=%d title=%s"\
+                % (puzzle["id"], puzzle["title"]))
+
     auth = OAuth(TOKEN, TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
     t = Twitter(auth=auth)
 

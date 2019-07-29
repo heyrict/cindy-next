@@ -12,7 +12,7 @@ Environment=NUM_WORKERS=2
 #Environment=TOKEN_SECRET=
 #Environment=CONSUMER_KEY=
 #Environment=CONSUMER_SECRET=
-TWEET_WITH_PICTURE=True
+Environment=TWEET_WITH_PICTURE=True
 ExecStart=/path/to/python /path/to/cindy-next/python/callbackServer.py
 Restart=always
 
