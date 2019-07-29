@@ -121,7 +121,6 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
     $genre: Int
     $yami: Int
     $userNickname: String
-    $tags: [Int]
     $orderBy: [sui_hei_puzzle_order_by!]
   ) {
     sui_hei_puzzle(
@@ -134,7 +133,6 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
         genre: { _eq: $genre }
         yami: { _eq: $yami }
         sui_hei_user: { nickname: { _like: $userNickname } }
-        sui_hei_puzzle_tags: { tag_id: { _in: $tags } }
       }
       limit: $limit
       offset: $offset
@@ -151,7 +149,6 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
         genre: { _eq: $genre }
         yami: { _eq: $yami }
         sui_hei_user: { nickname: { _like: $userNickname } }
-        sui_hei_puzzle_tags: { tag_id: { _in: $tags } }
       }
     ) {
       aggregate {
