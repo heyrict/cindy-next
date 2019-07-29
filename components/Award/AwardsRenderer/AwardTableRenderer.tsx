@@ -39,7 +39,7 @@ function AwardTableRenderer<T = number>({
   userInfo,
   getStatusLabel,
 }: AwardTableRendererProps<T>) {
-  return userInfo ? (
+  return (
     <Box width={[1 / 2, 1 / 3, 1 / 2, 1 / 3, 1 / 4]} mb={2}>
       <Box textAlign="center" fontSize={2} color="orange.6" width={1}>
         {header}
@@ -200,7 +200,7 @@ function AwardTableRenderer<T = number>({
         </AwardTable>
       )}
     </Box>
-  ) : null;
+  );
 }
 
 export default AwardTableRenderer;
