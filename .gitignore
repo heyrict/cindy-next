@@ -1,6 +1,10 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
 # Don't check auto-generated stuff into git
 coverage
-pushbundle
 node_modules
 build
 stats.json

@@ -1,0 +1,15 @@
+- args:
+    enable_manual: false
+    headers: []
+    insert:
+      columns: '*'
+    name: send_twitter_on_puzzle_insert
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    table:
+      name: sui_hei_puzzle
+      schema: public
+    webhook_from_env: PYTHON_SERVER_WEBHOOK
+  type: create_event_trigger
