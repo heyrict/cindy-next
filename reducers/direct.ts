@@ -9,12 +9,14 @@ export enum actionTypes {
   DIRECT_MODAL = 'direct.DIRECT_MODAL',
   DIRECT_GROUP_USER = 'direct.DIRECT_GROUP_USER',
   DIRECT_HASNEW = 'direct.DIRECT_HASNEW',
+  DIRECT_WITH_USER = 'direct.DIRECT_WITH_USER',
 }
 
 export type ActionPayloadType = {
   DIRECT_MODAL: ReturnType<ValueOf<bool.HelperActionType>>;
   DIRECT_GROUP_USER: ReturnType<ValueOf<base.HelperActionType<number | null>>>;
   DIRECT_HASNEW: ReturnType<ValueOf<bool.HelperActionType>>;
+  DIRECT_WITH_USER: { userId: number };
 };
 
 export const actions = {
@@ -23,6 +25,10 @@ export const actions = {
     actionTypes.DIRECT_GROUP_USER,
   ),
   directHasnew: bool.wrapActions(actionTypes.DIRECT_HASNEW),
+  directChatWithUser: (userId: number) => ({
+    type: actionTypes.DIRECT_WITH_USER,
+    payload: { userId },
+  }),
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -53,6 +59,12 @@ export const reducer = (
       return {
         ...state,
         directHasnew: bool.helper(state.directHasnew, action.payload),
+      };
+    case actionTypes.DIRECT_WITH_USER:
+      return {
+        ...state,
+        directModal: true,
+        directGroupUser: action.payload.userId,
       };
     default:
       return state;

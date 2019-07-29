@@ -63,6 +63,7 @@ export type CurrentUserAwardProps = {
 
 export type UserBriefProfileProps = {
   user: InlineUser;
+  directChatWithUser: (userId: number) => void;
 };
 
 export const UserPanelDefaultProps = {
@@ -71,4 +72,5 @@ export const UserPanelDefaultProps = {
 
 export type UserPanelProps = {
   user: InlineUser & InlineUserExtra;
+  directChatWithUser: (userId: number) => void;
 } & typeof UserPanelDefaultProps;

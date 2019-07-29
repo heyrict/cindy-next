@@ -35,6 +35,14 @@ export const messages = defineMessages({
     id: `${scope}.noDescription`,
     defaultMessage: 'This chatroom does not have a description.',
   },
+  noSelfDM: {
+    id: `${scope}.noSelfDM`,
+    defaultMessage: 'You cannot send message to yourself.',
+  },
+  noLogs: {
+    id: `${scope}.noLogs`,
+    defaultMessage: 'There are no logs here',
+  },
 });
 
 export default messages;

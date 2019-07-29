@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { updateItem, upsertItem } from 'common/update';
+import { upsertItem } from 'common/update';
 import { toast } from 'react-toastify';
 
 import { connect } from 'react-redux';
@@ -13,6 +13,9 @@ import {
   DIRECTMESSAGE_GROUP_QUERY,
 } from 'graphql/Queries/Directmessage';
 import { DIRECTMESSAGE_SEND_MUTATION } from 'graphql/Mutations/Directmessage';
+
+import { FormattedMessage } from 'react-intl';
+import chatMessages from 'messages/components/chat';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import Directmessage from 'components/Chat/Directmessage';
@@ -71,6 +74,22 @@ const MessageGroupChatInner = ({
   }
   if (!data || !data.sui_hei_directmessage) return null;
   const { sui_hei_directmessage: directmessages } = data;
+
+  if (userId === directGroupUser)
+    return (
+      <Flex
+        flexGrow={1}
+        flexWrap="wrap"
+        border="3px solid"
+        borderRadius={1}
+        borderColor="orange.5"
+        bg="orange.3"
+        p={2}
+        mb={2}
+      >
+        <FormattedMessage {...chatMessages.noSelfDM} />
+      </Flex>
+    );
 
   return (
     <React.Fragment>
@@ -143,7 +162,7 @@ const MessageGroupChatInner = ({
               userId,
             },
             data: {
-              direct_message_group: updateItem(
+              direct_message_group: upsertItem(
                 direct_message_group,
                 {
                   __typename: 'hasura_directmessage_group_trigger',
@@ -286,6 +305,9 @@ const MessageGroupChatInner = ({
         borderColor="orange.3"
         flexDirection="column"
       >
+        {directmessages.length === 0 && (
+          <FormattedMessage {...chatMessages.noLogs} />
+        )}
         {directmessages.map(dm => (
           <Directmessage key={dm.id} directmessage={dm} />
         ))}

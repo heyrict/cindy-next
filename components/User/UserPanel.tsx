@@ -3,6 +3,9 @@ import Router from 'next/router';
 import Link from 'next/link';
 import { text2raw } from 'common/markdown';
 
+import { connect } from 'react-redux';
+import * as directReducer from 'reducers/direct';
+
 import {
   Panel,
   Box,
@@ -17,10 +20,11 @@ import { FormattedMessage, FormattedTime } from 'react-intl';
 import authMessages from 'messages/components/auth';
 
 import { UserPanelProps, UserPanelDefaultProps } from './types';
+import { ActionContentType } from 'reducers/types';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
-const UserPanel = ({ user, maxLength }: UserPanelProps) => (
+const UserPanel = ({ user, maxLength, directChatWithUser }: UserPanelProps) => (
   <Panel
     minHeight="4em"
     flexWrap="wrap"
@@ -36,7 +40,7 @@ const UserPanel = ({ user, maxLength }: UserPanelProps) => (
           <Img height="xxs" src={homeIcon} alt="Home" />
         </ButtonTransparentA>
       </Link>
-      <ButtonTransparent p={1}>
+      <ButtonTransparent p={1} onClick={() => directChatWithUser(user.id)}>
         <Img height="xxs" src={messageIcon} alt="Message" />
       </ButtonTransparent>
     </Box>
@@ -81,4 +85,14 @@ const UserPanel = ({ user, maxLength }: UserPanelProps) => (
 
 UserPanel.defaultProps = UserPanelDefaultProps;
 
-export default UserPanel;
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  directChatWithUser: (userId: number) =>
+    dispatch(directReducer.actions.directChatWithUser(userId)),
+});
+
+const withRedux = connect(
+  null,
+  mapDispatchToProps,
+);
+
+export default withRedux(UserPanel);

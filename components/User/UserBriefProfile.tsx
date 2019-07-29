@@ -6,6 +6,9 @@ import { text2raw } from 'common/markdown';
 import { Query } from 'react-apollo';
 import { USER_BRIEF_EXTRA_QUERY } from 'graphql/Queries/User';
 
+import { connect } from 'react-redux';
+import * as directReducer from 'reducers/direct';
+
 import { Manager, Reference, Popper } from 'react-popper';
 import { Anchor, Flex, Box, ButtonTransparent, Img } from 'components/General';
 import homeIcon from 'svgs/home.svg';
@@ -19,13 +22,17 @@ import {
   UserBriefExtraQuery,
   UserBriefExtraQueryVariables,
 } from 'graphql/Queries/generated/UserBriefExtraQuery';
+import { ActionContentType } from 'reducers/types';
 
 const AnchorButton = Anchor.withComponent('button');
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
 let blurHdl = null as number | null;
 
-const UserBriefProfile = ({ user }: UserBriefProfileProps) => {
+const UserBriefProfile = ({
+  user,
+  directChatWithUser,
+}: UserBriefProfileProps) => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -142,7 +149,10 @@ const UserBriefProfile = ({ user }: UserBriefProfileProps) => {
                     <Img height="xxs" src={homeIcon} alt="profile" />
                   </ButtonTransparentA>
                 </Link>
-                <ButtonTransparent p={1}>
+                <ButtonTransparent
+                  p={1}
+                  onClick={() => directChatWithUser(user.id)}
+                >
                   <Img height="xxs" src={messageIcon} alt="profile" />
                 </ButtonTransparent>
               </Flex>
@@ -155,4 +165,14 @@ const UserBriefProfile = ({ user }: UserBriefProfileProps) => {
   );
 };
 
-export default UserBriefProfile;
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  directChatWithUser: (userId: number) =>
+    dispatch(directReducer.actions.directChatWithUser(userId)),
+});
+
+const withRedux = connect(
+  null,
+  mapDispatchToProps,
+);
+
+export default withRedux(UserBriefProfile);

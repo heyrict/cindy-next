@@ -75,6 +75,8 @@
   "components.chat.deleteFromFavoriteChatrooms": "お気に入り削除",
   "components.chat.favoriteChatrooms": "お気に入りチャンネル",
   "components.chat.noDescription": "このチャンネルは説明がありません。",
+  "components.chat.noLogs": "ここにチャットメッセージのログがありません",
+  "components.chat.noSelfDM": "あなたは自分にダイレクトメッセージを送信することはできません",
   "components.chat.notExistDescription": "このチャットルームは存在しません",
   "components.puzzle.addBookmarks": "ブクマを追加する",
   "components.puzzle.addComment": "コメントを残す",
