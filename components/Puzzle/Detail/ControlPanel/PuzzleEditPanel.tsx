@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import messages from 'messages/pages/puzzle';
 import puzzleMessages from 'messages/components/puzzle';
+import commonMessages from 'messages/common';
 
 import { Flex, Box, ButtonTransparent, Switch } from 'components/General';
 
@@ -19,6 +21,8 @@ const PuzzleEditPanel = ({
   updatePuzzle,
   show,
 }: PuzzleEditPanelProps) => {
+  const notifHdlRef = useRef<React.ReactText | null>(null);
+
   // Update dazed_on date
   useEffect(() => {
     if (status !== 0) return;
@@ -97,30 +101,54 @@ const PuzzleEditPanel = ({
               py={1}
               color="blue.0"
               onClick={() => {
-                updatePuzzle({
-                  variables: {
-                    puzzleId,
-                    status: 1,
-                    dazedOn: dazed_on,
-                    grotesque,
-                    yami,
-                  },
-                  optimisticResponse: {
-                    update_sui_hei_puzzle: {
-                      __typename: 'sui_hei_puzzle_mutation_response',
-                      returning: [
-                        {
-                          __typename: 'sui_hei_puzzle',
-                          id: puzzleId,
-                          dazed_on: dazed_on,
-                          grotesque,
-                          status: 1,
-                          yami,
-                        },
-                      ],
-                    },
-                  },
-                });
+                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+                notifHdlRef.current = toast.warn(
+                  <Box>
+                    <FormattedMessage {...messages.putSolutionConfirm} />
+                    <Flex
+                      alignItems="center"
+                      justifyContent="center"
+                      bg="cyan.6"
+                      borderRadius={2}
+                    >
+                      <ButtonTransparent
+                        width={1}
+                        color="cyan.0"
+                        onClick={() => {
+                          if (notifHdlRef.current)
+                            toast.dismiss(notifHdlRef.current);
+                          updatePuzzle({
+                            variables: {
+                              puzzleId,
+                              status: 1,
+                              dazedOn: dazed_on,
+                              grotesque,
+                              yami,
+                            },
+                            optimisticResponse: {
+                              update_sui_hei_puzzle: {
+                                __typename: 'sui_hei_puzzle_mutation_response',
+                                returning: [
+                                  {
+                                    __typename: 'sui_hei_puzzle',
+                                    id: puzzleId,
+                                    dazed_on: dazed_on,
+                                    grotesque,
+                                    status: 1,
+                                    yami,
+                                  },
+                                ],
+                              },
+                            },
+                          });
+                        }}
+                      >
+                        <FormattedMessage {...commonMessages.continue} />
+                      </ButtonTransparent>
+                    </Flex>
+                  </Box>,
+                  { autoClose: false },
+                );
               }}
             >
               <FormattedMessage {...messages.putSolution} />
@@ -177,30 +205,58 @@ const PuzzleEditPanel = ({
               py={1}
               color="blue.0"
               onClick={() => {
-                updatePuzzle({
-                  variables: {
-                    puzzleId,
-                    status: status === 3 ? 1 : 3,
-                    dazedOn: dazed_on,
-                    grotesque,
-                    yami,
-                  },
-                  optimisticResponse: {
-                    update_sui_hei_puzzle: {
-                      __typename: 'sui_hei_puzzle_mutation_response',
-                      returning: [
-                        {
-                          __typename: 'sui_hei_puzzle',
-                          id: puzzleId,
-                          dazed_on: dazed_on,
-                          grotesque,
-                          status: status === 3 ? 1 : 3,
-                          yami,
-                        },
-                      ],
-                    },
-                  },
-                });
+                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+                notifHdlRef.current = toast.warn(
+                  <Box>
+                    <FormattedMessage
+                      {...(status === 3
+                        ? messages.unsetHiddenConfirm
+                        : messages.setHiddenConfirm)}
+                    />
+                    <Flex
+                      alignItems="center"
+                      justifyContent="center"
+                      bg="cyan.6"
+                      borderRadius={2}
+                    >
+                      <ButtonTransparent
+                        width={1}
+                        color="cyan.0"
+                        onClick={() => {
+                          if (notifHdlRef.current)
+                            toast.dismiss(notifHdlRef.current);
+                          updatePuzzle({
+                            variables: {
+                              puzzleId,
+                              status: status === 3 ? 1 : 3,
+                              dazedOn: dazed_on,
+                              grotesque,
+                              yami,
+                            },
+                            optimisticResponse: {
+                              update_sui_hei_puzzle: {
+                                __typename: 'sui_hei_puzzle_mutation_response',
+                                returning: [
+                                  {
+                                    __typename: 'sui_hei_puzzle',
+                                    id: puzzleId,
+                                    dazed_on: dazed_on,
+                                    grotesque,
+                                    status: status === 3 ? 1 : 3,
+                                    yami,
+                                  },
+                                ],
+                              },
+                            },
+                          });
+                        }}
+                      >
+                        <FormattedMessage {...commonMessages.continue} />
+                      </ButtonTransparent>
+                    </Flex>
+                  </Box>,
+                  { autoClose: false },
+                );
               }}
             >
               {status === 3 ? (

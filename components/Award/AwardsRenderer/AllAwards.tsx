@@ -453,13 +453,11 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                       toast.error(error);
                       return null;
                     }
-                    if (
-                      !data ||
-                      !data.sui_hei_puzzle
-                    )
-                      return null;
+                    if (!data || !data.sui_hei_puzzle) return null;
                     const maxYamiDialogues =
-                      data.sui_hei_puzzle.length === 0 ? null : data.sui_hei_puzzle[0].sui_hei_dialogues_aggregate;
+                      data.sui_hei_puzzle.length === 0
+                        ? null
+                        : data.sui_hei_puzzle[0].sui_hei_dialogues_aggregate;
                     const yamiPuzzleDialogueMaxCount =
                       maxYamiDialogues &&
                       maxYamiDialogues.aggregate &&

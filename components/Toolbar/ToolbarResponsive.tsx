@@ -162,9 +162,11 @@ const Toolbar = ({
             {user.id && (
               <Box width={1 / 2}>
                 <ToolbarResponsiveButton mr="1px" mb="1px" bg="orange.5">
-                  <ButtonTransparentA height={1} width={1} color="gray.1">
-                    {user.nickname}
-                  </ButtonTransparentA>
+                  <Link href="/user/[id]" as={`/user/${user.id}`} passHref>
+                    <ButtonTransparentA height={1} width={1} color="gray.1">
+                      {user.nickname}
+                    </ButtonTransparentA>
+                  </Link>
                 </ToolbarResponsiveButton>
               </Box>
             )}

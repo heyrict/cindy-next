@@ -44,13 +44,28 @@ export const messages = defineMessages({
     id: `${scope}.putSolution`,
     defaultMessage: 'Put Solution',
   },
+  putSolutionConfirm: {
+    id: `${scope}.putSolutionConfirm`,
+    defaultMessage:
+      'You attempt to put solution. Everyone can see your solution then and you cannot edit the solution any more. This operation cannot be reverted. Continue?',
+  },
   setHidden: {
     id: `${scope}.setHidden`,
     defaultMessage: 'Make the puzzle hidden to public',
   },
+  setHiddenConfirm: {
+    id: `${scope}.setHiddenConfirm`,
+    defaultMessage:
+      'You attempt to set the puzzle hidden to public. This operation will forcefully solve the puzzle and mark it as solved. You will NOT be able to change the puzzle to undergoing state. Continue?',
+  },
   unsetHidden: {
     id: `${scope}.unsetHidden`,
     defaultMessage: 'Make the puzzle open to public',
+  },
+  unsetHiddenConfirm: {
+    id: `${scope}.unsetHiddenConfirm`,
+    defaultMessage:
+      'You attempt to set the puzzle open to public. This operation will mark the puzzle as solved and anyone viewing this page will see the puzzle contents and solution INSTANTLY. You can make this puzzle hidden again afterwards. Continue?',
   },
   memoFromCreator: {
     id: `${scope}.memoFromCreator`,

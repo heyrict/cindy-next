@@ -17,7 +17,7 @@ export const EDIT_PROFILE_MUTATION = gql`
 `;
 
 export const CHANGE_CURRERNT_USERAWARD_MUTATION = gql`
-  mutation ChangeCurrentUserawardMutation($userId: Int!, $userawardId: Int!) {
+  mutation ChangeCurrentUserawardMutation($userId: Int!, $userawardId: Int) {
     update_sui_hei_user(
       _set: { current_award_id: $userawardId }
       where: { id: { _eq: $userId } }
