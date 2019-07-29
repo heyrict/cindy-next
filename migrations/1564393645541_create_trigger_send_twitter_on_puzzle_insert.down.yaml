@@ -1,0 +1,3 @@
+- args:
+    name: send_twitter_on_puzzle_insert
+  type: delete_event_trigger

@@ -1,0 +1,20 @@
+[Unit]
+Description=Cindy-next python callback server
+After=network.target
+
+[Service]
+User=heyrict
+Group=www-data
+WorkingDirectory=/path/to/cindy-next
+Environment=PORT=3002
+Environment=NUM_WORKERS=2
+#Environment=TOKEN=
+#Environment=TOKEN_SECRET=
+#Environment=CONSUMER_KEY=
+#Environment=CONSUMER_SECRET=
+Environment=TWEET_WITH_PICTURE=True
+ExecStart=/path/to/python /path/to/cindy-next/python/callbackServer.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
