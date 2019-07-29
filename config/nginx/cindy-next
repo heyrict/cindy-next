@@ -35,7 +35,7 @@ server {
         proxy_set_header X-Forwarded-Host $server_name;
     }
 
-    location ~ ^/webhook/(getcurrent|login|signup) {
+    location ~ ^/webhook/(getcurrent|login|signup|activeUsers) {
         proxy_pass http://localhost:3001;
 
         proxy_http_version 1.1;
