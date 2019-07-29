@@ -1,5 +1,6 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { isDev } from 'settings';
 
 import sagas from '../sagas';
 
@@ -25,7 +26,8 @@ const reducer = combineReducers({
 });
 
 const composeEnhancers =
-  (process.browser && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+  (process.browser && isDev && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
 
 /* eslint-disable no-underscore-dangle */
 export const initializeStore = (
