@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 
-const METRIKA_API = 'https://api-metrika.yandex.com/stat/v1/data/bytime';
+const METRIKA_API = 'https://api-metrika.yandex.com/stat/v1/data';
 
 const getAPIURL = params =>
   `${METRIKA_API}?${Object.entries(params)

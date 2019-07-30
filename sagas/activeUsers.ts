@@ -6,27 +6,24 @@ import * as globalReducer from 'reducers/global';
 import { YandexAPIErrorType, YandexAPIResponseType } from 'reducers/types';
 
 const METRIKA_PARAMS = {
-  dimensions: 'ym:s:hourMinute',
+  dimensions: 'ym:s:date,ym:s:hour,ym:s:dekaminute',
   metrics: 'ym:s:users',
-  sort: '-ym:s:hourMinute',
-  auto_group_size: 20,
+  sort: '-ym:s:date,-ym:s:hour,-ym:s:dekaminute',
   group: 'day',
-  limit: 2,
+  limit: 6,
   id: 54573919,
+  date1: 'yesterday',
+  date2: 'today',
 };
 
 function* fetchActiveUsers() {
-  const nowStr = new Date().toISOString().substr(0, 10);
-  console.log(
-    JSON.stringify({ ...METRIKA_PARAMS, date1: nowStr, date2: nowStr }),
-  );
   const res = yield fetch(`${WEBHOOK_SERVER}/activeUsers`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ ...METRIKA_PARAMS, date1: nowStr, date2: nowStr }),
+    body: JSON.stringify(METRIKA_PARAMS),
   });
   const data = (yield res.json()) as YandexAPIErrorType | YandexAPIResponseType;
   if ('errors' in data) {

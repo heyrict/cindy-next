@@ -13,8 +13,10 @@ const ActiveUserCounter = ({ yandexUsersReport }: ActiveUserCounterProps) => {
     count = '...';
   } else if (yandexUsersReport.data.length === 0) {
     count = 1;
-  } else {
+  } else if (yandexUsersReport.data.length === 1) {
     count = yandexUsersReport.data[0].metrics[0];
+  } else {
+    count = yandexUsersReport.data[0].metrics[1];
   }
 
   return (

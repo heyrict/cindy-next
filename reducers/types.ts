@@ -70,7 +70,10 @@ export enum SendMessageTriggerType {
 
 export type YandexAPIResponseType = {
   query: any;
-  data: Array<{ dimensions: Array<{ name: string }>; metrics: Array<number> }>;
+  data: Array<{
+    dimensions: Array<{ id?: string; name: string }>;
+    metrics: Array<number>;
+  }>;
   total_rows: number;
   total_rows_rounded: boolean;
   sampled: boolean;
