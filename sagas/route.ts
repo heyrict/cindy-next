@@ -17,6 +17,8 @@ const getRouteChannel = () =>
   });
 
 function* routeSaga() {
+  if (!process.browser) return;
+
   const routeChannel = yield call(getRouteChannel);
 
   while (true) {
