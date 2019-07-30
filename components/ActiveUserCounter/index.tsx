@@ -16,7 +16,9 @@ const ActiveUserCounter = ({ yandexUsersReport }: ActiveUserCounterProps) => {
   } else if (yandexUsersReport.data.length === 1) {
     count = yandexUsersReport.data[0].metrics[0];
   } else {
-    count = yandexUsersReport.data[0].metrics[1];
+    const countNow = yandexUsersReport.data[0].metrics[0];
+    const countPrev = yandexUsersReport.data[1].metrics[0];
+    count = Math.max(countNow, countPrev);
   }
 
   return (
