@@ -34,8 +34,8 @@ export const initializeStore = (
   initialState: StateType,
   router: { asPath: string },
 ) => {
-  const sagaMiddleware = createSagaMiddleware();
   const route = (router && router.asPath) || '';
+  const sagaMiddleware = createSagaMiddleware();
   const store: ExtendedStore = createStore(
     reducer,
     initialState || {
@@ -43,7 +43,6 @@ export const initializeStore = (
     },
     composeEnhancers(applyMiddleware(sagaMiddleware)),
   );
-
   store.sagaTask = sagaMiddleware.run(sagas);
 
   return store;
