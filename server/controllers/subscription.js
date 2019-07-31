@@ -85,11 +85,11 @@ const controller = (request, response) => {
   const data = request.body;
   try {
     switch (data.trigger.name) {
-      case triggers.ON_CHATMESSAGE_CHANGE:
-      case triggers.ON_DIALOGUE_CHANGE:
       case triggers.ON_DIRECTMESSAGE_CHANGE:
         addSenderReceiverHandler(data, response);
         break;
+      case triggers.ON_CHATMESSAGE_CHANGE:
+      case triggers.ON_DIALOGUE_CHANGE:
       case triggers.ON_PUZZLE_CHANGE:
         addUserHandler(data, response);
         break;

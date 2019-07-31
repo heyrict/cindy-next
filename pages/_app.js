@@ -50,12 +50,6 @@ class MyApp extends App {
   }
 
   componentDidMount() {
-    // unclean mock for set channel
-    window.openChat = channelName => {
-      this.props.reduxStore.dispatch(globalActions.setChannel(channelName));
-      return void 0;
-    };
-
     window.addEventListener('click', this.eventDelegation.bind(this));
   }
   componentWillUnmount() {
@@ -73,7 +67,7 @@ class MyApp extends App {
         case 'open-channel':
           if ('data-target' in attr) {
             this.props.reduxStore.dispatch(
-              globalActions.setChannel(attr['data-target'].value),
+              globalActions.channel.set(attr['data-target'].value),
             );
           }
           break;
