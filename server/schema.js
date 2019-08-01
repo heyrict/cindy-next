@@ -222,22 +222,16 @@ export const resolvers = {
         (payload, args) => {
           const puzzleIdMatches =
             payload.event.data.new.puzzle_id === args.puzzleId;
-          if (payload.trigger.name === triggers.ON_DIALOGUE_CHANGE) {
-            return (
-              puzzleIdMatches &&
-              (!args.user_id || payload.event.data.new.user_id === args.userId)
-            );
-          }
-          if (payload.trigger.name === triggers.ON_HINT_CHANGE) {
-            return (
-              puzzleIdMatches &&
-              (!args.user_id || payload.event.data.new.user_id === args.userId)
-            );
-          }
+          const userIdMatches =
+            args.userId === null ||
+            payload.event.data.new.user_id === args.userId;
+
+          return puzzleIdMatches && userIdMatches;
         },
       ),
       resolve: async (payload, args, context, info) => {
         const nodes = {};
+
         if (payload.trigger.name === triggers.ON_DIALOGUE_CHANGE) {
           nodes.sui_hei_dialogue = payload.event.data.new;
         }

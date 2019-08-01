@@ -38,7 +38,7 @@ const Ranking = (_props: RankingProps, context: RankingContext) => {
       <Flex width={1} flexWrap="wrap">
         <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
           <Box m={2} bg="yellow.7" borderRadius={2}>
-            <Link href="ranking/puzzle_star" passHref>
+            <Link href="ranking/puzzleStar" passHref>
               <ButtonTransparentA
                 width={1}
                 py={2}
@@ -54,7 +54,7 @@ const Ranking = (_props: RankingProps, context: RankingContext) => {
         </Box>
         <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
           <Box m={2} bg="yellow.7" borderRadius={2}>
-            <Link href="ranking/user_dialogue" passHref>
+            <Link href="ranking/userDialogue" passHref>
               <ButtonTransparentA
                 width={1}
                 py={2}
@@ -70,7 +70,7 @@ const Ranking = (_props: RankingProps, context: RankingContext) => {
         </Box>
         <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
           <Box m={2} bg="yellow.7" borderRadius={2}>
-            <Link href="ranking/user_puzzle" passHref>
+            <Link href="ranking/userPuzzle" passHref>
               <ButtonTransparentA
                 width={1}
                 py={2}

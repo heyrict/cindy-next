@@ -87,3 +87,15 @@ export const FAVORITE_CHATROOMS_QUERY = gql`
     }
   }
 `;
+
+export const PUBLIC_CHATROOMS_QUERY = gql`
+  query PublicChatroomsQuery {
+    sui_hei_chatroom(
+      where: { private: { _eq: false } }
+      order_by: { id: asc }
+    ) {
+      id
+      name
+    }
+  }
+`;

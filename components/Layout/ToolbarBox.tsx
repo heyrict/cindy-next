@@ -18,11 +18,9 @@ const ToolbarBoxBase = styled.nav<ToolbarBoxBaseProps>`
   overflow-x: auto;
   overflow-y: hidden;
   z-index: 100;
-  visibility: ${p => (p.show ? 'visible' : 'hidden')};
   transition-property: transform, visibility;
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
-  transform: ${p => (p.show ? 'none' : 'translateY(-100%)')};
   ${p => p.theme.mediaQueries.large} {
     left: calc(${p => p.theme.sizes.chatLG});
     width: ${p => `calc(100% - ${p.theme.sizes.chatLG} - 4px)`};
@@ -30,6 +28,10 @@ const ToolbarBoxBase = styled.nav<ToolbarBoxBaseProps>`
   ${p => p.theme.mediaQueries.medium} {
     left: 0;
     width: calc(100% - 4px);
+  }
+  ${p => p.theme.mediaQueries.small} {
+    visibility: ${p => (p.show ? 'visible' : 'hidden')};
+    transform: ${p => (p.show ? 'none' : 'translateY(-100%)')};
   }
 `;
 

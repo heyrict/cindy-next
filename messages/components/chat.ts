@@ -31,6 +31,10 @@ export const messages = defineMessages({
     id: `${scope}.favoriteChatrooms`,
     defaultMessage: 'My Favorite Chatrooms',
   },
+  publicChatrooms: {
+    id: `${scope}.publicChatrooms`,
+    defaultMessage: 'Public Chatrooms',
+  },
   noDescription: {
     id: `${scope}.noDescription`,
     defaultMessage: 'This chatroom does not have a description.',

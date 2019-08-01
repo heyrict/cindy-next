@@ -50,7 +50,7 @@ export const ToolbarResponsiveContents = styled.div`
   background: ${p => p.theme.colors.orange[2]};
   display: flex;
   flex-wrap: wrap;
-  z-index: 250;
+  z-index: 190;
   ${p => p.theme.mediaQueries.large} {
     left: calc(${p => p.theme.sizes.chatLG});
     width: ${p => `calc(100% - ${p.theme.sizes.chatLG} - 4px)`};
@@ -76,5 +76,5 @@ export const ToolbarDropdownContents = styled.div`
   background: ${p => p.theme.colors.orange[2]};
   display: flex;
   flex-direction: column;
-  z-index: 250;
+  z-index: 190;
 `;

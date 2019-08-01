@@ -18,9 +18,7 @@ const CurrentUserAward = ({ useraward }: CurrentUserAwardProps) => {
           <AnchorButton
             ref={ref}
             onMouseEnter={() => setShow(true)}
-            onFocus={() => setShow(true)}
             onMouseLeave={() => setShow(false)}
-            onBlur={() => setShow(false)}
           >
             [{useraward.sui_hei_award.name}]
           </AnchorButton>

@@ -53,3 +53,8 @@ export type ChatroomLogsProps = {
   chatroomId: number;
   relatedPuzzleId?: number | null;
 };
+
+export type PublicChatroomsListProps = {
+  setChannel: (channel: string) => void;
+  setFalseChannelChangeModal: () => void;
+};

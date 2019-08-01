@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { text2raw } from 'common/markdown';
@@ -27,18 +27,17 @@ import { ActionContentType } from 'reducers/types';
 const AnchorButton = Anchor.withComponent('button');
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
-let blurHdl = null as number | null;
-
 const UserBriefProfile = ({
   user,
   directChatWithUser,
 }: UserBriefProfileProps) => {
   const [show, setShow] = useState(false);
+  const blurHdl = useRef<number | null>(null);
 
   useEffect(() => {
     // Clear timeout before unmount
     return () => {
-      if (blurHdl) window.clearTimeout(blurHdl);
+      if (blurHdl.current) window.clearTimeout(blurHdl.current);
     };
   }, []);
 
@@ -51,9 +50,9 @@ const UserBriefProfile = ({
             maxWidth="12em"
             onFocus={() => setShow(true)}
             onBlur={() =>
-              window.setTimeout(() => {
+              (blurHdl.current = window.setTimeout(() => {
                 setShow(false);
-              }, 100)
+              }, 100))
             }
           >
             {user.nickname}

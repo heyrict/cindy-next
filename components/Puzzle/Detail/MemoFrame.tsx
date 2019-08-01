@@ -18,6 +18,8 @@ import { RightAsideType, ActionContentType } from 'reducers/types';
 function MemoFrame(props: MemoFrameType) {
   const { memo, setRightAside } = props;
   const memoRaw = text2raw(memo);
+  const memoRawContent =
+    memoRaw.length > 100 ? `${memoRaw.substr(0, 100)}...` : memoRaw;
 
   return (
     <Box
@@ -40,9 +42,12 @@ function MemoFrame(props: MemoFrameType) {
             <Img size="xs" mr={2} src={memoIcon} alt="Memo" title="memo" />
             <FormattedMessage {...messages.memoFromCreator} />
           </Box>
-          <Box px={2} py={1} fontSize="0.8em">
-            {memoRaw.length > 100 ? `${memoRaw.substr(0, 100)}...` : memoRaw}
-          </Box>
+          <Box
+            px={2}
+            py={1}
+            fontSize="0.8em"
+            dangerouslySetInnerHTML={{ __html: memoRawContent }}
+          />
         </Flex>
       </ButtonTransparent>
     </Box>
