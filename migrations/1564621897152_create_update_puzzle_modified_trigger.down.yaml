@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    sql: |-
+      drop trigger if exists update_puzzle_modified_trigger on sui_hei_puzzle;
+      drop function if exists update_puzzle_modified;
+  type: run_sql
