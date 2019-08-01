@@ -78,6 +78,7 @@
   "components.chat.noLogs": "There are no logs here",
   "components.chat.noSelfDM": "You cannot send message to yourself.",
   "components.chat.notExistDescription": "This chatroom does not exist!",
+  "components.chat.publicChatrooms": "Public Chatrooms",
   "components.puzzle.addBookmarks": "Add Bookmarks",
   "components.puzzle.addComment": "Add Comment",
   "components.puzzle.addStars": "Add Stars",

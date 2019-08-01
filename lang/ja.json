@@ -78,6 +78,7 @@
   "components.chat.noLogs": "ここにチャットメッセージのログがありません",
   "components.chat.noSelfDM": "あなたは自分にダイレクトメッセージを送信することはできません",
   "components.chat.notExistDescription": "このチャットルームは存在しません",
+  "components.chat.publicChatrooms": "公開チャンネル",
   "components.puzzle.addBookmarks": "ブクマを追加する",
   "components.puzzle.addComment": "コメントを残す",
   "components.puzzle.addStars": "あなたのスター",
