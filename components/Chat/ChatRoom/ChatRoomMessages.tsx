@@ -168,7 +168,7 @@ const ChatRoomMessagesBody = ({
 
                   const { sui_hei_puzzle_by_pk: relatedPuzzle } = res.data;
                   if (!relatedPuzzle) return null;
-                  if (relatedPuzzle.anonymous) {
+                  if (relatedPuzzle.anonymous && relatedPuzzle.status === 0) {
                     return chatmessages.map(cm => (
                       <Chatmessage
                         key={`chatmessage-${cm.id}`}

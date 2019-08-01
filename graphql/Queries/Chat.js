@@ -42,6 +42,7 @@ export const CHATROOM_PUZZLE_QUERY = gql`
     sui_hei_puzzle_by_pk(id: $puzzleId) {
       id
       anonymous
+      status
       sui_hei_user {
         id
       }
