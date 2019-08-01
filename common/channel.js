@@ -1,9 +1,9 @@
-const PuzzleRegex = /^\/puzzle\/(\d+)/;
+import { getPuzzleDetailPageId } from './pages';
 
 export const getDefaultChannel = path => {
-  const match = PuzzleRegex.exec(path);
+  const match = getPuzzleDetailPageId(path);
   if (match) {
-    return `puzzle-${match[1]}`;
+    return `puzzle-${match}`;
   }
   return 'lobby';
 };
