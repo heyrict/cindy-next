@@ -8,7 +8,14 @@ import * as globalReducer from 'reducers/global';
 import { ActionContentType, StateType } from 'reducers/types';
 import { LanguageProviderProps } from './types';
 
-const getMessages = (locale: string) => require(`lang/${locale}.json`);
+const messages: { [locale: string]: object } = Object.assign(
+  {},
+  ...APPLOCALES.map(locale => ({
+    [locale]: require(`lang/${locale}.json`),
+  })),
+);
+
+const getMessages = (locale: string) => messages[locale];
 
 const LanguageProvider = ({
   children,

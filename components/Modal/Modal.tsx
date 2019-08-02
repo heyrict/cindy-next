@@ -54,6 +54,15 @@ export const Container = styled.div<ModalComponentsProps>`
   justify-content: space-between;
   margin-top: 3em;
   width: 80%;
+  ${p => p.theme.mediaQueries.small} {
+    width: 98%;
+  }
+  ${p => p.theme.mediaQueries.medium} {
+    width: 92%;
+  }
+  ${p => p.theme.mediaQueries.large} {
+    width: 86%;
+  }
 `;
 
 const Modal = ({ show, children, closefn }: ModalProps) => {
