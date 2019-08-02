@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { line2md } from 'common/markdown';
 
 import { Manager, Reference, Popper } from 'react-popper';
@@ -11,13 +11,35 @@ const AnchorButton = Anchor.withComponent('button');
 
 const CurrentUserAward = ({ useraward }: CurrentUserAwardProps) => {
   const [show, setShow] = useState(false);
+  const popupRef = useRef<HTMLDivElement | null>(null);
+  const btnRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(e.target as Node | null) &&
+        btnRef.current &&
+        !btnRef.current.contains(e.target as Node | null)
+      ) {
+        setShow(false);
+      }
+    };
+    window.addEventListener('click', handleOutsideClick);
+    return () => window.removeEventListener('click', handleOutsideClick);
+  }, []);
+
   return (
     <Manager>
       <Reference>
         {({ ref }) => (
           <AnchorButton
-            ref={ref}
-            onMouseEnter={() => setShow(true)}
+            ref={(r: HTMLButtonElement | null) => {
+              ref(r);
+              btnRef.current = r;
+            }}
+            onMouseOver={() => setShow(true)}
+            onClick={() => setShow(!show)}
             onMouseLeave={() => setShow(false)}
           >
             [{useraward.sui_hei_award.name}]
@@ -33,7 +55,10 @@ const CurrentUserAward = ({ useraward }: CurrentUserAwardProps) => {
               borderRadius={1}
               p={2}
               maxWidth="300px"
-              ref={ref}
+              ref={(r: HTMLDivElement | null) => {
+                ref(r);
+                popupRef.current = r;
+              }}
               style={{
                 ...style,
                 zIndex: 12,

@@ -32,13 +32,22 @@ const UserBriefProfile = ({
   directChatWithUser,
 }: UserBriefProfileProps) => {
   const [show, setShow] = useState(false);
-  const blurHdl = useRef<number | null>(null);
+  const popupRef = useRef<HTMLDivElement | null>(null);
+  const btnRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    // Clear timeout before unmount
-    return () => {
-      if (blurHdl.current) window.clearTimeout(blurHdl.current);
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(e.target as Node | null) &&
+        btnRef.current &&
+        !btnRef.current.contains(e.target as Node | null)
+      ) {
+        setShow(false);
+      }
     };
+    window.addEventListener('click', handleOutsideClick);
+    return () => window.removeEventListener('click', handleOutsideClick);
   }, []);
 
   return (
@@ -46,14 +55,12 @@ const UserBriefProfile = ({
       <Reference>
         {({ ref }) => (
           <AnchorButton
-            ref={ref}
+            ref={(r: HTMLButtonElement | null) => {
+              ref(r);
+              btnRef.current = r;
+            }}
             maxWidth="12em"
-            onFocus={() => setShow(true)}
-            onBlur={() =>
-              (blurHdl.current = window.setTimeout(() => {
-                setShow(false);
-              }, 100))
-            }
+            onClick={() => setShow(!show)}
           >
             {user.nickname}
           </AnchorButton>
@@ -68,7 +75,10 @@ const UserBriefProfile = ({
               borderRadius={1}
               p={2}
               maxWidth="500px"
-              ref={ref}
+              ref={(r: HTMLDivElement | null) => {
+                ref(r);
+                popupRef.current = r;
+              }}
               style={{
                 ...style,
                 zIndex: 12,

@@ -9,6 +9,7 @@ import { createStore, combineReducers } from 'redux';
 import * as globalReducer from 'reducers/global';
 import * as loginReducer from 'reducers/login';
 import * as settingReducer from 'reducers/setting';
+import * as directReducer from 'reducers/direct';
 
 import { ThemeProvider } from 'emotion-theming';
 import theme from 'theme/theme';
@@ -45,6 +46,7 @@ const getReduxStore = (user: GlobalUserType) =>
       [globalReducer.scope]: globalReducer.reducer,
       [loginReducer.scope]: loginReducer.reducer,
       [settingReducer.scope]: settingReducer.reducer,
+      [directReducer.scope]: directReducer.reducer,
     }),
     {
       [globalReducer.scope]: {

@@ -12,6 +12,7 @@ import Flex from 'components/General/Flex';
 import { Provider as ReduxProvider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import * as globalReducer from 'reducers/global';
+import * as settingReducer from 'reducers/setting';
 
 import { IntlProvider } from 'react-intl';
 
@@ -202,9 +203,9 @@ const httpLink = new HttpLink({
               id: parsedParams.variables.id || 1,
               profile: 'Profile Contents',
               date_joined: '2019-01-01T00:01:23Z',
-              last_login:  '2019-01-04T00:01:23Z',
-            }
-          }
+              last_login: '2019-01-04T00:01:23Z',
+            },
+          };
           break;
       }
       resolve({
@@ -245,6 +246,7 @@ const getReduxStore = id =>
   createStore(
     combineReducers({
       [globalReducer.scope]: globalReducer.reducer,
+      [settingReducer.scope]: settingReducer.reducer,
     }),
     {
       [globalReducer.scope]: {
