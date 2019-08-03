@@ -1,3 +1,5 @@
+import { addLocaleData } from 'react-intl';
+
 export const isDev = process.env.NODE_ENV !== 'production';
 
 // Graphql
@@ -37,6 +39,11 @@ export const WEBHOOK_SERVER = isDev
 export const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
 /** @type {Array<'en' | 'ja'>} */
 export const APPLOCALES = ['en', 'ja'];
+
+export const addLocaleDatas = () => {
+  addLocaleData(require('react-intl/locale-data/en'));
+  addLocaleData(require('react-intl/locale-data/ja'));
+};
 
 // Max dazed days
 const MAX_DAZED_DAYS_BY_GENRE = [

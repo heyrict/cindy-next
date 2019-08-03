@@ -3,3 +3,5 @@ yarn.lock
 package.json
 lang/*
 generated/
+node_modules/
+.next/

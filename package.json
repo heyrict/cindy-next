@@ -15,7 +15,8 @@
   "scripts": {
     "dev:apollo": "NODE_ENV=development babel-node server/apolloServer.js",
     "dev:apollo:watch": "NODE_ENV=development nodemon --watch server --exec babel-node server/apolloServer.js",
-    "dev:next": "NODE_ENV=development babel-node server/nextServer.js",
+    "dev:next": "NODE_ENV=development next",
+    "prettify": "prettier --write '**/*.js' '**/*.tsx' '**/*.ts'",
     "build:client": "NODE_ENV=production next build",
     "build:server": "NODE_ENV=production babel -d .next/dist settings.js; NODE_ENV=production babel server -d .next/dist/server",
     "build": "yarn run build:client; yarn run build:server",

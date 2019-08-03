@@ -9,12 +9,12 @@ export default class IntlDocument extends Document {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     const {
-      req: { locale, localeDataScript },
+      req: { locale },
     } = context;
+
     return {
       ...props,
       locale,
-      localeDataScript,
     };
   }
 
@@ -38,11 +38,6 @@ export default class IntlDocument extends Document {
         <body>
           <Main />
           <script async src={polyfill} />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: this.props.localeDataScript,
-            }}
-          />
           <NextScript />
         </body>
       </html>

@@ -3,11 +3,16 @@ import Router from 'next/router';
 import App, { Container } from 'next/app';
 import { compose } from 'redux';
 import { ApolloProvider } from 'react-apollo';
-import { IntlProvider, addLocaleData } from 'react-intl';
+import { IntlProvider } from 'react-intl';
 import { ThemeProvider } from 'emotion-theming';
 import { Provider as ReduxProvider } from 'react-redux';
 import { changeTabularTab } from 'common/markdown/plugin-tabs';
-import { domainFilter } from 'settings';
+import {
+  domainFilter,
+  APPLOCALES,
+  addLocaleDatas,
+  DEFAULT_LOCALE,
+} from 'settings';
 
 //import Chat from 'components/Chat';
 import GlobalLayout from 'components/Layout';
@@ -26,10 +31,8 @@ if (process.browser) {
 // Register React Intl's locale data for the user's locale in the browser. This
 // locale data was added to the page by `pages/_document.js`. This only happens
 // once, on initial page load in the browser.
-if (typeof window !== 'undefined' && window.ReactIntlLocaleData) {
-  Object.keys(window.ReactIntlLocaleData).forEach(lang => {
-    addLocaleData(window.ReactIntlLocaleData[lang]);
-  });
+if (typeof window !== 'undefined') {
+  addLocaleDatas();
 }
 
 class MyApp extends App {
@@ -40,10 +43,17 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    // Get the `locale` and `messages` from the request object on the server.
-    // In the browser, use the same values that the server serialized.
+    const parse = require('url').parse;
+
     const { req } = ctx;
-    const { locale } = req || window.__NEXT_DATA__.props;
+    const parsedUrl = parse(req.url, true);
+    const { pathname, query } = parsedUrl;
+
+    const acceptLanguage = req.headers['accept-language'] || '';
+    const acceptedLocale = (
+      acceptLanguage.match(/[a-zA-Z\-]{2,10}/g) || []
+    ).find(loc => APPLOCALES.findIndex(lang => lang === loc) !== -1);
+    const locale = acceptedLocale || DEFAULT_LOCALE;
     const initialNow = Date.now();
 
     return { pageProps, locale, initialNow };
