@@ -43,9 +43,14 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    const parse = require('url').parse;
-
+    const initialNow = Date.now();
     const { req } = ctx;
+
+    if (!req) {
+      return { pageProps, locale: null, initialNow };
+    }
+
+    const parse = require('url').parse;
     const parsedUrl = parse(req.url, true);
     const { pathname, query } = parsedUrl;
 
@@ -54,7 +59,6 @@ class MyApp extends App {
       acceptLanguage.match(/[a-zA-Z\-]{2,10}/g) || []
     ).find(loc => APPLOCALES.findIndex(lang => lang === loc) !== -1);
     const locale = acceptedLocale || DEFAULT_LOCALE;
-    const initialNow = Date.now();
 
     return { pageProps, locale, initialNow };
   }
