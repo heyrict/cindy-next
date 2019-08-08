@@ -13,11 +13,19 @@ export const PUZZLE_QUERY = gql`
       ...PuzzleShared
       dazed_on
       content
-      solution
       memo
     }
   }
   ${PUZZLE_SHARED_FRAGMENT}
+`;
+
+export const PUZZLE_SOLUTION_QUERY = gql`
+  query PuzzleSolutionQuery($id: Int!) {
+    sui_hei_puzzle_by_pk(id: $id) {
+      id
+      solution
+    }
+  }
 `;
 
 export const PUZZLE_DIALOGUE_QUERY = gql`

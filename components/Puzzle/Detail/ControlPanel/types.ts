@@ -3,7 +3,7 @@ import {
   UpdatePuzzleMutation,
   UpdatePuzzleMutationVariables,
 } from 'graphql/Mutations/generated/UpdatePuzzleMutation';
-import { PuzzleType } from '../types';
+import { PuzzleTypeWithSolution } from '../types';
 
 export enum ControlPanelPanelType {
   SOLUTION_EDIT,
@@ -13,7 +13,7 @@ export enum ControlPanelPanelType {
 }
 
 export type ControlPanelProps = {
-  puzzle: PuzzleType;
+  puzzle: PuzzleTypeWithSolution;
 };
 
 export type SetPanelToolbarProps = {

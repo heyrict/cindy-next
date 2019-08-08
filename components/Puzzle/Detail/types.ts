@@ -10,7 +10,6 @@ export type PuzzleType = {
   grotesque: boolean;
   status: number;
   content: string;
-  solution: string;
   memo: string;
   dazed_on: string;
   sui_hei_user: InlineUser;
@@ -65,4 +64,13 @@ export type PuzzleDetailProps = {
 export type NotLoggedInMessageProps = {
   setTrueLoginModal: () => void;
   setTrueSignupModal: () => void;
+};
+
+export type PuzzleTypeWithSolution = PuzzleType & {
+  solution: string;
+};
+
+export type WithSolutionProps = {
+  puzzleId: number;
+  children: (solution: string) => React.ReactNode;
 };

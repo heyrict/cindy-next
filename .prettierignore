@@ -5,3 +5,5 @@ lang/*
 generated/
 node_modules/
 .next/
+
+__snapshots__/

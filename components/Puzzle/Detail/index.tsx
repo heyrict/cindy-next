@@ -25,6 +25,7 @@ import NotLoggedInMessage from './NotLoggedInMessage';
 
 import { StateType, ActionContentType } from 'reducers/types';
 import { PuzzleDetailProps } from './types';
+import WithSolution from './WithSolution';
 
 const PuzzleDetail = ({
   puzzle,
@@ -141,11 +142,15 @@ const PuzzleDetail = ({
           />
         )}
         {shouldShowAnswer && (
-          <ContentsFrame
-            text={puzzle.solution}
-            status={puzzle.status}
-            user={puzzle.sui_hei_user}
-          />
+          <WithSolution puzzleId={puzzle.id}>
+            {solution => (
+              <ContentsFrame
+                text={solution}
+                status={puzzle.status}
+                user={puzzle.sui_hei_user}
+              />
+            )}
+          </WithSolution>
         )}
         {shouldShowNotLoggedInMessage && <NotLoggedInMessage />}
         {shouldShowStarPanel && (
@@ -156,7 +161,11 @@ const PuzzleDetail = ({
         )}
         {shouldShowBookmarkPanel && <BookmarkPanel puzzleId={puzzle.id} />}
         {shouldShowReplayPanel && <ReplayPanel puzzleId={puzzle.id} />}
-        {shouldShowControlPanel && <ControlPanel puzzle={puzzle} />}
+        {shouldShowControlPanel && (
+          <WithSolution puzzleId={puzzle.id}>
+            {solution => <ControlPanel puzzle={{ ...puzzle, solution }} />}
+          </WithSolution>
+        )}
       </Flex>
       <Modal show={showGrotesqueModal}>
         <Flex pt={3} flexWrap="wrap" justifyContent="center">

@@ -30,7 +30,6 @@ export const PUZZLE_LIVEQUERY = gql`
       yami
       anonymous
       modified
-      solution
       memo
     }
   }
