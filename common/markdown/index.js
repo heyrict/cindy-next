@@ -7,7 +7,7 @@ import { compose } from 'redux';
 import { stampDefs } from 'stamps';
 
 import normTabs from './plugin-tabs';
-import { normLinkHook, normLink } from './plugin-link';
+import { normLinkHook } from './plugin-link';
 import normCountdown from './plugin-countdown';
 import normNewline from './plugin-newline';
 
@@ -65,13 +65,6 @@ const PreNorm = string => {
   )(string);
 };
 
-const PostNorm = string => {
-  if (!HtmlPurify.isSupported) {
-    return normLink(string);
-  }
-  return string;
-};
-
 export const line2md = string => {
   const rendered = md.render(PreNorm(string));
 
@@ -86,13 +79,13 @@ export const line2md = string => {
         )}`
           .replace(/<p>/g, '')
           .replace(/<\/p>/g, '<div style="margin-bottom: 1em"></div>');
-  return PostNorm(stripped);
+  return stripped;
 };
 
 export const text2md = string => {
   const rendered = md.render(PreNorm(string));
   const purified = HtmlPurify(rendered, DOMPurifyParamsText);
-  return PostNorm(purified);
+  return purified;
 };
 
 export const text2raw = string =>
