@@ -1,19 +1,19 @@
 export const getMonthlyDate = (now: Date) => {
   const temp = new Date(now);
-  temp.setUTCDate(1);
-  temp.setUTCHours(0);
-  temp.setUTCMinutes(0);
-  temp.setUTCSeconds(0);
-  temp.setUTCMilliseconds(0);
-  if (now.getUTCDate() > 15) {
+  temp.setDate(1);
+  temp.setHours(0);
+  temp.setMinutes(0);
+  temp.setSeconds(0);
+  temp.setMilliseconds(0);
+  if (now.getDate() > 15) {
     const end = temp.toISOString();
-    temp.setUTCMonth(now.getUTCMonth() - 1);
+    temp.setMonth(now.getMonth() - 1);
     const start = temp.toISOString();
     return [start, end];
   } else {
-    temp.setUTCMonth(now.getUTCMonth() - 1);
+    temp.setMonth(now.getMonth() - 1);
     const end = temp.toISOString();
-    temp.setUTCMonth(now.getUTCMonth() - 2);
+    temp.setMonth(now.getMonth() - 2);
     const start = temp.toISOString();
     return [start, end];
   }
