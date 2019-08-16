@@ -52,7 +52,8 @@ def render(title,
     hTitle = len(title) * line_height + line_height // 2
     hContent = len(content) * line_height + line_height // 2
     hAppends = int(line_height * 1.2)
-    img = Image.new('RGB', (canvas_width, hTitle + hContent + hAppends), "#fcf4dc")
+    img = Image.new('RGB', (canvas_width, hTitle + hContent + hAppends),
+                    "#fcf4dc")
     draw = ImageDraw.Draw(img)
     title_font = ImageFont.truetype(font_path, title_fontsize)
     content_font = ImageFont.truetype(font_path, content_fontsize)
@@ -63,7 +64,9 @@ def render(title,
     draw.rectangle(
         (canvas_width - 3, 0, canvas_width - 1, hTitle + hContent),
         fill="#c6aa4b")
-    draw.rectangle((0, hTitle + hContent, canvas_width, hTitle + hContent + 2), fill="#c6aa4b")
+    draw.rectangle(
+        (0, hTitle + hContent, canvas_width, hTitle + hContent + 2),
+        fill="#c6aa4b")
 
     # Drawing Title background
     draw.rectangle((0, 0, canvas_width, hTitle), fill="#c6aa4b")
@@ -79,7 +82,11 @@ def render(title,
             font=content_font,
             fill="#c6aa4b")
 
-    draw.text((appends_indent, hTitle + hContent + 5), appends, font=appends_font, fill="#888")
+    draw.text(
+        (appends_indent, hTitle + hContent + 5),
+        appends,
+        font=appends_font,
+        fill="#888")
 
     img.save(output_image_name)
     return output_image_name
