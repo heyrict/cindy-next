@@ -12,7 +12,7 @@ class ja:
         'https://www.cindythink.com/puzzle/%(id)d\n'\
         '#ウミガメのスープ'
 
-    BOM_TWEET_MESSAGE_SHORT = '%(header)\nhttps://www.cindythink.com/ranking/puzzleStar\n#ウミガメのスープ'
+    BOM_TWEET_MESSAGE_SHORT = '%(header)s\nhttps://www.cindythink.com/ranking/puzzleStar\n#ウミガメのスープ'
 
     BOM_TWEET_MESSAGE = '%(year)4d年%(month)2d月にCindyで最も評価された問題を発表しまーす！\n\n%(ranking)s\n \n'\
                         'そして、第一位を獲得した %(user_nickname)s さんに、%(month)2d 月の称号「%(award_name)s」'\
