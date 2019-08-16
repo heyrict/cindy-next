@@ -60,7 +60,7 @@ export const getMaxDazedDays = puzzle =>
 
 // Same site domain filter
 export const DOMAIN_REGEXP = new RegExp(
-  /^(https?:\/\/)?(localhost(:\d+)?|127.0.0.1(:\d+)?|(www\.)?cindythink\.com)?(\/.*)/,
+  /^https?:\/\/(localhost(:\d+)?|127.0.0.1(:\d+)?|(www\.)?cindythink\.com)(.*)/,
 );
 
 export const domainFilter = url => {
@@ -70,7 +70,7 @@ export const domainFilter = url => {
   }
   return {
     selfDomain,
-    url: url.replace(DOMAIN_REGEXP, '$6'),
+    url: url.replace(DOMAIN_REGEXP, '$5'),
   };
 };
 
