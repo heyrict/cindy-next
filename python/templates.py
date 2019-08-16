@@ -3,6 +3,7 @@ class en:
     BOM_TWEET_MESSAGE = ''
     BOM_TWEET_MESSAGE_SHORT = ''
     BOM_RANKING_MESSAGE = ''
+    BOM_COLLECTION_ADD_MESSAGE = ''
 
 
 class ja:
@@ -21,5 +22,9 @@ class ja:
                         '#ウミガメのスープ'
 
     BOM_RANKING_MESSAGE = '第 %(no)d 位：%(star__count)2d 人から %(star__sum)2d のスターを獲得した'\
-                      ' %(user_nickname)s さんの問題「%(title)s」\n'\
-                      'https://www.cindythink.com/puzzle/%(id)d\n'
+                          ' %(user_nickname)s さんの問題「%(title)s」\n'\
+                          'https://www.cindythink.com/puzzle/%(id)d\n'
+
+    BOM_COLLECTION_ADD_MESSAGE = '%(nickname)s さんが %(count)s つの月間ランキング称号を入賞したので、'\
+                                 '限定称号 %(award_name)s を手に入れました！\n'\
+                                 'おめでとうございます！'

@@ -37,6 +37,16 @@ query($id: Int!) {
 }
 '''
 
+MONTHLY_AWARDS_COUNT_QUERY = '''
+query($userId: Int!, $monthlyAwards: [Int!]) {
+  sui_hei_useraward_aggregate(where: { award_id: { _in: $monthlyAwards } }) {
+    aggregate {
+      count
+    }
+  }
+}
+'''
+
 PUZZLE_STAR_RANKING_QUERY = '''
 query($createdGte: timestamptz!, $createdLt: timestamptz!) {
   sui_hei_puzzle(
@@ -81,6 +91,35 @@ mutation($awardId: Int!, $userId: Int!) {
 '''
 
 
+def grant_collection_award(user):
+    monthly_award_count = query(MONTHLY_AWARDS_COUNT_QUERY, {
+        'userId': user['id'],
+    })['sui_hei_useraward_aggregate']['aggregate']['count']
+
+    if monthly_award_count % 4 == 0:
+        award_data = query(AWARD_BY_ID_QUERY, {
+            'id': monthly_awards[monthly_award_count % 4]
+        })['sui_hei_award_by_pk'] # yapf: disable
+
+        try:
+            query(ADD_USERAWARD_MUTATION, {
+                'userId': user['id'],
+                'awardId': award_data['id'],
+            }) # yapf: disable
+        except Exception as e:
+            print('[Error]: [grant_collection_award]: %s' % e)
+
+        params = {
+            'status': MESSAGES.BOM_COLLECTION_ADD_MESSAGE % {
+                'nickname': user['nickname'],
+                'count': monthly_award_count,
+                'award_name': award_data['name'],
+            }
+        }
+        t = tweeter_auth()
+        t.statuses.update_with_media(**params)
+
+
 def grant_monthly_award():
     now = datetime.now(tz=timezone)
     target_year = now.year - 1 if now.month == 1 else now.year
@@ -122,9 +161,9 @@ def grant_monthly_award():
         last_count = puzzle_count
         last_sum = puzzle_sum
 
-    award_data = query(
-        AWARD_BY_ID_QUERY,
-        {'id': monthly_awards[target_month - 1]})['sui_hei_award_by_pk']
+    award_data = query(AWARD_BY_ID_QUERY, {
+        'id': monthly_awards[target_month - 1]
+    })['sui_hei_award_by_pk'] # yapf: disable
 
     status_message = MESSAGES.BOM_TWEET_MESSAGE % {
         'user_nickname': ', '.join([p['sui_hei_user']['nickname'] for p in best_puzzles]),
@@ -142,7 +181,7 @@ def grant_monthly_award():
             } for rank, puzzle in zip(ranks, puzzles_data)
         ]),
     } # yapf: disable
-    print(status_message)
+    print('[Info]: [grant_monthly_award]: %s' % status_message)
     status_messages = status_message.split('\n\n', 1)
     imgpath = render(*status_messages)
     with open(imgpath, 'rb') as f:
@@ -157,10 +196,15 @@ def grant_monthly_award():
     # grant awards
     for puzzle in best_puzzles:
         user = puzzle['sui_hei_user']
-        query(ADD_USERAWARD_MUTATION, {
-            'userId': user['id'],
-            'awardId': award_data['id'],
-        })
+        try:
+            query(ADD_USERAWARD_MUTATION, {
+                'userId': user['id'],
+                'awardId': award_data['id'],
+            })
+        except Exception as e:
+            print('[Error]: [grant_monthly_award]: %s' % e)
+
+        grant_collection_award(user)
 
     t = tweeter_auth()
     t.statuses.update_with_media(**params)
