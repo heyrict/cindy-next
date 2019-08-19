@@ -2,8 +2,12 @@
   "patrons": [
     {
       "name": "アシカ",
-      "url": "https://www.cindythink.com/profile/show/36"
+      "url": "https://www.cindythink.com/user/36"
+    }
+    {
+      "name": "人参",
+      "url": "https://www.cindythink.com/user/7"
     }
   ],
-  "anonymousPatrons": 3
+  "anonymousPatrons": 2
 }
