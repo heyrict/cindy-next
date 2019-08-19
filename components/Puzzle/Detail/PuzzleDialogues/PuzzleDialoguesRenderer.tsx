@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { mergeList, upsertItem } from 'common/update';
+import { maybeSendNotification } from 'common/web-notify';
 
-import { DIALOGUE_HINT_SUBSCRIPTION } from 'graphql/Subscriptions/Dialogue';
+import { IntlShape, intlShape } from 'react-intl';
+import webNotifyMessages from 'messages/webNotify';
 
 import { connect } from 'react-redux';
 import * as puzzleReducer from 'reducers/puzzle';
 import * as globalReducer from 'reducers/global';
 import * as awardCheckerReducer from 'reducers/awardChecker';
 import * as settingReducer from 'reducers/setting';
+
+import { HINT_LIVE_QUERY, HINT_WITH_USER_LIVE_QUERY } from 'graphql/LiveQueries/Hint';
+import { DIALOGUE_LIVE_QUERY, DIALOGUE_WITH_USER_LIVE_QUERY } from 'graphql/LiveQueries/Dialogue';
 
 import { Flex } from 'components/General';
 import PuzzleDialogue from './PuzzleDialogue';
@@ -24,15 +29,14 @@ import {
   PuzzleDialoguesRendererDefaultProps,
   UserFilterSwitcherUserType,
 } from './types';
-import { DialogueHintSubscription } from 'graphql/Subscriptions/generated/DialogueHintSubscription';
 import {
   DialogueHintQuery_sui_hei_hint,
   DialogueHintQuery_sui_hei_dialogue,
+  DialogueHintQuery,
 } from 'graphql/Queries/generated/DialogueHintQuery';
 import { ActionContentType, StateType } from 'reducers/types';
-import webNotifyMessages from 'messages/webNotify';
-import { maybeSendNotification } from 'common/web-notify';
-import { IntlShape, intlShape } from 'react-intl';
+import { HintLiveQuery } from 'graphql/LiveQueries/generated/HintLiveQuery';
+import { DialogueLiveQuery } from 'graphql/LiveQueries/generated/DialogueLiveQuery';
 
 export const PuzzleDialoguesRendererInner = ({
   dialogues,
@@ -117,85 +121,122 @@ export const PuzzleDialoguesRenderer = (
 
   useEffect(() => {
     if (shouldSubscribe) {
-      return subscribeToMore({
-        document: DIALOGUE_HINT_SUBSCRIPTION,
-        variables,
-        updateQuery: (
-          prev,
-          {
-            subscriptionData,
-          }: { subscriptionData: { data: DialogueHintSubscription } },
-        ) => {
-          if (!subscriptionData.data) return prev;
-          const subData = subscriptionData.data.dialogueHintSub;
-          if (subData === null) return prev;
-          const { sui_hei_dialogue, sui_hei_hint } = subData;
-          if (sui_hei_dialogue !== null) {
-            // display answer if user get true answer in long-term yami
-            if (updateSolvedLongTermYamiOnSubscribe && sui_hei_dialogue.true)
-              setTrueSolvedLongtermYami();
+      if (!variables || !variables.puzzleId) return;
 
-            // Update award checker
-            const toUpdate = prev.sui_hei_dialogue.find(
-              d => d.id === sui_hei_dialogue.id,
-            );
-            if (toUpdate && toUpdate.sui_hei_user.id === user.id) {
-              if (!toUpdate.good && sui_hei_dialogue.good) {
-                incGoodQuestions();
-              }
-              if (toUpdate.good && !sui_hei_dialogue.good) {
-                incGoodQuestions(-1);
-              }
-              if (!toUpdate.true && sui_hei_dialogue.true) {
-                incTrueAnswers();
-              }
-              if (toUpdate.true && !sui_hei_dialogue.true) {
-                incTrueAnswers(-1);
-              }
-            }
-
-            // Notification for creator
-            if (
-              pushNotification &&
-              document.hidden &&
-              puzzleUser.id === user.id
-            ) {
-              maybeSendNotification(_(webNotifyMessages.newDialogueAdded), {
-                body: sui_hei_dialogue.question,
-                renotify: true,
-              });
-            }
-
-            return Object.assign({}, prev, {
-              sui_hei_dialogue: upsertItem(
-                prev.sui_hei_dialogue,
-                sui_hei_dialogue,
-                'id',
-                'asc',
-              ),
-            });
-          }
-          if (sui_hei_hint !== null) {
-            // Notification for participants
-            if (document.hidden && puzzleUser.id !== user.id) {
-              maybeSendNotification(_(webNotifyMessages.newHintAdded), {
-                body: sui_hei_hint.content,
-                renotify: true,
-              });
-            }
-
-            return Object.assign({}, prev, {
-              sui_hei_hint: upsertItem(
-                prev.sui_hei_hint,
-                sui_hei_hint,
-                'id',
-                'asc',
-              ),
-            });
-          }
+      // {{{ handleDialogueSubscribeUpdate()
+      const handleDialogueSubscribeUpdate = (
+        prev: DialogueHintQuery,
+        { subscriptionData }: { subscriptionData: { data: DialogueLiveQuery } },
+      ) => {
+        if (!subscriptionData.data) return prev;
+        const { sui_hei_dialogue } = subscriptionData.data;
+        if (sui_hei_dialogue === null || sui_hei_dialogue.length === 0) {
           return prev;
-        },
-      });
+        }
+        // display answer if user get true answer in long-term yami
+        if (updateSolvedLongTermYamiOnSubscribe && sui_hei_dialogue[0].true)
+          setTrueSolvedLongtermYami();
+
+        // Update award checker
+        const toUpdate = prev.sui_hei_dialogue.find(
+          d => d.id === sui_hei_dialogue[0].id,
+        );
+        if (toUpdate && toUpdate.sui_hei_user.id === user.id) {
+          if (!toUpdate.good && sui_hei_dialogue[0].good) {
+            incGoodQuestions();
+          }
+          if (toUpdate.good && !sui_hei_dialogue[0].good) {
+            incGoodQuestions(-1);
+          }
+          if (!toUpdate.true && sui_hei_dialogue[0].true) {
+            incTrueAnswers();
+          }
+          if (toUpdate.true && !sui_hei_dialogue[0].true) {
+            incTrueAnswers(-1);
+          }
+        }
+
+        // Notification for creator
+        if (pushNotification && document.hidden && puzzleUser.id === user.id) {
+          maybeSendNotification(_(webNotifyMessages.newDialogueAdded), {
+            body: sui_hei_dialogue[0].question,
+            renotify: true,
+          });
+        }
+
+        return Object.assign({}, prev, {
+          sui_hei_dialogue: upsertItem(
+            prev.sui_hei_dialogue,
+            sui_hei_dialogue[0],
+            'id',
+            'asc',
+          ),
+        });
+      };
+      // }}}
+
+      // {{{ handleHintSubscribeUpdate()
+      const handleHintSubscribeUpdate = (
+        prev: DialogueHintQuery,
+        { subscriptionData }: { subscriptionData: { data: HintLiveQuery } },
+      ) => {
+        if (!subscriptionData.data) return prev;
+        const { sui_hei_hint } = subscriptionData.data;
+        if (sui_hei_hint === null || sui_hei_hint.length === 0) {
+          return prev;
+        }
+        // Notification for participants
+        if (document.hidden && puzzleUser.id !== user.id) {
+          maybeSendNotification(_(webNotifyMessages.newHintAdded), {
+            body: sui_hei_hint[0].content,
+            renotify: true,
+          });
+        }
+
+        return Object.assign({}, prev, {
+          sui_hei_hint: upsertItem(
+            prev.sui_hei_hint,
+            sui_hei_hint[0],
+            'id',
+            'asc',
+          ),
+        });
+      };
+      // }}}
+
+      if (variables.userId) {
+        // Subscribe with user id filtering
+        const unsubscribeHint = subscribeToMore({
+          document: HINT_WITH_USER_LIVE_QUERY,
+          variables,
+          updateQuery: handleHintSubscribeUpdate,
+        });
+        const unsubscribeDialogue = subscribeToMore({
+          document: DIALOGUE_WITH_USER_LIVE_QUERY,
+          variables,
+          updateQuery: handleDialogueSubscribeUpdate,
+        });
+        return () => {
+          unsubscribeHint();
+          unsubscribeDialogue();
+        };
+      } else {
+        // Subscribe without filtering
+        const unsubscribeHint = subscribeToMore({
+          document: HINT_LIVE_QUERY,
+          variables,
+          updateQuery: handleHintSubscribeUpdate,
+        });
+        const unsubscribeDialogue = subscribeToMore({
+          document: DIALOGUE_LIVE_QUERY,
+          variables,
+          updateQuery: handleDialogueSubscribeUpdate,
+        });
+        return () => {
+          unsubscribeHint();
+          unsubscribeDialogue();
+        };
+      }
     }
   }, [puzzleId]);
 
