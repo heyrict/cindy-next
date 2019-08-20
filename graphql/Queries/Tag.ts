@@ -32,3 +32,27 @@ export const PUZZLE_TAGS_SEARCH_QUERY = gql`
   }
   ${TAG_FRAGMENT}
 `;
+
+export const TAGS_PAGE_QUERY = gql`
+  query TagsPageQuery(
+    $name: String
+    $limit: Int!
+    $offset: Int!
+    $orderBy: [sui_hei_tag_order_by!]
+  ) {
+    sui_hei_tag(
+      where: { name: { _like: $name } }
+      order_by: $orderBy
+      limit: $limit
+      offset: $offset
+    ) {
+      ...Tag
+      sui_hei_puzzle_tags_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+  ${TAG_FRAGMENT}
+`;

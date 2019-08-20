@@ -97,6 +97,7 @@ export const typeDefs = gql`
     content: String!
     spoiler: Boolean!
     sui_hei_user: sui_hei_user!
+    sui_hei_puzzle: sui_hei_puzzle!
   }
   type sui_hei_tag {
     id: Int!

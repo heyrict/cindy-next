@@ -8,7 +8,10 @@ import {
   PuzzlesSolvedQueryVariables,
 } from 'graphql/Queries/generated/PuzzlesSolvedQuery';
 import { PuzzlesUnsolvedLiveQuery } from 'graphql/LiveQueries/generated/PuzzlesUnsolvedLiveQuery';
-import { sui_hei_puzzle_order_by } from 'generated/globalTypes';
+import {
+  sui_hei_puzzle_order_by,
+  sui_hei_tag_order_by,
+} from 'generated/globalTypes';
 
 export type UserPageProps = {
   userId: number;
@@ -50,4 +53,9 @@ export type AddReplayProps = {
 
 export type EULAProps = {
   language: typeof globalReducer.initialState.language;
+};
+
+export type TagsVariablesStates = {
+  name: null | string;
+  orderBy: Array<sui_hei_tag_order_by>;
 };
