@@ -1,3 +1,17 @@
-import UserPage from '../../user/[id]';
+import React from 'react';
+import { NextPageContext } from 'next';
+import Router from 'next/router';
 
-export default UserPage;
+export default class extends React.Component {
+  static async getInitialProps({ res, query }: NextPageContext) {
+    if (res) {
+      res.writeHead(301, {
+        Location: `/user/${query.id}`,
+      });
+      res.end();
+    } else {
+      Router.push('/user/[id]', `/user/${query.id}`);
+    }
+    return {};
+  }
+}
