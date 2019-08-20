@@ -1,11 +1,7 @@
 import os
 
-import pytz
 import requests
-import yaml
-from twitter import OAuth, Twitter
 
-FILEDIR = os.path.dirname(os.path.abspath(__file__))
 ENDPOINT = 'http://localhost:8080/v1/graphql'
 ADMIN_SECRET = os.environ.get('HASURA_GRAPHQL_ADMIN_SECRET')
 
@@ -30,23 +26,3 @@ def query(query_str, variables=None):
             'variables': variables,
         })
     return post({'query': query_str})
-
-
-def argmax(values):
-    return max(enumerate(values), key=lambda x: x[1])[0]
-
-
-def tweeter_auth():
-    TOKEN = os.environ.get("TOKEN")
-    TOKEN_SECRET = os.environ.get("TOKEN_SECRET")
-    CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
-    CONSUMER_SECRET = os.environ.get("CONSUMER_SECRET")
-
-    auth = OAuth(TOKEN, TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
-    return Twitter(auth=auth)
-
-
-with open(os.path.join(FILEDIR, "settings.yml")) as f:
-    settings = yaml.load(f.read())
-
-timezone = pytz.timezone(settings.get('timezone', 'UTC'))

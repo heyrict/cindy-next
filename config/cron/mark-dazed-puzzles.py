@@ -1,7 +1,7 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime
 
-from lib import query, timezone
+from lib import query
 
 lgr = logging.Logger(__name__)
 
