@@ -6,6 +6,7 @@ import addPuzzleMessage from 'messages/pages/add_puzzle';
 import rankingMessage from 'messages/pages/ranking';
 import awardsMessages from 'messages/pages/awards';
 import searchMessages from 'messages/pages/search';
+import tagsPageMessages from 'messages/pages/tags';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -27,7 +28,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         ml={1}
         p={1}
       >
-        <Link href="/puzzles" prefetch passHref>
+        <Link href="/puzzles" passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...puzzlesMessage.header} />
           </ButtonTransparentA>
@@ -41,7 +42,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         ml={1}
         p={1}
       >
-        <Link href="/add/puzzle" prefetch passHref>
+        <Link href="/add/puzzle" passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...addPuzzleMessage.header} />
           </ButtonTransparentA>
@@ -55,7 +56,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         ml={1}
         p={1}
       >
-        <Link href="/ranking" prefetch passHref>
+        <Link href="/ranking" passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...rankingMessage.header} />
           </ButtonTransparentA>
@@ -69,7 +70,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         ml={1}
         p={1}
       >
-        <Link href="/awards" prefetch passHref>
+        <Link href="/awards" passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...awardsMessages.header} />
           </ButtonTransparentA>
@@ -83,9 +84,23 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         ml={1}
         p={1}
       >
-        <Link href="/search" prefetch passHref>
+        <Link href="/search" passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...searchMessages.header} />
+          </ButtonTransparentA>
+        </Link>
+      </Box>
+    </Box>
+    <Box width={[1 / 3, 1 / 5, 1 / 6, 1 / 8]} mb={1}>
+      <Box
+        bg={route === '/tags' ? 'yellow.4' : 'orange.4'}
+        borderRadius={2}
+        ml={1}
+        p={1}
+      >
+        <Link href="/tags" passHref>
+          <ButtonTransparentA color="red.9" height={1} width={1}>
+            <FormattedMessage {...tagsPageMessages.header} />
           </ButtonTransparentA>
         </Link>
       </Box>
