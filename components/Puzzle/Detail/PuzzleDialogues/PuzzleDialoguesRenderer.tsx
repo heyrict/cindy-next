@@ -12,8 +12,14 @@ import * as globalReducer from 'reducers/global';
 import * as awardCheckerReducer from 'reducers/awardChecker';
 import * as settingReducer from 'reducers/setting';
 
-import { HINT_LIVE_QUERY, HINT_WITH_USER_LIVE_QUERY } from 'graphql/LiveQueries/Hint';
-import { DIALOGUE_LIVE_QUERY, DIALOGUE_WITH_USER_LIVE_QUERY } from 'graphql/LiveQueries/Dialogue';
+import {
+  HINT_LIVE_QUERY,
+  HINT_WITH_USER_LIVE_QUERY,
+} from 'graphql/LiveQueries/Hint';
+import {
+  DIALOGUE_LIVE_QUERY,
+  DIALOGUE_WITH_USER_LIVE_QUERY,
+} from 'graphql/LiveQueries/Dialogue';
 
 import { Flex } from 'components/General';
 import PuzzleDialogue from './PuzzleDialogue';
