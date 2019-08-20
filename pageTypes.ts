@@ -1,7 +1,7 @@
 import { IntlShape } from 'react-intl';
 import { QueryResult } from 'react-apollo';
 import { ApolloError } from 'apollo-client';
-import * as globalReducer from 'reducers/global';
+import * as settingReducer from 'reducers/setting';
 
 import {
   PuzzlesSolvedQuery,
@@ -49,5 +49,5 @@ export type AddReplayProps = {
 };
 
 export type EULAProps = {
-  language: typeof globalReducer.initialState.language;
+  language: typeof settingReducer.initialState.language;
 };

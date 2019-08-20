@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { text2md } from 'common/markdown';
 
 import { connect } from 'react-redux';
-import * as globalReducer from 'reducers/global';
+import * as settingReducer from 'reducers/setting';
 
 import { intlShape, IntlShape } from 'react-intl';
 import eulaMessages from 'messages/pages/eula';
@@ -38,7 +38,7 @@ EULA.contextTypes = {
 };
 
 const mapStateToProps = (state: StateType) => ({
-  language: globalReducer.rootSelector(state).language,
+  language: settingReducer.rootSelector(state).language,
 });
 
 const withRedux = connect(mapStateToProps);

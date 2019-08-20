@@ -3,7 +3,7 @@ import { IntlProvider } from 'react-intl';
 import { DEFAULT_LOCALE, APPLOCALES } from 'settings';
 
 import { connect } from 'react-redux';
-import * as globalReducer from 'reducers/global';
+import * as settingReducer from 'reducers/setting';
 
 import { ActionContentType, StateType } from 'reducers/types';
 import { LanguageProviderProps } from './types';
@@ -25,7 +25,7 @@ const LanguageProvider = ({
   initNow,
 }: LanguageProviderProps) => {
   useEffect(() => {
-    setLanguage(initLocale);
+    if (!language) setLanguage(initLocale);
   }, []);
 
   const locale = language || initLocale || DEFAULT_LOCALE;
@@ -45,13 +45,13 @@ const LanguageProvider = ({
 };
 
 const mapStateToProps = (state: StateType) => ({
-  language: globalReducer.rootSelector(state).language,
+  language: settingReducer.rootSelector(state).language,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setLanguage: (lang: string) =>
     APPLOCALES.findIndex(v => v === lang) >= 0 &&
-    dispatch(globalReducer.actions.language.set(lang as typeof APPLOCALES[0])),
+    dispatch(settingReducer.actions.language.set(lang as typeof APPLOCALES[0])),
 });
 
 const withRedux = connect(

@@ -1,3 +1,4 @@
+import { getCookie } from 'common/cookie';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { isDev } from 'settings';
@@ -12,7 +13,9 @@ import * as addReplayReducer from './addReplay';
 import * as puzzleReducer from './puzzle';
 import * as awardCheckerReducer from './awardChecker';
 import * as directReducer from './direct';
+
 import { StateType, ExtendedStore } from './types';
+import { AppContextType } from 'next-server/dist/lib/utils';
 
 const reducer = combineReducers({
   [globalReducer.scope]: globalReducer.reducer as any,
@@ -32,14 +35,19 @@ const composeEnhancers =
 /* eslint-disable no-underscore-dangle */
 export const initializeStore = (
   initialState: StateType,
-  router: { asPath: string },
+  appContext?: AppContextType,
 ) => {
-  const route = (router && router.asPath) || '';
+  const route = appContext && appContext.router ? appContext.router.asPath : '';
+  const cookies =
+    appContext && appContext.ctx.req ? appContext.ctx.req.headers.cookie : '';
+  const settingsState =
+    JSON.parse(getCookie('settings-server-side', cookies) || '{}') || {};
   const sagaMiddleware = createSagaMiddleware();
   const store: ExtendedStore = createStore(
     reducer,
     initialState || {
       global: { ...globalReducer.initialState, route },
+      setting: { ...settingReducer.initialState, ...settingsState },
     },
     composeEnhancers(applyMiddleware(sagaMiddleware)),
   );

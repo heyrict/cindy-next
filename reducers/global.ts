@@ -9,7 +9,6 @@ import {
   ValueOf,
   YandexUserReportType,
 } from './types';
-import { APPLOCALES } from 'settings';
 
 export const scope = 'global';
 
@@ -19,7 +18,6 @@ export enum actionTypes {
   SETUSER = 'global.SETUSER',
   APPINIT = 'global.APPINIT',
   ROUTECHANGE = 'global.ROUTECHANGE',
-  LANGUAGE = 'global.LANGUAGE',
   TOOLBAR_MENU = 'global.TOOLBAR_MENU',
   YANDEX_USERS_REPORT = 'global.YANDEX_USERS_REPORT',
   FETCH_YANDEX_USERS_REPORT = 'global.FETCH_YANDEX_USERS_REPORT',
@@ -30,9 +28,6 @@ export type ActionPayloadType = {
   CHANNEL: ReturnType<ValueOf<base.HelperActionType<string>>>;
   SETUSER: GlobalUserType;
   ROUTECHANGE: { url: string };
-  LANGUAGE: ReturnType<
-    ValueOf<base.HelperActionType<typeof APPLOCALES[0] | undefined>>
-  >;
   TOOLBAR_MENU: ReturnType<
     ValueOf<enumerate.HelperActionType<ToolbarResponsiveMenuType>>
   >;
@@ -44,9 +39,6 @@ export type ActionPayloadType = {
 export const actions = {
   aside: bool.wrapActions(actionTypes.ASIDE),
   channel: base.wrapActions<string>(actionTypes.CHANNEL),
-  language: base.wrapActions<typeof APPLOCALES[0] | undefined>(
-    actionTypes.LANGUAGE,
-  ),
   toolbarMenu: enumerate.wrapActions<ToolbarResponsiveMenuType>(
     actionTypes.TOOLBAR_MENU,
   ),
@@ -86,7 +78,6 @@ export const rootSelector = (state: StateType): typeof initialState =>
 export const initialState = {
   aside: false,
   channel: '',
-  language: undefined as typeof APPLOCALES[0] | undefined,
   user: {
     id: undefined,
     username: undefined,
@@ -111,11 +102,6 @@ export const reducer = (
       return {
         ...state,
         channel: base.helper(state.channel, action.payload),
-      };
-    case actionTypes.LANGUAGE:
-      return {
-        ...state,
-        language: base.helper(state.language, action.payload),
       };
     case actionTypes.SETUSER:
       return {

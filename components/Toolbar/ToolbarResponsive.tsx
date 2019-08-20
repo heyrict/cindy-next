@@ -8,6 +8,7 @@ import toolbarMessages from 'messages/components/toolbar';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
+import * as settingReducer from 'reducers/setting';
 import * as directReducer from 'reducers/direct';
 
 import { Flex, ButtonTransparent, Img, Box, RedDot } from 'components/General';
@@ -270,7 +271,7 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
       globalReducer.actions.toolbarMenu.set(ToolbarResponsiveMenuType.NULL),
     ),
   setLanguage: (lang: typeof APPLOCALES[0]) =>
-    dispatch(globalReducer.actions.language.set(lang)),
+    dispatch(settingReducer.actions.language.set(lang)),
 });
 
 const withRedux = connect(

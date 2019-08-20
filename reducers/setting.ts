@@ -1,4 +1,6 @@
+import { setCookie } from 'common/cookie';
 import * as bool from './helpers/bool';
+import * as base from './helpers/base';
 import * as mask from './helpers/mask';
 import {
   StateType,
@@ -6,6 +8,7 @@ import {
   SendMessageTriggerType,
   ValueOf,
 } from './types';
+import { APPLOCALES } from 'settings';
 
 export const scope = 'setting';
 
@@ -20,6 +23,7 @@ export enum actionTypes {
   RIGHT_ASIDE_MINI = 'setting.RIGHT_ASIDE_MINI',
   PUSH_NOTIFICATION = 'setting.PUSH_NOTIFICATION',
   SET_STATE = 'setting.SET_STATE',
+  LANGUAGE = 'global.LANGUAGE',
 }
 
 export type ActionPayloadType = {
@@ -33,6 +37,9 @@ export type ActionPayloadType = {
   SEND_ANSWER_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
   PUSH_NOTIFICATION: ReturnType<ValueOf<bool.HelperActionType>>;
   SET_STATE: { state: typeof initialState };
+  LANGUAGE: ReturnType<
+    ValueOf<base.HelperActionType<typeof APPLOCALES[0] | undefined>>
+  >;
 };
 
 export const actions = {
@@ -47,6 +54,9 @@ export const actions = {
   sendQuestionTrigger: mask.wrapActions(actionTypes.SEND_QUESTION_TRIGGER),
   sendAnswerTrigger: mask.wrapActions(actionTypes.SEND_ANSWER_TRIGGER),
   pushNotification: bool.wrapActions(actionTypes.PUSH_NOTIFICATION),
+  language: base.wrapActions<typeof APPLOCALES[0] | undefined>(
+    actionTypes.LANGUAGE,
+  ),
   setState: (
     state: { [key in keyof typeof initialState]?: typeof initialState[key] },
   ) =>
@@ -69,6 +79,7 @@ export const initialState = {
   sendAnswerTrigger: SendMessageTriggerType.ON_ENTER as number,
   rightAsideMini: false,
   pushNotification: true,
+  language: undefined as typeof APPLOCALES[0] | undefined,
 };
 
 export const loadInitialState = (): typeof initialState => {
@@ -88,6 +99,9 @@ export const saveState = (state: typeof initialState): void => {
   if (!process.browser) return;
   const storedItem = JSON.stringify(state);
   window.localStorage.setItem(`reducer:${scope}`, storedItem);
+
+  // set cookie for server side use
+  setCookie('settings-server-side', JSON.stringify(state), 8 * 365 * 86400);
 };
 
 export const reducer = (
@@ -153,6 +167,11 @@ export const reducer = (
       return {
         ...state,
         pushNotification: bool.helper(state.pushNotification, action.payload),
+      };
+    case actionTypes.LANGUAGE:
+      return {
+        ...state,
+        language: base.helper(state.language, action.payload),
       };
     default:
       return state;

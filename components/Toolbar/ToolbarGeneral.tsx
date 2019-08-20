@@ -7,6 +7,7 @@ import toolbarMessages from 'messages/components/toolbar';
 import userMessages from 'messages/components/user';
 
 import { connect } from 'react-redux';
+import * as settingReducer from 'reducers/setting';
 import * as globalReducer from 'reducers/global';
 import * as directReducer from 'reducers/direct';
 
@@ -238,7 +239,7 @@ const mapStateToProps = (state: StateType) => ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setLanguage: (lang: typeof APPLOCALES[0]) =>
-    dispatch(globalReducer.actions.language.set(lang)),
+    dispatch(settingReducer.actions.language.set(lang)),
 });
 
 const withRedux = connect(
