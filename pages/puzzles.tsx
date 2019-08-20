@@ -33,6 +33,7 @@ import {
 
 let prevData: PuzzlesUnsolvedLiveQuery_sui_hei_puzzle[] | null = null;
 
+const PUZZLES_PER_PAGE = 20;
 const puzzleWidth = [1, 1 / 2, 1, 1 / 2, 1 / 3];
 const puzzleLoadingPanel = (
   <Box width={puzzleWidth}>
@@ -85,7 +86,7 @@ const PuzzlesSolvedRenderer = ({
             <PuzzleBrief puzzle={puzzle} />
           </Box>
         ))}
-        {hasMore && (
+        {data.sui_hei_puzzle.length >= PUZZLES_PER_PAGE && hasMore && (
           <LoadMoreVis
             wait={0}
             loadMore={() =>
@@ -96,7 +97,7 @@ const PuzzlesSolvedRenderer = ({
                 updateQuery: (prev, { fetchMoreResult }) => {
                   if (!fetchMoreResult || !fetchMoreResult.sui_hei_puzzle)
                     return prev;
-                  if (fetchMoreResult.sui_hei_puzzle.length === 0)
+                  if (fetchMoreResult.sui_hei_puzzle.length < PUZZLES_PER_PAGE)
                     setHasMore(false);
                   return Object.assign({}, prev, {
                     sui_hei_puzzle: [
@@ -221,7 +222,7 @@ const Puzzles = (_props: any, context: { intl: IntlShape }) => {
         </Subscription>
         <Query<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>
           query={PUZZLES_SOLVED_QUERY}
-          variables={{ limit: 20 }}
+          variables={{ limit: PUZZLES_PER_PAGE }}
           fetchPolicy="cache-first"
         >
           {params => <PuzzlesSolvedRenderer {...params} />}

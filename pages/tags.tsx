@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { asSearch } from 'common/search';
+import { concatList } from 'common/update';
 
 import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
 import tagsPageMessages from 'messages/pages/tags';
@@ -21,6 +22,7 @@ import {
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 import SearchVarSetPanel from 'components/Search/SearchVarSetPanel';
 import SortVarSetPanel from 'components/Search/SortVarSetPanel';
+import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import { PuzzleTagBubbleBox } from 'components/Puzzle/Detail/PuzzleTags/shared';
 
 import { order_by } from 'generated/globalTypes';
@@ -30,6 +32,8 @@ import {
   TagsPageQueryVariables,
   TagsPageQuery,
 } from 'graphql/Queries/generated/TagsPageQuery';
+
+const TAGS_PER_PAGE = 50;
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -41,6 +45,7 @@ const Tags = (_props: any, context: { intl: IntlShape }) => {
     name: null,
     orderBy: [{ id: order_by.desc_nulls_last }],
   } as TagsVariablesStates);
+  const [hasMore, setHasMore] = useState(true);
 
   return (
     <React.Fragment>
@@ -75,7 +80,7 @@ const Tags = (_props: any, context: { intl: IntlShape }) => {
             {
               key: 'puzzle_tag_count',
               getValue: order => ({
-                sui_hei_puzzles_aggregate: { count: order },
+                sui_hei_puzzle_tags_aggregate: { count: order },
               }),
               fieldName: (
                 <FormattedMessage {...tagsPageMessages.tagPuzzleCount} />
@@ -124,10 +129,10 @@ const Tags = (_props: any, context: { intl: IntlShape }) => {
       <Flex flexWrap="wrap">
         <Query<TagsPageQuery, TagsPageQueryVariables>
           query={TAGS_PAGE_QUERY}
-          variables={{ ...variables, limit: 40, offset: 0 }}
+          variables={{ ...variables, limit: TAGS_PER_PAGE, offset: 0 }}
           fetchPolicy="cache-first"
         >
-          {({ data, loading, error }) => {
+          {({ data, loading, error, fetchMore }) => {
             if (error) {
               toast.error(error);
               return null;
@@ -137,27 +142,61 @@ const Tags = (_props: any, context: { intl: IntlShape }) => {
               return null;
             }
             const tags = data.sui_hei_tag;
-            return tags.map(tag => (
-              <PuzzleTagBubbleBox key={tag.id}>
-                <Box>
-                  <Link href="/tag/[id]" as={`/tag/${tag.id}`} passHref>
-                    <ButtonTransparentA px={1}>
-                      {tag.name}
-                      {tag.sui_hei_puzzle_tags_aggregate.aggregate && (
-                        <Box
-                          display="inline-box"
-                          fontSize="0.8em"
-                          color="green.7"
-                          pl={1}
-                        >
-                          {tag.sui_hei_puzzle_tags_aggregate.aggregate.count}
-                        </Box>
-                      )}
-                    </ButtonTransparentA>
-                  </Link>
-                </Box>
-              </PuzzleTagBubbleBox>
-            ));
+            return (
+              <Flex flexWrap="wrap" alignItems="center">
+                {tags.map(tag => (
+                  <PuzzleTagBubbleBox key={tag.id}>
+                    <Box fontSize="1.2em">
+                      <Link href="/tag/[id]" as={`/tag/${tag.id}`} passHref>
+                        <ButtonTransparentA p={1} borderRadius={2}>
+                          {tag.name}
+                          {tag.sui_hei_puzzle_tags_aggregate.aggregate && (
+                            <Box
+                              display="inline-box"
+                              fontSize="0.8em"
+                              color="green.7"
+                              pl={1}
+                            >
+                              {
+                                tag.sui_hei_puzzle_tags_aggregate.aggregate
+                                  .count
+                              }
+                            </Box>
+                          )}
+                        </ButtonTransparentA>
+                      </Link>
+                    </Box>
+                  </PuzzleTagBubbleBox>
+                ))}
+                {tags.length >= TAGS_PER_PAGE && hasMore && (
+                  <LoadMoreVis
+                    loadMore={() =>
+                      fetchMore({
+                        query: TAGS_PAGE_QUERY,
+                        variables: {
+                          ...variables,
+                          offset: data.sui_hei_tag.length,
+                        },
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) return prev;
+                          if (
+                            fetchMoreResult.sui_hei_tag.length < TAGS_PER_PAGE
+                          )
+                            setHasMore(false);
+                          return {
+                            ...prev,
+                            sui_hei_tag: concatList(
+                              prev.sui_hei_tag,
+                              fetchMoreResult.sui_hei_tag,
+                            ),
+                          };
+                        },
+                      })
+                    }
+                  />
+                )}
+              </Flex>
+            );
           }}
         </Query>
       </Flex>
