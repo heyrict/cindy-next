@@ -7,16 +7,17 @@ import {
 } from '../setting';
 
 describe('setting reducer', () => {
-  it.each([actionTypes.PUZZLE_GENRE_IMG, actionTypes.SETTINGS_MODAL])(
-    'handle %p correctly',
-    actionType => {
-      const action = {
-        type: actionType,
-        payload: {},
-      };
-      expect(reducer(initialState, action as any)).toStrictEqual(initialState);
-    },
-  );
+  it.each([
+    actionTypes.PUZZLE_GENRE_IMG,
+    actionTypes.SETTINGS_MODAL,
+    actionTypes.LANGUAGE,
+  ])('handle %p correctly', actionType => {
+    const action = {
+      type: actionType,
+      payload: {},
+    };
+    expect(reducer(initialState, action as any)).toStrictEqual(initialState);
+  });
 
   it('ignores unknown actions', () => {
     const action = {

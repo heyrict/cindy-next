@@ -8,18 +8,16 @@ import {
 } from '../global';
 
 describe('global reducer', () => {
-  it.each([
-    actionTypes.ASIDE,
-    actionTypes.CHANNEL,
-    actionTypes.LANGUAGE,
-    actionTypes.TOOLBAR_MENU,
-  ])('handle %s correctly', actionType => {
-    const action = {
-      type: actionType,
-      payload: {},
-    };
-    expect(reducer(initialState, action as any)).toStrictEqual(initialState);
-  });
+  it.each([actionTypes.ASIDE, actionTypes.CHANNEL, actionTypes.TOOLBAR_MENU])(
+    'handle %s correctly',
+    actionType => {
+      const action = {
+        type: actionType,
+        payload: {},
+      };
+      expect(reducer(initialState, action as any)).toStrictEqual(initialState);
+    },
+  );
 
   it('can fire appInit action', () => {
     actions.appInit();

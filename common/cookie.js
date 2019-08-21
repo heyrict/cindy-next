@@ -1,4 +1,7 @@
-export function getCookie(c_name, c_str = document.cookie) {
+export function getCookie(
+  c_name,
+  c_str = process.browser ? document.cookie : '',
+) {
   var c_start, c_end;
   if (c_str.length > 0) {
     c_start = c_str.indexOf(c_name + '=');
