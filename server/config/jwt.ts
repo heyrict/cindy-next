@@ -1,4 +1,4 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import fnv from 'fnv-plus';
 
 // TODO: why does rsaPemToJwk work with a file but not with a variable?

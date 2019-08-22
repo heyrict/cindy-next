@@ -22,7 +22,6 @@ const withLogout = Wrapped =>
             new Promise((resolve, reject) => {
               setCookie('cindy-jwt-token', '', -100);
               props.deauth();
-              apolloClient.resetStore();
             })
           }
           {...props}

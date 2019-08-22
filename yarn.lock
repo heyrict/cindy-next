@@ -2191,6 +2191,13 @@
   dependencies:
     "@types/jest-diff" "*"
 
+"@types/jsonwebtoken@^8.3.3":
+  version "8.3.3"
+  resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-8.3.3.tgz#eafeea8239c74b02263d204c0e1175d5cd0bb85f"
+  integrity sha512-mofwpvFbm2AUxD5mg4iQPc2o/+ubM200R/L86kR17SeC99jM3gEnB9hy16ln3kZkxM5LnGpDJclxeUNEHhehng==
+  dependencies:
+    "@types/node" "*"
+
 "@types/kuromoji@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@types/kuromoji/-/kuromoji-0.1.0.tgz#c8576688644864afa0c81f4d841a7142ad5293a6"
@@ -2276,6 +2283,13 @@
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
   integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
+
+"@types/rasha@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/rasha/-/rasha-1.2.0.tgz#c0a6b6a490f3ee977115b255bde3d70a0518e4ae"
+  integrity sha512-gGzu131U0hBmb0MueMpSB+BcR76XF0j1Dp30vnxIwrtL0WbRwkAzp211fHW+WiRg2K5oxbykZ565CRiH3oKQcw==
+  dependencies:
+    "@types/node" "*"
 
 "@types/react-dom@*", "@types/react-dom@^16.8.4":
   version "16.8.4"

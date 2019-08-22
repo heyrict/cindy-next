@@ -16,6 +16,7 @@ import * as directReducer from './direct';
 
 import { StateType, ExtendedStore } from './types';
 import { AppContextType } from 'next-server/dist/lib/utils';
+import { getUser } from 'common/auth';
 
 const reducer = combineReducers({
   [globalReducer.scope]: globalReducer.reducer as any,
@@ -42,11 +43,12 @@ export const initializeStore = (
     appContext && appContext.ctx.req ? appContext.ctx.req.headers.cookie : '';
   const settingsState =
     JSON.parse(getCookie('settings-server-side', cookies) || '{}') || {};
+  const globalUser = getUser(cookies) || globalReducer.initialState.user;
   const sagaMiddleware = createSagaMiddleware();
   const store: ExtendedStore = createStore(
     reducer,
     initialState || {
-      global: { ...globalReducer.initialState, route },
+      global: { ...globalReducer.initialState, route, user: globalUser },
       setting: { ...settingReducer.initialState, ...settingsState },
     },
     composeEnhancers(applyMiddleware(sagaMiddleware)),

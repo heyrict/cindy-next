@@ -1,6 +1,7 @@
 import { ApolloConsumer } from 'react-apollo';
 import { connect } from 'react-redux';
 import { setCookie } from 'common/cookie';
+import { getUser } from 'common/auth';
 import { toast } from 'react-toastify';
 
 import * as globalReducer from 'reducers/global';
@@ -31,11 +32,13 @@ const withSignup = Wrapped =>
               password,
             })
               .then(res => {
-                const { id, username, nickname, token, errors } = res;
+                const { jwt, errors } = res;
                 if (!errors) {
-                  setCookie('cindy-jwt-token', token, 30 * 24 * 60 * 60);
-                  props.auth({ id, username, nickname });
-                  apolloClient.resetStore();
+                  setCookie('cindy-jwt-token', jwt, 30 * 24 * 60 * 60);
+                  const user = getUser();
+                  if (user) {
+                    props.auth(user);
+                  }
                 } else {
                   errors.forEach(error => {
                     toast.error(`${error.type}: ${error.message}`);
@@ -44,6 +47,7 @@ const withSignup = Wrapped =>
                 return res;
               })
               .catch(error => {
+                console.error(error);
                 toast.error(JSON.stringify(error));
               })
           }

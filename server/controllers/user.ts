@@ -7,17 +7,20 @@
 
 import { User } from '../db/schema';
 import rasha from 'rasha';
-import jwt from 'jsonwebtoken';
 import { publicKey } from '../config/jwt';
 import { randomSalt, encodePassword } from '../db/encode';
-import { getUser, localAuth, bearerAuth } from '../db/auth';
+import { getJwt, localAuth, bearerAuth, formatCookie } from '../db/auth';
+
+import { CindyRole } from 'globalTypes';
+import { Request, Response } from 'express';
 
 /**
  * Sends the JWT key set
  */
-export const getJwks = async (req, res) => {
+export const getJwks = async (_req: Request, res: Response) => {
+  const rashaKeys = await rasha.import({ pem: publicKey, public: true });
   const jwk = {
-    ...rasha.importSync({ pem: publicKey }),
+    ...rashaKeys,
     alg: 'RS256',
     use: 'sig',
     kid: publicKey,
@@ -34,7 +37,7 @@ export const getJwks = async (req, res) => {
 /**
  * Sign in using username and password and returns JWT
  */
-export const postLogin = async (req, res) => {
+export const postLogin = async (req: Request, res: Response) => {
   const { username, password } = req.body;
   const errors = [];
   if (!username) {
@@ -49,8 +52,11 @@ export const postLogin = async (req, res) => {
   }
 
   try {
-    const user = await localAuth(username, password);
-    return handleResponse(res, 200, user);
+    const jwt = await localAuth(username, password);
+    res.set({
+      'Set-Cookie': formatCookie('cindy-jwt-token', jwt),
+    });
+    return handleResponse(res, 200, { jwt });
   } catch (error) {
     return handleResponse(res, 400, {
       errors: [{ type: 'AuthenticationFailed', message: error.message }],
@@ -62,7 +68,7 @@ export const postLogin = async (req, res) => {
  * POST /signup
  * Create a new local account
  */
-export const postSignup = async (req, res) => {
+export const postSignup = async (req: Request, res: Response) => {
   const { nickname, username, password } = req.body;
   const errors = [];
   if (!nickname) {
@@ -106,8 +112,11 @@ export const postSignup = async (req, res) => {
       password: encoded,
     });
 
-    const userHeader = getUser(user);
-    return handleResponse(res, 200, userHeader);
+    const jwt = getJwt(user);
+    res.set({
+      'Set-Cookie': formatCookie('cindy-jwt-token', jwt),
+    });
+    return handleResponse(res, 200, { jwt });
   } catch (error) {
     return handleResponse(res, 400, {
       errors: [{ type: 'DBError', message: error.message }],
@@ -115,38 +124,10 @@ export const postSignup = async (req, res) => {
   }
 };
 
-export const getCurrentUser = async (req, res) => {
+export const getWebhook = async (req: Request, res: Response) => {
   try {
     const bearer = req.headers.authorization;
-    const requestedRole = req.headers['x-hasura-role'];
-    if (!bearer) {
-      return handleResponse(res, 200, { 'X-Hasura-Role': 'anonymous' });
-    }
-    const token = bearer.slice(7);
-    const parsed = await new Promise((resolve, reject) => {
-      jwt.verify(token, publicKey, { algorithm: 'RS256' }, (err, decoded) =>
-        err ? reject(err) : resolve(decoded),
-      );
-    });
-    const userId =
-      parsed['https://www.cindythink.com/jwt/claims']['x-hasura-user-id'];
-    const user = await User.findByPk(userId);
-    return handleResponse(res, 200, {
-      id: user.id,
-      username: user.username,
-      nickname: user.nickname,
-    });
-  } catch (error) {
-    return handleResponse(res, 401, {
-      errors: [{ type: 'InternalServerError', message: error.message }],
-    });
-  }
-};
-
-export const getWebhook = async (req, res) => {
-  try {
-    const bearer = req.headers.authorization;
-    const requestedRole = req.headers['x-hasura-role'];
+    const requestedRole = req.headers['x-hasura-role'] as CindyRole;
     if (!bearer) {
       return handleResponse(res, 200, { 'X-Hasura-Role': 'anonymous' });
     }
@@ -160,6 +141,10 @@ export const getWebhook = async (req, res) => {
   }
 };
 
-function handleResponse(res, code, statusMsg) {
+function handleResponse(
+  res: Response,
+  code: number,
+  statusMsg: string | object,
+) {
   res.status(code).json(statusMsg);
 }

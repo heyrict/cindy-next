@@ -39,7 +39,6 @@ if (dev) {
 // JWT Authorization
 server.use('/webhook/login', postLogin);
 server.use('/webhook/signup', postSignup);
-server.get('/webhook/getcurrent', getCurrentUser);
 server.get('/webhook/webhook', getWebhook);
 server.get('/webhook/jwks', getJwks);
 server.post('/webhook/activeUsers', postActiveUsers);
