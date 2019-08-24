@@ -21,7 +21,7 @@ const ProfileBookmarksTab = ({ userId }: ProfileBookmarksTabProps) => (
     query={PROFILE_BOOKMARKS_QUERY}
     variables={{
       userId,
-      orderBy: [{ id: order_by.desc }],
+      orderBy: [{ value: order_by.desc }],
     }}
     getItemCount={data =>
       (data.sui_hei_bookmark_aggregate &&
