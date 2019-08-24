@@ -284,6 +284,12 @@ export const globalStyle = css`
     background: transparent;
     overflow-x: 'auto';
   }
+  blockquote {
+    padding: 5px;
+    margin: 1em 0;
+    border-left: 6px solid ${theme.colors.gray[2]};
+    background: ${theme.colors.gray[1]};
+  }
   ${tabsStyle}
   ${stampStyle}
   ${toastifyStyle}
