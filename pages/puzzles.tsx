@@ -13,7 +13,8 @@ import { Query, Subscription } from 'react-apollo';
 import { PUZZLES_SOLVED_QUERY } from 'graphql/Queries/Puzzles';
 import { PUZZLES_UNSOLVED_LIVEQUERY } from 'graphql/LiveQueries/Puzzles';
 
-import { Heading, Flex, Box, Panel } from 'components/General';
+import { Heading, Flex, Panel } from 'components/General';
+import MultiColBox from 'components/General/MultiColBox';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import PuzzleBrief from 'components/Puzzle/Brief';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
@@ -34,11 +35,10 @@ import {
 let prevData: PuzzlesUnsolvedLiveQuery_sui_hei_puzzle[] | null = null;
 
 const PUZZLES_PER_PAGE = 20;
-const puzzleWidth = [1, 1 / 2, 1, 1 / 2, 1 / 3];
 const puzzleLoadingPanel = (
-  <Box width={puzzleWidth}>
+  <MultiColBox>
     <Panel>Loading...</Panel>
-  </Box>
+  </MultiColBox>
 );
 
 const PuzzlesSolvedRenderer = ({
@@ -82,9 +82,9 @@ const PuzzlesSolvedRenderer = ({
     return (
       <React.Fragment>
         {data.sui_hei_puzzle.map(puzzle => (
-          <Box width={puzzleWidth} key={`puzzle-brief-${puzzle.id}`}>
+          <MultiColBox key={`puzzle-brief-${puzzle.id}`}>
             <PuzzleBrief puzzle={puzzle} />
-          </Box>
+          </MultiColBox>
         ))}
         {data.sui_hei_puzzle.length >= PUZZLES_PER_PAGE && hasMore && (
           <LoadMoreVis
@@ -136,9 +136,9 @@ const PuzzlesUnsolvedRenderer = ({
     return (
       <React.Fragment>
         {data.sui_hei_puzzle.map(puzzle => (
-          <Box width={puzzleWidth} key={`puzzle-brief-${puzzle.id}`}>
+          <MultiColBox key={`puzzle-brief-${puzzle.id}`}>
             <PuzzleBrief puzzle={puzzle} />
-          </Box>
+          </MultiColBox>
         ))}
       </React.Fragment>
     );

@@ -75,6 +75,7 @@ const SettingsModal = ({
   sendQuestionTrigger,
   rightAsideMini,
   pushNotification,
+  multicol,
 }: SettingsModalProps) => {
   const sendChatTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const sendDirectmessageTriggerRef = useRef<ButtonSelectStateful<number>>(
@@ -86,6 +87,7 @@ const SettingsModal = ({
   const puzzleGenreImgRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const rightAsideMiniRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const pushNotificationRef = useRef<ButtonSelectStateful<boolean>>(null!);
+  const multicolRef = useRef<ButtonSelectStateful<boolean>>(null!);
 
   return (
     <Modal show={settingsModal} closefn={() => setFalseSettingsModal()}>
@@ -180,7 +182,7 @@ const SettingsModal = ({
             />
           </Box>
           <Box width={1} borderBottom="2px solid" borderColor="orange.7" mb={2}>
-            <FormattedMessage {...commonMessages.others} />
+            <FormattedMessage {...commonMessages.display} />
           </Box>
           <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
             <FormattedMessage {...settingMessages.puzzleGenreImg}>
@@ -192,6 +194,19 @@ const SettingsModal = ({
               ref={puzzleGenreImgRef}
               flexProps={{ px: 2 }}
               initialValue={puzzleGenreImg}
+              options={booleanOptions}
+            />
+          </Box>
+          <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
+            <FormattedMessage {...settingMessages.multicol}>
+              {msg => <label>{msg}</label>}
+            </FormattedMessage>
+          </Box>
+          <Box width={[1, 2 / 3, 4 / 5]} mb={2}>
+            <ButtonSelectStateful<boolean>
+              ref={multicolRef}
+              flexProps={{ px: 2 }}
+              initialValue={multicol}
               options={booleanOptions}
             />
           </Box>
@@ -237,6 +252,7 @@ const SettingsModal = ({
               puzzleGenreImg: puzzleGenreImgRef.current.state.value,
               rightAsideMini: rightAsideMiniRef.current.state.value,
               pushNotification: pushNotificationRef.current.state.value,
+              multicol: multicolRef.current.state.value,
             })
           }
         >

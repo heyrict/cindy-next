@@ -23,7 +23,8 @@ export enum actionTypes {
   RIGHT_ASIDE_MINI = 'setting.RIGHT_ASIDE_MINI',
   PUSH_NOTIFICATION = 'setting.PUSH_NOTIFICATION',
   SET_STATE = 'setting.SET_STATE',
-  LANGUAGE = 'global.LANGUAGE',
+  LANGUAGE = 'setting.LANGUAGE',
+  MULTICOL = 'setting.MULTICOL',
 }
 
 export type ActionPayloadType = {
@@ -40,6 +41,7 @@ export type ActionPayloadType = {
   LANGUAGE: ReturnType<
     ValueOf<base.HelperActionType<typeof APPLOCALES[0] | undefined>>
   >;
+  MULTICOL: ReturnType<ValueOf<bool.HelperActionType>>;
 };
 
 export const actions = {
@@ -57,6 +59,7 @@ export const actions = {
   language: base.wrapActions<typeof APPLOCALES[0] | undefined>(
     actionTypes.LANGUAGE,
   ),
+  multicol: bool.wrapActions(actionTypes.MULTICOL),
   setState: (
     state: { [key in keyof typeof initialState]?: typeof initialState[key] },
   ) =>
@@ -80,6 +83,7 @@ export const initialState = {
   rightAsideMini: false,
   pushNotification: true,
   language: undefined as typeof APPLOCALES[0] | undefined,
+  multicol: true,
 };
 
 export const loadInitialState = (): typeof initialState => {
@@ -172,6 +176,11 @@ export const reducer = (
       return {
         ...state,
         language: base.helper(state.language, action.payload),
+      };
+    case actionTypes.MULTICOL:
+      return {
+        ...state,
+        multicol: bool.helper(state.multicol, action.payload),
       };
     default:
       return state;

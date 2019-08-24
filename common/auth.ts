@@ -14,7 +14,17 @@ export const parseAuthToken = (
   let dcl, clm;
   if (process.browser) {
     dcl = JSON.parse(atob(parsed[0]));
-    clm = JSON.parse(decodeURIComponent(atob(parsed[1].replace(/-/g, '+').replace(/_/g, '/')).split('').map((c: string) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')));
+    clm = JSON.parse(
+      decodeURIComponent(
+        atob(parsed[1].replace(/-/g, '+').replace(/_/g, '/'))
+          .split('')
+          .map(
+            (c: string) =>
+              '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2),
+          )
+          .join(''),
+      ),
+    );
   } else {
     dcl = JSON.parse(Buffer.from(parsed[0], 'base64').toString());
     clm = JSON.parse(Buffer.from(parsed[1], 'base64').toString());
@@ -25,7 +35,9 @@ export const parseAuthToken = (
 
 export const getUser = (cookie?: string) => {
   try {
-    return parseAuthToken(getAuthToken(cookie)).clm.user;
+    const token = getAuthToken(cookie);
+    if (token) return parseAuthToken(token).clm.user;
+    return null;
   } catch (error) {
     console.error(error);
     return null;

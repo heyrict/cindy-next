@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 import { Box, Flex, Img, Switch } from 'components/General';
+import MultiColBox from 'components/General/MultiColBox';
 import CommentDisplay from 'components/Puzzle/CommentDisplay';
 import ProfileInfo from './Info';
 import ProfileSubbar from './Subbar';
@@ -121,9 +122,9 @@ const ProfileInfoRenderer = ({
             renderItems={data => {
               if (!data.sui_hei_puzzle) return null;
               return data.sui_hei_puzzle.map(puzzle => (
-                <Box width={[1, 1 / 2, 1, 1 / 2, 1 / 3]}>
+                <MultiColBox key={puzzle.id}>
                   <PuzzleBrief puzzle={puzzle} />
-                </Box>
+                </MultiColBox>
               ));
             }}
           />
@@ -144,7 +145,7 @@ const ProfileInfoRenderer = ({
             renderItems={data => {
               if (!data.sui_hei_star) return null;
               return data.sui_hei_star.map(star => (
-                <Box width={[1, 1 / 2, 1, 1 / 2, 1 / 3]}>
+                <MultiColBox key={star.id}>
                   <PuzzleWithAny
                     cap={
                       <Flex flexDirection="column-reverse">
@@ -153,7 +154,7 @@ const ProfileInfoRenderer = ({
                     }
                     puzzle={star.sui_hei_puzzle}
                   />
-                </Box>
+                </MultiColBox>
               ));
             }}
           />
@@ -232,7 +233,7 @@ const ProfileInfoRenderer = ({
             renderItems={data => {
               if (!data.sui_hei_bookmark) return null;
               return data.sui_hei_bookmark.map(bookmark => (
-                <Box width={[1, 1 / 2, 1, 1 / 2, 1 / 3]}>
+                <MultiColBox key={bookmark.id}>
                   <PuzzleWithAny
                     cap={
                       <Box color="green.6">
@@ -244,7 +245,7 @@ const ProfileInfoRenderer = ({
                     }
                     puzzle={bookmark.sui_hei_puzzle}
                   />
-                </Box>
+                </MultiColBox>
               ));
             }}
           />

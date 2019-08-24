@@ -97,7 +97,7 @@ class SimplePaginatorBar extends React.Component<SimplePaginatorBarProps> {
 
     return (
       <Flex width={1} alignItems="center" justifyContent="space-between">
-        <Box ml={2} mr="auto">
+        <Box ml={2}>
           {prevBtn}
         </Box>
         <Flex mx="auto">
@@ -111,7 +111,7 @@ class SimplePaginatorBar extends React.Component<SimplePaginatorBarProps> {
             <FormattedMessage {...commonMessages.jump} />
           </SqSubmit>
         </Flex>
-        <Box mr={2} ml="auto">
+        <Box mr={2}>
           {nextBtn}
         </Box>
       </Flex>

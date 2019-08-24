@@ -35,6 +35,10 @@ export const settingMessages = defineMessages({
     id: `${scope}.sendAnswerTrigger`,
     defaultMessage: 'Send Answer',
   },
+  multicol: {
+    id: `${scope}.multicol`,
+    defaultMessage: 'Prefer Multiple Columns',
+  },
   rightAsideMini: {
     id: `${scope}.rightAsideMini`,
     defaultMessage: '(Puzzle Page) Floating box size',
