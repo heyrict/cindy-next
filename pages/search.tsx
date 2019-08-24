@@ -18,6 +18,7 @@ import {
   Panel,
   ButtonTransparent,
 } from 'components/General';
+import MultiColBox from 'components/General/MultiColBox';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 import SearchVarSetPanel from 'components/Search/SearchVarSetPanel';
 import SortVarSetPanel from 'components/Search/SortVarSetPanel';
@@ -30,8 +31,6 @@ import {
 } from 'graphql/Queries/generated/SolvedPuzzlesSearchQuery';
 import { FilterFieldTypeEnum } from 'components/Search/types';
 import { SearchVariablesStates } from 'pageTypes';
-
-const puzzleWidth = [1, 1 / 2, 1, 1 / 2, 1 / 3];
 
 const Search = (_props: any, context: { intl: IntlShape }) => {
   const _: any = context.intl.formatMessage;
@@ -271,9 +270,9 @@ const Search = (_props: any, context: { intl: IntlShape }) => {
             const puzzles = data.sui_hei_puzzle;
             if (!puzzles) return null;
             return puzzles.map(puzzle => (
-              <Box key={puzzle.id} width={puzzleWidth}>
+              <MultiColBox key={puzzle.id}>
                 <PuzzleBrief puzzle={puzzle} />
-              </Box>
+              </MultiColBox>
             ));
           }}
         />
