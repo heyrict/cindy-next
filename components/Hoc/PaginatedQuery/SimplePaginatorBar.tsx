@@ -36,17 +36,22 @@ const SqInput = styled.input`
   border-radius: 10px 0 0 10px;
   padding: 3px 3px;
   margin-left: 5px;
+  margin-right: 0;
   max-width: 60px;
   max-height: 60px;
 `;
 
-const SqIndic = styled.div`
-  display: inline-box;
+const SqIndic = styled.button`
+  display: flex;
+  align-items: center;
+  cursor: default;
   color: ${p => p.theme.colors.gray[8]};
   background-color: ${p => p.theme.colors.blue[0]};
   border: 3px solid ${p => p.theme.colors.blue[5]};
   border-right: none;
   border-left: none;
+  margin-left: 0;
+  margin-right: 0;
   font-weight: bold;
   padding: 3px 3px;
   max-width: 60px;
@@ -61,6 +66,7 @@ const SqSubmit = styled.button`
   background-color: ${p => p.theme.colors.blue[5]};
   font-weight: bold;
   padding: 3px 3px;
+  margin-left: 0;
   margin-right: 5px;
   max-width: 60px;
   max-height: 60px;
@@ -97,7 +103,7 @@ class SimplePaginatorBar extends React.Component<SimplePaginatorBarProps> {
 
     return (
       <Flex width={1} alignItems="center" justifyContent="space-between">
-        <Box ml={2}>
+        <Box ml={2} fontSize={[10, 12, 14]}>
           {prevBtn}
         </Box>
         <Flex mx="auto">
@@ -111,7 +117,7 @@ class SimplePaginatorBar extends React.Component<SimplePaginatorBarProps> {
             <FormattedMessage {...commonMessages.jump} />
           </SqSubmit>
         </Flex>
-        <Box mr={2}>
+        <Box mr={2} fontSize={[10, 12, 14]}>
           {nextBtn}
         </Box>
       </Flex>
