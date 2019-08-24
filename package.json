@@ -18,7 +18,7 @@
     "dev:next": "NODE_ENV=development next",
     "prettify": "prettier --write '**/*.js' '**/*.tsx' '**/*.ts'",
     "build:client": "NODE_ENV=production next build",
-    "build:server": "NODE_ENV=production babel -d .next/dist settings.js; NODE_ENV=production babel server -d .next/dist/server",
+    "build:server": "NODE_ENV=production babel --extensions .js,.ts -d .next/dist settings.js globalTypes.ts; NODE_ENV=production babel --extensions .js,.ts server -d .next/dist/server",
     "build": "yarn run build:client; yarn run build:server",
     "start:apollo": "NODE_ENV=production node .next/dist/server/apolloServer.js",
     "start:next": "NODE_ENV=production node .next/dist/server/nextServer.js",
