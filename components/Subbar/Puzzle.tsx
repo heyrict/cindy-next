@@ -7,6 +7,7 @@ import rankingMessage from 'messages/pages/ranking';
 import awardsMessages from 'messages/pages/awards';
 import searchMessages from 'messages/pages/search';
 import tagsPageMessages from 'messages/pages/tags';
+import commentsPageMessages from 'messages/pages/comments';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -101,6 +102,20 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         <Link href="/tags" passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...tagsPageMessages.header} />
+          </ButtonTransparentA>
+        </Link>
+      </Box>
+    </Box>
+    <Box width={[1 / 3, 1 / 5, 1 / 6, 1 / 8]} mb={1}>
+      <Box
+        bg={route === '/comments' ? 'yellow.4' : 'orange.4'}
+        borderRadius={2}
+        ml={1}
+        p={1}
+      >
+        <Link href="/comments" passHref>
+          <ButtonTransparentA color="red.9" height={1} width={1}>
+            <FormattedMessage {...commentsPageMessages.header} />
           </ButtonTransparentA>
         </Link>
       </Box>

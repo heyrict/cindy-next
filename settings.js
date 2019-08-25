@@ -66,11 +66,14 @@ export const DOMAIN_REGEXP = new RegExp(
 export const domainFilter = url => {
   const selfDomain = DOMAIN_REGEXP.test(url);
   if (!selfDomain) {
-    return { selfDomain, url };
+    return { selfDomain, href: url, as: url };
   }
+  const hrefReal = url.replace(DOMAIN_REGEXP, '$5');
+  const href = hrefReal.replace(/\d+/g, '[id]');
   return {
     selfDomain,
-    url: url.replace(DOMAIN_REGEXP, '$5'),
+    href,
+    as: hrefReal,
   };
 };
 

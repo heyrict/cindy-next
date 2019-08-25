@@ -12,6 +12,7 @@ import {
   sui_hei_puzzle_order_by,
   sui_hei_tag_order_by,
 } from 'generated/globalTypes';
+import { CommentsQuery, CommentsQueryVariables } from 'graphql/Queries/generated/CommentsQuery';
 
 export type UserPageProps = {
   userId: number;
@@ -59,3 +60,8 @@ export type TagsVariablesStates = {
   name: null | string;
   orderBy: Array<sui_hei_tag_order_by>;
 };
+
+export type CommentsRendererProps = QueryResult<
+  CommentsQuery,
+  CommentsQueryVariables
+>;

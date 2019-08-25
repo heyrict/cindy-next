@@ -91,3 +91,17 @@ export const PROFILE_COMMENTS_RECEIVED_QUERY = gql`
   }
   ${COMMENT_DETAIL_FRAGMENT}
 `;
+
+export const COMMENTS_QUERY = gql`
+  query CommentsQuery($limit: Int, $offset: Int) {
+    sui_hei_comment(
+      where: { sui_hei_puzzle: { status: { _eq: 1 } } }
+      order_by: { id: desc }
+      limit: $limit
+      offset: $offset
+    ) @connection(key: "sui_hei_comment", filter: ["order_by", "where"]) {
+      ...CommentDetail
+    }
+  }
+  ${COMMENT_DETAIL_FRAGMENT}
+`;

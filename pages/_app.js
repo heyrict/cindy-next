@@ -88,10 +88,11 @@ class MyApp extends App {
       }
     }
     if (typeof e.target.onclick !== 'function' && 'href' in attr) {
-      const { selfDomain, url } = domainFilter(attr.href.value);
+      const url = new URL(attr.href.value, window.location.href).href;
+      const { selfDomain, href, as } = domainFilter(url);
       if (selfDomain && e.button === 0 /* left cick */) {
         e.preventDefault();
-        Router.push(url);
+        Router.push(href, as);
       }
     }
   }
