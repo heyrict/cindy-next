@@ -82,7 +82,7 @@ export const PROFILE_COMMENTS_RECEIVED_QUERY = gql`
     }
     sui_hei_comment_aggregate(
       order_by: $orderBy
-      where: { user_id: { _eq: $userId } }
+      where: { sui_hei_puzzle: { user_id: { _eq: $userId } } }
     ) {
       aggregate {
         count

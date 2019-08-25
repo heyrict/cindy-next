@@ -252,6 +252,8 @@
   "tooltip.scrollToTop": "Scroll To Top",
   "tooltip.stamp": "Stamp",
   "tooltip.underline": "Underline",
+  "user.comments_posted": "Comments Posted",
+  "user.comments_received": "Comments Received",
   "user.currentUserProfileIsEmpty": "It seems that you haven't written a profile yet. Introduce your self in a few words now!",
   "user.description": "User Profile in Cindy",
   "user.profileIsEmpty": "This user does not have a profile",

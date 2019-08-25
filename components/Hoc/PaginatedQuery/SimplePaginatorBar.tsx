@@ -72,6 +72,13 @@ const SqSubmit = styled.button`
   max-height: 60px;
 `;
 
+const ResponsiveJumpBox = styled.div`
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  word-break: keep-all;
+`;
+
 class SimplePaginatorBar extends React.Component<SimplePaginatorBarProps> {
   inputRef = React.createRef<HTMLInputElement>()!;
   render() {
@@ -106,7 +113,7 @@ class SimplePaginatorBar extends React.Component<SimplePaginatorBarProps> {
         <Box ml={2} fontSize={[10, 12, 14]}>
           {prevBtn}
         </Box>
-        <Flex mx="auto">
+        <ResponsiveJumpBox>
           <SqInput
             ref={this.inputRef}
             placeholder={this.props.page.toString()}
@@ -116,7 +123,7 @@ class SimplePaginatorBar extends React.Component<SimplePaginatorBarProps> {
           <SqSubmit onClick={() => this.handleSubmit()}>
             <FormattedMessage {...commonMessages.jump} />
           </SqSubmit>
-        </Flex>
+        </ResponsiveJumpBox>
         <Box mr={2} fontSize={[10, 12, 14]}>
           {nextBtn}
         </Box>

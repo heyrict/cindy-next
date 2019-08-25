@@ -32,6 +32,14 @@ export const messages = defineMessages({
     id: `${scope}.tab_puzzles`,
     defaultMessage: 'Puzzles',
   },
+  comments_received: {
+    id: `${scope}.comments_received`,
+    defaultMessage: 'Comments Received',
+  },
+  comments_posted: {
+    id: `${scope}.comments_posted`,
+    defaultMessage: 'Comments Posted',
+  },
 });
 
 export default messages;

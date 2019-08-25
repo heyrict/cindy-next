@@ -6,8 +6,12 @@ import {
   PROFILE_COMMENTS_RECEIVED_QUERY,
 } from 'graphql/Queries/Comment';
 
+import { FormattedMessage } from 'react-intl';
+import userPageMessages from 'messages/pages/user';
+
 import Flex from 'components/General/Flex';
 import Box from 'components/General/Box';
+import Heading from 'components/General/Heading';
 import CommentDisplay from 'components/Puzzle/CommentDisplay';
 
 import { ProfileCommentsTabProps } from './types';
@@ -22,8 +26,11 @@ import {
 } from 'graphql/Queries/generated/ProfileCommentsReceivedQuery';
 
 const ProfileCommentsTab = ({ userId }: ProfileCommentsTabProps) => (
-  <Flex alignItems="baseline" justifyContent="center">
-    <Flex flexWrap="wrap" width={1 / 2}>
+  <Flex flexWrap="wrap" alignItems="baseline" justifyContent="center">
+    <Flex flexWrap="wrap" width={[1, 1 / 2, 1, 1 / 2]}>
+      <Heading fontSize={4}>
+        <FormattedMessage {...userPageMessages.comments_posted} />
+      </Heading>
       <PaginatedQuery<ProfileCommentsQuery, ProfileCommentsQueryVariables>
         query={PROFILE_COMMENTS_QUERY}
         variables={{
@@ -46,7 +53,10 @@ const ProfileCommentsTab = ({ userId }: ProfileCommentsTabProps) => (
         }}
       />
     </Flex>
-    <Flex flexWrap="wrap" width={1 / 2}>
+    <Flex flexWrap="wrap" width={[1, 1 / 2, 1, 1 / 2]}>
+      <Heading fontSize={4}>
+        <FormattedMessage {...userPageMessages.comments_received} />
+      </Heading>
       <PaginatedQuery<
         ProfileCommentsReceivedQuery,
         ProfileCommentsReceivedQueryVariables

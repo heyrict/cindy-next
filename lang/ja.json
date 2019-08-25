@@ -252,6 +252,8 @@
   "tooltip.scrollToTop": "上へ",
   "tooltip.stamp": "スタンプ",
   "tooltip.underline": "下線",
+  "user.comments_posted": "コメント",
+  "user.comments_received": "獲得コメント",
   "user.currentUserProfileIsEmpty": "あなたはまだプロフィールを書いていません。個性豊かのユーザーを持つCindyでは、それが一大事です！今すぐ何かを書いて自分を紹介しましょう！",
   "user.description": "ユーザープロフィールです",
   "user.profileIsEmpty": "このユーザーはまだプロフィールを書いていません。",
