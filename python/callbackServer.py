@@ -17,6 +17,8 @@ TOKEN = os.environ.get("TOKEN")
 TOKEN_SECRET = os.environ.get("TOKEN_SECRET")
 CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
 CONSUMER_SECRET = os.environ.get("CONSUMER_SECRET")
+ANONYMOUS_USER_DISPLAY = os.environ.get("ANONYMOUS_USER_DISPLAY",
+                                        "Anonymous User")
 TWEET_WITH_PICTURE = os.environ.get("TWEET_WITH_PICTURE", False)
 
 MESSAGES = getattr(__import__("templates"), LOCALE)
@@ -42,7 +44,8 @@ def add_puzzle_callback(event):
     msg = MESSAGES.ADD_PUZZLE_TWEET % {
         "id": puzzle["id"],
         "title": puzzle["title"],
-        "user_nickname": puzzle_user["nickname"],
+        "user_nickname": ANONYMOUS_USER_DISPLAY if puzzle["anonymous"]\
+                    else puzzle_user["nickname"],
     } # yapf: disable
 
     logger.info("Puzzle Added with id=%d title=%s"\

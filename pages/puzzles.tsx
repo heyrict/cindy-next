@@ -8,6 +8,7 @@ import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
 import messages from 'messages/pages/puzzles';
 import webNotifyMessages from 'messages/webNotify';
 import puzzleMessages from 'messages/components/puzzle';
+import userMessages from 'messages/components/user';
 
 import { Query, Subscription } from 'react-apollo';
 import { PUZZLES_SOLVED_QUERY } from 'graphql/Queries/Puzzles';
@@ -207,7 +208,9 @@ const Puzzles = (_props: any, context: { intl: IntlShape }) => {
               if (document.hidden) {
                 maybeSendNotification(_(webNotifyMessages.newPuzzleAdded), {
                   body: _(webNotifyMessages.newPuzzleAddedDetail, {
-                    user: newUnsolved[0].sui_hei_user.nickname,
+                    user: newUnsolved[0].anonymous
+                      ? _(userMessages.anonymousUser)
+                      : newUnsolved[0].sui_hei_user.nickname,
                     puzzle: newUnsolved[0].title,
                     genre: genreMessage,
                   }),
