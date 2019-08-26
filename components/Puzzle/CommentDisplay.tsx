@@ -10,7 +10,6 @@ import chevronYLeft from 'svgs/chevronYellowgreenLeft.svg';
 import chevronYRight from 'svgs/chevronYellowgreenRight.svg';
 import chevronOLeft from 'svgs/chevronOrangeLeft.svg';
 import chevronORight from 'svgs/chevronOrangeRight.svg';
-import UserInline from 'components/User/UserInline';
 
 import {
   CommentDisplayProps,
@@ -79,19 +78,34 @@ class CommentDisplay extends React.PureComponent<
           <FormattedMessage
             {...puzzleMessages.commentDescribe}
             values={{
-              user: <UserInline user={comment.sui_hei_user} />,
+              user: (
+                <Link
+                  href={'/user/[id]'}
+                  as={`/user/${comment.sui_hei_user.id}`}
+                  passHref
+                >
+                  <ButtonTransparentA>
+                    {comment.sui_hei_user.nickname}
+                  </ButtonTransparentA>
+                </Link>
+              ),
               puzzle_user: (
-                <UserInline
-                  color="white"
-                  user={comment.sui_hei_puzzle.sui_hei_user}
-                />
+                <Link
+                  href={'/user/[id]'}
+                  as={`/user/${comment.sui_hei_puzzle.sui_hei_user.id}`}
+                  passHref
+                >
+                  <ButtonTransparentA>
+                    {comment.sui_hei_puzzle.sui_hei_user.nickname}
+                  </ButtonTransparentA>
+                </Link>
               ),
               puzzle_title: (
                 <Link
                   href={'/puzzle/[id]'}
-                  as={`/puzzle/show/${comment.sui_hei_puzzle.id}`}
+                  as={`/puzzle/${comment.sui_hei_puzzle.id}`}
                 >
-                  {comment.sui_hei_puzzle.title}
+                  <a>{comment.sui_hei_puzzle.title}</a>
                 </Link>
               ),
             }}

@@ -41,4 +41,6 @@ export type MessageGroupChatProps = {
   user: GlobalUserType;
   directGroupUser: number | null;
   sendDirectmessageTrigger: SendMessageTriggerType;
+  setTrueLoginModal: () => void;
+  setTrueSignupModal: () => void;
 };

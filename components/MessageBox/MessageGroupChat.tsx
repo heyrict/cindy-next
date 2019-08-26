@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as directReducer from 'reducers/direct';
 import * as settingReducer from 'reducers/setting';
+import * as loginReducer from 'reducers/login';
 
 import { Query, Mutation } from 'react-apollo';
 import {
@@ -16,6 +17,8 @@ import { DIRECTMESSAGE_SEND_MUTATION } from 'graphql/Mutations/Directmessage';
 
 import { FormattedMessage } from 'react-intl';
 import chatMessages from 'messages/components/chat';
+import commonMessages from 'messages/common';
+import authMessages from 'messages/components/auth';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import Directmessage from 'components/Chat/Directmessage';
@@ -25,6 +28,7 @@ import {
   StateType,
   SendMessageTriggerType,
   GlobalUserType,
+  ActionContentType,
 } from 'reducers/types';
 import { MessageGroupChatProps, MessageGroupChatInnerProps } from './types';
 import {
@@ -350,6 +354,8 @@ const MessageGroupChat = ({
   user,
   directGroupUser,
   sendDirectmessageTrigger,
+  setTrueLoginModal,
+  setTrueSignupModal,
 }: MessageGroupChatProps) =>
   directGroupUser && user.id ? (
     <Query<
@@ -372,7 +378,31 @@ const MessageGroupChat = ({
         />
       )}
     </Query>
-  ) : null;
+  ) : (
+    <FormattedMessage
+      {...commonMessages.loginOrSignup}
+      values={{
+        login: (
+          <ButtonTransparent
+            color="orange.8"
+            px={1}
+            onClick={() => setTrueLoginModal()}
+          >
+            <FormattedMessage {...authMessages.login} />
+          </ButtonTransparent>
+        ),
+        signup: (
+          <ButtonTransparent
+            color="orange.8"
+            px={1}
+            onClick={() => setTrueSignupModal()}
+          >
+            <FormattedMessage {...authMessages.signup} />
+          </ButtonTransparent>
+        ),
+      }}
+    />
+  );
 
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
@@ -381,6 +411,15 @@ const mapStateToProps = (state: StateType) => ({
     .sendDirectmessageTrigger,
 });
 
-const withRedux = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  setTrueLoginModal: () => dispatch(loginReducer.actions.loginModal.setTrue()),
+  setTrueSignupModal: () =>
+    dispatch(loginReducer.actions.signupModal.setTrue()),
+});
+
+const withRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default withRedux(MessageGroupChat);

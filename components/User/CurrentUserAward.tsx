@@ -38,9 +38,14 @@ const CurrentUserAward = ({ useraward }: CurrentUserAwardProps) => {
               ref(r);
               btnRef.current = r;
             }}
-            onMouseOver={() => setShow(true)}
-            onClick={() => setShow(!show)}
-            onMouseLeave={() => setShow(false)}
+            onTouchStart={() => {
+              console.log('TS; SET true');
+              setShow(true);
+            }}
+            onMouseEnter={() => {
+              console.log('ME; SET true');
+              setShow(true);
+            }}
           >
             [{useraward.sui_hei_award.name}]
           </AnchorButton>
@@ -64,6 +69,18 @@ const CurrentUserAward = ({ useraward }: CurrentUserAwardProps) => {
                 zIndex: 12,
               }}
               data-placement={placement}
+              onClick={() => {
+                console.log('Cl; SET false');
+                setShow(false);
+              }}
+              onMouseLeave={() => {
+                console.log('ML; SET false');
+                setShow(false);
+              }}
+              onTouchMove={() => {
+                console.log('TM; SET false');
+                setShow(false);
+              }}
             >
               <Box mt={2} mb={1} width={1} fontSize={2} textAlign="center">
                 {useraward.sui_hei_award.name}

@@ -81,6 +81,7 @@ export type ProfileUserType = {
 
 export type ProfileInfoRendererProps = {
   currentUser: GlobalUserType;
+  directChatWithUser: (userId: number) => void;
 } & QueryResult<UserQuery, UserQueryVariables>;
 
 export type ProfileInfoProps = {

@@ -6,8 +6,9 @@ import userPageMessages from 'messages/pages/user';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
+import * as directReducer from 'reducers/direct';
 
-import { Box, Flex } from 'components/General';
+import { Box, Flex, Img, ButtonTransparent } from 'components/General';
 import ProfileInfo from './Info';
 import ProfileSubbar from './Subbar';
 import ProfilePuzzlesTab from './ProfileTabs/ProfilePuzzlesTab';
@@ -15,15 +16,18 @@ import ProfileStarsTab from './ProfileTabs/ProfileStarsTab';
 import ProfileHideBookmarksToggle from './ProfileTabs/ProfileHideBookmarksToggle';
 import ProfileBookmarksTab from './ProfileTabs/ProfileBookmarksTab';
 import ProfileCommentsTab from './ProfileTabs/ProfileCommentsTab';
+import messageIcon from 'svgs/message.svg';
 
 import { ProfileTabType } from './types';
 import { ProfileInfoRendererProps } from './types';
 import { StateType } from 'reducers/types';
+import { ActionContentType } from 'reducers/types';
 
 const ProfileInfoRenderer = ({
   data,
   error,
   currentUser,
+  directChatWithUser,
 }: ProfileInfoRendererProps) => {
   const [tab, setTab] = useState(ProfileTabType.INFO);
 
@@ -42,12 +46,22 @@ const ProfileInfoRenderer = ({
 
   return (
     <React.Fragment>
-      <Box width={1} fontSize={4} py={3}>
+      <Box width={1} py={3}>
         <Box mx={1} px={2} py={4} bg="orange.2" borderRadius={2}>
-          <FormattedMessage
-            {...userPageMessages.profileOf}
-            values={{ nickname: user.nickname }}
-          />
+          <Box width={1} fontSize={4}>
+            <FormattedMessage
+              {...userPageMessages.profileOf}
+              values={{ nickname: user.nickname }}
+            />
+          </Box>
+          <Box width={1} fontSize={2} mt={1}>
+            <ButtonTransparent
+              p={1}
+              onClick={() => directChatWithUser(user.id)}
+            >
+              <Img height="xxs" src={messageIcon} alt="profile" />
+            </ButtonTransparent>
+          </Box>
         </Box>
       </Box>
       <ProfileSubbar
@@ -90,6 +104,14 @@ const mapStateToProps = (state: StateType) => ({
   currentUser: globalReducer.rootSelector(state).user,
 });
 
-const withRedux = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  directChatWithUser: (userId: number) =>
+    dispatch(directReducer.actions.directChatWithUser(userId)),
+});
+
+const withRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default withRedux(ProfileInfoRenderer);
