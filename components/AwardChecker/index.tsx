@@ -20,6 +20,7 @@ const AwardChecker = ({ user, initAwardCount }: AwardCheckerProps) => {
   return user.id ? (
     <React.Fragment>
       <Query<UserawardCheckerQuery, UserawardCheckerQueryVariables>
+        ssr={false}
         query={USERAWARD_CHECKER_QUERY}
         variables={{
           userId: user.id,
