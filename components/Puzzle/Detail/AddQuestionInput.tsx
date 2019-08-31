@@ -1,15 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { toast } from 'react-toastify';
-import styled from 'theme/styled';
 
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import * as awardCheckerReducer from 'reducers/awardChecker';
 import * as settingReducer from 'reducers/setting';
 
-import { Flex, Textarea, Img, Button } from 'components/General';
+import { Flex, Textarea, Button } from 'components/General';
 import { FormattedMessage } from 'react-intl';
-import expand from 'svgs/expand.svg';
 import messages from 'messages/pages/puzzle';
 
 import { Mutation } from 'react-apollo';
@@ -35,16 +33,6 @@ import {
   StateType,
 } from 'reducers/types';
 
-export const ExpandButton = styled(Button)`
-  background-color: transparent;
-  &:hover {
-    background-color: rgb(0, 0, 0, 0.05);
-  }
-  &:active {
-    background-color: rgb(0, 0, 0, 0.1);
-  }
-`;
-
 const withTrigger = connect((state: StateType) => ({
   sendQuestionTrigger: settingReducer.rootSelector(state).sendQuestionTrigger,
 }));
@@ -52,7 +40,6 @@ const withTrigger = connect((state: StateType) => ({
 export const QuestionInputWidget = compose(withTrigger)(
   ({ onSubmit, sendQuestionTrigger }: QuestionInputWidgetProps) => {
     const editorRef = useRef<HTMLTextAreaElement>(null!);
-    let [expanded, setExpanded] = useState(false);
 
     const handleSubmit = () => {
       const input = editorRef.current.value;
@@ -106,9 +93,6 @@ export const QuestionInputWidget = compose(withTrigger)(
           border="none"
           bg="transparent"
         />
-        <ExpandButton onClick={() => setExpanded(!expanded)} bg="transparent">
-          <Img size="xs" src={expand} />
-        </ExpandButton>
         <Button onClick={handleSubmit} px={2} minWidth="50px">
           <FormattedMessage {...messages.putQuestion} />
         </Button>
