@@ -10,6 +10,7 @@ import { Query } from 'react-apollo';
 import { COMMENTS_QUERY } from 'graphql/Queries/Comment';
 
 import { Heading, Flex, Panel } from 'components/General';
+import Loading from 'components/General/Loading';
 import MultiColBox from 'components/General/MultiColBox';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
@@ -24,7 +25,9 @@ import { CommentsRendererProps } from 'pageTypes';
 const COMMENTS_PER_PAGE = 20;
 const commentLoadingPanel = (
   <MultiColBox>
-    <Panel>Loading...</Panel>
+    <Panel>
+      <Loading centered />
+    </Panel>
   </MultiColBox>
 );
 

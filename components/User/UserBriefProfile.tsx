@@ -11,6 +11,7 @@ import * as directReducer from 'reducers/direct';
 
 import { Manager, Reference, Popper } from 'react-popper';
 import { Anchor, Flex, Box, ButtonTransparent, Img } from 'components/General';
+import Loading from 'components/General/Loading';
 import homeIcon from 'svgs/home.svg';
 import messageIcon from 'svgs/message.svg';
 
@@ -98,7 +99,7 @@ const UserBriefProfile = ({
                 variables={{ id: user.id }}
               >
                 {({ loading, data, error }) => {
-                  if (loading) return <span>...</span>;
+                  if (loading) return <Loading centered />;
                   if (error) {
                     toast.error(error.message);
                     return null;

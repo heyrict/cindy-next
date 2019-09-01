@@ -20,6 +20,7 @@ import { DIRECTMESSAGE_SUBSCRIPTION } from 'graphql/Subscriptions/Directmessage'
 import { SET_LAST_READ_DM_MUTATION } from 'graphql/Mutations/User';
 
 import { Flex, Box, Img, ButtonTransparent, RedDot } from 'components/General';
+import Loading from 'components/General/Loading';
 import messageIcon from 'svgs/message.svg';
 
 import { StateType, ActionContentType } from 'reducers/types';
@@ -54,13 +55,17 @@ const MessageGroupSelectRenderer = ({
   setDirectGroupUser,
   setDirectHasnew,
   data,
+  loading,
   error,
 }: MessageGroupSelectRendererProps) => {
   if (error) {
     toast.error(error.message);
     return null;
   }
-  if (!data || !data.direct_message_group) return null;
+  if (!data || !data.direct_message_group) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
   const directMessageGroup = data.direct_message_group;
 
   return (
@@ -181,12 +186,15 @@ const MessageGroupSelectRenderer = ({
           else setDirectHasnew(false);
         }}
       >
-        {({ data: userData, error }) => {
+        {({ data: userData, error, loading }) => {
           if (error) {
             toast.error(error.message);
             return null;
           }
-          if (!userData || !userData.sui_hei_user_by_pk) return null;
+          if (!userData || !userData.sui_hei_user_by_pk) {
+            if (loading) return <Loading centered />;
+            return null;
+          }
           const lastReadId = userData.sui_hei_user_by_pk.last_read_dm_id || -1;
           return (
             <Mutation<SetLastReadDmMutation, SetLastReadDmMutationVariables>

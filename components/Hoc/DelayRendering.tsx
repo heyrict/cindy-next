@@ -1,9 +1,9 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { Waypoint } from 'react-waypoint';
 import { randomUUID } from 'common/random';
 
-import messages from 'messages/common';
+import Loading from 'components/General/Loading';
+
 import { DelayRenderingProps } from './types';
 
 class DelayRendering extends React.Component<DelayRenderingProps> {
@@ -51,11 +51,7 @@ class DelayRendering extends React.Component<DelayRenderingProps> {
       >
         {this.state.rendered
           ? this.props.children
-          : this.props.loading || (
-              <div>
-                <FormattedMessage {...messages.loading} />
-              </div>
-            )}
+          : this.props.loading || <Loading centered />}
       </Waypoint>
     );
   }

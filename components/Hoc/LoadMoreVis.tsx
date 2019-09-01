@@ -1,9 +1,9 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { Waypoint } from 'react-waypoint';
 import { randomUUID } from 'common/random';
 
-import messages from 'messages/common';
+import Loading from 'components/General/Loading';
+
 import { LoadMoreVisProps } from './types';
 
 class LoadMoreVis extends React.Component<LoadMoreVisProps> {
@@ -47,7 +47,7 @@ class LoadMoreVis extends React.Component<LoadMoreVisProps> {
       >
         {this.props.children || (
           <div>
-            <FormattedMessage {...messages.loading} />
+            <Loading centered />
           </div>
         )}
       </Waypoint>

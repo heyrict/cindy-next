@@ -13,6 +13,7 @@ import {
 } from 'graphql/Queries/generated/PuzzleUniqueParticipantsQuery';
 import { PUZZLE_UNIQUE_PARTICIPANTS_QUERY } from 'graphql/Queries/Puzzles';
 
+import Loading from 'components/General/Loading';
 import UserFilterSwitcher from './UserFilterSwitcher';
 import PuzzleDialoguesRenderer from './PuzzleDialoguesRenderer';
 
@@ -39,12 +40,15 @@ const PuzzleDialoguesUserDeduplicator = ({
         }}
         fetchPolicy="cache-first"
       >
-        {({ error, data }) => {
+        {({ error, data, loading }) => {
           if (error) {
             toast.error(error.message);
             return null;
           }
-          if (!data || !data.sui_hei_user) return null;
+          if (!data || !data.sui_hei_user) {
+            if (loading) return <Loading centered />;
+            return null;
+          }
           const filterUsers = data.sui_hei_user.map(user => ({
             id: user.id,
             nickname: user.nickname,

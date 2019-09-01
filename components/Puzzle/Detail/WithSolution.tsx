@@ -1,5 +1,7 @@
 import { toast } from 'react-toastify';
 
+import Loading from 'components/General/Loading';
+
 import { Query } from 'react-apollo';
 import { PUZZLE_SOLUTION_QUERY } from 'graphql/Queries/Puzzles';
 
@@ -19,7 +21,7 @@ const WithSolution = ({ puzzleId, children }: WithSolutionProps) => (
         toast.error(error.message);
         return null;
       }
-      if (loading) return <span>Loading...</span>;
+      if (loading) return <Loading centered />;
       if (!data || !data.sui_hei_puzzle_by_pk) return null;
 
       const solution = data.sui_hei_puzzle_by_pk.solution;

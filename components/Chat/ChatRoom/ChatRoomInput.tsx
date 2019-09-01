@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import styled from 'theme/styled';
 import { toast } from 'react-toastify';
 
-import { ButtonTransparent } from 'components/General';
+import ButtonTransparent from 'components/General/ButtonTransparent';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';

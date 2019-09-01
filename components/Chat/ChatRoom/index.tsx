@@ -32,6 +32,7 @@ class ChatRoom extends React.Component<ChatRoomProps> {
         variables={{
           chatroomName: chatroom,
         }}
+        fetchPolicy="cache-first"
       >
         {({ data, error }) => {
           let chatroomId = null;

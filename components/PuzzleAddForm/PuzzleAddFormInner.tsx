@@ -12,6 +12,7 @@ import commonMessages from 'messages/common';
 import puzzleMessages from 'messages/components/puzzle';
 
 import { Flex, Box, Input, ButtonTransparent } from 'components/General';
+import Loading from 'components/General/Loading';
 import ButtonSelect from 'components/ButtonSelect';
 import { LegacyEditor } from 'components/PreviewEditor';
 
@@ -230,69 +231,72 @@ export const PuzzleAddFormInner = ({
         />
       </Box>
       <Box bg="orange.6" my={3} width={1} borderRadius={2}>
-        <ButtonTransparent
-          py={2}
-          disabled={submitting}
-          width={1}
-          color="orange.1"
-          onClick={() => {
-            if (submitting) return;
-            if (
-              contentEditor.current === null ||
-              solutionEditor.current === null
-            )
-              return;
-            const content = contentEditor.current.getText();
-            const solution = solutionEditor.current.getText();
-            if (typeof content === 'string' && typeof solution === 'string') {
-              setSubmitting(true);
-              onSubmit({
-                content,
-                solution,
-                title,
-                genre,
-                yami,
-                anonymous,
-                grotesque,
-                dazedOn,
-              })
-                .then(returns => {
-                  if (!returns) return;
-                  if ('validationErrors' in returns) {
-                    returns.validationErrors.forEach(error => {
-                      toast.error(error);
-                    });
-                    setSubmitting(false);
-                    return;
-                  }
-                  const { data, error } = returns;
-                  if (error) {
+        {submitting ? (
+          <Loading centered />
+        ) : (
+          <ButtonTransparent
+            py={2}
+            width={1}
+            color="orange.1"
+            onClick={() => {
+              if (submitting) return;
+              if (
+                contentEditor.current === null ||
+                solutionEditor.current === null
+              )
+                return;
+              const content = contentEditor.current.getText();
+              const solution = solutionEditor.current.getText();
+              if (typeof content === 'string' && typeof solution === 'string') {
+                setSubmitting(true);
+                onSubmit({
+                  content,
+                  solution,
+                  title,
+                  genre,
+                  yami,
+                  anonymous,
+                  grotesque,
+                  dazedOn,
+                })
+                  .then(returns => {
+                    if (!returns) return;
+                    if ('validationErrors' in returns) {
+                      returns.validationErrors.forEach(error => {
+                        toast.error(error);
+                      });
+                      setSubmitting(false);
+                      return;
+                    }
+                    const { data, error } = returns;
+                    if (error) {
+                      toast.error(error.message);
+                      setSubmitting(false);
+                      return;
+                    }
+                    if (
+                      !data ||
+                      !data.insert_sui_hei_puzzle ||
+                      !data.insert_sui_hei_puzzle.returning
+                    ) {
+                      toast.error('Error: no data returns');
+                      setSubmitting(false);
+                      return;
+                    }
+                    incPuzzles();
+                    const addedPuzzle = data.insert_sui_hei_puzzle.returning[0];
+                    Router.push('/puzzle/[id]', `/puzzle/${addedPuzzle.id}`);
+                  })
+                  .catch((error: ApolloError) => {
                     toast.error(error.message);
                     setSubmitting(false);
-                    return;
-                  }
-                  if (
-                    !data ||
-                    !data.insert_sui_hei_puzzle ||
-                    !data.insert_sui_hei_puzzle.returning
-                  ) {
-                    toast.error('Error: no data returns');
-                    setSubmitting(false);
-                    return;
-                  }
-                  incPuzzles();
-                  const addedPuzzle = data.insert_sui_hei_puzzle.returning[0];
-                  Router.push('/puzzle/[id]', `/puzzle/${addedPuzzle.id}`);
-                })
-                .catch((error: ApolloError) => {
-                  toast.error(error.message);
-                  setSubmitting(false);
-                });
-            }
-          }}
-        >
-          <FormattedMessage {...messages.publishPuzzle} />
-        </ButtonTransparent>
+                  });
+              }
+            }}
+          >
+            <FormattedMessage {...messages.publishPuzzle} />
+          </ButtonTransparent>
+        )}
       </Box>
     </Flex>
   );

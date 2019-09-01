@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Flex, Box, Panel } from 'components/General';
+import Loading from 'components/General/Loading';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import UserInline from 'components/User/UserInline';
 
@@ -15,7 +16,7 @@ import {
 
 const loadingPanel = (
   <Panel minHeight="4em" width={1}>
-    Loading...
+    <Loading centered />
   </Panel>
 );
 
@@ -32,8 +33,10 @@ const UserDialogueRankingRenderer = ({
     toast.error(error.message);
     return null;
   }
-  if (loading && (!data || !data.dialogue_count_ranking))
-    return <span>'Loading...'</span>;
+  if (!data || !data.dialogue_count_ranking) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
 
   if (data && data.dialogue_count_ranking) {
     const ranks = data.dialogue_count_ranking;

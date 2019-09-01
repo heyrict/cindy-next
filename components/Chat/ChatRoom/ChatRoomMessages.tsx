@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'theme/styled';
+import { upsertItem } from 'common/update';
+
+import { Flex, Box } from 'components/General';
+import Loading from 'components/General/Loading';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
-import { Flex, Box } from 'components/General';
-import { upsertItem } from 'common/update';
 
 import { Query } from 'react-apollo';
 import {
@@ -64,12 +66,11 @@ const ChatRoomMessagesBody = ({
     toast.error(error.message);
     return null;
   }
-  if (!data) return <div>No messages</div>;
-  const { sui_hei_chatmessage: chatmessages } = data;
-
-  if (!chatmessages) {
+  if (!data || !data.sui_hei_chatmessage) {
+    if (loading) return <Loading centered />;
     return null;
   }
+  const { sui_hei_chatmessage: chatmessages } = data;
 
   const [hasMore, setHasMore] = useState(false);
   useEffect(() => {
@@ -162,7 +163,7 @@ const ChatRoomMessagesBody = ({
                 }}
               >
                 {res => {
-                  if (res.loading) return <div>Loading...</div>;
+                  if (res.loading) return <Loading centered />;
                   if (res.error) return <div>Error</div>;
                   if (!res.data) return <div>No messages</div>;
 
@@ -192,7 +193,6 @@ const ChatRoomMessagesBody = ({
                 <Chatmessage key={`chatmessage-${cm.id}`} chatmessage={cm} />
               ))
             )}
-            {loading && <div>Loading...</div>}
             {hasMore && (
               <LoadMoreVis
                 loadMore={() => {

@@ -12,6 +12,7 @@ import {
 } from 'graphql/Queries/Comment';
 import { ADD_COMMENT_MUTATION } from 'graphql/Mutations/Comment';
 
+import Loading from 'components/General/Loading';
 import Flex from 'components/General/Flex';
 import Box from 'components/General/Box';
 import Textarea from 'components/General/Textarea';
@@ -42,6 +43,7 @@ const CommentModalAddPanelRenderer = ({
   puzzleId,
   user,
   data,
+  loading,
   error,
 }: CommentModalAddPanelProps &
   QueryResult<
@@ -64,7 +66,10 @@ const CommentModalAddPanelRenderer = ({
     toast.error(error.message);
     return null;
   }
-  if (!data || !data.sui_hei_comment) return null;
+  if (!data || !data.sui_hei_comment) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
 
   return (
     <Flex

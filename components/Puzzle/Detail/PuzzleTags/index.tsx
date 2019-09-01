@@ -2,6 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import { Flex, Box } from 'components/General';
+import Loading from 'components/General/Loading';
 import PuzzleTagBubble from './PuzzleTagBubble';
 import PuzzleTagAddButton from './PuzzleTagAddButton';
 
@@ -28,8 +29,10 @@ const PuzzleTags = ({ puzzleId, puzzleUserId, userId }: PuzzleTagsProps) => {
         variables={{ puzzleId }}
       >
         {({ loading, error, data }) => {
-          if (loading) return <span>Loading...</span>;
-          if (!data || !data.sui_hei_puzzle_tag) return null;
+          if (!data || !data.sui_hei_puzzle_tag) {
+            if (loading) return <Loading centered />;
+            return null;
+          }
           if (error) {
             toast.error(error.message);
             return null;

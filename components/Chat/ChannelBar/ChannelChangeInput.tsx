@@ -3,6 +3,7 @@ import { text2md } from 'common/markdown';
 import { toast } from 'react-toastify';
 
 import { Button, Input, Flex, Box } from 'components/General';
+import Loading from 'components/General/Loading';
 import UserInline from 'components/User/UserInline';
 
 import { connect } from 'react-redux';
@@ -75,17 +76,14 @@ const ChannelChangeInput = ({
         <FormattedMessage {...chatMessages.changeToDefaultChannel} />
       </Button>
       <Box width={1}>
-        {loading && channelChangeInput.trim() && (
-          <FormattedMessage {...commonMessages.loading} />
-        )}
+        {loading && channelChangeInput.trim() && <Loading centered />}
         {!loading && channelChangeInput.trim() && (
           <Query<ChatroomIdDescription, ChatroomIdDescriptionVariables>
             query={CHATROOM_ID_DESCRIPTION_QUERY}
             variables={{ chatroomName: channelChangeInput.trim() }}
           >
             {({ data, error, loading }) => {
-              if (loading)
-                return <FormattedMessage {...commonMessages.loading} />;
+              if (loading) return <Loading centered />;
               if (error) {
                 toast.error(error.message);
                 return null;

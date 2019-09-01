@@ -10,6 +10,7 @@ import { PUZZLE_COMMENT_AGGREGATE_QUERY } from 'graphql/Queries/Comment';
 
 import { Waypoint } from 'react-waypoint';
 import { Box, Flex, Img, Button } from 'components/General';
+import Loading from 'components/General/Loading';
 import { Modal, ModalHeader, ModalCloseBtn } from 'components/Modal';
 import CommentModalComments from './CommentModalComments';
 import CommentModalAddPanel from './CommentModalAddPanel';
@@ -56,12 +57,15 @@ const CommentPanel = ({ puzzleId, canAddComment }: CommentPanelProps) => {
             puzzleId,
           }}
         >
-          {({ error, data }) => {
+          {({ error, data, loading }) => {
             if (error) {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.sui_hei_comment_aggregate) return null;
+            if (!data || !data.sui_hei_comment_aggregate) {
+              if (loading) return <Loading centered />;
+              return null;
+            }
             const agg = {
               commentCount:
                 (data.sui_hei_comment_aggregate.aggregate &&

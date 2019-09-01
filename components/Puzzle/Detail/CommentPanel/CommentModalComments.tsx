@@ -1,6 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 
+import Loading from 'components/General/Loading';
 import Flex from 'components/General/Flex';
 import CommentModalComment from './CommentModalComment';
 
@@ -18,12 +19,15 @@ const CommentModalComments = ({ puzzleId }: CommentModalCommentsProps) => (
     query={PUZZLE_COMMENT_QUERY}
     variables={{ puzzleId }}
   >
-    {({ data, error }) => {
+    {({ data, error, loading }) => {
       if (error) {
         toast.error(error.message);
         return null;
       }
-      if (!data || !data.sui_hei_comment) return null;
+      if (!data || !data.sui_hei_comment) {
+        if (loading) return <Loading centered />;
+        return null;
+      }
       return (
         <Flex flexDirection="column">
           {data.sui_hei_comment.map(comment => (

@@ -11,6 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import dmMessages from 'messages/components/dm';
 import commonMessages from 'messages/common';
 
+import Loading from 'components/General/Loading';
 import { Button, Box } from 'components/General';
 import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
 import MessageGroupSelect from './MessageGroupSelect';
@@ -36,12 +37,15 @@ export const MessageBox = ({
           query={USER_BRIEF_QUERY}
           variables={{ id: directGroupUser }}
         >
-          {({ data, error }) => {
+          {({ data, error, loading }) => {
             if (error) {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.sui_hei_user_by_pk) return null;
+            if (!data || !data.sui_hei_user_by_pk) {
+              if (loading) return <Loading centered />;
+              return null;
+            }
             return (
               <React.Fragment>
                 <Button

@@ -13,6 +13,7 @@ import { Query } from 'react-apollo';
 import { PUZZLE_QUERY } from 'graphql/Queries/Puzzles';
 
 import { Img, ButtonTransparent, Flex, Box } from 'components/General';
+import Loading from 'components/General/Loading';
 import { Modal, ModalHeader, ModalCloseBtn } from 'components/Modal';
 import CommentModalComments from '../Detail/CommentPanel/CommentModalComments';
 import UserInline from 'components/User/UserInline';
@@ -62,12 +63,15 @@ const Comment = ({ count, puzzleId }: CommentProps) => {
             variables={{ id: puzzleId }}
             query={PUZZLE_QUERY}
           >
-            {({ data, error }) => {
+            {({ data, error, loading }) => {
               if (error) {
                 toast.error(error.message);
                 return null;
               }
-              if (!data || !data.sui_hei_puzzle_by_pk) return null;
+              if (!data || !data.sui_hei_puzzle_by_pk) {
+                if (loading) return <Loading centered />;
+                return null;
+              }
               const puzzle = data.sui_hei_puzzle_by_pk;
               return (
                 <Flex width={1} flexDirection="column">
