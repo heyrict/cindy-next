@@ -135,6 +135,10 @@ export const messages = defineMessages({
     id: `${scope}.loginOrSignup`,
     defaultMessage: 'Please {login} or {signup} to join',
   },
+  create: {
+    id: `${scope}.create`,
+    defaultMessage: 'Create',
+  },
 });
 
 export default messages;

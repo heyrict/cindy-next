@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 
 const scope = 'components.chat';
 
-export const messages = defineMessages({
+export const chatMessages = defineMessages({
   channelAsDefault: {
     id: `${scope}.channelAsDefault`,
     defaultMessage: 'Default ({channelName})',
@@ -10,6 +10,10 @@ export const messages = defineMessages({
   changeChannel: {
     id: `${scope}.changeChannel`,
     defaultMessage: 'Change Channel',
+  },
+  currentChannel: {
+    id: `${scope}.currentChannel`,
+    defaultMessage: 'Current: {name}',
   },
   changeToDefaultChannel: {
     id: `${scope}.changeToDefaultChannel`,
@@ -47,6 +51,10 @@ export const messages = defineMessages({
     id: `${scope}.noLogs`,
     defaultMessage: 'There are no logs here',
   },
+  log: {
+    id: `${scope}.log`,
+    defaultMessage: 'Log',
+  },
 });
 
-export default messages;
+export default chatMessages;

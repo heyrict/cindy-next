@@ -13,6 +13,7 @@ import commonMessages from 'messages/common';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import Chat from 'components/Chat';
+import ChannelAside from 'components/Chat/ChannelAside';
 import Toolbar from 'components/Toolbar';
 import PuzzleRightAside from 'components/Puzzle/RightAside';
 import AwardChecker from 'components/AwardChecker';
@@ -29,6 +30,7 @@ import * as settingReducer from 'reducers/setting';
 import theme from 'theme/theme';
 import { LayoutProps } from './types';
 import { NotificationPermissionType } from 'common/types';
+import { StateType, ActionContentType } from 'reducers/types';
 
 const tabsStyle = css`
   .nav {
@@ -298,6 +300,7 @@ export const globalStyle = css`
 const Layout = ({
   children,
   appInit,
+  route,
   pushNotification,
   setFalsePushNotification,
 }: LayoutProps) => {
@@ -308,8 +311,8 @@ const Layout = ({
     appInit();
   }, []);
 
+  // Request notification permission
   useEffect(() => {
-    // request notification permission
     if (waitPushHdlRef.current) window.clearTimeout(waitPushHdlRef.current);
     waitPushHdlRef.current = window.setTimeout(() => {
       if (pushNotification)
@@ -377,21 +380,23 @@ const Layout = ({
     }, 5000);
   }, [pushNotification]);
 
+  const isChannelPage = route.startsWith('/channel');
+
   return (
     <React.Fragment>
       <Global styles={globalStyle} />
-      <ChatBox>
-        <Chat />
-      </ChatBox>
+      <ChatBox>{isChannelPage ? <ChannelAside /> : <Chat />}</ChatBox>
       <PuzzleRightAside />
       <ToolbarBox>
         <Toolbar />
       </ToolbarBox>
       <Page>
         {children}
-        <Footer>
-          <Patrons />
-        </Footer>
+        {!isChannelPage && (
+          <Footer>
+            <Patrons />
+          </Footer>
+        )}
       </Page>
       <ToastContainer
         position={toast.POSITION.BOTTOM_RIGHT}
@@ -406,15 +411,20 @@ const Layout = ({
   );
 };
 
+const mapStateToProps = (state: StateType) => ({
+  pushNotification: settingReducer.rootSelector(state).pushNotification,
+  route: globalReducer.rootSelector(state).route,
+});
+
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  appInit: () => dispatch(globalReducer.actions.appInit()),
+  setFalsePushNotification: () =>
+    dispatch(settingReducer.actions.pushNotification.setFalse()),
+});
+
 const withRedux = connect(
-  state => ({
-    pushNotification: settingReducer.rootSelector(state).pushNotification,
-  }),
-  dispatch => ({
-    appInit: () => dispatch(globalReducer.actions.appInit()),
-    setFalsePushNotification: () =>
-      dispatch(settingReducer.actions.pushNotification.setFalse()),
-  }),
+  mapStateToProps,
+  mapDispatchToProps,
 );
 
 export default withRedux(Layout);
