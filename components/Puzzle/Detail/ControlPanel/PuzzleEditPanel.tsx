@@ -19,6 +19,7 @@ const PuzzleEditPanel = ({
   status,
   dazed_on,
   updatePuzzle,
+  updatePuzzleDazedOn,
   show,
 }: PuzzleEditPanelProps) => {
   const notifHdlRef = useRef<React.ReactText | null>(null);
@@ -37,13 +38,10 @@ const PuzzleEditPanel = ({
       dazed_on
     )
       return;
-    updatePuzzle({
+    updatePuzzleDazedOn({
       variables: {
         puzzleId,
         dazedOn: newDazedOn.toISOString(),
-        grotesque,
-        status,
-        yami,
       },
       optimisticResponse: {
         update_sui_hei_puzzle: {
@@ -53,9 +51,6 @@ const PuzzleEditPanel = ({
               __typename: 'sui_hei_puzzle',
               id: puzzleId,
               dazed_on: newDazedOn.toISOString(),
-              grotesque,
-              status,
-              yami,
             },
           ],
         },
@@ -121,7 +116,6 @@ const PuzzleEditPanel = ({
                             variables: {
                               puzzleId,
                               status: 1,
-                              dazedOn: dazed_on,
                               grotesque,
                               yami,
                             },
@@ -132,7 +126,6 @@ const PuzzleEditPanel = ({
                                   {
                                     __typename: 'sui_hei_puzzle',
                                     id: puzzleId,
-                                    dazed_on: dazed_on,
                                     grotesque,
                                     status: 1,
                                     yami,
@@ -167,7 +160,6 @@ const PuzzleEditPanel = ({
                   variables: {
                     puzzleId,
                     status,
-                    dazedOn: dazed_on,
                     grotesque,
                     yami: 1 - yami,
                   },
@@ -178,7 +170,6 @@ const PuzzleEditPanel = ({
                         {
                           __typename: 'sui_hei_puzzle',
                           id: puzzleId,
-                          dazed_on: dazed_on,
                           grotesque,
                           status,
                           yami: 1 - yami,
@@ -229,7 +220,6 @@ const PuzzleEditPanel = ({
                             variables: {
                               puzzleId,
                               status: status === 3 ? 1 : 3,
-                              dazedOn: dazed_on,
                               grotesque,
                               yami,
                             },
@@ -240,7 +230,6 @@ const PuzzleEditPanel = ({
                                   {
                                     __typename: 'sui_hei_puzzle',
                                     id: puzzleId,
-                                    dazed_on: dazed_on,
                                     grotesque,
                                     status: status === 3 ? 1 : 3,
                                     yami,
@@ -276,7 +265,6 @@ const PuzzleEditPanel = ({
                   variables: {
                     puzzleId,
                     status,
-                    dazedOn: dazed_on,
                     grotesque: !grotesque,
                     yami,
                   },
@@ -287,7 +275,6 @@ const PuzzleEditPanel = ({
                         {
                           __typename: 'sui_hei_puzzle',
                           id: puzzleId,
-                          dazed_on: dazed_on,
                           grotesque: !grotesque,
                           status,
                           yami,

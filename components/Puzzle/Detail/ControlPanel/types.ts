@@ -4,6 +4,10 @@ import {
   UpdatePuzzleMutationVariables,
 } from 'graphql/Mutations/generated/UpdatePuzzleMutation';
 import { PuzzleTypeWithSolution } from '../types';
+import {
+  UpdatePuzzleDazedOnMutation,
+  UpdatePuzzleDazedOnMutationVariables,
+} from 'graphql/Mutations/generated/UpdatePuzzleDazedOnMutation';
 
 export enum ControlPanelPanelType {
   SOLUTION_EDIT,
@@ -41,6 +45,10 @@ export type HintAddPanelProps = {
 
 export type PuzzleEditPanelProps = {
   updatePuzzle: MutationFn<UpdatePuzzleMutation, UpdatePuzzleMutationVariables>;
+  updatePuzzleDazedOn: MutationFn<
+    UpdatePuzzleDazedOnMutation,
+    UpdatePuzzleDazedOnMutationVariables
+  >;
   puzzleId: number;
   yami: number;
   genre: number;
