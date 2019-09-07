@@ -208,6 +208,7 @@ const MessageGroupChatInner = ({
                       sender: {
                         __typename: 'sui_hei_user',
                         id: user.id,
+                        icon: user.icon,
                         nickname: user.nickname || '...',
                         username: user.username || '...',
                         sui_hei_current_useraward: null,
@@ -215,6 +216,7 @@ const MessageGroupChatInner = ({
                       receiver: {
                         __typename: 'sui_hei_user',
                         id: -1,
+                        icon: user.icon,
                         nickname: '...',
                         username: '...',
                         sui_hei_current_useraward: null,

@@ -80,6 +80,7 @@ export const initialState = {
   channel: '',
   user: {
     id: undefined,
+    icon: undefined,
     username: undefined,
     nickname: undefined,
   } as GlobalUserType,

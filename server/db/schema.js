@@ -36,6 +36,10 @@ const User = sequelize.define(
       allowNull: false,
       unique: true,
     },
+    icon: {
+      type: Sequelize.STRING(1023),
+      allowNull: true,
+    },
     password: {
       type: Sequelize.STRING(128),
       allowNull: false,

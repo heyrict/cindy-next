@@ -45,6 +45,7 @@ export type ReplayDialogueType = {
 
 export type GlobalUserType = {
   id?: number;
+  icon?: string | null;
   username?: string;
   nickname?: string;
 };

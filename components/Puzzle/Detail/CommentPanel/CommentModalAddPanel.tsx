@@ -197,6 +197,7 @@ const CommentModalAddPanelRenderer = ({
                           sui_hei_user: {
                             __typename: 'sui_hei_user',
                             id: user.id || -1,
+                            icon: user.icon || null,
                             sui_hei_current_useraward: null,
                             nickname: user.nickname || '...',
                             username: user.username || '...',

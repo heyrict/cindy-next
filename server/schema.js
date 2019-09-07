@@ -37,6 +37,7 @@ export const typeDefs = gql`
   }
   type sui_hei_user {
     id: Int!
+    icon: String
     username: String!
     nickname: String!
     sui_hei_current_useraward: sui_hei_useraward

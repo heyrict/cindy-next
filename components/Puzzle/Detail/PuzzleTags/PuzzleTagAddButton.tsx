@@ -134,6 +134,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                                   sui_hei_user: {
                                     __typename: 'sui_hei_user',
                                     id: -1,
+                                    icon: null,
                                     nickname: '...',
                                     username: '...',
                                     sui_hei_current_useraward: null,
@@ -179,6 +180,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                                   sui_hei_user: {
                                     __typename: 'sui_hei_user',
                                     id: -1,
+                                    icon: null,
                                     nickname: '...',
                                     username: '...',
                                     sui_hei_current_useraward: null,

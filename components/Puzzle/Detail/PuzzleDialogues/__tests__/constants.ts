@@ -1,6 +1,7 @@
 export const users = {
   foo: {
     id: 73,
+    icon: null,
     nickname: 'Foo',
     username: 'Foo',
     sui_hei_current_useraward: null,
@@ -8,6 +9,7 @@ export const users = {
   },
   bar: {
     id: 13,
+    icon: null,
     nickname: 'Bar',
     username: 'Bar',
     sui_hei_current_useraward: null,
@@ -15,6 +17,7 @@ export const users = {
   },
   carrot: {
     id: 621,
+    icon: null,
     nickname: 'Carrot',
     username: 'last_scene',
     sui_hei_current_useraward: null,
