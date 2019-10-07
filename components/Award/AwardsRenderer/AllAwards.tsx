@@ -322,10 +322,10 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                             if (hasThisAward) {
                               return AwardStatusType.GET;
                             }
-                            const puzzleCount = groups.filter(
-                              grp => grp.group >= awardObj.starCount,
-                            ).length;
-                            if (puzzleCount > awardObj.puzzleCount) {
+                            const puzzleCount = groups
+                              .filter(grp => grp.group >= awardObj.starCount)
+                              .reduce((a, b) => a + b.value, 0);
+                            if (puzzleCount >= awardObj.puzzleCount) {
                               return AwardStatusType.REACH;
                             }
                             return AwardStatusType.WAIT;
