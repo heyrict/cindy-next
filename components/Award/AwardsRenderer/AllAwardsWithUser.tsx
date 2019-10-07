@@ -1,6 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 
+import Loading from 'components/General/Loading';
 import AllAwards from './AllAwards';
 
 import { connect } from 'react-redux';
@@ -52,7 +53,10 @@ const AllAwardsWithUser = ({
     }}
   >
     {({ loading, data, error }) => {
-      if (loading || !data || !data.sui_hei_user_by_pk) return <AllAwards />;
+      if (!data || !data.sui_hei_user_by_pk) {
+        if (loading) return <Loading centered />;
+        return <AllAwards />;
+      }
       if (error) {
         toast.error(error.message);
         return null;

@@ -19,6 +19,7 @@ import {
   Panel,
   ButtonTransparent,
 } from 'components/General';
+import Loading from 'components/General/Loading';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 import SearchVarSetPanel from 'components/Search/SearchVarSetPanel';
 import SortVarSetPanel from 'components/Search/SortVarSetPanel';
@@ -137,10 +138,9 @@ const Tags = (_props: any, context: { intl: IntlShape }) => {
               toast.error(error);
               return null;
             }
-            if (!data || !data.sui_hei_tag) {
-              if (loading) return <span>Loading...</span>;
-              return null;
-            }
+            if (loading) return <Loading centered />;
+            if (!data || !data.sui_hei_tag) return null;
+
             const tags = data.sui_hei_tag;
             return (
               <Flex flexWrap="wrap" alignItems="center">

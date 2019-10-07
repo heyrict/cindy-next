@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import styled from 'theme/styled';
 import { toast } from 'react-toastify';
 
-import { ButtonTransparent } from 'components/General';
+import ButtonTransparent from 'components/General/ButtonTransparent';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -118,6 +118,7 @@ const ChatRoomInput = ({
                         sui_hei_user: {
                           __typename: 'sui_hei_user',
                           id: -1,
+                          icon: null,
                           nickname: '...',
                           username: '...',
                           sui_hei_current_useraward: null,

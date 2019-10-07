@@ -11,6 +11,7 @@ import { PUZZLE_STAR_AGGREGATE_QUERY } from 'graphql/Queries/Star';
 import { Waypoint } from 'react-waypoint';
 import { Manager, Reference, Popper } from 'react-popper';
 import { Box, Flex, Img, Button } from 'components/General';
+import Loading from 'components/General/Loading';
 import StarPopupContent from './StarPopupContent';
 
 import starIcon from 'svgs/puzzleDetailStar.svg';
@@ -50,12 +51,15 @@ const StarPanel = ({ puzzleId, canAddStar }: StarPanelProps) => {
             puzzleId,
           }}
         >
-          {({ error, data }) => {
+          {({ error, data, loading }) => {
             if (error) {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.sui_hei_star_aggregate) return null;
+            if (!data || !data.sui_hei_star_aggregate) {
+              if (loading) return <Loading centered />;
+              return null;
+            }
 
             const agg = {
               starCount:

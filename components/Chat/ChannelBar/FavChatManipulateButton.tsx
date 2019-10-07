@@ -1,6 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 
+import Loading from 'components/General/Loading';
 import InsertFavChatButton from './InsertFavChatButton';
 import DeleteFavChatButton from './DeleteFavChatButton';
 
@@ -23,12 +24,14 @@ const FavChatManipulateButton = ({
   return (
     <Query<FavoriteChatroomsQuery> query={FAVORITE_CHATROOMS_QUERY}>
       {({ loading, error, data }) => {
-        if (loading) return <span>Loading...</span>;
         if (error) {
           toast.error(error.message);
           return null;
         }
-        if (!data || !data.sui_hei_favoritechatroom) return null;
+        if (!data || !data.sui_hei_favoritechatroom) {
+          if (loading) return <Loading centered />;
+          return null;
+        }
         const favchat = data.sui_hei_favoritechatroom.find(
           fc => fc.sui_hei_chatroom.id === chatroomId,
         );

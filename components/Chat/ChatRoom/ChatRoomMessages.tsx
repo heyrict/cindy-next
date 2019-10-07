@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'theme/styled';
+import { upsertItem } from 'common/update';
+
+import { Flex, Box } from 'components/General';
+import Loading from 'components/General/Loading';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
-import { Flex, Box } from 'components/General';
-import { upsertItem } from 'common/update';
 
 import { Query } from 'react-apollo';
 import {
   CHATROOM_CHATMESSAGES_QUERY,
   CHATROOM_PUZZLE_QUERY,
 } from 'graphql/Queries/Chat';
-import { CHATROOM_CHATMESSAGES_SUBSCRIPTION } from 'graphql/Subscriptions/Chat';
+import { CHATROOM_CHATMESSAGES_LIVE_QUERY } from 'graphql/LiveQueries/Chat';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -22,7 +24,6 @@ import {
   ChatroomChatmessages,
   ChatroomChatmessagesVariables,
 } from 'graphql/Queries/generated/ChatroomChatmessages';
-import { ChatroomChatmessageSubscription } from 'graphql/Subscriptions/generated/ChatroomChatmessageSubscription';
 import {
   ChatroomPuzzle,
   ChatroomPuzzleVariables,
@@ -31,6 +32,7 @@ import {
 import { CHATMESSAGES_PER_PAGE } from './constants';
 
 import { WatchObjectActionType } from 'components/Hoc/types';
+import { ChatroomChatmessageLiveQuery } from 'graphql/LiveQueries/generated/ChatroomChatmessageLiveQuery';
 import { StateType, ActionContentType } from 'reducers/types';
 import { ChatRoomMessagesProps, ChatRoomMessagesBodyProps } from './types';
 
@@ -64,12 +66,11 @@ const ChatRoomMessagesBody = ({
     toast.error(error.message);
     return null;
   }
-  if (!data) return <div>No messages</div>;
-  const { sui_hei_chatmessage: chatmessages } = data;
-
-  if (!chatmessages) {
+  if (!data || !data.sui_hei_chatmessage) {
+    if (loading) return <Loading centered />;
     return null;
   }
+  const { sui_hei_chatmessage: chatmessages } = data;
 
   const [hasMore, setHasMore] = useState(false);
   useEffect(() => {
@@ -82,34 +83,36 @@ const ChatRoomMessagesBody = ({
   useEffect(
     () =>
       subscribeToMore({
-        document: CHATROOM_CHATMESSAGES_SUBSCRIPTION,
+        document: CHATROOM_CHATMESSAGES_LIVE_QUERY,
         variables: { chatroomId },
         updateQuery: (
           prev,
           {
             subscriptionData,
-          }: { subscriptionData: { data: ChatroomChatmessageSubscription } },
+          }: { subscriptionData: { data: ChatroomChatmessageLiveQuery } },
         ) => {
           if (prev === undefined) return prev;
-          if (!subscriptionData.data) return prev;
-          if (!subscriptionData.data.chatmessageSub) return prev;
-          if (subscriptionData.data.chatmessageSub.eventType === 'INSERT') {
-            if (subscriptionData.data.chatmessageSub.sui_hei_chatmessage) {
-              chatmessageUpdate(
-                chatroomId,
-                subscriptionData.data.chatmessageSub.sui_hei_chatmessage.id,
-              );
-              return Object.assign({}, prev, {
-                sui_hei_chatmessage: upsertItem(
-                  prev.sui_hei_chatmessage,
-                  subscriptionData.data.chatmessageSub.sui_hei_chatmessage,
-                  'id',
-                  'desc',
-                ),
-              });
-            }
-          }
-          return prev;
+          if (
+            !subscriptionData.data ||
+            !subscriptionData.data.sui_hei_chatmessage
+          )
+            return prev;
+          if (subscriptionData.data.sui_hei_chatmessage.length === 0)
+            return prev;
+          chatmessageUpdate(
+            chatroomId,
+            subscriptionData.data.sui_hei_chatmessage[
+              subscriptionData.data.sui_hei_chatmessage.length - 1
+            ].id,
+          );
+          return Object.assign({}, prev, {
+            sui_hei_chatmessage: upsertItem(
+              prev.sui_hei_chatmessage,
+              subscriptionData.data.sui_hei_chatmessage[0],
+              'id',
+              'desc',
+            ),
+          });
         },
       }),
     [chatroomId],
@@ -162,7 +165,7 @@ const ChatRoomMessagesBody = ({
                 }}
               >
                 {res => {
-                  if (res.loading) return <div>Loading...</div>;
+                  if (res.loading) return <Loading centered />;
                   if (res.error) return <div>Error</div>;
                   if (!res.data) return <div>No messages</div>;
 
@@ -192,7 +195,6 @@ const ChatRoomMessagesBody = ({
                 <Chatmessage key={`chatmessage-${cm.id}`} chatmessage={cm} />
               ))
             )}
-            {loading && <div>Loading...</div>}
             {hasMore && (
               <LoadMoreVis
                 loadMore={() => {

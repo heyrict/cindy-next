@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { toast } from 'react-toastify';
 import { maybeSendNotification } from 'common/web-notify';
 
+import Loading from 'components/General/Loading';
 import PuzzleDetail from 'components/Puzzle/Detail';
 
 import { connect } from 'react-redux';
@@ -82,31 +83,31 @@ const PuzzleRenderer = ({
     toast.error(error.message);
     return null;
   }
-  if (loading && (!data || !data.sui_hei_puzzle_by_pk))
-    return <span>'Loading...'</span>;
-  if (data && data.sui_hei_puzzle_by_pk) {
-    const puzzle = data.sui_hei_puzzle_by_pk;
-    if (puzzle.id === undefined) return null;
-    const shouldHideIdentity = puzzle.anonymous && puzzle.status === 0;
-    return (
-      <React.Fragment>
-        <Head>
-          <title>
-            {puzzle.title} by{' '}
-            {shouldHideIdentity
-              ? _(userMessages.anonymousUser)
-              : puzzle.sui_hei_user.nickname}{' '}
-            | Cindy
-          </title>
-          <meta
-            name="description"
-            content={`${_(messages.solveit)}: "${text2raw(puzzle.content)}"`}
-          />
-        </Head>
-        <PuzzleDetail puzzle={puzzle} />
-      </React.Fragment>
-    );
+  if (!data || !data.sui_hei_puzzle_by_pk) {
+    if (loading) return <Loading centered />;
+    return null;
   }
+  const puzzle = data.sui_hei_puzzle_by_pk;
+  if (puzzle.id === undefined) return null;
+  const shouldHideIdentity = puzzle.anonymous && puzzle.status === 0;
+  return (
+    <React.Fragment>
+      <Head>
+        <title>
+          {puzzle.title} by{' '}
+          {shouldHideIdentity
+            ? _(userMessages.anonymousUser)
+            : puzzle.sui_hei_user.nickname}{' '}
+          | Cindy
+        </title>
+        <meta
+          name="description"
+          content={`${_(messages.solveit)}: "${text2raw(puzzle.content)}"`}
+        />
+      </Head>
+      <PuzzleDetail puzzle={puzzle} />
+    </React.Fragment>
+  );
   return puzzleNotExistElement;
 };
 

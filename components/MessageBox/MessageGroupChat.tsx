@@ -21,6 +21,7 @@ import commonMessages from 'messages/common';
 import authMessages from 'messages/components/auth';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
+import Loading from 'components/General/Loading';
 import Directmessage from 'components/Chat/Directmessage';
 import SimpleLegacyEditor from 'components/PreviewEditor/Legacy/simple';
 
@@ -76,7 +77,10 @@ const MessageGroupChatInner = ({
     toast.error(error.message);
     return null;
   }
-  if (!data || !data.sui_hei_directmessage) return null;
+  if (!data || !data.sui_hei_directmessage) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
   const { sui_hei_directmessage: directmessages } = data;
 
   if (userId === directGroupUser)
@@ -204,6 +208,7 @@ const MessageGroupChatInner = ({
                       sender: {
                         __typename: 'sui_hei_user',
                         id: user.id,
+                        icon: user.icon,
                         nickname: user.nickname || '...',
                         username: user.username || '...',
                         sui_hei_current_useraward: null,
@@ -211,6 +216,7 @@ const MessageGroupChatInner = ({
                       receiver: {
                         __typename: 'sui_hei_user',
                         id: -1,
+                        icon: user.icon,
                         nickname: '...',
                         username: '...',
                         sui_hei_current_useraward: null,

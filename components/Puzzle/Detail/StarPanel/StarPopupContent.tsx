@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 import { Flex, Box } from 'components/General';
+import Loading from 'components/General/Loading';
 import StarInput from 'components/Star/StarInput';
 
 import { Query, Mutation } from 'react-apollo';
@@ -68,12 +69,15 @@ const StarPopupContent = ({
         query={PUZZLE_STAR_QUERY}
         variables={{ puzzleId, limit: MAX_DISPLAY_STAR_USERS }}
       >
-        {({ data, error }) => {
+        {({ data, error, loading }) => {
           if (error) {
             toast.error(error.message);
             return null;
           }
-          if (!data || !data.sui_hei_star) return null;
+          if (!data || !data.sui_hei_star) {
+            if (loading) return <Loading centered />;
+            return null;
+          }
           return (
             <Box width={1} mb={2}>
               {MAX_DISPLAY_STAR_USERS < starCount ? (
@@ -110,12 +114,15 @@ const StarPopupContent = ({
               userId,
             }}
           >
-            {({ data, error }) => {
+            {({ data, error, loading }) => {
               if (error) {
                 toast.error(error.message);
                 return null;
               }
-              if (!data || !data.sui_hei_star) return null;
+              if (!data || !data.sui_hei_star) {
+                if (loading) return <Loading centered />;
+                return null;
+              }
               const initialValue =
                 data.sui_hei_star.length === 0 ? 0 : data.sui_hei_star[0].value;
               return (

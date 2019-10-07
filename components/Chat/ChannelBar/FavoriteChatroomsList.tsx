@@ -6,6 +6,7 @@ import * as globalReducer from 'reducers/global';
 import * as chatReducer from 'reducers/chat';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
+import Loading from 'components/General/Loading';
 
 import { Query } from 'react-apollo';
 import { FAVORITE_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
@@ -25,12 +26,14 @@ const FavoriteChatroomsList = ({
   user.id ? (
     <Query<FavoriteChatroomsQuery> query={FAVORITE_CHATROOMS_QUERY}>
       {({ loading, error, data }) => {
-        if (loading) return <span>Loading...</span>;
         if (error) {
           toast.error(error.message);
           return null;
         }
-        if (!data || !data.sui_hei_favoritechatroom) return null;
+        if (!data || !data.sui_hei_favoritechatroom) {
+          if (loading) return <Loading centered />;
+          return null;
+        }
         return (
           <Flex flexWrap="wrap">
             <Box

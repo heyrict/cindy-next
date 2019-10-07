@@ -15,6 +15,7 @@ import { PUZZLES_SOLVED_QUERY } from 'graphql/Queries/Puzzles';
 import { PUZZLES_UNSOLVED_LIVEQUERY } from 'graphql/LiveQueries/Puzzles';
 
 import { Heading, Flex, Panel } from 'components/General';
+import Loading from 'components/General/Loading';
 import MultiColBox from 'components/General/MultiColBox';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import PuzzleBrief from 'components/Puzzle/Brief';
@@ -38,7 +39,9 @@ let prevData: PuzzlesUnsolvedLiveQuery_sui_hei_puzzle[] | null = null;
 const PUZZLES_PER_PAGE = 20;
 const puzzleLoadingPanel = (
   <MultiColBox>
-    <Panel>Loading...</Panel>
+    <Panel>
+      <Loading centered />
+    </Panel>
   </MultiColBox>
 );
 

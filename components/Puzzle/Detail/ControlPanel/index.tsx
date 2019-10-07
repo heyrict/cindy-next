@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { widthSplits } from '../constants';
 
 import { Mutation } from 'react-apollo';
-import { UPDATE_PUZZLE_MUTATION } from 'graphql/Mutations/Puzzle';
+import {
+  UPDATE_PUZZLE_MUTATION,
+  UPDATE_PUZZLE_DAZED_ON_MUTATION,
+} from 'graphql/Mutations/Puzzle';
 import {
   UpdatePuzzleMutation,
   UpdatePuzzleMutationVariables,
@@ -17,6 +20,10 @@ import HintAddPanel from './HintAddPanel';
 
 import { ControlPanelProps, ControlPanelPanelType } from './types';
 import { PuzzleType } from '../types';
+import {
+  UpdatePuzzleDazedOnMutationVariables,
+  UpdatePuzzleDazedOnMutation,
+} from 'graphql/Mutations/generated/UpdatePuzzleDazedOnMutation';
 
 const getInitialPanel = (puzzle: PuzzleType): ControlPanelPanelType => {
   if (puzzle.status === 0) {
@@ -53,16 +60,26 @@ const ControlPanel = ({ puzzle }: ControlPanelProps) => {
         mutation={UPDATE_PUZZLE_MUTATION}
       >
         {updatePuzzle => (
-          <PuzzleEditPanel
-            updatePuzzle={updatePuzzle}
-            puzzleId={puzzle.id}
-            yami={puzzle.yami}
-            genre={puzzle.genre}
-            grotesque={puzzle.grotesque}
-            status={puzzle.status}
-            dazed_on={puzzle.dazed_on}
-            show={currentPanel === ControlPanelPanelType.PUZZLE_EDIT}
-          />
+          <Mutation<
+            UpdatePuzzleDazedOnMutation,
+            UpdatePuzzleDazedOnMutationVariables
+          >
+            mutation={UPDATE_PUZZLE_DAZED_ON_MUTATION}
+          >
+            {updatePuzzleDazedOn => (
+              <PuzzleEditPanel
+                updatePuzzle={updatePuzzle}
+                updatePuzzleDazedOn={updatePuzzleDazedOn}
+                puzzleId={puzzle.id}
+                yami={puzzle.yami}
+                genre={puzzle.genre}
+                grotesque={puzzle.grotesque}
+                status={puzzle.status}
+                dazed_on={puzzle.dazed_on}
+                show={currentPanel === ControlPanelPanelType.PUZZLE_EDIT}
+              />
+            )}
+          </Mutation>
         )}
       </Mutation>
     </Flex>

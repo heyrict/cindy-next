@@ -22,6 +22,7 @@ import {
 } from 'graphql/LiveQueries/Dialogue';
 
 import { Flex } from 'components/General';
+import Loading from 'components/General/Loading';
 import PuzzleDialogue from './PuzzleDialogue';
 import PuzzleHint from './PuzzleHint';
 import UserFilterSwitcher from './UserFilterSwitcher';
@@ -105,14 +106,13 @@ export const PuzzleDialoguesRenderer = (
 ) => {
   const _: any = context.intl.formatMessage;
   const { puzzleId } = variables;
-  if (loading && (!data || !data.sui_hei_dialogue || !data.sui_hei_hint))
-    return <span>Loading...</span>;
+  if (!data || !data.sui_hei_dialogue || !data.sui_hei_hint) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
   if (error) {
     toast.error(error.message);
     return null;
-  }
-  if (!data || !data.sui_hei_dialogue || !data.sui_hei_hint) {
-    return <span>EMPTY</span>;
   }
   let users;
 

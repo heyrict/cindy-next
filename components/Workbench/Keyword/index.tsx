@@ -8,6 +8,7 @@ import { PUZZLE_DIALOGUE_QUERY } from 'graphql/Queries/Puzzles';
 import { getKeywords, counter } from './common';
 
 import { Flex } from 'components/General';
+import Loading from 'components/General/Loading';
 import KuromojiProgress from './KuromojiProgress';
 import KeywordManipulatePanel from './KeywordManipulatePanel';
 import ResultPreview from './ResultPreview';
@@ -70,17 +71,18 @@ const KeywordWorkbench = ({
       }}
     >
       {({ loading, error, data }) => {
-        if (loading) return 'Loading...';
         if (error) return `Error: ${error.message}`;
-        if (data && data.sui_hei_dialogue)
-          return (
-            <React.Fragment>
-              <KuromojiProgress />
-              <KeywordManipulatePanel />
-              <ResultPreview />
-            </React.Fragment>
-          );
-        return null;
+        if (!data || !data.sui_hei_dialogue) {
+          if (loading) return <Loading centered />;
+          return null;
+        }
+        return (
+          <React.Fragment>
+            <KuromojiProgress />
+            <KeywordManipulatePanel />
+            <ResultPreview />
+          </React.Fragment>
+        );
       }}
     </Query>
   </Flex>

@@ -11,6 +11,7 @@ import { PUZZLE_BOOKMARK_AGGREGATE_QUERY } from 'graphql/Queries/Bookmark';
 import { Waypoint } from 'react-waypoint';
 import { Manager, Reference, Popper } from 'react-popper';
 import { Box, Flex, Img, Button } from 'components/General';
+import Loading from 'components/General/Loading';
 import BookmarkPopoverContent from './BookmarkPopoverContent';
 
 import bookmarkIcon from 'svgs/puzzleDetailBookmark.svg';
@@ -54,12 +55,14 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
           }}
         >
           {({ loading, error, data }) => {
-            if (loading && !data) return null;
             if (error) {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.sui_hei_bookmark_aggregate) return null;
+            if (!data || !data.sui_hei_bookmark_aggregate) {
+              if (loading) return <Loading centered />;
+              return null;
+            }
             const agg = {
               bookmarkCount:
                 (data.sui_hei_bookmark_aggregate.aggregate &&

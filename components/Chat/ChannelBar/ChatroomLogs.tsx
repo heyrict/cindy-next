@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Flex } from 'components/General';
+import Loading from 'components/General/Loading';
 import Chatmessage from '../Chatmessage';
 
 import { Query } from 'react-apollo';
@@ -41,13 +42,14 @@ const ChatroomLogs = ({ chatroomId, relatedPuzzleId }: ChatroomLogsProps) => (
               puzzleId: relatedPuzzleId,
             }}
           >
-            {res => {
-              if (res.loading) return <div>Loading...</div>;
-              if (res.error) return <div>Error</div>;
-              if (!res.data || !res) return <div>No messages</div>;
+            {({ loading, data, error }) => {
+              if (error) return <div>Error</div>;
+              if (!data || !data.sui_hei_puzzle_by_pk) {
+                if (loading) return <Loading centered />;
+                return null;
+              }
 
-              const { sui_hei_puzzle_by_pk: relatedPuzzle } = res.data;
-              if (relatedPuzzle === null) return null;
+              const { sui_hei_puzzle_by_pk: relatedPuzzle } = data;
               if (relatedPuzzle.anonymous) {
                 return chatmessages.map(cm => (
                   <Chatmessage

@@ -134,6 +134,70 @@ const simpleList = {
   ],
 };
 
+const mergeUpdateList = {
+  A: [
+    {
+      id: 8,
+      value: 'B',
+      modified: '2019-01-10',
+    },
+    {
+      id: 14,
+      value: 'D',
+      modified: '2019-01-12',
+    },
+    {
+      id: 15,
+      value: 'E',
+      modified: '2019-01-14',
+    },
+  ],
+  B: [
+    {
+      id: 14,
+      value: 'd',
+      modified: '2019-01-15',
+    },
+    {
+      id: 7,
+      value: 'S',
+      modified: '2019-01-16',
+    },
+    {
+      id: 8,
+      value: 'b',
+      modified: '2019-01-17',
+    },
+    {
+      id: 17,
+      value: 'H',
+      modified: '2019-01-18',
+    },
+  ],
+  AmB: [
+    {
+      id: 8,
+      value: 'B',
+      modified: '2019-01-17',
+    },
+    {
+      id: 14,
+      value: 'd',
+      modified: '2019-01-15',
+    },
+    {
+      id: 15,
+      value: 'E',
+      modified: '2019-01-14',
+    },
+    {
+      id: 17,
+      value: 'H',
+      modified: '2019-01-18',
+    },
+  ],
+};
+
 const dialogueList = {
   A: [
     {
@@ -261,6 +325,12 @@ describe('Test mergeList(listA, listB)', () => {
         'desc',
       ),
     ).toStrictEqual([...simpleList.AmB].reverse());
+  });
+
+  it.skip('Should update items in ambiguous order', () => {
+    expect(
+      mergeList(mergeUpdateList.A, mergeUpdateList.B, 'id', 'asc'),
+    ).toStrictEqual(mergeUpdateList.AmB);
   });
 });
 

@@ -13,3 +13,9 @@ export type SwitchProps = {
 export const HeadingDefaultProps = {
   fontSize: 6,
 };
+
+export const LoadingDefaultProps = {
+  centered: false,
+};
+
+export type LoadingProps = typeof LoadingDefaultProps;

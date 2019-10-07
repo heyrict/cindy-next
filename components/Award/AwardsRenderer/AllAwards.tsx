@@ -2,6 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import { Flex } from 'components/General';
+import Loading from 'components/General/Loading';
 import DelayRendering from 'components/Hoc/DelayRendering';
 import AwardTableRenderer from './AwardTableRenderer';
 
@@ -45,7 +46,7 @@ import {
 
 const AllAwards = ({ userInfo }: AllAwardsProps) => (
   <Flex flexWrap="wrap">
-    <Query<AllAwardsQuery> query={ALL_AWARDS_QUERY}>
+    <Query<AllAwardsQuery> query={ALL_AWARDS_QUERY} fetchPolicy="cache-first">
       {({ loading, data, error }) => {
         if (loading)
           return (
@@ -55,7 +56,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               width={[1 / 2, 1 / 3, 1 / 2, 1 / 3, 1 / 4]}
               height="400px"
             >
-              Loading...
+              <Loading />
             </Flex>
           );
         if (!data || !data.sui_hei_award) return null;
@@ -197,7 +198,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                   width={[1 / 2, 1 / 3, 1 / 2, 1 / 3, 1 / 4]}
                   height="400px"
                 >
-                  Loading...
+                  <Loading />
                 </Flex>
               }
             >
@@ -206,12 +207,15 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                   query={PUZZLE_GENRE_GROUPS_QUERY}
                   variables={{ userId: userInfo.id }}
                 >
-                  {({ error, data }) => {
+                  {({ error, data, loading }) => {
                     if (error) {
                       toast.error(error);
                       return null;
                     }
-                    if (!data || !data.user_puzzle_genre_groups) return null;
+                    if (!data || !data.user_puzzle_genre_groups) {
+                      if (loading) return <Loading centered />;
+                      return null;
+                    }
                     const groups = data.user_puzzle_genre_groups;
 
                     return (
@@ -269,7 +273,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                   width={[1 / 2, 1 / 3, 1 / 2, 1 / 3, 1 / 4]}
                   height="400px"
                 >
-                  Loading...
+                  <Loading />
                 </Flex>
               }
             >
@@ -281,12 +285,15 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                   query={PUZZLE_STAR_COUNT_GROUPS_QUERY}
                   variables={{ userId: userInfo.id }}
                 >
-                  {({ error, data }) => {
+                  {({ error, data, loading }) => {
                     if (error) {
                       toast.error(error);
                       return null;
                     }
-                    if (!data || !data.user_star_groups) return null;
+                    if (!data || !data.user_star_groups) {
+                      if (loading) return <Loading centered />;
+                      return null;
+                    }
                     const groups = data.user_star_groups;
                     let starSum = 0;
                     data.user_star_groups.forEach(grp => {
@@ -315,10 +322,10 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                             if (hasThisAward) {
                               return AwardStatusType.GET;
                             }
-                            const puzzleCount = groups.filter(
-                              grp => grp.group >= awardObj.starCount,
-                            ).length;
-                            if (puzzleCount > awardObj.puzzleCount) {
+                            const puzzleCount = groups
+                              .filter(grp => grp.group >= awardObj.starCount)
+                              .reduce((a, b) => a + b.value, 0);
+                            if (puzzleCount >= awardObj.puzzleCount) {
                               return AwardStatusType.REACH;
                             }
                             return AwardStatusType.WAIT;
@@ -439,7 +446,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                   width={[1 / 2, 1 / 3, 1 / 2, 1 / 3, 1 / 4]}
                   height="400px"
                 >
-                  Loading...
+                  <Loading />
                 </Flex>
               }
             >
@@ -448,12 +455,15 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                   query={YAMI_PUZZLE_COUNT_QUERY}
                   variables={{ userId: userInfo.id }}
                 >
-                  {({ error, data }) => {
+                  {({ error, data, loading }) => {
                     if (error) {
                       toast.error(error);
                       return null;
                     }
-                    if (!data || !data.sui_hei_puzzle) return null;
+                    if (!data || !data.sui_hei_puzzle) {
+                      if (loading) return <Loading centered />;
+                      return null;
+                    }
                     const maxYamiDialogues =
                       data.sui_hei_puzzle.length === 0
                         ? null

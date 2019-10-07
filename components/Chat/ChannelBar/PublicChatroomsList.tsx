@@ -6,6 +6,7 @@ import * as globalReducer from 'reducers/global';
 import * as chatReducer from 'reducers/chat';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
+import Loading from 'components/General/Loading';
 
 import { Query } from 'react-apollo';
 import { PUBLIC_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
@@ -23,12 +24,14 @@ const PublicChatroomsList = ({
 }: PublicChatroomsListProps) => (
   <Query<PublicChatroomsQuery> query={PUBLIC_CHATROOMS_QUERY}>
     {({ loading, error, data }) => {
-      if (loading) return <span>Loading...</span>;
       if (error) {
         toast.error(error.message);
         return null;
       }
-      if (!data || !data.sui_hei_chatroom) return null;
+      if (!data || !data.sui_hei_chatroom) {
+        if (loading) return <Loading centered />;
+        return null;
+      }
       return (
         <Flex flexWrap="wrap">
           <Box mt={2} width={1} borderBottom="3px solid" borderColor="orange.6">

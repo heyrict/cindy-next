@@ -2,6 +2,7 @@ import React from 'react';
 import isEqual from 'react-fast-compare';
 import { toast } from 'react-toastify';
 
+import Loading from 'components/General/Loading';
 import SimplePaginatorBar from './SimplePaginatorBar';
 
 import { Query, QueryResult } from 'react-apollo';
@@ -83,7 +84,7 @@ class PaginatedQuery<
               toast.error(error.message);
               return null;
             }
-            if (loading && !data) return <span>Loading...</span>;
+            if (loading) return <Loading centered />;
             if (!data) return null;
             return renderItems(data);
           }}

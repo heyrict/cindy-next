@@ -16,6 +16,7 @@ import {
   CommentsQuery,
   CommentsQueryVariables,
 } from 'graphql/Queries/generated/CommentsQuery';
+import { GlobalUserType } from 'reducers/types';
 
 export type UserPageProps = {
   userId: number;
@@ -71,4 +72,10 @@ export type CommentsRendererProps = QueryResult<
 
 export type ChannelPageProps = {
   chatroom: string;
+};
+
+export type AddPuzzleProps = {
+  user: GlobalUserType;
+  setTrueLoginModal: () => void;
+  setTrueSignupModal: () => void;
 };

@@ -183,7 +183,7 @@ function AwardTableRenderer<T = number>({
               const award = awardsDefs.find(a => a.id === awardId);
               if (!award) return null;
               return (
-                <tr>
+                <tr key={awardId}>
                   <td>{getStatusLabel(awardObj)}</td>
                   <td>
                     <CurrentUserAward

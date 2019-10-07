@@ -259,7 +259,6 @@ const Search = (_props: any, context: { intl: IntlShape }) => {
         >
           query={SOLVED_PUZZLES_SEARCH_QUERY}
           variables={variables}
-          fetchPolicy="cache-first"
           getItemCount={data =>
             (data.sui_hei_puzzle_aggregate &&
               data.sui_hei_puzzle_aggregate.aggregate &&

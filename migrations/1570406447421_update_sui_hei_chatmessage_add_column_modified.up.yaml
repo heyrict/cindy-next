@@ -1,0 +1,106 @@
+## Drop permission
+### User
+- args:
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: drop_insert_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: drop_update_permission
+
+### Anonymous
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: drop_select_permission
+
+## Add column
+- args:
+    sql: |-
+        ALTER TABLE sui_hei_chatmessage
+        ADD COLUMN modified timestamp with time zone NOT NULL DEFAULT now();
+  type: run_sql
+
+## Add trigger
+- args:
+    cascade: false
+    sql: |-
+      create or replace function update_chatmessage_modified()
+      returns trigger as $$
+      begin
+        if OLD.content <> NEW.content then
+          NEW.modified = now();
+        end if;
+        return NEW;
+      end;
+      $$ language 'plpgsql';
+
+      create trigger update_chatmessage_modified_trigger before update
+      on public.sui_hei_chatmessage
+      for each row
+      execute procedure update_chatmessage_modified();
+  type: run_sql
+
+## Add permission
+### User
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 2000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      columns: "*"
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: create_update_permission
+
+### Anonymous
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 1000
+      columns: "*"
+      filter: {}
+    role: anonymous
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: create_select_permission

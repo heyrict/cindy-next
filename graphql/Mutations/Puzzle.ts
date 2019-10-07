@@ -66,28 +66,35 @@ export const EDIT_MEMO_MUTATION = gql`
   }
 `;
 
+export const UPDATE_PUZZLE_DAZED_ON_MUTATION = gql`
+  mutation UpdatePuzzleDazedOnMutation($dazedOn: date, $puzzleId: Int!) {
+    update_sui_hei_puzzle(
+      _set: { dazed_on: $dazedOn }
+      where: { id: { _eq: $puzzleId } }
+    ) {
+      returning {
+        id
+        dazed_on
+      }
+    }
+  }
+`;
+
 export const UPDATE_PUZZLE_MUTATION = gql`
   mutation UpdatePuzzleMutation(
     $puzzleId: Int!
     $grotesque: Boolean
-    $dazedOn: date
     $status: Int
     $yami: Int
   ) {
     update_sui_hei_puzzle(
-      _set: {
-        grotesque: $grotesque
-        dazed_on: $dazedOn
-        status: $status
-        yami: $yami
-      }
+      _set: { grotesque: $grotesque, status: $status, yami: $yami }
       where: { id: { _eq: $puzzleId } }
     ) {
       returning {
         id
         yami
         grotesque
-        dazed_on
         status
       }
     }

@@ -26,7 +26,7 @@ type UserAward = {
 
 export type InlineUser = {
   id: number;
-  icon?: string;
+  icon?: string | null;
   nickname: string;
   username?: string;
   sui_hei_current_useraward?: UserAward | null;

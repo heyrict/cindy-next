@@ -42,6 +42,7 @@ export const getJwt = (user: any): string => {
   const claim = {
     user: {
       id: user.id,
+      icon: user.icon,
       username: user.username,
       nickname: user.nickname,
     },

@@ -9,6 +9,7 @@ import * as globalReducer from 'reducers/global';
 import * as directReducer from 'reducers/direct';
 
 import { Box, Flex, Img, ButtonTransparent } from 'components/General';
+import Loading from 'components/General/Loading';
 import ProfileInfo from './Info';
 import ProfileSubbar from './Subbar';
 import ProfilePuzzlesTab from './ProfileTabs/ProfilePuzzlesTab';
@@ -25,6 +26,7 @@ import { ActionContentType } from 'reducers/types';
 
 const ProfileInfoRenderer = ({
   data,
+  loading,
   error,
   currentUser,
   directChatWithUser,
@@ -40,6 +42,7 @@ const ProfileInfoRenderer = ({
     return null;
   }
   if (!data || !data.sui_hei_user_by_pk) {
+    if (loading) return <Loading centered />;
     return null;
   }
   const user = data.sui_hei_user_by_pk;

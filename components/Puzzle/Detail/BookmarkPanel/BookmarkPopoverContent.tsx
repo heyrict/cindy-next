@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
+import Loading from 'components/General/Loading';
 import BookmarkInput from './BookmarkInput';
 
 import { Query, Mutation } from 'react-apollo';
@@ -62,12 +63,15 @@ const BookmarkPopupContent = ({
             userId,
           }}
         >
-          {({ data, error }) => {
+          {({ data, error, loading }) => {
             if (error) {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.sui_hei_bookmark) return null;
+            if (!data || !data.sui_hei_bookmark) {
+              if (loading) return <Loading centered />;
+              return null;
+            }
             const initialValue =
               data.sui_hei_bookmark.length === 0
                 ? 0
