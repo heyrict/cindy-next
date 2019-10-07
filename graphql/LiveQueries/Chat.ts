@@ -7,7 +7,7 @@ export const CHATROOM_CHATMESSAGES_LIVE_QUERY = gql`
     sui_hei_chatmessage(
       where: { chatroom_id: { _eq: $chatroomId } }
       limit: 1
-      order_by: { modified: desc }
+      order_by: [{ modified: desc }, { id: desc }]
     ) {
       ...Chatmessage
     }
