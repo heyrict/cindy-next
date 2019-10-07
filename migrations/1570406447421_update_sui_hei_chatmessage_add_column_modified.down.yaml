@@ -1,0 +1,94 @@
+## Drop permission
+### User
+- args:
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: drop_insert_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: drop_update_permission
+
+### Anonymous
+- args:
+    role: anonymous
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: drop_select_permission
+
+## Drop column
+- args:
+    sql: |-
+        ALTER TABLE sui_hei_chatmessage
+        DROP COLUMN IF EXISTS modified;
+  type: run_sql
+
+## Drop trigger
+- args:
+    cascade: false
+    sql: |-
+      drop trigger if exists update_chatmessage_modified_trigger on sui_hei_chatmessage;
+      drop function if exists update_chatmessage_modified;
+  type: run_sql
+
+## Add permission
+### User
+- args:
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: "*"
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 2000
+      columns: "*"
+      filter: {}
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      columns: "*"
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+    role: user
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: create_update_permission
+
+### Anonymous
+- args:
+    permission:
+      allow_aggregations: true
+      limit: 1000
+      columns: "*"
+      filter: {}
+    role: anonymous
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+  type: create_select_permission

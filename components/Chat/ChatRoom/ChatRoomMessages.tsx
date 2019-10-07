@@ -13,7 +13,7 @@ import {
   CHATROOM_CHATMESSAGES_QUERY,
   CHATROOM_PUZZLE_QUERY,
 } from 'graphql/Queries/Chat';
-import { CHATROOM_CHATMESSAGES_SUBSCRIPTION } from 'graphql/Subscriptions/Chat';
+import { CHATROOM_CHATMESSAGES_LIVE_QUERY } from 'graphql/LiveQueries/Chat';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -24,7 +24,6 @@ import {
   ChatroomChatmessages,
   ChatroomChatmessagesVariables,
 } from 'graphql/Queries/generated/ChatroomChatmessages';
-import { ChatroomChatmessageSubscription } from 'graphql/Subscriptions/generated/ChatroomChatmessageSubscription';
 import {
   ChatroomPuzzle,
   ChatroomPuzzleVariables,
@@ -33,6 +32,7 @@ import {
 import { CHATMESSAGES_PER_PAGE } from './constants';
 
 import { WatchObjectActionType } from 'components/Hoc/types';
+import { ChatroomChatmessageLiveQuery } from 'graphql/LiveQueries/generated/ChatroomChatmessageLiveQuery';
 import { StateType, ActionContentType } from 'reducers/types';
 import { ChatRoomMessagesProps, ChatRoomMessagesBodyProps } from './types';
 
@@ -83,34 +83,36 @@ const ChatRoomMessagesBody = ({
   useEffect(
     () =>
       subscribeToMore({
-        document: CHATROOM_CHATMESSAGES_SUBSCRIPTION,
+        document: CHATROOM_CHATMESSAGES_LIVE_QUERY,
         variables: { chatroomId },
         updateQuery: (
           prev,
           {
             subscriptionData,
-          }: { subscriptionData: { data: ChatroomChatmessageSubscription } },
+          }: { subscriptionData: { data: ChatroomChatmessageLiveQuery } },
         ) => {
           if (prev === undefined) return prev;
-          if (!subscriptionData.data) return prev;
-          if (!subscriptionData.data.chatmessageSub) return prev;
-          if (subscriptionData.data.chatmessageSub.eventType === 'INSERT') {
-            if (subscriptionData.data.chatmessageSub.sui_hei_chatmessage) {
-              chatmessageUpdate(
-                chatroomId,
-                subscriptionData.data.chatmessageSub.sui_hei_chatmessage.id,
-              );
-              return Object.assign({}, prev, {
-                sui_hei_chatmessage: upsertItem(
-                  prev.sui_hei_chatmessage,
-                  subscriptionData.data.chatmessageSub.sui_hei_chatmessage,
-                  'id',
-                  'desc',
-                ),
-              });
-            }
-          }
-          return prev;
+          if (
+            !subscriptionData.data ||
+            !subscriptionData.data.sui_hei_chatmessage
+          )
+            return prev;
+          if (subscriptionData.data.sui_hei_chatmessage.length === 0)
+            return prev;
+          chatmessageUpdate(
+            chatroomId,
+            subscriptionData.data.sui_hei_chatmessage[
+              subscriptionData.data.sui_hei_chatmessage.length - 1
+            ].id,
+          );
+          return Object.assign({}, prev, {
+            sui_hei_chatmessage: upsertItem(
+              prev.sui_hei_chatmessage,
+              subscriptionData.data.sui_hei_chatmessage[0],
+              'id',
+              'desc',
+            ),
+          });
         },
       }),
     [chatroomId],
