@@ -17,6 +17,8 @@ const METRIKA_PARAMS = {
 };
 
 function* fetchActiveUsers() {
+  if (process.env.NODE_ENV !== 'production') return;
+
   const res = yield fetch(`${WEBHOOK_SERVER}/activeUsers`, {
     method: 'POST',
     headers: {

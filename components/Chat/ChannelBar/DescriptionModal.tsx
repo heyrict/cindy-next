@@ -77,14 +77,15 @@ const DescriptionModal = ({
                 />
               </Box>
               {chatroom.description ? (
-                <div
+                <Box
                   style={{ minHeight: '3em' }}
+                  mb={4}
                   dangerouslySetInnerHTML={{
                     __html: line2md(chatroom.description),
                   }}
                 />
               ) : (
-                <Box>
+                <Box mb={4}>
                   <FormattedMessage {...chatMessages.noDescription} />
                 </Box>
               )}

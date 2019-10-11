@@ -3,6 +3,7 @@ import styled from 'theme/styled';
 import { Img, RedDot } from 'components/General';
 
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import * as globalReducer from 'reducers/global';
 import * as chatReducer from 'reducers/chat';
 
@@ -61,26 +62,44 @@ const ResponsiveChatBox = styled(ChatBoxBase)<ChatBoxInnerProps>`
   }
 `;
 
+const isChannelPageSelector = createSelector(
+  (state: StateType) => globalReducer.rootSelector(state).route,
+  (route: string) => route.startsWith('/channel/'),
+);
+
 const ChatBox = ({
   children,
   aside,
   chatHasnew,
+  isChannelPage,
   setTrueAside,
   setFalseAside,
 }: ChatBoxProps) => (
   <React.Fragment>
     <ResponsiveChatBox open={aside}>{children}</ResponsiveChatBox>
     <ChatBoxShader open={aside} onClick={() => setFalseAside()} />
-    <FixedButton position="left" onClick={() => setTrueAside()}>
-      {chatHasnew && <RedDot size="xxs" right={10} />}
-      <Img height="3em" src={ChatIcon} />
-    </FixedButton>
+    {isChannelPage ? (
+      <FixedButton
+        position="right"
+        bottom="6em"
+        opacity="0.5"
+        onClick={() => setTrueAside()}
+      >
+        <Img height="3em" src={ChatIcon} />
+      </FixedButton>
+    ) : (
+      <FixedButton position="left" onClick={() => setTrueAside()}>
+        {chatHasnew && <RedDot size="xxs" right={10} />}
+        <Img height="3em" src={ChatIcon} />
+      </FixedButton>
+    )}
   </React.Fragment>
 );
 
 const mapStateToProps = (state: StateType) => ({
   aside: globalReducer.rootSelector(state).aside,
   chatHasnew: chatReducer.rootSelector(state).chatHasnew,
+  isChannelPage: isChannelPageSelector(state),
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({

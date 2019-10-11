@@ -13,7 +13,7 @@ const FixedButtonBase = styled(Button)<FixedButtonBaseProps>`
     width: 5em;
     height: 5em;
     ${p => p.position || 'left'}: 2em;
-    bottom: 2em;
+    bottom: ${p => p.bottom || '2em'};
     background-color: ${p => p.theme.colors.red[9]};
     color: ${p => p.theme.colors.gray[8]};
     z-index: 180;

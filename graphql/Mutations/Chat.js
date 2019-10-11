@@ -53,3 +53,16 @@ export const DELETE_FAVORITE_CHATROOM_MUTATION = gql`
     }
   }
 `;
+
+export const CREATE_CHATROOM_MUTATION = gql`
+  mutation CreateChatroomMutation($name: String!, $description: String!) {
+    insert_sui_hei_chatroom(
+      objects: [{ name: $name, description: $description }]
+    ) {
+      returning {
+        id
+        name
+      }
+    }
+  }
+`;

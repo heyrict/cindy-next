@@ -53,7 +53,19 @@ export const chatMessages = defineMessages({
   },
   log: {
     id: `${scope}.log`,
-    defaultMessage: 'Log',
+    defaultMessage: 'Logs',
+  },
+  chatroomName: {
+    id: `${scope}.chatroomName`,
+    defaultMessage: 'Chatroom Name',
+  },
+  chatroomDescription: {
+    id: `${scope}.chatroomDescription`,
+    defaultMessage: 'Chatroom Description',
+  },
+  chatroomCreated: {
+    id: `${scope}.chatroomCreated`,
+    defaultMessage: 'Successfully created chatroom {name}',
   },
 });
 

@@ -22,7 +22,7 @@ import {
 import { ChatroomLogsProps } from './types';
 
 const ChatroomLogs = ({ chatroomId, relatedPuzzleId }: ChatroomLogsProps) => (
-  <Flex flexDirection="column" bg="orange.1" py={2} mt={4} width={1}>
+  <Flex flexDirection="column" bg="orange.1" py={2} width={1}>
     <PaginatedQuery<ChatroomLogsQuery, ChatroomLogsQueryVariables>
       query={CHATROOM_LOGS_QUERY}
       variables={{ chatroomId }}
