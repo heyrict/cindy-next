@@ -125,9 +125,33 @@ export function upsertItem<V = any>(
   key: keyof V = 'id' as keyof V,
   sort: 'asc' | 'desc' = 'asc',
 ): Array<V> {
+  if (list.length == 0) {
+    return [item];
+  }
+
+  // Don't prepend item to the list
+  //if (
+  //  (sort === 'asc' && list[0][key] > item[key]) ||
+  //  (sort === 'desc' && list[list.length - 1][key] < item[key])
+  //) {
+  //  return list;
+  //}
+
   let index = list.findIndex(o => o[key] === item[key]);
   if (index === -1) {
     return insertItem(list, item, key, sort);
   }
   return updateItem(list, item, key, index);
+}
+
+export function upsertMultipleItem<V = any>(
+  list: Array<V>,
+  items: Array<V>,
+  key: keyof V = 'id' as keyof V,
+  sort: 'asc' | 'desc' = 'asc',
+): Array<V> {
+  items.forEach(item => {
+    list = upsertItem(list, item, key, sort);
+  });
+  return list;
 }

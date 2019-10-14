@@ -4,6 +4,7 @@ import {
   updateItem,
   insertItem,
   upsertItem,
+  upsertMultipleItem,
 } from '../update';
 const simpleList = {
   A: [
@@ -134,7 +135,7 @@ const simpleList = {
   ],
 };
 
-const mergeUpdateList = {
+const updateMultipleList = {
   A: [
     {
       id: 8,
@@ -176,8 +177,13 @@ const mergeUpdateList = {
   ],
   AmB: [
     {
+      id: 7,
+      modified: '2019-01-16',
+      value: 'S',
+    },
+    {
       id: 8,
-      value: 'B',
+      value: 'b',
       modified: '2019-01-17',
     },
     {
@@ -326,12 +332,6 @@ describe('Test mergeList(listA, listB)', () => {
       ),
     ).toStrictEqual([...simpleList.AmB].reverse());
   });
-
-  it.skip('Should update items in ambiguous order', () => {
-    expect(
-      mergeList(mergeUpdateList.A, mergeUpdateList.B, 'id', 'asc'),
-    ).toStrictEqual(mergeUpdateList.AmB);
-  });
 });
 
 describe('Test insertItem(list, item, key, sort)', () => {
@@ -412,5 +412,18 @@ describe('Test upsertItem(list, item)', () => {
         dialogueList.Aup,
       );
     });
+  });
+});
+
+describe('Test upsertMultipleItem(list, item)', () => {
+  it('Should update items in ambiguous order', () => {
+    expect(
+      upsertMultipleItem(
+        updateMultipleList.A,
+        updateMultipleList.B,
+        'id',
+        'asc',
+      ),
+    ).toStrictEqual(updateMultipleList.AmB);
   });
 });
