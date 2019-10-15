@@ -41,7 +41,7 @@ const ChatroomCreateModal = ({
       closefn={() => setFalseChatroomCreateModal()}
     >
       <ModalHeader>
-        <FormattedMessage {...chatMessages.changeChannel} />
+        <FormattedMessage {...chatMessages.createChannel} />
         <ModalCloseBtn onClick={() => setFalseChatroomCreateModal()} />
       </ModalHeader>
       <ModalBody>
@@ -68,7 +68,7 @@ const ChatroomCreateModal = ({
               <Box width={1} mb={2}>
                 <LegacyEditor name="description" ref={descriptionInputRef} />
               </Box>
-              <Box height={1} width={1}>
+              <Box bg="orange.5" borderRadius="1" height={1} width={1}>
                 <ButtonTransparent
                   width={1}
                   height={1}

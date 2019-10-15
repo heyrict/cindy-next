@@ -3,6 +3,7 @@
  */
 
 import React, { useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { Global, css } from '@emotion/core';
 import { toast, ToastContainer, Slide } from 'react-toastify';
 import { requestNotificationPermission } from 'common/web-notify';
@@ -13,7 +14,7 @@ import commonMessages from 'messages/common';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import Chat from 'components/Chat';
-import ChannelAside from 'components/Chat/ChannelAside';
+import { ChannelAsideProps } from 'components/Chat/ChannelAside/types';
 import Toolbar from 'components/Toolbar';
 import PuzzleRightAside from 'components/Puzzle/RightAside';
 import AwardChecker from 'components/AwardChecker';
@@ -31,6 +32,11 @@ import theme from 'theme/theme';
 import { LayoutProps } from './types';
 import { NotificationPermissionType } from 'common/types';
 import { StateType, ActionContentType } from 'reducers/types';
+
+const ChannelAside = dynamic<Pick<ChannelAsideProps, never>>(
+  () => import('components/Chat/ChannelAside').then(mod => mod.default),
+  { ssr: false },
+);
 
 const tabsStyle = css`
   .nav {

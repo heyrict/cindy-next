@@ -72,6 +72,7 @@ export type CommentsRendererProps = QueryResult<
 
 export type ChannelPageProps = {
   chatroom: string;
+  toggleAside: () => void;
 };
 
 export type AddPuzzleProps = {

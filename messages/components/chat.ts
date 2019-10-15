@@ -67,6 +67,14 @@ export const chatMessages = defineMessages({
     id: `${scope}.chatroomCreated`,
     defaultMessage: 'Successfully created chatroom {name}',
   },
+  channels: {
+    id: `${scope}.channels`,
+    defaultMessage: 'Channels',
+  },
+  createChannel: {
+    id: `${scope}.createChannel`,
+    defaultMessage: 'Create Channel',
+  },
 });
 
 export default chatMessages;

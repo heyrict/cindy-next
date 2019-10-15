@@ -6,6 +6,10 @@ import { toast } from 'react-toastify';
 import { Query } from 'react-apollo';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
+import { connect } from 'react-redux';
+import * as globalReducer from 'reducers/global';
+
+import { Flex, Box, ButtonTransparent } from 'components/General';
 import ChatRoomMessages from 'components/Chat/ChatRoom/ChatRoomMessages';
 import ChatRoomInput from 'components/Chat/ChatRoom/ChatRoomInput';
 
@@ -17,6 +21,8 @@ import {
 import { FormattedMessage, intlShape } from 'react-intl';
 import chatMessages from 'messages/components/chat';
 import channelPageMessages from 'messages/pages/channel';
+
+import { ActionContentType } from 'reducers/types';
 
 const PuzzleChatRegex = /^puzzle-(\d+)$/;
 
@@ -33,6 +39,16 @@ const ChannelContentBox = styled.div`
   }
   ${p => p.theme.mediaQueries.medium} {
     left: 0;
+  }
+`;
+
+const OpenAsideButton = styled(ButtonTransparent)`
+  display: inline-box;
+  ${p => p.theme.mediaQueries.large} {
+    display: none;
+  }
+  ${p => p.theme.mediaQueries.medium} {
+    display: inline-box;
   }
 `;
 
@@ -80,6 +96,19 @@ class ChannelPage extends React.Component<ChannelPageProps> {
                     content={_(channelPageMessages.description)}
                   />
                 </Head>
+                <Box width={1} height="channelbar">
+                  <Flex bg="orange.5">
+                    <OpenAsideButton
+                      color="white"
+                      height="channelbar"
+                      width="8em"
+                      mr="auto"
+                      onClick={() => this.props.toggleAside()}
+                    >
+                      <FormattedMessage {...chatMessages.channels} /> &gt;&gt;
+                    </OpenAsideButton>
+                  </Flex>
+                </Box>
                 {chatroomId ? (
                   <ChatRoomMessages
                     chatroomId={chatroomId}
@@ -100,4 +129,13 @@ class ChannelPage extends React.Component<ChannelPageProps> {
   }
 }
 
-export default ChannelPage;
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  toggleAside: () => dispatch(globalReducer.actions.aside.toggle()),
+});
+
+const withRedux = connect(
+  null,
+  mapDispatchToProps,
+);
+
+export default withRedux(ChannelPage);

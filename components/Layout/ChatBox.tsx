@@ -78,16 +78,7 @@ const ChatBox = ({
   <React.Fragment>
     <ResponsiveChatBox open={aside}>{children}</ResponsiveChatBox>
     <ChatBoxShader open={aside} onClick={() => setFalseAside()} />
-    {isChannelPage ? (
-      <FixedButton
-        position="right"
-        bottom="6em"
-        opacity="0.5"
-        onClick={() => setTrueAside()}
-      >
-        <Img height="3em" src={ChatIcon} />
-      </FixedButton>
-    ) : (
+    {!isChannelPage && (
       <FixedButton position="left" onClick={() => setTrueAside()}>
         {chatHasnew && <RedDot size="xxs" right={10} />}
         <Img height="3em" src={ChatIcon} />
