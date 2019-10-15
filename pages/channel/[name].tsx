@@ -43,10 +43,9 @@ const ChannelContentBox = styled.div`
 `;
 
 const OpenAsideButton = styled(ButtonTransparent)`
-  display: inline-box;
-  ${p => p.theme.mediaQueries.large} {
-    display: none;
-  }
+  min-width: 6em;
+  max-width: 10pm;
+  display: none;
   ${p => p.theme.mediaQueries.medium} {
     display: inline-box;
   }
@@ -97,11 +96,14 @@ class ChannelPage extends React.Component<ChannelPageProps> {
                   />
                 </Head>
                 <Box width={1} height="channelbar">
-                  <Flex bg="orange.5">
+                  <Flex
+                    bg="orange.2"
+                    borderBottom="1px solid"
+                    borderColor="orange.3"
+                  >
                     <OpenAsideButton
-                      color="white"
+                      color="orange.6"
                       height="channelbar"
-                      width="8em"
                       mr="auto"
                       onClick={() => this.props.toggleAside()}
                     >

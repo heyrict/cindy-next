@@ -70,11 +70,11 @@ export const ToolbarResponsiveButton = styled(Box)`
 export const ToolbarDropdownContents = styled.div`
   position: fixed;
   top: ${p => p.theme.sizes.toolbar};
-  right: 0;
   min-width: ${p => p.theme.sizes.toolbuttonMin};
   max-width: ${p => p.theme.sizes.toolbuttonMax};
-  background: ${p => p.theme.colors.orange[2]};
+  background: ${p => p.theme.colors.orange[4]};
   display: flex;
   flex-direction: column;
   z-index: 190;
+  box-shadow: 3px 3px 4px 0 ${p => p.theme.colors.gray[8]};
 `;

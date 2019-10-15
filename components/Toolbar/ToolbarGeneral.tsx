@@ -15,6 +15,7 @@ import { Portal } from 'react-portal';
 import { Manager, Reference, Popper } from 'react-popper';
 import { Flex, ButtonTransparent, Img, RedDot } from 'components/General';
 import ActiveUserCounter from 'components/ActiveUserCounter';
+import ChatroomButton from './ChatroomButton';
 import LoginButton from './Login/LoginButton';
 import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
@@ -38,10 +39,15 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
   const userBtnRef = useRef<HTMLDivElement | null>(null);
   const dropDownRef = useRef<HTMLDivElement | null>(null);
 
+  const [comDropDown, setComDropDown] = useState(false);
+  const comBtnRef = useRef<HTMLDivElement | null>(null);
+  const comDropDownRef = useRef<HTMLDivElement | null>(null);
+
   const hasnew = directHasnew;
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
+      // For User dropdown
       if (
         dropDownRef.current &&
         !dropDownRef.current.contains(e.target as Node | null) &&
@@ -49,6 +55,16 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
         !userBtnRef.current.contains(e.target as Node | null)
       ) {
         setDropDown(false);
+      }
+
+      // For Communication dropdown
+      if (
+        comDropDownRef.current &&
+        !comDropDownRef.current.contains(e.target as Node | null) &&
+        comBtnRef.current &&
+        !comBtnRef.current.contains(e.target as Node | null)
+      ) {
+        setComDropDown(false);
       }
     };
     window.addEventListener('click', handleOutsideClick);
@@ -70,13 +86,74 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
             </ButtonTransparentA>
           </Link>
         </ToolbarButton>
-        <ToolbarButton bg="orange.4" mr="1px">
-          <Link href="/users" passHref>
-            <ButtonTransparentA height={1} width={1} color="orange.9">
-              <FormattedMessage {...toolbarMessages.users} />
-            </ButtonTransparentA>
-          </Link>
-        </ToolbarButton>
+        <Manager>
+          <Reference>
+            {({ ref }) => (
+              <ToolbarButton
+                ref={(r: HTMLDivElement | null) => {
+                  ref(r);
+                  comBtnRef.current = r;
+                }}
+                mr="1px"
+                bg="orange.4"
+              >
+                <ButtonTransparentA
+                  style={{ position: 'relative' }}
+                  height={1}
+                  width={1}
+                  color="orange.9"
+                  onClick={() => setComDropDown(!comDropDown)}
+                >
+                  <FormattedMessage {...toolbarMessages.communication} />
+                  <Img
+                    pl={1}
+                    src={comDropDown ? chevronUpIcon : chevronDownIcon}
+                    minWidth="xxs"
+                    maxWidth="xxs"
+                  />
+                </ButtonTransparentA>
+              </ToolbarButton>
+            )}
+          </Reference>
+          {comDropDown && (
+            <Portal>
+              <Popper placement="bottom-end">
+                {({ ref, style, placement }) => (
+                  <ToolbarDropdownContents
+                    ref={(r: HTMLDivElement | null) => {
+                      ref(r);
+                      comDropDownRef.current = r;
+                    }}
+                    style={{
+                      ...style,
+                      top: undefined,
+                    }}
+                    data-placement={placement}
+                  >
+                    <ToolbarButton
+                      bg="orange.5"
+                      color="gray.1"
+                      fontWeight="bold"
+                    >
+                      <Link href="/users" passHref>
+                        <ButtonTransparentA height={1} width={1} color="gray.1">
+                          <FormattedMessage {...toolbarMessages.users} />
+                        </ButtonTransparentA>
+                      </Link>
+                    </ToolbarButton>
+                    <ToolbarButton
+                      bg="orange.5"
+                      color="gray.1"
+                      fontWeight="bold"
+                    >
+                      <ChatroomButton />
+                    </ToolbarButton>
+                  </ToolbarDropdownContents>
+                )}
+              </Popper>
+            </Portal>
+          )}
+        </Manager>
         <ToolbarButton bg="orange.4" mr="1px">
           <ButtonTransparentA
             href="https://wiki3.jp/cindy-lat"

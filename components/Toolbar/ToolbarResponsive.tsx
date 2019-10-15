@@ -19,6 +19,7 @@ import {
   ToolbarResponsiveContents,
   ToolbarResponsiveButton,
 } from './shared';
+import ChatroomButton from './ChatroomButton';
 import LoginButton from './Login/LoginButton';
 import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
@@ -99,6 +100,11 @@ const Toolbar = ({
                     <FormattedMessage {...toolbarMessages.puzzle} />
                   </ButtonTransparentA>
                 </Link>
+              </ToolbarResponsiveButton>
+            </Box>
+            <Box width={1 / 2}>
+              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
+                <ChatroomButton color="orange.9" />
               </ToolbarResponsiveButton>
             </Box>
             <Box width={1 / 2}>

@@ -31,6 +31,14 @@ export const messages = defineMessages({
     id: `${scope}.usersOnline`,
     defaultMessage: 'Online Users: {count}',
   },
+  communication: {
+    id: `${scope}.communication`,
+    defaultMessage: 'Society',
+  },
+  chatroom: {
+    id: `${scope}.chatroom`,
+    defaultMessage: 'Chatroom',
+  },
 });
 
 export default messages;
