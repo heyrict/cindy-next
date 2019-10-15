@@ -69,7 +69,10 @@ export const domainFilter = url => {
     return { selfDomain, href: url, as: url };
   }
   const hrefReal = url.replace(DOMAIN_REGEXP, '$5');
-  const href = hrefReal.replace(/\d+/g, '[id]');
+  const href = hrefReal
+    .replace(/channel\/(.+)$/, '/channel/[name]')
+    .replace(/\d+/g, '[id]');
+
   return {
     selfDomain,
     href,
