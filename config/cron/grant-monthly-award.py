@@ -94,11 +94,12 @@ mutation($awardId: Int!, $userId: Int!) {
 def grant_collection_award(user):
     monthly_award_count = query(MONTHLY_AWARDS_COUNT_QUERY, {
         'userId': user['id'],
+        'monthlyAwards': monthly_awards,
     })['sui_hei_useraward_aggregate']['aggregate']['count']
 
     if monthly_award_count % 4 == 0:
         award_data = query(AWARD_BY_ID_QUERY, {
-            'id': monthly_awards[monthly_award_count % 4]
+            'id': monthly_collection_awards[monthly_award_count % 4]
         })['sui_hei_award_by_pk'] # yapf: disable
 
         try:
@@ -117,7 +118,7 @@ def grant_collection_award(user):
             }
         }
         t = tweeter_auth()
-        t.statuses.update_with_media(**params)
+        t.statuses.update(**params)
 
 
 def grant_monthly_award():
