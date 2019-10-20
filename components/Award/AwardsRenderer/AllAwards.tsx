@@ -29,6 +29,7 @@ import {
   PuzzleByGenreAwards,
   StarByPuzzleAwards,
   StarSumAwards,
+  SpecialAwards,
 } from 'components/AwardChecker/constants';
 import { AllAwardsProps, AwardStatusType } from './types';
 import {
@@ -519,6 +520,14 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                 />
               )}
             </DelayRendering>
+            <AwardTableRenderer
+              awardsDefs={awardsDefs}
+              userInfo={userInfo}
+              header={<FormattedMessage {...awardsMessages.group_others} />}
+              getStatusLabel={() => null}
+              awardsObj={SpecialAwards}
+              checker={() => AwardStatusType.UNKNOWN}
+            />
           </React.Fragment>
         );
       }}

@@ -127,4 +127,4 @@ export const MixedAwards = {
   180: { questionCount: 10000, puzzleCount: 100 },
 };
 
-export const SpecialAwards = [115, 215, 216];
+export const SpecialAwards = { 115: null, 215: null, 216: null };

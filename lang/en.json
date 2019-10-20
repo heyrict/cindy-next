@@ -20,6 +20,7 @@
   "awards.description": "Get awards for use in Cindy!",
   "awards.group_goodQuestionCount": "Good Question Count Related",
   "awards.group_mixed": "Mixed",
+  "awards.group_others": "Others",
   "awards.group_puzzleCount": "Puzzle Count Related",
   "awards.group_puzzleGenreCount": "Puzzle Count By Genre",
   "awards.group_puzzleStarCount": "Star Count By Puzzle",

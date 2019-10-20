@@ -20,6 +20,7 @@ export enum AwardStatusType {
   GET,
   REACH,
   WAIT,
+  UNKNOWN,
 }
 
 export type AwardTableRendererProps<T = number> = {
