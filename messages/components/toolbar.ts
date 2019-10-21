@@ -39,6 +39,10 @@ export const messages = defineMessages({
     id: `${scope}.chatroom`,
     defaultMessage: 'Chatroom',
   },
+  help: {
+    id: `${scope}.help`,
+    defaultMessage: 'Help',
+  },
 });
 
 export default messages;

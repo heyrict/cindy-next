@@ -13,7 +13,7 @@ import * as directReducer from 'reducers/direct';
 
 import { Portal } from 'react-portal';
 import { Manager, Reference, Popper } from 'react-popper';
-import { Flex, ButtonTransparent, Img, RedDot } from 'components/General';
+import { Flex, Box, ButtonTransparent, Img, RedDot } from 'components/General';
 import ActiveUserCounter from 'components/ActiveUserCounter';
 import ChatroomButton from './ChatroomButton';
 import LoginButton from './Login/LoginButton';
@@ -27,6 +27,8 @@ import chevronDownIcon from 'svgs/chevronDown.svg';
 import userIcon from 'svgs/user.svg';
 import countryJPIcon from 'svgs/countries/ja_JP.svg';
 import countryUSIcon from 'svgs/countries/en_US.svg';
+import twitterIcon from 'svgs/Twitter_Social_Icon_Circle_Color.svg';
+import githubIcon from 'svgs/GitHub-Mark.svg';
 
 import { StateType, ActionContentType } from 'reducers/types';
 import { ToolbarProps } from './types';
@@ -38,6 +40,10 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
   const [dropDown, setDropDown] = useState(false);
   const userBtnRef = useRef<HTMLDivElement | null>(null);
   const dropDownRef = useRef<HTMLDivElement | null>(null);
+
+  const [helpDropDown, setHelpDropDown] = useState(false);
+  const helpBtnRef = useRef<HTMLDivElement | null>(null);
+  const helpDropDownRef = useRef<HTMLDivElement | null>(null);
 
   const [comDropDown, setComDropDown] = useState(false);
   const comBtnRef = useRef<HTMLDivElement | null>(null);
@@ -65,6 +71,16 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
         !comBtnRef.current.contains(e.target as Node | null)
       ) {
         setComDropDown(false);
+      }
+
+      // For Help dropdown
+      if (
+        helpDropDownRef.current &&
+        !helpDropDownRef.current.contains(e.target as Node | null) &&
+        helpBtnRef.current &&
+        !helpBtnRef.current.contains(e.target as Node | null)
+      ) {
+        setHelpDropDown(false);
       }
     };
     window.addEventListener('click', handleOutsideClick);
@@ -154,24 +170,92 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
             </Portal>
           )}
         </Manager>
-        <ToolbarButton bg="orange.4" mr="1px">
+        <Manager>
+          <Reference>
+            {({ ref }) => (
+              <ToolbarButton
+                ref={(r: HTMLDivElement | null) => {
+                  ref(r);
+                  helpBtnRef.current = r;
+                }}
+                mr="1px"
+                bg="orange.4"
+              >
+                <ButtonTransparentA
+                  style={{ position: 'relative' }}
+                  height={1}
+                  width={1}
+                  color="orange.9"
+                  onClick={() => setHelpDropDown(!helpDropDown)}
+                >
+                  <FormattedMessage {...toolbarMessages.help} />
+                  <Img
+                    pl={1}
+                    src={helpDropDown ? chevronUpIcon : chevronDownIcon}
+                    minWidth="xxs"
+                    maxWidth="xxs"
+                  />
+                </ButtonTransparentA>
+              </ToolbarButton>
+            )}
+          </Reference>
+          {helpDropDown && (
+            <Portal>
+              <Popper placement="bottom-end">
+                {({ ref, style, placement }) => (
+                  <ToolbarDropdownContents
+                    ref={(r: HTMLDivElement | null) => {
+                      ref(r);
+                      helpDropDownRef.current = r;
+                    }}
+                    style={{
+                      ...style,
+                      top: undefined,
+                    }}
+                    data-placement={placement}
+                  >
+                    <ToolbarButton bg="orange.5" fontWeight="bold">
+                      <ButtonTransparentA
+                        href="https://wiki3.jp/cindy-lat"
+                        target="_blank"
+                        height={1}
+                        width={1}
+                        color="gray.1"
+                      >
+                        <FormattedMessage {...toolbarMessages.wiki} />
+                      </ButtonTransparentA>
+                    </ToolbarButton>
+                    <ToolbarButton bg="orange.5" fontWeight="bold">
+                      <Link href="/eula" passHref>
+                        <ButtonTransparentA height={1} width={1} color="gray.1">
+                          <FormattedMessage {...toolbarMessages.eula} />
+                        </ButtonTransparentA>
+                      </Link>
+                    </ToolbarButton>
+                  </ToolbarDropdownContents>
+                )}
+              </Popper>
+            </Portal>
+          )}
+        </Manager>
+        <Box minWidth="sm" overflow="hidden" bg="transparent">
           <ButtonTransparentA
-            href="https://wiki3.jp/cindy-lat"
+            href="https://twitter.com/CindyRt_Bot"
             target="_blank"
             height={1}
-            width={1}
-            color="orange.9"
           >
-            <FormattedMessage {...toolbarMessages.wiki} />
+            <Img px={1} src={twitterIcon} height="xs" />
           </ButtonTransparentA>
-        </ToolbarButton>
-        <ToolbarButton bg="orange.4" mr="1px">
-          <Link href="/eula" passHref>
-            <ButtonTransparentA height={1} width={1} color="orange.9">
-              <FormattedMessage {...toolbarMessages.eula} />
-            </ButtonTransparentA>
-          </Link>
-        </ToolbarButton>
+        </Box>
+        <Box minWidth="sm" overflow="hidden" bg="transparent">
+          <ButtonTransparentA
+            href="https://github.com/heyrict/cindy-next"
+            target="_blank"
+            height={1}
+          >
+            <Img px={1} src={githubIcon} height="xs" />
+          </ButtonTransparentA>
+        </Box>
         <Flex
           ml={1}
           minWidth="max-content"
