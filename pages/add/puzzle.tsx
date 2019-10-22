@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as loginReducer from 'reducers/login';
@@ -10,7 +11,7 @@ import ButtonTransparent from 'components/General/ButtonTransparent';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 import PuzzleAddForm from 'components/PuzzleAddForm';
 
-import { FormattedMessage, IntlContext } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import messages from 'messages/pages/add_puzzle';
 import commonMessages from 'messages/common';
 import authMessages from 'messages/components/auth';
@@ -19,10 +20,8 @@ import { StateType, ActionContentType } from 'reducers/types';
 import { AddPuzzleProps } from 'pageTypes';
 
 class AddPuzzle extends React.Component<AddPuzzleProps> {
-  static context = IntlContext;
-
   render() {
-    const _ = this.context.intl.formatMessage;
+    const _ = this.props.intl.formatMessage;
 
     return (
       <React.Fragment>
@@ -81,4 +80,7 @@ const withRedux = connect(
   mapDispatchToProps,
 );
 
-export default withRedux(AddPuzzle);
+export default compose(
+  injectIntl,
+  withRedux,
+)(AddPuzzle);

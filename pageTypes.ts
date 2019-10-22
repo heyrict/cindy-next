@@ -20,6 +20,7 @@ import { GlobalUserType } from 'reducers/types';
 
 export type UserPageProps = {
   userId: number;
+  intl: IntlShape;
 };
 
 export type PuzzlesSolvedRendererProps = QueryResult<
@@ -54,6 +55,7 @@ export type PuzzleProps = {
 
 export type AddReplayProps = {
   puzzleId: number;
+  intl: IntlShape;
 };
 
 export type EULAProps = {
@@ -79,6 +81,7 @@ export type ChannelPageProps = {
 
 export type AddPuzzleProps = {
   user: GlobalUserType;
+  intl: IntlShape;
   setTrueLoginModal: () => void;
   setTrueSignupModal: () => void;
 };
