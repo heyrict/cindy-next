@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import tagMessages from 'messages/pages/tag';
 
 import { Query } from 'react-apollo';
@@ -27,8 +27,8 @@ import { order_by } from 'generated/globalTypes';
 
 const puzzleWidth = [1, 1 / 2, 1, 1 / 2, 1 / 3];
 
-const TagPage = (_props: any, context: { intl: IntlShape }) => {
-  const _: any = context.intl.formatMessage;
+const TagPage = ({ intl }: { intl: IntlShape }) => {
+  const _ = intl.formatMessage;
   const router = useRouter();
   const { id } = router.query;
   const tagId = parseInt(id as string, 10);
@@ -122,8 +122,4 @@ const TagPage = (_props: any, context: { intl: IntlShape }) => {
   );
 };
 
-TagPage.contextTypes = {
-  intl: intlShape,
-};
-
-export default TagPage;
+export default injectIntl(TagPage);

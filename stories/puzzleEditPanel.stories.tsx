@@ -84,7 +84,7 @@ const PuzzleEditPanelWrapper = ({ genre }: { genre: number }) => {
 
 storiesOf('Views | PuzzleEditPanel', module)
   .add('General puzzle', () => (
-    <IntlProvider locale="ja" initialNow={Date.now()}>
+    <IntlProvider locale="ja">
       <ThemeProvider theme={theme}>
         <Global styles={globalStyle} />
         <PuzzleEditPanelWrapper genre={0} />
@@ -92,7 +92,7 @@ storiesOf('Views | PuzzleEditPanel', module)
     </IntlProvider>
   ))
   .add('New or formal puzzle', () => (
-    <IntlProvider locale="ja" initialNow={Date.now()}>
+    <IntlProvider locale="ja">
       <ThemeProvider theme={theme}>
         <Global styles={globalStyle} />
         <PuzzleEditPanelWrapper genre={3} />

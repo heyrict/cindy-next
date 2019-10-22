@@ -2,17 +2,18 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, ButtonTransparent, Box } from 'components/General';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
-import { RankingProps, RankingContext } from 'pageTypes';
+import { RankingProps } from 'pageTypes';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
-const Ranking = (_props: RankingProps, context: RankingContext) => {
-  const _ = context.intl.formatMessage as any;
+const Ranking = ({ intl }: RankingProps) => {
+  const _ = intl.formatMessage;
+
   return (
     <React.Fragment>
       <Head>
@@ -89,8 +90,4 @@ const Ranking = (_props: RankingProps, context: RankingContext) => {
   );
 };
 
-Ranking.contextTypes = {
-  intl: intlShape,
-};
-
-export default Ranking;
+export default injectIntl(Ranking);

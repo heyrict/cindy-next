@@ -1,13 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
-import { intlShape } from 'react-intl';
+import { IntlContext } from 'react-intl';
 
 import messages from 'messages/pages/replay';
 
 class Replay extends React.Component<{ replayId: string }> {
-  static contextTypes = {
-    intl: intlShape,
-  };
+  static context = IntlContext;
 
   static async getInitialProps({ query }: { query: { id: string } }) {
     return { replayId: query && query.id };

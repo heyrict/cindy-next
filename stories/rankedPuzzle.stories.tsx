@@ -68,7 +68,7 @@ const ReduxStore = createStore(
 
 storiesOf('Showcase | RankedPuzzle', module).add('default', () => (
   <ThemeProvider theme={theme}>
-    <IntlProvider locale="ja" initialNow={Date.now()}>
+    <IntlProvider locale="ja">
       <ReduxProvider store={ReduxStore}>
         <Global styles={globalStyle} />
         <Flex width={1}>

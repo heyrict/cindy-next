@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { asSearch } from 'common/search';
 import { concatList } from 'common/update';
 
-import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import tagsPageMessages from 'messages/pages/tags';
 import commonMessages from 'messages/common';
 
@@ -38,8 +38,8 @@ const TAGS_PER_PAGE = 50;
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
-const Tags = (_props: any, context: { intl: IntlShape }) => {
-  const _: any = context.intl.formatMessage;
+const Tags = ({ intl }: { intl: IntlShape }) => {
+  const _ = intl.formatMessage;
   const searchRef = useRef<SearchVarSetPanel>(null!);
   const sortRef = useRef<SortVarSetPanel>(null!);
   const [variables, setVariables] = useState({
@@ -204,8 +204,4 @@ const Tags = (_props: any, context: { intl: IntlShape }) => {
   );
 };
 
-Tags.contextTypes = {
-  intl: intlShape,
-};
-
-export default Tags;
+export default injectIntl(Tags);

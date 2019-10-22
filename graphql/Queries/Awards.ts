@@ -14,6 +14,7 @@ export const AWARDS_INFO_QUERY = gql`
   query AwardsInfoQuery($userId: Int!) {
     sui_hei_user_by_pk(id: $userId) {
       id
+      date_joined
       sui_hei_userawards {
         id
         award_id
@@ -21,6 +22,9 @@ export const AWARDS_INFO_QUERY = gql`
       sui_hei_puzzles_aggregate {
         aggregate {
           count
+          max {
+            created
+          }
         }
       }
       yami_puzzles_aggregate: sui_hei_puzzles_aggregate(

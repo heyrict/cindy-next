@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { mergeList, upsertItem } from 'common/update';
 import { maybeSendNotification } from 'common/web-notify';
 
-import { IntlShape, intlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 import webNotifyMessages from 'messages/webNotify';
 
 import { connect } from 'react-redux';
@@ -82,29 +82,28 @@ export const PuzzleDialoguesRendererInner = ({
   );
 };
 
-export const PuzzleDialoguesRenderer = (
-  {
-    loading,
-    error,
-    data,
-    variables,
-    subscribeToMore,
-    shouldSubscribe,
-    user,
-    incGoodQuestions,
-    incTrueAnswers,
-    applyUserFilter,
-    puzzleUser,
-    puzzleStatus,
-    anonymous,
-    pushNotification,
-    setParticipants,
-    setTrueSolvedLongtermYami,
-    updateSolvedLongTermYamiOnSubscribe,
-  }: PuzzleDialoguesRendererProps,
-  context: { intl: IntlShape },
-) => {
-  const _: any = context.intl.formatMessage;
+export const PuzzleDialoguesRenderer = ({
+  loading,
+  error,
+  data,
+  variables,
+  subscribeToMore,
+  shouldSubscribe,
+  user,
+  incGoodQuestions,
+  incTrueAnswers,
+  applyUserFilter,
+  puzzleUser,
+  puzzleStatus,
+  anonymous,
+  pushNotification,
+  setParticipants,
+  setTrueSolvedLongtermYami,
+  updateSolvedLongTermYamiOnSubscribe,
+}: PuzzleDialoguesRendererProps) => {
+  const intl = useIntl();
+  const _ = intl.formatMessage;
+
   const { puzzleId } = variables;
   if (!data || !data.sui_hei_dialogue || !data.sui_hei_hint) {
     if (loading) return <Loading centered />;
@@ -281,10 +280,6 @@ export const PuzzleDialoguesRenderer = (
 };
 
 PuzzleDialoguesRenderer.defaultProps = PuzzleDialoguesRendererDefaultProps;
-
-PuzzleDialoguesRenderer.contextTypes = {
-  intl: intlShape,
-};
 
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,

@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { toast } from 'react-toastify';
 import { mergeList } from 'common/update';
 
-import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import messages from 'messages/pages/comments';
 
 import { Query } from 'react-apollo';
@@ -110,8 +110,8 @@ const CommentsRenderer = ({
   return null;
 };
 
-const Comments = (_props: any, context: { intl: IntlShape }) => {
-  const _: any = context.intl.formatMessage;
+const Comments = ({ intl }: { intl: IntlShape }) => {
+  const _ = intl.formatMessage;
 
   return (
     <React.Fragment>
@@ -136,8 +136,4 @@ const Comments = (_props: any, context: { intl: IntlShape }) => {
   );
 };
 
-Comments.contextTypes = {
-  intl: intlShape,
-};
-
-export default Comments;
+export default injectIntl(Comments);

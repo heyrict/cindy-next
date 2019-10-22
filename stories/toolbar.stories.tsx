@@ -72,7 +72,7 @@ storiesOf('Views | ToolbarBox', module)
   .add('not logged in', () => (
     <ThemeProvider theme={theme}>
       <ApolloProvider client={apolloClient}>
-        <IntlProvider locale="ja" initialNow={Date.now()}>
+        <IntlProvider locale="ja">
           <ReduxProvider store={noAuthReduxStore}>
             <Global styles={globalStyle} />
             <ToolbarBox>
@@ -87,7 +87,7 @@ storiesOf('Views | ToolbarBox', module)
   .add('logged in', () => (
     <ThemeProvider theme={theme}>
       <ApolloProvider client={apolloClient}>
-        <IntlProvider locale="ja" initialNow={Date.now()}>
+        <IntlProvider locale="ja">
           <ReduxProvider store={authReduxStore}>
             <Global styles={globalStyle} />
             <ToolbarBox>

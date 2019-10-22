@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { Query } from 'react-apollo';
 import { PUZZLE_QUERY } from 'graphql/Queries/Puzzles';
 
-import { intlShape } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import messages from 'messages/pages/puzzle';
 import {
   PuzzleQuery,
@@ -16,16 +16,12 @@ import { PuzzleProps } from 'pageTypes';
 import PuzzleRenderer from 'components/Puzzle/PuzzleRenderer';
 
 class Puzzle extends React.Component<PuzzleProps> {
-  static contextTypes = {
-    intl: intlShape,
-  };
-
   static async getInitialProps({ query }: { query: { id: string } }) {
     return { puzzleId: query && query.id };
   }
 
   render() {
-    const _ = this.context.intl.formatMessage;
+    const _ = this.props.intl.formatMessage;
     const { puzzleId } = this.props;
 
     return (
@@ -49,8 +45,4 @@ class Puzzle extends React.Component<PuzzleProps> {
   }
 }
 
-Puzzle.contextTypes = {
-  intl: intlShape,
-};
-
-export default Puzzle;
+export default injectIntl(Puzzle);

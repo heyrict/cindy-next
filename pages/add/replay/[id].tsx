@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { intlShape } from 'react-intl';
+import { IntlContext } from 'react-intl';
 import messages from 'messages/pages/add_replay';
 
 import KeywordWorkbench from 'components/Workbench/Keyword';
@@ -9,9 +9,7 @@ import KeywordWorkbench from 'components/Workbench/Keyword';
 import { AddReplayProps } from 'pageTypes';
 
 class AddReplay extends React.Component<AddReplayProps> {
-  static contextTypes = {
-    intl: intlShape,
-  };
+  static context = IntlContext;
 
   static async getInitialProps({ query }: { query: { id: string } }) {
     return { puzzleId: parseInt(query.id) };

@@ -18,7 +18,7 @@ const SimplePaginatorBarWrapper = () => {
   const [page, setPage] = useState(1);
   const numPages = 20;
   return (
-    <IntlProvider locale="ja" initialNow={Date.now()}>
+    <IntlProvider locale="ja">
       <ThemeProvider theme={theme}>
         <Global styles={globalStyle} />
         <Flex flexWrap="wrap" py={3} width={1}>

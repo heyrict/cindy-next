@@ -10,7 +10,7 @@ import ButtonTransparent from 'components/General/ButtonTransparent';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 import PuzzleAddForm from 'components/PuzzleAddForm';
 
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, IntlContext } from 'react-intl';
 import messages from 'messages/pages/add_puzzle';
 import commonMessages from 'messages/common';
 import authMessages from 'messages/components/auth';
@@ -19,9 +19,7 @@ import { StateType, ActionContentType } from 'reducers/types';
 import { AddPuzzleProps } from 'pageTypes';
 
 class AddPuzzle extends React.Component<AddPuzzleProps> {
-  static contextTypes = {
-    intl: intlShape,
-  };
+  static context = IntlContext;
 
   render() {
     const _ = this.context.intl.formatMessage;

@@ -18,6 +18,7 @@
   "auth.signup": "Signup",
   "auth.username": "Username",
   "awards.description": "Get awards for use in Cindy!",
+  "awards.group_age": "Age Related",
   "awards.group_goodQuestionCount": "Good Question Count Related",
   "awards.group_mixed": "Mixed",
   "awards.group_others": "Others",

@@ -264,7 +264,7 @@ storiesOf('Views | PuzzleDialogues - 問題ページ進行画面', module)
   .add('as participant | 質問者側', () => (
     <ApolloProvider client={apolloClient}>
       <ThemeProvider theme={theme}>
-        <IntlProvider locale="ja" initialNow={Date.now()}>
+        <IntlProvider locale="ja">
           <ReduxProvider store={participantReduxStore}>
             <Global styles={globalStyle} />
             <Flex width={1}>

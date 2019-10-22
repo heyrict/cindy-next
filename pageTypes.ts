@@ -43,13 +43,13 @@ export type SearchVariablesStates = {
   orderBy: Array<sui_hei_puzzle_order_by>;
 };
 
-export type RankingProps = {};
-export type RankingContext = {
+export type RankingProps = {
   intl: IntlShape;
 };
 
 export type PuzzleProps = {
   puzzleId: number;
+  intl: IntlShape;
 };
 
 export type AddReplayProps = {
@@ -58,6 +58,7 @@ export type AddReplayProps = {
 
 export type EULAProps = {
   language: typeof settingReducer.initialState.language;
+  intl: IntlShape;
 };
 
 export type TagsVariablesStates = {
@@ -73,6 +74,7 @@ export type CommentsRendererProps = QueryResult<
 export type ChannelPageProps = {
   chatroom: string;
   toggleAside: () => void;
+  intl: IntlShape;
 };
 
 export type AddPuzzleProps = {

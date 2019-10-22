@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { maybeSendNotification } from 'common/web-notify';
 import { mergeList } from 'common/update';
 
-import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import messages from 'messages/pages/puzzles';
 import webNotifyMessages from 'messages/webNotify';
 import puzzleMessages from 'messages/components/puzzle';
@@ -149,8 +149,8 @@ const PuzzlesUnsolvedRenderer = ({
   return null;
 };
 
-const Puzzles = (_props: any, context: { intl: IntlShape }) => {
-  const _: any = context.intl.formatMessage;
+const Puzzles = ({ intl }: { intl: IntlShape }) => {
+  const _ = intl.formatMessage;
 
   return (
     <React.Fragment>
@@ -238,8 +238,4 @@ const Puzzles = (_props: any, context: { intl: IntlShape }) => {
   );
 };
 
-Puzzles.contextTypes = {
-  intl: intlShape,
-};
-
-export default Puzzles;
+export default injectIntl(Puzzles);

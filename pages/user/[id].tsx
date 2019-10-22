@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { intlShape } from 'react-intl';
+import { IntlContext } from 'react-intl';
 
 import Profile from 'components/Profile';
 
@@ -9,9 +9,7 @@ import messages from 'messages/pages/user';
 import { UserPageProps } from 'pageTypes';
 
 class User extends React.Component<UserPageProps> {
-  static contextTypes = {
-    intl: intlShape,
-  };
+  static context = IntlContext;
 
   static async getInitialProps({ query }: { query: { id: string } }) {
     return { userId: query && query.id };

@@ -3,7 +3,6 @@ import Router from 'next/router';
 import App, { Container } from 'next/app';
 import { compose } from 'redux';
 import { ApolloProvider } from 'react-apollo';
-import { IntlProvider } from 'react-intl';
 import { ThemeProvider } from 'emotion-theming';
 import { Provider as ReduxProvider } from 'react-redux';
 import { changeTabularTab } from 'common/markdown/plugin-tabs';
@@ -31,9 +30,7 @@ if (process.browser) {
 // Register React Intl's locale data for the user's locale in the browser. This
 // locale data was added to the page by `pages/_document.js`. This only happens
 // once, on initial page load in the browser.
-if (typeof window !== 'undefined') {
-  addLocaleDatas();
-}
+addLocaleDatas();
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -43,16 +40,15 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    const initialNow = Date.now();
     const { req } = ctx;
 
     if (!req) {
-      return { pageProps, locale: null, initialNow };
+      return { pageProps, locale: null };
     }
 
-    const parse = require('url').parse;
-    const parsedUrl = parse(req.url, true);
-    const { pathname, query } = parsedUrl;
+    //const parse = require('url').parse;
+    //const parsedUrl = parse(req.url, true);
+    //const { pathname, query } = parsedUrl;
 
     const acceptLanguage = req.headers['accept-language'] || '';
     const acceptedLocale = (
@@ -60,7 +56,7 @@ class MyApp extends App {
     ).find(loc => APPLOCALES.findIndex(lang => lang === loc) !== -1);
     const locale = acceptedLocale || DEFAULT_LOCALE;
 
-    return { pageProps, locale, initialNow };
+    return { pageProps, locale };
   }
 
   componentDidMount() {
@@ -102,7 +98,6 @@ class MyApp extends App {
       Component,
       apolloClient,
       reduxStore,
-      initialNow,
       locale,
       pageProps,
     } = this.props;
@@ -112,7 +107,7 @@ class MyApp extends App {
         <ThemeProvider theme={theme}>
           <ApolloProvider client={apolloClient}>
             <ReduxProvider store={reduxStore}>
-              <LanguageProvider initLocale={locale} initNow={initialNow}>
+              <LanguageProvider initLocale={locale}>
                 <GlobalLayout>
                   <Component {...pageProps} />
                 </GlobalLayout>

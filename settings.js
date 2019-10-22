@@ -1,5 +1,3 @@
-import { addLocaleData } from 'react-intl';
-
 export const isDev = process.env.NODE_ENV !== 'production';
 
 // Graphql
@@ -41,8 +39,16 @@ export const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
 export const APPLOCALES = ['en', 'ja'];
 
 export const addLocaleDatas = () => {
-  addLocaleData(require('react-intl/locale-data/en'));
-  addLocaleData(require('react-intl/locale-data/ja'));
+  if (!Intl.PluralRules) {
+    require('@formatjs/intl-pluralrules/polyfill');
+    require('@formatjs/intl-pluralrules/dist/locale-data/ja');
+    require('@formatjs/intl-pluralrules/dist/locale-data/en');
+  }
+  if (!Intl.RelativeTimeFormat) {
+    require('@formatjs/intl-relativetimeformat/polyfill');
+    require('@formatjs/intl-relativetimeformat/dist/locale-data/en');
+    require('@formatjs/intl-relativetimeformat/dist/locale-data/ja');
+  }
 };
 
 // Max dazed days

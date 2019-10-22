@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { Query } from 'react-apollo';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
@@ -18,7 +19,7 @@ import {
   ChatroomId,
   ChatroomIdVariables,
 } from 'graphql/Queries/generated/ChatroomId';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import chatMessages from 'messages/components/chat';
 import channelPageMessages from 'messages/pages/channel';
 
@@ -52,16 +53,12 @@ const OpenAsideButton = styled(ButtonTransparent)`
 `;
 
 class ChannelPage extends React.Component<ChannelPageProps> {
-  static contextTypes = {
-    intl: intlShape,
-  };
-
   static async getInitialProps({ query }: { query: { name: string } }) {
     return { chatroom: query && query.name };
   }
 
   render() {
-    const _ = this.context.intl.formatMessage;
+    const _ = this.props.intl.formatMessage;
     const { chatroom } = this.props;
     if (!chatroom) {
       return <div>Choose a chatroom</div>;
@@ -140,4 +137,7 @@ const withRedux = connect(
   mapDispatchToProps,
 );
 
-export default withRedux(ChannelPage);
+export default compose(
+  injectIntl,
+  withRedux,
+)(ChannelPage);
