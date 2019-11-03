@@ -15,7 +15,7 @@ import * as awardCheckerReducer from './awardChecker';
 import * as directReducer from './direct';
 
 import { StateType, ExtendedStore } from './types';
-import { AppContextType } from 'next-server/dist/lib/utils';
+import { AppContextType } from 'next/dist/next-server/lib/utils';
 import { getUser } from 'common/auth';
 
 const reducer = combineReducers({

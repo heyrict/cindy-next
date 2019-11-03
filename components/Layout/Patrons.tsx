@@ -10,6 +10,7 @@ import { Box, Flex } from 'components/General';
 
 const WhiteAnchor = styled.a`
   color: ${p => p.theme.colors.gray[1]};
+  margin-right: ${p => p.theme.space[1]}px;
   &:hover {
     color: ${p => p.theme.colors.gray[2]};
   }
@@ -25,17 +26,19 @@ const Patrons = () => (
     <Box mx={1}>
       <FormattedMessage {...commonMessages.patron} />:
     </Box>
-    {patronsList.patrons.map(patron =>
-      patron.url ? (
-        <WhiteAnchor key={patron.name} href={patron.url}>
-          {patron.name}
-        </WhiteAnchor>
-      ) : (
-        <WhiteSpan key={patron.name}>patron.name</WhiteSpan>
-      ),
+    {patronsList.patrons.map(
+      patron =>
+        patron.anonymous === false &&
+        (patron.url ? (
+          <WhiteAnchor key={patron.name} href={patron.url}>
+            {patron.name}
+          </WhiteAnchor>
+        ) : (
+          <WhiteSpan key={patron.name}>{patron.name}</WhiteSpan>
+        )),
     )}
     {patronsList.anonymousPatrons > 0 && (
-      <Box mx={1}>
+      <Box mr={1}>
         <FormattedMessage
           {...userMessages.withAnonymousPatrons}
           values={{ count: patronsList.anonymousPatrons }}

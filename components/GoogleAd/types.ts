@@ -5,11 +5,11 @@ export type GoogleAdProps = {
   wrapperDivStyle?: React.CSSProperties;
   layoutKey?: string;
   layout?: string;
+  userId?: number;
+  children?: (ads: React.ReactElement) => React.ReactElement;
 };
 
-export const GoogleAdPropsDefaultProps: {
-  wrapperDivStyle: React.CSSProperties;
-} = {
+export const GoogleAdPropsDefaultProps = {
   wrapperDivStyle: {
     overflow: 'hidden',
     margin: '1em 0',

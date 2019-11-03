@@ -5,10 +5,13 @@
  */
 
 import React, { useEffect } from 'react';
-// import styled from 'styled-components';
+import { googleAdClientToken, isUserPatron } from 'settings';
 
-import { googleAdClientToken } from 'settings';
+import { connect } from 'react-redux';
+import * as globalReducer from 'reducers/global';
+
 import { GoogleAdProps, GoogleAdPropsDefaultProps } from './types';
+import { StateType } from 'reducers/types';
 
 export const GoogleAd = (props: GoogleAdProps) => {
   useEffect(() => {
@@ -23,7 +26,8 @@ export const GoogleAd = (props: GoogleAdProps) => {
     'data-ad-layout-key': props.layoutKey,
     'data-ad-layout': props.layout,
   };
-  return (
+  const childfn = props.children || (c => c);
+  const ads = childfn(
     <div style={props.wrapperDivStyle}>
       <ins
         className="adsbygoogle"
@@ -33,15 +37,25 @@ export const GoogleAd = (props: GoogleAdProps) => {
         data-ad-slot={props.slot}
         data-ad-format={props.format}
       />
-    </div>
+    </div>,
   );
+
+  return isUserPatron(props.userId) ? ads : null;
 };
 
 GoogleAd.defaultProps = GoogleAdPropsDefaultProps;
 
-export const RegisterGoogleAd = ({ clientToken }: { clientToken: string }) => (
-  Wrapped: typeof GoogleAd,
+const mapStateToProps = (state: StateType) => ({
+  userId: globalReducer.rootSelector(state).user.id,
+});
+
+const withRedux = connect(mapStateToProps);
+
+export const registerGoogleAd = ({ clientToken }: { clientToken: string }) => (
+  Wrapped: React.FC<any>,
 ) => (props: Omit<GoogleAdProps, 'client'>) =>
   clientToken ? <Wrapped client={clientToken} {...props} /> : null;
 
-export default RegisterGoogleAd({ clientToken: googleAdClientToken })(GoogleAd);
+export default withRedux(
+  registerGoogleAd({ clientToken: googleAdClientToken })(GoogleAd),
+);

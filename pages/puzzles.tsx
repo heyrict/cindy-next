@@ -92,10 +92,14 @@ const PuzzlesSolvedRenderer = ({
             <MultiColBox>
               <PuzzleBrief puzzle={puzzle} />
             </MultiColBox>
-            {id % 10 === 0 && (
-              <MultiColBox>
-                <GoogleAd {...googleAdInfo.infeedAd} />
-              </MultiColBox>
+            {id % 20 === 0 && (
+              <GoogleAd {...googleAdInfo.infeedAd}>
+                {ads => (
+                  <MultiColBox>
+                    <Panel>{ads}</Panel>
+                  </MultiColBox>
+                )}
+              </GoogleAd>
             )}
           </React.Fragment>
         ))}

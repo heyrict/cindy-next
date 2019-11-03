@@ -29,7 +29,7 @@ const MultiColBox = (
     BorderProps &
     LayoutProps &
     OverflowProps &
-    MultiColBoxProps,
+    MultiColBoxProps & { children: React.ReactElement },
 ) => <Box width={props.multicol ? multicolWidth : 1} {...props} />;
 
 const mapStateToProps = (state: StateType) => ({
