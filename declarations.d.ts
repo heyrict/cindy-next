@@ -10,6 +10,7 @@ declare namespace NodeJS {
 
 interface Window {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
+  adsbygoogle?: Array<any>;
 }
 
 declare module '*.svg' {

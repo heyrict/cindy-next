@@ -90,3 +90,31 @@ export const SCRIPTS = [
   '(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(54573919,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});',
   '(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-7445097696449097",enable_page_level_ads:true});',
 ];
+
+export const googleAdClientToken = 'ca-pub-7445097696449097';
+export const googleAnalyticsTrackingID = 'UA-117095987-1';
+
+export const googleAdInfo = {
+  textAd: {
+    slot: '8869334804',
+    format: 'auto',
+  },
+  infeedAd: {
+    slot: '7269312674',
+    format: 'fluid',
+    layoutKey: '-gw-3+1f-3d+2z',
+  },
+  inarticleAd: {
+    slot: '9365889137',
+    format: 'fluid',
+    layout: 'in-article',
+    wrapperDivStyle: {
+      overflow: 'hidden',
+      textAlign: 'center',
+    },
+  },
+  relativeAd: {
+    slot: '5393368658',
+    format: 'autorelaxed',
+  },
+};

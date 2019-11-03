@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import { googleAdInfo } from 'settings';
 
 import { Query } from 'react-apollo';
 import { PUZZLE_QUERY } from 'graphql/Queries/Puzzles';
@@ -11,9 +12,10 @@ import {
   PuzzleQueryVariables,
 } from 'graphql/Queries/generated/PuzzleQuery';
 
-import { PuzzleProps } from 'pageTypes';
-
 import PuzzleRenderer from 'components/Puzzle/PuzzleRenderer';
+import GoogleAd from 'components/GoogleAd';
+
+import { PuzzleProps } from 'pageTypes';
 
 class Puzzle extends React.Component<PuzzleProps> {
   static async getInitialProps({ query }: { query: { id: string } }) {
@@ -40,6 +42,7 @@ class Puzzle extends React.Component<PuzzleProps> {
             <PuzzleRenderer {...params} formatMessage={_} puzzleId={puzzleId} />
           )}
         </Query>
+        <GoogleAd {...googleAdInfo.relativeAd} />
       </React.Fragment>
     );
   }
