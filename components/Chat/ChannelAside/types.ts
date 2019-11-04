@@ -1,3 +1,5 @@
+import { ChatroomDescription_sui_hei_chatroom_by_pk } from 'graphql/Queries/generated/ChatroomDescription';
+
 export type ChannelAsideProps = {
   setTrueDescriptionModal: () => void;
   setTrueChannelChangeModal: () => void;
@@ -15,4 +17,13 @@ export type ChatroomCreateModalProps = {
   chatroomCreateModal: boolean;
   setFalseChatroomCreateModal: () => void;
   setChannel: (channelName: string) => void;
+};
+
+export type ChatroomEditableDescriptionProps = {
+  chatroomId: number;
+};
+
+export type ChatroomDescriptionInnerProps = {
+  chatroom: ChatroomDescription_sui_hei_chatroom_by_pk;
+  userId?: number;
 };

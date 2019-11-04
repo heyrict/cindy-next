@@ -66,3 +66,20 @@ export const CREATE_CHATROOM_MUTATION = gql`
     }
   }
 `;
+
+export const UPDATE_CHATROOM_DESCRIPTION_MUTATION = gql`
+  mutation UpdateChatroomDescriptionMutation(
+    $chatroomId: Int!
+    $description: String!
+  ) {
+    update_sui_hei_chatroom(
+      where: { id: { _eq: $chatroomId } }
+      _set: { description: $description }
+    ) {
+      returning {
+        id
+        description
+      }
+    }
+  }
+`;

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'theme/styled';
-import { line2md } from 'common/markdown';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
@@ -13,10 +12,10 @@ import ButtonTransparent from 'components/General/ButtonTransparent';
 import ChatroomLogsModal from './ChatroomLogsModal';
 import ChannelChangeModal from '../ChannelBar/ChannelChangeModal';
 import ChatroomCreateModal from './ChatroomCreateModal';
+import ChatroomEditableDescription from './ChatroomEditableDescription';
 
 import { Query } from 'react-apollo';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
-import { CHATROOM_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
 
 import { FormattedMessage } from 'react-intl';
 import chatMessages from 'messages/components/chat';
@@ -28,10 +27,6 @@ import {
   ChatroomId,
   ChatroomIdVariables,
 } from 'graphql/Queries/generated/ChatroomId';
-import {
-  ChatroomDescription,
-  ChatroomDescriptionVariables,
-} from 'graphql/Queries/generated/ChatroomDescription';
 
 const ChannelAsideBox = styled.div`
   position: absolute;
@@ -125,38 +120,7 @@ const ChannelAside = ({
                     </ButtonTransparent>
                   </Box>
                 </Flex>
-                <Query<ChatroomDescription, ChatroomDescriptionVariables>
-                  query={CHATROOM_DESCRIPTION_QUERY}
-                  variables={{
-                    chatroomId,
-                  }}
-                >
-                  {({ error, data }) => {
-                    if (error) {
-                      toast.error(error.message);
-                      return null;
-                    }
-                    if (!data || !data.sui_hei_chatroom_by_pk) return null;
-                    const chatroom = data.sui_hei_chatroom_by_pk;
-
-                    return (
-                      <Box bg="orange.2" color="orange.9" py={2}>
-                        {chatroom.description ? (
-                          <div
-                            style={{ minHeight: '3em' }}
-                            dangerouslySetInnerHTML={{
-                              __html: line2md(chatroom.description),
-                            }}
-                          />
-                        ) : (
-                          <Box>
-                            <FormattedMessage {...chatMessages.noDescription} />
-                          </Box>
-                        )}
-                      </Box>
-                    );
-                  }}
-                </Query>
+                <ChatroomEditableDescription chatroomId={chatroomId} />
                 <ChatroomLogsModal
                   relatedPuzzleId={relatedPuzzleId}
                   chatroomId={chatroomId}
