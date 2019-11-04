@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { toast } from 'react-toastify';
 import { maybeSendNotification } from 'common/web-notify';
 import { mergeList } from 'common/update';
-import { googleAdInfo } from 'settings';
 
 import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import messages from 'messages/pages/puzzles';
@@ -21,7 +20,6 @@ import MultiColBox from 'components/General/MultiColBox';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import PuzzleBrief from 'components/Puzzle/Brief';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
-import GoogleAd from 'components/GoogleAd';
 
 import {
   PuzzlesUnsolvedLiveQuery,
@@ -87,21 +85,10 @@ const PuzzlesSolvedRenderer = ({
   if (data && data.sui_hei_puzzle) {
     return (
       <React.Fragment>
-        {data.sui_hei_puzzle.map((puzzle, id) => (
-          <React.Fragment key={`puzzle-brief-${puzzle.id}`}>
-            <MultiColBox>
-              <PuzzleBrief puzzle={puzzle} />
-            </MultiColBox>
-            {id % 20 === 0 && (
-              <GoogleAd {...googleAdInfo.infeedAd}>
-                {ads => (
-                  <MultiColBox>
-                    <Panel>{ads}</Panel>
-                  </MultiColBox>
-                )}
-              </GoogleAd>
-            )}
-          </React.Fragment>
+        {data.sui_hei_puzzle.map(puzzle => (
+          <MultiColBox key={`puzzle-brief-${puzzle.id}`}>
+            <PuzzleBrief puzzle={puzzle} />
+          </MultiColBox>
         ))}
         {data.sui_hei_puzzle.length >= PUZZLES_PER_PAGE && hasMore && (
           <LoadMoreVis

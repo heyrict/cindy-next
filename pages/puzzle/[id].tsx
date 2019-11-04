@@ -43,6 +43,7 @@ class Puzzle extends React.Component<PuzzleProps> {
           )}
         </Query>
         <GoogleAd {...googleAdInfo.relativeAd} />
+        <GoogleAd {...googleAdInfo.inarticleAd} />
       </React.Fragment>
     );
   }
