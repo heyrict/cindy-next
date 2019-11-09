@@ -1,13 +1,11 @@
 import { IntlShape } from 'react-intl';
 import { QueryResult } from 'react-apollo';
-import { ApolloError } from 'apollo-client';
 import * as settingReducer from 'reducers/setting';
 
 import {
   PuzzlesSolvedQuery,
   PuzzlesSolvedQueryVariables,
 } from 'graphql/Queries/generated/PuzzlesSolvedQuery';
-import { PuzzlesUnsolvedLiveQuery } from 'graphql/LiveQueries/generated/PuzzlesUnsolvedLiveQuery';
 import {
   sui_hei_puzzle_order_by,
   sui_hei_tag_order_by,
@@ -17,6 +15,7 @@ import {
   CommentsQueryVariables,
 } from 'graphql/Queries/generated/CommentsQuery';
 import { GlobalUserType } from 'reducers/types';
+import { PuzzlesUnsolvedQuery } from 'graphql/Queries/generated/PuzzlesUnsolvedQuery';
 
 export type UserPageProps = {
   userId: number;
@@ -29,10 +28,8 @@ export type PuzzlesSolvedRendererProps = QueryResult<
 >;
 
 export type PuzzlesUnsolvedRendererProps = {
-  loading: boolean;
-  data?: PuzzlesUnsolvedLiveQuery | undefined;
-  error?: ApolloError | undefined;
-};
+  intl: IntlShape;
+} & QueryResult<PuzzlesUnsolvedQuery>;
 
 export type SearchVariablesStates = {
   title: null | string;

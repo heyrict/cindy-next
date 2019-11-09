@@ -48,7 +48,7 @@ type BookmarksAggregate = {
 
 type DialoguesAggregateAggregateMax = {
   answeredtime: string | number | null;
-  created: string | number | null;
+  created?: string | number | null;
 };
 type DialoguesAggregateAggregate = {
   count: number | null;

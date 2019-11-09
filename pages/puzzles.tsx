@@ -10,9 +10,12 @@ import webNotifyMessages from 'messages/webNotify';
 import puzzleMessages from 'messages/components/puzzle';
 import userMessages from 'messages/components/user';
 
-import { Query, Subscription } from 'react-apollo';
-import { PUZZLES_SOLVED_QUERY } from 'graphql/Queries/Puzzles';
-import { PUZZLES_UNSOLVED_LIVEQUERY } from 'graphql/LiveQueries/Puzzles';
+import { useApolloClient } from '@apollo/react-hooks';
+import { Query } from 'react-apollo';
+import {
+  PUZZLES_SOLVED_QUERY,
+  PUZZLES_UNSOLVED_QUERY,
+} from 'graphql/Queries/Puzzles';
 
 import { Heading, Flex, Panel } from 'components/General';
 import Loading from 'components/General/Loading';
@@ -21,10 +24,7 @@ import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import PuzzleBrief from 'components/Puzzle/Brief';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 
-import {
-  PuzzlesUnsolvedLiveQuery,
-  PuzzlesUnsolvedLiveQuery_sui_hei_puzzle,
-} from 'graphql/LiveQueries/generated/PuzzlesUnsolvedLiveQuery';
+import { PuzzlesUnsolvedLiveQuery } from 'graphql/LiveQueries/generated/PuzzlesUnsolvedLiveQuery';
 import {
   PuzzlesSolvedQuery,
   PuzzlesSolvedQueryVariables,
@@ -33,8 +33,7 @@ import {
   PuzzlesSolvedRendererProps,
   PuzzlesUnsolvedRendererProps,
 } from 'pageTypes';
-
-let prevData: PuzzlesUnsolvedLiveQuery_sui_hei_puzzle[] | null = null;
+import { PuzzlesUnsolvedQuery } from 'graphql/Queries/generated/PuzzlesUnsolvedQuery';
 
 const PUZZLES_PER_PAGE = 20;
 const puzzleLoadingPanel = (
@@ -126,7 +125,85 @@ const PuzzlesUnsolvedRenderer = ({
   loading,
   error,
   data,
+  intl,
+  subscribeToMore,
 }: PuzzlesUnsolvedRendererProps) => {
+  const client = useApolloClient();
+  const _ = intl.formatMessage;
+
+  useEffect(() => {
+    subscribeToMore<PuzzlesUnsolvedLiveQuery>({
+      document: PUZZLES_UNSOLVED_QUERY,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+
+        const newUnsolved = subscriptionData.data.sui_hei_puzzle;
+        if (prev.sui_hei_puzzle.length > newUnsolved.length) {
+          // Puzzles changed from unsolved to other
+          const statusChangedPuzzle = {
+            ...prev.sui_hei_puzzle.find(
+              p => newUnsolved.findIndex(p2 => p2.id === p.id) === -1,
+            ),
+            sui_hei_stars_aggregate: null,
+            sui_hei_bookmarks_aggregate: null,
+            sui_hei_comments_aggregate: null,
+            status: 1,
+          };
+          const puzzleSolvedQueryResult = client.readQuery({
+            query: PUZZLES_SOLVED_QUERY,
+          });
+          if (puzzleSolvedQueryResult !== null) {
+            const { sui_hei_puzzle } = puzzleSolvedQueryResult;
+            client.writeQuery({
+              query: PUZZLES_SOLVED_QUERY,
+              data: {
+                sui_hei_puzzle: [statusChangedPuzzle, ...sui_hei_puzzle],
+              },
+            });
+          }
+        }
+
+        if (prev.sui_hei_puzzle.length < newUnsolved.length) {
+          // new puzzle added
+          let genreMessage = '';
+          switch (newUnsolved[0].genre) {
+            case 0:
+              genreMessage = _(puzzleMessages.genre_classic);
+              break;
+            case 1:
+              genreMessage = _(puzzleMessages.genre_twentyQuestions);
+              break;
+            case 2:
+              genreMessage = _(puzzleMessages.genre_littleAlbat);
+              break;
+            case 3:
+              genreMessage = _(puzzleMessages.genre_others);
+              break;
+          }
+          if (document.hidden) {
+            const user = newUnsolved[0].anonymous
+              ? _(userMessages.anonymousUser)
+              : newUnsolved[0].sui_hei_user.nickname;
+
+            maybeSendNotification(_(webNotifyMessages.newPuzzleAdded), {
+              body: _(webNotifyMessages.newPuzzleAddedDetail, {
+                user,
+                puzzle: newUnsolved[0].title,
+                genre: genreMessage,
+              }),
+              renotify: true,
+            });
+          }
+        }
+
+        return {
+          ...prev,
+          sui_hei_puzzle: newUnsolved,
+        };
+      },
+    });
+  });
+
   if (
     loading &&
     (!data || !data.sui_hei_puzzle || data.sui_hei_puzzle.length === 0)
@@ -163,69 +240,12 @@ const Puzzles = ({ intl }: { intl: IntlShape }) => {
       </Heading>
       <PuzzleSubbar />
       <Flex flexWrap="wrap">
-        <Subscription<PuzzlesUnsolvedLiveQuery>
-          subscription={PUZZLES_UNSOLVED_LIVEQUERY}
-          onSubscriptionData={({ client, subscriptionData }) => {
-            if (!subscriptionData.data) return;
-            const newUnsolved = subscriptionData.data.sui_hei_puzzle;
-            if (prevData && prevData.length > newUnsolved.length) {
-              // Puzzles changed from unsolved to other
-              const statusChangedPuzzle = {
-                ...prevData.find(
-                  p => newUnsolved.findIndex(p2 => p2.id === p.id) === -1,
-                ),
-                sui_hei_stars_aggregate: null,
-                sui_hei_bookmarks_aggregate: null,
-                sui_hei_comments_aggregate: null,
-                status: 1,
-              };
-              const puzzleSolvedQueryResult = client.readQuery({
-                query: PUZZLES_SOLVED_QUERY,
-              });
-              if (puzzleSolvedQueryResult === null) return;
-              const { sui_hei_puzzle } = puzzleSolvedQueryResult;
-              client.writeQuery({
-                query: PUZZLES_SOLVED_QUERY,
-                data: {
-                  sui_hei_puzzle: [statusChangedPuzzle, ...sui_hei_puzzle],
-                },
-              });
-            }
-            if (prevData && prevData.length < newUnsolved.length) {
-              // new puzzle added
-              let genreMessage = '';
-              switch (newUnsolved[0].genre) {
-                case 0:
-                  genreMessage = _(puzzleMessages.genre_classic);
-                  break;
-                case 1:
-                  genreMessage = _(puzzleMessages.genre_twentyQuestions);
-                  break;
-                case 2:
-                  genreMessage = _(puzzleMessages.genre_littleAlbat);
-                  break;
-                case 3:
-                  genreMessage = _(puzzleMessages.genre_others);
-                  break;
-              }
-              if (document.hidden) {
-                maybeSendNotification(_(webNotifyMessages.newPuzzleAdded), {
-                  body: _(webNotifyMessages.newPuzzleAddedDetail, {
-                    user: newUnsolved[0].anonymous
-                      ? _(userMessages.anonymousUser)
-                      : newUnsolved[0].sui_hei_user.nickname,
-                    puzzle: newUnsolved[0].title,
-                    genre: genreMessage,
-                  }),
-                  renotify: true,
-                });
-              }
-            }
-            prevData = newUnsolved;
-          }}
+        <Query<PuzzlesUnsolvedQuery>
+          query={PUZZLES_UNSOLVED_QUERY}
+          fetchPolicy="cache-and-network"
         >
-          {params => <PuzzlesUnsolvedRenderer {...params} />}
-        </Subscription>
+          {params => <PuzzlesUnsolvedRenderer {...params} intl={intl} />}
+        </Query>
         <Query<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>
           query={PUZZLES_SOLVED_QUERY}
           variables={{ limit: PUZZLES_PER_PAGE }}
