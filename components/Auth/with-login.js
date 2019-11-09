@@ -1,4 +1,4 @@
-import { ApolloConsumer } from 'react-apollo';
+import { ApolloConsumer } from '@apollo/react-common';
 import { connect } from 'react-redux';
 import { setCookie } from 'common/cookie';
 import { getUser } from 'common/auth';

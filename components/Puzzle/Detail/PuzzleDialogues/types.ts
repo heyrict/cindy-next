@@ -1,5 +1,5 @@
 import { InlineUser } from 'components/User/types';
-import { QueryResult } from 'react-apollo';
+import { QueryResult } from '@apollo/react-common';
 import {
   DialogueHintQuery,
   DialogueHintQueryVariables,

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { Box, ButtonTransparent } from 'components/General';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { CHANGE_CURRERNT_USERAWARD_MUTATION } from 'graphql/Mutations/User';
 
 import { FormattedMessage } from 'react-intl';

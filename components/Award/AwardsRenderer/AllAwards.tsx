@@ -6,7 +6,7 @@ import Loading from 'components/General/Loading';
 import DelayRendering from 'components/Hoc/DelayRendering';
 import AwardTableRenderer from './AwardTableRenderer';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import {
   ALL_AWARDS_QUERY,
   PUZZLE_GENRE_GROUPS_QUERY,

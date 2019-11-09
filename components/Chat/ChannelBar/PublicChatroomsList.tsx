@@ -8,7 +8,7 @@ import * as chatReducer from 'reducers/chat';
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import Loading from 'components/General/Loading';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { PUBLIC_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
 
 import { FormattedMessage } from 'react-intl';

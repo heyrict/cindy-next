@@ -3,7 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 //import { action } from '@storybook/addon-actions';
 
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-common';
 import { Provider as ReduxProvider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import * as globalReducer from 'reducers/global';

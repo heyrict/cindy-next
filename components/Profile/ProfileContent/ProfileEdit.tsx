@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { EDIT_PROFILE_MUTATION } from 'graphql/Mutations/User';
 
 import { Flex, ButtonTransparent, Img, Box } from 'components/General';

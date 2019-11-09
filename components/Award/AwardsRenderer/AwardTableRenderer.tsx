@@ -7,7 +7,7 @@ import acceptIcon from 'svgs/accept.svg';
 import denyIcon from 'svgs/deny.svg';
 import plusIcon from 'svgs/plus.svg';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { AWARDS_INFO_QUERY } from 'graphql/Queries/Awards';
 import { ADD_AWARD_MUTATION } from 'graphql/Mutations/Award';
 

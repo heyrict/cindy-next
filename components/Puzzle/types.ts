@@ -2,7 +2,7 @@ import {
   PuzzleQuery,
   PuzzleQueryVariables,
 } from 'graphql/Queries/generated/PuzzleQuery';
-import { QueryResult } from 'react-apollo';
+import { QueryResult } from '@apollo/react-common';
 import { PuzzleType } from './Brief/types';
 import { CommentDetail } from 'graphql/Fragments/generated/CommentDetail';
 

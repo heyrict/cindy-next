@@ -9,7 +9,7 @@ import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import tagsPageMessages from 'messages/pages/tags';
 import commonMessages from 'messages/common';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { TAGS_PAGE_QUERY } from 'graphql/Queries/Tag';
 
 import {

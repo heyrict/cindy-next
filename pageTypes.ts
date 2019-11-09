@@ -1,5 +1,4 @@
 import { IntlShape } from 'react-intl';
-import { QueryResult } from 'react-apollo';
 import * as settingReducer from 'reducers/setting';
 
 import {
@@ -16,6 +15,7 @@ import {
 } from 'graphql/Queries/generated/CommentsQuery';
 import { GlobalUserType } from 'reducers/types';
 import { PuzzlesUnsolvedQuery } from 'graphql/Queries/generated/PuzzlesUnsolvedQuery';
+import { QueryResult } from '@apollo/react-common';
 
 export type UserPageProps = {
   userId: number;

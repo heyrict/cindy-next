@@ -8,7 +8,7 @@ import * as directReducer from 'reducers/direct';
 import * as settingReducer from 'reducers/setting';
 import * as loginReducer from 'reducers/login';
 
-import { Query, Mutation } from 'react-apollo';
+import { Query, Mutation } from '@apollo/react-components';
 import {
   DIRECTMESSAGE_GROUP_MESSAGES_QUERY,
   DIRECTMESSAGE_GROUP_QUERY,
@@ -104,7 +104,7 @@ const MessageGroupChatInner = ({
       <Mutation<DirectmessageSendMutation, DirectmessageSendMutationVariables>
         mutation={DIRECTMESSAGE_SEND_MUTATION}
         update={(cache, { data }) => {
-          if (data === undefined) return;
+          if (!data) return;
           if (data.insert_sui_hei_directmessage === null) return;
           const newMessages = data.insert_sui_hei_directmessage.returning;
           if (newMessages.length === 0) return;
@@ -188,8 +188,7 @@ const MessageGroupChatInner = ({
       >
         {sendDirect => {
           const handleSubmit = (content: string) => {
-            if (content.trim() === '')
-              return new Promise(resolve => resolve()) as Promise<void>;
+            if (content.trim() === '') return;
             return sendDirect({
               variables: {
                 content: content.trim(),
@@ -232,22 +231,23 @@ const MessageGroupChatInner = ({
             if (!editorRef.current) return;
             const text = editorRef.current.getText();
             editorRef.current.setText('');
-            handleSubmit(content)
-              .then(returns => {
-                if (!returns) {
-                  // Cancelled
+            const result = handleSubmit(content);
+            if (result) {
+              result
+                .then(returns => {
+                  if (returns.errors) {
+                    toast.error(JSON.stringify(returns.errors));
+                    editorRef.current.setText(text);
+                  }
+                })
+                .catch(error => {
+                  toast.error(JSON.stringify(error));
                   editorRef.current.setText(text);
-                  return;
-                }
-                if (returns.errors) {
-                  toast.error(JSON.stringify(returns.errors));
-                  editorRef.current.setText(text);
-                }
-              })
-              .catch(error => {
-                toast.error(JSON.stringify(error));
-                editorRef.current.setText(text);
-              });
+                });
+            } else {
+              // Cancelled
+              editorRef.current.setText(text);
+            }
           };
 
           return (

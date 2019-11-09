@@ -5,7 +5,8 @@ import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { Query, Mutation, QueryResult } from 'react-apollo';
+import { Query, Mutation } from '@apollo/react-components';
+import { QueryResult } from '@apollo/react-common';
 import {
   PREVIOUS_COMMENT_VALUE_QUERY,
   PUZZLE_COMMENT_QUERY,

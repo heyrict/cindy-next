@@ -7,7 +7,7 @@ import * as settingReducer from 'reducers/setting';
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { EDIT_ANSWER_MUTATION } from 'graphql/Mutations/Dialogue';
 
 import {

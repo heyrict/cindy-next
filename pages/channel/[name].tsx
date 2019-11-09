@@ -3,7 +3,7 @@ import Head from 'next/head';
 import styled from 'theme/styled';
 import { toast } from 'react-toastify';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
 import { compose } from 'redux';

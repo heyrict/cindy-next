@@ -14,7 +14,7 @@ import ChannelChangeModal from '../ChannelBar/ChannelChangeModal';
 import ChatroomCreateModal from './ChatroomCreateModal';
 import ChatroomEditableDescription from './ChatroomEditableDescription';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
 import { FormattedMessage } from 'react-intl';
@@ -88,47 +88,45 @@ const ChannelAside = ({
           if (error) {
             toast.error(error.message);
           }
-          return (
-            chatroomId !== null && (
-              <>
-                <Flex width={1} justifyContent="center" height="channelbar">
-                  <Box width={1 / 3} bg="orange.4" color="orange.0">
-                    <ButtonTransparent
-                      onClick={() => setTrueDescriptionModal()}
-                      width={1}
-                      height={1}
-                    >
-                      <FormattedMessage {...chatMessages.log} />
-                    </ButtonTransparent>
-                  </Box>
-                  <Box width={1 / 3} bg="orange.3" color="orange.0">
-                    <ButtonTransparent
-                      onClick={() => setTrueChannelChangeModal()}
-                      width={1}
-                      height={1}
-                    >
-                      <FormattedMessage {...commonMessages.change} />
-                    </ButtonTransparent>
-                  </Box>
-                  <Box width={1 / 3} bg="orange.4" color="orange.0">
-                    <ButtonTransparent
-                      onClick={() => setTrueChatroomCreateModal()}
-                      width={1}
-                      height={1}
-                    >
-                      <FormattedMessage {...commonMessages.create} />
-                    </ButtonTransparent>
-                  </Box>
-                </Flex>
-                <ChatroomEditableDescription chatroomId={chatroomId} />
-                <ChatroomLogsModal
-                  relatedPuzzleId={relatedPuzzleId}
-                  chatroomId={chatroomId}
-                />
-                <ChannelChangeModal />
-                <ChatroomCreateModal />
-              </>
-            )
+          return chatroomId === null ? null : (
+            <>
+              <Flex width={1} justifyContent="center" height="channelbar">
+                <Box width={1 / 3} bg="orange.4" color="orange.0">
+                  <ButtonTransparent
+                    onClick={() => setTrueDescriptionModal()}
+                    width={1}
+                    height={1}
+                  >
+                    <FormattedMessage {...chatMessages.log} />
+                  </ButtonTransparent>
+                </Box>
+                <Box width={1 / 3} bg="orange.3" color="orange.0">
+                  <ButtonTransparent
+                    onClick={() => setTrueChannelChangeModal()}
+                    width={1}
+                    height={1}
+                  >
+                    <FormattedMessage {...commonMessages.change} />
+                  </ButtonTransparent>
+                </Box>
+                <Box width={1 / 3} bg="orange.4" color="orange.0">
+                  <ButtonTransparent
+                    onClick={() => setTrueChatroomCreateModal()}
+                    width={1}
+                    height={1}
+                  >
+                    <FormattedMessage {...commonMessages.create} />
+                  </ButtonTransparent>
+                </Box>
+              </Flex>
+              <ChatroomEditableDescription chatroomId={chatroomId} />
+              <ChatroomLogsModal
+                relatedPuzzleId={relatedPuzzleId}
+                chatroomId={chatroomId}
+              />
+              <ChannelChangeModal />
+              <ChatroomCreateModal />
+            </>
           );
         }}
       </Query>

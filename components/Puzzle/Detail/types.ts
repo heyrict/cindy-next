@@ -72,5 +72,5 @@ export type PuzzleTypeWithSolution = PuzzleType & {
 
 export type WithSolutionProps = {
   puzzleId: number;
-  children: (solution: string) => React.ReactNode;
+  children: (solution: string) => JSX.Element;
 };

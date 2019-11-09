@@ -42,11 +42,15 @@ const Users = ({ intl }: { intl: IntlShape }) => {
           renderItems={data => {
             const users = data.sui_hei_user;
             if (!users) return null;
-            return users.map(user => (
-              <MultiColBox key={user.id}>
-                <UserPanel user={user} />
-              </MultiColBox>
-            ));
+            return (
+              <>
+                {users.map(user => (
+                  <MultiColBox key={user.id}>
+                    <UserPanel user={user} />
+                  </MultiColBox>
+                ))}
+              </>
+            );
           }}
         />
       </Flex>

@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
-import { HttpLink, ApolloClient, InMemoryCache } from 'apollo-boost';
-import gql from 'graphql-tag';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { GRAPHQL_SERVER } from '../../settings';
 
 const createClient = () =>

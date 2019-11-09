@@ -2,7 +2,7 @@ import React from 'react';
 import Router from 'next/router';
 import App, { Container } from 'next/app';
 import { compose } from 'redux';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-common';
 import { ThemeProvider } from 'emotion-theming';
 import { Provider as ReduxProvider } from 'react-redux';
 import { changeTabularTab } from 'common/markdown/plugin-tabs';

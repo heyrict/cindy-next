@@ -6,7 +6,7 @@ import { mergeList } from 'common/update';
 import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import messages from 'messages/pages/comments';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { COMMENTS_QUERY } from 'graphql/Queries/Comment';
 
 import { Heading, Flex, Panel } from 'components/General';

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { text2md } from 'common/markdown';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { EDIT_SOLUTION_MUTATION } from 'graphql/Mutations/Puzzle';
 import {
   EditSolutionMutation,

@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import commonMessages from 'messages/common';
 import puzzlePageMessages from 'messages/pages/puzzle';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { DELETE_PUZZLE_TAG_MUTATION } from 'graphql/Mutations/Tag';
 import { PUZZLE_PAGE_TAGS_QUERY } from 'graphql/Queries/Tag';
 

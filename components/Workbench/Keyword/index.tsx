@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { PUZZLE_DIALOGUE_QUERY } from 'graphql/Queries/Puzzles';
 
 import { getKeywords, counter } from './common';
@@ -71,7 +71,7 @@ const KeywordWorkbench = ({
       }}
     >
       {({ loading, error, data }) => {
-        if (error) return `Error: ${error.message}`;
+        if (error) return <>Error: ${error.message}</>;
         if (!data || !data.sui_hei_dialogue) {
           if (loading) return <Loading centered />;
           return null;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { CHATROOM_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
 
 import ChatroomDescriptionInner from './ChatroomDescriptionInner';

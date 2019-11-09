@@ -3,7 +3,7 @@ import {
   ChatroomChatmessages,
   ChatroomChatmessagesVariables,
 } from 'graphql/Queries/generated/ChatroomChatmessages';
-import { QueryResult } from 'react-apollo';
+import { QueryResult } from '@apollo/react-common';
 
 export type ChatRoomInputProps = {
   chatroomId: number;

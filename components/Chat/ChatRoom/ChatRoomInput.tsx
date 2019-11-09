@@ -9,7 +9,7 @@ import * as globalReducer from 'reducers/global';
 import * as settingReducer from 'reducers/setting';
 import * as loginReducer from 'reducers/login';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { CHATROOM_CHATMESSAGES_QUERY } from 'graphql/Queries/Chat';
 import { CHATROOM_SEND_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
 
@@ -71,7 +71,7 @@ const ChatRoomInput = ({
         <Mutation<ChatroomSendMessage, ChatroomSendMessageVariables>
           mutation={CHATROOM_SEND_MESSAGE_MUTATION}
           update={(cache, { data }) => {
-            if (data === undefined) return;
+            if (!data) return;
             if (data.insert_sui_hei_chatmessage === null) return;
             const newMessages = data.insert_sui_hei_chatmessage.returning;
             const cachedResult = cache.readQuery<
@@ -98,58 +98,59 @@ const ChatRoomInput = ({
         >
           {sendMessage => {
             const handleSubmit = (content: string) => {
-              if (content.trim() === '')
-                return new Promise(resolve => resolve()) as Promise<void>;
-              return sendMessage({
-                variables: {
-                  content: content.trim(),
-                  chatroomId,
-                },
-                optimisticResponse: {
-                  insert_sui_hei_chatmessage: {
-                    __typename: 'sui_hei_chatmessage_mutation_response',
-                    returning: [
-                      {
-                        __typename: 'sui_hei_chatmessage',
-                        id: -1,
-                        content,
-                        created: Date.now(),
-                        editTimes: 0,
-                        sui_hei_user: {
-                          __typename: 'sui_hei_user',
-                          id: -1,
-                          icon: null,
-                          nickname: '...',
-                          username: '...',
-                          sui_hei_current_useraward: null,
-                        },
-                      },
-                    ],
+              if (content.trim() !== '') {
+                return sendMessage({
+                  variables: {
+                    content: content.trim(),
+                    chatroomId,
                   },
-                },
-              });
+                  optimisticResponse: {
+                    insert_sui_hei_chatmessage: {
+                      __typename: 'sui_hei_chatmessage_mutation_response',
+                      returning: [
+                        {
+                          __typename: 'sui_hei_chatmessage',
+                          id: -1,
+                          content,
+                          created: Date.now(),
+                          editTimes: 0,
+                          sui_hei_user: {
+                            __typename: 'sui_hei_user',
+                            id: -1,
+                            icon: null,
+                            nickname: '...',
+                            username: '...',
+                            sui_hei_current_useraward: null,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                });
+              }
             };
 
             const handleSubmitWithError = (content: string) => {
               if (!editorRef.current) return;
               const text = editorRef.current.getText();
               editorRef.current.setText('');
-              handleSubmit(content)
-                .then(returns => {
-                  if (!returns) {
-                    // Cancelled
+              let result = handleSubmit(content);
+              if (result) {
+                result
+                  .then(returns => {
+                    if (returns.errors) {
+                      toast.error(JSON.stringify(returns.errors));
+                      editorRef.current.setText(text);
+                    }
+                  })
+                  .catch(error => {
+                    toast.error(JSON.stringify(error));
                     editorRef.current.setText(text);
-                    return;
-                  }
-                  if (returns.errors) {
-                    toast.error(JSON.stringify(returns.errors));
-                    editorRef.current.setText(text);
-                  }
-                })
-                .catch(error => {
-                  toast.error(JSON.stringify(error));
-                  editorRef.current.setText(text);
-                });
+                  });
+              } else {
+                // Cancelled
+                editorRef.current.setText(text);
+              }
             };
 
             return (

@@ -11,7 +11,7 @@ import puzzleMessages from 'messages/components/puzzle';
 import userMessages from 'messages/components/user';
 
 import { useApolloClient } from '@apollo/react-hooks';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import {
   PUZZLES_SOLVED_QUERY,
   PUZZLES_UNSOLVED_QUERY,

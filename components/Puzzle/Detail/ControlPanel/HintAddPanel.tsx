@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { upsertItem } from 'common/update';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { ADD_HINT_MUTATION } from 'graphql/Mutations/Hint';
 import {
   AddHintMutation,

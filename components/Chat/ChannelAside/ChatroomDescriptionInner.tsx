@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { line2md } from 'common/markdown';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { UPDATE_CHATROOM_DESCRIPTION_MUTATION } from 'graphql/Mutations/Chat';
 
 import { Box, Img, ButtonTransparent } from 'components/General';

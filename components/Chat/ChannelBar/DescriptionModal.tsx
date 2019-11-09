@@ -2,7 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { line2md } from 'common/markdown';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { CHATROOM_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
 
 import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';

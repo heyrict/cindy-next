@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { googleAdInfo } from 'settings';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { PUZZLE_QUERY } from 'graphql/Queries/Puzzles';
 
 import { injectIntl } from 'react-intl';

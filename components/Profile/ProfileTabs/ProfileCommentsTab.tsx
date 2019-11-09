@@ -45,11 +45,15 @@ const ProfileCommentsTab = ({ userId }: ProfileCommentsTabProps) => (
         }
         renderItems={data => {
           if (!data.sui_hei_comment) return null;
-          return data.sui_hei_comment.map(comment => (
-            <Box key={comment.id} width={1}>
-              <CommentDisplay comment={comment} />
-            </Box>
-          ));
+          return (
+            <>
+              {data.sui_hei_comment.map(comment => (
+                <Box key={comment.id} width={1}>
+                  <CommentDisplay comment={comment} />
+                </Box>
+              ))}
+            </>
+          );
         }}
       />
     </Flex>
@@ -74,11 +78,15 @@ const ProfileCommentsTab = ({ userId }: ProfileCommentsTabProps) => (
         }
         renderItems={data => {
           if (!data.sui_hei_comment) return null;
-          return data.sui_hei_comment.map(comment => (
-            <Box key={comment.id} width={1}>
-              <CommentDisplay comment={comment} />
-            </Box>
-          ));
+          return (
+            <>
+              {data.sui_hei_comment.map(comment => (
+                <Box key={comment.id} width={1}>
+                  <CommentDisplay comment={comment} />
+                </Box>
+              ))}
+            </>
+          );
         }}
       />
     </Flex>

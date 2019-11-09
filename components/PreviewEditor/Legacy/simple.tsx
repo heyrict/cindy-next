@@ -386,22 +386,24 @@ class SimpleLegacyEditor extends React.Component<
                 <ButtonTransparent
                   onClick={() => {
                     const text = this.getText();
-                    onSubmit(text)
-                      .then(returns => {
-                        if (!returns) {
-                          // Cancelled
+                    const result = onSubmit(text);
+                    if (result) {
+                      result
+                        .then(returns => {
+                          if (returns.errors) {
+                            toast.error(JSON.stringify(returns.errors));
+                            this.setText(text);
+                          }
+                        })
+                        .catch(error => {
+                          toast.error(JSON.stringify(error));
                           this.setText(text);
-                          return;
-                        }
-                        if (returns.errors) {
-                          toast.error(JSON.stringify(returns.errors));
-                          this.setText(text);
-                        }
-                      })
-                      .catch(error => {
-                        toast.error(JSON.stringify(error));
-                        this.setText(text);
-                      });
+                        });
+                    } else {
+                      // Cancelled
+                      this.setText(text);
+                      return;
+                    }
                     this.setText('');
                   }}
                 >

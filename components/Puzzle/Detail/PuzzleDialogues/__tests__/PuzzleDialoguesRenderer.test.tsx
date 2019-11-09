@@ -50,6 +50,7 @@ describe('<PuzzleDialoguesRenderer />', () => {
     client: null as any,
     networkStatus: 0,
     fetchMore: (): any => {},
+    called: false,
   };
 
   it('Should render', () => {

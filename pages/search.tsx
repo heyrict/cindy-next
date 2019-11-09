@@ -268,11 +268,15 @@ const Search = ({ intl }: { intl: IntlShape }) => {
           renderItems={data => {
             const puzzles = data.sui_hei_puzzle;
             if (!puzzles) return null;
-            return puzzles.map(puzzle => (
-              <MultiColBox key={puzzle.id}>
-                <PuzzleBrief puzzle={puzzle} />
-              </MultiColBox>
-            ));
+            return (
+              <>
+                {puzzles.map(puzzle => (
+                  <MultiColBox key={puzzle.id}>
+                    <PuzzleBrief puzzle={puzzle} />
+                  </MultiColBox>
+                ))}
+              </>
+            );
           }}
         />
       </Flex>

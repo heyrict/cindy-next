@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 
 import Loading from 'components/General/Loading';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { PUZZLE_SOLUTION_QUERY } from 'graphql/Queries/Puzzles';
 
 import {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { EDIT_HINT_MUTATION } from 'graphql/Mutations/Hint';
 
 import { Flex, ButtonTransparent, Img } from 'components/General';

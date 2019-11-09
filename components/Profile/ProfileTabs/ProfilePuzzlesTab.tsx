@@ -28,11 +28,15 @@ const ProfilePuzzlesTab = ({ userId }: ProfilePuzzlesTabProps) => (
     }
     renderItems={data => {
       if (!data.sui_hei_puzzle) return null;
-      return data.sui_hei_puzzle.map(puzzle => (
-        <MultiColBox key={puzzle.id}>
-          <PuzzleBrief puzzle={puzzle} />
-        </MultiColBox>
-      ));
+      return (
+        <>
+          {data.sui_hei_puzzle.map(puzzle => (
+            <MultiColBox key={puzzle.id}>
+              <PuzzleBrief puzzle={puzzle} />
+            </MultiColBox>
+          ))}
+        </>
+      );
     }}
   />
 );

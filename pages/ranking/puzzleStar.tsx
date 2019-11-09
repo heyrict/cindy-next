@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { PUZZLE_STAR_RANKING_QUERY } from 'graphql/Queries/Ranking';
 
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';

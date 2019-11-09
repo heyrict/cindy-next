@@ -6,7 +6,7 @@ import Head from 'next/head';
 import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import tagMessages from 'messages/pages/tag';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
 import { TAG_PUZZLES_QUERY } from 'graphql/Queries/Puzzles';
 import { TAG_QUERY } from 'graphql/Queries/Tag';
@@ -110,11 +110,15 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
           renderItems={data => {
             const puzzles = data.sui_hei_puzzle;
             if (!puzzles) return null;
-            return puzzles.map(puzzle => (
-              <Box key={puzzle.id} width={puzzleWidth}>
-                <PuzzleBrief puzzle={puzzle} />
-              </Box>
-            ));
+            return (
+              <>
+                {puzzles.map(puzzle => (
+                  <Box key={puzzle.id} width={puzzleWidth}>
+                    <PuzzleBrief puzzle={puzzle} />
+                  </Box>
+                ))}
+              </>
+            );
           }}
         />
       </Flex>

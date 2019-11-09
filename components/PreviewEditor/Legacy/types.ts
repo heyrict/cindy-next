@@ -14,7 +14,7 @@ export type TextareaProps = Omit<
 
 export type SimpleLegacyEditorProps = {
   useNamespaces?: Array<stampNamespaces>;
-  onSubmit: (text: string) => Promise<{ errors?: any } | void>;
+  onSubmit: (text: string) => Promise<{ errors?: any }> | undefined;
 } & typeof SimpleLegacyEditorDefaultProps &
   TextareaProps;
 

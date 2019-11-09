@@ -8,7 +8,7 @@ import Loading from 'components/General/Loading';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import {
   CHATROOM_CHATMESSAGES_QUERY,
   CHATROOM_PUZZLE_QUERY,
@@ -172,22 +172,31 @@ const ChatRoomMessagesBody = ({
                   const { sui_hei_puzzle_by_pk: relatedPuzzle } = res.data;
                   if (!relatedPuzzle) return null;
                   if (relatedPuzzle.anonymous && relatedPuzzle.status === 0) {
-                    return chatmessages.map(cm => (
-                      <Chatmessage
-                        key={`chatmessage-${cm.id}`}
-                        chatmessage={cm}
-                        anonymous={
-                          relatedPuzzle.sui_hei_user.id === cm.sui_hei_user.id
-                        }
-                      />
-                    ));
+                    return (
+                      <>
+                        {chatmessages.map(cm => (
+                          <Chatmessage
+                            key={`chatmessage-${cm.id}`}
+                            chatmessage={cm}
+                            anonymous={
+                              relatedPuzzle.sui_hei_user.id ===
+                              cm.sui_hei_user.id
+                            }
+                          />
+                        ))}
+                      </>
+                    );
                   }
-                  return chatmessages.map(cm => (
-                    <Chatmessage
-                      key={`chatmessage-${cm.id}`}
-                      chatmessage={cm}
-                    />
-                  ));
+                  return (
+                    <>
+                      {chatmessages.map(cm => (
+                        <Chatmessage
+                          key={`chatmessage-${cm.id}`}
+                          chatmessage={cm}
+                        />
+                      ))}
+                    </>
+                  );
                 }}
               </Query>
             ) : (
