@@ -32,7 +32,6 @@ const PuzzleRenderer = ({
   data,
   subscribeToMore,
   formatMessage,
-  puzzleId,
   pushNotification,
 }: PuzzleRendererProps) => {
   const hasNotifiedSolvedRef = useRef<boolean>(false);
@@ -50,7 +49,8 @@ const PuzzleRenderer = ({
   );
 
   useEffect(() => {
-    if (puzzleId !== null)
+    if (data && data.sui_hei_puzzle_by_pk) {
+      const puzzleId = data.sui_hei_puzzle_by_pk.id;
       return subscribeToMore({
         document: PUZZLE_LIVEQUERY,
         variables: { id: puzzleId },
@@ -77,18 +77,19 @@ const PuzzleRenderer = ({
           return { sui_hei_puzzle_by_pk: { ...oldPuzzle, ...newPuzzle } };
         },
       } as SubscribeToMoreOptions<PuzzleQuery, PuzzleQueryVariables, PuzzleLiveQuery>);
-  }, [puzzleId]);
+    }
+  }, [data && data.sui_hei_puzzle_by_pk && data.sui_hei_puzzle_by_pk.id]);
 
   if (error) {
     toast.error(error.message);
-    return null;
+    return puzzleNotExistElement;
   }
   if (!data || !data.sui_hei_puzzle_by_pk) {
     if (loading) return <Loading centered />;
-    return null;
+    return puzzleNotExistElement;
   }
   const puzzle = data.sui_hei_puzzle_by_pk;
-  if (puzzle.id === undefined) return null;
+  if (puzzle.id === undefined) return puzzleNotExistElement;
   const shouldHideIdentity = puzzle.anonymous && puzzle.status === 0;
   return (
     <React.Fragment>
@@ -108,7 +109,6 @@ const PuzzleRenderer = ({
       <PuzzleDetail puzzle={puzzle} />
     </React.Fragment>
   );
-  return puzzleNotExistElement;
 };
 
 const withRedux = connect(state => ({

@@ -38,9 +38,7 @@ class Puzzle extends React.Component<PuzzleProps> {
             id: puzzleId,
           }}
         >
-          {params => (
-            <PuzzleRenderer {...params} formatMessage={_} puzzleId={puzzleId} />
-          )}
+          {params => <PuzzleRenderer {...params} formatMessage={_} />}
         </Query>
         <GoogleAd {...googleAdInfo.inarticleAd} />
         <GoogleAd {...googleAdInfo.relativeAd} />

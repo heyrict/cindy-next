@@ -8,7 +8,6 @@ import { CommentDetail } from 'graphql/Fragments/generated/CommentDetail';
 
 export type PuzzleRendererProps = {
   formatMessage: any;
-  puzzleId: number;
   pushNotification: boolean;
 } & QueryResult<PuzzleQuery, PuzzleQueryVariables>;
 
