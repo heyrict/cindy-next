@@ -31,3 +31,8 @@ declare module 'fnv-plus' {
 
   export function hash(message: string | object, keyspace?: Keyspace): HashObj;
 }
+
+declare module 'markdown-it-emoji/light' {
+  const returns: any;
+  export default returns;
+}

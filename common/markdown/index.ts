@@ -8,7 +8,7 @@ import { stampDefs } from 'stamps';
 
 import normTabs from './plugin-tabs';
 import { normLinkHook } from './plugin-link';
-import normCountdown from './plugin-countdown';
+//import normCountdown from './plugin-countdown';
 import normNewline from './plugin-newline';
 
 export { changeTabularTab } from './plugin-tabs.js';
@@ -39,12 +39,12 @@ let DOMPurify = createDOMPurify;
 if (!process.browser) {
   const { JSDOM } = require('jsdom');
   const window = new JSDOM('').window;
-  DOMPurify = createDOMPurify(window);
+  DOMPurify = createDOMPurify(window) as any;
 }
 
 DOMPurify.addHook('afterSanitizeAttributes', normLinkHook);
 
-const HtmlPurify = (html, config) =>
+const HtmlPurify = (html: string, config: any) =>
   DOMPurify.isSupported ? DOMPurify.sanitize(html, config) : html;
 
 const md = MarkdownIt({
@@ -58,15 +58,15 @@ const md = MarkdownIt({
     defs: Object.assign({}, mdEmojiLight, stampDefs),
   });
 
-const PreNorm = string => {
+const PreNorm = (s: string) => {
   return compose(
     normTabs,
     normNewline,
-  )(string);
+  )(s);
 };
 
-export const line2md = string => {
-  const rendered = md.render(PreNorm(string));
+export const line2md = (s: string) => {
+  const rendered = md.render(PreNorm(s));
 
   // Drop the last </p>, replace other </p>s with line break;
   const purified = HtmlPurify(rendered, DOMPurifyParamsLine);
@@ -82,14 +82,14 @@ export const line2md = string => {
   return stripped;
 };
 
-export const text2md = string => {
-  const rendered = md.render(PreNorm(string));
+export const text2md = (s: string) => {
+  const rendered = md.render(PreNorm(s));
   const purified = HtmlPurify(rendered, DOMPurifyParamsText);
   return purified;
 };
 
-export const text2raw = string =>
+export const text2raw = (s: string) =>
   md
-    .render(string)
+    .render(s)
     .replace(REMOVE_HTML_REGEXP, '')
     .replace(/\s{2,}/, ' ');
