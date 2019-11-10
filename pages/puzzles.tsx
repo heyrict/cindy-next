@@ -16,6 +16,7 @@ import {
   PUZZLES_SOLVED_QUERY,
   PUZZLES_UNSOLVED_QUERY,
 } from 'graphql/Queries/Puzzles';
+import { PUZZLES_UNSOLVED_LIVEQUERY } from 'graphql/LiveQueries/Puzzles';
 
 import { Heading, Flex, Panel } from 'components/General';
 import Loading from 'components/General/Loading';
@@ -133,7 +134,7 @@ const PuzzlesUnsolvedRenderer = ({
 
   useEffect(() => {
     subscribeToMore<PuzzlesUnsolvedLiveQuery>({
-      document: PUZZLES_UNSOLVED_QUERY,
+      document: PUZZLES_UNSOLVED_LIVEQUERY,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
 
