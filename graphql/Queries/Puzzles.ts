@@ -52,6 +52,7 @@ export const PUZZLES_UNSOLVED_QUERY = gql`
           count
           max {
             answeredtime
+            created
           }
         }
       }
