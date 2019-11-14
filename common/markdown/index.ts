@@ -11,7 +11,7 @@ import { normLinkHook } from './plugin-link';
 //import normCountdown from './plugin-countdown';
 import normNewline from './plugin-newline';
 
-export { changeTabularTab } from './plugin-tabs.js';
+export { changeTabularTab } from './plugin-tabs';
 
 const REMOVE_HTML_REGEXP = new RegExp('<[^<>\n]+>', 'g');
 
