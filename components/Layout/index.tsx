@@ -248,6 +248,9 @@ const tableStyle = css`
     border-collapse: collapse;
     text-align: left;
   }
+  table tbody {
+    border: 1px solid ${theme.colors.gray[7]};
+  }
   table td,
   table th {
     padding: ${theme.space[1]}px ${theme.space[2]}px;
@@ -267,7 +270,7 @@ const tableStyle = css`
     );
     background-color: ${theme.colors.gray[5]};
     color: ${theme.colors.gray[1]};
-    border-left: 1px solid #d9d1ce;
+    border-left: 1px solid ${theme.colors.gray[3]};
   }
   table thead th:first-child {
     border: none;
@@ -275,6 +278,7 @@ const tableStyle = css`
   table tbody td {
     color: ${theme.colors.gray[7]};
     border-left: 1px solid ${theme.colors.gray[2]};
+    border-bottom: 1px solid ${theme.colors.gray[2]};
   }
   table tbody .alt td {
     background: ${theme.colors.gray[1]};
