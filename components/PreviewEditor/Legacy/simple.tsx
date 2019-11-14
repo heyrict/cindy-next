@@ -10,6 +10,7 @@ import {
   Img,
   Textarea,
 } from 'components/General';
+import theme from 'theme/theme';
 import Tooltip from 'components/Hoc/Tooltip';
 import StampList from '../StampList';
 import { ButtonFont } from '../components';
@@ -105,8 +106,8 @@ class SimpleLegacyEditor extends React.Component<
       <Textarea
         width={1}
         minWidth={1}
-        minHeight={`${height}em`}
-        maxHeight={`${height}em`}
+        minHeight={theme.sizes.chatinput}
+        maxHeight={theme.sizes.chatinput}
         bg="transparent"
         border="none"
         padding={0}
@@ -326,11 +327,11 @@ class SimpleLegacyEditor extends React.Component<
           {this.state.stampToolbar && (
             <Flex
               m={1}
-              flexWrap="wrap"
+              flexDirection="column"
+              flexWrap="nowrap"
               bg="orange.4"
-              height={`${height}em`}
+              height={theme.sizes.chatinput}
               width={1}
-              style={{ overflow: 'hidden' }}
               borderWidth="1px"
               borderStyle="solid"
               borderColor="gray.6"
@@ -346,7 +347,7 @@ class SimpleLegacyEditor extends React.Component<
           <Box
             m={1}
             width={1}
-            height={`${height}em`}
+            height={theme.sizes.chatinput}
             style={{
               overflow: 'hidden',
               flexGrow: 1,

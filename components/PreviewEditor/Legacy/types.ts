@@ -2,7 +2,7 @@ import { stampNamespaces } from 'stamps/types';
 
 export const SimpleLegacyEditorDefaultProps = {
   placeholder: '',
-  height: 6,
+  height: 16,
   initialValue: '',
   canExpand: true,
 };

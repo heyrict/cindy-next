@@ -38,6 +38,20 @@ const ChannelAside = dynamic<Pick<ChannelAsideProps, never>>(
   { ssr: false },
 );
 
+const scrollbarStyle = css`
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 8px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 2.5px;
+    background-color: ${theme.colors.indigo[7]};
+    -webkit-box-shadow: 0 0 1px ${theme.colors.indigo[3]};
+  }
+`;
+
 const tabsStyle = css`
   .nav {
     padding-left: 0;
@@ -351,6 +365,7 @@ export const globalStyle = css`
   ${stampStyle}
   ${toastifyStyle}
   ${tableStyle}
+  ${scrollbarStyle}
 `;
 
 const Layout = ({

@@ -33,11 +33,13 @@ const ChatBoxShader = styled.div<ChatBoxInnerProps>`
 
 const ChatBoxBase = styled.aside`
   position: fixed;
+  display: flex;
   top: 0;
   left: 0;
   bottom: 0;
   overflow: hidden;
   flex-shrink: 0;
+  flex-flow: column nowrap;
   border-right: 2px solid ${p => p.theme.colors.orange[5]};
   z-index: 200;
   width: ${p => p.theme.sizes.chatXL};

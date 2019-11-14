@@ -28,13 +28,13 @@ import { ActionContentType } from 'reducers/types';
 const PuzzleChatRegex = /^puzzle-(\d+)$/;
 
 const ChannelContentBox = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
   position: absolute;
   left: ${p => p.theme.sizes.chatXL};
   top: ${p => p.theme.sizes.toolbar};
   right: 0;
   bottom: 0;
-  overflow-y: hidden;
-  overflow-x: auto;
   ${p => p.theme.mediaQueries.large} {
     left: ${p => p.theme.sizes.chatLG};
   }
@@ -92,33 +92,35 @@ class ChannelPage extends React.Component<ChannelPageProps> {
                     content={_(channelPageMessages.description)}
                   />
                 </Head>
-                <Box width={1} height="channelbar">
-                  <Flex
-                    bg="orange.2"
-                    borderBottom="1px solid"
-                    borderColor="orange.3"
-                  >
-                    <OpenAsideButton
-                      color="orange.6"
-                      height="channelbar"
-                      mr="auto"
-                      onClick={() => this.props.toggleAside()}
+                <Flex overflow="auto" flexWrap="nowrap" flexDirection="column">
+                  <Box width={1} height="channelbar">
+                    <Flex
+                      bg="orange.2"
+                      borderBottom="1px solid"
+                      borderColor="orange.3"
                     >
-                      <FormattedMessage {...chatMessages.channels} /> &gt;&gt;
-                    </OpenAsideButton>
-                  </Flex>
-                </Box>
-                {chatroomId ? (
-                  <ChatRoomMessages
-                    chatroomId={chatroomId}
-                    relatedPuzzleId={relatedPuzzleId}
-                  />
-                ) : (
-                  <h1 style={{ margin: '1em' }}>
-                    <FormattedMessage {...chatMessages.notExistDescription} />
-                  </h1>
-                )}
-                {chatroomId && <ChatRoomInput chatroomId={chatroomId} />}
+                      <OpenAsideButton
+                        color="orange.6"
+                        height="channelbar"
+                        mr="auto"
+                        onClick={() => this.props.toggleAside()}
+                      >
+                        <FormattedMessage {...chatMessages.channels} /> &gt;&gt;
+                      </OpenAsideButton>
+                    </Flex>
+                  </Box>
+                  {chatroomId ? (
+                    <ChatRoomMessages
+                      chatroomId={chatroomId}
+                      relatedPuzzleId={relatedPuzzleId}
+                    />
+                  ) : (
+                    <h1 style={{ margin: '1em' }}>
+                      <FormattedMessage {...chatMessages.notExistDescription} />
+                    </h1>
+                  )}
+                  {chatroomId && <ChatRoomInput chatroomId={chatroomId} />}
+                </Flex>
               </React.Fragment>
             );
           }}

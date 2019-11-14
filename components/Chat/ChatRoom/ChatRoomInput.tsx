@@ -35,25 +35,12 @@ import {
 } from 'graphql/Queries/generated/ChatroomChatmessages';
 import { stampNamespaces } from 'stamps';
 
-const ChatRoomInputWrapper = styled.div`
-  position: absolute;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-`;
-
 const LoginRequiredBlock = styled.div`
-  display: flex;
-  width: 100%;
   height: ${p => p.theme.sizes.chatinput};
+  padding: ${p => p.theme.space[1]}px ${p => p.theme.space[2]}px;
   background-color: ${p => p.theme.colors.orange[5]};
   color: ${p => p.theme.colors.white};
   font-weight: bold;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  bottom: 0;
-  left: 0;
 `;
 
 const ChatRoomInput = ({
@@ -65,9 +52,7 @@ const ChatRoomInput = ({
 }: ChatRoomInputProps) => {
   const editorRef = useRef<SimpleLegacyEditor>(null!);
 
-  return (
-    <ChatRoomInputWrapper>
-      {user.id ? (
+  return user.id ? (
         <Mutation<ChatroomSendMessage, ChatroomSendMessageVariables>
           mutation={CHATROOM_SEND_MESSAGE_MUTATION}
           update={(cache, { data }) => {
@@ -218,9 +203,7 @@ const ChatRoomInput = ({
             }}
           />
         </LoginRequiredBlock>
-      )}
-    </ChatRoomInputWrapper>
-  );
+      );
 };
 
 const mapStateToProps = (state: StateType) => ({
