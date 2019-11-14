@@ -33,6 +33,8 @@ const ChannelAsideBox = styled.div`
   top: 0;
   bottom: 0;
   left: 0;
+  display: flex;
+  flex-flow: column nowrap;
   width: ${p => p.theme.sizes.chatXL};
   ${p => p.theme.mediaQueries.large} {
     width: ${p => p.theme.sizes.chatLG};

@@ -39,12 +39,12 @@ const ChatroomDescriptionInner = ({
       mutation={UPDATE_CHATROOM_DESCRIPTION_MUTATION}
     >
       {updateDescription => (
-        <Box bg="orange.2" color="orange.9" py={2}>
+        <Box overflow="auto" flexGrow={1} bg="orange.2" color="orange.9" py={2}>
           <SimpleLegacyEditor
             initialValue={chatroom.description}
             onSubmit={description => {
               setEdit(false);
-	      if (description.trim() !== chatroom.description.trim()) {
+              if (description.trim() !== chatroom.description.trim()) {
                 return updateDescription({
                   variables: {
                     chatroomId: chatroom.id,
@@ -52,14 +52,14 @@ const ChatroomDescriptionInner = ({
                   },
                 });
               }
-	      return new Promise(resolve => resolve());
+              return new Promise(resolve => resolve());
             }}
           />
         </Box>
       )}
     </Mutation>
   ) : (
-    <Box bg="orange.2" color="orange.9" py={2}>
+    <Box overflow="auto" flexGrow={1} bg="orange.2" color="orange.9" py={2}>
       {chatroom.description ? (
         <div
           style={{ minHeight: '3em' }}
@@ -68,9 +68,9 @@ const ChatroomDescriptionInner = ({
           }}
         />
       ) : (
-        <Box>
+        <p>
           <FormattedMessage {...chatMessages.noDescription} />
-        </Box>
+        </p>
       )}
       {userId === chatroom.sui_hei_user.id && (
         <ButtonTransparent onClick={() => setEdit(true)}>
