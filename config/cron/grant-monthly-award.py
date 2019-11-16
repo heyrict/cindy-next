@@ -39,7 +39,12 @@ query($id: Int!) {
 
 MONTHLY_AWARDS_COUNT_QUERY = '''
 query($userId: Int!, $monthlyAwards: [Int!]) {
-  sui_hei_useraward_aggregate(where: { award_id: { _in: $monthlyAwards } }) {
+  sui_hei_useraward_aggregate(
+    where: {
+      user_id: { _eq: $userId }
+      award_id: { _in: $monthlyAwards }
+    }
+  ) {
     aggregate {
       count
     }
@@ -97,9 +102,9 @@ def grant_collection_award(user):
         'monthlyAwards': monthly_awards,
     })['sui_hei_useraward_aggregate']['aggregate']['count']
 
-    if monthly_award_count % 4 == 0:
+    if monthly_award_count % 3 == 0 and monthly_award_count > 0:
         award_data = query(AWARD_BY_ID_QUERY, {
-            'id': monthly_collection_awards[monthly_award_count % 4]
+            'id': monthly_collection_awards[monthly_award_count % 3 - 1]
         })['sui_hei_award_by_pk'] # yapf: disable
 
         try:
@@ -143,6 +148,7 @@ def grant_monthly_award():
     last_sum = -1
     best_count = -1
     best_sum = -1
+
     for i, puzzle in enumerate(puzzles_data):
         puzzle_count = puzzle['sui_hei_stars_aggregate']['aggregate']['count']
         puzzle_sum = puzzle['sui_hei_stars_aggregate']['aggregate']['sum'][

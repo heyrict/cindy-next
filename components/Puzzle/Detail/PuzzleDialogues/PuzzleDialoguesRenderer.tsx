@@ -243,7 +243,7 @@ export const PuzzleDialoguesRenderer = ({
         };
       }
     }
-  }, [puzzleId]);
+  }, [puzzleId, user.id, shouldSubscribe]);
 
   let dialogues;
   let hints;
