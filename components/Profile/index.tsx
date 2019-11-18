@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { USER_QUERY } from 'graphql/Queries/User';
 
 import ProfileInfoRenderer from './InfoRenderer';

@@ -5,14 +5,14 @@ import { toast } from 'react-toastify';
 import Loading from 'components/General/Loading';
 import SimplePaginatorBar from './SimplePaginatorBar';
 
-import { Query, QueryResult } from 'react-apollo';
 import {
   PaginatedQueryProps,
   PaginatedQueryDefaultProps,
   PaginatedQueryStates,
   PaginatorBarPosition,
 } from './types';
-import { OperationVariables } from 'react-apollo/types';
+import { QueryResult, OperationVariables } from '@apollo/react-common';
+import { Query } from '@apollo/react-components';
 
 class PaginatedQuery<
   TData = any,

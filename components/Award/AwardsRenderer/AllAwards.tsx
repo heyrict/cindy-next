@@ -6,7 +6,7 @@ import Loading from 'components/General/Loading';
 import DelayRendering from 'components/Hoc/DelayRendering';
 import AwardTableRenderer from './AwardTableRenderer';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import {
   ALL_AWARDS_QUERY,
   PUZZLE_GENRE_GROUPS_QUERY,
@@ -14,7 +14,7 @@ import {
 } from 'graphql/Queries/Awards';
 import { YAMI_PUZZLE_COUNT_QUERY } from 'graphql/Queries/Puzzles';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedRelativeTime } from 'react-intl';
 import awardsMessages from 'messages/pages/awards';
 
 import { AllAwardsQuery } from 'graphql/Queries/generated/AllAwardsQuery';
@@ -29,6 +29,8 @@ import {
   PuzzleByGenreAwards,
   StarByPuzzleAwards,
   StarSumAwards,
+  SpecialAwards,
+  AgeAwards,
 } from 'components/AwardChecker/constants';
 import { AllAwardsProps, AwardStatusType } from './types';
 import {
@@ -519,6 +521,54 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                 />
               )}
             </DelayRendering>
+            <AwardTableRenderer
+              awardsDefs={awardsDefs}
+              userInfo={userInfo}
+              header={<FormattedMessage {...awardsMessages.group_age} />}
+              getStatusLabel={age => (
+                <FormattedRelativeTime
+                  value={age / 365}
+                  unit="year"
+                  style="narrow"
+                />
+              )}
+              awardsObj={AgeAwards}
+              checker={(awardId, age) => {
+                if (!userInfo) return AwardStatusType.WAIT;
+
+                const hasThisAward =
+                  userInfo.sui_hei_userawards.findIndex(
+                    ua => ua.award_id === awardId,
+                  ) >= 0;
+                if (hasThisAward) return AwardStatusType.GET;
+
+                const puzzlesAggr =
+                  userInfo.sui_hei_puzzles_aggregate.aggregate;
+                const puzzlesMaxCreated =
+                  puzzlesAggr && puzzlesAggr.max && puzzlesAggr.max.created;
+
+                if (!puzzlesMaxCreated) return AwardStatusType.WAIT;
+
+                const userDateJoined = new Date(userInfo.date_joined);
+                const lastPuzzleCreated = new Date(puzzlesMaxCreated);
+                const daysOfLastPuzzleSinceJoined =
+                  (lastPuzzleCreated.getTime() - userDateJoined.getTime()) /
+                  86400000;
+
+                if (daysOfLastPuzzleSinceJoined > age) {
+                  return AwardStatusType.REACH;
+                }
+                return AwardStatusType.WAIT;
+              }}
+            />
+            <AwardTableRenderer
+              awardsDefs={awardsDefs}
+              userInfo={userInfo}
+              header={<FormattedMessage {...awardsMessages.group_others} />}
+              getStatusLabel={() => null}
+              awardsObj={SpecialAwards}
+              checker={() => AwardStatusType.UNKNOWN}
+            />
           </React.Fragment>
         );
       }}

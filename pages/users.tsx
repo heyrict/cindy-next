@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import messages from 'messages/pages/users';
 
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
@@ -16,8 +16,8 @@ import {
   UserListQueryVariables,
 } from 'graphql/Queries/generated/UserListQuery';
 
-const Users = (_props: any, context: { intl: IntlShape }) => {
-  const _: any = context.intl.formatMessage;
+const Users = ({ intl }: { intl: IntlShape }) => {
+  const _ = intl.formatMessage;
 
   return (
     <React.Fragment>
@@ -42,11 +42,15 @@ const Users = (_props: any, context: { intl: IntlShape }) => {
           renderItems={data => {
             const users = data.sui_hei_user;
             if (!users) return null;
-            return users.map(user => (
-              <MultiColBox key={user.id}>
-                <UserPanel user={user} />
-              </MultiColBox>
-            ));
+            return (
+              <>
+                {users.map(user => (
+                  <MultiColBox key={user.id}>
+                    <UserPanel user={user} />
+                  </MultiColBox>
+                ))}
+              </>
+            );
           }}
         />
       </Flex>
@@ -54,8 +58,4 @@ const Users = (_props: any, context: { intl: IntlShape }) => {
   );
 };
 
-Users.contextTypes = {
-  intl: intlShape,
-};
-
-export default Users;
+export default injectIntl(Users);

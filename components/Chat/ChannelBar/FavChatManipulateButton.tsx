@@ -8,7 +8,7 @@ import DeleteFavChatButton from './DeleteFavChatButton';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { FAVORITE_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
 
 import { StateType } from 'reducers/types';

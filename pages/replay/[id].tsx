@@ -1,20 +1,16 @@
 import React from 'react';
 import Head from 'next/head';
-import { intlShape } from 'react-intl';
+import { injectIntl, IntlShape } from 'react-intl';
 
 import messages from 'messages/pages/replay';
 
-class Replay extends React.Component<{ replayId: string }> {
-  static contextTypes = {
-    intl: intlShape,
-  };
-
+class Replay extends React.Component<{ replayId: string; intl: IntlShape }> {
   static async getInitialProps({ query }: { query: { id: string } }) {
     return { replayId: query && query.id };
   }
 
   render() {
-    const _ = this.context.intl.formatMessage;
+    const _ = this.props.intl.formatMessage;
 
     return (
       <React.Fragment>
@@ -28,4 +24,4 @@ class Replay extends React.Component<{ replayId: string }> {
   }
 }
 
-export default Replay;
+export default injectIntl(Replay);

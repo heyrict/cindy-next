@@ -5,7 +5,7 @@ import styled from 'theme/styled';
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { PUZZLE_BOOKMARK_AGGREGATE_QUERY } from 'graphql/Queries/Bookmark';
 
 import { Waypoint } from 'react-waypoint';

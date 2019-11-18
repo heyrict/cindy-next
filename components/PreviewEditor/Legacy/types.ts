@@ -2,7 +2,7 @@ import { stampNamespaces } from 'stamps/types';
 
 export const SimpleLegacyEditorDefaultProps = {
   placeholder: '',
-  height: 6,
+  height: 16,
   initialValue: '',
   canExpand: true,
 };
@@ -14,7 +14,7 @@ export type TextareaProps = Omit<
 
 export type SimpleLegacyEditorProps = {
   useNamespaces?: Array<stampNamespaces>;
-  onSubmit: (text: string) => Promise<{ errors?: any } | void>;
+  onSubmit: (text: string) => Promise<{ errors?: any }> | undefined;
 } & typeof SimpleLegacyEditorDefaultProps &
   TextareaProps;
 

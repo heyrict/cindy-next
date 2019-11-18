@@ -1,12 +1,22 @@
 {
   "patrons": [
     {
+      "id": 36,
       "name": "アシカ",
-      "url": "https://www.cindythink.com/user/36"
+      "url": "https://www.cindythink.com/user/36",
+      "anonymous": false
     },
     {
+      "id": 7,
       "name": "人参",
-      "url": "https://www.cindythink.com/user/7"
+      "url": "https://www.cindythink.com/user/7",
+      "anonymous": false
+    },
+    {
+      "id": 621,
+      "name": "名無し編集者",
+      "url": "https://www.cindythink.com/user/621",
+      "anonymous": true
     }
   ],
   "anonymousPatrons": 2

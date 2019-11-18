@@ -1,4 +1,3 @@
-import { QueryResult } from 'react-apollo';
 import {
   DirectmessageGroupMessagesQuery,
   DirectmessageGroupMessagesQueryVariables,
@@ -8,6 +7,7 @@ import {
   DirectmessageGroupQuery,
   DirectmessageGroupQueryVariables,
 } from 'graphql/Queries/generated/DirectmessageGroupQuery';
+import { QueryResult } from '@apollo/react-common';
 
 export type MessageBoxProps = {
   directModal: boolean;

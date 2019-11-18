@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import {
   ADD_PUZZLE_TAG_MUTATION,
   ADD_PUZZLE_TAG_BY_PK_MUTATION,

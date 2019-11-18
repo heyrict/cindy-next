@@ -8,7 +8,7 @@ import commonMessages from 'messages/common';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { DIRECTMESSAGE_EDIT_MUTATION } from 'graphql/Mutations/Directmessage';
 
 import UserInline from 'components/User/UserInline';
@@ -71,7 +71,7 @@ const Directmessage = ({
                   onSubmit={text => {
                     if (text === directmessage.content) {
                       setMode(DirectmessageModeType.NORMAL);
-                      return new Promise(resolve => resolve());
+                      return;
                     }
                     setMode(DirectmessageModeType.NORMAL);
                     return editMessage({
@@ -92,14 +92,14 @@ const Directmessage = ({
                         },
                       },
                     }).then(result => {
-                      if (!result) return;
-                      const { errors } = result;
-                      if (errors) {
+                      if (result && result.errors) {
+                        const { errors } = result;
                         toast.error(JSON.stringify(errors));
                         setMode(DirectmessageModeType.EDIT);
                       } else {
                         setMode(DirectmessageModeType.NORMAL);
                       }
+                      return result;
                     });
                   }}
                 />

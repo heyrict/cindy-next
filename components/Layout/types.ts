@@ -2,6 +2,7 @@ import { ToolbarResponsiveMenuType } from 'reducers/types';
 
 export type FixedButtonBaseProps = {
   position?: 'left' | 'right';
+  bottom?: string;
   show: boolean;
 };
 
@@ -19,6 +20,7 @@ export type ChatBoxProps = {
   children: React.ReactNode;
   aside: boolean;
   chatHasnew: boolean;
+  isChannelPage: boolean;
   setTrueAside: () => void;
   setFalseAside: () => void;
 };
@@ -30,6 +32,7 @@ export type ToolbarBoxBaseProps = {
 export type LayoutProps = {
   children: React.ReactElement;
   pushNotification: boolean;
+  route: string;
   setFalsePushNotification: () => void;
   appInit: () => void;
   [prop: string]: any;

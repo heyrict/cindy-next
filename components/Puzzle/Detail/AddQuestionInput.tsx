@@ -10,7 +10,7 @@ import { Flex, Textarea, Button } from 'components/General';
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/puzzle';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { ADD_QUESTION_MUTATION } from 'graphql/Mutations/Dialogue';
 import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
 

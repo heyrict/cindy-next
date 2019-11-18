@@ -8,7 +8,7 @@ import * as settingReducer from 'reducers/setting';
 import { ActionContentType, StateType } from 'reducers/types';
 import { LanguageProviderProps } from './types';
 
-const messages: { [locale: string]: object } = Object.assign(
+const messages: { [locale: string]: Record<string, string> } = Object.assign(
   {},
   ...APPLOCALES.map(locale => ({
     [locale]: require(`lang/${locale}.json`),
@@ -22,7 +22,6 @@ const LanguageProvider = ({
   language,
   initLocale,
   setLanguage,
-  initNow,
 }: LanguageProviderProps) => {
   useEffect(() => {
     if (!language) setLanguage(initLocale);
@@ -37,7 +36,6 @@ const LanguageProvider = ({
       locale={locale}
       defaultLocale={DEFAULT_LOCALE}
       messages={messages}
-      initialNow={initNow}
     >
       {children}
     </IntlProvider>

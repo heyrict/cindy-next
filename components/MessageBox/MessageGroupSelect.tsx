@@ -10,7 +10,7 @@ import * as directReducer from 'reducers/direct';
 import { FormattedMessage } from 'react-intl';
 import webNotifyMessages from 'messages/webNotify';
 
-import { Query, Subscription, Mutation } from 'react-apollo';
+import { Query, Subscription, Mutation } from '@apollo/react-components';
 import {
   DIRECTMESSAGE_GROUP_QUERY,
   DIRECTMESSAGE_GROUP_MESSAGES_QUERY,

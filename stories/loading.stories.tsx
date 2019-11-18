@@ -15,7 +15,7 @@ import Loading from 'components/General/Loading';
 
 storiesOf('Components | Loading', module)
   .add('default', () => (
-    <IntlProvider locale="ja" initialNow={Date.now()}>
+    <IntlProvider locale="ja">
       <ThemeProvider theme={theme}>
         <Global styles={globalStyle} />
         <Flex flexWrap="wrap" py={3} width={1}>
@@ -25,7 +25,7 @@ storiesOf('Components | Loading', module)
     </IntlProvider>
   ))
   .add('centered', () => (
-    <IntlProvider locale="ja" initialNow={Date.now()}>
+    <IntlProvider locale="ja">
       <ThemeProvider theme={theme}>
         <Global styles={globalStyle} />
         <Flex flexWrap="wrap" py={3} width={1}>

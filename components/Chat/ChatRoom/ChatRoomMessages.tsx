@@ -8,7 +8,7 @@ import Loading from 'components/General/Loading';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import {
   CHATROOM_CHATMESSAGES_QUERY,
   CHATROOM_PUZZLE_QUERY,
@@ -34,16 +34,20 @@ import { CHATMESSAGES_PER_PAGE } from './constants';
 import { WatchObjectActionType } from 'components/Hoc/types';
 import { ChatroomChatmessageLiveQuery } from 'graphql/LiveQueries/generated/ChatroomChatmessageLiveQuery';
 import { StateType, ActionContentType } from 'reducers/types';
-import { ChatRoomMessagesProps, ChatRoomMessagesBodyProps } from './types';
+import {
+  ChatRoomMessagesProps,
+  ChatRoomMessagesBodyProps,
+  ChatRoomMessagesDefaultProps,
+} from './types';
 
 // Add Wrapper to ChannelContent due to flex bug: https://github.com/philipwalton/flexbugs/issues/108
-const ChannelContentWrapper = styled.div`
-  overflow-y: auto;
-  position: absolute;
+const ChannelContentWrapper = styled.div<{ autoExpand: boolean }>`
+  display: block;
   width: 100%;
-  top: ${p => p.theme.sizes.channelbar};
-  bottom: ${p => p.theme.sizes.chatinput};
-  left: 0;
+  ${p => p.autoExpand && 'height: 0;'}
+  flex: 1 1 auto;
+  flex-grow: 3;
+  overflow-y: auto;
 `;
 
 const ChannelContent = styled.div`
@@ -61,6 +65,7 @@ const ChatRoomMessagesBody = ({
   user,
   relatedPuzzleId,
   chatmessageUpdate,
+  autoExpand,
 }: ChatRoomMessagesBodyProps) => {
   if (error) {
     toast.error(error.message);
@@ -155,7 +160,7 @@ const ChatRoomMessagesBody = ({
       ]}
     >
       {({ scrollerRef }) => (
-        <ChannelContentWrapper ref={scrollerRef}>
+        <ChannelContentWrapper autoExpand={autoExpand} ref={scrollerRef}>
           <ChannelContent>
             {relatedPuzzleId ? (
               <Query<ChatroomPuzzle, ChatroomPuzzleVariables>
@@ -172,22 +177,31 @@ const ChatRoomMessagesBody = ({
                   const { sui_hei_puzzle_by_pk: relatedPuzzle } = res.data;
                   if (!relatedPuzzle) return null;
                   if (relatedPuzzle.anonymous && relatedPuzzle.status === 0) {
-                    return chatmessages.map(cm => (
-                      <Chatmessage
-                        key={`chatmessage-${cm.id}`}
-                        chatmessage={cm}
-                        anonymous={
-                          relatedPuzzle.sui_hei_user.id === cm.sui_hei_user.id
-                        }
-                      />
-                    ));
+                    return (
+                      <>
+                        {chatmessages.map(cm => (
+                          <Chatmessage
+                            key={`chatmessage-${cm.id}`}
+                            chatmessage={cm}
+                            anonymous={
+                              relatedPuzzle.sui_hei_user.id ===
+                              cm.sui_hei_user.id
+                            }
+                          />
+                        ))}
+                      </>
+                    );
                   }
-                  return chatmessages.map(cm => (
-                    <Chatmessage
-                      key={`chatmessage-${cm.id}`}
-                      chatmessage={cm}
-                    />
-                  ));
+                  return (
+                    <>
+                      {chatmessages.map(cm => (
+                        <Chatmessage
+                          key={`chatmessage-${cm.id}`}
+                          chatmessage={cm}
+                        />
+                      ))}
+                    </>
+                  );
                 }}
               </Query>
             ) : (
@@ -229,6 +243,7 @@ const ChatRoomMessages = ({
   relatedPuzzleId,
   user,
   chatmessageUpdate,
+  autoExpand,
 }: ChatRoomMessagesProps) =>
   chatroomId ? (
     <Query<ChatroomChatmessages, ChatroomChatmessagesVariables>
@@ -240,6 +255,7 @@ const ChatRoomMessages = ({
     >
       {queryParams => (
         <ChatRoomMessagesBody
+          autoExpand={autoExpand}
           chatroomId={chatroomId}
           relatedPuzzleId={relatedPuzzleId}
           user={user}
@@ -253,6 +269,8 @@ const ChatRoomMessages = ({
       <Box fontSize={2}>Chatroom does not exist!</Box>
     </Flex>
   );
+
+ChatRoomMessages.defaultProps = ChatRoomMessagesDefaultProps;
 
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,

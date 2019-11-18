@@ -1,4 +1,3 @@
-import { MutationFn } from 'react-apollo';
 import {
   UpdatePuzzleMutation,
   UpdatePuzzleMutationVariables,
@@ -8,6 +7,7 @@ import {
   UpdatePuzzleDazedOnMutation,
   UpdatePuzzleDazedOnMutationVariables,
 } from 'graphql/Mutations/generated/UpdatePuzzleDazedOnMutation';
+import { MutationFunction } from '@apollo/react-common';
 
 export enum ControlPanelPanelType {
   SOLUTION_EDIT,
@@ -44,8 +44,11 @@ export type HintAddPanelProps = {
 };
 
 export type PuzzleEditPanelProps = {
-  updatePuzzle: MutationFn<UpdatePuzzleMutation, UpdatePuzzleMutationVariables>;
-  updatePuzzleDazedOn: MutationFn<
+  updatePuzzle: MutationFunction<
+    UpdatePuzzleMutation,
+    UpdatePuzzleMutationVariables
+  >;
+  updatePuzzleDazedOn: MutationFunction<
     UpdatePuzzleDazedOnMutation,
     UpdatePuzzleDazedOnMutationVariables
   >;

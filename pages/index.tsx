@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import styled from 'theme/styled';
-import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import { line2md } from 'common/markdown';
 import { Flex, Box, LinkButton, Img } from 'components/General';
 import PuzzleShowcase from 'components/Showcase/Puzzle';
@@ -65,8 +65,8 @@ const StartBox = styled(LinkButton)`
   }
 `;
 
-const HomePage = (_props: any, context: { intl: IntlShape }) => {
-  const _: any = context.intl.formatMessage;
+const HomePage = ({ intl }: { intl: IntlShape }) => {
+  const _ = intl.formatMessage;
   return (
     <PurpleBg flexWrap="wrap" pb={4}>
       <Head>
@@ -84,7 +84,9 @@ const HomePage = (_props: any, context: { intl: IntlShape }) => {
       <Flex width={1} mx={1} pt={20} pb={20}>
         <IntroBox width={[0.7, 0.75, 0.78]} m={20} p={10}>
           <FormattedMessage {...messages.body}>
-            {msg => <div dangerouslySetInnerHTML={{ __html: line2md(msg) }} />}
+            {(msg: string) => (
+              <div dangerouslySetInnerHTML={{ __html: line2md(msg) }} />
+            )}
           </FormattedMessage>
         </IntroBox>
         <Flex alignItems="center" width={[0.3, 0.25, 0.22]}>
@@ -115,8 +117,4 @@ const HomePage = (_props: any, context: { intl: IntlShape }) => {
   );
 };
 
-HomePage.contextTypes = {
-  intl: intlShape,
-};
-
-export default HomePage;
+export default injectIntl(HomePage);

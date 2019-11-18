@@ -14,7 +14,7 @@ import { IntlProvider } from 'react-intl';
 import PuzzleShowcase from 'components/Showcase/Puzzle';
 
 storiesOf('Showcase | PuzzleShowcase', module).add('default', () => (
-  <IntlProvider locale="ja" initialNow={Date.now()}>
+  <IntlProvider locale="ja">
     <ThemeProvider theme={theme}>
       <Global styles={globalStyle} />
       <Flex width={1}>

@@ -7,7 +7,7 @@ import starFillIcon from 'svgs/starFill.svg';
 import { FormattedMessage } from 'react-intl';
 import chatMessages from 'messages/components/chat';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { DELETE_FAVORITE_CHATROOM_MUTATION } from 'graphql/Mutations/Chat';
 import {
   DeleteFavoriteChatroomMutation,

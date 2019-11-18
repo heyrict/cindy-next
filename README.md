@@ -26,7 +26,7 @@ Requisitories
     apt-get install postgresql
     ```
 
-- nodejs manager (latest `npm` or `yarn`). Note that the project is developed with `yarn`.
+- node \> v12.13.0, nodejs manager (latest `npm` or `yarn`). Note that the project is developed with `yarn`.
 
     ```bash
     # Use npm

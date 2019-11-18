@@ -3,10 +3,10 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import tagMessages from 'messages/pages/tag';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
 import { TAG_PUZZLES_QUERY } from 'graphql/Queries/Puzzles';
 import { TAG_QUERY } from 'graphql/Queries/Tag';
@@ -27,8 +27,8 @@ import { order_by } from 'generated/globalTypes';
 
 const puzzleWidth = [1, 1 / 2, 1, 1 / 2, 1 / 3];
 
-const TagPage = (_props: any, context: { intl: IntlShape }) => {
-  const _: any = context.intl.formatMessage;
+const TagPage = ({ intl }: { intl: IntlShape }) => {
+  const _ = intl.formatMessage;
   const router = useRouter();
   const { id } = router.query;
   const tagId = parseInt(id as string, 10);
@@ -110,11 +110,15 @@ const TagPage = (_props: any, context: { intl: IntlShape }) => {
           renderItems={data => {
             const puzzles = data.sui_hei_puzzle;
             if (!puzzles) return null;
-            return puzzles.map(puzzle => (
-              <Box key={puzzle.id} width={puzzleWidth}>
-                <PuzzleBrief puzzle={puzzle} />
-              </Box>
-            ));
+            return (
+              <>
+                {puzzles.map(puzzle => (
+                  <Box key={puzzle.id} width={puzzleWidth}>
+                    <PuzzleBrief puzzle={puzzle} />
+                  </Box>
+                ))}
+              </>
+            );
           }}
         />
       </Flex>
@@ -122,8 +126,4 @@ const TagPage = (_props: any, context: { intl: IntlShape }) => {
   );
 };
 
-TagPage.contextTypes = {
-  intl: intlShape,
-};
-
-export default TagPage;
+export default injectIntl(TagPage);

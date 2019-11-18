@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { widthSplits } from '../constants';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import {
   UPDATE_PUZZLE_MUTATION,
   UPDATE_PUZZLE_DAZED_ON_MUTATION,

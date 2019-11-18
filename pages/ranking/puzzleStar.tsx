@@ -1,10 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { PUZZLE_STAR_RANKING_QUERY } from 'graphql/Queries/Ranking';
 
-import { FormattedMessage, intlShape, FormattedDate } from 'react-intl';
+import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, Box } from 'components/General';
@@ -20,10 +20,10 @@ import {
   PuzzleStarRankingQuery,
   PuzzleStarRankingQueryVariables,
 } from 'graphql/Queries/generated/PuzzleStarRankingQuery';
-import { RankingProps, RankingContext } from 'pageTypes';
+import { RankingProps } from 'pageTypes';
 
-const PuzzleStarRanking = (_props: RankingProps, context: RankingContext) => {
-  const _ = context.intl.formatMessage as any;
+const PuzzleStarRanking = ({ intl }: RankingProps) => {
+  const _ = intl.formatMessage;
   const now = new Date();
   const [monthlyStart, monthlyEnd] = getMonthlyDate(now);
   return (
@@ -74,8 +74,4 @@ const PuzzleStarRanking = (_props: RankingProps, context: RankingContext) => {
   );
 };
 
-PuzzleStarRanking.contextTypes = {
-  intl: intlShape,
-};
-
-export default PuzzleStarRanking;
+export default injectIntl(PuzzleStarRanking);

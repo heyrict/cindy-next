@@ -5,7 +5,7 @@ import { Flex, Box } from 'components/General';
 import Loading from 'components/General/Loading';
 import StarInput from 'components/Star/StarInput';
 
-import { Query, Mutation } from 'react-apollo';
+import { Query, Mutation } from '@apollo/react-components';
 import {
   PUZZLE_STAR_QUERY,
   PREVIOUS_STAR_VALUE_QUERY,

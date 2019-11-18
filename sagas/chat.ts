@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { put, select, all, takeEvery } from 'redux-saga/effects';
 
 import { getHashStore, setHashStore } from './common';
@@ -68,11 +69,28 @@ function* closeChatAndToolbarMenu() {
   );
 }
 
+function* changeChannelAtChannelPage(action: ActionContentType) {
+  console.log(action);
+  const innerAction = action.payload as {
+    value: string;
+  };
+  const channelName = innerAction.value || 'lobby';
+  const route: string = yield select(
+    (state: StateType) => globalReducer.rootSelector(state).route,
+  );
+
+  if (route.startsWith('/channel/')) {
+    console.log('Changing channel to ', channelName);
+    Router.push('/channel/[name]', `/channel/${channelName}`);
+  }
+}
+
 function* chatRootSaga() {
   yield all([
     takeEvery(chatReducer.actionTypes.CHATMESSAGE_UPDATE, setChatHasnew),
     takeEvery(globalReducer.actionTypes.ASIDE, readChat),
     takeEvery(globalReducer.actionTypes.ROUTECHANGE, closeChatAndToolbarMenu),
+    takeEvery(globalReducer.actionTypes.CHANNEL, changeChannelAtChannelPage),
   ]);
 }
 

@@ -1,5 +1,5 @@
 export function getCookie(
-  c_name,
+  c_name: string,
   c_str = process.browser ? document.cookie : '',
 ) {
   var c_start, c_end;
@@ -16,9 +16,9 @@ export function getCookie(
 }
 
 export function setCookie(
-  c_name,
-  c_value,
-  c_expiry /* seconds */,
+  c_name: string,
+  c_value: string,
+  c_expiry: number /* seconds */,
   c_path = '/',
 ) {
   let expiry_str = '';
@@ -26,7 +26,7 @@ export function setCookie(
   if (c_expiry) {
     let expiry_date = new Date();
     expiry_date.setTime(expiry_date.getTime() + c_expiry * 1000);
-    expiry_str = `;expires=${expiry_date.toGMTString()};max-age=${c_expiry}`;
+    expiry_str = `;expires=${expiry_date.toUTCString()};max-age=${c_expiry}`;
   }
   document.cookie = `${c_name}=${c_value}${expiry_str}${path_str}`;
 }

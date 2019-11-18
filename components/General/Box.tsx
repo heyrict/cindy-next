@@ -5,12 +5,14 @@ import {
   typography,
   border,
   layout,
+  flexbox,
   overflow,
   SpaceProps,
   ColorProps,
   TypographyProps,
   BorderProps,
   LayoutProps,
+  FlexboxProps,
   OverflowProps,
 } from 'styled-system';
 
@@ -20,6 +22,7 @@ const Box = styled<
     ColorProps &
     TypographyProps &
     BorderProps &
+    FlexboxProps &
     LayoutProps &
     OverflowProps
 >('div')`
@@ -31,6 +34,7 @@ const Box = styled<
   ${border}
   ${layout}
   ${overflow}
+  ${flexbox}
 `;
 
 export default Box;

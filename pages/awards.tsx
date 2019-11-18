@@ -5,12 +5,12 @@ import { Heading } from 'components/General';
 import AwardsRenderer from 'components/Award/AwardsRenderer';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 
-import { intlShape, IntlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, IntlShape, FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/awards';
 import awardsMessages from 'messages/pages/awards';
 
-const Awards = (_props: {}, context: { intl: IntlShape }) => {
-  const _ = context.intl.formatMessage as any;
+const Awards = ({ intl }: { intl: IntlShape }) => {
+  const _ = intl.formatMessage;
 
   return (
     <React.Fragment>
@@ -27,8 +27,4 @@ const Awards = (_props: {}, context: { intl: IntlShape }) => {
   );
 };
 
-Awards.contextTypes = {
-  intl: intlShape,
-};
-
-export default Awards;
+export default injectIntl(Awards);

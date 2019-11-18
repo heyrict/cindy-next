@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import Head from 'next/head';
 import { asSearch } from 'common/search';
 
-import { FormattedMessage, intlShape, IntlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import searchMessages from 'messages/pages/search';
 import puzzleMessages from 'messages/components/puzzle';
 import puzzlePageMessages from 'messages/pages/puzzle';
@@ -32,8 +32,8 @@ import {
 import { FilterFieldTypeEnum } from 'components/Search/types';
 import { SearchVariablesStates } from 'pageTypes';
 
-const Search = (_props: any, context: { intl: IntlShape }) => {
-  const _: any = context.intl.formatMessage;
+const Search = ({ intl }: { intl: IntlShape }) => {
+  const _ = intl.formatMessage;
   const searchRef = useRef<SearchVarSetPanel>(null);
   const sortRef = useRef<SortVarSetPanel>(null);
   const [variables, setVariables] = useState({
@@ -268,11 +268,15 @@ const Search = (_props: any, context: { intl: IntlShape }) => {
           renderItems={data => {
             const puzzles = data.sui_hei_puzzle;
             if (!puzzles) return null;
-            return puzzles.map(puzzle => (
-              <MultiColBox key={puzzle.id}>
-                <PuzzleBrief puzzle={puzzle} />
-              </MultiColBox>
-            ));
+            return (
+              <>
+                {puzzles.map(puzzle => (
+                  <MultiColBox key={puzzle.id}>
+                    <PuzzleBrief puzzle={puzzle} />
+                  </MultiColBox>
+                ))}
+              </>
+            );
           }}
         />
       </Flex>
@@ -280,8 +284,4 @@ const Search = (_props: any, context: { intl: IntlShape }) => {
   );
 };
 
-Search.contextTypes = {
-  intl: intlShape,
-};
-
-export default Search;
+export default injectIntl(Search);

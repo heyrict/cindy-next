@@ -38,7 +38,7 @@ const sizes = {
   toolbuttonMin: '6em',
   toolbuttonMax: '15em',
   channelbar: '2em',
-  chatinput: '6em',
+  chatinput: '7em',
 };
 
 const theme = {

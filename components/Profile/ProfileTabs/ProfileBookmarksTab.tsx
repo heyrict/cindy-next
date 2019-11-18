@@ -31,21 +31,25 @@ const ProfileBookmarksTab = ({ userId }: ProfileBookmarksTabProps) => (
     }
     renderItems={data => {
       if (!data.sui_hei_bookmark) return null;
-      return data.sui_hei_bookmark.map(bookmark => (
-        <MultiColBox key={bookmark.id}>
-          <PuzzleWithAny
-            cap={
-              <Box color="green.6">
-                <Img src={bookmarkGreenIcon} height="xxs" />
-                <Box display="inline-box" px={1}>
-                  {bookmark.value}
-                </Box>
-              </Box>
-            }
-            puzzle={bookmark.sui_hei_puzzle}
-          />
-        </MultiColBox>
-      ));
+      return (
+        <>
+          {data.sui_hei_bookmark.map(bookmark => (
+            <MultiColBox key={bookmark.id}>
+              <PuzzleWithAny
+                cap={
+                  <Box color="green.6">
+                    <Img src={bookmarkGreenIcon} height="xxs" />
+                    <Box display="inline-box" px={1}>
+                      {bookmark.value}
+                    </Box>
+                  </Box>
+                }
+                puzzle={bookmark.sui_hei_puzzle}
+              />
+            </MultiColBox>
+          ))}
+        </>
+      );
     }}
   />
 );

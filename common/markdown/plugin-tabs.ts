@@ -1,24 +1,28 @@
-function hash(string) {
-  var chr;
-  var hash = 0;
-  if (string.length === 0) return hash;
-  for (var i = 0; i < string.length; i++) {
-    chr = string.charCodeAt(i);
+function hash(s: string) {
+  let chr: number;
+  let hash: number = 0;
+  if (s.length === 0) return hash;
+  for (var i = 0; i < s.length; i++) {
+    chr = s.charCodeAt(i);
     hash = (hash << 5) - hash + chr;
     hash |= 0; // Convert to 32bit integer
   }
   return hash;
 }
 
-const norm_tabs = string => {
-  var _createID = (text, nmspc) =>
+const norm_tabs = (s: string) => {
+  const _createID = (text: string, nmspc: string) =>
     'tab-' + (nmspc ? nmspc + '-' : '') + hash(text);
 
-  function _build_tabs_navtabs(tab_titles, tab_contents, namespace) {
-    var returns = `
+  function _build_tabs_navtabs(
+    tab_titles: string[],
+    tab_contents: string[],
+    namespace: string,
+  ) {
+    let returns = `
 <ul class="nav nav-tabs"${namespace ? " id='tabs-" + namespace + "'" : ''}>`;
 
-    for (var i in tab_titles) {
+    tab_titles.forEach((_, i) => {
       const newId = _createID(tab_contents[i], namespace);
       returns += `
 <li${i == 0 ? " class='active'" : ''} id="nav${newId}">
@@ -26,35 +30,38 @@ const norm_tabs = string => {
     ${tab_titles[i]}
   </a>
 </li>`;
-    }
+    });
 
     returns += '</ul>';
     return returns;
   }
 
-  function _build_tabs_contents(tab_titles, tab_contents, namespace) {
-    var returns = "<div class='tab-content'>";
+  function _build_tabs_contents(
+    tab_titles: string[],
+    tab_contents: string[],
+    namespace: string,
+  ) {
+    let returns = "<div class='tab-content'>";
 
-    for (var i in tab_titles) {
+    tab_titles.forEach((_, i) => {
       returns += `
 <div id="${_createID(tab_contents[i], namespace)}"
   ${i == 0 ? "class='tab-pane active'" : "class='tab-pane'"}>
   ${tab_contents[i]}
 </div>`;
-    }
+    });
 
     returns += '</div>';
     return returns;
   }
 
   function _build_tabs() {
-    var res,
-      tab_titles = Array(),
-      tab_contents = Array();
+    let res,
+      tab_titles: Array<string> = [],
+      tab_contents: Array<string> = [];
 
-    var namespace = arguments[1],
+    let namespace = arguments[1],
       text = arguments[2],
-      returns = text,
       regex = /<!--tab *([^>]*?)-->([\s\S]*?)<!--endtab-->/g;
 
     while ((res = regex.exec(text))) {
@@ -68,15 +75,21 @@ const norm_tabs = string => {
     );
   }
 
-  return string.replace(
+  return s.replace(
     /<!--tabs ?([^>]*?)-->([\s\S]*?)<!--endtabs-->/g,
     _build_tabs,
   );
 };
 
-export const changeTabularTab = id => {
-  const tabContents = document.getElementById(id).parentElement;
-  const navtabContents = document.getElementById(`nav${id}`).parentElement;
+export const changeTabularTab = (id: string) => {
+  const tabEl = document.getElementById(id);
+  const navtabEl = document.getElementById(`nav${id}`);
+  if (!tabEl || !navtabEl) return;
+
+  const tabContents = tabEl.parentElement;
+  const navtabContents = navtabEl.parentElement;
+  if (!tabContents || !navtabContents) return;
+
   Array.from(tabContents.children).forEach(child => {
     if (child.id === id) {
       child.setAttribute('class', 'tab-pane active');

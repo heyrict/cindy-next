@@ -1,10 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { USER_DIALOGUE_RANKING_QUERY } from 'graphql/Queries/Ranking';
 
-import { FormattedMessage, intlShape, FormattedDate } from 'react-intl';
+import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, Box } from 'components/General';
@@ -20,10 +20,10 @@ import {
   UserDialogueRankingQuery,
   UserDialogueRankingQueryVariables,
 } from 'graphql/Queries/generated/UserDialogueRankingQuery';
-import { RankingProps, RankingContext } from 'pageTypes';
+import { RankingProps } from 'pageTypes';
 
-const UserDialogueRanking = (_props: RankingProps, context: RankingContext) => {
-  const _ = context.intl.formatMessage as any;
+const UserDialogueRanking = ({ intl }: RankingProps) => {
+  const _ = intl.formatMessage;
   const now = new Date();
   const [monthlyStart, monthlyEnd] = getMonthlyDate(now);
   return (
@@ -79,8 +79,4 @@ const UserDialogueRanking = (_props: RankingProps, context: RankingContext) => {
   );
 };
 
-UserDialogueRanking.contextTypes = {
-  intl: intlShape,
-};
-
-export default UserDialogueRanking;
+export default injectIntl(UserDialogueRanking);

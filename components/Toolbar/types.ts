@@ -22,3 +22,11 @@ export type LogoutButtonProps = WithLogoutProps;
 export type MessageBoxButtonProps = {
   setTrueDirectModal: () => void;
 };
+
+export const ChatroomButtonDefaultProps = {
+  color: "gray.1"
+}
+
+export type ChatroomButtonProps = {
+  channel: string;
+} & typeof ChatroomButtonDefaultProps;

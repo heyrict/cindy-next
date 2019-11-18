@@ -3,7 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 //import { action } from '@storybook/addon-actions';
 
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-common';
 import { Provider as ReduxProvider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import * as globalReducer from 'reducers/global';
@@ -72,7 +72,7 @@ storiesOf('Views | ToolbarBox', module)
   .add('not logged in', () => (
     <ThemeProvider theme={theme}>
       <ApolloProvider client={apolloClient}>
-        <IntlProvider locale="ja" initialNow={Date.now()}>
+        <IntlProvider locale="ja">
           <ReduxProvider store={noAuthReduxStore}>
             <Global styles={globalStyle} />
             <ToolbarBox>
@@ -87,7 +87,7 @@ storiesOf('Views | ToolbarBox', module)
   .add('logged in', () => (
     <ThemeProvider theme={theme}>
       <ApolloProvider client={apolloClient}>
-        <IntlProvider locale="ja" initialNow={Date.now()}>
+        <IntlProvider locale="ja">
           <ReduxProvider store={authReduxStore}>
             <Global styles={globalStyle} />
             <ToolbarBox>

@@ -16,7 +16,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as puzzleReducer from 'reducers/puzzle';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import {
   DialogueHintQuery,
   DialogueHintQueryVariables,

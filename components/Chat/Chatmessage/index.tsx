@@ -7,7 +7,7 @@ import commonMessages from 'messages/common';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { CHATROOM_EDIT_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
 
 import UserInline from 'components/User/UserInline';
@@ -84,7 +84,7 @@ const Chatmessage = ({
                   onSubmit={text => {
                     if (text === chatmessage.content) {
                       setMode(ChatmessageModeType.NORMAL);
-                      return new Promise(resolve => resolve());
+                      return;
                     }
                     setMode(ChatmessageModeType.NORMAL);
                     return editMessage({
@@ -104,14 +104,14 @@ const Chatmessage = ({
                         },
                       },
                     }).then(result => {
-                      if (!result) return;
-                      const { errors } = result;
-                      if (errors) {
+                      if (result && result.errors) {
+                        const { errors } = result;
                         console.log(errors);
                         setMode(ChatmessageModeType.EDIT);
                       } else {
                         setMode(ChatmessageModeType.NORMAL);
                       }
+                      return result;
                     });
                   }}
                 />

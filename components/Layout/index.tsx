@@ -3,6 +3,7 @@
  */
 
 import React, { useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { Global, css } from '@emotion/core';
 import { toast, ToastContainer, Slide } from 'react-toastify';
 import { requestNotificationPermission } from 'common/web-notify';
@@ -13,6 +14,7 @@ import commonMessages from 'messages/common';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import Chat from 'components/Chat';
+import { ChannelAsideProps } from 'components/Chat/ChannelAside/types';
 import Toolbar from 'components/Toolbar';
 import PuzzleRightAside from 'components/Puzzle/RightAside';
 import AwardChecker from 'components/AwardChecker';
@@ -29,6 +31,26 @@ import * as settingReducer from 'reducers/setting';
 import theme from 'theme/theme';
 import { LayoutProps } from './types';
 import { NotificationPermissionType } from 'common/types';
+import { StateType, ActionContentType } from 'reducers/types';
+
+const ChannelAside = dynamic<Pick<ChannelAsideProps, never>>(
+  () => import('components/Chat/ChannelAside').then(mod => mod.default),
+  { ssr: false },
+);
+
+const scrollbarStyle = css`
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 8px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 2.5px;
+    background-color: ${theme.colors.indigo[7]};
+    -webkit-box-shadow: 0 0 1px ${theme.colors.indigo[3]};
+  }
+`;
 
 const tabsStyle = css`
   .nav {
@@ -235,6 +257,55 @@ const toastifyStyle = css`
   }
 `;
 
+const tableStyle = css`
+  table {
+    border-collapse: collapse;
+    text-align: left;
+  }
+  table tbody {
+    border: 1px solid ${theme.colors.gray[7]};
+  }
+  table td,
+  table th {
+    padding: ${theme.space[1]}px ${theme.space[2]}px;
+  }
+  table thead th {
+    background: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0.05, ${theme.colors.gray[5]}),
+      color-stop(1, ${theme.colors.gray[8]})
+    );
+    background: -moz-linear-gradient(
+      center top,
+      ${theme.colors.gray[5]} 5%,
+      ${theme.colors.gray[8]} 100%
+    );
+    background-color: ${theme.colors.gray[5]};
+    color: ${theme.colors.gray[1]};
+    border-left: 1px solid ${theme.colors.gray[3]};
+  }
+  table thead th:first-child {
+    border: none;
+  }
+  table tbody td {
+    color: ${theme.colors.gray[7]};
+    border-left: 1px solid ${theme.colors.gray[2]};
+    border-bottom: 1px solid ${theme.colors.gray[2]};
+  }
+  table tbody .alt td {
+    background: ${theme.colors.gray[1]};
+    color: ${theme.colors.gray[8]};
+  }
+  table tbody td:first-child {
+    border-left: none;
+  }
+  table tbody tr:last-child td {
+    border-bottom: none;
+  }
+`;
+
 export const globalStyle = css`
   @font-face {
     font-family: 'DejaVu Sans';
@@ -293,11 +364,14 @@ export const globalStyle = css`
   ${tabsStyle}
   ${stampStyle}
   ${toastifyStyle}
+  ${tableStyle}
+  ${scrollbarStyle}
 `;
 
 const Layout = ({
   children,
   appInit,
+  route,
   pushNotification,
   setFalsePushNotification,
 }: LayoutProps) => {
@@ -308,8 +382,8 @@ const Layout = ({
     appInit();
   }, []);
 
+  // Request notification permission
   useEffect(() => {
-    // request notification permission
     if (waitPushHdlRef.current) window.clearTimeout(waitPushHdlRef.current);
     waitPushHdlRef.current = window.setTimeout(() => {
       if (pushNotification)
@@ -377,21 +451,23 @@ const Layout = ({
     }, 5000);
   }, [pushNotification]);
 
+  const isChannelPage = route.startsWith('/channel');
+
   return (
     <React.Fragment>
       <Global styles={globalStyle} />
-      <ChatBox>
-        <Chat />
-      </ChatBox>
+      <ChatBox>{isChannelPage ? <ChannelAside /> : <Chat />}</ChatBox>
       <PuzzleRightAside />
       <ToolbarBox>
         <Toolbar />
       </ToolbarBox>
       <Page>
         {children}
-        <Footer>
-          <Patrons />
-        </Footer>
+        {!isChannelPage && (
+          <Footer>
+            <Patrons />
+          </Footer>
+        )}
       </Page>
       <ToastContainer
         position={toast.POSITION.BOTTOM_RIGHT}
@@ -406,15 +482,20 @@ const Layout = ({
   );
 };
 
+const mapStateToProps = (state: StateType) => ({
+  pushNotification: settingReducer.rootSelector(state).pushNotification,
+  route: globalReducer.rootSelector(state).route,
+});
+
+const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
+  appInit: () => dispatch(globalReducer.actions.appInit()),
+  setFalsePushNotification: () =>
+    dispatch(settingReducer.actions.pushNotification.setFalse()),
+});
+
 const withRedux = connect(
-  state => ({
-    pushNotification: settingReducer.rootSelector(state).pushNotification,
-  }),
-  dispatch => ({
-    appInit: () => dispatch(globalReducer.actions.appInit()),
-    setFalsePushNotification: () =>
-      dispatch(settingReducer.actions.pushNotification.setFalse()),
-  }),
+  mapStateToProps,
+  mapDispatchToProps,
 );
 
 export default withRedux(Layout);

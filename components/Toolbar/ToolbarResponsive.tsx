@@ -19,6 +19,7 @@ import {
   ToolbarResponsiveContents,
   ToolbarResponsiveButton,
 } from './shared';
+import ChatroomButton from './ChatroomButton';
 import LoginButton from './Login/LoginButton';
 import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
@@ -29,6 +30,8 @@ import userIcon from 'svgs/user.svg';
 import logoInline from 'svgs/logoInline.svg';
 import countryJPIcon from 'svgs/countries/ja_JP.svg';
 import countryUSIcon from 'svgs/countries/en_US.svg';
+import twitterIcon from 'svgs/Twitter_Social_Icon_Circle_Color.svg';
+import githubIcon from 'svgs/GitHub-Mark.svg';
 
 import {
   StateType,
@@ -103,6 +106,11 @@ const Toolbar = ({
             </Box>
             <Box width={1 / 2}>
               <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
+                <ChatroomButton color="orange.9" />
+              </ToolbarResponsiveButton>
+            </Box>
+            <Box width={1 / 2}>
+              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
                 <Link href="/users" passHref>
                   <ButtonTransparentA height={1} width={1} color="orange.9">
                     <FormattedMessage {...toolbarMessages.users} />
@@ -132,8 +140,24 @@ const Toolbar = ({
                 </Link>
               </ToolbarResponsiveButton>
             </Box>
-            <Flex width={1 / 2} alignItems="center" justifyContent="center">
-              <ActiveUserCounter />
+            <Flex width={1}>
+              <ButtonTransparentA
+                href="https://twitter.com/CindyRt_Bot"
+                target="_blank"
+                height={1}
+              >
+                <Img p={1} src={twitterIcon} height="xs" />
+              </ButtonTransparentA>
+              <ButtonTransparentA
+                href="https://github.com/heyrict/cindy-next"
+                target="_blank"
+                height={1}
+              >
+                <Img p={1} src={githubIcon} height="xs" />
+              </ButtonTransparentA>
+              <Flex flexGrow={1} alignItems="center" justifyContent="center">
+                <ActiveUserCounter />
+              </Flex>
             </Flex>
           </ToolbarResponsiveContents>
         </Portal>
@@ -234,7 +258,7 @@ const Toolbar = ({
             </Box>
             <ToolbarResponsiveButton
               width={1 / 2}
-              bg="orange.5"
+              bg="transparent"
               color="gray.1"
               onClick={() => closeToolbarMenu()}
             >

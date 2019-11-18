@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { CHANGE_HIDE_BOOKMARK_MUTATION } from 'graphql/Mutations/User';
 
 import { FormattedMessage } from 'react-intl';

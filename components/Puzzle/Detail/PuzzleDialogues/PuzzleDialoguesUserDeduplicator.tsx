@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import {
   DialogueHintQuery,
   DialogueHintQueryVariables,

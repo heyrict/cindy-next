@@ -5,7 +5,7 @@ import { Flex, Box, ButtonTransparent } from 'components/General';
 import Loading from 'components/General/Loading';
 import BookmarkInput from './BookmarkInput';
 
-import { Query, Mutation } from 'react-apollo';
+import { Query, Mutation } from '@apollo/react-components';
 import { PREVIOUS_BOOKMARK_VALUE_QUERY } from 'graphql/Queries/Bookmark';
 
 import { connect } from 'react-redux';

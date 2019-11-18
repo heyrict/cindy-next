@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import * as directReducer from 'reducers/direct';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { USER_BRIEF_QUERY } from 'graphql/Queries/User';
 
 import { FormattedMessage } from 'react-intl';

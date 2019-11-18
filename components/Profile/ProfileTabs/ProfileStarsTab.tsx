@@ -30,18 +30,22 @@ const ProfileStarsTab = ({ userId }: ProfileStarsTabProps) => (
     }
     renderItems={data => {
       if (!data.sui_hei_star) return null;
-      return data.sui_hei_star.map(star => (
-        <MultiColBox key={star.id}>
-          <PuzzleWithAny
-            cap={
-              <Flex flexDirection="column-reverse">
-                <StarDisplay value={star.value} size={3} />
-              </Flex>
-            }
-            puzzle={star.sui_hei_puzzle}
-          />
-        </MultiColBox>
-      ));
+      return (
+        <>
+          {data.sui_hei_star.map(star => (
+            <MultiColBox key={star.id}>
+              <PuzzleWithAny
+                cap={
+                  <Flex flexDirection="column-reverse">
+                    <StarDisplay value={star.value} size={3} />
+                  </Flex>
+                }
+                puzzle={star.sui_hei_puzzle}
+              />
+            </MultiColBox>
+          ))}
+        </>
+      );
     }}
   />
 );

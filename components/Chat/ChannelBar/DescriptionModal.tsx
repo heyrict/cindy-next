@@ -2,7 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { line2md } from 'common/markdown';
 
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { CHATROOM_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
 
 import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
@@ -77,14 +77,15 @@ const DescriptionModal = ({
                 />
               </Box>
               {chatroom.description ? (
-                <div
+                <Box
                   style={{ minHeight: '3em' }}
+                  mb={4}
                   dangerouslySetInnerHTML={{
                     __html: line2md(chatroom.description),
                   }}
                 />
               ) : (
-                <Box>
+                <Box mb={4}>
                   <FormattedMessage {...chatMessages.noDescription} />
                 </Box>
               )}

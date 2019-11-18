@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
 
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { EDIT_QUESTION_MUTATION } from 'graphql/Mutations/Dialogue';
 
 import { Flex, ButtonTransparent, Img, Textarea } from 'components/General';

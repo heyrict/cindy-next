@@ -2,13 +2,12 @@ import {
   PuzzleQuery,
   PuzzleQueryVariables,
 } from 'graphql/Queries/generated/PuzzleQuery';
-import { QueryResult } from 'react-apollo';
+import { QueryResult } from '@apollo/react-common';
 import { PuzzleType } from './Brief/types';
 import { CommentDetail } from 'graphql/Fragments/generated/CommentDetail';
 
 export type PuzzleRendererProps = {
   formatMessage: any;
-  puzzleId: number;
   pushNotification: boolean;
 } & QueryResult<PuzzleQuery, PuzzleQueryVariables>;
 

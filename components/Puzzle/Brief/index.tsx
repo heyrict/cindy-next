@@ -9,7 +9,11 @@ import { AnonymousUserCol } from 'components/User/Anonymous';
 import { connect } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
 
-import { FormattedMessage, FormattedTime, FormattedRelative } from 'react-intl';
+import {
+  FormattedMessage,
+  FormattedTime,
+  FormattedRelativeTime,
+} from 'react-intl';
 import messages from 'messages/components/puzzle';
 
 import Anonymous from './Anonymous';
@@ -139,7 +143,16 @@ export const Brief = ({
         {aggregates.dialogueMaxAnsweredtime && (
           <Time width={1}>
             <FormattedMessage {...messages.lastupdate} />:{' '}
-            <FormattedRelative value={aggregates.dialogueMaxAnsweredtime} />
+            <FormattedRelativeTime
+              unit="second"
+              numeric="auto"
+              updateIntervalInSeconds={15}
+              value={
+                (Date.parse(aggregates.dialogueMaxAnsweredtime as string) -
+                  Date.now()) /
+                1000
+              }
+            />
           </Time>
         )}
         {puzzle.created && (

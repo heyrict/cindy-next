@@ -55,6 +55,14 @@ const awardsMessages = defineMessages({
     id: `${scope}.group_starSum`,
     defaultMessage: 'Star Sum Related',
   },
+  group_others: {
+    id: `${scope}.group_others`,
+    defaultMessage: 'Others',
+  },
+  group_age: {
+    id: `${scope}.group_age`,
+    defaultMessage: 'Age Related',
+  },
 });
 
 export default awardsMessages;

@@ -1,6 +1,6 @@
-import { OperationVariables, QueryOpts } from 'react-apollo/types';
-import { DocumentNode } from 'apollo-link/lib/types';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { DocumentNode } from 'graphql';
+import { OperationVariables, BaseQueryOptions } from '@apollo/react-common';
+import { ApolloError } from 'apollo-client';
 
 export enum PaginatorBarPosition {
   NONE = 0b00,
@@ -20,14 +20,14 @@ type QueryPropsWithoutChildren<TData, TVariables> = {
   skip?: boolean;
   onCompleted?: (data: TData) => void;
   onError?: (error: ApolloError) => void;
-} & QueryOpts<TVariables>;
+} & BaseQueryOptions<TVariables>;
 
 export type PaginatedQueryProps<
   TData = any,
   TVariables = OperationVariables
 > = {
   getItemCount: (data: TData) => number;
-  renderItems: (data: TData) => React.ReactNode;
+  renderItems: (data: TData) => JSX.Element | null;
 } & typeof PaginatedQueryDefaultProps &
   QueryPropsWithoutChildren<TData, TVariables>;
 
