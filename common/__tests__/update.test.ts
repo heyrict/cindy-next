@@ -177,11 +177,6 @@ const updateMultipleList = {
   ],
   AmB: [
     {
-      id: 7,
-      modified: '2019-01-16',
-      value: 'S',
-    },
-    {
       id: 8,
       value: 'b',
       modified: '2019-01-17',
@@ -382,11 +377,6 @@ describe('Test upsertItem(list, item)', () => {
       expect(upsertItem(simpleList.A, simpleList.add, 'id')).toStrictEqual(
         simpleList.Aadd,
       );
-    });
-    it('and should also work in reverse order', () => {
-      expect(
-        upsertItem([...simpleList.A].reverse(), simpleList.add, 'id', 'desc'),
-      ).toStrictEqual([...simpleList.Aadd].reverse());
     });
     it('Insert item to simpleList should work', () => {
       expect(upsertItem(simpleList.A, simpleList.ins, 'id')).toStrictEqual(

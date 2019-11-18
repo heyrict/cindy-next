@@ -130,12 +130,12 @@ export function upsertItem<V = any>(
   }
 
   // Don't prepend item to the list
-  //if (
-  //  (sort === 'asc' && list[0][key] > item[key]) ||
-  //  (sort === 'desc' && list[list.length - 1][key] < item[key])
-  //) {
-  //  return list;
-  //}
+  if (
+    (sort === 'asc' && list[0][key] > item[key]) ||
+    (sort === 'desc' && list[list.length - 1][key] < item[key])
+  ) {
+    return list;
+  }
 
   let index = list.findIndex(o => o[key] === item[key]);
   if (index === -1) {
@@ -144,6 +144,12 @@ export function upsertItem<V = any>(
   return updateItem(list, item, key, index);
 }
 
+/*
+ * function upsertMultipleItem(list, items, key, sort)
+ *
+ * Given items sorted by updated time, append them to list if newly added,
+ * or update the corresponding item if it is found in list.
+ */
 export function upsertMultipleItem<V = any>(
   list: Array<V>,
   items: Array<V>,
