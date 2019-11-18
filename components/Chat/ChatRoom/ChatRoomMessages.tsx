@@ -34,12 +34,18 @@ import { CHATMESSAGES_PER_PAGE } from './constants';
 import { WatchObjectActionType } from 'components/Hoc/types';
 import { ChatroomChatmessageLiveQuery } from 'graphql/LiveQueries/generated/ChatroomChatmessageLiveQuery';
 import { StateType, ActionContentType } from 'reducers/types';
-import { ChatRoomMessagesProps, ChatRoomMessagesBodyProps } from './types';
+import {
+  ChatRoomMessagesProps,
+  ChatRoomMessagesBodyProps,
+  ChatRoomMessagesDefaultProps,
+} from './types';
 
 // Add Wrapper to ChannelContent due to flex bug: https://github.com/philipwalton/flexbugs/issues/108
-const ChannelContentWrapper = styled.div`
+const ChannelContentWrapper = styled.div<{ autoExpand: boolean }>`
   display: block;
   width: 100%;
+  ${p => p.autoExpand && 'height: 0;'}
+  flex: 1 1 auto;
   flex-grow: 3;
   overflow-y: auto;
 `;
@@ -59,6 +65,7 @@ const ChatRoomMessagesBody = ({
   user,
   relatedPuzzleId,
   chatmessageUpdate,
+  autoExpand,
 }: ChatRoomMessagesBodyProps) => {
   if (error) {
     toast.error(error.message);
@@ -153,7 +160,7 @@ const ChatRoomMessagesBody = ({
       ]}
     >
       {({ scrollerRef }) => (
-        <ChannelContentWrapper ref={scrollerRef}>
+        <ChannelContentWrapper autoExpand={autoExpand} ref={scrollerRef}>
           <ChannelContent>
             {relatedPuzzleId ? (
               <Query<ChatroomPuzzle, ChatroomPuzzleVariables>
@@ -236,6 +243,7 @@ const ChatRoomMessages = ({
   relatedPuzzleId,
   user,
   chatmessageUpdate,
+  autoExpand,
 }: ChatRoomMessagesProps) =>
   chatroomId ? (
     <Query<ChatroomChatmessages, ChatroomChatmessagesVariables>
@@ -247,6 +255,7 @@ const ChatRoomMessages = ({
     >
       {queryParams => (
         <ChatRoomMessagesBody
+          autoExpand={autoExpand}
           chatroomId={chatroomId}
           relatedPuzzleId={relatedPuzzleId}
           user={user}
@@ -260,6 +269,8 @@ const ChatRoomMessages = ({
       <Box fontSize={2}>Chatroom does not exist!</Box>
     </Flex>
   );
+
+ChatRoomMessages.defaultProps = ChatRoomMessagesDefaultProps;
 
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,

@@ -18,14 +18,19 @@ export type ChatRoomMessagesBodyProps = {
   relatedPuzzleId?: number | null;
   user: GlobalUserType;
   chatmessageUpdate: (chatroomId: number, messagesHash: number) => void;
+  autoExpand: boolean;
 } & QueryResult<ChatroomChatmessages, ChatroomChatmessagesVariables>;
+
+export const ChatRoomMessagesDefaultProps = {
+  autoExpand: false,
+};
 
 export type ChatRoomMessagesProps = {
   chatroomId?: number;
   relatedPuzzleId?: number | null;
   user: GlobalUserType;
   chatmessageUpdate: (chatroomId: number, messagesHash: number) => void;
-};
+} & typeof ChatRoomMessagesDefaultProps;
 
 export type ChatRoomProps = {
   chatroom?: string;

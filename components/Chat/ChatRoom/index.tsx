@@ -52,6 +52,7 @@ class ChatRoom extends React.Component<ChatRoomProps> {
                 <ChatRoomMessages
                   chatroomId={chatroomId}
                   relatedPuzzleId={relatedPuzzleId}
+                  autoExpand
                 />
               ) : (
                 <h1 style={{ margin: '1em' }}>
