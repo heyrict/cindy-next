@@ -244,7 +244,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                           const group = groups.find(
                             grp => grp.group === awardObj.genre,
                           );
-                          if (group && group.value > awardObj.count) {
+                          if (group && group.value >= awardObj.count) {
                             return AwardStatusType.REACH;
                           }
                           return AwardStatusType.WAIT;
