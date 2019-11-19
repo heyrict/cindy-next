@@ -31,7 +31,7 @@ export function wrapSubsetActions<T = ActionSubsetType>(
   ) => {
     type: U;
     payload: ReturnType<T[K] extends ActionSubsetContentType ? T[K] : never>;
-  }
+  };
 } {
   return function<U = string>(actionType: U) {
     type R = {
@@ -42,7 +42,7 @@ export function wrapSubsetActions<T = ActionSubsetType>(
         payload: ReturnType<
           T[K] extends ActionSubsetContentType ? T[K] : never
         >;
-      }
+      };
     };
     const returns: { [_K: string]: any } = {};
     Object.entries(actionSubset).forEach(([act, func]) => {

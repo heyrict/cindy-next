@@ -13,6 +13,6 @@ export type WrappedActionSubsetType<
     [K in keyof T]: {
       type: T[K];
       payload: K extends keyof P ? P[K] : any;
-    }
+    };
   }
 >;

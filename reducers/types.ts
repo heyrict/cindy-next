@@ -21,7 +21,7 @@ export type ActionContentType<
       : {
           type: T[K];
           payload?: any;
-        }
+        };
   }
 >;
 

@@ -286,7 +286,7 @@ const tableStyle = css`
     color: ${theme.colors.gray[1]};
     border-left: 1px solid ${theme.colors.gray[3]};
   }
-  table thead th:first-child {
+  table thead th:first-of-type {
     border: none;
   }
   table tbody td {
@@ -298,10 +298,10 @@ const tableStyle = css`
     background: ${theme.colors.gray[1]};
     color: ${theme.colors.gray[8]};
   }
-  table tbody td:first-child {
+  table tbody td:first-of-type {
     border-left: none;
   }
-  table tbody tr:last-child td {
+  table tbody tr:last-of-type td {
     border-bottom: none;
   }
 `;

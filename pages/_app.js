@@ -1,6 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
-import App, { Container } from 'next/app';
+import App from 'next/app';
 import { compose } from 'redux';
 import { ApolloProvider } from '@apollo/react-common';
 import { ThemeProvider } from 'emotion-theming';
@@ -103,19 +103,17 @@ class MyApp extends App {
     } = this.props;
 
     return (
-      <Container>
-        <ThemeProvider theme={theme}>
-          <ApolloProvider client={apolloClient}>
-            <ReduxProvider store={reduxStore}>
-              <LanguageProvider initLocale={locale}>
-                <GlobalLayout>
-                  <Component {...pageProps} />
-                </GlobalLayout>
-              </LanguageProvider>
-            </ReduxProvider>
-          </ApolloProvider>
-        </ThemeProvider>
-      </Container>
+      <ThemeProvider theme={theme}>
+        <ApolloProvider client={apolloClient}>
+          <ReduxProvider store={reduxStore}>
+            <LanguageProvider initLocale={locale}>
+              <GlobalLayout>
+                <Component {...pageProps} />
+              </GlobalLayout>
+            </LanguageProvider>
+          </ReduxProvider>
+        </ApolloProvider>
+      </ThemeProvider>
     );
   }
 }
