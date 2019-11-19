@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { mergeList, upsertItem } from 'common/update';
+import { mergeList, upsertMultipleItem } from 'common/update';
 import { maybeSendNotification } from 'common/web-notify';
+import { SUBSCRIPTION_BATCH_LIMIT } from 'settings';
 
 import { useIntl } from 'react-intl';
 import webNotifyMessages from 'messages/webNotify';
@@ -170,9 +171,9 @@ export const PuzzleDialoguesRenderer = ({
         }
 
         return Object.assign({}, prev, {
-          sui_hei_dialogue: upsertItem(
+          sui_hei_dialogue: upsertMultipleItem(
             prev.sui_hei_dialogue,
-            sui_hei_dialogue[0],
+            sui_hei_dialogue,
             'id',
             'asc',
           ),
@@ -199,9 +200,9 @@ export const PuzzleDialoguesRenderer = ({
         }
 
         return Object.assign({}, prev, {
-          sui_hei_hint: upsertItem(
+          sui_hei_hint: upsertMultipleItem(
             prev.sui_hei_hint,
-            sui_hei_hint[0],
+            sui_hei_hint,
             'id',
             'asc',
           ),
@@ -213,12 +214,12 @@ export const PuzzleDialoguesRenderer = ({
         // Subscribe with user id filtering
         const unsubscribeHint = subscribeToMore({
           document: HINT_WITH_USER_LIVE_QUERY,
-          variables,
+          variables: { ...variables, limit: SUBSCRIPTION_BATCH_LIMIT },
           updateQuery: handleHintSubscribeUpdate,
         });
         const unsubscribeDialogue = subscribeToMore({
           document: DIALOGUE_WITH_USER_LIVE_QUERY,
-          variables,
+          variables: { ...variables, limit: SUBSCRIPTION_BATCH_LIMIT },
           updateQuery: handleDialogueSubscribeUpdate,
         });
         return () => {
@@ -229,12 +230,12 @@ export const PuzzleDialoguesRenderer = ({
         // Subscribe without filtering
         const unsubscribeHint = subscribeToMore({
           document: HINT_LIVE_QUERY,
-          variables,
+          variables: { ...variables, limit: SUBSCRIPTION_BATCH_LIMIT },
           updateQuery: handleHintSubscribeUpdate,
         });
         const unsubscribeDialogue = subscribeToMore({
           document: DIALOGUE_LIVE_QUERY,
-          variables,
+          variables: { ...variables, limit: SUBSCRIPTION_BATCH_LIMIT },
           updateQuery: handleDialogueSubscribeUpdate,
         });
         return () => {

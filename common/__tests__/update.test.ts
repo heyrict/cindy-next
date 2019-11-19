@@ -415,5 +415,23 @@ describe('Test upsertMultipleItem(list, item)', () => {
         'asc',
       ),
     ).toStrictEqual(updateMultipleList.AmB);
+    expect(
+      upsertMultipleItem(
+        updateMultipleList.A,
+        [...updateMultipleList.B].reverse(),
+        'id',
+        'asc',
+      ),
+    ).toStrictEqual(updateMultipleList.AmB);
+  });
+  it('Should update items in reverse order', () => {
+    expect(
+      upsertMultipleItem(
+        [...updateMultipleList.A].reverse(),
+        updateMultipleList.B,
+        'id',
+        'desc',
+      ),
+    ).toStrictEqual([...updateMultipleList.AmB].reverse());
   });
 });

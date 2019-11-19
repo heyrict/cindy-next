@@ -132,7 +132,7 @@ export function upsertItem<V = any>(
   // Don't prepend item to the list
   if (
     (sort === 'asc' && list[0][key] > item[key]) ||
-    (sort === 'desc' && list[list.length - 1][key] < item[key])
+    (sort === 'desc' && list[list.length - 1][key] > item[key])
   ) {
     return list;
   }

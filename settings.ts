@@ -29,6 +29,8 @@ export const GRAPHQL_CLIENT = {
     : `${wsProtocol}//${host}/subscriptions`,
 };
 
+export const SUBSCRIPTION_BATCH_LIMIT = 2;
+
 export const WEBHOOK_SERVER = isDev
   ? 'http://localhost:3001/webhook'
   : '/webhook';

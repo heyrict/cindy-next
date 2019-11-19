@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'theme/styled';
-import { upsertItem } from 'common/update';
+import { SUBSCRIPTION_BATCH_LIMIT } from 'settings';
+import { upsertMultipleItem } from 'common/update';
 
 import { Flex, Box } from 'components/General';
 import Loading from 'components/General/Loading';
@@ -89,7 +90,7 @@ const ChatRoomMessagesBody = ({
     () =>
       subscribeToMore({
         document: CHATROOM_CHATMESSAGES_LIVE_QUERY,
-        variables: { chatroomId },
+        variables: { chatroomId, limit: SUBSCRIPTION_BATCH_LIMIT },
         updateQuery: (
           prev,
           {
@@ -111,9 +112,9 @@ const ChatRoomMessagesBody = ({
             ].id,
           );
           return Object.assign({}, prev, {
-            sui_hei_chatmessage: upsertItem(
+            sui_hei_chatmessage: upsertMultipleItem(
               prev.sui_hei_chatmessage,
-              subscriptionData.data.sui_hei_chatmessage[0],
+              subscriptionData.data.sui_hei_chatmessage,
               'id',
               'desc',
             ),
