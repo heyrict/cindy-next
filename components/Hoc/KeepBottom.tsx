@@ -33,9 +33,7 @@ class KeepBottom extends React.Component<KeepBottomProps> {
     this.props.watch.some((o, i) => {
       if (!isEqual(o.value, prevWatch[i].value) && o.log !== false) {
         console.log(
-          `KeepBottom: Value changed on ${o.name} monitored (${
-            prevWatch[i].value
-          } => ${o.value})`,
+          `KeepBottom: Value changed on ${o.name} monitored (${prevWatch[i].value} => ${o.value})`,
         );
         this.handleActions(o);
         return true;

@@ -24,8 +24,8 @@ export type MessageBoxButtonProps = {
 };
 
 export const ChatroomButtonDefaultProps = {
-  color: "gray.1"
-}
+  color: 'gray.1',
+};
 
 export type ChatroomButtonProps = {
   channel: string;
