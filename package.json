@@ -22,7 +22,7 @@
     "build": "yarn run build:client; yarn run build:server",
     "start:apollo": "NODE_ENV=production node .next/dist/server/apolloServer.js",
     "start:next": "NODE_ENV=production next start",
-    "extract-intl": "NODE_ENV=development node scripts/extract-intl.js",
+    "extract-intl": "NODE_ENV=development babel-node --extensions .js,.ts scripts/extract-intl.js",
     "export-schema": "gq http://localhost:8080/v1/graphql -H \"X-Hasura-Admin-Secret: $HASURA_GRAPHQL_ADMIN_SECRET\" --introspect > generated/schema.graphql; echo \"const typeDefs=\\``cat generated/schema.graphql`\\`;\nexport default typeDefs;\" > generated/typeDefs.js",
     "export-graphql-types": "yarn run export-graphql-types:subscription; yarn run export-graphql-types:hasura;",
     "export-graphql-types:subscription": "apollo codegen:generate -c ./apollo.subscirption.config.js  --globalTypesFile=./generated/globalSubscriptionType.ts --target typescript generated",
