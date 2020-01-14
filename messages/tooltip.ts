@@ -31,6 +31,10 @@ export const tooltipMessages = defineMessages({
     id: `${scope}.stamp`,
     defaultMessage: 'Stamp',
   },
+  tab: {
+    id: `${scope}.tab`,
+    defaultMessage: 'Tab',
+  },
   preview: {
     id: `${scope}.preview`,
     defaultMessage: 'Preview',

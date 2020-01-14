@@ -19,6 +19,8 @@ import tooltipMessages from 'messages/tooltip';
 import photoIcon from 'svgs/photo.svg';
 import urlIcon from 'svgs/url.svg';
 import stampIcon from 'svgs/stamp.svg';
+import tabIcon from 'svgs/tab.svg';
+import { TAB_TEXT } from './common';
 import {
   LegacyEditorProps,
   LegacyEditorStates,
@@ -211,6 +213,20 @@ class LegacyEditor extends React.Component<
               </ButtonTransparent>
             }
             tooltip={<FormattedMessage {...tooltipMessages.stamp} />}
+            delay={800}
+          />
+          <Tooltip
+            reference={
+              <ButtonTransparent
+                height="2.2em"
+                onClick={e => {
+                  this.onClickWrap(e, '', TAB_TEXT);
+                }}
+              >
+                <Img src={tabIcon} height="1.2em" />
+              </ButtonTransparent>
+            }
+            tooltip={<FormattedMessage {...tooltipMessages.tab} />}
             delay={800}
           />
           <ButtonFont>|</ButtonFont>
