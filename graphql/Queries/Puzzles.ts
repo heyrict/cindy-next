@@ -65,7 +65,7 @@ export const PUZZLES_SOLVED_QUERY = gql`
   query PuzzlesSolvedQuery($limit: Int, $offset: Int) {
     sui_hei_puzzle(
       order_by: { modified: desc }
-      where: { status: { _neq: 0 } }
+      where: { status: { _gt: 0, _lt: 4 } }
       limit: $limit
       offset: $offset
     ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
