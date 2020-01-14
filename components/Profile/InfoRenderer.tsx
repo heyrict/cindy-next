@@ -17,6 +17,7 @@ import ProfileStarsTab from './ProfileTabs/ProfileStarsTab';
 import ProfileHideBookmarksToggle from './ProfileTabs/ProfileHideBookmarksToggle';
 import ProfileBookmarksTab from './ProfileTabs/ProfileBookmarksTab';
 import ProfileCommentsTab from './ProfileTabs/ProfileCommentsTab';
+import ProfileFootprintsTab from './ProfileTabs/ProfileFootprintsTab';
 import messageIcon from 'svgs/message.svg';
 
 import { ProfileTabType } from './types';
@@ -81,6 +82,9 @@ const ProfileInfoRenderer = ({
               received_stars_aggregate: data.received_stars_aggregate,
             }}
           />
+        )}
+        {tab === ProfileTabType.FOOTPRINTS && (
+          <ProfileFootprintsTab userId={user.id} />
         )}
         {tab === ProfileTabType.PUZZLES && (
           <ProfilePuzzlesTab userId={user.id} />

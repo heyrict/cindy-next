@@ -94,6 +94,7 @@ export type ProfileProps = {
 
 export enum ProfileTabType {
   INFO,
+  FOOTPRINTS,
   PUZZLES,
   STARS,
   COMMENTS,

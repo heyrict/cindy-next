@@ -222,6 +222,28 @@ export const PROFILE_PUZZLES_QUERY = gql`
   ${PUZZLE_AGGREGATE_FRAGMENT}
 `;
 
+export const PROFILE_FOOTPRINTS_QUERY = gql`
+  query ProfileFootprintsQuery($limit: Int, $offset: Int, $userId: Int) {
+    sui_hei_puzzle(
+      order_by: { modified: desc }
+      where: { sui_hei_dialogues: { user_id: { _eq: $userId } } }
+      limit: $limit
+      offset: $offset
+    ) @connection(key: "sui_hei_puzzle", filter: ["where"]) {
+      ...PuzzleAggregate
+    }
+    sui_hei_puzzle_aggregate(
+      order_by: { modified: desc }
+      where: { user_id: { _eq: $userId } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${PUZZLE_AGGREGATE_FRAGMENT}
+`;
+
 export const YAMI_PUZZLE_COUNT_QUERY = gql`
   query YamiPuzzleCountQuery($userId: Int!) {
     sui_hei_puzzle(

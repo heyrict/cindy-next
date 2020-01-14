@@ -18,3 +18,7 @@ export type ProfileBookmarksTabProps = {
 export type ProfileCommentsTabProps = {
   userId: number;
 };
+
+export type ProfileFootprintsTabProps = {
+  userId: number;
+};

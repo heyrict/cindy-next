@@ -28,6 +28,22 @@ const ProfileSubbar = ({ tab, setTab, hideBookmark }: ProfileSubbarProps) => (
     </Box>
     <Box width={[1 / 3, 1 / 5, 1 / 6, 1 / 8]} mb={1}>
       <Box
+        bg={tab === ProfileTabType.FOOTPRINTS ? 'yellow.4' : 'orange.4'}
+        borderRadius={2}
+        ml={1}
+      >
+        <ButtonTransparent
+          color="red.9"
+          height={1}
+          width={1}
+          onClick={() => setTab(ProfileTabType.FOOTPRINTS)}
+        >
+          <FormattedMessage {...userPageMessages.tab_footprints} />
+        </ButtonTransparent>
+      </Box>
+    </Box>
+    <Box width={[1 / 3, 1 / 5, 1 / 6, 1 / 8]} mb={1}>
+      <Box
         bg={tab === ProfileTabType.PUZZLES ? 'yellow.4' : 'orange.4'}
         borderRadius={2}
         ml={1}

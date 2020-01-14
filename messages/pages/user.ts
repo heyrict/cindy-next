@@ -28,6 +28,10 @@ export const messages = defineMessages({
     id: `${scope}.tab_info`,
     defaultMessage: 'Info',
   },
+  tab_footprints: {
+    id: `${scope}.tab_footprints`,
+    defaultMessage: 'Footprints',
+  },
   tab_puzzles: {
     id: `${scope}.tab_puzzles`,
     defaultMessage: 'Puzzles',
