@@ -59,10 +59,7 @@ export const PROFILE_STARS_QUERY = gql`
         ...PuzzleAggregate
       }
     }
-    sui_hei_star_aggregate(
-      order_by: $orderBy
-      where: { user_id: { _eq: $userId } }
-    ) {
+    sui_hei_star_aggregate(where: { user_id: { _eq: $userId } }) {
       aggregate {
         count
       }

@@ -149,7 +149,6 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
       ...PuzzleAggregate
     }
     sui_hei_puzzle_aggregate(
-      order_by: $orderBy
       where: {
         status: { _neq: 0 }
         title: { _like: $title }
@@ -184,7 +183,6 @@ export const TAG_PUZZLES_QUERY = gql`
       ...PuzzleAggregate
     }
     sui_hei_puzzle_aggregate(
-      order_by: $orderBy
       where: { sui_hei_puzzle_tags: { tag_id: { _eq: $tagId } } }
     ) {
       aggregate {
@@ -210,10 +208,7 @@ export const PROFILE_PUZZLES_QUERY = gql`
     ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
       ...PuzzleAggregate
     }
-    sui_hei_puzzle_aggregate(
-      order_by: $orderBy
-      where: { user_id: { _eq: $userId } }
-    ) {
+    sui_hei_puzzle_aggregate(where: { user_id: { _eq: $userId } }) {
       aggregate {
         count
       }
@@ -232,10 +227,7 @@ export const PROFILE_FOOTPRINTS_QUERY = gql`
     ) @connection(key: "sui_hei_puzzle", filter: ["where"]) {
       ...PuzzleAggregate
     }
-    sui_hei_puzzle_aggregate(
-      order_by: { modified: desc }
-      where: { user_id: { _eq: $userId } }
-    ) {
+    sui_hei_puzzle_aggregate(where: { user_id: { _eq: $userId } }) {
       aggregate {
         count
       }

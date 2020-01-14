@@ -53,10 +53,7 @@ export const PROFILE_COMMENTS_QUERY = gql`
     ) @connection(key: "sui_hei_comment", filter: ["order_by", "where"]) {
       ...CommentDetail
     }
-    sui_hei_comment_aggregate(
-      order_by: $orderBy
-      where: { user_id: { _eq: $userId } }
-    ) {
+    sui_hei_comment_aggregate(where: { user_id: { _eq: $userId } }) {
       aggregate {
         count
       }
@@ -81,7 +78,6 @@ export const PROFILE_COMMENTS_RECEIVED_QUERY = gql`
       ...CommentDetail
     }
     sui_hei_comment_aggregate(
-      order_by: $orderBy
       where: { sui_hei_puzzle: { user_id: { _eq: $userId } } }
     ) {
       aggregate {
