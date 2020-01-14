@@ -7,13 +7,13 @@ export const getMonthlyDate = (now: Date) => {
   temp.setMilliseconds(0);
   if (now.getDate() > 15) {
     const end = temp.toISOString();
-    temp.setMonth(now.getMonth() - 1);
+    temp.setMonth(temp.getMonth() - 1);
     const start = temp.toISOString();
     return [start, end];
   } else {
-    temp.setMonth(now.getMonth() - 1);
+    temp.setMonth(temp.getMonth() - 1);
     const end = temp.toISOString();
-    temp.setMonth(now.getMonth() - 2);
+    temp.setMonth(temp.getMonth() - 1);
     const start = temp.toISOString();
     return [start, end];
   }

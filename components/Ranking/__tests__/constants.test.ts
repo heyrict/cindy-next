@@ -18,4 +18,13 @@ describe('getMonthlyDate()', () => {
     expect(new Date(start)).toEqual(expectedStart);
     expect(new Date(end)).toEqual(expectedEnd);
   });
+
+  it('date in January should work', () => {
+    const date = new Date('2019-01-02T00:00:00Z');
+    const expectedStart = new Date(2018, 10, 1);
+    const expectedEnd = new Date(2018, 11, 1);
+    const [start, end] = getMonthlyDate(date);
+    expect(new Date(end)).toEqual(expectedEnd);
+    expect(new Date(start)).toEqual(expectedStart);
+  });
 });
