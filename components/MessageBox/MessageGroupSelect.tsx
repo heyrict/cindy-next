@@ -1,22 +1,13 @@
 import React from 'react';
-import { updateItem, upsertItem } from 'common/update';
-import { maybeSendNotification } from 'common/web-notify';
 import { toast } from 'react-toastify';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as directReducer from 'reducers/direct';
 
-import { FormattedMessage } from 'react-intl';
-import webNotifyMessages from 'messages/webNotify';
-
-import { Query, Subscription, Mutation } from '@apollo/react-components';
-import {
-  DIRECTMESSAGE_GROUP_QUERY,
-  DIRECTMESSAGE_GROUP_MESSAGES_QUERY,
-} from 'graphql/Queries/Directmessage';
+import { Query, Mutation } from '@apollo/react-components';
+import { DIRECTMESSAGE_GROUP_QUERY } from 'graphql/Queries/Directmessage';
 import { USER_LAST_READ_DM_QUERY } from 'graphql/Queries/User';
-import { DIRECTMESSAGE_SUBSCRIPTION } from 'graphql/Subscriptions/Directmessage';
 import { SET_LAST_READ_DM_MUTATION } from 'graphql/Mutations/User';
 
 import { Flex, Box, Img, ButtonTransparent, RedDot } from 'components/General';
@@ -36,15 +27,6 @@ import {
   UserLastReadDmQuery,
   UserLastReadDmQueryVariables,
 } from 'graphql/Queries/generated/UserLastReadDmQuery';
-import {
-  DirectmessageSubscription,
-  DirectmessageSubscriptionVariables,
-} from 'graphql/Subscriptions/generated/DirectmessageSubscription';
-import {
-  DirectmessageGroupMessagesQuery,
-  DirectmessageGroupMessagesQueryVariables,
-} from 'graphql/Queries/generated/DirectmessageGroupMessagesQuery';
-import { EventType } from 'generated/globalSubscriptionType';
 import {
   SetLastReadDmMutationVariables,
   SetLastReadDmMutation,
@@ -70,109 +52,6 @@ const MessageGroupSelectRenderer = ({
 
   return (
     <React.Fragment>
-      <Subscription<
-        DirectmessageSubscription,
-        DirectmessageSubscriptionVariables
-      >
-        subscription={DIRECTMESSAGE_SUBSCRIPTION}
-        onSubscriptionData={({ client, subscriptionData }) => {
-          const { data } = subscriptionData;
-          if (
-            !data ||
-            !data.directmessageSub ||
-            !data.directmessageSub.sui_hei_directmessage
-          )
-            return;
-          const newDirectmessage = data.directmessageSub.sui_hei_directmessage;
-          const withUser =
-            newDirectmessage.receiver.id === userId
-              ? newDirectmessage.sender
-              : newDirectmessage.receiver;
-
-          // Notification
-          if (data.directmessageSub.eventType === EventType.INSERT) {
-            setDirectHasnew(true);
-            toast.info(
-              <FormattedMessage
-                {...webNotifyMessages.newDMReceived}
-                values={{ user: withUser.nickname }}
-              />,
-            );
-          }
-          maybeSendNotification('New Direct Message', {
-            body: `FROM ${withUser.nickname}:  ${newDirectmessage.content}`,
-            renotify: true,
-          });
-
-          // Update chat groups
-          const chatGroupsData = client.readQuery<
-            DirectmessageGroupQuery,
-            DirectmessageGroupQueryVariables
-          >({
-            query: DIRECTMESSAGE_GROUP_QUERY,
-            variables: { userId },
-          });
-          if (chatGroupsData !== null) {
-            client.writeQuery<
-              DirectmessageGroupQuery,
-              DirectmessageGroupQueryVariables
-            >({
-              query: DIRECTMESSAGE_GROUP_QUERY,
-              variables: { userId },
-              data: {
-                direct_message_group: updateItem(
-                  chatGroupsData.direct_message_group,
-                  {
-                    __typename: 'hasura_directmessage_group_trigger',
-                    last_dm_id: newDirectmessage.id,
-                    user_id: withUser.id,
-                    sui_hei_user: withUser,
-                  },
-                  'user_id',
-                ),
-              },
-            });
-          }
-
-          // Update chat messages
-          const chatMessagesData = client.readQuery<
-            DirectmessageGroupMessagesQuery,
-            DirectmessageGroupMessagesQueryVariables
-          >({
-            query: DIRECTMESSAGE_GROUP_MESSAGES_QUERY,
-            variables: {
-              userId,
-              withUserId: withUser.id,
-            },
-          });
-          if (chatMessagesData !== null) {
-            client.writeQuery<
-              DirectmessageGroupMessagesQuery,
-              DirectmessageGroupMessagesQueryVariables
-            >({
-              query: DIRECTMESSAGE_GROUP_MESSAGES_QUERY,
-              variables: {
-                userId,
-                withUserId: withUser.id,
-              },
-              data: {
-                sui_hei_directmessage:
-                  newDirectmessage.id === -1
-                    ? [
-                        newDirectmessage,
-                        ...chatMessagesData.sui_hei_directmessage,
-                      ]
-                    : upsertItem(
-                        chatMessagesData.sui_hei_directmessage,
-                        newDirectmessage,
-                        'id',
-                        'desc',
-                      ),
-              },
-            });
-          }
-        }}
-      />
       <Query<UserLastReadDmQuery, UserLastReadDmQueryVariables>
         query={USER_LAST_READ_DM_QUERY}
         variables={{ id: userId }}
