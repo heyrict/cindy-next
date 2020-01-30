@@ -1,0 +1,96 @@
+- args:
+    enable_manual: false
+    headers: []
+    insert:
+      columns: '*'
+    name: on_chatmessage_change
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    table:
+      name: sui_hei_chatmessage
+      schema: public
+    update:
+      columns:
+      - content
+    webhook_from_env: SUBSCRIPTION_SERVER_WEBHOOK
+  type: create_event_trigger
+- args:
+    enable_manual: false
+    headers: []
+    insert:
+      columns: '*'
+    name: on_dialogue_change
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    table:
+      name: sui_hei_dialogue
+      schema: public
+    update:
+      columns:
+      - good
+      - "true"
+      - answer
+      - question
+    webhook_from_env: SUBSCRIPTION_SERVER_WEBHOOK
+  type: create_event_trigger
+- args:
+    enable_manual: false
+    headers: []
+    insert:
+      columns: '*'
+    name: on_puzzle_change
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    table:
+      name: sui_hei_puzzle
+      schema: public
+    update:
+      columns:
+      - grotesque
+      - status
+      - yami
+      - memo
+    webhook_from_env: SUBSCRIPTION_SERVER_WEBHOOK
+  type: create_event_trigger
+- args:
+    enable_manual: false
+    headers: []
+    insert:
+      columns: '*'
+    name: on_hint_change
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    table:
+      name: sui_hei_hint
+      schema: public
+    update:
+      columns:
+      - content
+    webhook_from_env: SUBSCRIPTION_SERVER_WEBHOOK
+  type: create_event_trigger
+- args:
+    enable_manual: false
+    headers: []
+    insert:
+      columns: '*'
+    name: on_directmessage_change
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    table:
+      name: sui_hei_directmessage
+      schema: public
+    update:
+      columns:
+      - content
+    webhook_from_env: SUBSCRIPTION_SERVER_WEBHOOK
+  type: create_event_trigger
