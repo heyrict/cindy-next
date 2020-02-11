@@ -82,27 +82,36 @@ const norm_tabs = (s: string) => {
 };
 
 export const changeTabularTab = (id: string) => {
-  const tabEl = document.getElementById(id);
-  const navtabEl = document.getElementById(`nav${id}`);
-  if (!tabEl || !navtabEl) return;
+  const tabEls = document.querySelectorAll(`#${id}`);
+  const navtabEls = document.querySelectorAll(`#nav${id}`);
+  if (tabEls.length == 0 || navtabEls.length == 0) return;
 
-  const tabContents = tabEl.parentElement;
-  const navtabContents = navtabEl.parentElement;
-  if (!tabContents || !navtabContents) return;
+  tabEls.forEach(tabEl => {
+    let tabPar = tabEl.parentElement;
+    if (tabPar === null) return;
 
-  Array.from(tabContents.children).forEach(child => {
-    if (child.id === id) {
-      child.setAttribute('class', 'tab-pane active');
-    } else {
-      child.setAttribute('class', 'tab-pane');
-    }
+    let tabContents = tabPar.children;
+    Array.from(tabContents).forEach(child => {
+      if (child.id === id) {
+        child.setAttribute('class', 'tab-pane active');
+      } else {
+        child.setAttribute('class', 'tab-pane');
+      }
+    });
   });
-  Array.from(navtabContents.children).forEach(child => {
-    if (child.id === `nav${id}`) {
-      child.setAttribute('class', 'active');
-    } else {
-      child.removeAttribute('class');
-    }
+
+  navtabEls.forEach(navtabEl => {
+    let navtabPar = navtabEl.parentElement;
+    if (navtabPar === null) return;
+
+    let navtabContents = navtabPar.children;
+    Array.from(navtabContents).forEach(child => {
+      if (child.id === `nav${id}`) {
+        child.setAttribute('class', 'active');
+      } else {
+        child.removeAttribute('class');
+      }
+    });
   });
 };
 
