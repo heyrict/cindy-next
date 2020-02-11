@@ -79,6 +79,7 @@ class MyApp extends App {
             this.props.reduxStore.dispatch(
               globalActions.channel.set(attr['data-target'].value),
             );
+            this.props.reduxStore.dispatch(globalActions.aside.set(true));
           }
           break;
       }
