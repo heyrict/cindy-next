@@ -434,4 +434,13 @@ describe('Test upsertMultipleItem(list, item)', () => {
       ),
     ).toStrictEqual([...updateMultipleList.AmB].reverse());
   });
+
+  it('Should work in optimistic update', () => {
+    expect(
+      upsertMultipleItem(
+        updateMultipleList.A,
+        updateMultipleList.A.slice(updateMultipleList.A.length - 1),
+      ),
+    ).toStrictEqual(updateMultipleList.A);
+  });
 });

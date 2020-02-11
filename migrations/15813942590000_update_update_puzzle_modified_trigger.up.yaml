@@ -11,6 +11,8 @@
       end;
       $$ language 'plpgsql';
 
+      drop trigger if exists update_puzzle_modified_trigger on public.sui_hei_puzzle;
+
       create trigger update_puzzle_modified_trigger before update
       on public.sui_hei_puzzle
       for each row
