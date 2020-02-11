@@ -1,0 +1,18 @@
+- args:
+    cascade: false
+    sql: |-
+      create or replace function update_puzzle_modified()
+      returns trigger as $$
+      begin
+        if OLD.status <> NEW.status then
+          NEW.modified = now();
+        end if;
+        return NEW;
+      end;
+      $$ language 'plpgsql';
+
+      create trigger update_puzzle_modified_trigger before update
+      on public.sui_hei_puzzle
+      for each row
+      execute procedure update_puzzle_modified();
+  type: run_sql
