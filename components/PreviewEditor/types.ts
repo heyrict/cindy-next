@@ -16,7 +16,7 @@ export type StampListProps = {
 };
 
 export type ButtonFontProps = {
-  on?: boolean;
+  switchon?: boolean;
 };
 
 export type ButtonCircleProps = {

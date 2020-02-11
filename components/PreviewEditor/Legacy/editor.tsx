@@ -240,7 +240,7 @@ class LegacyEditor extends React.Component<
             height="2.2em"
             onClick={() => this.togglePreview()}
           >
-            <ButtonFont on={this.state.preview}>
+            <ButtonFont switchon={this.state.preview}>
               <FormattedMessage {...tooltipMessages.preview} />
             </ButtonFont>
           </ButtonTransparent>
