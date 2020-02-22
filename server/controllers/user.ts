@@ -14,6 +14,8 @@ import { getJwt, localAuth, bearerAuth, formatCookie } from '../db/auth';
 import { CindyRole } from 'globalTypes';
 import { Request, Response } from 'express';
 
+const SPACE_ONLY_REGEX = RegExp('^[ 　]*$');
+
 /**
  * Sends the JWT key set
  */
@@ -71,13 +73,13 @@ export const postLogin = async (req: Request, res: Response) => {
 export const postSignup = async (req: Request, res: Response) => {
   const { nickname, username, password } = req.body;
   const errors = [];
-  if (!nickname) {
-    errors.push({ type: 'InvalidField', message: 'Username is not valid' });
+  if (SPACE_ONLY_REGEX.test(nickname)) {
+    errors.push({ type: 'InvalidField', message: 'Nickname cannot be blank' });
   }
-  if (!username) {
-    errors.push({ type: 'InvalidField', message: 'Username is not valid' });
+  if (SPACE_ONLY_REGEX.test(username)) {
+    errors.push({ type: 'InvalidField', message: 'Username cannot be blank' });
   }
-  if (!password) {
+  if (SPACE_ONLY_REGEX.test(password)) {
     errors.push({ type: 'InvalidField', message: 'Password cannot be blank' });
   }
   if (nickname.length >= 32) {
