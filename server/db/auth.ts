@@ -93,6 +93,11 @@ export async function localAuth(username: string, password: string) {
   if (!passwordCorrect) {
     throw Error('Invalid password');
   }
+
+  // Update last_login value
+  await user.changed('last_login', true);
+  await user.save();
+
   const Jwt = getJwt(user);
   return Jwt;
 }
