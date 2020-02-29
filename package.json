@@ -95,6 +95,8 @@
     "@storybook/addon-links": "^5.1.9",
     "@storybook/addons": "^5.1.9",
     "@storybook/react": "^5.1.9",
+    "@swc/cli": "^0.1.23",
+    "@swc/core": "^1.1.29",
     "@types/cookie": "^0.3.3",
     "@types/dompurify": "^0.0.33",
     "@types/enzyme": "^3.9.3",
@@ -122,6 +124,7 @@
     "nodemon": "^1.19.1",
     "prettier": "^1.16.4",
     "svg-url-loader": "^2.3.2",
+    "swc-loader": "^0.1.8",
     "typescript": "^3.5.1"
   }
 }
