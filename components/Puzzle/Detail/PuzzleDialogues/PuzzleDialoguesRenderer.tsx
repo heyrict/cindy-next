@@ -102,9 +102,6 @@ export const PuzzleDialoguesRenderer = ({
   setTrueSolvedLongtermYami,
   updateSolvedLongTermYamiOnSubscribe,
 }: PuzzleDialoguesRendererProps) => {
-  const intl = useIntl();
-  const _ = intl.formatMessage;
-
   const { puzzleId } = variables;
   if (!data || !data.sui_hei_dialogue || !data.sui_hei_hint) {
     if (loading) return <Loading centered />;
@@ -120,6 +117,9 @@ export const PuzzleDialoguesRenderer = ({
     users = extractUserFilterUserFromDialogues(data.sui_hei_dialogue);
     setParticipants(users);
   }
+
+  const intl = useIntl();
+  const _ = intl.formatMessage;
 
   const [userFilterId, setUserFilterId] = useState<number | undefined>(
     undefined,

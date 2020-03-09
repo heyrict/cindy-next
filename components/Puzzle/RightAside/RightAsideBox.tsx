@@ -49,16 +49,16 @@ const RightAsideBoxBase = styled.div<RightAsideBoxBaseProps>`
 
 const RightAsideBoxButton = styled.button<RightAsideBoxButtonProps>`
   background: ${p =>
-    p.on ? p.theme.colors.orange[3] : p.theme.colors.orange[2]};
+    p.pressed ? p.theme.colors.orange[3] : p.theme.colors.orange[2]};
   width: ${p => p.width || '3em'};
   height: ${p => p.height || '3em'};
   &:hover {
     background: ${p =>
-      p.on ? p.theme.colors.orange[4] : p.theme.colors.orange[3]};
+      p.pressed ? p.theme.colors.orange[4] : p.theme.colors.orange[3]};
   }
   &:active {
     background: ${p =>
-      p.on ? p.theme.colors.orange[5] : p.theme.colors.orange[4]};
+      p.pressed ? p.theme.colors.orange[5] : p.theme.colors.orange[4]};
   }
 `;
 
@@ -114,7 +114,7 @@ class RightAsideBox extends React.Component<
             <RightAsideBoxButton
               width="100%"
               height={this.state.mini ? '2em' : '3em'}
-              on={rightAside === RightAsideType.content}
+              pressed={rightAside === RightAsideType.content}
               onClick={() =>
                 setRightAside(
                   rightAside === RightAsideType.content
@@ -145,7 +145,7 @@ class RightAsideBox extends React.Component<
               <RightAsideBoxButton
                 width="100%"
                 height={this.state.mini ? '2em' : '3em'}
-                on={rightAside === RightAsideType.memo}
+                pressed={rightAside === RightAsideType.memo}
                 onClick={() =>
                   setRightAside(
                     rightAside === RightAsideType.memo

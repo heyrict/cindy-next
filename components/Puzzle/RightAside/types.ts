@@ -6,7 +6,7 @@ export type RightAsideBoxBaseProps = {
 };
 
 export type RightAsideBoxButtonProps = {
-  on?: boolean;
+  pressed?: boolean;
   height?: string;
   width?: string;
 };
