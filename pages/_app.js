@@ -70,7 +70,7 @@ class MyApp extends App {
     if ('data-toggle' in attr && 'data-target' in attr) {
       if (attr['data-toggle'].value === 'tab') {
         changeTabularTab(attr['data-target'].value.replace(/^#/, ''));
-	e.stopPropagation();
+        e.stopPropagation();
       }
     }
     if ('data-event' in attr) {

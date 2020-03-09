@@ -3,7 +3,8 @@ import { fontSizeToEm } from 'common/math';
 import { StyledTagProps, ButtonFontProps } from './types';
 
 export const ButtonFont = styled.span<ButtonFontProps>`
-  background-color: ${p => (p.switchon ? 'rgba(255, 255, 255, 0.3)' : 'initial')};
+  background-color: ${p =>
+    p.switchon ? 'rgba(255, 255, 255, 0.3)' : 'initial'};
   border-radius: 2em;
   font-size: 1.2em;
   padding: 4px;

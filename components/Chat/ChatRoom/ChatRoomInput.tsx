@@ -34,7 +34,7 @@ import {
   ChatroomChatmessagesVariables,
 } from 'graphql/Queries/generated/ChatroomChatmessages';
 import { stampNamespaces } from 'stamps';
-import {upsertMultipleItem} from 'common/update';
+import { upsertMultipleItem } from 'common/update';
 
 const LoginRequiredBlock = styled.div`
   height: ${p => p.theme.sizes.chatinput};
@@ -77,7 +77,12 @@ const ChatRoomInput = ({
             chatroomId,
           },
           data: {
-            sui_hei_chatmessage: upsertMultipleItem(sui_hei_chatmessage, newMessages, 'id', 'desc'),
+            sui_hei_chatmessage: upsertMultipleItem(
+              sui_hei_chatmessage,
+              newMessages,
+              'id',
+              'desc',
+            ),
           },
         });
       }}

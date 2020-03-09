@@ -178,7 +178,11 @@ const PuzzleDetail = ({
             <FormattedMessage {...messages.grotesqueWarning} />
           </Box>
           <Flex width={1} mt={2} justifyContent="center">
-            <input style={{ margin: '0 1em' }} type="checkbox" ref={noMoreGrotesqueWarningInput} />
+            <input
+              style={{ margin: '0 1em' }}
+              type="checkbox"
+              ref={noMoreGrotesqueWarningInput}
+            />
             <FormattedMessage {...commonMessages.noMoreWarning}>
               {msg => <label>{msg}</label>}
             </FormattedMessage>
