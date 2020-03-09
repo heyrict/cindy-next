@@ -184,6 +184,10 @@ export const messages = defineMessages({
     defaultMessage:
       "{user} adds a comment on {puzzle_user}'s puzzle {puzzle_title}",
   },
+  gotoConfirm: {
+    id: `${scope}.gotoConfirm`,
+    defaultMessage: 'Go to confirm page',
+  },
 });
 
 export default messages;

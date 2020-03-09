@@ -67,6 +67,7 @@ const SettingsModal = ({
   settingsModal,
   setFalseSettingsModal,
   setState,
+  confirmCreatePuzzle,
   editQuestionTrigger,
   puzzleGenreImg,
   sendAnswerTrigger,
@@ -77,6 +78,7 @@ const SettingsModal = ({
   pushNotification,
   multicol,
 }: SettingsModalProps) => {
+  const confirmCreatePuzzleRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const sendChatTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const sendDirectmessageTriggerRef = useRef<ButtonSelectStateful<number>>(
     null!,
@@ -234,6 +236,22 @@ const SettingsModal = ({
               ]}
             />
           </Box>
+          <Box width={1} borderBottom="2px solid" borderColor="orange.7" mb={2}>
+            <FormattedMessage {...commonMessages.others} />
+          </Box>
+          <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
+            <FormattedMessage {...settingMessages.confirmCreatePuzzle}>
+              {msg => <label>{msg}</label>}
+            </FormattedMessage>
+          </Box>
+          <Box width={[1, 2 / 3, 4 / 5]} mb={2}>
+            <ButtonSelectStateful<boolean>
+              ref={confirmCreatePuzzleRef}
+              flexProps={{ px: 2 }}
+              initialValue={confirmCreatePuzzle}
+              options={booleanOptions}
+            />
+          </Box>
         </Flex>
       </ModalBody>
       <ModalFooter>
@@ -243,6 +261,7 @@ const SettingsModal = ({
           onClick={() =>
             setState({
               settingsModal: false,
+              confirmCreatePuzzle: confirmCreatePuzzleRef.current.state.value,
               editQuestionTrigger: editQuestionTriggerRef.current.state.value,
               sendChatTrigger: sendChatTriggerRef.current.state.value,
               sendDirectmessageTrigger:

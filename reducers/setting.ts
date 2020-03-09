@@ -14,6 +14,7 @@ export const scope = 'setting';
 
 export enum actionTypes {
   SETTINGS_MODAL = 'setting.SETTINGS_MODAL',
+  CONFIRM_CREATE_PUZZLE = 'setting.CONFIRM_CREATE_PUZZLE',
   PUZZLE_GENRE_IMG = 'setting.PUZZLE_GENRE_IMG',
   SEND_CHAT_TRIGGER = 'setting.SEND_CHAT_TRIGGER',
   SEND_DIRECTMESSAGE_TRIGGER = 'setting.SEND_DIRECTMESSAGE_TRIGGER',
@@ -29,6 +30,7 @@ export enum actionTypes {
 
 export type ActionPayloadType = {
   SETTINGS_MODAL: ReturnType<ValueOf<bool.HelperActionType>>;
+  CONFIRM_CREATE_PUZZLE: ReturnType<ValueOf<bool.HelperActionType>>;
   PUZZLE_GENRE_IMG: ReturnType<ValueOf<bool.HelperActionType>>;
   RIGHT_ASIDE_MINI: ReturnType<ValueOf<bool.HelperActionType>>;
   SEND_CHAT_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
@@ -46,6 +48,7 @@ export type ActionPayloadType = {
 
 export const actions = {
   settingsModal: bool.wrapActions(actionTypes.SETTINGS_MODAL),
+  confirmCreatePuzzle: bool.wrapActions(actionTypes.CONFIRM_CREATE_PUZZLE),
   puzzleGenreImg: bool.wrapActions(actionTypes.PUZZLE_GENRE_IMG),
   rightAsideMini: bool.wrapActions(actionTypes.RIGHT_ASIDE_MINI),
   sendChatTrigger: mask.wrapActions(actionTypes.SEND_CHAT_TRIGGER),
@@ -74,6 +77,7 @@ export const rootSelector = (state: StateType) =>
 
 export const initialState = {
   settingsModal: false,
+  confirmCreatePuzzle: true,
   puzzleGenreImg: true,
   sendChatTrigger: SendMessageTriggerType.ON_ENTER as number,
   sendDirectmessageTrigger: SendMessageTriggerType.ON_SHIFT_ENTER as number,
@@ -117,6 +121,14 @@ export const reducer = (
       return {
         ...state,
         settingsModal: bool.helper(state.settingsModal, action.payload),
+      };
+    case actionTypes.CONFIRM_CREATE_PUZZLE:
+      return {
+        ...state,
+        confirmCreatePuzzle: bool.helper(
+          state.confirmCreatePuzzle,
+          action.payload,
+        ),
       };
     case actionTypes.PUZZLE_GENRE_IMG:
       return {

@@ -51,6 +51,10 @@ export const settingMessages = defineMessages({
     id: `${scope}.pushNotification`,
     defaultMessage: 'Push Notification',
   },
+  confirmCreatePuzzle: {
+    id: `${scope}.confirmCreatePuzzle`,
+    defaultMessage: 'Confirm Before Create Puzzle',
+  },
 });
 
 export default settingMessages;

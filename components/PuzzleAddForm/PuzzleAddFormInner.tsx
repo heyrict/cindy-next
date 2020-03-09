@@ -1,25 +1,22 @@
 import React, { useState, useRef } from 'react';
-import { toast } from 'react-toastify';
-import Router from 'next/router';
 import { getMaxDazedDays } from 'settings';
 
 import { connect } from 'react-redux';
-import * as awardCheckerReducer from 'reducers/awardChecker';
+import * as settingReducer from 'reducers/setting';
 
 import { FormattedMessage, FormattedDate } from 'react-intl';
-import messages from 'messages/pages/add_puzzle';
 import commonMessages from 'messages/common';
 import puzzleMessages from 'messages/components/puzzle';
 
 import { Flex, Box, Input, ButtonTransparent } from 'components/General';
-import Loading from 'components/General/Loading';
 import ButtonSelect from 'components/ButtonSelect';
 import { LegacyEditor } from 'components/PreviewEditor';
+import PostPuzzleButton from './PostPuzzleButton';
+import PreviewPuzzleDetail from './PreviewPuzzleDetail';
 
-import { PuzzleAddFormInnerProps } from './types';
+import { StateType } from 'reducers/types';
 import { stampNamespaces } from 'stamps/types';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
-import { ActionContentType } from 'reducers/types';
+import { PuzzleAddFormInnerProps, PostPuzzleDetailType } from './types';
 
 const fieldNameStyle = {
   width: [1, 1 / 6],
@@ -54,7 +51,7 @@ const fieldInputStype = {
 
 export const PuzzleAddFormInner = ({
   onSubmit,
-  incPuzzles,
+  confirmCreatePuzzle,
 }: PuzzleAddFormInnerProps) => {
   const contentEditor = useRef<LegacyEditor>(null);
   const solutionEditor = useRef<LegacyEditor>(null);
@@ -63,7 +60,8 @@ export const PuzzleAddFormInner = ({
   const [yami, setYami] = useState(0);
   const [anonymous, setAnonymous] = useState(false);
   const [grotesque, setGrotesque] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const now = new Date();
   const dazedTimeOffset = getMaxDazedDays({
     genre,
@@ -72,8 +70,27 @@ export const PuzzleAddFormInner = ({
   now.setDate(now.getDate() + dazedTimeOffset);
   const dazedOn = now.toISOString();
 
-  return (
-    <Flex flexWrap="wrap" width={1}>
+  const _handleGetData = (): PostPuzzleDetailType => {
+    if (contentEditor.current === null || solutionEditor.current === null)
+      return;
+    const content = contentEditor.current.getText();
+    const solution = solutionEditor.current.getText();
+    if (typeof content === 'string' && typeof solution === 'string') {
+      return {
+        content,
+        solution,
+        title,
+        genre,
+        yami,
+        anonymous,
+        grotesque,
+        dazedOn,
+      };
+    }
+  };
+
+  const FormDef = (
+    <>
       <Box {...inputFieldNameStyle}>
         <FormattedMessage {...puzzleMessages.title} />
       </Box>
@@ -230,85 +247,60 @@ export const PuzzleAddFormInner = ({
           ref={solutionEditor}
         />
       </Box>
+    </>
+  );
+
+  return confirmCreatePuzzle ? (
+    <Flex flexWrap="wrap" width={1}>
+      {showConfirm ? (
+        <>
+          <PreviewPuzzleDetail getData={_handleGetData} />
+          <Flex width={1} my={3}>
+            <Box bg="red.6" width={1} borderRadius={2}>
+              <ButtonTransparent
+                py={2}
+                width={1}
+                color="red.1"
+                onClick={() => setShowConfirm(false)}
+              >
+                <FormattedMessage {...commonMessages.back} />
+              </ButtonTransparent>
+            </Box>
+            <Box bg="orange.6" width={1} borderRadius={2}>
+              <PostPuzzleButton onSubmit={onSubmit} getData={_handleGetData} />
+            </Box>
+          </Flex>
+        </>
+      ) : (
+        <>
+          {FormDef}
+          <Box bg="orange.6" my={3} width={1} borderRadius={2}>
+            <ButtonTransparent
+              py={2}
+              width={1}
+              color="orange.1"
+              onClick={() => setShowConfirm(true)}
+            >
+              <FormattedMessage {...puzzleMessages.gotoConfirm} />
+            </ButtonTransparent>
+          </Box>
+        </>
+      )}
+    </Flex>
+  ) : (
+    <Flex flexWrap="wrap" width={1}>
+      {FormDef}
       <Box bg="orange.6" my={3} width={1} borderRadius={2}>
-        {submitting ? (
-          <Loading centered />
-        ) : (
-          <ButtonTransparent
-            py={2}
-            width={1}
-            color="orange.1"
-            onClick={() => {
-              if (submitting) return;
-              if (
-                contentEditor.current === null ||
-                solutionEditor.current === null
-              )
-                return;
-              const content = contentEditor.current.getText();
-              const solution = solutionEditor.current.getText();
-              if (typeof content === 'string' && typeof solution === 'string') {
-                setSubmitting(true);
-                onSubmit({
-                  content,
-                  solution,
-                  title,
-                  genre,
-                  yami,
-                  anonymous,
-                  grotesque,
-                  dazedOn,
-                })
-                  .then(returns => {
-                    if (!returns) return;
-                    if ('validationErrors' in returns) {
-                      returns.validationErrors.forEach(error => {
-                        toast.error(error);
-                      });
-                      setSubmitting(false);
-                      return;
-                    }
-                    const { data, error } = returns;
-                    if (error) {
-                      toast.error(error.message);
-                      setSubmitting(false);
-                      return;
-                    }
-                    if (
-                      !data ||
-                      !data.insert_sui_hei_puzzle ||
-                      !data.insert_sui_hei_puzzle.returning
-                    ) {
-                      toast.error('Error: no data returns');
-                      setSubmitting(false);
-                      return;
-                    }
-                    incPuzzles();
-                    const addedPuzzle = data.insert_sui_hei_puzzle.returning[0];
-                    Router.push('/puzzle/[id]', `/puzzle/${addedPuzzle.id}`);
-                  })
-                  .catch((error: ApolloError) => {
-                    toast.error(error.message);
-                    setSubmitting(false);
-                  });
-              }
-            }}
-          >
-            <FormattedMessage {...messages.publishPuzzle} />
-          </ButtonTransparent>
-        )}
+        <PostPuzzleButton onSubmit={onSubmit} getData={_handleGetData} />
       </Box>
     </Flex>
   );
 };
 
-const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  incPuzzles: () => dispatch(awardCheckerReducer.actions.puzzles.inc()),
+const mapStateToProps = (state: StateType) => ({
+  confirmCreatePuzzle: settingReducer.rootSelector(state).confirmCreatePuzzle,
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps);
 
 export default withRedux(PuzzleAddFormInner);
