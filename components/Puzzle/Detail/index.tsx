@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import { FormattedMessage } from 'react-intl';
@@ -8,6 +8,7 @@ import commonMessages from 'messages/common';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as puzzleReducer from 'reducers/puzzle';
+import * as settingReducer from 'reducers/setting';
 
 import { Modal } from 'components/Modal';
 import PuzzleTitle from './PuzzleTitle';
@@ -30,11 +31,15 @@ import WithSolution from './WithSolution';
 const PuzzleDetail = ({
   puzzle,
   userId,
+  showGrotesqueWarning,
+  setFalseShowGrotesqueWarning,
   setPuzzleContent,
   setPuzzleMemo,
   solvedLongtermYami,
   setFalseSolvedLongtermYami,
 }: PuzzleDetailProps) => {
+  const noMoreGrotesqueWarningInput = useRef<HTMLInputElement>(null!);
+
   let puzzleContent;
   const isUser = Boolean(userId);
   const isHidden = puzzle.status === 3;
@@ -71,7 +76,7 @@ const PuzzleDetail = ({
   }, [puzzle.content, puzzle.status]);
 
   useEffect(() => {
-    if (puzzle.grotesque) {
+    if (puzzle.grotesque && showGrotesqueWarning) {
       setShowGrotesqueModal(true);
     }
   }, [puzzle.grotesque]);
@@ -172,6 +177,12 @@ const PuzzleDetail = ({
           <Box width={1} py={4} fontSize={4} color="red.7" textAlign="center">
             <FormattedMessage {...messages.grotesqueWarning} />
           </Box>
+          <Flex width={1} mt={2} justifyContent="center">
+            <input style={{ margin: '0 1em' }} type="checkbox" ref={noMoreGrotesqueWarningInput} />
+            <FormattedMessage {...commonMessages.noMoreWarning}>
+              {msg => <label>{msg}</label>}
+            </FormattedMessage>
+          </Flex>
           <Flex width={1} mt={2}>
             <Box width={1} bg="red.6">
               <ButtonTransparent
@@ -188,7 +199,12 @@ const PuzzleDetail = ({
                 p={2}
                 width={1}
                 color="orange.0"
-                onClick={() => setShowGrotesqueModal(false)}
+                onClick={() => {
+                  if (noMoreGrotesqueWarningInput.current.value == 'on') {
+                    setFalseShowGrotesqueWarning();
+                  }
+                  setShowGrotesqueModal(false);
+                }}
               >
                 <FormattedMessage {...commonMessages.continue} />
               </ButtonTransparent>
@@ -203,6 +219,7 @@ const PuzzleDetail = ({
 const mapStateToProps = (state: StateType) => ({
   userId: globalReducer.rootSelector(state).user.id,
   solvedLongtermYami: puzzleReducer.rootSelector(state).solvedLongtermYami,
+  showGrotesqueWarning: settingReducer.rootSelector(state).showGrotesqueWarning,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
@@ -212,6 +229,8 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(puzzleReducer.actions.puzzleMemo.set(memo)),
   setFalseSolvedLongtermYami: () =>
     dispatch(puzzleReducer.actions.solvedLongtermYami.setFalse()),
+  setFalseShowGrotesqueWarning: () =>
+    dispatch(settingReducer.actions.showGrotesqueWarning.setFalse()),
 });
 
 const withRedux = connect(

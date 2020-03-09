@@ -68,6 +68,7 @@ const SettingsModal = ({
   setFalseSettingsModal,
   setState,
   confirmCreatePuzzle,
+  showGrotesqueWarning,
   editQuestionTrigger,
   puzzleGenreImg,
   sendAnswerTrigger,
@@ -79,6 +80,7 @@ const SettingsModal = ({
   multicol,
 }: SettingsModalProps) => {
   const confirmCreatePuzzleRef = useRef<ButtonSelectStateful<boolean>>(null!);
+  const showGrotesqueWarningRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const sendChatTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
   const sendDirectmessageTriggerRef = useRef<ButtonSelectStateful<number>>(
     null!,
@@ -252,6 +254,19 @@ const SettingsModal = ({
               options={booleanOptions}
             />
           </Box>
+          <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
+            <FormattedMessage {...settingMessages.showGrotesqueWarning}>
+              {msg => <label>{msg}</label>}
+            </FormattedMessage>
+          </Box>
+          <Box width={[1, 2 / 3, 4 / 5]} mb={2}>
+            <ButtonSelectStateful<boolean>
+              ref={showGrotesqueWarningRef}
+              flexProps={{ px: 2 }}
+              initialValue={showGrotesqueWarning}
+              options={booleanOptions}
+            />
+          </Box>
         </Flex>
       </ModalBody>
       <ModalFooter>
@@ -262,6 +277,7 @@ const SettingsModal = ({
             setState({
               settingsModal: false,
               confirmCreatePuzzle: confirmCreatePuzzleRef.current.state.value,
+              showGrotesqueWarning: showGrotesqueWarningRef.current.state.value,
               editQuestionTrigger: editQuestionTriggerRef.current.state.value,
               sendChatTrigger: sendChatTriggerRef.current.state.value,
               sendDirectmessageTrigger:

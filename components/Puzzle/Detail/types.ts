@@ -56,6 +56,8 @@ export type PuzzleDetailProps = {
   puzzle: PuzzleType;
   userId?: number;
   solvedLongtermYami: boolean;
+  showGrotesqueWarning: boolean;
+  setFalseShowGrotesqueWarning: () => void;
   setFalseSolvedLongtermYami: () => void;
   setPuzzleContent: (content: string) => void;
   setPuzzleMemo: (memo: string) => void;

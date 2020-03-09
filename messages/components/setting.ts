@@ -55,6 +55,10 @@ export const settingMessages = defineMessages({
     id: `${scope}.confirmCreatePuzzle`,
     defaultMessage: 'Confirm Before Create Puzzle',
   },
+  showGrotesqueWarning: {
+    id: `${scope}.showGrotesqueWarning`,
+    defaultMessage: 'Show Grotesque Warning',
+  },
 });
 
 export default settingMessages;

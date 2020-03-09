@@ -135,6 +135,10 @@ export const messages = defineMessages({
     id: `${scope}.create`,
     defaultMessage: 'Create',
   },
+  noMoreWarning: {
+    id: `${scope}.noMoreWarning`,
+    defaultMessage: 'Do not show this warning any more',
+  },
 });
 
 export default messages;
