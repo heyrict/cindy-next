@@ -90,7 +90,7 @@ export const PuzzleAddFormInner = ({
   };
 
   const FormDef = (
-    <>
+    <Flex flexWrap="wrap" width={1} style={{ display: showConfirm ? 'none' : undefined }}>
       <Box {...inputFieldNameStyle}>
         <FormattedMessage {...puzzleMessages.title} />
       </Box>
@@ -247,53 +247,52 @@ export const PuzzleAddFormInner = ({
           ref={solutionEditor}
         />
       </Box>
+    </Flex>
+  );
+
+  const PostDef = !confirmCreatePuzzle ? (
+    <Box bg="orange.6" my={3} width={1} borderRadius={2}>
+      <PostPuzzleButton onSubmit={onSubmit} getData={_handleGetData} />
+    </Box>
+  ) : showConfirm ? (
+    <Flex flexWrap="wrap" width={1}>
+      <PreviewPuzzleDetail getData={_handleGetData} />
+      <Flex width={1} mt={4}>
+        <Box bg="red.6" width={1} borderRadius={2}>
+          <ButtonTransparent
+            py={2}
+            width={1}
+            color="red.1"
+            onClick={() => setShowConfirm(false)}
+          >
+            <FormattedMessage {...commonMessages.back} />
+          </ButtonTransparent>
+        </Box>
+        <Box bg="orange.6" width={1} borderRadius={2}>
+          <PostPuzzleButton onSubmit={onSubmit} getData={_handleGetData} />
+        </Box>
+      </Flex>
+    </Flex>
+  ) : (
+    <>
+      <Box bg="orange.6" my={3} width={1} borderRadius={2}>
+        <ButtonTransparent
+          py={2}
+          width={1}
+          color="orange.1"
+          onClick={() => setShowConfirm(true)}
+        >
+          <FormattedMessage {...puzzleMessages.gotoConfirm} />
+        </ButtonTransparent>
+      </Box>
     </>
   );
 
-  return confirmCreatePuzzle ? (
-    <Flex flexWrap="wrap" width={1}>
-      {showConfirm ? (
-        <>
-          <PreviewPuzzleDetail getData={_handleGetData} />
-          <Flex width={1} my={3}>
-            <Box bg="red.6" width={1} borderRadius={2}>
-              <ButtonTransparent
-                py={2}
-                width={1}
-                color="red.1"
-                onClick={() => setShowConfirm(false)}
-              >
-                <FormattedMessage {...commonMessages.back} />
-              </ButtonTransparent>
-            </Box>
-            <Box bg="orange.6" width={1} borderRadius={2}>
-              <PostPuzzleButton onSubmit={onSubmit} getData={_handleGetData} />
-            </Box>
-          </Flex>
-        </>
-      ) : (
-        <>
-          {FormDef}
-          <Box bg="orange.6" my={3} width={1} borderRadius={2}>
-            <ButtonTransparent
-              py={2}
-              width={1}
-              color="orange.1"
-              onClick={() => setShowConfirm(true)}
-            >
-              <FormattedMessage {...puzzleMessages.gotoConfirm} />
-            </ButtonTransparent>
-          </Box>
-        </>
-      )}
-    </Flex>
-  ) : (
-    <Flex flexWrap="wrap" width={1}>
+  return (
+    <Box>
       {FormDef}
-      <Box bg="orange.6" my={3} width={1} borderRadius={2}>
-        <PostPuzzleButton onSubmit={onSubmit} getData={_handleGetData} />
-      </Box>
-    </Flex>
+      {PostDef}
+    </Box>
   );
 };
 
