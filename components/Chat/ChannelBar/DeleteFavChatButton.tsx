@@ -2,6 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import { ButtonTransparent, Img } from 'components/General';
+import Tooltip from 'components/Hoc/Tooltip';
 import starFillIcon from 'svgs/starFill.svg';
 
 import { FormattedMessage } from 'react-intl';
@@ -17,7 +18,10 @@ import { DeleteFavChatButtonProps } from './types';
 import { FAVORITE_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
 import { FavoriteChatroomsQuery } from 'graphql/Queries/generated/FavoriteChatroomsQuery';
 
-const DeleteFavChatButton = ({ favchatId }: DeleteFavChatButtonProps) => (
+const DeleteFavChatButton = ({
+  favchatId,
+  compact,
+}: DeleteFavChatButtonProps) => (
   <Mutation<
     DeleteFavoriteChatroomMutation,
     DeleteFavoriteChatroomMutationVariables
@@ -45,30 +49,42 @@ const DeleteFavChatButton = ({ favchatId }: DeleteFavChatButtonProps) => (
       });
     }}
   >
-    {deleteFavChat => (
-      <ButtonTransparent
-        borderRadius={2}
-        border="3px solid"
-        borderColor="orange.6"
-        p={2}
-        onClick={() => {
-          deleteFavChat({
-            variables: {
-              favoriteChatroomId: favchatId,
+    {deleteFavChat => {
+      const _handleDeleteFavChat = () => {
+        deleteFavChat({
+          variables: {
+            favoriteChatroomId: favchatId,
+          },
+          optimisticResponse: {
+            delete_sui_hei_favoritechatroom: {
+              __typename: 'sui_hei_favoritechatroom_mutation_response',
+              affected_rows: 1,
             },
-            optimisticResponse: {
-              delete_sui_hei_favoritechatroom: {
-                __typename: 'sui_hei_favoritechatroom_mutation_response',
-                affected_rows: 1,
-              },
-            },
-          });
-        }}
-      >
-        <Img height="xxs" mx={2} src={starFillIcon} alt="Star" />
-        <FormattedMessage {...chatMessages.deleteFromFavoriteChatrooms} />
-      </ButtonTransparent>
-    )}
+          },
+        });
+      };
+
+      return (
+        <Tooltip
+          reference={
+            <ButtonTransparent
+              height="channelbar"
+              onClick={_handleDeleteFavChat}
+            >
+              <Img height="xxs" src={starFillIcon} alt="Star" />
+              {!compact && (
+                <FormattedMessage
+                  {...chatMessages.deleteFromFavoriteChatrooms}
+                />
+              )}
+            </ButtonTransparent>
+          }
+          tooltip={
+            <FormattedMessage {...chatMessages.deleteFromFavoriteChatrooms} />
+          }
+        />
+      );
+    }}
   </Mutation>
 );
 

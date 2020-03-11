@@ -2,6 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import { ButtonTransparent, Img } from 'components/General';
+import Tooltip from 'components/Hoc/Tooltip';
 import starEmptyIcon from 'svgs/starEmpty.svg';
 
 import { FormattedMessage } from 'react-intl';
@@ -20,6 +21,7 @@ import { FavoriteChatroomsQuery } from 'graphql/Queries/generated/FavoriteChatro
 const InsertFavChatButton = ({
   chatroomId,
   chatroomName,
+  compact,
 }: InsertFavChatButtonProps) => (
   <Mutation<
     InsertFavoriteChatroomMutation,
@@ -45,40 +47,50 @@ const InsertFavChatButton = ({
       });
     }}
   >
-    {insertFavChat => (
-      <ButtonTransparent
-        borderRadius={2}
-        border="3px solid"
-        borderColor="orange.6"
-        p={2}
-        onClick={() => {
-          insertFavChat({
-            variables: {
-              chatroomId,
-            },
-            optimisticResponse: {
-              insert_sui_hei_favoritechatroom: {
-                __typename: 'sui_hei_favoritechatroom_mutation_response',
-                returning: [
-                  {
-                    __typename: 'sui_hei_favoritechatroom',
-                    id: -1,
-                    sui_hei_chatroom: {
-                      __typename: 'sui_hei_chatroom',
-                      id: chatroomId,
-                      name: chatroomName || '...',
-                    },
+    {insertFavChat => {
+      const _handleInsertFavChat = () => {
+        insertFavChat({
+          variables: {
+            chatroomId,
+          },
+          optimisticResponse: {
+            insert_sui_hei_favoritechatroom: {
+              __typename: 'sui_hei_favoritechatroom_mutation_response',
+              returning: [
+                {
+                  __typename: 'sui_hei_favoritechatroom',
+                  id: -1,
+                  sui_hei_chatroom: {
+                    __typename: 'sui_hei_chatroom',
+                    id: chatroomId,
+                    name: chatroomName || '...',
                   },
-                ],
-              },
+                },
+              ],
             },
-          });
-        }}
-      >
-        <Img height="xxs" mx={2} src={starEmptyIcon} alt="Star" />
-        <FormattedMessage {...chatMessages.addToFavoriteChatrooms} />
-      </ButtonTransparent>
-    )}
+          },
+        });
+      };
+
+      return (
+        <Tooltip
+          reference={
+            <ButtonTransparent
+              height="channelbar"
+              onClick={_handleInsertFavChat}
+            >
+              <Img height="xxs" src={starEmptyIcon} alt="Star" />
+              {!compact && (
+                <FormattedMessage {...chatMessages.addToFavoriteChatrooms} />
+              )}
+            </ButtonTransparent>
+          }
+          tooltip={
+            <FormattedMessage {...chatMessages.addToFavoriteChatrooms} />
+          }
+        />
+      );
+    }}
   </Mutation>
 );
 

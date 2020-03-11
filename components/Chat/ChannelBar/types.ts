@@ -25,15 +25,18 @@ export type FavChatManipulateButtonProps = {
   user: GlobalUserType;
   chatroomId: number;
   chatroomName?: string;
+  compact?: boolean;
 };
 
 export type InsertFavChatButtonProps = {
   chatroomId: number;
   chatroomName?: string;
+  compact?: boolean;
 };
 
 export type DeleteFavChatButtonProps = {
   favchatId: number;
+  compact?: boolean;
 };
 
 export type ChannelChangeInputProps = {

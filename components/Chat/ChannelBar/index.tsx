@@ -1,18 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import { Box, Flex, ButtonTransparent } from 'components/General';
 import { getChannelWithPath } from 'common/channel';
 
 import { createSelector } from 'reselect';
 import * as chatReducer from 'reducers/chat';
 import * as globalReducer from 'reducers/global';
 
+import { FormattedMessage } from 'react-intl';
 import commonMessages from 'messages/common';
 import messages from 'messages/components/chat';
 
+import { Box, Flex, ButtonTransparent, Img } from 'components/General';
+import Tooltip from 'components/Hoc/Tooltip';
 import ChannelChangeModal from './ChannelChangeModal';
 import DescriptionModal from './DescriptionModal';
+import FavChatManipulateButton from './FavChatManipulateButton';
+
+import infoIcon from 'svgs/info.svg';
+import moreIcon from 'svgs/threeDotsVertical.svg';
 
 import { ChannelBarProps } from './types';
 import { StateType, ActionContentType } from 'reducers/types';
@@ -34,12 +39,7 @@ const ChannelBar = ({
   return (
     <Box width={1} height="channelbar">
       <Flex bg="orange.5">
-        <ButtonTransparent
-          color="white"
-          height="channelbar"
-          width={2 / 3}
-          onClick={() => chatroomId && setTrueDescriptionModal()}
-        >
+        <Flex color="white" alignItems="center" justifyContent="center" flexGrow={1}>
           {channel ? (
             currentChannel
           ) : (
@@ -48,15 +48,40 @@ const ChannelBar = ({
               values={{ channelName: currentChannel }}
             />
           )}
-        </ButtonTransparent>
-        <ButtonTransparent
-          color="white"
-          height="channelbar"
-          width={1 / 3}
-          onClick={() => setTrueChannelChangeModal()}
-        >
-          <FormattedMessage {...commonMessages.change} />
-        </ButtonTransparent>
+        </Flex>
+        <Tooltip
+          reference={
+            <ButtonTransparent
+              color="white"
+              height="channelbar"
+              onClick={() => chatroomId && setTrueDescriptionModal()}
+            >
+              <Img size="xxs" src={infoIcon} />
+            </ButtonTransparent>
+          }
+          tooltip={<FormattedMessage {...commonMessages.info} />}
+          delay={800}
+        />
+        {chatroomId && (
+          <FavChatManipulateButton
+            chatroomId={chatroomId}
+            chatroomName={currentChannel}
+	    compact
+          />
+        )}
+        <Tooltip
+          reference={
+            <ButtonTransparent
+              color="white"
+              height="channelbar"
+              onClick={() => setTrueChannelChangeModal()}
+            >
+              <Img size="xxs" src={moreIcon} />
+            </ButtonTransparent>
+          }
+          tooltip={<FormattedMessage {...commonMessages.change} />}
+          delay={800}
+        />
       </Flex>
       <ChannelChangeModal />
       {chatroomId && (
