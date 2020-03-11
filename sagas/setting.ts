@@ -20,7 +20,6 @@ function* loadSettings() {
 function* authRootSaga() {
   yield all([
     takeLatest(settingReducer.actionTypes.SET_STATE, saveSettings),
-    takeLatest(settingReducer.actionTypes.SHOW_GROTESQUE_WARNING, saveSettings),
     takeLatest(settingReducer.actionTypes.PUSH_NOTIFICATION, saveSettings),
     takeLatest(settingReducer.actionTypes.LANGUAGE, saveSettings),
     takeLatest(globalReducer.actionTypes.APPINIT, loadSettings),

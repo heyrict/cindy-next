@@ -57,7 +57,8 @@ export type PuzzleDetailProps = {
   userId?: number;
   solvedLongtermYami: boolean;
   showGrotesqueWarning: boolean;
-  setFalseShowGrotesqueWarning: () => void;
+  ignoredGrotesquePuzzles: Array<number>;
+  pushIgnoredGrotesquePuzzles: (puzzleId: number) => void;
   setFalseSolvedLongtermYami: () => void;
   setPuzzleContent: (content: string) => void;
   setPuzzleMemo: (memo: string) => void;

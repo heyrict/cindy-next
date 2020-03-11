@@ -1,6 +1,7 @@
 import { setCookie } from 'common/cookie';
-import * as bool from './helpers/bool';
+import * as array from './helpers/array';
 import * as base from './helpers/base';
+import * as bool from './helpers/bool';
 import * as mask from './helpers/mask';
 import {
   StateType,
@@ -16,6 +17,7 @@ export enum actionTypes {
   SETTINGS_MODAL = 'setting.SETTINGS_MODAL',
   CONFIRM_CREATE_PUZZLE = 'setting.CONFIRM_CREATE_PUZZLE',
   SHOW_GROTESQUE_WARNING = 'setting.SHOW_GROTESQUE_WARNING',
+  IGNORED_GROTESQUE_PUZZLES = 'setting.IGNORED_GROTESQUE_PUZZLES',
   PUZZLE_GENRE_IMG = 'setting.PUZZLE_GENRE_IMG',
   SEND_CHAT_TRIGGER = 'setting.SEND_CHAT_TRIGGER',
   SEND_DIRECTMESSAGE_TRIGGER = 'setting.SEND_DIRECTMESSAGE_TRIGGER',
@@ -33,6 +35,7 @@ export type ActionPayloadType = {
   SETTINGS_MODAL: ReturnType<ValueOf<bool.HelperActionType>>;
   CONFIRM_CREATE_PUZZLE: ReturnType<ValueOf<bool.HelperActionType>>;
   SHOW_GROTESQUE_WARNING: ReturnType<ValueOf<bool.HelperActionType>>;
+  IGNORED_GROTESQUE_PUZZLES: ReturnType<ValueOf<array.HelperActionType>>;
   PUZZLE_GENRE_IMG: ReturnType<ValueOf<bool.HelperActionType>>;
   RIGHT_ASIDE_MINI: ReturnType<ValueOf<bool.HelperActionType>>;
   SEND_CHAT_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
@@ -52,6 +55,9 @@ export const actions = {
   settingsModal: bool.wrapActions(actionTypes.SETTINGS_MODAL),
   confirmCreatePuzzle: bool.wrapActions(actionTypes.CONFIRM_CREATE_PUZZLE),
   showGrotesqueWarning: bool.wrapActions(actionTypes.SHOW_GROTESQUE_WARNING),
+  ignoredGrotesquePuzzles: array.wrapActions(
+    actionTypes.IGNORED_GROTESQUE_PUZZLES,
+  ),
   puzzleGenreImg: bool.wrapActions(actionTypes.PUZZLE_GENRE_IMG),
   rightAsideMini: bool.wrapActions(actionTypes.RIGHT_ASIDE_MINI),
   sendChatTrigger: mask.wrapActions(actionTypes.SEND_CHAT_TRIGGER),
@@ -82,6 +88,7 @@ export const initialState = {
   settingsModal: false,
   confirmCreatePuzzle: true,
   showGrotesqueWarning: true,
+  ignoredGrotesquePuzzles: new Array() as Array<number>,
   puzzleGenreImg: true,
   sendChatTrigger: SendMessageTriggerType.ON_ENTER as number,
   sendDirectmessageTrigger: SendMessageTriggerType.ON_SHIFT_ENTER as number,
@@ -94,11 +101,13 @@ export const initialState = {
   multicol: true,
 };
 
-export const loadInitialState = (): typeof initialState => {
+type SettingsStateType = typeof initialState;
+
+export const loadInitialState = (): SettingsStateType => {
   if (!process.browser) return initialState;
   const storedItem = window.localStorage.getItem(`reducer:${scope}`);
   if (storedItem) {
-    const parsedStoredItem = JSON.parse(storedItem) as typeof initialState;
+    const parsedStoredItem = JSON.parse(storedItem) as SettingsStateType;
     return {
       ...initialState,
       ...parsedStoredItem,
@@ -107,19 +116,29 @@ export const loadInitialState = (): typeof initialState => {
   return initialState;
 };
 
-export const saveState = (state: typeof initialState): void => {
+const MAX_STORAGE_ARRAY_LENGTH = 50;
+const getStateToSave = (state: SettingsStateType): SettingsStateType => {
+  return {
+    ...state,
+    ignoredGrotesquePuzzles: state.ignoredGrotesquePuzzles.slice(
+      state.ignoredGrotesquePuzzles.length - MAX_STORAGE_ARRAY_LENGTH,
+    ),
+  };
+};
+
+export const saveState = (state: SettingsStateType): void => {
   if (!process.browser) return;
-  const storedItem = JSON.stringify(state);
+  const storedItem = JSON.stringify(getStateToSave(state));
   window.localStorage.setItem(`reducer:${scope}`, storedItem);
 
   // set cookie for server side use
-  setCookie('settings-server-side', JSON.stringify(state), 8 * 365 * 86400);
+  setCookie('settings-server-side', storedItem, 8 * 365 * 86400);
 };
 
 export const reducer = (
   state = initialState,
   action: ActionContentType<typeof actionTypes, ActionPayloadType>,
-): typeof initialState => {
+): SettingsStateType => {
   switch (action.type) {
     case actionTypes.SETTINGS_MODAL:
       return {

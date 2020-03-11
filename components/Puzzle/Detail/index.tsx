@@ -32,7 +32,8 @@ const PuzzleDetail = ({
   puzzle,
   userId,
   showGrotesqueWarning,
-  setFalseShowGrotesqueWarning,
+  ignoredGrotesquePuzzles,
+  pushIgnoredGrotesquePuzzles,
   setPuzzleContent,
   setPuzzleMemo,
   solvedLongtermYami,
@@ -76,7 +77,11 @@ const PuzzleDetail = ({
   }, [puzzle.content, puzzle.status]);
 
   useEffect(() => {
-    if (puzzle.grotesque && showGrotesqueWarning) {
+    if (
+      puzzle.grotesque &&
+      showGrotesqueWarning &&
+      ignoredGrotesquePuzzles.findIndex(id => id === puzzle.id) === -1
+    ) {
       setShowGrotesqueModal(true);
     }
   }, [puzzle.grotesque]);
@@ -205,7 +210,7 @@ const PuzzleDetail = ({
                 color="orange.0"
                 onClick={() => {
                   if (noMoreGrotesqueWarningInput.current.value == 'on') {
-                    setFalseShowGrotesqueWarning();
+                    pushIgnoredGrotesquePuzzles(puzzle.id);
                   }
                   setShowGrotesqueModal(false);
                 }}
@@ -224,6 +229,8 @@ const mapStateToProps = (state: StateType) => ({
   userId: globalReducer.rootSelector(state).user.id,
   solvedLongtermYami: puzzleReducer.rootSelector(state).solvedLongtermYami,
   showGrotesqueWarning: settingReducer.rootSelector(state).showGrotesqueWarning,
+  ignoredGrotesquePuzzles: settingReducer.rootSelector(state)
+    .ignoredGrotesquePuzzles,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
@@ -233,8 +240,8 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(puzzleReducer.actions.puzzleMemo.set(memo)),
   setFalseSolvedLongtermYami: () =>
     dispatch(puzzleReducer.actions.solvedLongtermYami.setFalse()),
-  setFalseShowGrotesqueWarning: () =>
-    dispatch(settingReducer.actions.showGrotesqueWarning.setFalse()),
+  pushIgnoredGrotesquePuzzles: (puzzleId: number) =>
+    dispatch(settingReducer.actions.ignoredGrotesquePuzzles.push(puzzleId)),
 });
 
 const withRedux = connect(
