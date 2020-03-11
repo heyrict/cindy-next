@@ -21,6 +21,10 @@ function* authRootSaga() {
   yield all([
     takeLatest(settingReducer.actionTypes.SET_STATE, saveSettings),
     takeLatest(settingReducer.actionTypes.PUSH_NOTIFICATION, saveSettings),
+    takeLatest(
+      settingReducer.actionTypes.IGNORED_GROTESQUE_PUZZLES,
+      saveSettings,
+    ),
     takeLatest(settingReducer.actionTypes.LANGUAGE, saveSettings),
     takeLatest(globalReducer.actionTypes.APPINIT, loadSettings),
   ]);

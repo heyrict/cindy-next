@@ -90,7 +90,11 @@ export const PuzzleAddFormInner = ({
   };
 
   const FormDef = (
-    <Flex flexWrap="wrap" width={1} style={{ display: showConfirm ? 'none' : undefined }}>
+    <Flex
+      flexWrap="wrap"
+      width={1}
+      style={{ display: showConfirm ? 'none' : undefined }}
+    >
       <Box {...inputFieldNameStyle}>
         <FormattedMessage {...puzzleMessages.title} />
       </Box>

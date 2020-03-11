@@ -161,6 +161,14 @@ export const reducer = (
           action.payload,
         ),
       };
+    case actionTypes.IGNORED_GROTESQUE_PUZZLES:
+      return {
+        ...state,
+        ignoredGrotesquePuzzles: array.helper(
+          state.ignoredGrotesquePuzzles,
+          action.payload,
+        ),
+      };
     case actionTypes.PUZZLE_GENRE_IMG:
       return {
         ...state,

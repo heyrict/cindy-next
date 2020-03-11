@@ -39,7 +39,12 @@ const ChannelBar = ({
   return (
     <Box width={1} height="channelbar">
       <Flex bg="orange.5">
-        <Flex color="white" alignItems="center" justifyContent="center" flexGrow={1}>
+        <Flex
+          color="white"
+          alignItems="center"
+          justifyContent="center"
+          flexGrow={1}
+        >
           {channel ? (
             currentChannel
           ) : (
@@ -66,7 +71,7 @@ const ChannelBar = ({
           <FavChatManipulateButton
             chatroomId={chatroomId}
             chatroomName={currentChannel}
-	    compact
+            compact
           />
         )}
         <Tooltip
