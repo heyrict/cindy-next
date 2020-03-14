@@ -76,6 +76,7 @@ const InsertFavChatButton = ({
         <Tooltip
           reference={
             <ButtonTransparent
+              px={2}
               height="channelbar"
               onClick={_handleInsertFavChat}
             >

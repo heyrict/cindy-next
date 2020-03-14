@@ -39,11 +39,21 @@ const ChannelBar = ({
   return (
     <Box width={1} height="channelbar">
       <Flex bg="orange.5">
-        <Flex
+        {chatroomId && (
+          <FavChatManipulateButton
+            chatroomId={chatroomId}
+            chatroomName={currentChannel}
+            compact
+          />
+        )}
+        <Box
           color="white"
-          alignItems="center"
-          justifyContent="center"
+          alignSelf="center"
+          overflow="hidden"
           flexGrow={1}
+          textAlign="center"
+          maxWidth="calc(100% - 70px)"
+          style={{ whiteSpace: 'nowrap' }}
         >
           {channel ? (
             currentChannel
@@ -53,10 +63,11 @@ const ChannelBar = ({
               values={{ channelName: currentChannel }}
             />
           )}
-        </Flex>
+        </Box>
         <Tooltip
           reference={
             <ButtonTransparent
+              px={[2, 2, 1, 2]}
               color="white"
               height="channelbar"
               onClick={() => chatroomId && setTrueDescriptionModal()}
@@ -67,16 +78,10 @@ const ChannelBar = ({
           tooltip={<FormattedMessage {...commonMessages.info} />}
           delay={800}
         />
-        {chatroomId && (
-          <FavChatManipulateButton
-            chatroomId={chatroomId}
-            chatroomName={currentChannel}
-            compact
-          />
-        )}
         <Tooltip
           reference={
             <ButtonTransparent
+              px={[2, 2, 1, 2]}
               color="white"
               height="channelbar"
               onClick={() => setTrueChannelChangeModal()}

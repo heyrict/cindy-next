@@ -68,6 +68,7 @@ const DeleteFavChatButton = ({
         <Tooltip
           reference={
             <ButtonTransparent
+              px={2}
               height="channelbar"
               onClick={_handleDeleteFavChat}
             >
