@@ -104,7 +104,7 @@ def grant_collection_award(user):
 
     if monthly_award_count % 3 == 0 and monthly_award_count > 0:
         award_data = query(AWARD_BY_ID_QUERY, {
-            'id': monthly_collection_awards[monthly_award_count % 3 - 1]
+            'id': monthly_collection_awards[int(monthly_award_count / 3) - 1]
         })['sui_hei_award_by_pk'] # yapf: disable
 
         try:
