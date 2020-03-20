@@ -22,7 +22,6 @@ const DOMPurifyParamsText = {
 
 const DOMPurifyParamsLine = {
   ...DOMPurifyParamsText,
-  FORBID_ATTR: ['style'],
   FORBID_TAGS: [
     'audio',
     'head',

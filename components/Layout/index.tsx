@@ -260,42 +260,24 @@ const toastifyStyle = css`
 const tableStyle = css`
   table {
     border-collapse: collapse;
-    text-align: left;
-  }
-  table tbody {
-    border: 1px solid ${theme.colors.gray[7]};
+    border: 2px solid ${theme.colors.gray[7]};
   }
   table td,
   table th {
     padding: ${theme.space[1]}px ${theme.space[2]}px;
   }
   table thead th {
-    background: -webkit-gradient(
-      linear,
-      left top,
-      left bottom,
-      color-stop(0.05, ${theme.colors.gray[5]}),
-      color-stop(1, ${theme.colors.gray[8]})
-    );
-    background: -moz-linear-gradient(
-      center top,
-      ${theme.colors.gray[5]} 5%,
-      ${theme.colors.gray[8]} 100%
-    );
-    background-color: ${theme.colors.gray[5]};
+    background-color: ${theme.colors.gray[6]};
     color: ${theme.colors.gray[1]};
     border-left: 1px solid ${theme.colors.gray[3]};
   }
-  table thead th:first-of-type {
-    border: none;
-  }
   table tbody td {
     color: ${theme.colors.gray[7]};
-    border-left: 1px solid ${theme.colors.gray[2]};
-    border-bottom: 1px solid ${theme.colors.gray[2]};
+    border-left: 1px solid ${theme.colors.gray[5]};
+    border-bottom: 1px solid ${theme.colors.gray[5]};
   }
-  table tbody .alt td {
-    background: ${theme.colors.gray[1]};
+  table tbody tr:nth-child(even) {
+    background-color: ${theme.colors.gray[1]};
     color: ${theme.colors.gray[8]};
   }
   table tbody td:first-of-type {

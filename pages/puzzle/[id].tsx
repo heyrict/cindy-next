@@ -41,7 +41,6 @@ class Puzzle extends React.Component<PuzzleProps> {
           {params => <PuzzleRenderer {...params} formatMessage={_} />}
         </Query>
         <GoogleAd {...googleAdInfo.inarticleAd} />
-        <GoogleAd {...googleAdInfo.relativeAd} />
       </React.Fragment>
     );
   }
