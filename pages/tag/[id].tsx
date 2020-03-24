@@ -11,9 +11,10 @@ import PaginatedQuery from 'components/Hoc/PaginatedQuery';
 import { TAG_PUZZLES_QUERY } from 'graphql/Queries/Puzzles';
 import { TAG_QUERY } from 'graphql/Queries/Tag';
 
-import { Heading, Flex, Box } from 'components/General';
+import { Heading, Flex } from 'components/General';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 import PuzzleBrief from 'components/Puzzle/Brief';
+import MultiColBox from 'components/General/MultiColBox';
 
 import {
   TagPuzzlesQuery,
@@ -24,8 +25,6 @@ import {
   TagQueryVariables,
 } from 'graphql/Queries/generated/TagQuery';
 import { order_by } from 'generated/globalTypes';
-
-const puzzleWidth = [1, 1 / 2, 1, 1 / 2, 1 / 3];
 
 const TagPage = ({ intl }: { intl: IntlShape }) => {
   const _ = intl.formatMessage;
@@ -113,9 +112,9 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
             return (
               <>
                 {puzzles.map(puzzle => (
-                  <Box key={puzzle.id} width={puzzleWidth}>
+                  <MultiColBox key={`tag-${tagId}-${puzzle.id}`}>
                     <PuzzleBrief puzzle={puzzle} />
-                  </Box>
+                  </MultiColBox>
                 ))}
               </>
             );
