@@ -8,10 +8,6 @@ export type KeywordWorkbenchProps = {
   setKeywords: (keywords: ReplayKeywordsType) => void;
 };
 
-export type KuromojiProgressProps = {
-  progress: number;
-};
-
 export type KeywordTreeNodeType = {
   name: string;
   children: Array<KeywordTreeNodeType>;
@@ -19,4 +15,8 @@ export type KeywordTreeNodeType = {
 
 export type ResultPreviewProps = {
   keywordTree: KeywordTreeNodeType;
+};
+
+export type KuromojiProgressProps = {
+  progress: number;
 };

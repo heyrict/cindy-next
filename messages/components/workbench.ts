@@ -23,11 +23,6 @@ export const messages = defineMessages({
     id: `${scope}.renamePanel`,
     defaultMessage: 'Rename Keywords',
   },
-  firstLoadingIsTimeConsuming: {
-    id: `${scope}.firstLoadingIsTimeConsuming`,
-    defaultMessage:
-      'Now Loading text parsing tools, it may take several minites for the first time...',
-  },
 });
 
 export default messages;

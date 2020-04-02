@@ -1,22 +1,25 @@
 import React from 'react';
+import { TOKENIZE_SERVER } from 'settings';
+
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
 
 import { Query } from '@apollo/react-components';
 import { PUZZLE_DIALOGUE_QUERY } from 'graphql/Queries/Puzzles';
 
-import { getKeywords, counter } from './common';
+import { counter } from './common';
 
 import { Flex } from 'components/General';
 import Loading from 'components/General/Loading';
 import KuromojiProgress from './KuromojiProgress';
 import KeywordManipulatePanel from './KeywordManipulatePanel';
-import ResultPreview from './ResultPreview';
 
 import {
   ActionContentType,
   ReplayDialogueType,
   ReplayKeywordsType,
+  TokenizeServerResponseType,
+  TokenizeServerTokenType,
 } from 'reducers/types';
 import { KeywordWorkbenchProps } from './types';
 import {
@@ -42,17 +45,40 @@ const KeywordWorkbench = ({
         // Get keys
         const calcDialogueKeys = [] as Array<ReplayDialogueType>;
         let keywordCounts = new Object() as ReplayKeywordsType;
+
+        // Step 1: Fetch tokenized dialouges from server
         setKuromojiProgress(0);
-        for (let i = 0; i < sui_hei_dialogue.length; i++) {
-          const dialogue = sui_hei_dialogue[i];
-          const parsed = await getKeywords(dialogue.question);
-          await counter(parsed, keywordCounts);
+        const parsed_dialogues: TokenizeServerResponseType = await fetch(
+          `${TOKENIZE_SERVER}/${id}`,
+          {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+            },
+          },
+        ).then(res => res.json());
+
+        // Step 2: Build keyword tree from tokens
+        setKuromojiProgress(0.5);
+        for (let i = 0; i < parsed_dialogues.length; i++) {
+          const parsed = parsed_dialogues[i];
+          const dialogue = sui_hei_dialogue.find(d => d.id === parsed.id);
+          if (!dialogue) continue;
+
+          await counter(
+            parsed.tokens.map((tokens: TokenizeServerTokenType) => tokens.text),
+            keywordCounts,
+          );
           calcDialogueKeys.push({
             question: dialogue.question,
-            question_keywords: parsed,
+            question_keywords: parsed.tokens.map(
+              (token: TokenizeServerTokenType) => token.text,
+            ),
           });
           if ((i + 1) % 10 === 0)
-            setKuromojiProgress((i + 1) / sui_hei_dialogue.length);
+            setKuromojiProgress(
+              ((i + 1) * 0.5) / sui_hei_dialogue.length + 0.5,
+            );
         }
 
         const keywords = new Object() as ReplayKeywordsType;
@@ -64,6 +90,9 @@ const KeywordWorkbench = ({
             use: stat.count > countThresh ? true : false,
           };
         });
+
+        // TODO Step 3: Build tf-idf object, calculate value for each document and
+        //              pick the first 3 - 4 tokens with most value.
 
         setKuromojiProgress(1);
         setReplayDialogues(calcDialogueKeys);
@@ -80,7 +109,6 @@ const KeywordWorkbench = ({
           <React.Fragment>
             <KuromojiProgress />
             <KeywordManipulatePanel />
-            <ResultPreview />
           </React.Fragment>
         );
       }}

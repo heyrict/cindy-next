@@ -1,46 +1,5 @@
-import kuromoji, { Tokenizer, IpadicFeatures } from 'kuromoji';
-
 import { ReplayKeywordsType, ReplayDialogueType } from 'reducers/types';
 import { KeywordTreeNodeType } from './types';
-
-let tokenizer: Tokenizer<IpadicFeatures> | undefined;
-
-const loadTokenizer = () => {
-  if (process.browser) {
-    return new Promise<Tokenizer<IpadicFeatures>>((resolve, _reject) => {
-      kuromoji
-        .builder({
-          dicPath: '/static/dict',
-        })
-        .build((_err, tok) => {
-          tokenizer = tok;
-          resolve(tokenizer);
-        });
-    });
-  } else {
-    return new Promise<Tokenizer<IpadicFeatures>>((resolve, _reject) => {
-      kuromoji
-        .builder({
-          dicPath: 'node_modules/kuromoji/dict',
-        })
-        .build((_err, tok) => {
-          tokenizer = tok;
-          resolve(tokenizer);
-        });
-    });
-  }
-};
-
-const defaultFilter = (word: IpadicFeatures) =>
-  (word.pos === '名詞' && word.pos_detail_1 !== '数') || word.pos === '動詞';
-
-export const getKeywords = async (text: string, filter = defaultFilter) => {
-  let tok = tokenizer || (await loadTokenizer());
-  return tok
-    .tokenize(text)
-    .filter(filter)
-    .map(o => (o.basic_form === '*' ? o.surface_form : o.basic_form));
-};
 
 export const counter = async (
   list: Array<string>,

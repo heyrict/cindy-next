@@ -36,7 +36,7 @@ const KeywordSelectWrapper = styled(Flex)`
   flex-wrap: wrap;
   border-top: 2px solid ${p => p.theme.colors.yellow[6]};
   padding-top: 0.5em;
-  max-height: 15em;
+  /*max-height: 15em;*/
   overflow-y: auto;
 `;
 

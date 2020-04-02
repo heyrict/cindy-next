@@ -94,3 +94,15 @@ export type YandexAPIErrorType = {
 };
 
 export type YandexUserReportType = YandexAPIResponseType | null;
+
+export type TokenizeServerTokenType = {
+  text: string;
+  poc: string;
+};
+
+export type TokenizeServerDialogueTokensType = {
+  id: number;
+  tokens: Array<TokenizeServerTokenType>,
+};
+
+export type TokenizeServerResponseType = Array<TokenizeServerDialogueTokensType>;

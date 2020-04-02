@@ -31,6 +31,10 @@ export const WEBHOOK_SERVER = isDev
   ? 'http://localhost:3001/webhook'
   : '/webhook';
 
+export const TOKENIZE_SERVER = isDev
+  ? 'http://localhost:3003/tokenize'
+  : '/tokenize';
+
 // Locale
 export const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
 export const APPLOCALES: Array<'en' | 'ja'> = ['en', 'ja'];
