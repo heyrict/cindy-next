@@ -1,0 +1,1158 @@
+version: 2
+tables:
+- table:
+    schema: public
+    name: hasura_directmessage_group_trigger
+  object_relationships:
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - last_dm_id
+      - user_id
+      filter: {}
+- table:
+    schema: public
+    name: hasura_int_groupby_trigger
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - group
+      - value
+      filter: {}
+- table:
+    schema: public
+    name: hasura_user_ranking_trigger
+  object_relationships:
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - user_id
+      - value
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - value
+      filter: {}
+- table:
+    schema: public
+    name: sui_hei_award
+  array_relationships:
+  - name: sui_hei_awardapplications
+    using:
+      foreign_key_constraint_on:
+        column: award_id
+        table:
+          schema: public
+          name: sui_hei_awardapplication
+  - name: sui_hei_eventawards
+    using:
+      foreign_key_constraint_on:
+        column: award_id
+        table:
+          schema: public
+          name: sui_hei_eventaward
+  - name: sui_hei_userawards
+    using:
+      foreign_key_constraint_on:
+        column: award_id
+        table:
+          schema: public
+          name: sui_hei_useraward
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+- table:
+    schema: public
+    name: sui_hei_awardapplication
+  object_relationships:
+  - name: sui_hei_award
+    using:
+      foreign_key_constraint_on: award_id
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: applier_id
+  - name: suiHeiUserByReviewerId
+    using:
+      foreign_key_constraint_on: reviewer_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        applier_id: X-HASURA-USER-ID
+      columns:
+      - status
+      - comment
+      - created
+      - award_id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+- table:
+    schema: public
+    name: sui_hei_bookmark
+  object_relationships:
+  - name: sui_hei_puzzle
+    using:
+      foreign_key_constraint_on: puzzle_id
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns:
+      - puzzle_id
+      - value
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_chatmessage
+  object_relationships:
+  - name: sui_hei_chatroom
+    using:
+      foreign_key_constraint_on: chatroom_id
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 2000
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_chatroom
+  object_relationships:
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  array_relationships:
+  - name: sui_hei_chatmessages
+    using:
+      foreign_key_constraint_on:
+        column: chatroom_id
+        table:
+          schema: public
+          name: sui_hei_chatmessage
+  - name: sui_hei_favoritechatrooms
+    using:
+      foreign_key_constraint_on:
+        column: chatroom_id
+        table:
+          schema: public
+          name: sui_hei_favoritechatroom
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 2000
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_comment
+  object_relationships:
+  - name: sui_hei_puzzle
+    using:
+      foreign_key_constraint_on: puzzle_id
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_dialogue
+  object_relationships:
+  - name: sui_hei_puzzle
+    using:
+      foreign_key_constraint_on: puzzle_id
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        _or:
+        - sui_hei_puzzle:
+            user_id:
+              $eq: X-HASURA-USER-ID
+        - user_id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_directmessage
+  object_relationships:
+  - name: receiver
+    using:
+      foreign_key_constraint_on: receiver_id
+  - name: sender
+    using:
+      foreign_key_constraint_on: sender_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        sender_id: X-HASURA-USER-ID
+      set:
+        sender_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        _or:
+        - sender_id: X-HASURA-USER-ID
+        - receiver_id: X-HASURA-USER-ID
+      limit: 2000
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        sender_id: X-HASURA-USER-ID
+      set:
+        sender_id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_event
+  object_relationships:
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  array_relationships:
+  - name: sui_hei_eventawards
+    using:
+      foreign_key_constraint_on:
+        column: event_id
+        table:
+          schema: public
+          name: sui_hei_eventaward
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 2000
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_eventaward
+  object_relationships:
+  - name: sui_hei_award
+    using:
+      foreign_key_constraint_on: award_id
+  - name: sui_hei_event
+    using:
+      foreign_key_constraint_on: event_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 2000
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: public
+    name: sui_hei_favoritechatroom
+  object_relationships:
+  - name: sui_hei_chatroom
+    using:
+      foreign_key_constraint_on: chatroom_id
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        user_id: X-HASURA-USER-ID
+      limit: 2000
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_hint
+  object_relationships:
+  - name: receiver
+    using:
+      foreign_key_constraint_on: receiver_id
+  - name: sui_hei_puzzle
+    using:
+      foreign_key_constraint_on: puzzle_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        sui_hei_puzzle:
+          user_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 2000
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        sui_hei_puzzle:
+          user_id: X-HASURA-USER-ID
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        sui_hei_puzzle:
+          user_id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_puzzle
+  object_relationships:
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  array_relationships:
+  - name: sui_hei_bookmarks
+    using:
+      foreign_key_constraint_on:
+        column: puzzle_id
+        table:
+          schema: public
+          name: sui_hei_bookmark
+  - name: sui_hei_comments
+    using:
+      foreign_key_constraint_on:
+        column: puzzle_id
+        table:
+          schema: public
+          name: sui_hei_comment
+  - name: sui_hei_dialogues
+    using:
+      foreign_key_constraint_on:
+        column: puzzle_id
+        table:
+          schema: public
+          name: sui_hei_dialogue
+  - name: sui_hei_hints
+    using:
+      foreign_key_constraint_on:
+        column: puzzle_id
+        table:
+          schema: public
+          name: sui_hei_hint
+  - name: sui_hei_puzzle_tags
+    using:
+      foreign_key_constraint_on:
+        column: puzzle_id
+        table:
+          schema: public
+          name: sui_hei_puzzle_tag
+  - name: sui_hei_stars
+    using:
+      foreign_key_constraint_on:
+        column: puzzle_id
+        table:
+          schema: public
+          name: sui_hei_star
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 2000
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+  event_triggers:
+  - name: send_twitter_on_puzzle_insert
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      num_retries: 0
+      interval_sec: 10
+      timeout_sec: 60
+    webhook_from_env: PYTHON_SERVER_WEBHOOK
+- table:
+    schema: public
+    name: sui_hei_puzzle_tag
+  object_relationships:
+  - name: sui_hei_puzzle
+    using:
+      foreign_key_constraint_on: puzzle_id
+  - name: sui_hei_tag
+    using:
+      foreign_key_constraint_on: tag_id
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      allow_aggregations: true
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        _or:
+        - user_id: X-HASURA-USER-ID
+        - sui_hei_puzzle:
+            user_id:
+              $eq: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_replay
+  object_relationships:
+  - name: sui_hei_puzzle
+    using:
+      foreign_key_constraint_on: puzzle_id
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  array_relationships:
+  - name: sui_hei_replay_dialogues
+    using:
+      foreign_key_constraint_on:
+        column: replay_id
+        table:
+          schema: public
+          name: sui_hei_replay_dialogue
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+      - id
+      - puzzle_id
+      - title
+      - user_id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - id
+      - title
+      - puzzle_id
+      - user_id
+      - created
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+      - id
+      - puzzle_id
+      - user_id
+      - created
+      - title
+      filter: {}
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - puzzle_id
+      - title
+      - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: sui_hei_replay_dialogue
+  object_relationships:
+  - name: sui_hei_replay
+    using:
+      foreign_key_constraint_on: replay_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        sui_hei_replay:
+          user_id:
+            _eq: X-Hasura-User-Id
+      columns:
+      - id
+      - replay_id
+      - question
+      - answer
+      - good
+      - "true"
+      - keywords
+      - milestones
+      - dependency
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - id
+      - replay_id
+      - question
+      - answer
+      - good
+      - "true"
+      - keywords
+      - milestones
+      - dependency
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - good
+      - "true"
+      - id
+      - replay_id
+      - keywords
+      - answer
+      - dependency
+      - milestones
+      - question
+      filter: {}
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - good
+      - "true"
+      - id
+      - replay_id
+      - keywords
+      - answer
+      - dependency
+      - milestones
+      - question
+      filter:
+        sui_hei_replay:
+          user_id:
+            _eq: X-Hasura-User-Id
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        sui_hei_replay:
+          user_id:
+            _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: sui_hei_schedule
+  object_relationships:
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 2000
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_star
+  object_relationships:
+  - name: sui_hei_puzzle
+    using:
+      foreign_key_constraint_on: puzzle_id
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 2000
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        user_id: X-HASURA-USER-ID
+      set:
+        user_id: X-HASURA-USER-ID
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_tag
+  array_relationships:
+  - name: sui_hei_puzzle_tags
+    using:
+      foreign_key_constraint_on:
+        column: tag_id
+        table:
+          schema: public
+          name: sui_hei_puzzle_tag
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns: '*'
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      allow_aggregations: true
+- table:
+    schema: public
+    name: sui_hei_user
+  object_relationships:
+  - name: sui_hei_current_useraward
+    using:
+      foreign_key_constraint_on: current_award_id
+  array_relationships:
+  - name: sui_hei_awardapplications
+    using:
+      foreign_key_constraint_on:
+        column: applier_id
+        table:
+          schema: public
+          name: sui_hei_awardapplication
+  - name: suiHeiAwardapplicationsByReviewerId
+    using:
+      foreign_key_constraint_on:
+        column: reviewer_id
+        table:
+          schema: public
+          name: sui_hei_awardapplication
+  - name: sui_hei_bookmarks
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: sui_hei_bookmark
+  - name: sui_hei_chatmessages
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: sui_hei_chatmessage
+  - name: sui_hei_chatrooms
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: sui_hei_chatroom
+  - name: sui_hei_comments
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: sui_hei_comment
+  - name: sui_hei_dialogues
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: sui_hei_dialogue
+  - name: sui_hei_directmessages
+    using:
+      foreign_key_constraint_on:
+        column: receiver_id
+        table:
+          schema: public
+          name: sui_hei_directmessage
+  - name: suiHeiDirectmessagesBySenderId
+    using:
+      foreign_key_constraint_on:
+        column: sender_id
+        table:
+          schema: public
+          name: sui_hei_directmessage
+  - name: sui_hei_events
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: sui_hei_event
+  - name: sui_hei_favoritechatrooms
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: sui_hei_favoritechatroom
+  - name: sui_hei_puzzles
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: sui_hei_puzzle
+  - name: sui_hei_schedules
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: sui_hei_schedule
+  - name: sui_hei_stars
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: sui_hei_star
+  - name: sui_hei_userawards
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: sui_hei_useraward
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - id
+      - last_login
+      - icon
+      - username
+      - email
+      - date_joined
+      - nickname
+      - profile
+      - hide_bookmark
+      - current_award_id
+      filter: {}
+      limit: 1000
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+      - id
+      - last_login
+      - icon
+      - username
+      - email
+      - date_joined
+      - nickname
+      - profile
+      - hide_bookmark
+      - current_award_id
+      - last_read_dm_id
+      filter: {}
+      limit: 2000
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - last_login
+      - username
+      - icon
+      - email
+      - profile
+      - hide_bookmark
+      - current_award_id
+      - last_read_dm_id
+      filter:
+        id: X-HASURA-USER-ID
+      set:
+        id: X-HASURA-USER-ID
+- table:
+    schema: public
+    name: sui_hei_useraward
+  object_relationships:
+  - name: sui_hei_award
+    using:
+      foreign_key_constraint_on: award_id
+  - name: sui_hei_user
+    using:
+      foreign_key_constraint_on: user_id
+  array_relationships:
+  - name: sui_hei_users
+    using:
+      foreign_key_constraint_on:
+        column: current_award_id
+        table:
+          schema: public
+          name: sui_hei_user
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      set:
+        user_id: x-hasura-User-Id
+      columns:
+      - award_id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 1000
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+      limit: 2000
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter: {}
+functions:
+- function:
+    schema: public
+    name: dialogue_count_ranking
+- function:
+    schema: public
+    name: direct_message_group
+- function:
+    schema: public
+    name: puzzle_count_ranking
+- function:
+    schema: public
+    name: star_count_ranking
+- function:
+    schema: public
+    name: star_sum_ranking
+- function:
+    schema: public
+    name: user_puzzle_genre_groups
+- function:
+    schema: public
+    name: user_star_groups
