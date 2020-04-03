@@ -49,8 +49,8 @@ const DialogueKeywordQuestionEditBox = ({
         >
           <Img height="1em" src={pencilIcon} alt="edit" />
         </ButtonTransparent>
+        {children}
       </span>
-      {children}
     </KeywordQuestionBox>
   );
 };

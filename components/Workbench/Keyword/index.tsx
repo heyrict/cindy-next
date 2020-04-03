@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useApolloClient } from '@apollo/react-hooks';
 import { TOKENIZE_SERVER } from 'settings';
 
@@ -27,7 +28,6 @@ import {
   PuzzleDialogueQuery,
   PuzzleDialogueQueryVariables,
 } from 'graphql/Queries/generated/PuzzleDialogueQuery';
-import { toast } from 'react-toastify';
 
 const SAVE_INTERVAL = 60000;
 
@@ -42,7 +42,10 @@ const KeywordWorkbench = ({
   const client = useApolloClient();
 
   useEffect(() => {
-    let handle = window.setInterval(saveStorage, SAVE_INTERVAL);
+    let handle = window.setInterval(() => {
+      saveStorage();
+      toast.info("Saved successfully!");
+    }, SAVE_INTERVAL);
     return () => window.clearInterval(handle);
   });
 

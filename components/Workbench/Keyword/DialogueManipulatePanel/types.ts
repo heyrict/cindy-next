@@ -12,6 +12,7 @@ export type DialogueManipulateProps = {
     dialogueId: number,
     update: (dialogue: ReplayDialogueType) => ReplayDialogueType,
   ) => void;
+  deleteDialogue: (dialogueId: number) => void;
   iRemoveKeywordByThresh: (thresh: number, fromQuestionId: number) => void;
 };
 

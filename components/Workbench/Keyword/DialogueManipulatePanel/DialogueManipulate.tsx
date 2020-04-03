@@ -15,6 +15,7 @@ import KeywordQuestionEditBox from './DialogueKeywordQuestionEditBox';
 import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
 import pencilIcon from 'svgs/pencil.svg';
+import dustbinIcon from 'svgs/dustbin.svg';
 
 import {
   StateType,
@@ -30,6 +31,7 @@ const NUM_RETAIN = 4;
 const DialogueManipulate = ({
   dialogue,
   updateDialogue,
+  deleteDialogue,
   iRemoveKeywordByThresh,
 }: DialogueManipulateProps) => {
   let [mode, setMode] = useState(DialogueManipulateModeType.NORMAL);
@@ -58,7 +60,16 @@ const DialogueManipulate = ({
             question: text,
           }));
         }}
-      />
+      >
+        <ButtonTransparent
+          ml="3"
+          onClick={() => {
+            deleteDialogue(dialogue.id);
+          }}
+        >
+          <Img height="1em" src={dustbinIcon} alt="delete" />
+        </ButtonTransparent>
+      </KeywordQuestionEditBox>
       <KeywordQuestionEditBox
         prefix={`A${dialogue.qno}`}
         content={dialogue.answer}
@@ -206,6 +217,12 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(
       addReplayReducer.actions.replayDialogues.update(null, prev =>
         prev.id === dialogueId ? update(prev) : prev,
+      ),
+    ),
+  deleteDialogue: (dialogueId: number) =>
+    dispatch(
+      addReplayReducer.actions.replayDialogues.deleteWhere(item =>
+        item.id === dialogueId ? true : false,
       ),
     ),
 });
