@@ -1,6 +1,17 @@
 import { counter, setNodeInChildren, constructTree } from '../common';
 import { KeywordTreeNodeType } from '../types';
-import { ReplayKeywordType } from 'reducers/types';
+import { ReplayKeywordType, ReplayDialogueType } from 'reducers/types';
+
+const defaultDialogue: ReplayDialogueType = {
+  id: -1,
+  good: false,
+  true: false,
+  question: '',
+  answer: '',
+  question_keywords: [],
+  milestones: [],
+  dependency: '',
+};
 
 describe('Test counter', () => {
   it('works', async () => {
@@ -98,6 +109,7 @@ describe('Test constructTree', () => {
   it('Multiple arrays', () => {
     const example = [
       {
+        ...defaultDialogue,
         id: 1,
         question: 'any.1',
         question_keywords: ['a', 'b', 'c'].map(name => ({ name })) as Array<
@@ -105,6 +117,7 @@ describe('Test constructTree', () => {
         >,
       },
       {
+        ...defaultDialogue,
         id: 2,
         question: 'any.2',
         question_keywords: ['a', 'd'].map(name => ({ name })) as Array<
@@ -112,6 +125,7 @@ describe('Test constructTree', () => {
         >,
       },
       {
+        ...defaultDialogue,
         id: 3,
         question: 'any.3',
         question_keywords: ['e'].map(name => ({ name })) as Array<

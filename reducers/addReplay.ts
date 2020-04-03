@@ -44,6 +44,7 @@ export enum actionTypes {
   IREMOVE_DIALOGUE = 'addReplay.IREMOVE_DIALOGUE',
   RENAME_TO = 'addReplay.RENAME_TO',
   MERGE_TO = 'addReplay.MERGE_TO',
+  STORAGE = 'addReplay.STORAGE',
 }
 
 export type ActionPayloadType = {
@@ -68,6 +69,7 @@ export type ActionPayloadType = {
   KEYWORD_FILTER: ReturnType<ValueOf<base.HelperActionType<string>>>;
   RENAME_TO: ReturnType<ValueOf<base.HelperActionType<string>>>;
   MERGE_TO: ReturnType<ValueOf<base.HelperActionType<string>>>;
+  STORAGE: { action: 'SAVE' } | { action: 'LOAD'; init: () => Promise<any> };
 };
 
 export const actions = {
@@ -199,6 +201,21 @@ export const actions = {
       payload: {
         keyword,
         fromQuestionId,
+      },
+    } as const),
+  saveStorage: () =>
+    ({
+      type: actionTypes.STORAGE,
+      payload: {
+        action: 'SAVE',
+      },
+    } as const),
+  loadStorage: (init: () => Promise<any>) =>
+    ({
+      type: actionTypes.STORAGE,
+      payload: {
+        action: 'LOAD',
+        init,
       },
     } as const),
 };

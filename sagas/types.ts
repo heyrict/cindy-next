@@ -1,6 +1,9 @@
-export type HashStoreType = {
-  [key: number]: number;
+import { ReplayDialogueType } from 'reducers/types';
+
+export type HashStoreType<T> = {
+  [key: number]: T;
 };
 
-export type MemoStatStoreType = HashStoreType;
-export type ChatStoreType = HashStoreType;
+export type MemoStatStoreType = HashStoreType<number>;
+export type ChatStoreType = HashStoreType<number>;
+export type ReplaySavedStoreType = HashStoreType<ReplayDialogueType[]>;

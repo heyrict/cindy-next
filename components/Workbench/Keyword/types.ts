@@ -5,6 +5,7 @@ export type KeywordWorkbenchProps = {
   setReplayDialogues: (data: Array<ReplayDialogueType>) => void;
   setKuromojiProgress: (percentage: number) => void;
   setCountFilterInput: (value: number) => void;
+  loadStorage: (init: () => Promise<any>) => void;
 };
 
 export type KeywordTreeNodeType = {

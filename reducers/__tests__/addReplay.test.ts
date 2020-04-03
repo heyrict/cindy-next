@@ -6,7 +6,28 @@ import {
   initialState,
   reducer,
 } from '../addReplay';
-import { AddReplayPanelType } from '../types';
+import {
+  AddReplayPanelType,
+  ReplayKeywordType,
+  ReplayDialogueType,
+} from '../types';
+
+const kw = (name: string) =>
+  ({
+    name,
+    tfidf_index: 0,
+  } as ReplayKeywordType);
+
+const defaultDialogue: ReplayDialogueType = {
+  id: -1,
+  good: false,
+  true: false,
+  question: '',
+  answer: '',
+  question_keywords: [],
+  milestones: [],
+  dependency: '',
+};
 
 describe('addReplay reducer', () => {
   // {{{ skip actions with helpers
@@ -106,14 +127,16 @@ describe('addReplay reducer', () => {
         ...initialState,
         replayDialogues: [
           {
+            ...defaultDialogue,
             id: 1,
             question: 'Q1',
-            question_keywords: [{ name: 'A' }, { name: 'B' }],
+            question_keywords: [kw('A'), kw('B')],
           },
           {
+            ...defaultDialogue,
             id: 2,
             question: 'Q2',
-            question_keywords: [{ name: 'B' }, { name: 'C' }],
+            question_keywords: [kw('A'), kw('C')],
           },
         ],
       };
@@ -127,12 +150,12 @@ describe('addReplay reducer', () => {
           {
             id: 1,
             question: 'Q1',
-            question_keywords: [{ name: 'A' }],
+            question_keywords: [kw('A')],
           },
           {
             id: 2,
             question: 'Q2',
-            question_keywords: [{ name: 'B' }, { name: 'C' }],
+            question_keywords: [kw('B'), kw('C')],
           },
         ],
       };
@@ -147,12 +170,12 @@ describe('addReplay reducer', () => {
           {
             id: 1,
             question: 'Q1',
-            question_keywords: [{ name: 'A' }],
+            question_keywords: [kw('A')],
           },
           {
             id: 2,
             question: 'Q2',
-            question_keywords: [{ name: 'C' }],
+            question_keywords: [kw('C')],
           },
         ],
       };
@@ -170,14 +193,16 @@ describe('addReplay reducer', () => {
         renameTo: 'D',
         replayDialogues: [
           {
+            ...defaultDialogue,
             id: 1,
             question: 'Q1',
-            question_keywords: [{ name: 'A' }, { name: 'B' }],
+            question_keywords: [kw('A'), kw('B')],
           },
           {
+            ...defaultDialogue,
             id: 2,
             question: 'Q2',
-            question_keywords: [{ name: 'B' }, { name: 'C' }],
+            question_keywords: [kw('B'), kw('C')],
           },
         ],
       };
@@ -192,12 +217,12 @@ describe('addReplay reducer', () => {
           {
             id: 1,
             question: 'Q1',
-            question_keywords: [{ name: 'A' }, { name: 'D' }],
+            question_keywords: [kw('A'), kw('D')],
           },
           {
             id: 2,
             question: 'Q2',
-            question_keywords: [{ name: 'B' }, { name: 'C' }],
+            question_keywords: [kw('B'), kw('C')],
           },
         ],
       };
@@ -213,12 +238,12 @@ describe('addReplay reducer', () => {
           {
             id: 1,
             question: 'Q1',
-            question_keywords: [{ name: 'A' }, { name: 'D' }],
+            question_keywords: [kw('A'), kw('D')],
           },
           {
             id: 2,
             question: 'Q2',
-            question_keywords: [{ name: 'D' }, { name: 'C' }],
+            question_keywords: [kw('D'), kw('C')],
           },
         ],
       };
@@ -234,12 +259,12 @@ describe('addReplay reducer', () => {
           {
             id: 1,
             question: 'Q1',
-            question_keywords: [{ name: 'A' }, { name: 'B' }],
+            question_keywords: [kw('A'), kw('B')],
           },
           {
             id: 2,
             question: 'Q2',
-            question_keywords: [{ name: 'B' }, { name: 'C' }],
+            question_keywords: [kw('B'), kw('C')],
           },
         ],
       };
@@ -258,29 +283,22 @@ describe('addReplay reducer', () => {
         mergeTo: 'E',
         replayDialogues: [
           {
+            ...defaultDialogue,
             id: 1,
             question: 'Q1',
-            question_keywords: [{ name: 'A' }, { name: 'B' }],
+            question_keywords: [kw('A'), kw('B')],
           },
           {
+            ...defaultDialogue,
             id: 2,
             question: 'Q2',
-            question_keywords: [
-              { name: 'A' },
-              { name: 'B' },
-              { name: 'A' },
-              { name: 'B' },
-            ],
+            question_keywords: [kw('A'), kw('B'), kw('A'), kw('B')],
           },
           {
+            ...defaultDialogue,
             id: 3,
             question: 'Q3',
-            question_keywords: [
-              { name: 'D' },
-              { name: 'A' },
-              { name: 'B' },
-              { name: 'C' },
-            ],
+            question_keywords: [kw('D'), kw('A'), kw('B'), kw('C')],
           },
         ],
       };
@@ -296,27 +314,17 @@ describe('addReplay reducer', () => {
           {
             id: 1,
             question: 'Q1',
-            question_keywords: [{ name: 'E' }],
+            question_keywords: [kw('E')],
           },
           {
             id: 2,
             question: 'Q2',
-            question_keywords: [
-              { name: 'A' },
-              { name: 'B' },
-              { name: 'A' },
-              { name: 'B' },
-            ],
+            question_keywords: [kw('A'), kw('B'), kw('A'), kw('B')],
           },
           {
             id: 3,
             question: 'Q3',
-            question_keywords: [
-              { name: 'D' },
-              { name: 'A' },
-              { name: 'B' },
-              { name: 'C' },
-            ],
+            question_keywords: [kw('D'), kw('A'), kw('B'), kw('C')],
           },
         ],
       };
@@ -333,17 +341,17 @@ describe('addReplay reducer', () => {
           {
             id: 1,
             question: 'Q1',
-            question_keywords: [{ name: 'E' }],
+            question_keywords: [kw('E')],
           },
           {
             id: 2,
             question: 'Q2',
-            question_keywords: [{ name: 'E' }, { name: 'E' }],
+            question_keywords: [kw('E'), kw('E')],
           },
           {
             id: 3,
             question: 'Q3',
-            question_keywords: [{ name: 'D' }, { name: 'E' }, { name: 'C' }],
+            question_keywords: [kw('D'), kw('E'), kw('C')],
           },
         ],
       };
