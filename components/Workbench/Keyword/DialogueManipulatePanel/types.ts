@@ -8,6 +8,10 @@ export type DialogueManipulatePanelProps = {
 export type DialogueManipulateProps = {
   dialogueId: number;
   dialogue: ReplayDialogueType;
+  updateDialogue: (
+    dialogueId: number,
+    update: (dialogue: ReplayDialogueType) => ReplayDialogueType,
+  ) => void;
   iRemoveKeywordByThresh: (thresh: number, fromQuestionId: number) => void;
 };
 
@@ -44,4 +48,11 @@ export type KeywordsEditProps = {
   keywordsString: string;
   setMode: (mode: DialogueManipulateModeType) => void;
   setKeywords: (dialogueId: number, keywordsString: string) => void;
+};
+
+export type DialogueKeywordQuestionEditBoxProps = {
+  prefix: string;
+  content: string;
+  onSubmit: (newContent: string) => void;
+  children?: React.ReactNode;
 };

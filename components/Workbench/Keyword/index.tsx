@@ -85,6 +85,8 @@ const KeywordWorkbench = ({
             answer: dialogue.answer,
             good: dialogue.good,
             true: dialogue.true,
+            milestones: [],
+            dependency: '',
             question_keywords: tokens,
           });
           if ((i + 1) % 10 === 0)

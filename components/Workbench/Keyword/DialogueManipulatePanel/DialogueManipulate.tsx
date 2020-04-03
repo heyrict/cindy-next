@@ -4,11 +4,14 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import * as addReplayReducer from 'reducers/addReplay';
 
-import { Flex, ButtonTransparent, Img } from 'components/General';
+import { FormattedMessage } from 'react-intl';
+import puzzleMessages from 'messages/components/puzzle';
+
+import { Flex, ButtonTransparent, Img, Box } from 'components/General';
 import KeywordManipulate from './KeywordManipulate';
 import KeywordAdd from './KeywordAdd';
 import KeywordsEdit from './KeywordsEdit';
-import KeywordQuestionBox from '../shared/KeywordQuestionBox';
+import KeywordQuestionEditBox from './DialogueKeywordQuestionEditBox';
 import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
 import pencilIcon from 'svgs/pencil.svg';
@@ -26,6 +29,7 @@ const NUM_RETAIN = 4;
 
 const DialogueManipulate = ({
   dialogue,
+  updateDialogue,
   iRemoveKeywordByThresh,
 }: DialogueManipulateProps) => {
   let [mode, setMode] = useState(DialogueManipulateModeType.NORMAL);
@@ -45,9 +49,51 @@ const DialogueManipulate = ({
 
   return (
     <Flex width={1} mb={2} flexWrap="wrap">
-      <KeywordQuestionBox prefix={`Q${dialogue.qno}`}>
-        {dialogue.question}
-      </KeywordQuestionBox>
+      <KeywordQuestionEditBox
+        prefix={`Q${dialogue.qno}`}
+        content={dialogue.question}
+        onSubmit={text => {
+          updateDialogue(dialogue.id, dialogue => ({
+            ...dialogue,
+            question: text,
+          }));
+        }}
+      />
+      <KeywordQuestionEditBox
+        prefix={`A${dialogue.qno}`}
+        content={dialogue.answer}
+        onSubmit={text => {
+          updateDialogue(dialogue.id, dialogue => ({
+            ...dialogue,
+            answer: text,
+          }));
+        }}
+      >
+        <Box display="inline-box" bg={dialogue.good ? 'lime.3' : 'orange.1'} borderRadius={1} mx={1}>
+          <ButtonTransparent
+            onClick={() => {
+              updateDialogue(dialogue.id, dialogue => ({
+                ...dialogue,
+                good: !dialogue.good,
+              }));
+            }}
+          >
+            <FormattedMessage {...puzzleMessages.dialogue_good} />
+          </ButtonTransparent>
+        </Box>
+        <Box display="inline-box" bg={dialogue.true ? 'lime.3' : 'orange.1'} borderRadius={1} mx={1}>
+          <ButtonTransparent
+            onClick={() => {
+              updateDialogue(dialogue.id, dialogue => ({
+                ...dialogue,
+                true: !dialogue.true,
+              }));
+            }}
+          >
+            <FormattedMessage {...puzzleMessages.dialogue_true} />
+          </ButtonTransparent>
+        </Box>
+      </KeywordQuestionEditBox>
       {mode === DialogueManipulateModeType.EDIT ? (
         <KeywordsEdit dialogueId={dialogue.id} setMode={setMode} />
       ) : mode === DialogueManipulateModeType.NORMAL ? (
@@ -151,6 +197,15 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
       addReplayReducer.actions.iRemoveKeywordBy(
         kw => kw.tfidf_index >= thresh,
         dialogueId,
+      ),
+    ),
+  updateDialogue: (
+    dialogueId: number,
+    update: (dialogue: ReplayDialogueType) => ReplayDialogueType,
+  ) =>
+    dispatch(
+      addReplayReducer.actions.replayDialogues.update(null, prev =>
+        prev.id === dialogueId ? update(prev) : prev,
       ),
     ),
 });

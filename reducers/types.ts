@@ -45,6 +45,8 @@ export type ReplayDialogueType = {
   answer: string;
   good: boolean;
   true: boolean;
+  milestones: Array<string>;
+  dependency: string;
   question_keywords: Array<ReplayKeywordType>;
 };
 
