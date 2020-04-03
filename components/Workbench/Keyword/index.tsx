@@ -13,6 +13,7 @@ import { Flex } from 'components/General';
 import Loading from 'components/General/Loading';
 import KuromojiProgress from './KuromojiProgress';
 import ModeSelectPanel from './ModeSelectPanel';
+import { Tfidf } from './tfidf';
 
 import {
   ActionContentType,
@@ -57,30 +58,38 @@ const KeywordWorkbench = ({
           },
         ).then(res => res.json());
 
-        // Step 2: Build keyword tree from tokens
-        setKuromojiProgress(0.5);
+        // Step 2: Build tf-idf object, calculate value for each document and
+        //         pick the first 3 - 4 tokens with most value.
+        setKuromojiProgress(0.33);
+        const tfidf = new Tfidf({ docs: parsed_dialogues });
+        (window as any).tfidf = tfidf;
+
+        // Step 3: Build keyword tree from tokens
+        setKuromojiProgress(0.66);
         for (let i = 0; i < parsed_dialogues.length; i++) {
           const parsed = parsed_dialogues[i];
           const dialogue = sui_hei_dialogue.find(d => d.id === parsed.id);
+          const tokens = parsed.tokens.map(
+            (tokens: TokenizeServerTokenType) => ({
+              name: tokens.text,
+              tfidf_index: tfidf.get_tfidf_value(parsed.id, tokens.text) || 0,
+            }),
+          );
           if (!dialogue) continue;
 
-          await counter(
-            parsed.tokens.map((tokens: TokenizeServerTokenType) => ({
-              name: tokens.text,
-            })),
-            keywordCounts,
-          );
+          counter(tokens, keywordCounts);
           calcDialogueKeys.push({
             id: dialogue.id,
             qno: dialogue.qno,
             question: dialogue.question,
-            question_keywords: parsed.tokens.map(
-              (token: TokenizeServerTokenType) => ({ name: token.text }),
-            ),
+            answer: dialogue.answer,
+            good: dialogue.good,
+            true: dialogue.true,
+            question_keywords: tokens,
           });
           if ((i + 1) % 10 === 0)
             setKuromojiProgress(
-              ((i + 1) * 0.5) / sui_hei_dialogue.length + 0.5,
+              ((i + 1) * 0.33) / sui_hei_dialogue.length + 0.66,
             );
         }
 
@@ -90,9 +99,6 @@ const KeywordWorkbench = ({
         Object.entries(keywordCounts).forEach(([key, stat]) => {
           keywords[key] = stat;
         });
-
-        // TODO Step 3: Build tf-idf object, calculate value for each document and
-        //              pick the first 3 - 4 tokens with most value.
 
         setKuromojiProgress(1);
         setReplayDialogues(calcDialogueKeys);

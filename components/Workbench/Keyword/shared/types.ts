@@ -16,5 +16,5 @@ export type KeywordBoxProps = {
 };
 
 export type KeywordQuestionBoxProps = {
-  qno?: number;
-}
+  prefix?: string;
+};

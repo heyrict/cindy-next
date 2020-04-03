@@ -5,10 +5,10 @@ import {
 } from 'reducers/types';
 import { KeywordTreeNodeType } from './types';
 
-export const counter = async (
+export const counter = (
   list: Array<ReplayKeywordType>,
   continueFrom?: ReplayKeywordCounterType,
-): Promise<ReplayKeywordCounterType> => {
+): ReplayKeywordCounterType => {
   const counts = continueFrom || (new Object() as ReplayKeywordCounterType);
   list.forEach(k => {
     if (k.name in counts) counts[k.name] += 1;
@@ -61,5 +61,6 @@ export const filterDialogueKeywords = (
     ...dialogue,
     question_keywords: dialogue.question_keywords.concat({
       name: dialogue.question,
+      tfidf_index: 0,
     }),
   }));

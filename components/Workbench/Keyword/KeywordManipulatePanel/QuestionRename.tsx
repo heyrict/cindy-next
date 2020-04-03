@@ -20,16 +20,14 @@ const QuestionRename = ({
   renameKeyword,
 }: QuestionRenameProps) => (
   <Flex width={1} mb={2} flexWrap="wrap" key={dialogue.id}>
-    <KeywordQuestionBox qno={dialogue.qno}>
+    <KeywordQuestionBox prefix={`Q${dialogue.qno}`}>
       {dialogue.question}
     </KeywordQuestionBox>
     {dialogue.question_keywords.map((keyword, index) => {
       const shouldRename = keyword.name === keywordToRename;
       return renameTo ? (
         <React.Fragment
-          key={`question-rename-keywords-${dialogue.id}-${index}-${
-            keyword.name
-          }`}
+          key={`question-rename-keywords-${dialogue.id}-${index}-${keyword.name}`}
         >
           <KeywordBox
             keywordType={
@@ -44,9 +42,7 @@ const QuestionRename = ({
         </React.Fragment>
       ) : (
         <KeywordBox
-          key={`question-rename-keywords-${dialogue.id}-${index}-${
-            keyword.name
-          }`}
+          key={`question-rename-keywords-${dialogue.id}-${index}-${keyword.name}`}
           keywordType={KeywordType.DEFAULT}
         >
           {keyword.name}

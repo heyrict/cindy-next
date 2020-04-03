@@ -17,6 +17,11 @@ export type INSERT<T> = {
   index: number;
   value: T;
 };
+export type UPDATE<T> = {
+  type: actionTypes.UPDATE;
+  index: number | null;
+  updatefn: (prev: T) => T;
+};
 export type DELETE = {
   type: actionTypes.DELETE;
   index: number;

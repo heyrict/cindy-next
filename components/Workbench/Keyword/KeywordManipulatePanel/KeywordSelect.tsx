@@ -43,7 +43,7 @@ const KeywordSelect = ({
               flexWrap="wrap"
               key={`question-delete-${dialogue.id}`}
             >
-              <KeywordQuestionBox qno={dialogue.qno}>
+              <KeywordQuestionBox prefix={`Q${dialogue.qno}`}>
                 {dialogue.question}
               </KeywordQuestionBox>
               {dialogue.question_keywords.map((keyword, index) => (

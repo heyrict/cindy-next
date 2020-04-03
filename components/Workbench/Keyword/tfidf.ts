@@ -21,24 +21,32 @@ const idf = (len: number, ndoc: number) => {
 
 export class Tfidf {
   len = 0;
+  // The count that each term appears in docs
   ncount = new Map<string, number>();
-  ndocs = new Array<Map<string, number>>();
+  // Term frequency in docs
+  ndocs = new Map<number, Map<string, number>>();
 
   constructor(props: { docs: DocType[] }) {
     let { docs } = props;
-    docs.forEach((doc, index) => {
-      this.ndocs.push(tf(doc.tokens));
-      for (let key in this.ndocs[index].keys()) {
-        this.ncount.set(key, this.ncount.get(key) || 1);
-      }
+    docs.forEach(doc => {
+      this.ndocs.set(doc.id, tf(doc.tokens));
+      Array.from(this.ndocs.get(doc.id)!.keys()).forEach(key => {
+        this.ncount.set(key, (this.ncount.get(key) || 0) + 1);
+      });
+      this.len += 1;
     });
   }
 
-  get_tfidf_value(doc_index: number, term: string) {
-    if (!this.ndocs[doc_index].has(term) || !this.ncount.has(term)) return 0;
+  get_tfidf_value(id: number, term: string) {
+    if (
+      !this.ndocs.has(id) ||
+      !this.ndocs.get(id)!.has(term) ||
+      !this.ncount.has(term)
+    )
+      return null;
 
     return (
-      this.ndocs[doc_index].get(term)! * idf(this.len, this.ncount.get(term)!)
+      this.ndocs.get(id)!.get(term)! * idf(this.len, this.ncount.get(term)!)
     );
   }
 }

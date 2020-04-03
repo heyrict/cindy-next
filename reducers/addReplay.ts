@@ -32,6 +32,7 @@ export enum actionTypes {
   RENAME_KEYWORD = 'addReplay.RENAME_KEYWORD',
   MERGE_KEYWORD = 'addReplay.MERGE_KEYWORD',
   IREMOVE_KEYWORD = 'addReplay.IREMOVE_KEYWORD',
+  IREMOVE_KEYWORD_BY = 'addReplay.IREMOVE_KEYWORD_BY',
   IRENAME_KEYWORD = 'addReplay.IRENAME_KEYWORD',
   IMERGE_KEYWORD = 'addReplay.IMERGE_KEYWORD',
   ISWAP_KEYWORD = 'addReplay.ISWAP_KEYWORD',
@@ -132,6 +133,17 @@ export const actions = {
       type: actionTypes.IREMOVE_KEYWORD,
       payload: {
         index,
+        fromQuestionId,
+      },
+    } as const),
+  iRemoveKeywordBy: (
+    by: (kw: ReplayKeywordType) => boolean,
+    fromQuestionId: number,
+  ) =>
+    ({
+      type: actionTypes.IREMOVE_KEYWORD_BY,
+      payload: {
+        by,
         fromQuestionId,
       },
     } as const),
@@ -334,6 +346,23 @@ export const reducer = (
       });
       return { ...state, replayDialogues };
     }
+    case actionTypes.IREMOVE_KEYWORD_BY: {
+      const { by, fromQuestionId } = action.payload as {
+        by: (kw: ReplayKeywordType) => boolean;
+        fromQuestionId: number;
+      };
+      const replayDialogues = state.replayDialogues.map(dialogue => {
+        if (dialogue.id === fromQuestionId) {
+          const question_keywords = dialogue.question_keywords.filter(by);
+          return {
+            ...dialogue,
+            question_keywords,
+          };
+        }
+        return dialogue;
+      });
+      return { ...state, replayDialogues };
+    }
     case actionTypes.RENAME_KEYWORD: {
       if (state.renameTo === '') return state;
       const { keyword, fromQuestionId } = action.payload as {
@@ -362,7 +391,10 @@ export const reducer = (
       const replayDialogues = state.replayDialogues.map(dialogue => {
         if (dialogue.id === fromQuestionId) {
           const question_keywords = [...dialogue.question_keywords];
-          question_keywords[index] = { name: renameTo };
+          question_keywords[index] = {
+            name: renameTo,
+            ...question_keywords[index],
+          };
           return {
             ...dialogue,
             question_keywords,
@@ -387,6 +419,7 @@ export const reducer = (
                 name:
                   state.mergeTo ||
                   `${state.keywordToMerge[0]}${state.keywordToMerge[1]}`,
+                tfidf_index: 1,
               },
               state.keywordToMerge.length,
             ),
@@ -407,7 +440,10 @@ export const reducer = (
           const question_keywords = dialogue.question_keywords;
           const kwA = question_keywords[indexA];
           const kwB = question_keywords[indexB];
-          question_keywords[indexB] = { name: kwA.name + kwB.name };
+          question_keywords[indexB] = {
+            name: kwA.name + kwB.name,
+            tfidf_index: (kwA.tfidf_index + kwB.tfidf_index) / 2,
+          };
           question_keywords.splice(indexA, 1);
 
           return {
@@ -453,7 +489,7 @@ export const reducer = (
             ...dialogue,
             question_keywords: [
               ...dialogue.question_keywords,
-              { name: keyword },
+              { name: keyword, tfidf_index: 1 },
             ],
           };
         }

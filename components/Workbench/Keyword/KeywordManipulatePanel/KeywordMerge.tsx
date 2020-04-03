@@ -130,6 +130,7 @@ const availableSecondKeywordsSelector = createSelector(
           prevIsFirstKeyword = true;
         } else if (prevIsFirstKeyword) {
           secondKeywords.push(keyword);
+          prevIsFirstKeyword = false;
         }
       });
     });

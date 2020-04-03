@@ -35,12 +35,16 @@ export type ReplayKeywordCounterType = {
 
 export type ReplayKeywordType = {
   name: string;
+  tfidf_index: number;
 };
 
 export type ReplayDialogueType = {
   id: number;
   qno?: number;
   question: string;
+  answer: string;
+  good: boolean;
+  true: boolean;
   question_keywords: Array<ReplayKeywordType>;
 };
 
@@ -114,7 +118,9 @@ export type TokenizeServerTokenType = {
 
 export type TokenizeServerDialogueTokensType = {
   id: number;
-  tokens: Array<TokenizeServerTokenType>,
+  tokens: Array<TokenizeServerTokenType>;
 };
 
-export type TokenizeServerResponseType = Array<TokenizeServerDialogueTokensType>;
+export type TokenizeServerResponseType = Array<
+  TokenizeServerDialogueTokensType
+>;

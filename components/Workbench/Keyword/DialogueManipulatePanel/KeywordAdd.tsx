@@ -28,10 +28,10 @@ const KeywordAdd = ({ iAddKeyword, dialogueId }: KeywordAddProps) => {
         }}
         height="1.2em"
       >
-        <Img height="1em" src={tickIcon} alt="edit" />
+        <Img height="1em" src={tickIcon} alt="ok" />
       </ButtonTransparent>
       <ButtonTransparent onClick={() => setEdit(false)} height="1.2em">
-        <Img height="1em" src={crossIcon} alt="edit" />
+        <Img height="1em" src={crossIcon} alt="cancel" />
       </ButtonTransparent>
     </KeywordBox>
   ) : (
