@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import * as addReplayReducer from 'reducers/addReplay';
 
-import { Input, ButtonTransparent, Img } from 'components/General';
-import KeywordBox from 'components/Workbench/Keyword/shared/KeywordBox';
-import { KeywordType } from 'components/Workbench/Keyword/shared/types';
+import { Input, Flex, ButtonTransparent, Img } from 'components/General';
 import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
 
@@ -36,7 +34,7 @@ const KeywordsEdit = ({
   }, [keywordsString]);
 
   return (
-    <KeywordBox keywordType={KeywordType.DEFAULT}>
+    <Flex border="2px solid" borderColor="gray.2" p={1} m={1} bg="gray.0" borderRadius={2} width={1} alignItems="baseline">
       <Input ref={inputRef} />
       <ButtonTransparent
         onClick={() => {
@@ -44,17 +42,15 @@ const KeywordsEdit = ({
           const keywordsString = inputRef.current.value;
           setKeywords(dialogueId, keywordsString);
         }}
-        height="1.2em"
       >
         <Img height="1em" src={tickIcon} alt="ok" />
       </ButtonTransparent>
       <ButtonTransparent
         onClick={() => setMode(DialogueManipulateModeType.NORMAL)}
-        height="1.2em"
       >
         <Img height="1em" src={crossIcon} alt="cancel" />
       </ButtonTransparent>
-    </KeywordBox>
+    </Flex>
   );
 };
 
