@@ -66,6 +66,7 @@ export enum RightAsideType {
 export enum AddReplayModeType {
   ROUGH,
   ONE_BY_ONE,
+  PUZZLE,
 }
 
 export enum AddReplayPanelType {

@@ -3,6 +3,7 @@ import React from 'react';
 import ChooseModeToolbar from './ChooseModeToolbar';
 import KeywordManipulatePanel from './KeywordManipulatePanel';
 import DialogueManipulatePanel from './DialogueManipulatePanel';
+import PuzzleManipulatePanel from './PuzzleManipulatePanel';
 
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
@@ -16,6 +17,7 @@ const ModeSelectPanel = ({ mode }: ModeSelectPanelProps) => {
       <ChooseModeToolbar />
       {mode === AddReplayModeType.ROUGH && <KeywordManipulatePanel />}
       {mode === AddReplayModeType.ONE_BY_ONE && <DialogueManipulatePanel />}
+      {mode === AddReplayModeType.PUZZLE && <PuzzleManipulatePanel />}
     </React.Fragment>
   );
 };

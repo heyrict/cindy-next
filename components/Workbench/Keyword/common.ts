@@ -28,7 +28,7 @@ export const setNodeInChildren = (
   );
   if (childIndex === -1) {
     rootNode.children.push({
-      name,
+      name: keyword.name,
       children: [],
     });
     setNodeInChildren(

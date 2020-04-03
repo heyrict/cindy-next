@@ -45,6 +45,10 @@ export enum actionTypes {
   RENAME_TO = 'addReplay.RENAME_TO',
   MERGE_TO = 'addReplay.MERGE_TO',
   STORAGE = 'addReplay.STORAGE',
+  TITLE = 'addReplay.TITLE',
+  CONTENT = 'addReplay.CONTENT',
+  SOLUTION = 'addReplay.SOLUTION',
+  PUZZLE_ID = 'addReplay.PUZZLE_ID',
 }
 
 export type ActionPayloadType = {
@@ -69,7 +73,13 @@ export type ActionPayloadType = {
   KEYWORD_FILTER: ReturnType<ValueOf<base.HelperActionType<string>>>;
   RENAME_TO: ReturnType<ValueOf<base.HelperActionType<string>>>;
   MERGE_TO: ReturnType<ValueOf<base.HelperActionType<string>>>;
-  STORAGE: { action: 'SAVE' } | { action: 'LOAD'; init: () => Promise<any> };
+  STORAGE:
+    | { action: 'SAVE' }
+    | { action: 'LOAD'; id: number; init: () => Promise<any> };
+  TITLE: ReturnType<ValueOf<base.HelperActionType<string>>>;
+  CONTENT: ReturnType<ValueOf<base.HelperActionType<string>>>;
+  SOLUTION: ReturnType<ValueOf<base.HelperActionType<string>>>;
+  PUZZLE_ID: ReturnType<ValueOf<base.HelperActionType<number>>>;
 };
 
 export const actions = {
@@ -102,6 +112,10 @@ export const actions = {
   keywordFilter: base.wrapActions<string>(actionTypes.KEYWORD_FILTER),
   renameTo: base.wrapActions<string>(actionTypes.RENAME_TO),
   mergeTo: base.wrapActions<string>(actionTypes.MERGE_TO),
+  title: base.wrapActions<string>(actionTypes.TITLE),
+  content: base.wrapActions<string>(actionTypes.CONTENT),
+  solution: base.wrapActions<string>(actionTypes.SOLUTION),
+  puzzleId: base.wrapActions<number>(actionTypes.PUZZLE_ID),
   // Toggle selected keyword in panel
   toggleSelectedKeyword: (keyword: string, panel: AddReplayPanelType) =>
     ({
@@ -210,11 +224,12 @@ export const actions = {
         action: 'SAVE',
       },
     } as const),
-  loadStorage: (init: () => Promise<any>) =>
+  loadStorage: (id: number, init: () => Promise<any>) =>
     ({
       type: actionTypes.STORAGE,
       payload: {
         action: 'LOAD',
+        id,
         init,
       },
     } as const),
@@ -239,6 +254,10 @@ export const initialState = {
   keywordEditProcess: 0,
   renameTo: '',
   mergeTo: '',
+  title: '',
+  content: '',
+  solution: '',
+  puzzleId: -1,
 };
 
 export const reducer = (
@@ -288,6 +307,26 @@ export const reducer = (
       return {
         ...state,
         mergeTo: base.helper(state.mergeTo, action.payload),
+      };
+    case actionTypes.TITLE:
+      return {
+        ...state,
+        mergeTo: base.helper(state.title, action.payload),
+      };
+    case actionTypes.CONTENT:
+      return {
+        ...state,
+        mergeTo: base.helper(state.content, action.payload),
+      };
+    case actionTypes.SOLUTION:
+      return {
+        ...state,
+        mergeTo: base.helper(state.solution, action.payload),
+      };
+    case actionTypes.PUZZLE_ID:
+      return {
+        ...state,
+        mergeTo: base.helper(state.puzzleId, action.payload),
       };
     case actionTypes.SELECT_KEYWORD: {
       const { keyword, panel, index } = action.payload;

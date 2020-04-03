@@ -28,6 +28,22 @@ export const PUZZLE_SOLUTION_QUERY = gql`
   }
 `;
 
+export const PUZZLE_REPLAY_INFO_QUERY = gql`
+  query PuzzleReplayInfoQuery($id: Int!) {
+    sui_hei_puzzle_by_pk(id: $id) {
+      id
+      ...PuzzleShared
+      content
+      solution
+      sui_hei_dialogues(order_by: { id: asc }) {
+        ...DialogueShared
+      }
+    }
+  }
+  ${PUZZLE_SHARED_FRAGMENT}
+  ${DIALOGUE_SHARED_FRAGMENT}
+`;
+
 export const PUZZLE_DIALOGUE_QUERY = gql`
   query PuzzleDialogueQuery($id: Int!) {
     sui_hei_dialogue(

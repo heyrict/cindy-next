@@ -5,7 +5,11 @@ export type KeywordWorkbenchProps = {
   setReplayDialogues: (data: Array<ReplayDialogueType>) => void;
   setKuromojiProgress: (percentage: number) => void;
   setCountFilterInput: (value: number) => void;
-  loadStorage: (init: () => Promise<any>) => void;
+  setTitle: (title: string) => void;
+  setContent: (content: string) => void;
+  setSolution: (solution: string) => void;
+  setPuzzleId: (puzzleId: number) => void;
+  loadStorage: (id: number, init: () => Promise<any>) => void;
   saveStorage: () => void;
 };
 

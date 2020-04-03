@@ -1,9 +1,7 @@
 import { put, select, call, all, takeLatest } from 'redux-saga/effects';
 import { getHashStore, setHashStore } from './common';
-import { getReplayPageId } from 'common/pages';
 
 import * as addReplayReducer from 'reducers/addReplay';
-import * as globalReducer from 'reducers/global';
 
 import { counter } from 'components/Workbench/Keyword/common';
 
@@ -13,7 +11,7 @@ import {
   ReplayDialogueType,
   ActionContentType,
 } from 'reducers/types';
-import { ReplaySavedStoreType } from './types';
+import { ReplaySavedStoreType, ReplayStorage } from './types';
 
 const REPLAY_SAVED_CHANGES_HASHSTORE_KEY = 'replaySaved';
 
@@ -31,12 +29,12 @@ function* updateKeywordCounter() {
 function* handleStorage(action: ActionContentType) {
   let payload:
     | { action: 'SAVE' }
-    | { action: 'LOAD'; init: () => Promise<any> } = action.payload;
+    | { action: 'LOAD'; id: number; init: () => Promise<any> } = action.payload;
 
   if (payload.action === 'SAVE') {
     yield saveProgress();
   } else {
-    yield loadProgress(payload.init);
+    yield loadProgress(payload.id, payload.init);
   }
 }
 
@@ -44,34 +42,45 @@ function* saveProgress() {
   const replaySavedStore = getHashStore(
     REPLAY_SAVED_CHANGES_HASHSTORE_KEY,
   ) as ReplaySavedStoreType;
-  const route: string = yield select(
-    (state: StateType) => globalReducer.rootSelector(state).route,
-  );
-  const puzzleId = getReplayPageId(route);
-  if (!puzzleId) return;
 
-  const currentState = (yield select(
-    (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
-  )) as Array<ReplayDialogueType>;
+  const currentState = (yield select((state: StateType) => ({
+    title: addReplayReducer.rootSelector(state).title,
+    content: addReplayReducer.rootSelector(state).content,
+    solution: addReplayReducer.rootSelector(state).solution,
+    dialogues: addReplayReducer.rootSelector(state).replayDialogues,
+  }))) as ReplayStorage;
+  const puzzleId = yield select(
+    (state: StateType) => addReplayReducer.rootSelector(state).puzzleId,
+  );
 
   replaySavedStore[puzzleId] = currentState;
   setHashStore(REPLAY_SAVED_CHANGES_HASHSTORE_KEY, replaySavedStore);
 }
 
-function* loadProgress(init: () => Promise<any>) {
+function* loadProgress(id: number, init: () => Promise<any>) {
   const replaySavedStore = getHashStore(
     REPLAY_SAVED_CHANGES_HASHSTORE_KEY,
   ) as ReplaySavedStoreType;
-  const route: string = yield select(
-    (state: StateType) => globalReducer.rootSelector(state).route,
-  );
-  const puzzleId = getReplayPageId(route);
-  if (!puzzleId) return;
 
-  if (puzzleId in replaySavedStore) {
-    yield put(
-      addReplayReducer.actions.replayDialogues.set(replaySavedStore[puzzleId]),
-    );
+  if (id in replaySavedStore) {
+    let store = replaySavedStore[id];
+    if ('dialogues' in store && 'title' in store &&
+        'content' in store && 'solution' in store) {
+      yield put(
+          addReplayReducer.actions.replayDialogues.set(
+            store.dialogues,
+            ),
+          );
+      yield put(addReplayReducer.actions.title.set(store.title));
+      yield put(
+          addReplayReducer.actions.content.set(store.content),
+          );
+      yield put(
+          addReplayReducer.actions.solution.set(store.solution),
+          );
+    } else {
+      yield call(init);
+    }
   } else {
     yield call(init);
   }

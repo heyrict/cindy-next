@@ -6,7 +6,7 @@ import { TOKENIZE_SERVER } from 'settings';
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
 
-import { PUZZLE_DIALOGUE_QUERY } from 'graphql/Queries/Puzzles';
+import { PUZZLE_REPLAY_INFO_QUERY } from 'graphql/Queries/Puzzles';
 
 import { counter } from './common';
 
@@ -25,9 +25,9 @@ import {
 } from 'reducers/types';
 import { KeywordWorkbenchProps } from './types';
 import {
-  PuzzleDialogueQuery,
-  PuzzleDialogueQueryVariables,
-} from 'graphql/Queries/generated/PuzzleDialogueQuery';
+  PuzzleReplayInfoQuery,
+  PuzzleReplayInfoQueryVariables,
+} from 'graphql/Queries/generated/PuzzleReplayInfoQuery';
 
 const SAVE_INTERVAL = 60000;
 
@@ -36,24 +36,29 @@ const KeywordWorkbench = ({
   setReplayDialogues,
   setKuromojiProgress,
   setCountFilterInput,
+  setPuzzleId,
+  setTitle,
+  setContent,
+  setSolution,
   saveStorage,
   loadStorage,
 }: KeywordWorkbenchProps) => {
   const client = useApolloClient();
 
   useEffect(() => {
+    setPuzzleId(id);
     let handle = window.setInterval(() => {
       saveStorage();
-      toast.info("Saved successfully!");
+      toast.info('Saved successfully!');
     }, SAVE_INTERVAL);
     return () => window.clearInterval(handle);
-  });
+  }, []);
 
   useEffect(() => {
     const init = () =>
       client
-        .query<PuzzleDialogueQuery, PuzzleDialogueQueryVariables>({
-          query: PUZZLE_DIALOGUE_QUERY,
+        .query<PuzzleReplayInfoQuery, PuzzleReplayInfoQueryVariables>({
+          query: PUZZLE_REPLAY_INFO_QUERY,
           variables: { id },
         })
         .then(async ({ loading, errors, data }) => {
@@ -61,11 +66,14 @@ const KeywordWorkbench = ({
             toast.error(JSON.stringify(errors));
             return null;
           }
-          if (!data || !data.sui_hei_dialogue) {
+          if (!data || !data.sui_hei_puzzle_by_pk) {
             if (loading) return <Loading centered />;
             return null;
           }
-          const sui_hei_dialogue = data.sui_hei_dialogue;
+          const sui_hei_dialogues = data.sui_hei_puzzle_by_pk.sui_hei_dialogues;
+          setTitle(data.sui_hei_puzzle_by_pk.title);
+          setContent(data.sui_hei_puzzle_by_pk.content);
+          setSolution(data.sui_hei_puzzle_by_pk.content);
 
           // Get keys
           const calcDialogueKeys = [] as Array<ReplayDialogueType>;
@@ -92,7 +100,7 @@ const KeywordWorkbench = ({
           setKuromojiProgress(0.66);
           for (let i = 0; i < parsed_dialogues.length; i++) {
             const parsed = parsed_dialogues[i];
-            const dialogue = sui_hei_dialogue.find(d => d.id === parsed.id);
+            const dialogue = sui_hei_dialogues.find(d => d.id === parsed.id);
             const tokens = parsed.tokens.map(
               (tokens: TokenizeServerTokenType) => ({
                 name: tokens.text,
@@ -115,7 +123,7 @@ const KeywordWorkbench = ({
             });
             if ((i + 1) % 10 === 0)
               setKuromojiProgress(
-                ((i + 1) * 0.33) / sui_hei_dialogue.length + 0.66,
+                ((i + 1) * 0.33) / sui_hei_dialogues.length + 0.66,
               );
           }
 
@@ -129,7 +137,7 @@ const KeywordWorkbench = ({
           setKuromojiProgress(1);
           setReplayDialogues(calcDialogueKeys);
         });
-    loadStorage(init);
+    loadStorage(id, init);
   }, [id]);
 
   return (
@@ -147,8 +155,16 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(addReplayReducer.actions.countFilterInput.set(value)),
   setKuromojiProgress: (percentage: number) =>
     dispatch(addReplayReducer.actions.kuromojiProgress.set(percentage)),
-  loadStorage: (init: () => Promise<any>) =>
-    dispatch(addReplayReducer.actions.loadStorage(init)),
+  setTitle: (title: string) =>
+    dispatch(addReplayReducer.actions.title.set(title)),
+  setContent: (content: string) =>
+    dispatch(addReplayReducer.actions.content.set(content)),
+  setSolution: (solution: string) =>
+    dispatch(addReplayReducer.actions.solution.set(solution)),
+  setPuzzleId: (puzzleId: number) =>
+    dispatch(addReplayReducer.actions.puzzleId.set(puzzleId)),
+  loadStorage: (id: number, init: () => Promise<any>) =>
+    dispatch(addReplayReducer.actions.loadStorage(id, init)),
   saveStorage: () => dispatch(addReplayReducer.actions.saveStorage()),
 });
 
