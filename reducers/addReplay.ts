@@ -409,8 +409,8 @@ export const reducer = (
         if (dialogue.id === fromQuestionId) {
           const question_keywords = [...dialogue.question_keywords];
           question_keywords[index] = {
-            name: renameTo,
             ...question_keywords[index],
+            name: renameTo,
           };
           return {
             ...dialogue,

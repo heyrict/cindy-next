@@ -6,6 +6,7 @@ export type KeywordWorkbenchProps = {
   setKuromojiProgress: (percentage: number) => void;
   setCountFilterInput: (value: number) => void;
   loadStorage: (init: () => Promise<any>) => void;
+  saveStorage: () => void;
 };
 
 export type KeywordTreeNodeType = {

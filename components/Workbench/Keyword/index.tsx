@@ -29,14 +29,22 @@ import {
 } from 'graphql/Queries/generated/PuzzleDialogueQuery';
 import { toast } from 'react-toastify';
 
+const SAVE_INTERVAL = 60000;
+
 const KeywordWorkbench = ({
   id,
   setReplayDialogues,
   setKuromojiProgress,
   setCountFilterInput,
+  saveStorage,
   loadStorage,
 }: KeywordWorkbenchProps) => {
   const client = useApolloClient();
+
+  useEffect(() => {
+    let handle = window.setInterval(saveStorage, SAVE_INTERVAL);
+    return () => window.clearInterval(handle);
+  });
 
   useEffect(() => {
     const init = () =>
@@ -138,6 +146,7 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(addReplayReducer.actions.kuromojiProgress.set(percentage)),
   loadStorage: (init: () => Promise<any>) =>
     dispatch(addReplayReducer.actions.loadStorage(init)),
+  saveStorage: () => dispatch(addReplayReducer.actions.saveStorage()),
 });
 
 const withRedux = connect(
