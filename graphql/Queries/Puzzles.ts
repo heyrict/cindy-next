@@ -32,7 +32,7 @@ export const PUZZLE_DIALOGUE_QUERY = gql`
   query PuzzleDialogueQuery($id: Int!) {
     sui_hei_dialogue(
       where: { sui_hei_puzzle: { id: { _eq: $id } } }
-      order_by: { id: desc }
+      order_by: { id: asc }
     ) {
       ...DialogueShared
     }

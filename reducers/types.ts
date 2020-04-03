@@ -29,18 +29,19 @@ export interface ActionSetType {
   [actionName: string]: (...params: any) => ActionContentType;
 }
 
-export type ReplayKeywordStatusType = {
-  count: number;
-  use: boolean;
+export type ReplayKeywordCounterType = {
+  [keyword: string]: number; // Keyword name: count
 };
 
-export type ReplayKeywordsType = {
-  [keyword: string]: ReplayKeywordStatusType;
+export type ReplayKeywordType = {
+  name: string;
 };
 
 export type ReplayDialogueType = {
+  id: number;
+  qno?: number;
   question: string;
-  question_keywords: string[];
+  question_keywords: Array<ReplayKeywordType>;
 };
 
 export type GlobalUserType = {
@@ -54,6 +55,17 @@ export enum RightAsideType {
   none,
   content,
   memo,
+}
+
+export enum AddReplayModeType {
+  ROUGH,
+  ONE_BY_ONE,
+}
+
+export enum AddReplayPanelType {
+  KEYWORD_SELECT,
+  KEYWORD_EDIT,
+  KEYWORD_MERGE,
 }
 
 export enum ToolbarResponsiveMenuType {

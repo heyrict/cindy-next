@@ -12,12 +12,12 @@ import { counter } from './common';
 import { Flex } from 'components/General';
 import Loading from 'components/General/Loading';
 import KuromojiProgress from './KuromojiProgress';
-import KeywordManipulatePanel from './KeywordManipulatePanel';
+import ModeSelectPanel from './ModeSelectPanel';
 
 import {
   ActionContentType,
   ReplayDialogueType,
-  ReplayKeywordsType,
+  ReplayKeywordCounterType,
   TokenizeServerResponseType,
   TokenizeServerTokenType,
 } from 'reducers/types';
@@ -29,10 +29,9 @@ import {
 
 const KeywordWorkbench = ({
   id,
-  setCountFilterInput,
   setReplayDialogues,
   setKuromojiProgress,
-  setKeywords,
+  setCountFilterInput,
 }: KeywordWorkbenchProps) => (
   <Flex p={2} flexWrap="wrap">
     <Query<PuzzleDialogueQuery, PuzzleDialogueQueryVariables>
@@ -44,7 +43,7 @@ const KeywordWorkbench = ({
       onCompleted={async ({ sui_hei_dialogue }) => {
         // Get keys
         const calcDialogueKeys = [] as Array<ReplayDialogueType>;
-        let keywordCounts = new Object() as ReplayKeywordsType;
+        let keywordCounts = new Object() as ReplayKeywordCounterType;
 
         // Step 1: Fetch tokenized dialouges from server
         setKuromojiProgress(0);
@@ -66,13 +65,17 @@ const KeywordWorkbench = ({
           if (!dialogue) continue;
 
           await counter(
-            parsed.tokens.map((tokens: TokenizeServerTokenType) => tokens.text),
+            parsed.tokens.map((tokens: TokenizeServerTokenType) => ({
+              name: tokens.text,
+            })),
             keywordCounts,
           );
           calcDialogueKeys.push({
+            id: dialogue.id,
+            qno: dialogue.qno,
             question: dialogue.question,
             question_keywords: parsed.tokens.map(
-              (token: TokenizeServerTokenType) => token.text,
+              (token: TokenizeServerTokenType) => ({ name: token.text }),
             ),
           });
           if ((i + 1) % 10 === 0)
@@ -81,14 +84,11 @@ const KeywordWorkbench = ({
             );
         }
 
-        const keywords = new Object() as ReplayKeywordsType;
+        const keywords = new Object() as ReplayKeywordCounterType;
         const countThresh = Math.log10(calcDialogueKeys.length);
         setCountFilterInput(Math.ceil(countThresh));
         Object.entries(keywordCounts).forEach(([key, stat]) => {
-          keywords[key] = {
-            count: stat.count,
-            use: stat.count > countThresh ? true : false,
-          };
+          keywords[key] = stat;
         });
 
         // TODO Step 3: Build tf-idf object, calculate value for each document and
@@ -96,7 +96,6 @@ const KeywordWorkbench = ({
 
         setKuromojiProgress(1);
         setReplayDialogues(calcDialogueKeys);
-        setKeywords(keywords);
       }}
     >
       {({ loading, error, data }) => {
@@ -108,7 +107,7 @@ const KeywordWorkbench = ({
         return (
           <React.Fragment>
             <KuromojiProgress />
-            <KeywordManipulatePanel />
+            <ModeSelectPanel />
           </React.Fragment>
         );
       }}
@@ -123,8 +122,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(addReplayReducer.actions.countFilterInput.set(value)),
   setKuromojiProgress: (percentage: number) =>
     dispatch(addReplayReducer.actions.kuromojiProgress.set(percentage)),
-  setKeywords: (data: ReplayKeywordsType) =>
-    dispatch(addReplayReducer.actions.keywords.set(data)),
 });
 
 const withRedux = connect(

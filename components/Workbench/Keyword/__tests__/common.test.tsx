@@ -1,27 +1,17 @@
-import {
-  getKeywords,
-  counter,
-  setNodeInChildren,
-  constructTree,
-} from '../common';
+import { counter, setNodeInChildren, constructTree } from '../common';
 import { KeywordTreeNodeType } from '../types';
-
-describe('Test tokenizer', () => {
-  it('works', async () => {
-    const expected = ['すもも', 'もも', 'もも', 'うち'];
-    const result = await getKeywords('すもももももももものうち');
-    expect(result).toStrictEqual(expected);
-  });
-});
+import { ReplayKeywordType } from 'reducers/types';
 
 describe('Test counter', () => {
   it('works', async () => {
-    const example = Array.from('すもももももももも');
+    const example = Array.from('すもももももももも').map(name => ({
+      name,
+    })) as Array<ReplayKeywordType>;
     const expected = {
       も: 8,
       す: 1,
     };
-    const result = await counter(example);
+    const result = counter(example);
     expect(result).toStrictEqual(expected);
   });
 });
@@ -36,7 +26,9 @@ describe('Test setNodeInChildren', () => {
   });
 
   it('One flat array', () => {
-    const example = ['a', 'b', 'c'];
+    const example = ['a', 'b', 'c'].map(name => ({ name })) as Array<
+      ReplayKeywordType
+    >;
     const expected = {
       name: 'Root',
       children: [
@@ -61,9 +53,13 @@ describe('Test setNodeInChildren', () => {
   });
 
   it('Multiple array', () => {
-    const exampleA = ['a', 'b', 'c'];
-    const exampleB = ['a', 'd'];
-    const exampleC = ['e'];
+    const exampleA = ['a', 'b', 'c'].map(name => ({ name })) as Array<
+      ReplayKeywordType
+    >;
+    const exampleB = ['a', 'd'].map(name => ({ name })) as Array<
+      ReplayKeywordType
+    >;
+    const exampleC = ['e'].map(name => ({ name })) as Array<ReplayKeywordType>;
     const expected = {
       name: 'Root',
       children: [
@@ -102,11 +98,26 @@ describe('Test constructTree', () => {
   it('Multiple arrays', () => {
     const example = [
       {
+        id: 1,
         question: 'any.1',
-        question_keywords: ['a', 'b', 'c'],
+        question_keywords: ['a', 'b', 'c'].map(name => ({ name })) as Array<
+          ReplayKeywordType
+        >,
       },
-      { question: 'any.2', question_keywords: ['a', 'd'] },
-      { question: 'any.3', question_keywords: ['e'] },
+      {
+        id: 2,
+        question: 'any.2',
+        question_keywords: ['a', 'd'].map(name => ({ name })) as Array<
+          ReplayKeywordType
+        >,
+      },
+      {
+        id: 3,
+        question: 'any.3',
+        question_keywords: ['e'].map(name => ({ name })) as Array<
+          ReplayKeywordType
+        >,
+      },
     ];
     const expected = {
       name: 'Root',

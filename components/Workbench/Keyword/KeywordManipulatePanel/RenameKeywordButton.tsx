@@ -11,21 +11,20 @@ import {
   ActionContentType,
   AddReplayPanelType,
 } from 'reducers/types';
-import { SelectKeywordButtonProps } from './types';
+import { RenameKeywordButtonProps } from './types';
 
 const useSelector = createSelector(
-  (state: StateType) => addReplayReducer.rootSelector(state).keywordToSelect,
-  (_state: StateType, props: Pick<SelectKeywordButtonProps, 'keyword'>) =>
-    props.keyword,
+  (state: StateType) => addReplayReducer.rootSelector(state).keywordToEdit,
+  (_state: StateType, props: Pick<RenameKeywordButtonProps, 'keyword'>) => props.keyword,
   (selectedKeyword, keyword) => selectedKeyword === keyword,
 );
 
-const SelectKeywordButton = ({
+const RenameKeywordButton = ({
   keyword,
   isActive,
   count,
   toggleKeywordToSelect,
-}: SelectKeywordButtonProps) => (
+}: RenameKeywordButtonProps) => (
   <KeywordButton
     on={isActive}
     content={`${count}: ${keyword}`}
@@ -35,7 +34,7 @@ const SelectKeywordButton = ({
 
 const mapStateToProps = (
   state: StateType,
-  ownProps: Pick<SelectKeywordButtonProps, 'keyword'>,
+  ownProps: Pick<RenameKeywordButtonProps, 'keyword'>,
 ) => ({
   isActive: useSelector(state, ownProps),
 });
@@ -45,7 +44,7 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(
       addReplayReducer.actions.toggleSelectedKeyword(
         keyword,
-        AddReplayPanelType.KEYWORD_SELECT,
+        AddReplayPanelType.KEYWORD_EDIT,
       ),
     ),
 });
@@ -55,4 +54,4 @@ const withRedux = connect(
   mapDispatchToProps,
 );
 
-export default withRedux(SelectKeywordButton);
+export default withRedux(RenameKeywordButton);

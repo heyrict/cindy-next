@@ -23,6 +23,10 @@ export const messages = defineMessages({
     id: `${scope}.confirm`,
     defaultMessage: 'Confirm',
   },
+  applyToAll: {
+    id: `${scope}.applyToAll`,
+    defaultMessage: 'Apply To All',
+  },
   editTimes: {
     id: `${scope}.editTimes`,
     defaultMessage: '[Edited ({count})]',
@@ -142,6 +146,10 @@ export const messages = defineMessages({
   info: {
     id: `${scope}.info`,
     defaultMessage: 'Information',
+  },
+  filter: {
+    id: `${scope}.filter`,
+    defaultMessage: 'Filter',
   },
 });
 

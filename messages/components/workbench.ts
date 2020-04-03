@@ -7,9 +7,13 @@ export const messages = defineMessages({
     id: `${scope}.keywords`,
     defaultMessage: 'Keywords',
   },
-  minKeywordAppearance: {
-    id: `${scope}.minKeywordAppearance`,
-    defaultMessage: 'Min appearance',
+  roughMode: {
+    id: `${scope}.roughMode`,
+    defaultMessage: 'Batch Editing',
+  },
+  oneByOneMode: {
+    id: `${scope}.oneByOneMode`,
+    defaultMessage: 'One-by-One Editing',
   },
   selectPanel: {
     id: `${scope}.selectPanel`,
