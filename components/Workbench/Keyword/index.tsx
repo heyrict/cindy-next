@@ -37,8 +37,6 @@ const KeywordWorkbench = ({
   setKuromojiProgress,
   setCountFilterInput,
   setTitle,
-  setContent,
-  setSolution,
   saveStorage,
   loadStorage,
 }: KeywordWorkbenchProps) => {
@@ -70,8 +68,6 @@ const KeywordWorkbench = ({
           }
           const sui_hei_dialogues = data.sui_hei_puzzle_by_pk.sui_hei_dialogues;
           setTitle(data.sui_hei_puzzle_by_pk.title);
-          setContent(data.sui_hei_puzzle_by_pk.content);
-          setSolution(data.sui_hei_puzzle_by_pk.solution);
 
           // Get keys
           const calcDialogueKeys = [] as Array<ReplayDialogueType>;
@@ -157,10 +153,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(addReplayReducer.actions.kuromojiProgress.set(percentage)),
   setTitle: (title: string) =>
     dispatch(addReplayReducer.actions.title.set(title)),
-  setContent: (content: string) =>
-    dispatch(addReplayReducer.actions.content.set(content)),
-  setSolution: (solution: string) =>
-    dispatch(addReplayReducer.actions.solution.set(solution)),
   loadStorage: (id: number, init: () => Promise<any>) =>
     dispatch(addReplayReducer.actions.loadStorage(id, init)),
   saveStorage: (id: number) =>

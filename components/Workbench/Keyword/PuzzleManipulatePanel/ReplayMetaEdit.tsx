@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
 
-import { Flex, Input, ButtonTransparent, Img } from 'components/General';
+import { Flex, Box, Input, ButtonTransparent, Img } from 'components/General';
 import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
 import pencilIcon from 'svgs/pencil.svg';
@@ -20,8 +20,8 @@ const ReplayMetaEdit = ({ title, setTitle }: ReplayMetaEditProps) => {
   }, [title]);
 
   return (
-    <Flex>
-      <label>Title</label>
+    <Flex width={1} minHeight="3em" alignItems="center">
+      <Box mr={2}>Title</Box>
       <Input hidden={!edit} style={{ flexGrow: 1 }} ref={inputRef} />
       {edit ? (
         <>
@@ -34,16 +34,21 @@ const ReplayMetaEdit = ({ title, setTitle }: ReplayMetaEditProps) => {
               setEdit(false);
             }}
           >
-            <Img height="1em" src={tickIcon} alt="ok" />
+            <Img height="xxs" src={tickIcon} alt="ok" />
           </ButtonTransparent>
           <ButtonTransparent onClick={() => setEdit(false)}>
-            <Img height="1em" src={crossIcon} alt="cancel" />
+            <Img height="xxs" src={crossIcon} alt="cancel" />
           </ButtonTransparent>
         </>
       ) : (
-        <ButtonTransparent onClick={() => setEdit(false)}>
-          <Img height="1em" src={pencilIcon} alt="edit" />
-        </ButtonTransparent>
+        <>
+          <Box fontSize={3} fontWeight="bold">
+            {title}
+          </Box>
+          <ButtonTransparent onClick={() => setEdit(true)}>
+            <Img height="xxs" src={pencilIcon} alt="edit" />
+          </ButtonTransparent>
+        </>
       )}
     </Flex>
   );

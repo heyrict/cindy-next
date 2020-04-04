@@ -48,8 +48,7 @@ export enum actionTypes {
   MERGE_TO = 'addReplay.MERGE_TO',
   STORAGE = 'addReplay.STORAGE',
   TITLE = 'addReplay.TITLE',
-  CONTENT = 'addReplay.CONTENT',
-  SOLUTION = 'addReplay.SOLUTION',
+  PUZZLE_ID = 'addReplay.PUZZLE_ID',
   MILESTONES = 'addReplay.MILESTONES',
 }
 
@@ -79,8 +78,7 @@ export type ActionPayloadType = {
   STORAGE:
     | { action: 'SAVE'; id: number }
     | { action: 'LOAD'; id: number; init: () => Promise<any> };
-  TITLE: ReturnType<ValueOf<base.HelperActionType<string>>>;
-  CONTENT: ReturnType<ValueOf<base.HelperActionType<string>>>;
+  PUZZLE_ID: ReturnType<ValueOf<base.HelperActionType<number>>>;
   SOLUTION: ReturnType<ValueOf<base.HelperActionType<string>>>;
   MILESTONES: ReturnType<ValueOf<array.HelperActionType<MilestoneType>>>;
 };
@@ -120,8 +118,7 @@ export const actions = {
   renameTo: base.wrapActions<string>(actionTypes.RENAME_TO),
   mergeTo: base.wrapActions<string>(actionTypes.MERGE_TO),
   title: base.wrapActions<string>(actionTypes.TITLE),
-  content: base.wrapActions<string>(actionTypes.CONTENT),
-  solution: base.wrapActions<string>(actionTypes.SOLUTION),
+  puzzleId: base.wrapActions<number>(actionTypes.PUZZLE_ID),
   milestones: array.wrapActions<MilestoneType>(actionTypes.MILESTONES),
   // Toggle selected keyword in panel
   toggleSelectedKeyword: (keyword: string, panel: AddReplayPanelType) =>
@@ -263,8 +260,7 @@ export const initialState = {
   renameTo: '',
   mergeTo: '',
   title: '',
-  content: '',
-  solution: '',
+  puzzleId: -1,
   milestones: [] as Array<MilestoneType>,
 };
 
@@ -319,17 +315,12 @@ export const reducer = (
     case actionTypes.TITLE:
       return {
         ...state,
-        mergeTo: base.helper(state.title, action.payload),
+        title: base.helper(state.title, action.payload),
       };
-    case actionTypes.CONTENT:
+    case actionTypes.PUZZLE_ID:
       return {
         ...state,
-        mergeTo: base.helper(state.content, action.payload),
-      };
-    case actionTypes.SOLUTION:
-      return {
-        ...state,
-        mergeTo: base.helper(state.solution, action.payload),
+        puzzleId: base.helper(state.puzzleId, action.payload),
       };
     case actionTypes.MILESTONES:
       return {

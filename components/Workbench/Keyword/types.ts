@@ -6,8 +6,6 @@ export type KeywordWorkbenchProps = {
   setKuromojiProgress: (percentage: number) => void;
   setCountFilterInput: (value: number) => void;
   setTitle: (title: string) => void;
-  setContent: (content: string) => void;
-  setSolution: (solution: string) => void;
   loadStorage: (id: number, init: () => Promise<any>) => void;
   saveStorage: (id: number) => void;
 };

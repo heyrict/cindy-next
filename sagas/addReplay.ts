@@ -45,8 +45,6 @@ function* saveProgress(id: number) {
 
   const currentState = (yield select((state: StateType) => ({
     title: addReplayReducer.rootSelector(state).title,
-    content: addReplayReducer.rootSelector(state).content,
-    solution: addReplayReducer.rootSelector(state).solution,
     milestones: addReplayReducer.rootSelector(state).milestones,
     dialogues: addReplayReducer.rootSelector(state).replayDialogues,
   }))) as ReplayStorage;
@@ -60,20 +58,16 @@ function* loadProgress(id: number, init: () => Promise<any>) {
     REPLAY_SAVED_CHANGES_HASHSTORE_KEY,
   ) as ReplaySavedStoreType;
 
+  yield put(addReplayReducer.actions.puzzleId.set(id));
+
   if (id in replaySavedStore) {
     let store = replaySavedStore[id];
-    if (
-      'dialogues' in store &&
-      'title' in store &&
-      'content' in store &&
-      'milestones' in store &&
-      'solution' in store
-    ) {
+    if ('dialogues' in store && 'title' in store && 'milestones' in store) {
+      // Restore data
       yield put(addReplayReducer.actions.replayDialogues.set(store.dialogues));
       yield put(addReplayReducer.actions.title.set(store.title));
-      yield put(addReplayReducer.actions.content.set(store.content));
       yield put(addReplayReducer.actions.milestones.set(store.milestones));
-      yield put(addReplayReducer.actions.solution.set(store.solution));
+      // Update counter
       yield put(addReplayReducer.actions.kuromojiProgress.set(0.5));
       yield put(addReplayReducer.actions.updateKeywordCounter());
       yield put(addReplayReducer.actions.kuromojiProgress.set(1));
