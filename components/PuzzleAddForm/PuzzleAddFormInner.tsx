@@ -43,7 +43,7 @@ const selectFieldNameStyle = {
   borderRadius: '2em',
 };
 
-const fieldInputStype = {
+const fieldInputStyle = {
   width: 1,
   bg: 'orange.0',
   borderRadius: ['4px', '0 2em 2em 0'],
@@ -100,7 +100,7 @@ export const PuzzleAddFormInner = ({
       </Box>
       <Box {...fieldContentStyle}>
         <Input
-          {...fieldInputStype}
+          {...fieldInputStyle}
           value={title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setTitle(e.target.value)
@@ -173,7 +173,7 @@ export const PuzzleAddFormInner = ({
       </Box>
       <Box {...fieldContentStyle} ml="3px">
         <Box
-          {...fieldInputStype}
+          {...fieldInputStyle}
           py={1}
           borderColor="orange.5"
           borderStyle="solid"

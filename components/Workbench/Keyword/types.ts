@@ -8,7 +8,6 @@ export type KeywordWorkbenchProps = {
   setTitle: (title: string) => void;
   setContent: (content: string) => void;
   setSolution: (solution: string) => void;
-  setPuzzleId: (puzzleId: number) => void;
   loadStorage: (id: number, init: () => Promise<any>) => void;
   saveStorage: (id: number) => void;
 };

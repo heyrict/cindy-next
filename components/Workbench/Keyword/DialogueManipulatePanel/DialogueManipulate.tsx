@@ -80,7 +80,12 @@ const DialogueManipulate = ({
           }));
         }}
       >
-        <Box display="inline-box" bg={dialogue.good ? 'lime.3' : 'orange.1'} borderRadius={1} mx={1}>
+        <Box
+          display="inline-box"
+          bg={dialogue.good ? 'lime.3' : 'orange.1'}
+          borderRadius={1}
+          mx={1}
+        >
           <ButtonTransparent
             onClick={() => {
               updateDialogue(dialogue.id, dialogue => ({
@@ -92,7 +97,12 @@ const DialogueManipulate = ({
             <FormattedMessage {...puzzleMessages.dialogue_good} />
           </ButtonTransparent>
         </Box>
-        <Box display="inline-box" bg={dialogue.true ? 'lime.3' : 'orange.1'} borderRadius={1} mx={1}>
+        <Box
+          display="inline-box"
+          bg={dialogue.true ? 'lime.3' : 'orange.1'}
+          borderRadius={1}
+          mx={1}
+        >
           <ButtonTransparent
             onClick={() => {
               updateDialogue(dialogue.id, dialogue => ({

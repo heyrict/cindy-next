@@ -15,7 +15,8 @@ import { RenameKeywordButtonProps } from './types';
 
 const useSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).keywordToEdit,
-  (_state: StateType, props: Pick<RenameKeywordButtonProps, 'keyword'>) => props.keyword,
+  (_state: StateType, props: Pick<RenameKeywordButtonProps, 'keyword'>) =>
+    props.keyword,
   (selectedKeyword, keyword) => selectedKeyword === keyword,
 );
 

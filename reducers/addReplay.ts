@@ -10,6 +10,7 @@ import {
   ReplayKeywordType,
   AddReplayModeType,
   ValueOf,
+  MilestoneType,
 } from './types';
 
 import { mergeNeighbor } from 'common/replay';
@@ -79,7 +80,7 @@ export type ActionPayloadType = {
   TITLE: ReturnType<ValueOf<base.HelperActionType<string>>>;
   CONTENT: ReturnType<ValueOf<base.HelperActionType<string>>>;
   SOLUTION: ReturnType<ValueOf<base.HelperActionType<string>>>;
-  MILESTONES: ReturnType<ValueOf<array.HelperActionType<string>>>;
+  MILESTONES: ReturnType<ValueOf<array.HelperActionType<MilestoneType>>>;
 };
 
 export const actions = {
@@ -115,7 +116,7 @@ export const actions = {
   title: base.wrapActions<string>(actionTypes.TITLE),
   content: base.wrapActions<string>(actionTypes.CONTENT),
   solution: base.wrapActions<string>(actionTypes.SOLUTION),
-  milestones: array.wrapActions<string>(actionTypes.MILESTONES),
+  milestones: array.wrapActions<MilestoneType>(actionTypes.MILESTONES),
   // Toggle selected keyword in panel
   toggleSelectedKeyword: (keyword: string, panel: AddReplayPanelType) =>
     ({
@@ -258,7 +259,7 @@ export const initialState = {
   title: '',
   content: '',
   solution: '',
-  milestones: [] as Array<string>,
+  milestones: [] as Array<MilestoneType>,
 };
 
 export const reducer = (
@@ -327,7 +328,7 @@ export const reducer = (
     case actionTypes.MILESTONES:
       return {
         ...state,
-        mergeTo: array.helper(state.milestones, action.payload),
+        milestones: array.helper(state.milestones, action.payload),
       };
     case actionTypes.SELECT_KEYWORD: {
       const { keyword, panel, index } = action.payload;

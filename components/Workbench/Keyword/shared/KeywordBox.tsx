@@ -25,8 +25,9 @@ const KeywordBox = styled.div<KeywordBoxProps>`
   background-color: ${p => {
     switch (p.keywordType) {
       case KeywordType.DEFAULT:
-      case KeywordType.TO_DELETE:
         return p.theme.colors.gray[1];
+      case KeywordType.TO_DELETE:
+        return p.theme.colors.gray[0];
       case KeywordType.TO_ADD:
         return p.theme.colors.green[1];
       default:
@@ -38,7 +39,7 @@ const KeywordBox = styled.div<KeywordBoxProps>`
       case KeywordType.DEFAULT:
         return p.theme.colors.gray[8];
       case KeywordType.TO_DELETE:
-        return p.theme.colors.gray[6];
+        return p.theme.colors.gray[5];
       case KeywordType.TO_ADD:
         return p.theme.colors.green[9];
       default:

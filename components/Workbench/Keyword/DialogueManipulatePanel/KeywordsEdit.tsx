@@ -34,7 +34,16 @@ const KeywordsEdit = ({
   }, [keywordsString]);
 
   return (
-    <Flex border="2px solid" borderColor="gray.2" p={1} m={1} bg="gray.0" borderRadius={2} width={1} alignItems="baseline">
+    <Flex
+      border="2px solid"
+      borderColor="gray.2"
+      p={1}
+      m={1}
+      bg="gray.0"
+      borderRadius={2}
+      width={1}
+      alignItems="baseline"
+    >
       <Input ref={inputRef} />
       <ButtonTransparent
         onClick={() => {

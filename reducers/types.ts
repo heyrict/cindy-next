@@ -66,6 +66,7 @@ export enum RightAsideType {
 export enum AddReplayModeType {
   ROUGH,
   ONE_BY_ONE,
+  MILESTONES,
   PUZZLE,
 }
 
@@ -127,3 +128,9 @@ export type TokenizeServerDialogueTokensType = {
 export type TokenizeServerResponseType = Array<
   TokenizeServerDialogueTokensType
 >;
+
+export type MilestoneType = {
+  handle: string;
+  name: string;
+  description: string;
+};

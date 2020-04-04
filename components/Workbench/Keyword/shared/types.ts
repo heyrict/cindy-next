@@ -18,3 +18,12 @@ export type KeywordBoxProps = {
 export type KeywordQuestionBoxProps = {
   prefix?: string;
 };
+
+export type MilestoneBoxProps = {
+  milestoneType: MilestoneBoxType;
+};
+
+export enum MilestoneBoxType {
+  DEFAULT,
+  SELECTED,
+}

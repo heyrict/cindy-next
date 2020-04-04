@@ -15,6 +15,10 @@ export const messages = defineMessages({
     id: `${scope}.oneByOneMode`,
     defaultMessage: 'One-by-One Editing',
   },
+  milestonesMode: {
+    id: `${scope}.milestonesMode`,
+    defaultMessage: 'Milestone Editing',
+  },
   puzzleMode: {
     id: `${scope}.puzzleMode`,
     defaultMessage: 'Puzzle Information',
