@@ -28,7 +28,7 @@ describe('Test counter', () => {
 });
 
 describe('Test setNodeInChildren', () => {
-  let tree: { name: string; children: KeywordTreeNodeType[] };
+  let tree: KeywordTreeNodeType<number>;
   beforeEach(() => {
     tree = {
       name: 'Root',
@@ -64,7 +64,7 @@ describe('Test setNodeInChildren', () => {
         },
       ],
     };
-    setNodeInChildren(example, tree);
+    setNodeInChildren(example, tree, null);
     expect(tree).toStrictEqual(expected);
   });
 
@@ -109,9 +109,9 @@ describe('Test setNodeInChildren', () => {
         },
       ],
     };
-    setNodeInChildren(exampleA, tree);
-    setNodeInChildren(exampleB, tree);
-    setNodeInChildren(exampleC, tree);
+    setNodeInChildren(exampleA, tree, null);
+    setNodeInChildren(exampleB, tree, null);
+    setNodeInChildren(exampleC, tree, null);
     expect(tree).toStrictEqual(expected);
   });
 });
@@ -233,6 +233,8 @@ describe('Test constructTree', () => {
         },
       ],
     };
-    expect(constructTree(example, d => d.question_keywords, true)).toStrictEqual(expected);
+    expect(
+      constructTree(example, d => d.question_keywords, true),
+    ).toStrictEqual(expected);
   });
 });

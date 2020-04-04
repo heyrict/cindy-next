@@ -1,9 +1,4 @@
-import { KeywordTreeNodeType } from '../types';
 import { ReplayDialogueType, MilestoneType } from 'reducers/types';
-
-export type PuzzleManipulatePanelProps = {
-  tree: KeywordTreeNodeType;
-};
 
 export type ReplayMetaEditProps = {
   title: string;

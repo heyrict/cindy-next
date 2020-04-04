@@ -19,7 +19,7 @@ const useraward = {
 
 describe('<CurrentUserAward />', () => {
   it('should work out of the box', () => {
-    const node = mount(
+    mount(
       <IntlProvider locale="en">
         <ThemeProvider theme={theme}>
           <CurrentUserAward useraward={useraward} />
