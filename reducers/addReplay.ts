@@ -48,7 +48,7 @@ export enum actionTypes {
   TITLE = 'addReplay.TITLE',
   CONTENT = 'addReplay.CONTENT',
   SOLUTION = 'addReplay.SOLUTION',
-  PUZZLE_ID = 'addReplay.PUZZLE_ID',
+  MILESTONES = 'addReplay.MILESTONES',
 }
 
 export type ActionPayloadType = {
@@ -74,12 +74,12 @@ export type ActionPayloadType = {
   RENAME_TO: ReturnType<ValueOf<base.HelperActionType<string>>>;
   MERGE_TO: ReturnType<ValueOf<base.HelperActionType<string>>>;
   STORAGE:
-    | { action: 'SAVE' }
+    | { action: 'SAVE'; id: number }
     | { action: 'LOAD'; id: number; init: () => Promise<any> };
   TITLE: ReturnType<ValueOf<base.HelperActionType<string>>>;
   CONTENT: ReturnType<ValueOf<base.HelperActionType<string>>>;
   SOLUTION: ReturnType<ValueOf<base.HelperActionType<string>>>;
-  PUZZLE_ID: ReturnType<ValueOf<base.HelperActionType<number>>>;
+  MILESTONES: ReturnType<ValueOf<array.HelperActionType<string>>>;
 };
 
 export const actions = {
@@ -115,7 +115,7 @@ export const actions = {
   title: base.wrapActions<string>(actionTypes.TITLE),
   content: base.wrapActions<string>(actionTypes.CONTENT),
   solution: base.wrapActions<string>(actionTypes.SOLUTION),
-  puzzleId: base.wrapActions<number>(actionTypes.PUZZLE_ID),
+  milestones: array.wrapActions<string>(actionTypes.MILESTONES),
   // Toggle selected keyword in panel
   toggleSelectedKeyword: (keyword: string, panel: AddReplayPanelType) =>
     ({
@@ -217,11 +217,12 @@ export const actions = {
         fromQuestionId,
       },
     } as const),
-  saveStorage: () =>
+  saveStorage: (id: number) =>
     ({
       type: actionTypes.STORAGE,
       payload: {
         action: 'SAVE',
+        id,
       },
     } as const),
   loadStorage: (id: number, init: () => Promise<any>) =>
@@ -257,7 +258,7 @@ export const initialState = {
   title: '',
   content: '',
   solution: '',
-  puzzleId: -1,
+  milestones: [] as Array<string>,
 };
 
 export const reducer = (
@@ -323,10 +324,10 @@ export const reducer = (
         ...state,
         mergeTo: base.helper(state.solution, action.payload),
       };
-    case actionTypes.PUZZLE_ID:
+    case actionTypes.MILESTONES:
       return {
         ...state,
-        mergeTo: base.helper(state.puzzleId, action.payload),
+        mergeTo: array.helper(state.milestones, action.payload),
       };
     case actionTypes.SELECT_KEYWORD: {
       const { keyword, panel, index } = action.payload;

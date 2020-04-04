@@ -10,7 +10,7 @@ export type KeywordWorkbenchProps = {
   setSolution: (solution: string) => void;
   setPuzzleId: (puzzleId: number) => void;
   loadStorage: (id: number, init: () => Promise<any>) => void;
-  saveStorage: () => void;
+  saveStorage: (id: number) => void;
 };
 
 export type KeywordTreeNodeType = {

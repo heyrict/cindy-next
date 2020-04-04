@@ -28,17 +28,17 @@ function* updateKeywordCounter() {
 
 function* handleStorage(action: ActionContentType) {
   let payload:
-    | { action: 'SAVE' }
+    | { action: 'SAVE'; id: number }
     | { action: 'LOAD'; id: number; init: () => Promise<any> } = action.payload;
 
   if (payload.action === 'SAVE') {
-    yield saveProgress();
+    yield saveProgress(payload.id);
   } else {
     yield loadProgress(payload.id, payload.init);
   }
 }
 
-function* saveProgress() {
+function* saveProgress(id: number) {
   const replaySavedStore = getHashStore(
     REPLAY_SAVED_CHANGES_HASHSTORE_KEY,
   ) as ReplaySavedStoreType;
@@ -49,11 +49,8 @@ function* saveProgress() {
     solution: addReplayReducer.rootSelector(state).solution,
     dialogues: addReplayReducer.rootSelector(state).replayDialogues,
   }))) as ReplayStorage;
-  const puzzleId = yield select(
-    (state: StateType) => addReplayReducer.rootSelector(state).puzzleId,
-  );
 
-  replaySavedStore[puzzleId] = currentState;
+  replaySavedStore[id] = currentState;
   setHashStore(REPLAY_SAVED_CHANGES_HASHSTORE_KEY, replaySavedStore);
 }
 
@@ -64,20 +61,16 @@ function* loadProgress(id: number, init: () => Promise<any>) {
 
   if (id in replaySavedStore) {
     let store = replaySavedStore[id];
-    if ('dialogues' in store && 'title' in store &&
-        'content' in store && 'solution' in store) {
-      yield put(
-          addReplayReducer.actions.replayDialogues.set(
-            store.dialogues,
-            ),
-          );
+    if (
+      'dialogues' in store &&
+      'title' in store &&
+      'content' in store &&
+      'solution' in store
+    ) {
+      yield put(addReplayReducer.actions.replayDialogues.set(store.dialogues));
       yield put(addReplayReducer.actions.title.set(store.title));
-      yield put(
-          addReplayReducer.actions.content.set(store.content),
-          );
-      yield put(
-          addReplayReducer.actions.solution.set(store.solution),
-          );
+      yield put(addReplayReducer.actions.content.set(store.content));
+      yield put(addReplayReducer.actions.solution.set(store.solution));
     } else {
       yield call(init);
     }

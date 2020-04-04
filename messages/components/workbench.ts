@@ -15,6 +15,10 @@ export const messages = defineMessages({
     id: `${scope}.oneByOneMode`,
     defaultMessage: 'One-by-One Editing',
   },
+  puzzleMode: {
+    id: `${scope}.puzzleMode`,
+    defaultMessage: 'Puzzle Information',
+  },
   selectPanel: {
     id: `${scope}.selectPanel`,
     defaultMessage: 'Select Keywords',

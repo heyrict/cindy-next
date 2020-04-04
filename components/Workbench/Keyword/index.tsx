@@ -36,7 +36,6 @@ const KeywordWorkbench = ({
   setReplayDialogues,
   setKuromojiProgress,
   setCountFilterInput,
-  setPuzzleId,
   setTitle,
   setContent,
   setSolution,
@@ -46,9 +45,8 @@ const KeywordWorkbench = ({
   const client = useApolloClient();
 
   useEffect(() => {
-    setPuzzleId(id);
     let handle = window.setInterval(() => {
-      saveStorage();
+      saveStorage(id);
       toast.info('Saved successfully!');
     }, SAVE_INTERVAL);
     return () => window.clearInterval(handle);
@@ -161,11 +159,10 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(addReplayReducer.actions.content.set(content)),
   setSolution: (solution: string) =>
     dispatch(addReplayReducer.actions.solution.set(solution)),
-  setPuzzleId: (puzzleId: number) =>
-    dispatch(addReplayReducer.actions.puzzleId.set(puzzleId)),
   loadStorage: (id: number, init: () => Promise<any>) =>
     dispatch(addReplayReducer.actions.loadStorage(id, init)),
-  saveStorage: () => dispatch(addReplayReducer.actions.saveStorage()),
+  saveStorage: (id: number) =>
+    dispatch(addReplayReducer.actions.saveStorage(id)),
 });
 
 const withRedux = connect(

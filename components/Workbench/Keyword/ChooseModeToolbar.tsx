@@ -33,7 +33,7 @@ const ChooseModeToolbar = ({ mode, setMode }: ChooseModeToolbarProps) => (
       bg={mode === AddReplayModeType.PUZZLE ? 'red.5' : 'red.3'}
       onClick={() => setMode(AddReplayModeType.PUZZLE)}
     >
-      <FormattedMessage {...messages.oneByOneMode} />
+      <FormattedMessage {...messages.puzzleMode} />
     </Button>
   </Flex>
 );
