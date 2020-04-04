@@ -10,9 +10,20 @@ export type KeywordWorkbenchProps = {
   saveStorage: (id: number) => void;
 };
 
-export type KeywordTreeNodeType = {
+export type KeywordTreeLeafType = {
+  id: number;
+  question: string;
+  answer: string;
+  good: boolean;
+  true: boolean;
+  milestones: Array<string>;
+  dependency: string;
+};
+
+export type KeywordTreeNodeType<T> = {
   name: string;
   children: Array<KeywordTreeNodeType>;
+  leaves: Array<T>;
 };
 
 export type ResultPreviewProps = {

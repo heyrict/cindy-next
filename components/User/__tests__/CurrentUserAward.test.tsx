@@ -26,13 +26,5 @@ describe('<CurrentUserAward />', () => {
         </ThemeProvider>
       </IntlProvider>,
     );
-    node.find('button').simulate('mouseenter');
-    expect(node.find('div').length).toBeGreaterThan(0);
-    node.find('button').simulate('mouseleave');
-    expect(node.find('div').length).toBe(0);
-    node.find('button').simulate('focus');
-    expect(node.find('div').length).toBeGreaterThan(0);
-    node.find('button').simulate('blur');
-    expect(node.find('div').length).toBe(0);
   });
 });

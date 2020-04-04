@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import * as addReplayReducer from 'reducers/addReplay';
 
-import { constructTree, filterDialogueKeywords } from './common';
+import { constructTree } from './common';
 
 import { StateType } from 'reducers/types';
 import { ResultPreviewProps } from './types';
@@ -17,7 +17,13 @@ const Tree = dynamic(() => import('react-d3-tree'), {
 
 const dialogueSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
-  dialogues => filterDialogueKeywords(dialogues),
+  dialogues => dialogues.map(dialogue => ({
+    ...dialogue,
+    question_keywords: dialogue.question_keywords.concat({
+      name: dialogue.question,
+      tfidf_index: 0,
+    }),
+  })),
 );
 
 const treeSelector = createSelector(

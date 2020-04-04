@@ -15,7 +15,7 @@ import {
 const kw = (name: string) =>
   ({
     name,
-    tfidf_index: 0,
+    tfidf_index: 1,
   } as ReplayKeywordType);
 
 const defaultDialogue: ReplayDialogueType = {
@@ -312,16 +312,19 @@ describe('addReplay reducer', () => {
         mergeTo: 'E',
         replayDialogues: [
           {
+            ...defaultDialogue,
             id: 1,
             question: 'Q1',
             question_keywords: [kw('E')],
           },
           {
+            ...defaultDialogue,
             id: 2,
             question: 'Q2',
             question_keywords: [kw('A'), kw('B'), kw('A'), kw('B')],
           },
           {
+            ...defaultDialogue,
             id: 3,
             question: 'Q3',
             question_keywords: [kw('D'), kw('A'), kw('B'), kw('C')],
@@ -339,16 +342,19 @@ describe('addReplay reducer', () => {
         mergeTo: 'E',
         replayDialogues: [
           {
+            ...defaultDialogue,
             id: 1,
             question: 'Q1',
             question_keywords: [kw('E')],
           },
           {
+            ...defaultDialogue,
             id: 2,
             question: 'Q2',
             question_keywords: [kw('E'), kw('E')],
           },
           {
+            ...defaultDialogue,
             id: 3,
             question: 'Q3',
             question_keywords: [kw('D'), kw('E'), kw('C')],

@@ -3,7 +3,7 @@ import {
   ReplayDialogueType,
   ReplayKeywordType,
 } from 'reducers/types';
-import { KeywordTreeNodeType } from './types';
+import { KeywordTreeNodeType, KeywordTreeLeafType } from './types';
 
 export const counter = (
   list: Array<ReplayKeywordType>,
@@ -17,10 +17,11 @@ export const counter = (
   return counts;
 };
 
-export const setNodeInChildren = (
+export function setNodeInChildren<T>(
   nameList: Array<ReplayKeywordType>,
-  rootNode: KeywordTreeNodeType,
-): void => {
+  rootNode: KeywordTreeNodeType<T>,
+  leaf: T,
+): void {
   if (!nameList || nameList.length === 0) return;
   const keyword = nameList[0];
   const childIndex = rootNode.children.findIndex(
@@ -30,37 +31,42 @@ export const setNodeInChildren = (
     rootNode.children.push({
       name: keyword.name,
       children: [],
+      leaves: leaf && nameList.length === 1 ? [leaf] : [],
     });
     setNodeInChildren(
       nameList.slice(1),
       rootNode.children[rootNode.children.length - 1],
+      leaf,
     );
   } else {
-    setNodeInChildren(nameList.slice(1), rootNode.children[childIndex]);
+    if (leaf && nameList.length === 1) {
+      rootNode.children[childIndex].leaves.push(leaf);
+    } else {
+      setNodeInChildren(nameList.slice(1), rootNode.children[childIndex], leaf);
+    }
   }
 };
 
 export const constructTree = (
   dialogues: Array<ReplayDialogueType>,
   diagToKeywords = (diag: ReplayDialogueType) => diag.question_keywords,
-): KeywordTreeNodeType => {
+  addLeaf: boolean = false,
+): KeywordTreeNodeType<KeywordTreeLeafType> => {
   let tree = new Object({
     name: 'Root',
     children: [],
-  }) as KeywordTreeNodeType;
+    leaves: [],
+  }) as KeywordTreeNodeType<KeywordTreeLeafType>;
   dialogues.forEach(dialogue => {
-    setNodeInChildren(diagToKeywords(dialogue), tree);
+    setNodeInChildren(diagToKeywords(dialogue), tree, addLeaf ? {
+      id: dialogue.id,
+      good: dialogue.good,
+      true: dialogue.true,
+      question: dialogue.question,
+      answer: dialogue.answer,
+      milestones: dialogue.milestones,
+      dependency: dialogue.dependency,
+    } : null);
   });
   return tree;
 };
-
-export const filterDialogueKeywords = (
-  dialogues: Array<ReplayDialogueType>,
-): Array<ReplayDialogueType> =>
-  dialogues.map(dialogue => ({
-    ...dialogue,
-    question_keywords: dialogue.question_keywords.concat({
-      name: dialogue.question,
-      tfidf_index: 0,
-    }),
-  }));

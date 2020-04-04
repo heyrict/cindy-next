@@ -33,6 +33,7 @@ describe('Test setNodeInChildren', () => {
     tree = {
       name: 'Root',
       children: [],
+      leaves: [],
     };
   });
 
@@ -42,15 +43,19 @@ describe('Test setNodeInChildren', () => {
     >;
     const expected = {
       name: 'Root',
+      leaves: [],
       children: [
         {
           name: 'a',
+          leaves: [],
           children: [
             {
               name: 'b',
+              leaves: [],
               children: [
                 {
                   name: 'c',
+                  leaves: [],
                   children: [],
                 },
               ],
@@ -73,27 +78,33 @@ describe('Test setNodeInChildren', () => {
     const exampleC = ['e'].map(name => ({ name })) as Array<ReplayKeywordType>;
     const expected = {
       name: 'Root',
+      leaves: [],
       children: [
         {
           name: 'a',
+          leaves: [],
           children: [
             {
               name: 'b',
+              leaves: [],
               children: [
                 {
                   name: 'c',
+                  leaves: [],
                   children: [],
                 },
               ],
             },
             {
               name: 'd',
+              leaves: [],
               children: [],
             },
           ],
         },
         {
           name: 'e',
+          leaves: [],
           children: [],
         },
       ],
@@ -106,60 +117,122 @@ describe('Test setNodeInChildren', () => {
 });
 
 describe('Test constructTree', () => {
-  it('Multiple arrays', () => {
-    const example = [
-      {
-        ...defaultDialogue,
-        id: 1,
-        question: 'any.1',
-        question_keywords: ['a', 'b', 'c'].map(name => ({ name })) as Array<
-          ReplayKeywordType
-        >,
-      },
-      {
-        ...defaultDialogue,
-        id: 2,
-        question: 'any.2',
-        question_keywords: ['a', 'd'].map(name => ({ name })) as Array<
-          ReplayKeywordType
-        >,
-      },
-      {
-        ...defaultDialogue,
-        id: 3,
-        question: 'any.3',
-        question_keywords: ['e'].map(name => ({ name })) as Array<
-          ReplayKeywordType
-        >,
-      },
-    ];
+  const example = [
+    {
+      ...defaultDialogue,
+      id: 1,
+      question: 'any.1',
+      question_keywords: ['a', 'b', 'c'].map(name => ({ name })) as Array<
+        ReplayKeywordType
+      >,
+    },
+    {
+      ...defaultDialogue,
+      id: 2,
+      question: 'any.2',
+      question_keywords: ['a', 'd'].map(name => ({ name })) as Array<
+        ReplayKeywordType
+      >,
+    },
+    {
+      ...defaultDialogue,
+      id: 3,
+      question: 'any.3',
+      question_keywords: ['e'].map(name => ({ name })) as Array<
+        ReplayKeywordType
+      >,
+    },
+    {
+      ...defaultDialogue,
+      id: 4,
+      question: 'any.4',
+      question_keywords: ['e'].map(name => ({ name })) as Array<
+        ReplayKeywordType
+      >,
+    },
+  ];
+
+  const getLeaf = (dialogue: ReplayDialogueType) => ({
+    id: dialogue.id,
+    good: dialogue.good,
+    true: dialogue.true,
+    question: dialogue.question,
+    answer: dialogue.answer,
+    milestones: dialogue.milestones,
+    dependency: dialogue.dependency,
+  });
+
+  it('Not add leaf', () => {
     const expected = {
       name: 'Root',
+      leaves: [],
       children: [
         {
           name: 'a',
+          leaves: [],
           children: [
             {
               name: 'b',
+              leaves: [],
               children: [
                 {
                   name: 'c',
+                  leaves: [],
                   children: [],
                 },
               ],
             },
             {
               name: 'd',
+              leaves: [],
               children: [],
             },
           ],
         },
         {
           name: 'e',
+          leaves: [],
           children: [],
         },
       ],
     };
     expect(constructTree(example)).toStrictEqual(expected);
+  });
+
+  it('Add leaf', () => {
+    const expected = {
+      name: 'Root',
+      leaves: [],
+      children: [
+        {
+          name: 'a',
+          leaves: [],
+          children: [
+            {
+              name: 'b',
+              leaves: [],
+              children: [
+                {
+                  name: 'c',
+                  leaves: [getLeaf(example[0])],
+                  children: [],
+                },
+              ],
+            },
+            {
+              name: 'd',
+              leaves: [getLeaf(example[1])],
+              children: [],
+            },
+          ],
+        },
+        {
+          name: 'e',
+          leaves: [getLeaf(example[2]), getLeaf(example[3])],
+          children: [],
+        },
+      ],
+    };
+    expect(constructTree(example, d => d.question_keywords, true)).toStrictEqual(expected);
   });
 });
