@@ -147,8 +147,10 @@ const KeywordWorkbench = ({
 };
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  setReplayDialogues: (data: Array<ReplayDialogueType>) =>
-    dispatch(addReplayReducer.actions.replayDialogues.set(data)),
+  setReplayDialogues: (data: Array<ReplayDialogueType>) => {
+    dispatch(addReplayReducer.actions.replayDialogues.set(data));
+    dispatch(addReplayReducer.actions.updateKeywordCounter());
+  },
   setCountFilterInput: (value: number) =>
     dispatch(addReplayReducer.actions.countFilterInput.set(value)),
   setKuromojiProgress: (percentage: number) =>

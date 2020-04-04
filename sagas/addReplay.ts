@@ -74,7 +74,9 @@ function* loadProgress(id: number, init: () => Promise<any>) {
       yield put(addReplayReducer.actions.content.set(store.content));
       yield put(addReplayReducer.actions.milestones.set(store.milestones));
       yield put(addReplayReducer.actions.solution.set(store.solution));
+      yield put(addReplayReducer.actions.kuromojiProgress.set(0.5));
       yield put(addReplayReducer.actions.updateKeywordCounter());
+      yield put(addReplayReducer.actions.kuromojiProgress.set(1));
     } else {
       yield call(init);
     }

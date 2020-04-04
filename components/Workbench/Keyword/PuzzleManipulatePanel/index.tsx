@@ -11,8 +11,8 @@ const PuzzleManipulatePanel = () => {
   return (
     <>
       <ResultPreview />
-      <Box bg="orange.6" color="orange.0" borderRadius={2} mx={3}>
-        <ButtonTransparent onClick={() => {}}>
+      <Box width={1} bg="orange.6" borderRadius={2} mx={3}>
+        <ButtonTransparent width={1} color="orange.0" py={1} onClick={() => {}}>
           <FormattedMessage {...addPuzzleMessages.publishPuzzle} />
         </ButtonTransparent>
       </Box>

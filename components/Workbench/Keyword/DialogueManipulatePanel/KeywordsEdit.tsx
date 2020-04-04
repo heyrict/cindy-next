@@ -83,7 +83,7 @@ const mapStateToProps = (
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  setKeywords: (dialogueId: number, keywordsString: string) =>
+  setKeywords: (dialogueId: number, keywordsString: string) => {
     dispatch(
       addReplayReducer.actions.replayDialogues.update(null, prev =>
         prev.id === dialogueId
@@ -96,7 +96,9 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
             }
           : prev,
       ),
-    ),
+    );
+    dispatch(addReplayReducer.actions.updateKeywordCounter());
+  },
 });
 
 const withRedux = connect(
