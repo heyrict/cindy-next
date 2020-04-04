@@ -296,9 +296,12 @@
   "webNotify.newPuzzleAddedDetail": "{user} さんが新しい {genre} 問題「{puzzle}」を出題しました、参加してみよう！",
   "webNotify.notSupportedMessage": "あなたのブラウザーはプッシュ通知をサポートしていないようです。プッシュ通知を受けるにはもっと新しいプラウザー（Edge 14 以上か、比較的に新しいバーションのSafariやFirefoxやChrome）を使ってください。",
   "webNotify.puzzleSolved": "問題「{puzzle}」が解決されました",
+  "workbench.dependencyMode": "問題依存編集",
   "workbench.keywords": "キーワード",
   "workbench.mergePanel": "キーワード合併パネル",
-  "workbench.oneByOneMode": "個別編集モード",
+  "workbench.milestonesMode": "マイルストーン管理",
+  "workbench.oneByOneMode": "質問個別編集",
+  "workbench.puzzleMode": "情報一覧",
   "workbench.renamePanel": "キーワード編集パネル",
   "workbench.roughMode": "大雑把モード",
   "workbench.selectPanel": "キーワード選出パネル"

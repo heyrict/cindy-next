@@ -296,9 +296,12 @@
   "webNotify.newPuzzleAddedDetail": "{user} adds a new puzzle \"{puzzle}\" of genre {genre}!",
   "webNotify.notSupportedMessage": "Notification will be disabled as it is not supported in your browser.",
   "webNotify.puzzleSolved": "Puzzle \"{puzzle}\" has been solved",
+  "workbench.dependencyMode": "Dependency Editing",
   "workbench.keywords": "Keywords",
   "workbench.mergePanel": "Merge Keywords",
+  "workbench.milestonesMode": "Milestone Editing",
   "workbench.oneByOneMode": "One-by-One Editing",
+  "workbench.puzzleMode": "Puzzle Information",
   "workbench.renamePanel": "Rename Keywords",
   "workbench.roughMode": "Batch Editing",
   "workbench.selectPanel": "Select Keywords"
