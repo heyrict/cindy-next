@@ -1,3 +1,4 @@
+
 CREATE TABLE "public"."sui_hei_replay"(
   "id" serial NOT NULL,
   "title" varchar(255) NOT NULL,

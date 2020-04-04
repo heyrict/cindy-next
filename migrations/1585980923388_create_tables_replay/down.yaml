@@ -1,6 +1,18 @@
 - args:
     role: user
     table:
+      name: sui_hei_replay
+      schema: public
+  type: drop_update_permission
+- args:
+    role: user
+    table:
+      name: sui_hei_replay
+      schema: public
+  type: drop_insert_permission
+- args:
+    role: user
+    table:
       name: sui_hei_replay_dialogue
       schema: public
   type: drop_delete_permission
@@ -39,19 +51,7 @@
     table:
       name: sui_hei_replay
       schema: public
-  type: drop_update_permission
-- args:
-    role: user
-    table:
-      name: sui_hei_replay
-      schema: public
   type: drop_select_permission
-- args:
-    role: user
-    table:
-      name: sui_hei_replay
-      schema: public
-  type: drop_insert_permission
 - args:
     role: anonymous
     table:

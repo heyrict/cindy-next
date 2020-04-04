@@ -704,9 +704,12 @@ tables:
       check:
         user_id:
           _eq: X-Hasura-User-Id
+      set:
+        user_id: x-hasura-User-Id
       columns:
       - id
       - puzzle_id
+      - milestones
       - title
       - user_id
   select_permissions:
@@ -715,6 +718,7 @@ tables:
       columns:
       - id
       - title
+      - milestones
       - puzzle_id
       - user_id
       - created
@@ -725,6 +729,7 @@ tables:
       columns:
       - id
       - puzzle_id
+      - milestones
       - user_id
       - created
       - title
@@ -736,10 +741,13 @@ tables:
       - id
       - puzzle_id
       - title
+      - milestones
       - user_id
       filter:
         user_id:
           _eq: X-Hasura-User-Id
+      set:
+        user_id: x-hasura-User-Id
 - table:
     schema: public
     name: sui_hei_replay_dialogue
