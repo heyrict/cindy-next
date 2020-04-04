@@ -6,7 +6,7 @@ import { YamiText } from 'components/Puzzle/Brief/Yami';
 
 import { PuzzleTitleProps } from './types';
 
-const PuzzleTitleBase = styled.h1`
+export const PuzzleTitleBase = styled.h1`
   font-size: 2.6em;
   font-weight: bold;
   margin-top: 1em;

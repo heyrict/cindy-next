@@ -45,7 +45,7 @@ const KeywordWorkbench = ({
   useEffect(() => {
     let handle = window.setInterval(() => {
       saveStorage(id);
-      toast.info('Saved successfully!', {
+      toast.info('Autosaved', {
         toastId: 'workbench-keyword-autosave',
       });
     }, SAVE_INTERVAL);
