@@ -7,6 +7,7 @@ import chatSaga from './chat';
 import settingSaga from './setting';
 import activeUsersSaga from './activeUsers';
 import addReplaySaga from './addReplay';
+import replaySaga from './replay';
 
 function* rootSaga() {
   yield all([
@@ -17,6 +18,7 @@ function* rootSaga() {
     call(settingSaga),
     call(activeUsersSaga),
     call(addReplaySaga),
+    call(replaySaga),
   ]);
 }
 

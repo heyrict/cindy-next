@@ -22,12 +22,12 @@ export type KeywordTreeLeafType = {
 
 export type KeywordTreeNodeType<T> = {
   name: string;
-  children: Array<KeywordTreeNodeType>;
+  children: Array<KeywordTreeNodeType<T>>;
   leaves: Array<T>;
 };
 
 export type ResultPreviewProps = {
-  keywordTree: KeywordTreeNodeType;
+  keywordTree: KeywordTreeNodeType<KeywordTreeLeafType>;
 };
 
 export type ChooseModeToolbarProps = {
