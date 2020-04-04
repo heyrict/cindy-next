@@ -67,6 +67,7 @@ export enum AddReplayModeType {
   ROUGH,
   ONE_BY_ONE,
   MILESTONES,
+  DEPENDENCY,
   PUZZLE,
 }
 

@@ -5,6 +5,7 @@ import KeywordManipulatePanel from './KeywordManipulatePanel';
 import DialogueManipulatePanel from './DialogueManipulatePanel';
 import PuzzleManipulatePanel from './PuzzleManipulatePanel';
 import MilestoneManipulatePanel from './MilestoneManipulatePanel';
+import DependencyManipulatePanel from './DependencyManipulatePanel';
 
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
@@ -20,6 +21,7 @@ const ModeSelectPanel = ({ mode }: ModeSelectPanelProps) => {
       {mode === AddReplayModeType.ONE_BY_ONE && <DialogueManipulatePanel />}
       {mode === AddReplayModeType.PUZZLE && <PuzzleManipulatePanel />}
       {mode === AddReplayModeType.MILESTONES && <MilestoneManipulatePanel />}
+      {mode === AddReplayModeType.DEPENDENCY && <DependencyManipulatePanel />}
     </React.Fragment>
   );
 };

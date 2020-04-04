@@ -36,6 +36,12 @@ const ChooseModeToolbar = ({ mode, setMode }: ChooseModeToolbarProps) => (
       <FormattedMessage {...messages.milestonesMode} />
     </Button>
     <Button
+      bg={mode === AddReplayModeType.DEPENDENCY ? 'red.5' : 'red.3'}
+      onClick={() => setMode(AddReplayModeType.DEPENDENCY)}
+    >
+      <FormattedMessage {...messages.dependencyMode} />
+    </Button>
+    <Button
       bg={mode === AddReplayModeType.PUZZLE ? 'red.5' : 'red.3'}
       onClick={() => setMode(AddReplayModeType.PUZZLE)}
     >

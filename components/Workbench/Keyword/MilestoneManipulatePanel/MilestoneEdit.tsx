@@ -27,13 +27,13 @@ const fieldContentStyle = {
 
 const inputFieldNameStyle = {
   ...fieldNameStyle,
-  borderRadius: '2em 0 0 2em',
+  borderRadius: '1em 0 0 1em',
 };
 
 const fieldInputStyle = {
   width: 1,
   bg: 'orange.0',
-  borderRadius: ['4px', '0 2em 2em 0'],
+  borderRadius: ['4px', '0 1em 1em 0'],
 };
 
 const MilestoneEdit = ({

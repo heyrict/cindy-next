@@ -19,6 +19,10 @@ export const messages = defineMessages({
     id: `${scope}.milestonesMode`,
     defaultMessage: 'Milestone Editing',
   },
+  dependencyMode: {
+    id: `${scope}.dependencyMode`,
+    defaultMessage: 'Dependency Editing',
+  },
   puzzleMode: {
     id: `${scope}.puzzleMode`,
     defaultMessage: 'Puzzle Information',
