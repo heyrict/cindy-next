@@ -22,7 +22,7 @@ export type MilestonesManagerProps = {
 
 export type MilestoneEditProps = {
   milestone?: MilestoneType;
-  addMilestone: (handle: string, name: string, description: string) => void;
+  addMilestone: (handle: string, name: string, description: string) => boolean;
   removeMilestone: (handle: string) => void;
   editMilestone: (handle: string, name: string, description: string) => void;
 };

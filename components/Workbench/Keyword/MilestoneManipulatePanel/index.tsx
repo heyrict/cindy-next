@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
@@ -20,6 +21,19 @@ const MilestonesManager = ({
   const [editingMilestone, setEditingMilestone] = useState<string | undefined>(
     undefined,
   );
+
+  const handleAddMilestone = (
+    handle: string,
+    name: string,
+    description: string,
+  ) => {
+    if (milestones.findIndex(m => m.handle === handle) >= 0) {
+      toast.error(`There is an existing milestone with the handle ${handle}`);
+      return false;
+    }
+    addMilestone(handle, name, description);
+    return true;
+  };
 
   return (
     <>
@@ -50,7 +64,7 @@ const MilestonesManager = ({
             ? undefined
             : milestones.find(m => m.handle === editingMilestone)
         }
-        addMilestone={addMilestone}
+        addMilestone={handleAddMilestone}
         editMilestone={editMilestone}
         removeMilestone={removeMilestone}
       />
