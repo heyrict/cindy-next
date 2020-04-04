@@ -27,6 +27,7 @@ export enum actionTypes {
   // action types for editing
   MODE = 'addReplay.MODE',
   KEYWORD_COUNTER = 'addReplay.KEYWORD_COUNTER',
+  UPDATE_KEYWORD_COUNTER = 'addReplay.UPDATE_KEYWORD_COUNTER',
   KEYWORD_FILTER = 'addReplay.KEYWORD_FILTER',
   SELECT_KEYWORD = 'addReplay.SELECT_KEYWORD',
   REMOVE_KEYWORD = 'addReplay.REMOVE_KEYWORD',
@@ -71,6 +72,7 @@ export type ActionPayloadType = {
   KEYWORD_COUNTER: ReturnType<
     ValueOf<base.HelperActionType<ReplayKeywordCounterType>>
   >;
+  UPDATE_KEYWORD_COUNTER: {};
   KEYWORD_FILTER: ReturnType<ValueOf<base.HelperActionType<string>>>;
   RENAME_TO: ReturnType<ValueOf<base.HelperActionType<string>>>;
   MERGE_TO: ReturnType<ValueOf<base.HelperActionType<string>>>;
@@ -110,6 +112,10 @@ export const actions = {
   keywordCounter: base.wrapActions<ReplayKeywordCounterType>(
     actionTypes.KEYWORD_COUNTER,
   ),
+  updateKeywordCounter: () => ({
+    type: actionTypes.UPDATE_KEYWORD_COUNTER,
+    payload: {},
+  }),
   keywordFilter: base.wrapActions<string>(actionTypes.KEYWORD_FILTER),
   renameTo: base.wrapActions<string>(actionTypes.RENAME_TO),
   mergeTo: base.wrapActions<string>(actionTypes.MERGE_TO),

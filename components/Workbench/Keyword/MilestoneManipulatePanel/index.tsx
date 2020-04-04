@@ -87,9 +87,9 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
       addReplayReducer.actions.milestones.update(null, prev =>
         prev.handle === handle
           ? {
+              ...prev,
               name,
               description,
-              ...prev,
             }
           : prev,
       ),

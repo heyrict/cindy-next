@@ -1,4 +1,4 @@
-import { ReplayDialogueType } from 'reducers/types';
+import { ReplayDialogueType, MilestoneType } from 'reducers/types';
 
 export type HashStoreType<T> = {
   [key: number]: T;
@@ -8,6 +8,7 @@ export type ReplayStorage = {
   title: string;
   content: string;
   solution: string;
+  milestones: MilestoneType[];
   dialogues: ReplayDialogueType[];
 };
 

@@ -213,13 +213,15 @@ const mapStateToProps = (
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  iRemoveKeywordByThresh: (thresh: number, dialogueId: number) =>
+  iRemoveKeywordByThresh: (thresh: number, dialogueId: number) => {
     dispatch(
       addReplayReducer.actions.iRemoveKeywordBy(
         kw => kw.tfidf_index >= thresh,
         dialogueId,
       ),
-    ),
+    );
+    dispatch(addReplayReducer.actions.updateKeywordCounter());
+  },
   updateDialogue: (
     dialogueId: number,
     update: (dialogue: ReplayDialogueType) => ReplayDialogueType,
@@ -229,12 +231,14 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
         prev.id === dialogueId ? update(prev) : prev,
       ),
     ),
-  deleteDialogue: (dialogueId: number) =>
+  deleteDialogue: (dialogueId: number) => {
     dispatch(
       addReplayReducer.actions.replayDialogues.deleteWhere(item =>
         item.id === dialogueId ? true : false,
       ),
-    ),
+    );
+    dispatch(addReplayReducer.actions.updateKeywordCounter());
+  },
 });
 
 const withRedux = connect(

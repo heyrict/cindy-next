@@ -149,11 +149,7 @@ const MilestoneEdit = ({
                 let name = inputNameRef.current.value.trim();
                 let desc = descriptionEditor.current.getText().trim();
                 if (check(handle, name, desc) === true) {
-                  editMilestone(
-                    milestone!.handle,
-                    inputNameRef.current.value,
-                    descriptionEditor.current.getText(),
-                  );
+                  editMilestone(handle, name, desc);
                   toast.info('Saved successfully!');
                 }
               }}

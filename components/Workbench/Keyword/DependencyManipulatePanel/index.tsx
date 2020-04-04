@@ -23,7 +23,10 @@ const DependencyManipulatePanel = ({
 
 const dialogueIdsSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
-  dialogues => dialogues.map(dialogue => dialogue.id),
+  dialogues =>
+    dialogues
+      .filter(dialogue => dialogue.good || dialogue.true)
+      .map(dialogue => dialogue.id),
 );
 
 const mapStateToProps = (state: StateType) => ({
@@ -33,4 +36,3 @@ const mapStateToProps = (state: StateType) => ({
 const withRedux = connect(mapStateToProps);
 
 export default withRedux(DependencyManipulatePanel);
-

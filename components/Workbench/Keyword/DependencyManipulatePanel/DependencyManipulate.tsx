@@ -33,58 +33,54 @@ const DependencyManipulate = ({
         {dialogue.answer}
       </KeywordQuestionBox>
       <Flex width={1} flexWrap="wrap" alignItems="center">
-      <Box mr={2}>Milestones</Box>
-      <ButtonSelect
-        value={
-          dialogue.milestones.length > 0 ? dialogue.milestones[0] : undefined
-        }
-        options={[
-          {
-            key: 'none',
-            value: undefined,
-            label: (
-              <FormattedMessage {...commonMessages.none} />
-            ),
-          },
-          ...milestones.map(milestone => ({
-            key: milestone.handle,
-            value: milestone.handle,
-            label: <MilestoneLabel milestone={milestone} />,
-          })),
-        ]}
-        onChange={option => {
-          updateDialogue(prev => ({
-            ...prev,
-            milestones: option.value ? [option.value] : [],
-          }));
-        }}
-      />
+        <Box mr={2}>Milestones</Box>
+        <ButtonSelect
+          value={
+            dialogue.milestones.length > 0 ? dialogue.milestones[0] : undefined
+          }
+          options={[
+            {
+              key: 'none',
+              value: undefined,
+              label: <FormattedMessage {...commonMessages.none} />,
+            },
+            ...milestones.map(milestone => ({
+              key: milestone.handle,
+              value: milestone.handle,
+              label: <MilestoneLabel milestone={milestone} />,
+            })),
+          ]}
+          onChange={option => {
+            updateDialogue(prev => ({
+              ...prev,
+              milestones: option.value ? [option.value] : [],
+            }));
+          }}
+        />
       </Flex>
       <Flex width={1} flexWrap="wrap" alignItems="center">
-      <Box mr={2}>Dependencies</Box>
-      <ButtonSelect
-        value={dialogue.dependency}
-        options={[
-          {
-            key: 'none',
-            value: '',
-            label: (
-              <FormattedMessage {...commonMessages.none} />
-            ),
-          },
-          ...milestones.map(milestone => ({
-            key: milestone.handle,
-            value: milestone.handle,
-            label: <MilestoneLabel milestone={milestone} />,
-          })),
-        ]}
-        onChange={option => {
-          updateDialogue(prev => ({
-            ...prev,
-            dependency: option.value || "",
-          }));
-        }}
-      />
+        <Box mr={2}>Dependencies</Box>
+        <ButtonSelect
+          value={dialogue.dependency}
+          options={[
+            {
+              key: 'none',
+              value: '',
+              label: <FormattedMessage {...commonMessages.none} />,
+            },
+            ...milestones.map(milestone => ({
+              key: milestone.handle,
+              value: milestone.handle,
+              label: <MilestoneLabel milestone={milestone} />,
+            })),
+          ]}
+          onChange={option => {
+            updateDialogue(prev => ({
+              ...prev,
+              dependency: option.value || '',
+            }));
+          }}
+        />
       </Flex>
     </Flex>
   );
@@ -110,7 +106,8 @@ const mapStateToProps = (
   milestones: addReplayReducer.rootSelector(state).milestones,
 });
 
-const mapDispatchToProps = (dispatch: (action: ActionContentType) => void,
+const mapDispatchToProps = (
+  dispatch: (action: ActionContentType) => void,
   ownProps: Pick<DependencyManipulateProps, 'dialogueId'>,
 ) => ({
   updateDialogue: (

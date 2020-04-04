@@ -47,6 +47,7 @@ function* saveProgress(id: number) {
     title: addReplayReducer.rootSelector(state).title,
     content: addReplayReducer.rootSelector(state).content,
     solution: addReplayReducer.rootSelector(state).solution,
+    milestones: addReplayReducer.rootSelector(state).milestones,
     dialogues: addReplayReducer.rootSelector(state).replayDialogues,
   }))) as ReplayStorage;
 
@@ -65,12 +66,15 @@ function* loadProgress(id: number, init: () => Promise<any>) {
       'dialogues' in store &&
       'title' in store &&
       'content' in store &&
+      'milestones' in store &&
       'solution' in store
     ) {
       yield put(addReplayReducer.actions.replayDialogues.set(store.dialogues));
       yield put(addReplayReducer.actions.title.set(store.title));
       yield put(addReplayReducer.actions.content.set(store.content));
+      yield put(addReplayReducer.actions.milestones.set(store.milestones));
       yield put(addReplayReducer.actions.solution.set(store.solution));
+      yield put(addReplayReducer.actions.updateKeywordCounter());
     } else {
       yield call(init);
     }
@@ -83,7 +87,7 @@ function* addReplayRootSaga() {
   yield all([
     takeLatest(
       [
-        addReplayReducer.actionTypes.REPLAY_DIALOGUES,
+        addReplayReducer.actionTypes.UPDATE_KEYWORD_COUNTER,
         addReplayReducer.actionTypes.REMOVE_KEYWORD,
         addReplayReducer.actionTypes.MERGE_KEYWORD,
         addReplayReducer.actionTypes.RENAME_KEYWORD,

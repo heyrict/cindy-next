@@ -71,7 +71,7 @@ const KeywordWorkbench = ({
           const sui_hei_dialogues = data.sui_hei_puzzle_by_pk.sui_hei_dialogues;
           setTitle(data.sui_hei_puzzle_by_pk.title);
           setContent(data.sui_hei_puzzle_by_pk.content);
-          setSolution(data.sui_hei_puzzle_by_pk.content);
+          setSolution(data.sui_hei_puzzle_by_pk.solution);
 
           // Get keys
           const calcDialogueKeys = [] as Array<ReplayDialogueType>;
