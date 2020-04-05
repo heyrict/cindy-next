@@ -45,7 +45,36 @@ export function setNodeInChildren<T>(
       setNodeInChildren(nameList.slice(1), rootNode.children[childIndex], leaf);
     }
   }
-};
+}
+
+export function findNodeWithPath<T>(
+  rootNode: KeywordTreeNodeType<T>,
+  names: Array<string>,
+): KeywordTreeNodeType<T> | undefined {
+  if (names.length === 0) return rootNode;
+  let nextNode = rootNode.children.find(node => node.name === names[0]);
+  if (nextNode) {
+    return findNodeWithPath(nextNode, names.slice(1));
+  } else {
+    return undefined;
+  }
+}
+
+export const matchesClue = (leaf: KeywordTreeLeafType, clues: Array<string>) =>
+  leaf.dependency ? clues.findIndex(clue =>
+    clue === leaf.dependency,
+  ) >= 0 : true;
+
+export function nodeVisible(
+  rootNode: KeywordTreeNodeType<KeywordTreeLeafType>,
+  clues: Array<string>,
+): boolean {
+  const hasLeafMatchesClue =
+    rootNode.leaves.findIndex(leaf => matchesClue(leaf, clues)) >= 0;
+  const hasChildVisible =
+    rootNode.children.findIndex(node => nodeVisible(node, clues)) >= 0;
+  return hasLeafMatchesClue || hasChildVisible;
+}
 
 export const constructTree = (
   dialogues: Array<ReplayDialogueType>,
@@ -58,15 +87,21 @@ export const constructTree = (
     leaves: [],
   }) as KeywordTreeNodeType<KeywordTreeLeafType>;
   dialogues.forEach(dialogue => {
-    setNodeInChildren(diagToKeywords(dialogue), tree, addLeaf ? {
-      id: dialogue.id,
-      good: dialogue.good,
-      true: dialogue.true,
-      question: dialogue.question,
-      answer: dialogue.answer,
-      milestones: dialogue.milestones,
-      dependency: dialogue.dependency,
-    } : null);
+    setNodeInChildren(
+      diagToKeywords(dialogue),
+      tree,
+      addLeaf
+        ? {
+            id: dialogue.id,
+            good: dialogue.good,
+            true: dialogue.true,
+            question: dialogue.question,
+            answer: dialogue.answer,
+            milestones: dialogue.milestones,
+            dependency: dialogue.dependency,
+          }
+        : null,
+    );
   });
   return tree;
 };

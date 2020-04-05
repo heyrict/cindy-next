@@ -20,10 +20,10 @@ const ReplayDetail = ({ replay, constructTree }: ReplayDetailProps) => {
     constructTree(
       replay.sui_hei_replay_dialogues.map(d => ({
         ...d,
-        question_keywords: d.keywords,
+        question_keywords: d.keywords.map((name: string) => ({ name })),
       })),
     );
-  }, [replay.id]);
+  }, []);
 
   return (
     <Flex flexWrap="wrap" justifyContent="center" alignItems="center">

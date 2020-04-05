@@ -12,8 +12,12 @@ function* initConstructTree(
   >,
 ) {
   const { dialogues } = action.payload;
-  yield put(replayReducer.actions.tree.set(undefined));
-  const tree = constructTree(dialogues);
+
+  // Initialization
+  yield put(replayReducer.actions.reset());
+
+  // Construct tree
+  const tree = constructTree(dialogues, dialogue => dialogue.question_keywords, true);
   yield put(replayReducer.actions.tree.set(tree));
 }
 

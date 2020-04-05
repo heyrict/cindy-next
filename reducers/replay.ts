@@ -1,4 +1,5 @@
 import * as base from './helpers/base';
+import * as array from './helpers/array';
 
 import {
   KeywordTreeNodeType,
@@ -17,21 +18,30 @@ type TreeType = KeywordTreeNodeType<KeywordTreeLeafType> | undefined;
 
 export enum actionTypes {
   TREE = 'replay.TREE',
+  PATH = 'replay.PATH',
+  CLUES = 'replay.CLUES',
+  RESET = 'replay.RESET',
   // Signals
   CONSTRUCT_TREE = 'replay.CONSTRUCT_TREE',
 }
 
 export type ActionPayloadType = {
   TREE: ReturnType<ValueOf<base.HelperActionType<TreeType>>>;
+  PATH: ReturnType<ValueOf<array.HelperActionType<string>>>;
+  CLUES: ReturnType<ValueOf<array.HelperActionType<string>>>;
+  RESET: undefined;
   CONSTRUCT_TREE: { dialogues: Array<ReplayDialogueType> };
 };
 
 export const actions = {
   tree: base.wrapActions<TreeType>(actionTypes.TREE),
+  path: array.wrapActions<string>(actionTypes.PATH),
+  clues: array.wrapActions<string>(actionTypes.CLUES),
+  reset: () => ({ type: actionTypes.RESET }),
   // Signals
   constructTree: (dialogues: Array<ReplayDialogueType>) => ({
     type: actionTypes.CONSTRUCT_TREE,
-    dialogues,
+    payload: { dialogues },
   }),
 };
 
@@ -39,18 +49,34 @@ export const rootSelector = (state: StateType): typeof initialState =>
   state[scope];
 
 export const initialState = {
-  tree: undefined,
+  tree: undefined as TreeType,
+  path: [] as Array<string>,
+  clues: [] as Array<string>,
 };
 
 export const reducer = (
   state = initialState,
   action: ActionContentType<typeof actionTypes, ActionPayloadType>,
-) => {
+): typeof initialState => {
   switch (action.type) {
     case actionTypes.TREE:
       return {
         ...state,
         tree: base.helper(state.tree, action.payload),
       };
+    case actionTypes.PATH:
+      return {
+        ...state,
+        path: array.helper(state.path, action.payload),
+      };
+    case actionTypes.CLUES:
+      return {
+        ...state,
+        clues: array.helper(state.clues, action.payload),
+      };
+    case actionTypes.RESET:
+      return initialState;
+    default:
+      return state;
   }
 };

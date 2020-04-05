@@ -1,6 +1,28 @@
-import { counter, setNodeInChildren, constructTree } from '../common';
-import { KeywordTreeNodeType } from '../types';
+import {
+  counter,
+  setNodeInChildren,
+  constructTree,
+  findNodeWithPath,
+  matchesClue,
+  nodeVisible,
+} from '../common';
+import { KeywordTreeNodeType, KeywordTreeLeafType } from '../types';
 import { ReplayKeywordType, ReplayDialogueType } from 'reducers/types';
+
+const _new_node = (
+  name: string,
+  children: Array<KeywordTreeNodeType<KeywordTreeLeafType>> = [],
+  leaves: Array<KeywordTreeLeafType> = [],
+) => ({
+  name,
+  children,
+  leaves,
+});
+
+const _new_leaf = (dependency) => ({
+  ...defaultDialogue,
+  dependency,
+});
 
 const defaultDialogue: ReplayDialogueType = {
   id: -1,
@@ -28,7 +50,7 @@ describe('Test counter', () => {
 });
 
 describe('Test setNodeInChildren', () => {
-  let tree: KeywordTreeNodeType<number>;
+  let tree: KeywordTreeNodeType<KeywordTreeLeafType>;
   beforeEach(() => {
     tree = {
       name: 'Root',
@@ -238,3 +260,51 @@ describe('Test constructTree', () => {
     ).toStrictEqual(expected);
   });
 });
+
+describe('Test findNodeWithPath', () => {
+  const rootNode = _new_node('Root', [
+    _new_node('a', [_new_node('b', [_new_node('c')])]),
+    _new_node('d'),
+  ]);
+
+  it('find an existing node', () => {
+    expect(findNodeWithPath(rootNode, ['a', 'b', 'c'])).toStrictEqual(
+      _new_node('c'),
+    );
+  });
+
+  it('find a non-existing node', () => {
+    expect(findNodeWithPath(rootNode, ['a', 'b', 'd'])).toBeUndefined();
+  });
+});
+
+describe('Test matchesClue', () => {
+  it('with no dependency', () => {
+    expect(matchesClue(defaultDialogue, [])).toBe(true);
+    expect(matchesClue(defaultDialogue, ['1'])).toBe(true);
+  })
+  it('with dependency', () => {
+    expect(matchesClue(_new_leaf('1'), ['1'])).toBe(true);
+    expect(matchesClue(_new_leaf('1'), ['2'])).toBe(false);
+  })
+})
+
+describe('Test nodeVisible', () => {
+  const rootNode = _new_node('Root', [
+    _new_node('a', [], [_new_leaf('2')]),
+    _new_node('b'),
+  ], [_new_leaf('1')]);
+
+  it('find end node', () => {
+    expect(nodeVisible(rootNode.children[0], ['2'])).toBe(true);
+  })
+  it('find empty node', () => {
+    expect(nodeVisible(rootNode.children[1], [])).toBe(false);
+  })
+  it('find node with child matches', () => {
+    expect(nodeVisible(rootNode, ['2'])).toBe(true);
+  })
+  it('find node has children that matches', () => {
+    expect(nodeVisible(rootNode, ['1'])).toBe(true);
+  })
+})
