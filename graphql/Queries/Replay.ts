@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 import { REPLAY_SHARED_FRAGMENT } from '../Fragments/Replay';
-import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
+import { PUZZLE_SHARED_FRAGMENT } from 'graphql/Fragments/Puzzles';
 
 export const REPLAY_QUERY = gql`
   query ReplayQuery($id: Int!) {
@@ -21,17 +21,14 @@ export const REPLAY_QUERY = gql`
       }
       sui_hei_puzzle {
         id
-        title
         content
         solution
-        sui_hei_user {
-          ...UserBrief
-        }
+        ...PuzzleShared
       }
     }
   }
   ${REPLAY_SHARED_FRAGMENT}
-  ${USER_BRIEF_FRAGMENT}
+  ${PUZZLE_SHARED_FRAGMENT}
 `;
 
 export const REPLAY_LIST_QUERY = gql`

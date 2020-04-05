@@ -25,7 +25,8 @@ const dialogueIdsSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
   dialogues =>
     dialogues
-      .filter(dialogue => dialogue.good || dialogue.true)
+      // TODO Add option to filter good or true dialogues
+      //.filter(dialogue => dialogue.good || dialogue.true)
       .map(dialogue => dialogue.id),
 );
 

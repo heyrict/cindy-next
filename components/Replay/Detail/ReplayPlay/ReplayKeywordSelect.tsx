@@ -27,6 +27,7 @@ const ReplayKeywordSelect = ({
         Keywords
       </Box>
       <Flex
+        flexWrap="wrap"
         width={1}
         maxHeight="400px"
         overflowY="auto"

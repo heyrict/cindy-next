@@ -29,4 +29,5 @@ export type ReplayLogProps = {
 export type SolutionFrameProps = {
   replay: ReplayQuery_sui_hei_replay_by_pk;
   timeSolved?: string;
+  puzzleGenreImg: boolean;
 };
