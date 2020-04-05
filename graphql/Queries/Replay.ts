@@ -33,3 +33,20 @@ export const REPLAY_QUERY = gql`
   ${REPLAY_SHARED_FRAGMENT}
   ${USER_BRIEF_FRAGMENT}
 `;
+
+export const REPLAY_LIST_QUERY = gql`
+  query ReplayListQuery($limit: Int, $offset: Int) {
+    sui_hei_replay(order_by: { id: desc }, limit: $limit, offset: $offset)
+      @connection(key: "sui_hei_replay", filter: ["order_by"]) {
+      id
+      ...ReplayShared
+      milestones
+    }
+    sui_hei_replay_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${REPLAY_SHARED_FRAGMENT}
+`;

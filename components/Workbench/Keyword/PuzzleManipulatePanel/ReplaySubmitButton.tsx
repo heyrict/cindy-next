@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-//import Router from 'next/router';
+import Router from 'next/router';
 
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
@@ -70,10 +70,9 @@ const ReplaySubmitButton = ({
                 return;
               }
               let replay = data.insert_sui_hei_replay.returning[0];
-              console.log(replay.id);
-              // TODO clear saved local data
-              //Router.push('/puzzle/[id]', `/puzzle/${replay.id}`);
               toast.info("Submitted successfully!");
+              // TODO clear saved local data
+              Router.push('/replay/[id]', `/replay/${replay.id}`);
             })
             .catch((error: ApolloError) => {
               toast.error(error.message);

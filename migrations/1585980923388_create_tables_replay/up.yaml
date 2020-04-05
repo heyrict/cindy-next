@@ -40,12 +40,12 @@
     permission:
       allow_aggregations: true
       columns:
-      - id
-      - title
-      - milestones
-      - puzzle_id
-      - user_id
-      - created
+        - id
+        - title
+        - milestones
+        - puzzle_id
+        - user_id
+        - created
       filter: {}
       limit: null
     role: anonymous
@@ -55,14 +55,14 @@
   type: create_select_permission
 - args:
     permission:
-      allow_aggregations: false
+      allow_aggregations: true
       columns:
-      - id
-      - puzzle_id
-      - milestones
-      - user_id
-      - created
-      - title
+        - id
+        - puzzle_id
+        - milestones
+        - user_id
+        - created
+        - title
       filter: {}
       limit: null
     role: user
@@ -72,17 +72,17 @@
   type: create_select_permission
 - args:
     permission:
-      allow_aggregations: false
+      allow_aggregations: true
       columns:
-      - id
-      - replay_id
-      - question
-      - answer
-      - good
-      - "true"
-      - keywords
-      - milestones
-      - dependency
+        - id
+        - replay_id
+        - question
+        - answer
+        - good
+        - 'true'
+        - keywords
+        - milestones
+        - dependency
       filter: {}
       limit: null
     role: anonymous
@@ -92,17 +92,17 @@
   type: create_select_permission
 - args:
     permission:
-      allow_aggregations: false
+      allow_aggregations: true
       columns:
-      - good
-      - "true"
-      - id
-      - replay_id
-      - keywords
-      - answer
-      - dependency
-      - milestones
-      - question
+        - good
+        - 'true'
+        - id
+        - replay_id
+        - keywords
+        - answer
+        - dependency
+        - milestones
+        - question
       filter: {}
       limit: null
     role: user
@@ -126,18 +126,18 @@
           user_id:
             _eq: X-Hasura-User-Id
       columns:
-      - id
-      - replay_id
-      - question
-      - answer
-      - good
-      - "true"
-      - keywords
-      - milestones
-      - dependency
+        - id
+        - replay_id
+        - question
+        - answer
+        - good
+        - 'true'
+        - keywords
+        - milestones
+        - dependency
       localPresets:
-      - key: ""
-        value: ""
+        - key: ''
+          value: ''
       set: {}
     role: user
     table:
@@ -147,22 +147,22 @@
 - args:
     permission:
       columns:
-      - good
-      - "true"
-      - id
-      - replay_id
-      - keywords
-      - answer
-      - dependency
-      - milestones
-      - question
+        - good
+        - 'true'
+        - id
+        - replay_id
+        - keywords
+        - answer
+        - dependency
+        - milestones
+        - question
       filter:
         sui_hei_replay:
           user_id:
             _eq: X-Hasura-User-Id
       localPresets:
-      - key: ""
-        value: ""
+        - key: ''
+          value: ''
       set: {}
     role: user
     table:
@@ -186,16 +186,16 @@
         user_id:
           _eq: X-Hasura-User-Id
       columns:
-      - id
-      - puzzle_id
-      - milestones
-      - title
-      - user_id
+        - id
+        - puzzle_id
+        - milestones
+        - title
+        - user_id
       localPresets:
-      - key: user_id
-        value: x-hasura-User-Id
-      - key: ""
-        value: ""
+        - key: user_id
+          value: x-hasura-User-Id
+        - key: ''
+          value: ''
       set:
         user_id: x-hasura-User-Id
     role: user
@@ -206,19 +206,19 @@
 - args:
     permission:
       columns:
-      - id
-      - puzzle_id
-      - title
-      - milestones
-      - user_id
+        - id
+        - puzzle_id
+        - title
+        - milestones
+        - user_id
       filter:
         user_id:
           _eq: X-Hasura-User-Id
       localPresets:
-      - key: user_id
-        value: x-hasura-User-Id
-      - key: ""
-        value: ""
+        - key: user_id
+          value: x-hasura-User-Id
+        - key: ''
+          value: ''
       set:
         user_id: x-hasura-User-Id
     role: user
