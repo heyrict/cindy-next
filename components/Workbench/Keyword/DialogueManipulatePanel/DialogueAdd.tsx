@@ -21,7 +21,16 @@ const DialogueAdd = ({ addDialogue }: DialogueAddProps) => {
   const [trueSwitch, setTrue] = useState(false);
 
   return (
-    <Flex width={1} flexWrap="wrap" p={2} mt={2} border="2px solid" borderColor="pink.2" borderRadius={2} bg="pink.0">
+    <Flex
+      width={1}
+      flexWrap="wrap"
+      p={2}
+      mt={2}
+      border="2px solid"
+      borderColor="pink.2"
+      borderRadius={2}
+      bg="pink.0"
+    >
       <Box width={1}>Question</Box>
       <Box
         width={1}

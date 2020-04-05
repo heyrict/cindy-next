@@ -28,64 +28,64 @@ const ReplaySubmitButton = ({
   puzzleId,
 }: ReplaySubmitButtonProps) => {
   const [submitting, setSubmitting] = useState(false);
- return (
-  <Mutation<AddReplayMutation, AddReplayMutationVariables>
-    mutation={ADD_REPLAY_MUTATION}
-  >
-    {addReplay => (
-      <Box width={1} bg="orange.6" borderRadius={2} mx={3}>
-        <ButtonTransparent
-          disabled={submitting}
-          width={1}
-          color="orange.0"
-          py={1}
-          onClick={() => {
-            if (submitting) return;
-            addReplay({
-              variables: {
-                puzzleId,
-                title,
-                milestones,
-                replayDialogues: replayDialogues.map(dialogue => ({
-                  question: dialogue.question,
-                  answer: dialogue.answer,
-                  dependency: dialogue.dependency,
-                  good: dialogue.good,
-                  true: dialogue.true,
-                  keywords: dialogue.question_keywords.map(kw => kw.name),
-                  milestones: dialogue.milestones,
-                })),
-              },
-            })
-            .then(returns => {
-              if (!returns) return;
-              const { data } = returns;
-              if (
-                !data ||
-                !data.insert_sui_hei_replay ||
-                !data.insert_sui_hei_replay.returning
-              ) {
-                toast.error('Error: no data returns');
-                setSubmitting(false);
-                return;
-              }
-              let replay = data.insert_sui_hei_replay.returning[0];
-              toast.info("Submitted successfully!");
-              // TODO clear saved local data
-              Router.push('/replay/[id]', `/replay/${replay.id}`);
-            })
-            .catch((error: ApolloError) => {
-              toast.error(error.message);
-              setSubmitting(false);
-            });
-          }}
-        >
-          <FormattedMessage {...addPuzzleMessages.publishPuzzle} />
-        </ButtonTransparent>
-      </Box>
-    )}
-  </Mutation>
-);
+  return (
+    <Mutation<AddReplayMutation, AddReplayMutationVariables>
+      mutation={ADD_REPLAY_MUTATION}
+    >
+      {addReplay => (
+        <Box width={1} bg="orange.6" borderRadius={2} mx={3}>
+          <ButtonTransparent
+            disabled={submitting}
+            width={1}
+            color="orange.0"
+            py={1}
+            onClick={() => {
+              if (submitting) return;
+              addReplay({
+                variables: {
+                  puzzleId,
+                  title,
+                  milestones,
+                  replayDialogues: replayDialogues.map(dialogue => ({
+                    question: dialogue.question,
+                    answer: dialogue.answer,
+                    dependency: dialogue.dependency,
+                    good: dialogue.good,
+                    true: dialogue.true,
+                    keywords: dialogue.question_keywords.map(kw => kw.name),
+                    milestones: dialogue.milestones,
+                  })),
+                },
+              })
+                .then(returns => {
+                  if (!returns) return;
+                  const { data } = returns;
+                  if (
+                    !data ||
+                    !data.insert_sui_hei_replay ||
+                    !data.insert_sui_hei_replay.returning
+                  ) {
+                    toast.error('Error: no data returns');
+                    setSubmitting(false);
+                    return;
+                  }
+                  let replay = data.insert_sui_hei_replay.returning[0];
+                  toast.info('Submitted successfully!');
+                  // TODO clear saved local data
+                  Router.push('/replay/[id]', `/replay/${replay.id}`);
+                })
+                .catch((error: ApolloError) => {
+                  toast.error(error.message);
+                  setSubmitting(false);
+                });
+            }}
+          >
+            <FormattedMessage {...addPuzzleMessages.publishPuzzle} />
+          </ButtonTransparent>
+        </Box>
+      )}
+    </Mutation>
+  );
 };
 
 const mapStateToProps = (state: StateType) => ({

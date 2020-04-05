@@ -19,7 +19,7 @@ const _new_node = (
   leaves,
 });
 
-const _new_leaf = (dependency) => ({
+const _new_leaf = dependency => ({
   ...defaultDialogue,
   dependency,
 });
@@ -282,29 +282,30 @@ describe('Test matchesClue', () => {
   it('with no dependency', () => {
     expect(matchesClue(defaultDialogue, [])).toBe(true);
     expect(matchesClue(defaultDialogue, ['1'])).toBe(true);
-  })
+  });
   it('with dependency', () => {
     expect(matchesClue(_new_leaf('1'), ['1'])).toBe(true);
     expect(matchesClue(_new_leaf('1'), ['2'])).toBe(false);
-  })
-})
+  });
+});
 
 describe('Test nodeVisible', () => {
-  const rootNode = _new_node('Root', [
-    _new_node('a', [], [_new_leaf('2')]),
-    _new_node('b'),
-  ], [_new_leaf('1')]);
+  const rootNode = _new_node(
+    'Root',
+    [_new_node('a', [], [_new_leaf('2')]), _new_node('b')],
+    [_new_leaf('1')],
+  );
 
   it('find end node', () => {
     expect(nodeVisible(rootNode.children[0], ['2'])).toBe(true);
-  })
+  });
   it('find empty node', () => {
     expect(nodeVisible(rootNode.children[1], [])).toBe(false);
-  })
+  });
   it('find node with child matches', () => {
     expect(nodeVisible(rootNode, ['2'])).toBe(true);
-  })
+  });
   it('find node has children that matches', () => {
     expect(nodeVisible(rootNode, ['1'])).toBe(true);
-  })
-})
+  });
+});

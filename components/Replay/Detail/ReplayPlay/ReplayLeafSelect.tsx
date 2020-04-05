@@ -64,7 +64,8 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   pushClues: (clues: Array<string>) =>
     dispatch(replayReducer.actions.pushClues(clues)),
   pushLog: (log: number) => dispatch(replayReducer.actions.logs.push(log)),
-  setTimeSolved: () => dispatch(replayReducer.actions.timeSolved.set((new Date()).toISOString())),
+  setTimeSolved: () =>
+    dispatch(replayReducer.actions.timeSolved.set(new Date().toISOString())),
   clearPath: () => dispatch(replayReducer.actions.path.empty()),
 });
 

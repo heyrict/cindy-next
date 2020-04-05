@@ -61,9 +61,9 @@ export function findNodeWithPath<T>(
 }
 
 export const matchesClue = (leaf: KeywordTreeLeafType, clues: Array<string>) =>
-  leaf.dependency ? clues.findIndex(clue =>
-    clue === leaf.dependency,
-  ) >= 0 : true;
+  leaf.dependency
+    ? clues.findIndex(clue => clue === leaf.dependency) >= 0
+    : true;
 
 export function nodeVisible(
   rootNode: KeywordTreeNodeType<KeywordTreeLeafType>,

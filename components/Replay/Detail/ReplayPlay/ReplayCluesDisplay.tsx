@@ -37,7 +37,8 @@ const ReplayCluesDisplay = ({ milestones, clues }: ReplayCluesDisplayProps) =>
             <React.Fragment key={`replay-clue-${clue}`}>
               {milestone ? <ClueDisplay milestone={milestone} /> : null}
             </React.Fragment>
-          )})}
+          );
+        })}
       </Flex>
     </>
   ) : null;

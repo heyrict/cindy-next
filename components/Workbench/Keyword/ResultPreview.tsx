@@ -17,13 +17,14 @@ const Tree = dynamic(() => import('react-d3-tree'), {
 
 const dialogueSelector = createSelector(
   (state: StateType) => addReplayReducer.rootSelector(state).replayDialogues,
-  dialogues => dialogues.map(dialogue => ({
-    ...dialogue,
-    question_keywords: dialogue.question_keywords.concat({
-      name: dialogue.question,
-      tfidf_index: 0,
-    }),
-  })),
+  dialogues =>
+    dialogues.map(dialogue => ({
+      ...dialogue,
+      question_keywords: dialogue.question_keywords.concat({
+        name: dialogue.question,
+        tfidf_index: 0,
+      }),
+    })),
 );
 
 const treeSelector = createSelector(

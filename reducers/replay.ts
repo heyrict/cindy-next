@@ -90,8 +90,7 @@ export const reducer = (
     case actionTypes.PUSH_CLUES:
       let clues = [...state.clues];
       action.payload.clues.forEach(clue => {
-        if (clues.findIndex(c => c === clue) === -1)
-          clues.push(clue);
+        if (clues.findIndex(c => c === clue) === -1) clues.push(clue);
       });
       return {
         ...state,
