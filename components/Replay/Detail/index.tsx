@@ -3,12 +3,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as replayReducer from 'reducers/replay';
 
-import Box from 'components/General/Box';
 import Flex from 'components/General/Flex';
 import Img from 'components/General/Img';
 import { PuzzleTitleBase } from 'components/Puzzle/Detail/PuzzleTitle';
 import ContentsFrame from 'components/Puzzle/Detail/ContentsFrame';
-import ReplayPlay from './ReplayPlay';
 import ReplayLogs from './ReplayLogs';
 import SolutionFrame from './SolutionFrame';
 import replayIcon from 'svgs/puzzleDetailReplay.svg';
@@ -45,9 +43,6 @@ const ReplayDetail = ({ replay, constructTree }: ReplayDetailProps) => {
         created={replay.created}
       />
       <ReplayLogs dialogues={replay.sui_hei_replay_dialogues} />
-      <Box width={1}>
-        <ReplayPlay milestones={replay.milestones} />
-      </Box>
       <SolutionFrame replay={replay} />
     </Flex>
   );

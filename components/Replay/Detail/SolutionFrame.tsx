@@ -3,10 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as replayReducer from 'reducers/replay';
 
-import { SolutionFrameProps } from './types';
+import Box from 'components/General/Box';
 import ContentsFrame from 'components/Puzzle/Detail/ContentsFrame';
+import ReplayPlay from './ReplayPlay';
 
 import { StateType } from 'reducers/types';
+import { SolutionFrameProps } from './types';
 
 const SolutionFrame = ({ replay, timeSolved }: SolutionFrameProps) =>
   timeSolved ? (
@@ -15,7 +17,11 @@ const SolutionFrame = ({ replay, timeSolved }: SolutionFrameProps) =>
       user={replay.sui_hei_user}
       solved={timeSolved}
     />
-  ) : null;
+  ) : (
+    <Box width={1}>
+      <ReplayPlay milestones={replay.milestones} />
+    </Box>
+  );
 
 const mapStateToProps = (state: StateType) => ({
   timeSolved: replayReducer.rootSelector(state).timeSolved,

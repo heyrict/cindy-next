@@ -20,6 +20,7 @@ export type ReplayLeafSelectProps = {
   leaves?: Array<KeywordTreeLeafType>;
   pushClues: (clues: Array<string>) => void;
   pushLog: (log: number) => void;
+  setTimeSolved: () => void;
   clearPath: () => void;
 };
 

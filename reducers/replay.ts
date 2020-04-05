@@ -20,6 +20,7 @@ export enum actionTypes {
   TREE = 'replay.TREE',
   PATH = 'replay.PATH',
   CLUES = 'replay.CLUES',
+  PUSH_CLUES = 'replay.PUSH_CLUES',
   LOGS = 'replay.LOGS',
   TIME_SOLVED = 'replay.TIME_SOLVED',
   RESET = 'replay.RESET',
@@ -31,6 +32,7 @@ export type ActionPayloadType = {
   TREE: ReturnType<ValueOf<base.HelperActionType<TreeType>>>;
   PATH: ReturnType<ValueOf<array.HelperActionType<string>>>;
   CLUES: ReturnType<ValueOf<array.HelperActionType<string>>>;
+  PUSH_CLUES: { clues: Array<string> };
   TIME_SOLVED: ReturnType<ValueOf<base.HelperActionType<string | undefined>>>;
   RESET: undefined;
   CONSTRUCT_TREE: { dialogues: Array<ReplayDialogueType> };
@@ -40,6 +42,10 @@ export const actions = {
   tree: base.wrapActions<TreeType>(actionTypes.TREE),
   path: array.wrapActions<string>(actionTypes.PATH),
   clues: array.wrapActions<string>(actionTypes.CLUES),
+  pushClues: (clues: Array<string>) => ({
+    type: actionTypes.PUSH_CLUES,
+    payload: { clues },
+  }),
   logs: array.wrapActions<number>(actionTypes.LOGS),
   timeSolved: base.wrapActions<string>(actionTypes.TIME_SOLVED),
   reset: () => ({ type: actionTypes.RESET }),
@@ -80,6 +86,16 @@ export const reducer = (
       return {
         ...state,
         clues: array.helper(state.clues, action.payload),
+      };
+    case actionTypes.PUSH_CLUES:
+      let clues = [...state.clues];
+      action.payload.clues.forEach(clue => {
+        if (clues.findIndex(c => c === clue) === -1)
+          clues.push(clue);
+      });
+      return {
+        ...state,
+        clues,
       };
     case actionTypes.LOGS:
       return {

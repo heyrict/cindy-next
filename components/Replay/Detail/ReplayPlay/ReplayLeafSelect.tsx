@@ -15,6 +15,7 @@ const ReplayLeafSelect = ({
   leaves,
   pushClues,
   pushLog,
+  setTimeSolved,
   clearPath,
 }: ReplayLeafSelectProps) =>
   leaves && leaves.length > 0 ? (
@@ -43,6 +44,7 @@ const ReplayLeafSelect = ({
             onClick={() => {
               pushLog(leaf.id);
               if (leaf.milestones) pushClues(leaf.milestones);
+              if (leaf.true) setTimeSolved();
               clearPath();
             }}
             mr={1}
@@ -60,8 +62,9 @@ const mapStateToProps = (state: StateType) => ({
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   pushClues: (clues: Array<string>) =>
-    dispatch(replayReducer.actions.clues.push(clues)),
+    dispatch(replayReducer.actions.pushClues(clues)),
   pushLog: (log: number) => dispatch(replayReducer.actions.logs.push(log)),
+  setTimeSolved: () => dispatch(replayReducer.actions.timeSolved.set((new Date()).toISOString())),
   clearPath: () => dispatch(replayReducer.actions.path.empty()),
 });
 

@@ -33,8 +33,11 @@ const ReplayCluesDisplay = ({ milestones, clues }: ReplayCluesDisplayProps) =>
       >
         {clues.map(clue => {
           let milestone = milestones.find(m => (m.handle = clue));
-          return milestone ? <ClueDisplay milestone={milestone} /> : null;
-        })}
+          return (
+            <React.Fragment key={`replay-clue-${clue}`}>
+              {milestone ? <ClueDisplay milestone={milestone} /> : null}
+            </React.Fragment>
+          )})}
       </Flex>
     </>
   ) : null;
