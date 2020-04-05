@@ -11,6 +11,7 @@ import {
   AddReplayModeType,
   ValueOf,
   MilestoneType,
+  AddReplayDialogueType,
 } from './types';
 
 import { mergeNeighbor } from 'common/replay';
@@ -20,6 +21,7 @@ export const scope = 'addReplay';
 export enum actionTypes {
   COUNT_FILTER_INPUT = 'addReplay.COUNT_FILTER_INPUT',
   REPLAY_DIALOGUES = 'addReplay.REPLAY_DIALOGUES',
+  ADD_REPLAY_DIALOGUE = 'addReplay.ADD_REPLAY_DIALOGUE',
   KUROMOJI_PROGRESS = 'addReplay.KUROMOJI_PROGRESS',
   KEYWORDS_TOGGLE = 'addReplay.KEYWORDS_TOGGLE',
   KEYWORDS_USEMINCOUNT = 'addReplay.KEYWORDS_USEMINCOUNT',
@@ -57,6 +59,9 @@ export type ActionPayloadType = {
   REPLAY_DIALOGUES: ReturnType<
     ValueOf<array.HelperActionType<ReplayDialogueType>>
   >;
+  ADD_REPLAY_DIALOGUE: {
+    dialogue: AddReplayDialogueType;
+  };
   KUROMOJI_PROGRESS: ReturnType<ValueOf<base.HelperActionType<number>>>;
   KEYWORD_MANIPULATE_PANEL: ReturnType<
     ValueOf<base.HelperActionType<AddReplayPanelType>>
@@ -88,6 +93,10 @@ export const actions = {
   replayDialogues: array.wrapActions<ReplayDialogueType>(
     actionTypes.REPLAY_DIALOGUES,
   ),
+  addReplayDialogue: (dialogue: AddReplayDialogueType) => ({
+    type: actionTypes.ADD_REPLAY_DIALOGUE,
+    payload: { dialogue },
+  }),
   kuromojiProgress: base.wrapActions<number>(actionTypes.KUROMOJI_PROGRESS),
   keywordManipulatePanel: base.wrapActions<AddReplayPanelType>(
     actionTypes.KEYWORD_MANIPULATE_PANEL,
@@ -283,6 +292,23 @@ export const reducer = (
       return {
         ...state,
         replayDialogues: array.helper(state.replayDialogues, action.payload),
+      };
+    case actionTypes.ADD_REPLAY_DIALOGUE:
+      const maxId = Math.max(...state.replayDialogues.map(d => d.id));
+      const maxQno = Math.max(...state.replayDialogues.map(d => d.qno || 0));
+      return {
+        ...state,
+        replayDialogues: [
+          ...state.replayDialogues,
+          {
+            id: maxId + 1,
+            qno: maxQno + 1,
+            milestones: [],
+            dependency: '',
+            question_keywords: [],
+            ...action.payload.dialogue,
+          },
+        ],
       };
     case actionTypes.MODE:
       return {

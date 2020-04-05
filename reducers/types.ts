@@ -50,6 +50,11 @@ export type ReplayDialogueType = {
   question_keywords: Array<ReplayKeywordType>;
 };
 
+export type AddReplayDialogueType = Pick<
+  ReplayDialogueType,
+  'question' | 'answer' | 'good' | 'true'
+>;
+
 export type GlobalUserType = {
   id?: number;
   icon?: string | null;

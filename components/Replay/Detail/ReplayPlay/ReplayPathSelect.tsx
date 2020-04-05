@@ -15,7 +15,6 @@ const PathSelectButton = styled.button`
   color: ${p => p.theme.colors.gray[1]};
   display: inline-flex;
   align-items: center;
-  margin-right: 0.5em;
 `;
 
 const ReplayPathSelect = ({ path, setPath }: ReplayPathSelectProps) => (

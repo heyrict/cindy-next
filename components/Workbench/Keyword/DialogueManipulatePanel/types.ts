@@ -1,4 +1,8 @@
-import { ReplayDialogueType, ReplayKeywordType } from 'reducers/types';
+import {
+  ReplayDialogueType,
+  ReplayKeywordType,
+  AddReplayDialogueType,
+} from 'reducers/types';
 import { KeywordType } from 'components/Workbench/Keyword/shared/types';
 
 export type DialogueManipulatePanelProps = {
@@ -56,4 +60,8 @@ export type DialogueKeywordQuestionEditBoxProps = {
   content: string;
   onSubmit: (newContent: string) => void;
   children?: React.ReactNode;
+};
+
+export type DialogueAddProps = {
+  addDialogue: (dialogue: AddReplayDialogueType) => void;
 };

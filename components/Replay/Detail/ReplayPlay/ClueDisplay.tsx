@@ -34,6 +34,7 @@ const ClueDisplay = ({ milestone }: ClueDisplayProps) => {
         {({ ref }) => (
           <AnchorButton
             style={{ userSelect: 'none' }}
+            mr={1}
             ref={(r: HTMLButtonElement) => {
               ref(r);
               btnRef.current = r;

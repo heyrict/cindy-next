@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DialogueManipulate from './DialogueManipulate';
+import DialogueAdd from './DialogueAdd';
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -17,6 +18,7 @@ const DialogueManipulatePanel = ({
       {replayDialogueIds.map(dialogueId => (
         <DialogueManipulate key={dialogueId} dialogueId={dialogueId} />
       ))}
+      <DialogueAdd />
     </React.Fragment>
   );
 };
