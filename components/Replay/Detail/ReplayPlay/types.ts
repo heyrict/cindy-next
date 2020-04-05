@@ -1,4 +1,5 @@
 import { KeywordTreeLeafType } from 'components/Workbench/Keyword/types';
+import { MilestoneType } from 'reducers/types';
 
 export type ReplayPathSelectProps = {
   path: Array<string>;
@@ -12,6 +13,7 @@ export type ReplayKeywordSelectProps = {
 
 export type ReplayPlayProps = {
   treeLoaded: boolean;
+  milestones: Array<MilestoneType>;
 };
 
 export type ReplayLeafSelectProps = {
@@ -19,4 +21,13 @@ export type ReplayLeafSelectProps = {
   pushClues: (clues: Array<string>) => void;
   pushLog: (log: number) => void;
   clearPath: () => void;
+};
+
+export type ReplayCluesDisplayProps = {
+  milestones: Array<MilestoneType>;
+  clues: Array<string>;
+};
+
+export type ClueDisplayProps = {
+  milestone: MilestoneType;
 };

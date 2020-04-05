@@ -25,3 +25,8 @@ export type ReplayLogProps = {
   dialogue?: ReplayQuery_sui_hei_replay_by_pk_sui_hei_replay_dialogues;
   qno: number;
 };
+
+export type SolutionFrameProps = {
+  replay: ReplayQuery_sui_hei_replay_by_pk;
+  timeSolved?: string;
+};

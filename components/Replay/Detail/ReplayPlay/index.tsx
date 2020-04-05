@@ -7,13 +7,15 @@ import Flex from 'components/General/Flex';
 import ReplayPathSelect from './ReplayPathSelect';
 import ReplayKeywordSelect from './ReplayKeywordSelect';
 import ReplayLeafSelect from './ReplayLeafSelect';
+import ReplayCluesDisplay from './ReplayCluesDisplay';
 
 import { ReplayPlayProps } from './types';
 import { StateType } from 'reducers/types';
 
-const ReplayPlay = ({ treeLoaded }: ReplayPlayProps) =>
+const ReplayPlay = ({ treeLoaded, milestones }: ReplayPlayProps) =>
   treeLoaded ? (
     <Flex mx={2} flexWrap="wrap">
+      <ReplayCluesDisplay milestones={milestones} />
       <ReplayPathSelect />
       <ReplayKeywordSelect />
       <ReplayLeafSelect />

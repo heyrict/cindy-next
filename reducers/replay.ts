@@ -21,6 +21,7 @@ export enum actionTypes {
   PATH = 'replay.PATH',
   CLUES = 'replay.CLUES',
   LOGS = 'replay.LOGS',
+  TIME_SOLVED = 'replay.TIME_SOLVED',
   RESET = 'replay.RESET',
   // Signals
   CONSTRUCT_TREE = 'replay.CONSTRUCT_TREE',
@@ -30,6 +31,7 @@ export type ActionPayloadType = {
   TREE: ReturnType<ValueOf<base.HelperActionType<TreeType>>>;
   PATH: ReturnType<ValueOf<array.HelperActionType<string>>>;
   CLUES: ReturnType<ValueOf<array.HelperActionType<string>>>;
+  TIME_SOLVED: ReturnType<ValueOf<base.HelperActionType<string | undefined>>>;
   RESET: undefined;
   CONSTRUCT_TREE: { dialogues: Array<ReplayDialogueType> };
 };
@@ -39,6 +41,7 @@ export const actions = {
   path: array.wrapActions<string>(actionTypes.PATH),
   clues: array.wrapActions<string>(actionTypes.CLUES),
   logs: array.wrapActions<number>(actionTypes.LOGS),
+  timeSolved: base.wrapActions<string>(actionTypes.TIME_SOLVED),
   reset: () => ({ type: actionTypes.RESET }),
   // Signals
   constructTree: (dialogues: Array<ReplayDialogueType>) => ({
@@ -55,6 +58,7 @@ export const initialState = {
   path: [] as Array<string>,
   clues: [] as Array<string>,
   logs: [] as Array<number>,
+  timeSolved: undefined as undefined | string,
 };
 
 export const reducer = (
@@ -81,6 +85,11 @@ export const reducer = (
       return {
         ...state,
         logs: array.helper(state.logs, action.payload),
+      };
+    case actionTypes.TIME_SOLVED:
+      return {
+        ...state,
+        timeSolved: base.helper(state.timeSolved, action.payload),
       };
     case actionTypes.RESET:
       return initialState;

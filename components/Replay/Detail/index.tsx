@@ -10,6 +10,7 @@ import { PuzzleTitleBase } from 'components/Puzzle/Detail/PuzzleTitle';
 import ContentsFrame from 'components/Puzzle/Detail/ContentsFrame';
 import ReplayPlay from './ReplayPlay';
 import ReplayLogs from './ReplayLogs';
+import SolutionFrame from './SolutionFrame';
 import replayIcon from 'svgs/puzzleDetailReplay.svg';
 
 import { ReplayDetailProps } from './types';
@@ -45,8 +46,9 @@ const ReplayDetail = ({ replay, constructTree }: ReplayDetailProps) => {
       />
       <ReplayLogs dialogues={replay.sui_hei_replay_dialogues} />
       <Box width={1}>
-        <ReplayPlay />
+        <ReplayPlay milestones={replay.milestones} />
       </Box>
+      <SolutionFrame replay={replay} />
     </Flex>
   );
 };
