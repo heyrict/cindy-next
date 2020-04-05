@@ -5,7 +5,7 @@ import * as HelperPayloadTypes from './payloadTypes';
 
 export type HelperActionType<V = any> = {
   set: (array: Array<V>) => HelperPayloadTypes.SET<V>;
-  push: (value: V) => HelperPayloadTypes.PUSH<V>;
+  push: (value: V | Array<V>) => HelperPayloadTypes.PUSH<V>;
   pop: (value?: V) => HelperPayloadTypes.POP<V>;
   insert: (index: number, value: V) => HelperPayloadTypes.INSERT<V>;
   update: (

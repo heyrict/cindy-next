@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
-import * as replayReducer from 'reducers/replay';
+import { treeLoadedSelector } from './selectors';
 
 import Flex from 'components/General/Flex';
 import ReplayPathSelect from './ReplayPathSelect';
 import ReplayKeywordSelect from './ReplayKeywordSelect';
+import ReplayLeafSelect from './ReplayLeafSelect';
 
 import { ReplayPlayProps } from './types';
 import { StateType } from 'reducers/types';
@@ -16,13 +16,9 @@ const ReplayPlay = ({ treeLoaded }: ReplayPlayProps) =>
     <Flex mx={2} flexWrap="wrap">
       <ReplayPathSelect />
       <ReplayKeywordSelect />
+      <ReplayLeafSelect />
     </Flex>
   ) : null;
-
-const treeLoadedSelector = createSelector(
-  (state: StateType) => replayReducer.rootSelector(state).tree,
-  tree => tree !== undefined,
-);
 
 const mapStateToProps = (state: StateType) => ({
   treeLoaded: treeLoadedSelector(state),

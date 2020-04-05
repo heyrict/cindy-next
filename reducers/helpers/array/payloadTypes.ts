@@ -6,7 +6,7 @@ export type SET<T> = {
 };
 export type PUSH<T> = {
   type: actionTypes.PUSH;
-  value: T;
+  value: T | Array<T>;
 };
 export type POP<T> = {
   type: actionTypes.POP;

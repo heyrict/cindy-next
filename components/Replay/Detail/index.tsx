@@ -9,6 +9,7 @@ import Img from 'components/General/Img';
 import { PuzzleTitleBase } from 'components/Puzzle/Detail/PuzzleTitle';
 import ContentsFrame from 'components/Puzzle/Detail/ContentsFrame';
 import ReplayPlay from './ReplayPlay';
+import ReplayLogs from './ReplayLogs';
 import replayIcon from 'svgs/puzzleDetailReplay.svg';
 
 import { ReplayDetailProps } from './types';
@@ -19,11 +20,17 @@ const ReplayDetail = ({ replay, constructTree }: ReplayDetailProps) => {
   useEffect(() => {
     constructTree(
       replay.sui_hei_replay_dialogues.map(d => ({
-        ...d,
+        id: d.id,
+        question: d.question,
+        answer: d.answer,
+        good: d.good,
+        true: d.true,
+        milestones: d.milestones,
+        dependency: d.dependency,
         question_keywords: d.keywords.map((name: string) => ({ name })),
       })),
     );
-  }, []);
+  }, [replay.id]);
 
   return (
     <Flex flexWrap="wrap" justifyContent="center" alignItems="center">
@@ -36,6 +43,7 @@ const ReplayDetail = ({ replay, constructTree }: ReplayDetailProps) => {
         user={replay.sui_hei_user}
         created={replay.created}
       />
+      <ReplayLogs dialogues={replay.sui_hei_replay_dialogues} />
       <Box width={1}>
         <ReplayPlay />
       </Box>

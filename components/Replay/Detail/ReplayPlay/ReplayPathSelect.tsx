@@ -31,15 +31,14 @@ const ReplayPathSelect = ({ path, setPath }: ReplayPathSelectProps) => (
     <PathSelectButton onClick={() => setPath([])}>●</PathSelectButton>
     <Box display="inline-box" px={1} color="gray.1">»</Box>
     {path.map((kw, index) => (
-      <>
+      <React.Fragment key={`${kw}-${index}`}>
         <PathSelectButton
-          key={`${kw}-${index}`}
           onClick={() => setPath(path.slice(0, index + 1))}
         >
           {kw}
         </PathSelectButton>
         <Box display="inline-box" px={1} color="gray.1">»</Box>
-      </>
+      </React.Fragment>
     ))}
   </Flex>
 );

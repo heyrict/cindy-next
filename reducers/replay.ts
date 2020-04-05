@@ -20,6 +20,7 @@ export enum actionTypes {
   TREE = 'replay.TREE',
   PATH = 'replay.PATH',
   CLUES = 'replay.CLUES',
+  LOGS = 'replay.LOGS',
   RESET = 'replay.RESET',
   // Signals
   CONSTRUCT_TREE = 'replay.CONSTRUCT_TREE',
@@ -37,6 +38,7 @@ export const actions = {
   tree: base.wrapActions<TreeType>(actionTypes.TREE),
   path: array.wrapActions<string>(actionTypes.PATH),
   clues: array.wrapActions<string>(actionTypes.CLUES),
+  logs: array.wrapActions<number>(actionTypes.LOGS),
   reset: () => ({ type: actionTypes.RESET }),
   // Signals
   constructTree: (dialogues: Array<ReplayDialogueType>) => ({
@@ -52,6 +54,7 @@ export const initialState = {
   tree: undefined as TreeType,
   path: [] as Array<string>,
   clues: [] as Array<string>,
+  logs: [] as Array<number>,
 };
 
 export const reducer = (
@@ -73,6 +76,11 @@ export const reducer = (
       return {
         ...state,
         clues: array.helper(state.clues, action.payload),
+      };
+    case actionTypes.LOGS:
+      return {
+        ...state,
+        logs: array.helper(state.logs, action.payload),
       };
     case actionTypes.RESET:
       return initialState;

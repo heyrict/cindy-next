@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  findNodeWithPath,
-  nodeVisible,
-} from 'components/Workbench/Keyword/common';
 
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 import * as replayReducer from 'reducers/replay';
+import { keywordsSelector } from './selectors';
 
 import Flex from 'components/General/Flex';
 import Box from 'components/General/Box';
@@ -14,23 +10,6 @@ import ButtonTransparent from 'components/General/ButtonTransparent';
 
 import { StateType, ActionContentType } from 'reducers/types';
 import { ReplayKeywordSelectProps } from './types';
-
-const currentNodeSelector = createSelector(
-  (state: StateType) => replayReducer.rootSelector(state).tree,
-  (state: StateType) => replayReducer.rootSelector(state).path,
-  (tree, path) => (tree ? findNodeWithPath(tree, path) : undefined),
-);
-
-const keywordsSelector = createSelector(
-  (state: StateType) => currentNodeSelector(state),
-  (state: StateType) => replayReducer.rootSelector(state).clues,
-  (currentNode, clues) =>
-    currentNode
-      ? currentNode.children
-          .filter(node => nodeVisible(node, clues))
-          .map(node => node.name)
-      : undefined,
-);
 
 const ReplayKeywordSelect = ({
   keywords,
