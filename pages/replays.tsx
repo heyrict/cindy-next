@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 
 import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
-import searchMessages from 'messages/pages/search';
+import replaysPageMessages from 'messages/pages/replays';
 
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
 import { REPLAY_LIST_QUERY } from 'graphql/Queries/Replay';
@@ -23,11 +23,11 @@ const Replays = ({ intl }: { intl: IntlShape }) => {
   return (
     <React.Fragment>
       <Head>
-        <title>{_(searchMessages.title)} | Cindy</title>
-        <meta name="description" content={_(searchMessages.description)} />
+        <title>{_(replaysPageMessages.title)} | Cindy</title>
+        <meta name="description" content={_(replaysPageMessages.description)} />
       </Head>
       <Heading>
-        <FormattedMessage {...searchMessages.header} />
+        <FormattedMessage {...replaysPageMessages.header} />
       </Heading>
       <PuzzleSubbar />
       <Flex flexWrap="wrap">
