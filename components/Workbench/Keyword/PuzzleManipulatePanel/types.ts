@@ -10,4 +10,5 @@ export type ReplaySubmitButtonProps = {
   title: string;
   replayDialogues: Array<ReplayDialogueType>;
   milestones: Array<MilestoneType>;
+  clearStorage: (id: number) => void;
 };

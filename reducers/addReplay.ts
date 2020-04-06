@@ -82,6 +82,7 @@ export type ActionPayloadType = {
   MERGE_TO: ReturnType<ValueOf<base.HelperActionType<string>>>;
   STORAGE:
     | { action: 'SAVE'; id: number }
+    | { action: 'CLEAR'; id: number }
     | { action: 'LOAD'; id: number; init: () => Promise<any> };
   PUZZLE_ID: ReturnType<ValueOf<base.HelperActionType<number>>>;
   SOLUTION: ReturnType<ValueOf<base.HelperActionType<string>>>;
@@ -235,6 +236,14 @@ export const actions = {
       type: actionTypes.STORAGE,
       payload: {
         action: 'SAVE',
+        id,
+      },
+    } as const),
+  clearStorage: (id: number) =>
+    ({
+      type: actionTypes.STORAGE,
+      payload: {
+        action: 'CLEAR',
         id,
       },
     } as const),

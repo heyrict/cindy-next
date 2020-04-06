@@ -27,6 +27,7 @@ const ReplaySubmitButton = ({
   milestones,
   replayDialogues,
   puzzleId,
+  clearStorage,
 }: ReplaySubmitButtonProps) => {
   const [submitting, setSubmitting] = useState(false);
   return (
@@ -79,7 +80,7 @@ const ReplaySubmitButton = ({
                   toast.info(
                     <FormattedMessage {...commonMessages.submitted} />,
                   );
-                  // TODO clear saved local data
+                  clearStorage(puzzleId);
                   Router.push('/replay/[id]', `/replay/${replay.id}`);
                 })
                 .catch((error: ApolloError) => {
@@ -106,6 +107,8 @@ const mapStateToProps = (state: StateType) => ({
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setTitle: (title: string) =>
     dispatch(addReplayReducer.actions.title.set(title)),
+  clearStorage: (id: number) =>
+    dispatch(addReplayReducer.actions.clearStorage(id)),
 });
 
 const withRedux = connect(

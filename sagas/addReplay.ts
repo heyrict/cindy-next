@@ -26,15 +26,23 @@ function* updateKeywordCounter() {
   yield put(addReplayReducer.actions.keywordCounter.set(keywordCounter));
 }
 
-function* handleStorage(action: ActionContentType) {
-  let payload:
-    | { action: 'SAVE'; id: number }
-    | { action: 'LOAD'; id: number; init: () => Promise<any> } = action.payload;
+function* handleStorage(
+  action: ActionContentType<
+    Pick<typeof addReplayReducer.actionTypes, 'STORAGE'>,
+    addReplayReducer.ActionPayloadType
+  >,
+) {
+  let payload = action.payload;
 
-  if (payload.action === 'SAVE') {
-    yield saveProgress(payload.id);
-  } else {
-    yield loadProgress(payload.id, payload.init);
+  switch (payload.action) {
+    case 'SAVE':
+      yield saveProgress(payload.id);
+      break;
+    case 'LOAD':
+      yield loadProgress(payload.id, payload.init);
+      break;
+    case 'CLEAR':
+      yield clearProgress(payload.id);
   }
 }
 
@@ -77,6 +85,15 @@ function* loadProgress(id: number, init: () => Promise<any>) {
   } else {
     yield call(init);
   }
+}
+
+function* clearProgress(id: number) {
+  const replaySavedStore = getHashStore(
+    REPLAY_SAVED_CHANGES_HASHSTORE_KEY,
+  ) as ReplaySavedStoreType;
+
+  delete replaySavedStore[id];
+  setHashStore(REPLAY_SAVED_CHANGES_HASHSTORE_KEY, replaySavedStore);
 }
 
 function* addReplayRootSaga() {
