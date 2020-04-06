@@ -14,7 +14,7 @@ const ReplayLogs = ({ dialogues, logs }: ReplayLogsProps) => (
     {logs.map((log, index) => (
       <ReplayLog
         key={`replay-log-${index}-${log}`}
-        qno={index}
+        qno={index + 1}
         dialogue={dialogues.find(d => d.id === log)}
       />
     ))}

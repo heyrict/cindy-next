@@ -2,6 +2,7 @@ import styled from 'theme/styled';
 
 import { Box } from 'components/General';
 import ChatBubble from 'components/Chat/Chatmessage/ChatBubble';
+import ChatBubbleTop from 'components/Chat/Chatmessage/ChatBubbleTop';
 import QuestionDisplay from 'components/Puzzle/Detail/PuzzleDialogues/PuzzleDialogueQuestion/QuestionDisplay';
 import AnswerDisplay from 'components/Puzzle/Detail/PuzzleDialogues/PuzzleDialogueAnswer/AnswerDisplay';
 import IndexLabel from 'components/Puzzle/Detail/PuzzleDialogues/IndexLabel';
@@ -18,12 +19,18 @@ const ReplayLog = ({ dialogue, qno }: ReplayLogProps) =>
     <>
       <Box width={[7 / 8, 1 / 2]} mr="auto" mb={[-2, 0]}>
         <IdBlock id={`Q${qno}`} />
+        <ChatBubbleTop>
+          <IndexLabel>Q{qno}</IndexLabel>
+          {dialogue.keywords.join(' ')}
+        </ChatBubbleTop>
         <ChatBubble orientation="left">
-          {qno && <IndexLabel>Q{qno}</IndexLabel>}
           <QuestionDisplay question={dialogue.question} questionEditTimes={0} />
         </ChatBubble>
       </Box>
       <Box width={[7 / 8, 1 / 2]} ml="auto" mt={[-2, 0]} mb={[1, 0]}>
+        <ChatBubbleTop>
+          <IndexLabel>A{qno}</IndexLabel>
+        </ChatBubbleTop>
         <ChatBubble orientation="right">
           <AnswerDisplay
             goodAns={dialogue.good}
