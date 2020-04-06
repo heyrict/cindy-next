@@ -3,6 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as replayReducer from 'reducers/replay';
 
+import { FormattedMessage } from 'react-intl';
+import replayMessages from 'messages/components/replay';
+
 import Flex from 'components/General/Flex';
 import Box from 'components/General/Box';
 import ClueDisplay from './ClueDisplay';
@@ -20,7 +23,7 @@ const ReplayCluesDisplay = ({ milestones, clues }: ReplayCluesDisplayProps) =>
         px={2}
         color="indigo.1"
       >
-        Clues
+        <FormattedMessage {...replayMessages.clue} />
       </Box>
       <Flex
         flexWrap="wrap"

@@ -3,6 +3,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
 
+import { FormattedMessage } from 'react-intl';
+import puzzleMessages from 'messages/components/puzzle';
+
 import { Flex, Box, Input, ButtonTransparent, Img } from 'components/General';
 import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
@@ -21,7 +24,9 @@ const ReplayMetaEdit = ({ title, setTitle }: ReplayMetaEditProps) => {
 
   return (
     <Flex width={1} minHeight="3em" alignItems="center">
-      <Box mr={2}>Title</Box>
+      <Box mr={2}>
+        <FormattedMessage {...puzzleMessages.title} />
+      </Box>
       <Input hidden={!edit} style={{ flexGrow: 1 }} ref={inputRef} />
       {edit ? (
         <>

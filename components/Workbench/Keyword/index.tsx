@@ -2,16 +2,17 @@ import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useApolloClient } from '@apollo/react-hooks';
 import { TOKENIZE_SERVER } from 'settings';
+import { counter } from './common';
 
 import { connect } from 'react-redux';
 import * as addReplayReducer from 'reducers/addReplay';
 
 import { PUZZLE_REPLAY_INFO_QUERY } from 'graphql/Queries/Puzzles';
 
-import { counter } from './common';
+import { FormattedMessage } from 'react-intl';
+import addReplayPageMessages from 'messages/pages/add_replay';
 
 import { Flex } from 'components/General';
-import Loading from 'components/General/Loading';
 import KuromojiProgress from './KuromojiProgress';
 import ModeSelectPanel from './ModeSelectPanel';
 import { Tfidf } from './tfidf';
@@ -45,7 +46,7 @@ const KeywordWorkbench = ({
   useEffect(() => {
     let handle = window.setInterval(() => {
       saveStorage(id);
-      toast.info('Autosaved', {
+      toast.info(<FormattedMessage {...addReplayPageMessages.autoSaved} />, {
         toastId: 'workbench-keyword-autosave',
       });
     }, SAVE_INTERVAL);
@@ -59,13 +60,12 @@ const KeywordWorkbench = ({
           query: PUZZLE_REPLAY_INFO_QUERY,
           variables: { id },
         })
-        .then(async ({ loading, errors, data }) => {
+        .then(async ({ errors, data }) => {
           if (errors) {
             toast.error(JSON.stringify(errors));
             return null;
           }
           if (!data || !data.sui_hei_puzzle_by_pk) {
-            if (loading) return <Loading centered />;
             return null;
           }
           const sui_hei_dialogues = data.sui_hei_puzzle_by_pk.sui_hei_dialogues;

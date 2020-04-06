@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import * as replayReducer from 'reducers/replay';
 import { leavesSelector } from './selectors';
 
+import { FormattedMessage } from 'react-intl';
+import dialogueMessages from 'messages/components/dialogue';
+
 import Flex from 'components/General/Flex';
 import Box from 'components/General/Box';
 import ButtonTransparent from 'components/General/ButtonTransparent';
@@ -27,7 +30,7 @@ const ReplayLeafSelect = ({
         px={2}
         color="lime.1"
       >
-        Leafs
+        <FormattedMessage {...dialogueMessages.question} />
       </Box>
       <Flex
         flexWrap="wrap"

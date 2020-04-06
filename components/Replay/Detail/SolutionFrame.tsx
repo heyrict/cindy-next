@@ -48,7 +48,7 @@ const SolutionFrame = ({
 
 const mapStateToProps = (state: StateType) => ({
   timeSolved: replayReducer.rootSelector(state).timeSolved,
-  puzzleGenreImage: settingReducer.rootSelector(state).puzzleGenreImg,
+  puzzleGenreImg: settingReducer.rootSelector(state).puzzleGenreImg,
 });
 
 const withRedux = connect(mapStateToProps);

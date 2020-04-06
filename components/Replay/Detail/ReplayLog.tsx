@@ -4,6 +4,7 @@ import { Box } from 'components/General';
 import ChatBubble from 'components/Chat/Chatmessage/ChatBubble';
 import QuestionDisplay from 'components/Puzzle/Detail/PuzzleDialogues/PuzzleDialogueQuestion/QuestionDisplay';
 import AnswerDisplay from 'components/Puzzle/Detail/PuzzleDialogues/PuzzleDialogueAnswer/AnswerDisplay';
+import IndexLabel from 'components/Puzzle/Detail/PuzzleDialogues/IndexLabel';
 
 import { ReplayLogProps } from './types';
 
@@ -18,6 +19,7 @@ const ReplayLog = ({ dialogue, qno }: ReplayLogProps) =>
       <Box width={[7 / 8, 1 / 2]} mr="auto" mb={[-2, 0]}>
         <IdBlock id={`Q${qno}`} />
         <ChatBubble orientation="left">
+          {qno && <IndexLabel>Q{qno}</IndexLabel>}
           <QuestionDisplay question={dialogue.question} questionEditTimes={0} />
         </ChatBubble>
       </Box>

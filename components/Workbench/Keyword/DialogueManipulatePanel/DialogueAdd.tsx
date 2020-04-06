@@ -6,6 +6,8 @@ import * as addReplayReducer from 'reducers/addReplay';
 
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
+import dialogueMessages from 'messages/components/dialogue';
+import commonMessages from 'messages/common';
 
 import { Flex, Box, Switch, ButtonTransparent, Img } from 'components/General';
 import { SimpleLegacyEditor } from 'components/PreviewEditor';
@@ -31,7 +33,9 @@ const DialogueAdd = ({ addDialogue }: DialogueAddProps) => {
       borderRadius={2}
       bg="pink.0"
     >
-      <Box width={1}>Question</Box>
+      <Box width={1}>
+        <FormattedMessage {...dialogueMessages.question} />
+      </Box>
       <Box
         width={1}
         borderWidth="2px"
@@ -42,7 +46,9 @@ const DialogueAdd = ({ addDialogue }: DialogueAddProps) => {
       >
         <SimpleLegacyEditor ref={questionEditor} />
       </Box>
-      <Box width={1}>Answer</Box>
+      <Box width={1}>
+        <FormattedMessage {...dialogueMessages.answer} />
+      </Box>
       <Box
         width={1}
         borderWidth="2px"
@@ -70,8 +76,26 @@ const DialogueAdd = ({ addDialogue }: DialogueAddProps) => {
             const question = questionEditor.current.getText().trim();
             const answer = answerEditor.current.getText().trim();
 
-            if (!question || !answer) {
-              toast.error('Question and Answer cannot be empty!');
+            if (!question) {
+              toast.error(
+                <FormattedMessage
+                  {...commonMessages.cannotBeEmptyErr}
+                  values={{
+                    name: <FormattedMessage {...dialogueMessages.question} />,
+                  }}
+                />,
+              );
+              return;
+            }
+            if (!answer) {
+              toast.error(
+                <FormattedMessage
+                  {...commonMessages.cannotBeEmptyErr}
+                  values={{
+                    name: <FormattedMessage {...dialogueMessages.answer} />,
+                  }}
+                />,
+              );
               return;
             }
 

@@ -6,8 +6,10 @@ import * as addReplayReducer from 'reducers/addReplay';
 
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
+import addReplayPageMessages from 'messages/pages/add_replay';
 
 import { Flex, ButtonTransparent, Img, Box } from 'components/General';
+import KeywordBox from '../shared/KeywordBox';
 import KeywordManipulate from './KeywordManipulate';
 import KeywordAdd from './KeywordAdd';
 import KeywordsEdit from './KeywordsEdit';
@@ -23,7 +25,6 @@ import {
   ActionContentType,
 } from 'reducers/types';
 import { DialogueManipulateProps, DialogueManipulateModeType } from './types';
-import KeywordBox from 'components/Workbench/Keyword/shared/KeywordBox';
 import { KeywordType } from 'components/Workbench/Keyword/shared/types';
 
 const NUM_RETAIN = 4;
@@ -150,7 +151,7 @@ const DialogueManipulate = ({
             }}
             height="1.2em"
           >
-            Auto
+            <FormattedMessage {...addReplayPageMessages.autoDel} />
           </ButtonTransparent>
         </KeywordBox>
       )}

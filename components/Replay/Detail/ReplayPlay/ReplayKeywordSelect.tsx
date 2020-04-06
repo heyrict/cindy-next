@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import * as replayReducer from 'reducers/replay';
 import { keywordsSelector } from './selectors';
 
+import { FormattedMessage } from 'react-intl';
+import replayMessages from 'messages/components/replay';
+
 import Flex from 'components/General/Flex';
 import Box from 'components/General/Box';
 import ButtonTransparent from 'components/General/ButtonTransparent';
@@ -24,7 +27,7 @@ const ReplayKeywordSelect = ({
         px={2}
         color="indigo.1"
       >
-        Keywords
+        <FormattedMessage {...replayMessages.keyword} />
       </Box>
       <Flex
         flexWrap="wrap"

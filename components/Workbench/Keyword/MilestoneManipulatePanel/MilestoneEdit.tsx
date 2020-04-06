@@ -1,6 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
+import { FormattedMessage } from 'react-intl';
+import replayMessages from 'messages/components/replay';
+import commonMessages from 'messages/common';
+
 import { Flex, Input, ButtonTransparent, Img, Box } from 'components/General';
 import { LegacyEditor } from 'components/PreviewEditor';
 import { stampNamespaces } from 'stamps';
@@ -83,7 +87,9 @@ const MilestoneEdit = ({
 
   return (
     <Flex m={2} flexWrap="wrap" width={1}>
-      <Box {...inputFieldNameStyle}>Handle</Box>
+      <Box {...inputFieldNameStyle}>
+        <FormattedMessage {...replayMessages.milestone_handle} />
+      </Box>
       <Box {...fieldContentStyle}>
         <Input
           disabled={mode !== MilestoneEditMode.ADD}
@@ -91,11 +97,15 @@ const MilestoneEdit = ({
           ref={inputHandleRef}
         />
       </Box>
-      <Box {...inputFieldNameStyle}>Name</Box>
+      <Box {...inputFieldNameStyle}>
+        <FormattedMessage {...replayMessages.milestone_name} />
+      </Box>
       <Box {...fieldContentStyle}>
         <Input {...fieldInputStyle} ref={inputNameRef} />
       </Box>
-      <Box {...inputFieldNameStyle}>Description</Box>
+      <Box {...inputFieldNameStyle}>
+        <FormattedMessage {...replayMessages.milestone_desc} />
+      </Box>
       <Box {...fieldContentStyle}>
         <LegacyEditor
           useNamespaces={[stampNamespaces.puzzle]}
@@ -109,7 +119,7 @@ const MilestoneEdit = ({
               py={1}
               width={1}
               onClick={() => {
-                toast.info('Deleted successfully!');
+                toast.info(<FormattedMessage {...commonMessages.deleted} />);
                 removeMilestone(milestone!.handle);
                 clear();
               }}
@@ -150,7 +160,7 @@ const MilestoneEdit = ({
                 let desc = descriptionEditor.current.getText().trim();
                 if (check(handle, name, desc)) {
                   editMilestone(handle, name, desc);
-                  toast.info('Saved successfully!');
+                  toast.info(<FormattedMessage {...commonMessages.saved} />);
                 }
               }}
             >
@@ -185,7 +195,7 @@ const MilestoneEdit = ({
                 let desc = descriptionEditor.current.getText().trim();
                 if (check(handle, name, desc)) {
                   if (addMilestone(handle, name, desc)) {
-                    toast.info('Saved successfully!');
+                    toast.info(<FormattedMessage {...commonMessages.saved} />);
                     clear();
                   }
                 }

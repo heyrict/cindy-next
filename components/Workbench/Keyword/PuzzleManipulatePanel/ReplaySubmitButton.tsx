@@ -7,6 +7,7 @@ import * as addReplayReducer from 'reducers/addReplay';
 
 import { FormattedMessage } from 'react-intl';
 import addPuzzleMessages from 'messages/pages/add_puzzle';
+import commonMessages from 'messages/common';
 
 import { Mutation } from '@apollo/react-components';
 import { ADD_REPLAY_MUTATION } from 'graphql/Mutations/Replay';
@@ -41,6 +42,7 @@ const ReplaySubmitButton = ({
             py={1}
             onClick={() => {
               if (submitting) return;
+              setSubmitting(true);
               addReplay({
                 variables: {
                   puzzleId,
@@ -58,7 +60,11 @@ const ReplaySubmitButton = ({
                 },
               })
                 .then(returns => {
-                  if (!returns) return;
+                  if (!returns) {
+                    toast.error('Error: no data returns');
+                    setSubmitting(false);
+                    return;
+                  }
                   const { data } = returns;
                   if (
                     !data ||
@@ -70,7 +76,9 @@ const ReplaySubmitButton = ({
                     return;
                   }
                   let replay = data.insert_sui_hei_replay.returning[0];
-                  toast.info('Submitted successfully!');
+                  toast.info(
+                    <FormattedMessage {...commonMessages.submitted} />,
+                  );
                   // TODO clear saved local data
                   Router.push('/replay/[id]', `/replay/${replay.id}`);
                 })
