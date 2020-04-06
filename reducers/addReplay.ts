@@ -52,6 +52,7 @@ export enum actionTypes {
   TITLE = 'addReplay.TITLE',
   PUZZLE_ID = 'addReplay.PUZZLE_ID',
   MILESTONES = 'addReplay.MILESTONES',
+  DIALOGUE_PATH = 'addReplay.DIALOGUE_PATH',
 }
 
 export type ActionPayloadType = {
@@ -87,6 +88,7 @@ export type ActionPayloadType = {
   PUZZLE_ID: ReturnType<ValueOf<base.HelperActionType<number>>>;
   SOLUTION: ReturnType<ValueOf<base.HelperActionType<string>>>;
   MILESTONES: ReturnType<ValueOf<array.HelperActionType<MilestoneType>>>;
+  DIALOGUE_PATH: ReturnType<ValueOf<array.HelperActionType<string>>>;
 };
 
 export const actions = {
@@ -130,6 +132,7 @@ export const actions = {
   title: base.wrapActions<string>(actionTypes.TITLE),
   puzzleId: base.wrapActions<number>(actionTypes.PUZZLE_ID),
   milestones: array.wrapActions<MilestoneType>(actionTypes.MILESTONES),
+  dialoguePath: array.wrapActions<string>(actionTypes.DIALOGUE_PATH),
   // Toggle selected keyword in panel
   toggleSelectedKeyword: (keyword: string, panel: AddReplayPanelType) =>
     ({
@@ -280,6 +283,7 @@ export const initialState = {
   title: '',
   puzzleId: -1,
   milestones: [] as Array<MilestoneType>,
+  dialoguePath: [] as Array<string>,
 };
 
 export const reducer = (
@@ -314,7 +318,10 @@ export const reducer = (
             qno: maxQno + 1,
             milestones: [],
             dependency: '',
-            question_keywords: [],
+            question_keywords: state.dialoguePath.map(name => ({
+              name,
+              tfidf_index: 1,
+            })),
             ...action.payload.dialogue,
           },
         ],
@@ -361,6 +368,11 @@ export const reducer = (
       return {
         ...state,
         milestones: array.helper(state.milestones, action.payload),
+      };
+    case actionTypes.DIALOGUE_PATH:
+      return {
+        ...state,
+        dialoguePath: array.helper(state.dialoguePath, action.payload),
       };
     case actionTypes.SELECT_KEYWORD: {
       const { keyword, panel, index } = action.payload;

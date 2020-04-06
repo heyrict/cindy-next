@@ -14,7 +14,7 @@ import ButtonTransparent from 'components/General/ButtonTransparent';
 import { StateType, ActionContentType } from 'reducers/types';
 import { ReplayKeywordSelectProps } from './types';
 
-const ReplayKeywordSelect = ({
+export const ReplayKeywordSelect = ({
   keywords,
   pushKeyword,
 }: ReplayKeywordSelectProps) =>

@@ -17,7 +17,7 @@ const PathSelectButton = styled.button`
   align-items: center;
 `;
 
-const ReplayPathSelect = ({ path, setPath }: ReplayPathSelectProps) => (
+export const ReplayPathSelect = ({ path, setPath }: ReplayPathSelectProps) => (
   <Flex
     flexWrap="wrap"
     width={1}

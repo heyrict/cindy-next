@@ -65,3 +65,10 @@ export type DialogueKeywordQuestionEditBoxProps = {
 export type DialogueAddProps = {
   addDialogue: (dialogue: AddReplayDialogueType) => void;
 };
+
+export type DialogueFilterProps = {
+  dialoguePath: Array<string>;
+  nextAvailKeywords: Array<string>;
+  setDialoguePath: (dialoguePath: Array<string>) => void;
+  pushDialoguePath: (keyword: string) => void;
+};
