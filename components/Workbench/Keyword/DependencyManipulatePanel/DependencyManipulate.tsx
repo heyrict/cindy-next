@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'theme/styled';
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -6,6 +7,7 @@ import * as addReplayReducer from 'reducers/addReplay';
 
 import { FormattedMessage } from 'react-intl';
 import commonMessages from 'messages/common';
+import puzzleMessages from 'messages/components/puzzle';
 
 import { Flex, Box } from 'components/General';
 import ButtonSelect from 'components/ButtonSelect';
@@ -19,6 +21,11 @@ import {
 } from 'reducers/types';
 import { DependencyManipulateProps } from './types';
 
+const GoodOrTrue = styled.div`
+  display: inline-box;
+  color: ${p => p.theme.colors.red[5]};
+`;
+
 const DependencyManipulate = ({
   dialogue,
   milestones,
@@ -31,6 +38,16 @@ const DependencyManipulate = ({
       </KeywordQuestionBox>
       <KeywordQuestionBox prefix={`A${dialogue.qno}`}>
         {dialogue.answer}
+        {dialogue.good ? (
+          <GoodOrTrue>
+            [<FormattedMessage {...puzzleMessages.dialogue_good} />]
+          </GoodOrTrue>
+        ) : null}
+        {dialogue.true ? (
+          <GoodOrTrue>
+            [<FormattedMessage {...puzzleMessages.dialogue_true} />]
+          </GoodOrTrue>
+        ) : null}
       </KeywordQuestionBox>
       <Flex width={1} flexWrap="wrap" alignItems="center">
         <Box mr={2}>Milestones</Box>
