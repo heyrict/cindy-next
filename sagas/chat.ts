@@ -70,7 +70,6 @@ function* closeChatAndToolbarMenu() {
 }
 
 function* changeChannelAtChannelPage(action: ActionContentType) {
-  console.log(action);
   const innerAction = action.payload as {
     value: string;
   };
@@ -80,7 +79,6 @@ function* changeChannelAtChannelPage(action: ActionContentType) {
   );
 
   if (route.startsWith('/channel/')) {
-    console.log('Changing channel to ', channelName);
     Router.push('/channel/[name]', `/channel/${channelName}`);
   }
 }
