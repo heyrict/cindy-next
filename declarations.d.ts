@@ -13,6 +13,20 @@ interface Window {
   adsbygoogle?: Array<any>;
 }
 
+type ShareAPIParams = {
+  title: string;
+  text: string;
+  url: string;
+  fbId?: string;
+  hashtags?: string;
+};
+
+interface Share {
+  share(params: ShareAPIParams): Promise<void>;
+}
+
+interface Navigator extends Share {}
+
 declare module '*.svg' {
   const content: any;
   export default content;

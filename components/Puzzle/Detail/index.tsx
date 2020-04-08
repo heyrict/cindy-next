@@ -13,6 +13,7 @@ import * as settingReducer from 'reducers/setting';
 import { Modal } from 'components/Modal';
 import PuzzleTitle from './PuzzleTitle';
 import ContentsFrame from './ContentsFrame';
+import ShareFrame from './ShareFrame';
 import MemoFrame from './MemoFrame';
 import AddQuestionInput from './AddQuestionInput';
 import PuzzleDialogues from './PuzzleDialogues';
@@ -47,6 +48,7 @@ const PuzzleDetail = ({
   const isForbidden = puzzle.status === 4;
   const isCreator = puzzle.sui_hei_user.id === userId;
 
+  const shouldShowShare = puzzle.status === 0 || puzzle.status === 1;
   const shouldShowTags = isCreator || (!isHidden && !isForbidden);
   const shouldShowMemo = puzzle.memo.trim() !== '';
   const shouldShowAnswer =
@@ -127,6 +129,13 @@ const PuzzleDetail = ({
           created={puzzle.created}
           solved={puzzle.status === 0 ? undefined : puzzle.modified}
         />
+        {shouldShowShare && (
+          <ShareFrame
+            title={puzzle.title}
+            content={puzzle.content}
+            solved={puzzle.status === 0}
+          />
+        )}
         {shouldShowTags && (
           <PuzzleTags
             puzzleId={puzzle.id}

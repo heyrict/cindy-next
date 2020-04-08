@@ -77,3 +77,9 @@ export type WithSolutionProps = {
   puzzleId: number;
   children: (solution: string) => JSX.Element;
 };
+
+export type ShareFrameType = {
+  title: string;
+  content: string;
+  solved: boolean;
+};
