@@ -29,6 +29,10 @@ export default class IntlDocument extends Document {
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
           />
+          <script
+            async
+            src="https://unpkg.com/share-api-polyfill/dist/share-min.js"
+          />
           {SCRIPTS.map(s => (
             <script key={hash(s)} dangerouslySetInnerHTML={{ __html: s }} />
           ))}
