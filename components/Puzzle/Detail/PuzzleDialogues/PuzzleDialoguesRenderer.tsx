@@ -102,7 +102,6 @@ export const PuzzleDialoguesRenderer = ({
   setTrueSolvedLongtermYami,
   updateSolvedLongTermYamiOnSubscribe,
 }: PuzzleDialoguesRendererProps) => {
-  const { puzzleId } = variables;
   if (!data || !data.sui_hei_dialogue || !data.sui_hei_hint) {
     if (loading) return <Loading centered />;
     return null;
@@ -244,7 +243,7 @@ export const PuzzleDialoguesRenderer = ({
         };
       }
     }
-  }, [puzzleId, user.id, shouldSubscribe]);
+  }, [variables && variables.puzzleId, user.id, shouldSubscribe]);
 
   let dialogues;
   let hints;
