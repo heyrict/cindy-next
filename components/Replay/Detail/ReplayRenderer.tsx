@@ -45,6 +45,7 @@ const ReplayRenderer = ({
   }
   const replay = data.sui_hei_replay_by_pk;
   if (replay.id === undefined) return replayNotExistElement;
+
   return (
     <React.Fragment>
       <Head>
@@ -58,7 +59,11 @@ const ReplayRenderer = ({
           )}"`}
         />
       </Head>
-      <ReplayDetail replay={replay} />
+      {replay.sui_hei_puzzle && replay.sui_hei_puzzle.status === 1 ? (
+        <ReplayDetail replay={replay} />
+      ) : (
+        <FormattedMessage {...replayPageMessages.puzzleNotSolved} />
+      )}
     </React.Fragment>
   );
 };

@@ -15,6 +15,10 @@ export const replayPageMessages = defineMessages({
     id: `${scope}.notExistDescription`,
     defaultMessage: 'This replay does not exist!',
   },
+  puzzleNotSolved: {
+    id: `${scope}.puzzleNotSolved`,
+    defaultMessage: 'You cannot create a replay out of an unsolved puzzle!',
+  },
 });
 
 export default replayPageMessages;
