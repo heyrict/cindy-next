@@ -10,6 +10,7 @@ import * as addReplayReducer from 'reducers/addReplay';
 import { PUZZLE_REPLAY_INFO_QUERY } from 'graphql/Queries/Puzzles';
 
 import { FormattedMessage } from 'react-intl';
+import replayPageMessages from 'messages/pages/replay';
 import addReplayPageMessages from 'messages/pages/add_replay';
 
 import { Flex } from 'components/General';
@@ -70,6 +71,14 @@ const KeywordWorkbench = ({
           }
           const sui_hei_dialogues = data.sui_hei_puzzle_by_pk.sui_hei_dialogues;
           setTitle(data.sui_hei_puzzle_by_pk.title);
+
+          // Check if the puzzle is solved
+          if (data.sui_hei_puzzle_by_pk.status !== 1) {
+            toast.error(
+              <FormattedMessage {...replayPageMessages.puzzleNotSolved} />,
+            );
+            return;
+          }
 
           // Get keys
           const calcDialogueKeys = [] as Array<ReplayDialogueType>;

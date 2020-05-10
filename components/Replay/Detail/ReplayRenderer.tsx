@@ -59,11 +59,7 @@ const ReplayRenderer = ({
           )}"`}
         />
       </Head>
-      {replay.sui_hei_puzzle && replay.sui_hei_puzzle.status === 1 ? (
-        <ReplayDetail replay={replay} />
-      ) : (
-        <FormattedMessage {...replayPageMessages.puzzleNotSolved} />
-      )}
+      <ReplayDetail replay={replay} />
     </React.Fragment>
   );
 };
