@@ -307,8 +307,8 @@ export const reducer = (
         replayDialogues: array.helper(state.replayDialogues, action.payload),
       };
     case actionTypes.ADD_REPLAY_DIALOGUE:
-      const maxId = Math.max(...state.replayDialogues.map(d => d.id));
-      const maxQno = Math.max(...state.replayDialogues.map(d => d.qno || 0));
+      const maxId = Math.max(0, ...state.replayDialogues.map(d => d.id));
+      const maxQno = Math.max(0, ...state.replayDialogues.map(d => d.qno || 0));
       return {
         ...state,
         replayDialogues: [

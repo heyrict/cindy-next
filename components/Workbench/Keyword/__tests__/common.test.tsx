@@ -19,7 +19,7 @@ const _new_node = (
   leaves,
 });
 
-const _new_leaf = dependency => ({
+const _new_leaf = (dependency: string) => ({
   ...defaultDialogue,
   dependency,
 });
