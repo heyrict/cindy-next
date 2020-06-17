@@ -227,7 +227,9 @@ export const PROFILE_FOOTPRINTS_QUERY = gql`
     ) @connection(key: "sui_hei_puzzle", filter: ["where"]) {
       ...PuzzleAggregate
     }
-    sui_hei_puzzle_aggregate(where: { user_id: { _eq: $userId } }) {
+    sui_hei_puzzle_aggregate(
+      where: { sui_hei_dialogues: { user_id: { _eq: $userId } } }
+    ) {
       aggregate {
         count
       }
