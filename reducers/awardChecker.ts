@@ -39,10 +39,10 @@ export const rootSelector = (state: StateType): typeof initialState =>
   state[scope];
 
 export const initialState = {
-  puzzles: 0,
-  goodQuestions: 0,
-  trueAnswers: 0,
-  dialogues: 0,
+  puzzles: -1,
+  goodQuestions: -1,
+  trueAnswers: -1,
+  dialogues: -1,
 };
 
 export const reducer = (
