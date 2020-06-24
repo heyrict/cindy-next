@@ -28,6 +28,7 @@ import NotLoggedInMessage from './NotLoggedInMessage';
 import { StateType, ActionContentType } from 'reducers/types';
 import { PuzzleDetailProps } from './types';
 import WithSolution from './WithSolution';
+import JumpButtons from './JumpButtons';
 
 const PuzzleDetail = ({
   puzzle,
@@ -121,6 +122,7 @@ const PuzzleDetail = ({
           genre={puzzle.genre}
           yami={puzzle.yami}
         />
+        <JumpButtons puzzleId={puzzle.id} />
         <ContentsFrame
           text={puzzleContent}
           anonymous={puzzle.anonymous}

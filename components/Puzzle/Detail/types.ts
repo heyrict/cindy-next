@@ -83,3 +83,7 @@ export type ShareFrameType = {
   content: string;
   solved: boolean;
 };
+
+export type JumpButtonsProps = {
+  puzzleId: number;
+};

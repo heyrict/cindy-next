@@ -269,3 +269,23 @@ export const YAMI_PUZZLE_COUNT_QUERY = gql`
     }
   }
 `;
+
+export const PUZZLE_JUMP_BUTTONS_QUERY = gql`
+  query PuzzleJumpButtonsQuery($puzzleId: Int!) {
+    prev_puzzle: sui_hei_puzzle(
+      where: { status: { _lte: 2 }, id: { _lt: $puzzleId } }
+      order_by: { id: desc }
+      limit: 1
+    ) {
+      ...PuzzleShared
+    }
+    next_puzzle: sui_hei_puzzle(
+      where: { status: { _lte: 2 }, id: { _gt: $puzzleId } }
+      order_by: { id: asc }
+      limit: 1
+    ) {
+      ...PuzzleShared
+    }
+  }
+  ${PUZZLE_SHARED_FRAGMENT}
+`;
