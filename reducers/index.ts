@@ -13,6 +13,7 @@ import * as addReplayReducer from './addReplay';
 import * as puzzleReducer from './puzzle';
 import * as awardCheckerReducer from './awardChecker';
 import * as directReducer from './direct';
+import * as replayReducer from './replay';
 
 import { StateType, ExtendedStore } from './types';
 import { AppContextType } from 'next/dist/next-server/lib/utils';
@@ -27,6 +28,7 @@ const reducer = combineReducers({
   [puzzleReducer.scope]: puzzleReducer.reducer as any,
   [awardCheckerReducer.scope]: awardCheckerReducer.reducer as any,
   [directReducer.scope]: directReducer.reducer as any,
+  [replayReducer.scope]: replayReducer.reducer as any,
 });
 
 const composeEnhancers =

@@ -10,7 +10,7 @@ import PuzzleDialogue from '../PuzzleDialogue';
 
 import { puzzle, dialogues, hints } from './constants';
 
-describe('<PuzzleDialoguesRenderer />', () => {
+describe.skip('<PuzzleDialoguesRenderer />', () => {
   const setParticipantsFn = jest.fn();
   const subscribeFn = jest.fn();
   const incGoodQuestionsFn = jest.fn();

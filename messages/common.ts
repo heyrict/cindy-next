@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 
 const scope = 'common';
 
-export const messages = defineMessages({
+export const commonMessages = defineMessages({
   close: {
     id: `${scope}.close`,
     defaultMessage: 'Close',
@@ -22,6 +22,10 @@ export const messages = defineMessages({
   confirm: {
     id: `${scope}.confirm`,
     defaultMessage: 'Confirm',
+  },
+  applyToAll: {
+    id: `${scope}.applyToAll`,
+    defaultMessage: 'Apply To All',
   },
   editTimes: {
     id: `${scope}.editTimes`,
@@ -95,6 +99,14 @@ export const messages = defineMessages({
     id: `${scope}.saved`,
     defaultMessage: 'Saved!',
   },
+  deleted: {
+    id: `${scope}.deleted`,
+    defaultMessage: 'Deleted',
+  },
+  submitted: {
+    id: `${scope}.submitted`,
+    defaultMessage: 'Submitted!',
+  },
   saving: {
     id: `${scope}.saving`,
     defaultMessage: 'Saving...',
@@ -143,6 +155,14 @@ export const messages = defineMessages({
     id: `${scope}.info`,
     defaultMessage: 'Information',
   },
+  filter: {
+    id: `${scope}.filter`,
+    defaultMessage: 'Filter',
+  },
+  cannotBeEmptyErr: {
+    id: `${scope}.cannotBeEmptyErr`,
+    defaultMessage: '{name} cannot be empty!',
+  },
 });
 
-export default messages;
+export default commonMessages;

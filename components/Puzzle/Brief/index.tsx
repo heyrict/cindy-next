@@ -50,7 +50,7 @@ export const Title = styled.a`
   }
 `;
 
-export const Brief = ({
+export const PuzzleBrief = ({
   puzzle,
   bookmarkCount,
   starCount,
@@ -210,4 +210,4 @@ const mapStateToProps = (state: StateType) => ({
 
 const withRedux = connect(mapStateToProps);
 
-export default withRedux(Brief);
+export default withRedux(PuzzleBrief);

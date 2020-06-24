@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, render } from 'enzyme';
 
-import { Hr, Time, Brief } from '../index';
+import { Hr, Time, PuzzleBrief } from '../index';
 
 import theme from 'theme';
 import Bookmark from '../Bookmark';
@@ -71,7 +71,7 @@ const externalProps = {
 describe('<Brief />', () => {
   describe('renders with minimum props', () => {
     const node = shallow(
-      <Brief puzzle={puzzleMinimal} showGenreImage={false} />,
+      <PuzzleBrief puzzle={puzzleMinimal} showGenreImage={false} />,
     );
     it('has Genre and Yami', () => {
       expect(node.find(Genre).exists()).toBe(true);
@@ -87,7 +87,7 @@ describe('<Brief />', () => {
 
   describe('renders with maximum props in puzzle', () => {
     const node = shallow(
-      <Brief puzzle={puzzleMaximum} showGenreImage={true} />,
+      <PuzzleBrief puzzle={puzzleMaximum} showGenreImage={true} />,
     );
     it('has Star, Comment, Bookmark', () => {
       expect(node.find(Star).exists()).toBe(true);
@@ -101,7 +101,7 @@ describe('<Brief />', () => {
 
   describe('renders with maximum props in external props', () => {
     const node = shallow(
-      <Brief puzzle={puzzleMinimal} showGenreImage={true} {...externalProps} />,
+      <PuzzleBrief puzzle={puzzleMinimal} showGenreImage={true} {...externalProps} />,
     );
     it('has Star, Comment, Bookmark', () => {
       expect(node.find(Star).exists()).toBe(true);

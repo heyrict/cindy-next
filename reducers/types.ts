@@ -29,19 +29,31 @@ export interface ActionSetType {
   [actionName: string]: (...params: any) => ActionContentType;
 }
 
-export type ReplayKeywordStatusType = {
-  count: number;
-  use: boolean;
+export type ReplayKeywordCounterType = {
+  [keyword: string]: number; // Keyword name: count
 };
 
-export type ReplayKeywordsType = {
-  [keyword: string]: ReplayKeywordStatusType;
+export type ReplayKeywordType = {
+  name: string;
+  tfidf_index: number;
 };
 
 export type ReplayDialogueType = {
+  id: number;
+  qno?: number;
   question: string;
-  question_keywords: string[];
+  answer: string;
+  good: boolean;
+  true: boolean;
+  milestones: Array<string>;
+  dependency: string;
+  question_keywords: Array<ReplayKeywordType>;
 };
+
+export type AddReplayDialogueType = Pick<
+  ReplayDialogueType,
+  'question' | 'answer' | 'good' | 'true'
+>;
 
 export type GlobalUserType = {
   id?: number;
@@ -54,6 +66,20 @@ export enum RightAsideType {
   none,
   content,
   memo,
+}
+
+export enum AddReplayModeType {
+  ROUGH,
+  ONE_BY_ONE,
+  MILESTONES,
+  DEPENDENCY,
+  PUZZLE,
+}
+
+export enum AddReplayPanelType {
+  KEYWORD_SELECT,
+  KEYWORD_EDIT,
+  KEYWORD_MERGE,
 }
 
 export enum ToolbarResponsiveMenuType {
@@ -94,3 +120,23 @@ export type YandexAPIErrorType = {
 };
 
 export type YandexUserReportType = YandexAPIResponseType | null;
+
+export type TokenizeServerTokenType = {
+  text: string;
+  poc: string;
+};
+
+export type TokenizeServerDialogueTokensType = {
+  id: number;
+  tokens: Array<TokenizeServerTokenType>;
+};
+
+export type TokenizeServerResponseType = Array<
+  TokenizeServerDialogueTokensType
+>;
+
+export type MilestoneType = {
+  handle: string;
+  name: string;
+  description: string;
+};

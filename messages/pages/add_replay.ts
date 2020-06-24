@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 
 const scope = 'add_replay';
 
-export const messages = defineMessages({
+export const addReplayPageMessages = defineMessages({
   title: {
     id: `${scope}.title`,
     defaultMessage: 'Replay Create Page',
@@ -15,6 +15,14 @@ export const messages = defineMessages({
     id: `${scope}.header`,
     defaultMessage: 'Create Replay',
   },
+  autoDel: {
+    id: `${scope}.autoDel`,
+    defaultMessage: 'Auto Delete',
+  },
+  autoSaved: {
+    id: `${scope}.autoSaved`,
+    defaultMessage: 'Auto Saved',
+  },
 });
 
-export default messages;
+export default addReplayPageMessages;

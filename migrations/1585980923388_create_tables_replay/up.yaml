@@ -1,0 +1,228 @@
+- args:
+    is_enum: false
+    name: sui_hei_replay
+    schema: public
+  type: track_table
+- args:
+    is_enum: false
+    name: sui_hei_replay_dialogue
+    schema: public
+  type: track_table
+- args:
+    name: sui_hei_puzzle
+    table:
+      name: sui_hei_replay
+      schema: public
+    using:
+      foreign_key_constraint_on: puzzle_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_user
+    table:
+      name: sui_hei_replay
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: sui_hei_replay_dialogues
+    table:
+      name: sui_hei_replay
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: replay_id
+        table:
+          name: sui_hei_replay_dialogue
+          schema: public
+  type: create_array_relationship
+- args:
+    permission:
+      allow_aggregations: true
+      columns:
+        - id
+        - title
+        - milestones
+        - puzzle_id
+        - user_id
+        - created
+      filter: {}
+      limit: null
+    role: anonymous
+    table:
+      name: sui_hei_replay
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      allow_aggregations: true
+      columns:
+        - id
+        - puzzle_id
+        - milestones
+        - user_id
+        - created
+        - title
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: sui_hei_replay
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      allow_aggregations: true
+      columns:
+        - id
+        - replay_id
+        - question
+        - answer
+        - good
+        - 'true'
+        - keywords
+        - milestones
+        - dependency
+      filter: {}
+      limit: null
+    role: anonymous
+    table:
+      name: sui_hei_replay_dialogue
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      allow_aggregations: true
+      columns:
+        - good
+        - 'true'
+        - id
+        - replay_id
+        - keywords
+        - answer
+        - dependency
+        - milestones
+        - question
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: sui_hei_replay_dialogue
+      schema: public
+  type: create_select_permission
+- args:
+    name: sui_hei_replay
+    table:
+      name: sui_hei_replay_dialogue
+      schema: public
+    using:
+      foreign_key_constraint_on: replay_id
+  type: create_object_relationship
+- args:
+    permission:
+      allow_upsert: true
+      check:
+        sui_hei_replay:
+          user_id:
+            _eq: X-Hasura-User-Id
+      columns:
+        - id
+        - replay_id
+        - question
+        - answer
+        - good
+        - 'true'
+        - keywords
+        - milestones
+        - dependency
+      localPresets:
+        - key: ''
+          value: ''
+      set: {}
+    role: user
+    table:
+      name: sui_hei_replay_dialogue
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      columns:
+        - good
+        - 'true'
+        - id
+        - replay_id
+        - keywords
+        - answer
+        - dependency
+        - milestones
+        - question
+      filter:
+        sui_hei_replay:
+          user_id:
+            _eq: X-Hasura-User-Id
+      localPresets:
+        - key: ''
+          value: ''
+      set: {}
+    role: user
+    table:
+      name: sui_hei_replay_dialogue
+      schema: public
+  type: create_update_permission
+- args:
+    permission:
+      filter:
+        sui_hei_replay:
+          user_id:
+            _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: sui_hei_replay_dialogue
+      schema: public
+  type: create_delete_permission
+- args:
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - id
+        - puzzle_id
+        - milestones
+        - title
+        - user_id
+      localPresets:
+        - key: user_id
+          value: x-hasura-User-Id
+        - key: ''
+          value: ''
+      set:
+        user_id: x-hasura-User-Id
+    role: user
+    table:
+      name: sui_hei_replay
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      columns:
+        - id
+        - puzzle_id
+        - title
+        - milestones
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      localPresets:
+        - key: user_id
+          value: x-hasura-User-Id
+        - key: ''
+          value: ''
+      set:
+        user_id: x-hasura-User-Id
+    role: user
+    table:
+      name: sui_hei_replay
+      schema: public
+  type: create_update_permission

@@ -7,9 +7,25 @@ export const messages = defineMessages({
     id: `${scope}.keywords`,
     defaultMessage: 'Keywords',
   },
-  minKeywordAppearance: {
-    id: `${scope}.minKeywordAppearance`,
-    defaultMessage: 'Min appearance',
+  roughMode: {
+    id: `${scope}.roughMode`,
+    defaultMessage: 'Batch Editing',
+  },
+  oneByOneMode: {
+    id: `${scope}.oneByOneMode`,
+    defaultMessage: 'One-by-One Editing',
+  },
+  milestonesMode: {
+    id: `${scope}.milestonesMode`,
+    defaultMessage: 'Milestone Editing',
+  },
+  dependencyMode: {
+    id: `${scope}.dependencyMode`,
+    defaultMessage: 'Dependency Editing',
+  },
+  puzzleMode: {
+    id: `${scope}.puzzleMode`,
+    defaultMessage: 'Puzzle Information',
   },
   selectPanel: {
     id: `${scope}.selectPanel`,
@@ -22,11 +38,6 @@ export const messages = defineMessages({
   renamePanel: {
     id: `${scope}.renamePanel`,
     defaultMessage: 'Rename Keywords',
-  },
-  firstLoadingIsTimeConsuming: {
-    id: `${scope}.firstLoadingIsTimeConsuming`,
-    defaultMessage:
-      'Now Loading text parsing tools, it may take several minites for the first time...',
   },
 });
 

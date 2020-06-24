@@ -382,38 +382,40 @@ class SimpleLegacyEditor extends React.Component<
               tooltip={<FormattedMessage {...tooltipMessages.stamp} />}
               delay={800}
             />
-            <Tooltip
-              reference={
-                <ButtonTransparent
-                  onClick={() => {
-                    const text = this.getText();
-                    const result = onSubmit(text);
-                    if (result) {
-                      result
-                        .then(returns => {
-                          if (returns.errors) {
-                            toast.error(JSON.stringify(returns.errors));
+            {onSubmit !== undefined && (
+              <Tooltip
+                reference={
+                  <ButtonTransparent
+                    onClick={() => {
+                      const text = this.getText();
+                      const result = onSubmit(text);
+                      if (result) {
+                        result
+                          .then(returns => {
+                            if (returns.errors) {
+                              toast.error(JSON.stringify(returns.errors));
+                              this.setText(text);
+                            }
+                          })
+                          .catch(error => {
+                            toast.error(JSON.stringify(error));
                             this.setText(text);
-                          }
-                        })
-                        .catch(error => {
-                          toast.error(JSON.stringify(error));
-                          this.setText(text);
-                        });
-                    } else {
-                      // Cancelled
-                      this.setText(text);
-                      return;
-                    }
-                    this.setText('');
-                  }}
-                >
-                  <Img height="xxs" src={paperPlaneIcon} />
-                </ButtonTransparent>
-              }
-              tooltip={<FormattedMessage {...commonMessages.send} />}
-              delay={800}
-            />
+                          });
+                      } else {
+                        // Cancelled
+                        this.setText(text);
+                        return;
+                      }
+                      this.setText('');
+                    }}
+                  >
+                    <Img height="xxs" src={paperPlaneIcon} />
+                  </ButtonTransparent>
+                }
+                tooltip={<FormattedMessage {...commonMessages.send} />}
+                delay={800}
+              />
+            )}
           </Flex>
         </Flex>
       </React.Fragment>
