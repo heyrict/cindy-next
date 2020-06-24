@@ -1,105 +1,107 @@
-import kuromoji, { Tokenizer, IpadicFeatures } from 'kuromoji';
+import {
+  ReplayKeywordCounterType,
+  ReplayDialogueType,
+  ReplayKeywordType,
+} from 'reducers/types';
+import { KeywordTreeNodeType, KeywordTreeLeafType } from './types';
 
-import { ReplayKeywordsType, ReplayDialogueType } from 'reducers/types';
-import { KeywordTreeNodeType } from './types';
-
-let tokenizer: Tokenizer<IpadicFeatures> | undefined;
-
-const loadTokenizer = () => {
-  if (process.browser) {
-    return new Promise<Tokenizer<IpadicFeatures>>((resolve, _reject) => {
-      kuromoji
-        .builder({
-          dicPath: '/static/dict',
-        })
-        .build((_err, tok) => {
-          tokenizer = tok;
-          resolve(tokenizer);
-        });
-    });
-  } else {
-    return new Promise<Tokenizer<IpadicFeatures>>((resolve, _reject) => {
-      kuromoji
-        .builder({
-          dicPath: 'node_modules/kuromoji/dict',
-        })
-        .build((_err, tok) => {
-          tokenizer = tok;
-          resolve(tokenizer);
-        });
-    });
-  }
-};
-
-const defaultFilter = (word: IpadicFeatures) =>
-  (word.pos === '名詞' && word.pos_detail_1 !== '数') || word.pos === '動詞';
-
-export const getKeywords = async (text: string, filter = defaultFilter) => {
-  let tok = tokenizer || (await loadTokenizer());
-  return tok
-    .tokenize(text)
-    .filter(filter)
-    .map(o => (o.basic_form === '*' ? o.surface_form : o.basic_form));
-};
-
-export const counter = async (
-  list: Array<string>,
-  continueFrom?: ReplayKeywordsType,
-): Promise<ReplayKeywordsType> => {
-  const counts = continueFrom || (new Object() as ReplayKeywordsType);
-  list.forEach(v => {
-    if (v in counts) counts[v].count += 1;
-    else
-      counts[v] = {
-        count: 1,
-        use: false,
-      };
+export const counter = (
+  list: Array<ReplayKeywordType>,
+  continueFrom?: ReplayKeywordCounterType,
+): ReplayKeywordCounterType => {
+  const counts = continueFrom || (new Object() as ReplayKeywordCounterType);
+  list.forEach(k => {
+    if (k.name in counts) counts[k.name] += 1;
+    else counts[k.name] = 1;
   });
   return counts;
 };
 
-export const setNodeInChildren = (
-  nameList: Array<string>,
-  rootNode: KeywordTreeNodeType,
-): void => {
+export function setNodeInChildren<T>(
+  nameList: Array<ReplayKeywordType>,
+  rootNode: KeywordTreeNodeType<T>,
+  leaf: T,
+): void {
   if (!nameList || nameList.length === 0) return;
-  const name = nameList[0];
-  const childIndex = rootNode.children.findIndex(node => node.name === name);
+  const keyword = nameList[0];
+  const childIndex = rootNode.children.findIndex(
+    node => node.name === keyword.name,
+  );
   if (childIndex === -1) {
     rootNode.children.push({
-      name,
+      name: keyword.name,
       children: [],
+      leaves: leaf && nameList.length === 1 ? [leaf] : [],
     });
     setNodeInChildren(
       nameList.slice(1),
       rootNode.children[rootNode.children.length - 1],
+      leaf,
     );
   } else {
-    setNodeInChildren(nameList.slice(1), rootNode.children[childIndex]);
+    if (leaf && nameList.length === 1) {
+      rootNode.children[childIndex].leaves.push(leaf);
+    } else {
+      setNodeInChildren(nameList.slice(1), rootNode.children[childIndex], leaf);
+    }
   }
-};
+}
+
+export function findNodeWithPath<T>(
+  rootNode: KeywordTreeNodeType<T>,
+  names: Array<string>,
+): KeywordTreeNodeType<T> | undefined {
+  if (names.length === 0) return rootNode;
+  let nextNode = rootNode.children.find(node => node.name === names[0]);
+  if (nextNode) {
+    return findNodeWithPath(nextNode, names.slice(1));
+  } else {
+    return undefined;
+  }
+}
+
+export const matchesClue = (leaf: KeywordTreeLeafType, clues: Array<string>) =>
+  leaf.dependency
+    ? clues.findIndex(clue => clue === leaf.dependency) >= 0
+    : true;
+
+export function nodeVisible(
+  rootNode: KeywordTreeNodeType<KeywordTreeLeafType>,
+  clues: Array<string>,
+): boolean {
+  const hasLeafMatchesClue =
+    rootNode.leaves.findIndex(leaf => matchesClue(leaf, clues)) >= 0;
+  const hasChildVisible =
+    rootNode.children.findIndex(node => nodeVisible(node, clues)) >= 0;
+  return hasLeafMatchesClue || hasChildVisible;
+}
 
 export const constructTree = (
   dialogues: Array<ReplayDialogueType>,
   diagToKeywords = (diag: ReplayDialogueType) => diag.question_keywords,
-): KeywordTreeNodeType => {
+  addLeaf: boolean = false,
+): KeywordTreeNodeType<KeywordTreeLeafType> => {
   let tree = new Object({
     name: 'Root',
     children: [],
-  }) as KeywordTreeNodeType;
+    leaves: [],
+  }) as KeywordTreeNodeType<KeywordTreeLeafType>;
   dialogues.forEach(dialogue => {
-    setNodeInChildren(diagToKeywords(dialogue), tree);
+    setNodeInChildren(
+      diagToKeywords(dialogue),
+      tree,
+      addLeaf
+        ? {
+            id: dialogue.id,
+            good: dialogue.good,
+            true: dialogue.true,
+            question: dialogue.question,
+            answer: dialogue.answer,
+            milestones: dialogue.milestones,
+            dependency: dialogue.dependency,
+          }
+        : null,
+    );
   });
   return tree;
 };
-
-export const filterDialogueKeywords = (
-  dialogues: Array<ReplayDialogueType>,
-  keywords: ReplayKeywordsType,
-): Array<ReplayDialogueType> =>
-  dialogues.map(dialogue => ({
-    ...dialogue,
-    question_keywords: dialogue.question_keywords
-      .filter(keyword => keywords[keyword] && keywords[keyword].use === true)
-      .concat(dialogue.question),
-  }));

@@ -6,7 +6,7 @@ export type SET<T> = {
 };
 export type PUSH<T> = {
   type: actionTypes.PUSH;
-  value: T;
+  value: T | Array<T>;
 };
 export type POP<T> = {
   type: actionTypes.POP;
@@ -16,6 +16,11 @@ export type INSERT<T> = {
   type: actionTypes.INSERT;
   index: number;
   value: T;
+};
+export type UPDATE<T> = {
+  type: actionTypes.UPDATE;
+  index: number | null;
+  updatefn: (prev: T) => T;
 };
 export type DELETE = {
   type: actionTypes.DELETE;

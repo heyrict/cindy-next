@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 
 const scope = 'components.puzzle';
 
-export const messages = defineMessages({
+export const puzzleMessages = defineMessages({
   anonymous: {
     id: `${scope}.anonymous`,
     defaultMessage: 'Anonymous',
@@ -190,4 +190,4 @@ export const messages = defineMessages({
   },
 });
 
-export default messages;
+export default puzzleMessages;

@@ -4,8 +4,8 @@ import { Box, Button } from 'components/General';
 
 import { KeywordButtonProps } from './types';
 
-const KeywordButton = ({ on, content, onClick }: KeywordButtonProps) => (
-  <Box width={1 / 5} mb={1}>
+const KeywordButton = ({ on, content, width, onClick }: KeywordButtonProps) => (
+  <Box width={width || [1 / 4, 1 / 6, 1 / 4, 1 / 6]} mb={1}>
     <Button
       borderRadius={2}
       width={0.95}

@@ -5,9 +5,13 @@ import * as HelperPayloadTypes from './payloadTypes';
 
 export type HelperActionType<V = any> = {
   set: (array: Array<V>) => HelperPayloadTypes.SET<V>;
-  push: (value: V) => HelperPayloadTypes.PUSH<V>;
+  push: (value: V | Array<V>) => HelperPayloadTypes.PUSH<V>;
   pop: (value?: V) => HelperPayloadTypes.POP<V>;
   insert: (index: number, value: V) => HelperPayloadTypes.INSERT<V>;
+  update: (
+    index: number | null,
+    updatefn: (prev: V) => V,
+  ) => HelperPayloadTypes.UPDATE<V>;
   delete: (index: number) => HelperPayloadTypes.DELETE;
   deleteWhere: (fn: (item: V) => boolean) => HelperPayloadTypes.DELETE_WHERE<V>;
   empty: () => HelperPayloadTypes.EMPTY;
@@ -22,6 +26,11 @@ export const actions: HelperActionType = {
     type: actionTypes.INSERT,
     index,
     value,
+  }),
+  update: (index, updatefn) => ({
+    type: actionTypes.UPDATE,
+    index,
+    updatefn,
   }),
   delete: index => ({ type: actionTypes.DELETE, index }),
   deleteWhere: fn => ({
@@ -63,6 +72,17 @@ export function helper<V = any>(
         return prev.filter(v => v !== value);
       }
       return [...prev.slice(0, prev.length - 1)];
+    }
+    case actionTypes.UPDATE: {
+      const { index, updatefn } = payload;
+      if (index) {
+        let returns = [...prev];
+        returns[index] = updatefn(returns[index]);
+        return returns;
+      } else {
+        let returns = prev.map(updatefn);
+        return returns;
+      }
     }
     case actionTypes.DELETE: {
       const { index } = payload;

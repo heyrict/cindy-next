@@ -50,6 +50,14 @@ describe('array helper', () => {
     });
   });
 
+  it('test action.UPDATE', () => {
+    const orig = ['a', 'b', 'c', 'd', 'e', 'f'];
+    const expected = ['a', 'b', 'c+some', 'd', 'e', 'f'];
+    expect(helper(orig, actions.update(2, v => `${v}+some`))).toStrictEqual(
+      expected,
+    );
+  });
+
   it('test action.DELETE', () => {
     const orig = ['a', 'b', 'c', 'd', 'e'];
     const expected = ['a', 'c', 'd', 'e'];
