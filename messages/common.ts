@@ -163,6 +163,10 @@ export const commonMessages = defineMessages({
     id: `${scope}.cannotBeEmptyErr`,
     defaultMessage: '{name} cannot be empty!',
   },
+  reload: {
+    id: `${scope}.reload`,
+    defaultMessage: 'Reload',
+  },
 });
 
 export default commonMessages;

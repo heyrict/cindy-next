@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
 import styled from 'theme/styled';
 import { SUBSCRIPTION_BATCH_LIMIT } from 'settings';
 import { upsertMultipleItem } from 'common/update';
 
 import { Flex, Box } from 'components/General';
 import Loading from 'components/General/Loading';
+import ErrorReload from 'components/General/ErrorReload';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 
@@ -64,13 +64,14 @@ const ChatRoomMessagesBody = ({
   subscribeToMore,
   chatroomId,
   user,
+  refetch,
   relatedPuzzleId,
   chatmessageUpdate,
   autoExpand,
 }: ChatRoomMessagesBodyProps) => {
   if (error) {
-    toast.error(error.message);
-    return null;
+    console.log(error);
+    return <ErrorReload refetch={refetch} error={error} />;
   }
   if (!data || !data.sui_hei_chatmessage) {
     if (loading) return <Loading centered />;

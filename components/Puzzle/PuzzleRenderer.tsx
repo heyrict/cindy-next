@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import Head from 'next/head';
-import { toast } from 'react-toastify';
 import { maybeSendNotification } from 'common/web-notify';
 
 import Loading from 'components/General/Loading';
+import ErrorReload from 'components/General/ErrorReload'
 import PuzzleDetail from 'components/Puzzle/Detail';
 
 import { connect } from 'react-redux';
@@ -30,6 +30,7 @@ const PuzzleRenderer = ({
   loading,
   error,
   data,
+  refetch,
   subscribeToMore,
   formatMessage,
   pushNotification,
@@ -81,9 +82,14 @@ const PuzzleRenderer = ({
   }, [data && data.sui_hei_puzzle_by_pk && data.sui_hei_puzzle_by_pk.id]);
 
   if (error) {
-    toast.error(error.message);
-    return puzzleNotExistElement;
+    if (error.networkError === null) {
+      console.log(error);
+      return puzzleNotExistElement;
+    } else {
+      return <ErrorReload error={error} refetch={refetch} />
+    }
   }
+
   if (!data || !data.sui_hei_puzzle_by_pk) {
     if (loading) return <Loading centered />;
     return puzzleNotExistElement;

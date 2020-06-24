@@ -1,9 +1,9 @@
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { Query } from '@apollo/react-components';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
+import ErrorReload from 'components/General/ErrorReload';
 import ChannelBar from '../ChannelBar';
 import ChatRoomMessages from './ChatRoomMessages';
 import ChatRoomInput from './ChatRoomInput';
@@ -34,13 +34,14 @@ class ChatRoom extends React.Component<ChatRoomProps> {
         }}
         fetchPolicy="cache-first"
       >
-        {({ data, error }) => {
+        {({ data, error, refetch }) => {
           let chatroomId = null;
           if (data && data.sui_hei_chatroom && data.sui_hei_chatroom[0]) {
             chatroomId = data.sui_hei_chatroom[0].id;
           }
           if (error) {
-            toast.error(error.message);
+            console.log(error);
+            return <ErrorReload refetch={refetch} error={error} />;
           }
           return (
             <React.Fragment>

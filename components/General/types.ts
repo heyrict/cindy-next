@@ -1,3 +1,5 @@
+import { ApolloError } from 'apollo-client';
+
 export type OuterBarProps = {
   percentage: number;
 };
@@ -19,3 +21,8 @@ export const LoadingDefaultProps = {
 };
 
 export type LoadingProps = typeof LoadingDefaultProps;
+
+export type ErrorReloadProps = {
+  error: ApolloError;
+  refetch: () => any;
+};
