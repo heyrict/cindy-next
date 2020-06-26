@@ -44,30 +44,8 @@ function JumpButtons(props: JumpButtonsProps) {
     >
       {data && (
         <>
-          {data.prev_puzzle.length > 0 && (
-            <Box mr="auto">
-              <Link
-                href="/puzzle/[id]"
-                as={`/puzzle/${data.prev_puzzle[0].id}`}
-                passHref
-              >
-                <ButtonTransparentA
-                  color="red.7"
-                  maxWidth={0.5}
-                  p={1}
-                  mb={1}
-                  display="inline"
-                  borderRadius={2}
-                >
-                  &lt;&lt;
-                  <GenreText genre={data.prev_puzzle[0].genre} />
-                  {data.prev_puzzle[0].title}
-                </ButtonTransparentA>
-              </Link>
-            </Box>
-          )}
           {data.next_puzzle.length > 0 && (
-            <Box ml="auto">
+            <Box mr="auto">
               <Link
                 href="/puzzle/[id]"
                 as={`/puzzle/${data.next_puzzle[0].id}`}
@@ -81,8 +59,30 @@ function JumpButtons(props: JumpButtonsProps) {
                   display="inline"
                   borderRadius={2}
                 >
+                  &lt;&lt;
                   <GenreText genre={data.next_puzzle[0].genre} />
                   {data.next_puzzle[0].title}
+                </ButtonTransparentA>
+              </Link>
+            </Box>
+          )}
+          {data.prev_puzzle.length > 0 && (
+            <Box ml="auto">
+              <Link
+                href="/puzzle/[id]"
+                as={`/puzzle/${data.prev_puzzle[0].id}`}
+                passHref
+              >
+                <ButtonTransparentA
+                  color="red.7"
+                  maxWidth={0.5}
+                  p={1}
+                  mb={1}
+                  display="inline"
+                  borderRadius={2}
+                >
+                  <GenreText genre={data.prev_puzzle[0].genre} />
+                  {data.prev_puzzle[0].title}
                   &gt;&gt;
                 </ButtonTransparentA>
               </Link>
