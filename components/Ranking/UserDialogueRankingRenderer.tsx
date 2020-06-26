@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 import { Flex, Box, Panel } from 'components/General';
 import Loading from 'components/General/Loading';
+import ErrorReload from 'components/General/ErrorReload';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import UserInline from 'components/User/UserInline';
 
@@ -24,6 +25,7 @@ const UserDialogueRankingRenderer = ({
   loading,
   error,
   data,
+  refetch,
   fetchMore,
   shouldLoadMore,
 }: UserDialogueRankingRendererProps) => {
@@ -31,7 +33,7 @@ const UserDialogueRankingRenderer = ({
 
   if (error) {
     toast.error(error.message);
-    return null;
+    return <ErrorReload error={error} refetch={refetch} />;
   }
   if (!data || !data.dialogue_count_ranking) {
     if (loading) return <Loading centered />;

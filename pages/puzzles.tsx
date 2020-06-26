@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { toast } from 'react-toastify';
 import { maybeSendNotification } from 'common/web-notify';
 import { mergeList } from 'common/update';
 
@@ -24,6 +23,7 @@ import MultiColBox from 'components/General/MultiColBox';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import PuzzleBrief from 'components/Puzzle/Brief';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
+import ErrorReload from 'components/General/ErrorReload';
 
 import { PuzzlesUnsolvedLiveQuery } from 'graphql/LiveQueries/generated/PuzzlesUnsolvedLiveQuery';
 import {
@@ -49,6 +49,7 @@ const PuzzlesSolvedRenderer = ({
   loading,
   error,
   data,
+  refetch,
   fetchMore,
 }: PuzzlesSolvedRendererProps) => {
   const [hasMore, setHasMore] = useState(true);
@@ -79,8 +80,7 @@ const PuzzlesSolvedRenderer = ({
   )
     return puzzleLoadingPanel;
   if (error) {
-    toast.error(error.message);
-    return null;
+    return <ErrorReload error={error} refetch={refetch} />;
   }
   if (data && data.sui_hei_puzzle) {
     return (
@@ -125,6 +125,7 @@ const PuzzlesSolvedRenderer = ({
 const PuzzlesUnsolvedRenderer = ({
   loading,
   error,
+  refetch,
   data,
   intl,
   subscribeToMore,
@@ -211,8 +212,7 @@ const PuzzlesUnsolvedRenderer = ({
   )
     return puzzleLoadingPanel;
   if (error) {
-    toast.error(error.message);
-    return null;
+    return <ErrorReload error={error} refetch={refetch} />;
   }
   if (data && data.sui_hei_puzzle)
     return (

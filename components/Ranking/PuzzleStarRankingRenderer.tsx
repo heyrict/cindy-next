@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import Panel from 'components/General/Panel';
 import Loading from 'components/General/Loading';
+import ErrorReload from 'components/General/ErrorReload';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import RankedPuzzle from 'components/Puzzle/RankedPuzzle';
 
+import { RankedPuzzleDisplayType } from 'components/Puzzle/types';
 import {
   PuzzleStarRankingRendererProps,
   PuzzleStarRankingRendererDefaultProps,
 } from './types';
-import { RankedPuzzleDisplayType } from 'components/Puzzle/types';
-import Panel from 'components/General/Panel';
 
 const loadingPanel = (
   <Panel minHeight="8em" width={1}>
@@ -22,6 +23,7 @@ const PuzzleStarRankingRenderer = ({
   loading,
   error,
   data,
+  refetch,
   fetchMore,
   shouldLoadMore,
 }: PuzzleStarRankingRendererProps) => {
@@ -29,7 +31,7 @@ const PuzzleStarRankingRenderer = ({
 
   if (error) {
     toast.error(error.message);
-    return null;
+    return <ErrorReload error={error} refetch={refetch} />;
   }
   if (!data || !data.sui_hei_puzzle) {
     if (loading) return <Loading centered />;
@@ -75,7 +77,6 @@ const PuzzleStarRankingRenderer = ({
       )}
     </React.Fragment>
   );
-  return null;
 };
 
 PuzzleStarRankingRenderer.defaultProps = PuzzleStarRankingRendererDefaultProps;

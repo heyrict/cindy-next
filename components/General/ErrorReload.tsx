@@ -15,6 +15,7 @@ const ErrorReload = ({ error, refetch }: ErrorReloadProps) => {
       flexDirection="column"
       width={1}
       height={1}
+      m={1}
       justifyContent="center"
       alignItems="center"
     >

@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { toast } from 'react-toastify';
 import { asSearch } from 'common/search';
 import { concatList } from 'common/update';
 
@@ -20,6 +19,7 @@ import {
   ButtonTransparent,
 } from 'components/General';
 import Loading from 'components/General/Loading';
+import ErrorReload from 'components/General/ErrorReload';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 import SearchVarSetPanel from 'components/Search/SearchVarSetPanel';
 import SortVarSetPanel from 'components/Search/SortVarSetPanel';
@@ -127,79 +127,71 @@ const Tags = ({ intl }: { intl: IntlShape }) => {
           </Box>
         </Flex>
       </Panel>
-      <Flex flexWrap="wrap">
-        <Query<TagsPageQuery, TagsPageQueryVariables>
-          query={TAGS_PAGE_QUERY}
-          variables={{ ...variables, limit: TAGS_PER_PAGE, offset: 0 }}
-          fetchPolicy="cache-first"
-        >
-          {({ data, loading, error, fetchMore }) => {
-            if (error) {
-              toast.error(error);
-              return null;
-            }
-            if (loading) return <Loading centered />;
-            if (!data || !data.sui_hei_tag) return null;
+      <Query<TagsPageQuery, TagsPageQueryVariables>
+        query={TAGS_PAGE_QUERY}
+        variables={{ ...variables, limit: TAGS_PER_PAGE, offset: 0 }}
+        fetchPolicy="cache-first"
+      >
+        {({ data, loading, error, refetch, fetchMore }) => {
+          if (error) {
+            return <ErrorReload error={error} refetch={refetch} />;
+          }
+          if (loading) return <Loading centered />;
+          if (!data || !data.sui_hei_tag) return null;
 
-            const tags = data.sui_hei_tag;
-            return (
-              <Flex flexWrap="wrap" alignItems="center">
-                {tags.map(tag => (
-                  <PuzzleTagBubbleBox key={tag.id}>
-                    <Box fontSize="1.2em">
-                      <Link href="/tag/[id]" as={`/tag/${tag.id}`} passHref>
-                        <ButtonTransparentA p={1} borderRadius={2}>
-                          {tag.name}
-                          {tag.sui_hei_puzzle_tags_aggregate.aggregate && (
-                            <Box
-                              display="inline-box"
-                              fontSize="0.8em"
-                              color="green.7"
-                              pl={1}
-                            >
-                              {
-                                tag.sui_hei_puzzle_tags_aggregate.aggregate
-                                  .count
-                              }
-                            </Box>
-                          )}
-                        </ButtonTransparentA>
-                      </Link>
-                    </Box>
-                  </PuzzleTagBubbleBox>
-                ))}
-                {tags.length >= TAGS_PER_PAGE && hasMore && (
-                  <LoadMoreVis
-                    loadMore={() =>
-                      fetchMore({
-                        query: TAGS_PAGE_QUERY,
-                        variables: {
-                          ...variables,
-                          offset: data.sui_hei_tag.length,
-                        },
-                        updateQuery: (prev, { fetchMoreResult }) => {
-                          if (!fetchMoreResult) return prev;
-                          if (
-                            fetchMoreResult.sui_hei_tag.length < TAGS_PER_PAGE
-                          )
-                            setHasMore(false);
-                          return {
-                            ...prev,
-                            sui_hei_tag: concatList(
-                              prev.sui_hei_tag,
-                              fetchMoreResult.sui_hei_tag,
-                            ),
-                          };
-                        },
-                      })
-                    }
-                  />
-                )}
-              </Flex>
-            );
-          }}
-        </Query>
-      </Flex>
+          const tags = data.sui_hei_tag;
+          return (
+            <Flex flexWrap="wrap" alignItems="center">
+              {tags.map(tag => (
+                <PuzzleTagBubbleBox key={tag.id}>
+                  <Box fontSize="1.2em">
+                    <Link href="/tag/[id]" as={`/tag/${tag.id}`} passHref>
+                      <ButtonTransparentA p={1} borderRadius={2}>
+                        {tag.name}
+                        {tag.sui_hei_puzzle_tags_aggregate.aggregate && (
+                          <Box
+                            display="inline-box"
+                            fontSize="0.8em"
+                            color="green.7"
+                            pl={1}
+                          >
+                            {tag.sui_hei_puzzle_tags_aggregate.aggregate.count}
+                          </Box>
+                        )}
+                      </ButtonTransparentA>
+                    </Link>
+                  </Box>
+                </PuzzleTagBubbleBox>
+              ))}
+              {tags.length >= TAGS_PER_PAGE && hasMore && (
+                <LoadMoreVis
+                  loadMore={() =>
+                    fetchMore({
+                      query: TAGS_PAGE_QUERY,
+                      variables: {
+                        ...variables,
+                        offset: data.sui_hei_tag.length,
+                      },
+                      updateQuery: (prev, { fetchMoreResult }) => {
+                        if (!fetchMoreResult) return prev;
+                        if (fetchMoreResult.sui_hei_tag.length < TAGS_PER_PAGE)
+                          setHasMore(false);
+                        return {
+                          ...prev,
+                          sui_hei_tag: concatList(
+                            prev.sui_hei_tag,
+                            fetchMoreResult.sui_hei_tag,
+                          ),
+                        };
+                      },
+                    })
+                  }
+                />
+              )}
+            </Flex>
+          );
+        }}
+      </Query>
     </React.Fragment>
   );
 };

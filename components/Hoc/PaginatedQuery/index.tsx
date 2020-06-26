@@ -1,8 +1,8 @@
 import React from 'react';
 import isEqual from 'react-fast-compare';
-import { toast } from 'react-toastify';
 
 import Loading from 'components/General/Loading';
+import ErrorReload from 'components/General/ErrorReload';
 import SimplePaginatorBar from './SimplePaginatorBar';
 
 import {
@@ -79,10 +79,9 @@ class PaginatedQuery<
               });
           }}
         >
-          {({ loading, error, data }: QueryResult<TData>) => {
+          {({ loading, error, data, refetch }: QueryResult<TData>) => {
             if (error) {
-              toast.error(error.message);
-              return null;
+              return <ErrorReload error={error} refetch={refetch} />;
             }
             if (loading) return <Loading centered />;
             if (!data) return null;
