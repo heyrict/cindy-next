@@ -37,42 +37,42 @@ const PuzzleWithAny = ({
   const aggregates = {
     bookmarkCount:
       bookmarkCount ||
-      (puzzle.sui_hei_bookmarks_aggregate &&
-        puzzle.sui_hei_bookmarks_aggregate.aggregate &&
-        puzzle.sui_hei_bookmarks_aggregate.aggregate.count),
+      (puzzle.bookmarks_aggregate &&
+        puzzle.bookmarks_aggregate.aggregate &&
+        puzzle.bookmarks_aggregate.aggregate.count),
     commentCount:
       commentCount ||
-      (puzzle.sui_hei_comments_aggregate &&
-        puzzle.sui_hei_comments_aggregate.aggregate &&
-        puzzle.sui_hei_comments_aggregate.aggregate.count),
+      (puzzle.comments_aggregate &&
+        puzzle.comments_aggregate.aggregate &&
+        puzzle.comments_aggregate.aggregate.count),
     starCount:
       starCount ||
-      (puzzle.sui_hei_stars_aggregate &&
-        puzzle.sui_hei_stars_aggregate.aggregate &&
-        puzzle.sui_hei_stars_aggregate.aggregate.count),
+      (puzzle.stars_aggregate &&
+        puzzle.stars_aggregate.aggregate &&
+        puzzle.stars_aggregate.aggregate.count),
     starSum:
       starSum ||
-      (puzzle.sui_hei_stars_aggregate &&
-        puzzle.sui_hei_stars_aggregate.aggregate &&
-        puzzle.sui_hei_stars_aggregate.aggregate.sum &&
-        puzzle.sui_hei_stars_aggregate.aggregate.sum.value),
+      (puzzle.stars_aggregate &&
+        puzzle.stars_aggregate.aggregate &&
+        puzzle.stars_aggregate.aggregate.sum &&
+        puzzle.stars_aggregate.aggregate.sum.value),
     dialogueCount:
       dialogueCount ||
-      (puzzle.sui_hei_dialogues_aggregate &&
-        puzzle.sui_hei_dialogues_aggregate.aggregate &&
-        puzzle.sui_hei_dialogues_aggregate.aggregate.count),
+      (puzzle.dialogues_aggregate &&
+        puzzle.dialogues_aggregate.aggregate &&
+        puzzle.dialogues_aggregate.aggregate.count),
     dialogueMaxAnsweredtime:
       dialogueMaxAnsweredtime ||
-      (puzzle.sui_hei_dialogues_aggregate &&
-        puzzle.sui_hei_dialogues_aggregate.aggregate &&
-        puzzle.sui_hei_dialogues_aggregate.aggregate.max &&
-        puzzle.sui_hei_dialogues_aggregate.aggregate.max.answeredtime),
+      (puzzle.dialogues_aggregate &&
+        puzzle.dialogues_aggregate.aggregate &&
+        puzzle.dialogues_aggregate.aggregate.max &&
+        puzzle.dialogues_aggregate.aggregate.max.answeredtime),
     dialogueMaxCreatedtime:
       dialogueMaxCreated ||
-      (puzzle.sui_hei_dialogues_aggregate &&
-        puzzle.sui_hei_dialogues_aggregate.aggregate &&
-        puzzle.sui_hei_dialogues_aggregate.aggregate.max &&
-        puzzle.sui_hei_dialogues_aggregate.aggregate.max.created),
+      (puzzle.dialogues_aggregate &&
+        puzzle.dialogues_aggregate.aggregate &&
+        puzzle.dialogues_aggregate.aggregate.max &&
+        puzzle.dialogues_aggregate.aggregate.max.created),
   };
 
   return (
@@ -109,7 +109,7 @@ const PuzzleWithAny = ({
         )}
         <Box textAlign="right">
           <FormattedMessage {...puzzleMessages.creator} />:{' '}
-          <UserInline user={puzzle.sui_hei_user} />
+          <UserInline user={puzzle.user} />
         </Box>
         <Hr />
         <Flex p={1} flexWrap="wrap" alignItems="center">

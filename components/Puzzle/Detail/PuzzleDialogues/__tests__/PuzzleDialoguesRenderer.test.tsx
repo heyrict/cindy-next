@@ -21,8 +21,8 @@ describe.skip('<PuzzleDialoguesRenderer />', () => {
     pushNotification: true,
     subscribeToMore: subscribeFn,
     data: {
-      sui_hei_dialogue: dialogues,
-      sui_hei_hint: hints,
+      dialogue: dialogues,
+      hint: hints,
     },
     variables: {
       puzzleId: puzzle.id,
@@ -32,7 +32,7 @@ describe.skip('<PuzzleDialoguesRenderer />', () => {
       nickname: undefined,
       username: undefined,
     },
-    puzzleUser: puzzle.sui_hei_user,
+    puzzleUser: puzzle.user,
     puzzleStatus: puzzle.status,
     anonymous: puzzle.anonymous,
     shouldSubscribe: true,
@@ -64,7 +64,7 @@ describe('<PuzzleDialoguesRendererInner />', () => {
       <PuzzleDialoguesRendererInner
         dialogues={dialogues}
         hints={hints}
-        puzzleUser={puzzle.sui_hei_user}
+        puzzleUser={puzzle.user}
         puzzleStatus={puzzle.status}
         anonymous={puzzle.anonymous}
       />,

@@ -42,11 +42,11 @@ const ProfileInfoRenderer = ({
     toast.error(error.message);
     return null;
   }
-  if (!data || !data.sui_hei_user_by_pk) {
+  if (!data || !data.user_by_pk) {
     if (loading) return <Loading centered />;
     return null;
   }
-  const user = data.sui_hei_user_by_pk;
+  const user = data.user_by_pk;
 
   return (
     <React.Fragment>

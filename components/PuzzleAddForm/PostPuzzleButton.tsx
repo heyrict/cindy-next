@@ -50,15 +50,15 @@ const PostPuzzleButton = ({
               }
               if (
                 !data ||
-                !data.insert_sui_hei_puzzle ||
-                !data.insert_sui_hei_puzzle.returning
+                !data.insert_puzzle ||
+                !data.insert_puzzle.returning
               ) {
                 toast.error('Error: no data returns');
                 setSubmitting(false);
                 return;
               }
               incPuzzles();
-              const addedPuzzle = data.insert_sui_hei_puzzle.returning[0];
+              const addedPuzzle = data.insert_puzzle.returning[0];
               Router.push('/puzzle/[id]', `/puzzle/${addedPuzzle.id}`);
             })
             .catch((error: ApolloError) => {

@@ -73,7 +73,7 @@ const UserPuzzleRankingRenderer = ({
             justifyContent="center"
           >
             <Box fontSize="1.3em">
-              <UserInline user={rank.sui_hei_user} />
+              <UserInline user={rank.user} />
             </Box>
           </Flex>
         </Panel>

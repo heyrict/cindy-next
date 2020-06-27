@@ -5,11 +5,11 @@ import { PUZZLE_SHARED_FRAGMENT } from 'graphql/Fragments/Puzzles';
 
 export const REPLAY_QUERY = gql`
   query ReplayQuery($id: Int!) {
-    sui_hei_replay_by_pk(id: $id) {
+    replay_by_pk(id: $id) {
       id
       ...ReplayShared
       milestones
-      sui_hei_replay_dialogues {
+      replay_dialogues {
         id
         question
         answer
@@ -19,7 +19,7 @@ export const REPLAY_QUERY = gql`
         milestones
         dependency
       }
-      sui_hei_puzzle {
+      puzzle {
         id
         content
         solution
@@ -33,13 +33,13 @@ export const REPLAY_QUERY = gql`
 
 export const REPLAY_LIST_QUERY = gql`
   query ReplayListQuery($limit: Int, $offset: Int) {
-    sui_hei_replay(order_by: { id: desc }, limit: $limit, offset: $offset)
-      @connection(key: "sui_hei_replay", filter: ["order_by"]) {
+    replay(order_by: { id: desc }, limit: $limit, offset: $offset)
+      @connection(key: "replay", filter: ["order_by"]) {
       id
       ...ReplayShared
       milestones
     }
-    sui_hei_replay_aggregate {
+    replay_aggregate {
       aggregate {
         count
       }

@@ -39,23 +39,23 @@ const ReplayRenderer = ({
     toast.error(error.message);
     return replayNotExistElement;
   }
-  if (!data || !data.sui_hei_replay_by_pk) {
+  if (!data || !data.replay_by_pk) {
     if (loading) return <Loading centered />;
     return replayNotExistElement;
   }
-  const replay = data.sui_hei_replay_by_pk;
+  const replay = data.replay_by_pk;
   if (replay.id === undefined) return replayNotExistElement;
 
   return (
     <React.Fragment>
       <Head>
         <title>
-          {replay.title} by {replay.sui_hei_user.nickname} | Cindy
+          {replay.title} by {replay.user.nickname} | Cindy
         </title>
         <meta
           name="description"
           content={`${_(puzzlePageMessages.solveit)}: "${text2raw(
-            replay.sui_hei_puzzle ? replay.sui_hei_puzzle.content : '',
+            replay.puzzle ? replay.puzzle.content : '',
           )}"`}
         />
       </Head>

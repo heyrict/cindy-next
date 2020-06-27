@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { USER_BRIEF_FRAGMENT } from './User';
 
 export const PUZZLE_SHARED_FRAGMENT = gql`
-  fragment PuzzleShared on sui_hei_puzzle {
+  fragment PuzzleShared on puzzle {
     id
     genre
     title
@@ -13,7 +13,7 @@ export const PUZZLE_SHARED_FRAGMENT = gql`
     created
     modified
     grotesque
-    sui_hei_user {
+    user {
       ...UserBrief
     }
   }
@@ -21,9 +21,9 @@ export const PUZZLE_SHARED_FRAGMENT = gql`
 `;
 
 export const PUZZLE_AGGREGATE_FRAGMENT = gql`
-  fragment PuzzleAggregate on sui_hei_puzzle {
+  fragment PuzzleAggregate on puzzle {
     ...PuzzleShared
-    sui_hei_stars_aggregate {
+    stars_aggregate {
       aggregate {
         count
         sum {
@@ -31,17 +31,17 @@ export const PUZZLE_AGGREGATE_FRAGMENT = gql`
         }
       }
     }
-    sui_hei_comments_aggregate {
+    comments_aggregate {
       aggregate {
         count
       }
     }
-    sui_hei_bookmarks_aggregate {
+    bookmarks_aggregate {
       aggregate {
         count
       }
     }
-    sui_hei_dialogues_aggregate {
+    dialogues_aggregate {
       aggregate {
         count
       }

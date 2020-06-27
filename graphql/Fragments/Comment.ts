@@ -3,11 +3,11 @@ import gql from 'graphql-tag';
 import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
 export const COMMENT_FRAGMENT = gql`
-  fragment Comment on sui_hei_comment {
+  fragment Comment on comment {
     id
     content
     spoiler
-    sui_hei_user {
+    user {
       ...UserBrief
     }
   }
@@ -15,14 +15,14 @@ export const COMMENT_FRAGMENT = gql`
 `;
 
 export const COMMENT_DETAIL_FRAGMENT = gql`
-  fragment CommentDetail on sui_hei_comment {
+  fragment CommentDetail on comment {
     ...Comment
-    sui_hei_puzzle {
+    puzzle {
       id
       title
       genre
       yami
-      sui_hei_user {
+      user {
         ...UserBrief
       }
     }

@@ -72,7 +72,7 @@ const ChatroomDescriptionInner = ({
           <FormattedMessage {...chatMessages.noDescription} />
         </p>
       )}
-      {userId === chatroom.sui_hei_user.id && (
+      {userId === chatroom.user.id && (
         <ButtonTransparent onClick={() => setEdit(true)}>
           <Img src={pencilIcon} size="xxs" />
         </ButtonTransparent>

@@ -38,8 +38,8 @@ import {
   UserFilterSwitcherUserType,
 } from './types';
 import {
-  DialogueHintQuery_sui_hei_hint,
-  DialogueHintQuery_sui_hei_dialogue,
+  DialogueHintQuery_hint,
+  DialogueHintQuery_dialogue,
   DialogueHintQuery,
 } from 'graphql/Queries/generated/DialogueHintQuery';
 import { ActionContentType, StateType } from 'reducers/types';
@@ -54,15 +54,18 @@ export const PuzzleDialoguesRendererInner = ({
   anonymous,
 }: PuzzleDialoguesRendererInnerProps) => {
   const dialogueHints: Array<
-    DialogueHintQuery_sui_hei_dialogue | DialogueHintQuery_sui_hei_hint
-  > = mergeList<
-    DialogueHintQuery_sui_hei_dialogue | DialogueHintQuery_sui_hei_hint
-  >(dialogues, hints, 'created', 'asc');
+    DialogueHintQuery_dialogue | DialogueHintQuery_hint
+  > = mergeList<DialogueHintQuery_dialogue | DialogueHintQuery_hint>(
+    dialogues,
+    hints,
+    'created',
+    'asc',
+  );
 
   return (
     <React.Fragment>
       {dialogueHints.map(node =>
-        node.__typename === 'sui_hei_dialogue' ? (
+        node.__typename === 'dialogue' ? (
           <PuzzleDialogue
             index={node.qno}
             key={`dialogue-${node.id}`}
@@ -102,7 +105,7 @@ export const PuzzleDialoguesRenderer = ({
   setTrueSolvedLongtermYami,
   updateSolvedLongTermYamiOnSubscribe,
 }: PuzzleDialoguesRendererProps) => {
-  if (!data || !data.sui_hei_dialogue || !data.sui_hei_hint) {
+  if (!data || !data.dialogue || !data.hint) {
     if (loading) return <Loading centered />;
     return null;
   }
@@ -113,7 +116,7 @@ export const PuzzleDialoguesRenderer = ({
   let users;
 
   if (applyUserFilter) {
-    users = extractUserFilterUserFromDialogues(data.sui_hei_dialogue);
+    users = extractUserFilterUserFromDialogues(data.dialogue);
     setParticipants(users);
   }
 
@@ -134,29 +137,27 @@ export const PuzzleDialoguesRenderer = ({
         { subscriptionData }: { subscriptionData: { data: DialogueLiveQuery } },
       ) => {
         if (!subscriptionData.data) return prev;
-        const { sui_hei_dialogue } = subscriptionData.data;
-        if (sui_hei_dialogue === null || sui_hei_dialogue.length === 0) {
+        const { dialogue } = subscriptionData.data;
+        if (dialogue === null || dialogue.length === 0) {
           return prev;
         }
         // display answer if user get true answer in long-term yami
-        if (updateSolvedLongTermYamiOnSubscribe && sui_hei_dialogue[0].true)
+        if (updateSolvedLongTermYamiOnSubscribe && dialogue[0].true)
           setTrueSolvedLongtermYami();
 
         // Update award checker
-        const toUpdate = prev.sui_hei_dialogue.find(
-          d => d.id === sui_hei_dialogue[0].id,
-        );
-        if (toUpdate && toUpdate.sui_hei_user.id === user.id) {
-          if (!toUpdate.good && sui_hei_dialogue[0].good) {
+        const toUpdate = prev.dialogue.find(d => d.id === dialogue[0].id);
+        if (toUpdate && toUpdate.user.id === user.id) {
+          if (!toUpdate.good && dialogue[0].good) {
             incGoodQuestions();
           }
-          if (toUpdate.good && !sui_hei_dialogue[0].good) {
+          if (toUpdate.good && !dialogue[0].good) {
             incGoodQuestions(-1);
           }
-          if (!toUpdate.true && sui_hei_dialogue[0].true) {
+          if (!toUpdate.true && dialogue[0].true) {
             incTrueAnswers();
           }
-          if (toUpdate.true && !sui_hei_dialogue[0].true) {
+          if (toUpdate.true && !dialogue[0].true) {
             incTrueAnswers(-1);
           }
         }
@@ -164,18 +165,13 @@ export const PuzzleDialoguesRenderer = ({
         // Notification for creator
         if (pushNotification && document.hidden && puzzleUser.id === user.id) {
           maybeSendNotification(_(webNotifyMessages.newDialogueAdded), {
-            body: sui_hei_dialogue[0].question,
+            body: dialogue[0].question,
             renotify: true,
           });
         }
 
         return Object.assign({}, prev, {
-          sui_hei_dialogue: upsertMultipleItem(
-            prev.sui_hei_dialogue,
-            sui_hei_dialogue,
-            'id',
-            'asc',
-          ),
+          dialogue: upsertMultipleItem(prev.dialogue, dialogue, 'id', 'asc'),
         });
       };
       // }}}
@@ -186,25 +182,20 @@ export const PuzzleDialoguesRenderer = ({
         { subscriptionData }: { subscriptionData: { data: HintLiveQuery } },
       ) => {
         if (!subscriptionData.data) return prev;
-        const { sui_hei_hint } = subscriptionData.data;
-        if (sui_hei_hint === null || sui_hei_hint.length === 0) {
+        const { hint } = subscriptionData.data;
+        if (hint === null || hint.length === 0) {
           return prev;
         }
         // Notification for participants
         if (document.hidden && puzzleUser.id !== user.id) {
           maybeSendNotification(_(webNotifyMessages.newHintAdded), {
-            body: sui_hei_hint[0].content,
+            body: hint[0].content,
             renotify: true,
           });
         }
 
         return Object.assign({}, prev, {
-          sui_hei_hint: upsertMultipleItem(
-            prev.sui_hei_hint,
-            sui_hei_hint,
-            'id',
-            'asc',
-          ),
+          hint: upsertMultipleItem(prev.hint, hint, 'id', 'asc'),
         });
       };
       // }}}
@@ -248,15 +239,15 @@ export const PuzzleDialoguesRenderer = ({
   let dialogues;
   let hints;
   if (applyUserFilter && userFilterId !== -1) {
-    dialogues = data.sui_hei_dialogue.filter(
-      dialogue => dialogue.sui_hei_user.id === userFilterId,
+    dialogues = data.dialogue.filter(
+      dialogue => dialogue.user.id === userFilterId,
     );
-    hints = data.sui_hei_hint.filter(
+    hints = data.hint.filter(
       hint => hint.receiver === null || hint.receiver.id === userFilterId,
     );
   } else {
-    dialogues = data.sui_hei_dialogue;
-    hints = data.sui_hei_hint;
+    dialogues = data.dialogue;
+    hints = data.hint;
   }
 
   return (

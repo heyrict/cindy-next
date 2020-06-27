@@ -7,10 +7,7 @@ import {
 
 export const PUZZLE_COMMENT_QUERY = gql`
   query PuzzleCommentQuery($puzzleId: Int!) {
-    sui_hei_comment(
-      where: { puzzle_id: { _eq: $puzzleId } }
-      order_by: { id: desc }
-    ) {
+    comment(where: { puzzle_id: { _eq: $puzzleId } }, order_by: { id: desc }) {
       ...Comment
     }
   }
@@ -19,7 +16,7 @@ export const PUZZLE_COMMENT_QUERY = gql`
 
 export const PUZZLE_COMMENT_AGGREGATE_QUERY = gql`
   query PuzzleCommentAggregateQuery($puzzleId: Int!) {
-    sui_hei_comment_aggregate(where: { puzzle_id: { _eq: $puzzleId } }) {
+    comment_aggregate(where: { puzzle_id: { _eq: $puzzleId } }) {
       aggregate {
         count
       }
@@ -29,7 +26,7 @@ export const PUZZLE_COMMENT_AGGREGATE_QUERY = gql`
 
 export const PREVIOUS_COMMENT_VALUE_QUERY = gql`
   query PreviousCommentValueQuery($userId: Int!, $puzzleId: Int!) {
-    sui_hei_comment(
+    comment(
       where: { puzzle_id: { _eq: $puzzleId }, user_id: { _eq: $userId } }
     ) {
       ...Comment
@@ -43,17 +40,17 @@ export const PROFILE_COMMENTS_QUERY = gql`
     $limit: Int
     $offset: Int
     $userId: Int
-    $orderBy: [sui_hei_comment_order_by!]
+    $orderBy: [comment_order_by!]
   ) {
-    sui_hei_comment(
+    comment(
       order_by: $orderBy
       where: { user_id: { _eq: $userId } }
       limit: $limit
       offset: $offset
-    ) @connection(key: "sui_hei_comment", filter: ["order_by", "where"]) {
+    ) @connection(key: "comment", filter: ["order_by", "where"]) {
       ...CommentDetail
     }
-    sui_hei_comment_aggregate(where: { user_id: { _eq: $userId } }) {
+    comment_aggregate(where: { user_id: { _eq: $userId } }) {
       aggregate {
         count
       }
@@ -67,19 +64,17 @@ export const PROFILE_COMMENTS_RECEIVED_QUERY = gql`
     $limit: Int
     $offset: Int
     $userId: Int
-    $orderBy: [sui_hei_comment_order_by!]
+    $orderBy: [comment_order_by!]
   ) {
-    sui_hei_comment(
+    comment(
       order_by: $orderBy
-      where: { sui_hei_puzzle: { user_id: { _eq: $userId } } }
+      where: { puzzle: { user_id: { _eq: $userId } } }
       limit: $limit
       offset: $offset
-    ) @connection(key: "sui_hei_comment", filter: ["order_by", "where"]) {
+    ) @connection(key: "comment", filter: ["order_by", "where"]) {
       ...CommentDetail
     }
-    sui_hei_comment_aggregate(
-      where: { sui_hei_puzzle: { user_id: { _eq: $userId } } }
-    ) {
+    comment_aggregate(where: { puzzle: { user_id: { _eq: $userId } } }) {
       aggregate {
         count
       }
@@ -90,12 +85,12 @@ export const PROFILE_COMMENTS_RECEIVED_QUERY = gql`
 
 export const COMMENTS_QUERY = gql`
   query CommentsQuery($limit: Int, $offset: Int) {
-    sui_hei_comment(
-      where: { sui_hei_puzzle: { status: { _eq: 1 } } }
+    comment(
+      where: { puzzle: { status: { _eq: 1 } } }
       order_by: { id: desc }
       limit: $limit
       offset: $offset
-    ) @connection(key: "sui_hei_comment", filter: ["order_by", "where"]) {
+    ) @connection(key: "comment", filter: ["order_by", "where"]) {
       ...CommentDetail
     }
   }

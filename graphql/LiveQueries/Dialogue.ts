@@ -4,7 +4,7 @@ import { DIALOGUE_SHARED_FRAGMENT } from '../Fragments/Dialogue';
 
 export const DIALOGUE_LIVE_QUERY = gql`
   subscription DialogueLiveQuery($puzzleId: Int!, $limit: Int!) {
-    sui_hei_dialogue(
+    dialogue(
       where: { puzzle_id: { _eq: $puzzleId } }
       limit: $limit
       order_by: { modified: desc }
@@ -21,7 +21,7 @@ export const DIALOGUE_WITH_USER_LIVE_QUERY = gql`
     $userId: Int!
     $limit: Int!
   ) {
-    sui_hei_dialogue(
+    dialogue(
       where: { puzzle_id: { _eq: $puzzleId }, user_id: { _eq: $userId } }
       limit: $limit
       order_by: { modified: desc }

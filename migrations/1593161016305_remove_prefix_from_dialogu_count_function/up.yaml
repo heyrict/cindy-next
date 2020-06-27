@@ -1,0 +1,19 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.dialogue_count_ranking(created_gte timestamp without time zone, created_lt timestamp without time zone)
+       RETURNS SETOF hasura_user_ranking_trigger
+       LANGUAGE sql
+       STABLE
+      AS $function$
+      select
+        user_id,
+        count(id) as value
+      from
+        dialogue
+      where
+        created >= created_gte
+        and created < created_lt
+      group by user_id $function$;
+  type: run_sql

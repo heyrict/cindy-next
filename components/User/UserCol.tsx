@@ -29,9 +29,9 @@ const UserCol = ({ user, timestamp, ...props }: UserColProps) => {
         />
       )}
       {NicknameBlock}
-      {user.sui_hei_current_useraward && (
+      {user.current_user_award && (
         <Box fontSize="0.9em">
-          <CurrentUserAward useraward={user.sui_hei_current_useraward} />
+          <CurrentUserAward user_award={user.current_user_award} />
         </Box>
       )}
       {timestamp}

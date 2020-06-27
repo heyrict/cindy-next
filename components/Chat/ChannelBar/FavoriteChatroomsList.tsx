@@ -30,7 +30,7 @@ const FavoriteChatroomsList = ({
           toast.error(error.message);
           return null;
         }
-        if (!data || !data.sui_hei_favoritechatroom) {
+        if (!data || !data.favorite_chatroom) {
           if (loading) return <Loading centered />;
           return null;
         }
@@ -44,7 +44,7 @@ const FavoriteChatroomsList = ({
             >
               <FormattedMessage {...chatMessages.favoriteChatrooms} />
             </Box>
-            {data.sui_hei_favoritechatroom.map(fc => (
+            {data.favorite_chatroom.map(fc => (
               <Box
                 key={fc.id}
                 border="2px solid"
@@ -56,11 +56,11 @@ const FavoriteChatroomsList = ({
                 <ButtonTransparent
                   height={24}
                   onClick={() => {
-                    setChannel(fc.sui_hei_chatroom.name);
+                    setChannel(fc.chatroom.name);
                     setFalseChannelChangeModal();
                   }}
                 >
-                  {fc.sui_hei_chatroom.name}
+                  {fc.chatroom.name}
                 </ButtonTransparent>
               </Box>
             ))}

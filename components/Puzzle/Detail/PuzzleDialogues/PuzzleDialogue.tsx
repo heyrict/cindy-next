@@ -38,7 +38,7 @@ const PuzzleDialogue = ({
           {index && <IndexLabel>Q{index}</IndexLabel>}
           <UserInline
             px={1}
-            user={dialogue.sui_hei_user}
+            user={dialogue.user}
             timestamp={
               dialogue.created && (
                 <FormattedTime
@@ -55,7 +55,7 @@ const PuzzleDialogue = ({
           <PuzzleDialogueQuestion
             dialogueId={dialogue.id}
             question={dialogue.question}
-            userId={dialogue.sui_hei_user.id}
+            userId={dialogue.user.id}
             questionEditTimes={dialogue.questionEditTimes}
             puzzleStatus={puzzleStatus}
             isAnswered={dialogue.answer !== ''}

@@ -74,7 +74,7 @@ const StarPopupContent = ({
             toast.error(error.message);
             return null;
           }
-          if (!data || !data.sui_hei_star) {
+          if (!data || !data.star) {
             if (loading) return <Loading centered />;
             return null;
           }
@@ -84,9 +84,9 @@ const StarPopupContent = ({
                 <FormattedMessage
                   {...puzzleMessages.starUsersWithExtra}
                   values={{
-                    users: data.sui_hei_star
+                    users: data.star
                       .slice(0, MAX_DISPLAY_STAR_USERS)
-                      .map(star => star.sui_hei_user.nickname)
+                      .map(star => star.user.nickname)
                       .join(', '),
                     count: starCount - MAX_DISPLAY_STAR_USERS,
                   }}
@@ -95,9 +95,7 @@ const StarPopupContent = ({
                 <FormattedMessage
                   {...puzzleMessages.starUsers}
                   values={{
-                    users: data.sui_hei_star
-                      .map(star => star.sui_hei_user.nickname)
-                      .join(', '),
+                    users: data.star.map(star => star.user.nickname).join(', '),
                   }}
                 />
               )}
@@ -119,12 +117,12 @@ const StarPopupContent = ({
                 toast.error(error.message);
                 return null;
               }
-              if (!data || !data.sui_hei_star) {
+              if (!data || !data.star) {
                 if (loading) return <Loading centered />;
                 return null;
               }
               const initialValue =
-                data.sui_hei_star.length === 0 ? 0 : data.sui_hei_star[0].value;
+                data.star.length === 0 ? 0 : data.star[0].value;
               return (
                 <>
                   {initialValue === 0 ? (
@@ -141,11 +139,11 @@ const StarPopupContent = ({
                     update={(proxy, { data }) => {
                       if (
                         !data ||
-                        !data.insert_sui_hei_star ||
-                        data.insert_sui_hei_star.returning.length === 0
+                        !data.insert_star ||
+                        data.insert_star.returning.length === 0
                       )
                         return;
-                      const newStar = data.insert_sui_hei_star.returning[0];
+                      const newStar = data.insert_star.returning[0];
                       proxy.writeQuery<
                         PreviousStarValueQuery,
                         PreviousStarValueQueryVariables
@@ -156,7 +154,7 @@ const StarPopupContent = ({
                           userId,
                         },
                         data: {
-                          sui_hei_star: [{ ...newStar }],
+                          star: [{ ...newStar }],
                         },
                       });
                     }}
@@ -171,14 +169,14 @@ const StarPopupContent = ({
                               value,
                             },
                             optimisticResponse: {
-                              insert_sui_hei_star: {
-                                __typename: 'sui_hei_star_mutation_response',
+                              insert_star: {
+                                __typename: 'star_mutation_response',
                                 returning: [
                                   {
-                                    __typename: 'sui_hei_star',
+                                    __typename: 'star',
                                     id:
-                                      data.sui_hei_star.length > 0
-                                        ? data.sui_hei_star[0].id
+                                      data.star.length > 0
+                                        ? data.star[0].id
                                         : -1,
                                     value,
                                   },

@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."hasura_direct_message_group_trigger" rename to "hasura_directmessage_group_trigger";
+  type: run_sql

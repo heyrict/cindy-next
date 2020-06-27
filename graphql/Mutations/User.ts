@@ -1,13 +1,10 @@
 import gql from 'graphql-tag';
 
-import { USERAWARD_FRAGMENT } from '../Fragments/UserAward';
+import { USER_AWARD_FRAGMENT } from '../Fragments/UserAward';
 
 export const EDIT_PROFILE_MUTATION = gql`
   mutation EditProfileMutation($userId: Int!, $content: String!) {
-    update_sui_hei_user(
-      _set: { profile: $content }
-      where: { id: { _eq: $userId } }
-    ) {
+    update_user(_set: { profile: $content }, where: { id: { _eq: $userId } }) {
       returning {
         id
         profile
@@ -18,24 +15,24 @@ export const EDIT_PROFILE_MUTATION = gql`
 
 export const CHANGE_CURRERNT_USERAWARD_MUTATION = gql`
   mutation ChangeCurrentUserawardMutation($userId: Int!, $userawardId: Int) {
-    update_sui_hei_user(
+    update_user(
       _set: { current_award_id: $userawardId }
       where: { id: { _eq: $userId } }
     ) {
       returning {
         id
-        sui_hei_current_useraward {
+        current_user_award {
           ...UserAward
         }
       }
     }
   }
-  ${USERAWARD_FRAGMENT}
+  ${USER_AWARD_FRAGMENT}
 `;
 
 export const CHANGE_HIDE_BOOKMARK_MUTATION = gql`
   mutation ChangeHideBookmarkMutation($userId: Int!, $hideBookmark: Boolean!) {
-    update_sui_hei_user(
+    update_user(
       _set: { hide_bookmark: $hideBookmark }
       where: { id: { _eq: $userId } }
     ) {
@@ -49,7 +46,7 @@ export const CHANGE_HIDE_BOOKMARK_MUTATION = gql`
 
 export const SET_LAST_READ_DM_MUTATION = gql`
   mutation SetLastReadDmMutation($userId: Int!, $directMessageId: Int!) {
-    update_sui_hei_user(
+    update_user(
       _set: { last_read_dm_id: $directMessageId }
       where: { id: { _eq: $userId } }
     ) {

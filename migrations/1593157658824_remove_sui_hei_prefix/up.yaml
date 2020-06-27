@@ -1,0 +1,544 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_award" rename to "award";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_awardapplication" rename to "award_application";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_bookmark" rename to "bookmark";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_chatmessage" rename to "chatmessage";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_chatroom" rename to "chatroom";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_comment" rename to "comment";
+  type: run_sql
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: comment
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_puzzle
+    new_name: puzzle
+    table:
+      name: comment
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: chatroom
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_chatroom
+    new_name: chatroom
+    table:
+      name: chatmessage
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: chatmessage
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: bookmark
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_puzzle
+    new_name: puzzle
+    table:
+      name: bookmark
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: award_application
+      schema: public
+  type: rename_relationship
+- args:
+    name: suiHeiUserByReviewerId
+    new_name: user_by_reviewer_id
+    table:
+      name: award_application
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_award
+    new_name: award
+    table:
+      name: award_application
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_dialogue" rename to "dialogue";
+  type: run_sql
+- args:
+    name: sui_hei_puzzle
+    new_name: puzzle
+    table:
+      name: dialogue
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: dialogue
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_directmessage" rename to "direct_message";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_event" rename to "event";
+  type: run_sql
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: event
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_eventawards
+    new_name: event_awards
+    table:
+      name: event
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_eventaward" rename to "event_award";
+  type: run_sql
+- args:
+    name: sui_hei_event
+    new_name: event
+    table:
+      name: event_award
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_award
+    new_name: award
+    table:
+      name: event_award
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_favoritechatroom" rename to "favorite_chatroom";
+  type: run_sql
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: favorite_chatroom
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_chatroom
+    new_name: chatroom
+    table:
+      name: favorite_chatroom
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_puzzle
+    new_name: puzzle
+    table:
+      name: sui_hei_hint
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_hint" rename to "hint";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_puzzle" rename to "puzzle";
+  type: run_sql
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: puzzle
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_stars
+    new_name: stars
+    table:
+      name: puzzle
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_bookmarks
+    new_name: bookmarks
+    table:
+      name: puzzle
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_dialogues
+    new_name: dialogues
+    table:
+      name: puzzle
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_comments
+    new_name: comments
+    table:
+      name: puzzle
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_hints
+    new_name: hints
+    table:
+      name: puzzle
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_puzzle_tags
+    new_name: puzzle_tags
+    table:
+      name: puzzle
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_puzzle_tag" rename to "puzzle_tag";
+  type: run_sql
+- args:
+    name: sui_hei_puzzle
+    new_name: puzzle
+    table:
+      name: puzzle_tag
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_tag
+    new_name: tag
+    table:
+      name: puzzle_tag
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: puzzle_tag
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_replay" rename to "replay";
+  type: run_sql
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: replay
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_puzzle
+    new_name: puzzle
+    table:
+      name: replay
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_replay_dialogues
+    new_name: replay_dialogues
+    table:
+      name: replay
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_replay_dialogue" rename to "replay_dialogue";
+  type: run_sql
+- args:
+    name: sui_hei_replay
+    new_name: replay
+    table:
+      name: replay_dialogue
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_schedule" rename to "schedule";
+  type: run_sql
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: schedule
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_star" rename to "star";
+  type: run_sql
+- args:
+    name: sui_hei_puzzle
+    new_name: puzzle
+    table:
+      name: star
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: star
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_puzzle_tags
+    new_name: puzzle_tags
+    table:
+      name: sui_hei_tag
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_tag" rename to "tag";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_user" rename to "user";
+  type: run_sql
+- args:
+    name: sui_hei_current_useraward
+    new_name: current_user_award
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_schedules
+    new_name: schedules
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_userawards
+    new_name: user_awards
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: suiHeiAwardapplicationsByReviewerId
+    new_name: award_applications_by_reviewer_id
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_stars
+    new_name: stars
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_bookmarks
+    new_name: bookmarks
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_chatmessages
+    new_name: chatmessages
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_chatrooms
+    new_name: chatrooms
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_awardapplications
+    new_name: award_applications
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_comments
+    new_name: comments
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_dialogues
+    new_name: dialogues
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: suiHeiDirectmessagesBySenderId
+    new_name: direct_messages_by_sender_id
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_directmessages
+    new_name: direct_messages
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_events
+    new_name: events
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_favoritechatrooms
+    new_name: favorite_chatrooms
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_puzzles
+    new_name: puzzles
+    table:
+      name: user
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: sui_hei_useraward
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_award
+    new_name: award
+    table:
+      name: sui_hei_useraward
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_users
+    new_name: users
+    table:
+      name: sui_hei_useraward
+      schema: public
+  type: rename_relationship
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_useraward" rename to "user_award";
+  type: run_sql
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: hasura_user_ranking_trigger
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_user
+    new_name: user
+    table:
+      name: hasura_directmessage_group_trigger
+      schema: public
+  type: rename_relationship
+- args:
+    relationship: sui_hei_favoritechatrooms
+    table:
+      name: chatroom
+      schema: public
+  type: drop_relationship
+- args:
+    name: sui_hei_chatmessages
+    new_name: chatmessages
+    table:
+      name: chatroom
+      schema: public
+  type: rename_relationship
+- args:
+    name: sui_hei_awardapplications
+    new_name: award_applications
+    table:
+      name: award
+      schema: public
+  type: rename_relationship
+- args:
+    relationship: sui_hei_eventawards
+    table:
+      name: award
+      schema: public
+  type: drop_relationship
+- args:
+    name: sui_hei_userawards
+    new_name: user_awards
+    table:
+      name: award
+      schema: public
+  type: rename_relationship

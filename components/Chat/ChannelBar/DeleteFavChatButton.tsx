@@ -28,8 +28,8 @@ const DeleteFavChatButton = ({
   >
     mutation={DELETE_FAVORITE_CHATROOM_MUTATION}
     update={(proxy, { data, errors }) => {
-      if (!data || !data.delete_sui_hei_favoritechatroom) return;
-      if (data.delete_sui_hei_favoritechatroom.affected_rows === 0) return;
+      if (!data || !data.delete_favorite_chatroom) return;
+      if (data.delete_favorite_chatroom.affected_rows === 0) return;
       if (errors) {
         toast.error(JSON.stringify(errors));
         return;
@@ -42,7 +42,7 @@ const DeleteFavChatButton = ({
         query: FAVORITE_CHATROOMS_QUERY,
         data: {
           ...favChatrooms,
-          sui_hei_favoritechatroom: favChatrooms.sui_hei_favoritechatroom.filter(
+          favorite_chatroom: favChatrooms.favorite_chatroom.filter(
             fc => fc.id !== favchatId,
           ),
         },
@@ -56,8 +56,8 @@ const DeleteFavChatButton = ({
             favoriteChatroomId: favchatId,
           },
           optimisticResponse: {
-            delete_sui_hei_favoritechatroom: {
-              __typename: 'sui_hei_favoritechatroom_mutation_response',
+            delete_favorite_chatroom: {
+              __typename: 'favorite_chatroom_mutation_response',
               affected_rows: 1,
             },
           },

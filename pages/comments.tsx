@@ -41,15 +41,15 @@ const CommentsRenderer = ({
 
   // Update first 20 questions upon second+ load
   useEffect(() => {
-    if (data && data.sui_hei_comment && data.sui_hei_comment.length !== 0) {
+    if (data && data.comment && data.comment.length !== 0) {
       fetchMore({
         updateQuery: (prev, { fetchMoreResult }) => {
-          if (!fetchMoreResult || !fetchMoreResult.sui_hei_comment) return prev;
+          if (!fetchMoreResult || !fetchMoreResult.comment) return prev;
           return {
             ...prev,
-            sui_hei_comment: mergeList(
-              prev.sui_hei_comment,
-              fetchMoreResult.sui_hei_comment,
+            comment: mergeList(
+              prev.comment,
+              fetchMoreResult.comment,
               'id',
               'desc',
             ),
@@ -59,43 +59,34 @@ const CommentsRenderer = ({
     }
   }, []);
 
-  if (
-    loading &&
-    (!data || !data.sui_hei_comment || data.sui_hei_comment.length === 0)
-  )
+  if (loading && (!data || !data.comment || data.comment.length === 0))
     return commentLoadingPanel;
   if (error) {
     toast.error(error.message);
     return null;
   }
-  if (data && data.sui_hei_comment) {
+  if (data && data.comment) {
     return (
       <React.Fragment>
-        {data.sui_hei_comment.map(comment => (
+        {data.comment.map(comment => (
           <MultiColBox key={`comment-brief-${comment.id}`}>
             <CommentDisplay comment={comment} />
           </MultiColBox>
         ))}
-        {data.sui_hei_comment.length >= COMMENTS_PER_PAGE && hasMore && (
+        {data.comment.length >= COMMENTS_PER_PAGE && hasMore && (
           <LoadMoreVis
             wait={0}
             loadMore={() =>
               fetchMore({
                 variables: {
-                  offset: data.sui_hei_comment.length,
+                  offset: data.comment.length,
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult || !fetchMoreResult.sui_hei_comment)
-                    return prev;
-                  if (
-                    fetchMoreResult.sui_hei_comment.length < COMMENTS_PER_PAGE
-                  )
+                  if (!fetchMoreResult || !fetchMoreResult.comment) return prev;
+                  if (fetchMoreResult.comment.length < COMMENTS_PER_PAGE)
                     setHasMore(false);
                   return Object.assign({}, prev, {
-                    sui_hei_comment: [
-                      ...prev.sui_hei_comment,
-                      ...fetchMoreResult.sui_hei_comment,
-                    ],
+                    comment: [...prev.comment, ...fetchMoreResult.comment],
                   });
                 },
               })

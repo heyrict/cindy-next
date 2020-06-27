@@ -15,8 +15,8 @@ const UserInline = ({ user, timestamp, ...props }: UserInlineProps) => {
       {user.id > 0 ? (
         <React.Fragment>
           <UserBriefProfile user={user} />
-          {user.sui_hei_current_useraward && (
-            <CurrentUserAward useraward={user.sui_hei_current_useraward} />
+          {user.current_user_award && (
+            <CurrentUserAward user_award={user.current_user_award} />
           )}
         </React.Fragment>
       ) : (

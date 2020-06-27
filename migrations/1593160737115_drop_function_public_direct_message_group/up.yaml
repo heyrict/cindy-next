@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: DROP FUNCTION "public"."direct_message_group"("pg_catalog"."int4");
+  type: run_sql

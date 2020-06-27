@@ -35,31 +35,31 @@ const RankedPuzzle = ({
 }: RankedPuzzleProps) => {
   const aggregates = {
     bookmarkCount:
-      puzzle.sui_hei_bookmarks_aggregate &&
-      puzzle.sui_hei_bookmarks_aggregate.aggregate &&
-      puzzle.sui_hei_bookmarks_aggregate.aggregate.count,
+      puzzle.bookmarks_aggregate &&
+      puzzle.bookmarks_aggregate.aggregate &&
+      puzzle.bookmarks_aggregate.aggregate.count,
     commentCount:
-      puzzle.sui_hei_comments_aggregate &&
-      puzzle.sui_hei_comments_aggregate.aggregate &&
-      puzzle.sui_hei_comments_aggregate.aggregate.count,
+      puzzle.comments_aggregate &&
+      puzzle.comments_aggregate.aggregate &&
+      puzzle.comments_aggregate.aggregate.count,
     starCount:
-      puzzle.sui_hei_stars_aggregate &&
-      puzzle.sui_hei_stars_aggregate.aggregate &&
-      puzzle.sui_hei_stars_aggregate.aggregate.count,
+      puzzle.stars_aggregate &&
+      puzzle.stars_aggregate.aggregate &&
+      puzzle.stars_aggregate.aggregate.count,
     starSum:
-      puzzle.sui_hei_stars_aggregate &&
-      puzzle.sui_hei_stars_aggregate.aggregate &&
-      puzzle.sui_hei_stars_aggregate.aggregate.sum &&
-      puzzle.sui_hei_stars_aggregate.aggregate.sum.value,
+      puzzle.stars_aggregate &&
+      puzzle.stars_aggregate.aggregate &&
+      puzzle.stars_aggregate.aggregate.sum &&
+      puzzle.stars_aggregate.aggregate.sum.value,
     dialogueCount:
-      puzzle.sui_hei_dialogues_aggregate &&
-      puzzle.sui_hei_dialogues_aggregate.aggregate &&
-      puzzle.sui_hei_dialogues_aggregate.aggregate.count,
+      puzzle.dialogues_aggregate &&
+      puzzle.dialogues_aggregate.aggregate &&
+      puzzle.dialogues_aggregate.aggregate.count,
     dialogueMaxCreatedtime:
-      puzzle.sui_hei_dialogues_aggregate &&
-      puzzle.sui_hei_dialogues_aggregate.aggregate &&
-      puzzle.sui_hei_dialogues_aggregate.aggregate.max &&
-      puzzle.sui_hei_dialogues_aggregate.aggregate.max.created,
+      puzzle.dialogues_aggregate &&
+      puzzle.dialogues_aggregate.aggregate &&
+      puzzle.dialogues_aggregate.aggregate.max &&
+      puzzle.dialogues_aggregate.aggregate.max.created,
   };
 
   return (
@@ -124,7 +124,7 @@ const RankedPuzzle = ({
         )}
         <Box textAlign="right">
           <FormattedMessage {...puzzleMessages.creator} />:{' '}
-          <UserInline user={puzzle.sui_hei_user} />
+          <UserInline user={puzzle.user} />
         </Box>
         <Hr />
         <Flex p={1} flexWrap="wrap" alignItems="center">

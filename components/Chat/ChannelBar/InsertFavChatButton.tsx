@@ -29,8 +29,8 @@ const InsertFavChatButton = ({
   >
     mutation={INSERT_FAVORITE_CHATROOM_MUTATION}
     update={(proxy, { data, errors }) => {
-      if (!data || !data.insert_sui_hei_favoritechatroom) return;
-      if (data.insert_sui_hei_favoritechatroom.returning.length === 0) return;
+      if (!data || !data.insert_favorite_chatroom) return;
+      if (data.insert_favorite_chatroom.returning.length === 0) return;
       if (errors) {
         toast.error(JSON.stringify(errors));
         return;
@@ -38,9 +38,9 @@ const InsertFavChatButton = ({
       const favChatrooms = proxy.readQuery<FavoriteChatroomsQuery>({
         query: FAVORITE_CHATROOMS_QUERY,
       });
-      const newChatroom = data.insert_sui_hei_favoritechatroom.returning[0];
+      const newChatroom = data.insert_favorite_chatroom.returning[0];
       if (!favChatrooms) return;
-      favChatrooms.sui_hei_favoritechatroom.push(newChatroom);
+      favChatrooms.favorite_chatroom.push(newChatroom);
       proxy.writeQuery({
         query: FAVORITE_CHATROOMS_QUERY,
         data: favChatrooms,
@@ -54,14 +54,14 @@ const InsertFavChatButton = ({
             chatroomId,
           },
           optimisticResponse: {
-            insert_sui_hei_favoritechatroom: {
-              __typename: 'sui_hei_favoritechatroom_mutation_response',
+            insert_favorite_chatroom: {
+              __typename: 'favorite_chatroom_mutation_response',
               returning: [
                 {
-                  __typename: 'sui_hei_favoritechatroom',
+                  __typename: 'favorite_chatroom',
                   id: -1,
-                  sui_hei_chatroom: {
-                    __typename: 'sui_hei_chatroom',
+                  chatroom: {
+                    __typename: 'chatroom',
                     id: chatroomId,
                     name: chatroomName || '...',
                   },

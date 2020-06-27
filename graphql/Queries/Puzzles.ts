@@ -9,7 +9,7 @@ import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
 export const PUZZLE_QUERY = gql`
   query PuzzleQuery($id: Int!) {
-    sui_hei_puzzle_by_pk(id: $id) {
+    puzzle_by_pk(id: $id) {
       ...PuzzleShared
       dazed_on
       content
@@ -21,7 +21,7 @@ export const PUZZLE_QUERY = gql`
 
 export const PUZZLE_SOLUTION_QUERY = gql`
   query PuzzleSolutionQuery($id: Int!) {
-    sui_hei_puzzle_by_pk(id: $id) {
+    puzzle_by_pk(id: $id) {
       id
       solution
     }
@@ -30,12 +30,12 @@ export const PUZZLE_SOLUTION_QUERY = gql`
 
 export const PUZZLE_REPLAY_INFO_QUERY = gql`
   query PuzzleReplayInfoQuery($id: Int!) {
-    sui_hei_puzzle_by_pk(id: $id) {
+    puzzle_by_pk(id: $id) {
       id
       ...PuzzleShared
       content
       solution
-      sui_hei_dialogues(order_by: { id: asc }) {
+      dialogues(order_by: { id: asc }) {
         ...DialogueShared
       }
     }
@@ -46,10 +46,7 @@ export const PUZZLE_REPLAY_INFO_QUERY = gql`
 
 export const PUZZLE_DIALOGUE_QUERY = gql`
   query PuzzleDialogueQuery($id: Int!) {
-    sui_hei_dialogue(
-      where: { sui_hei_puzzle: { id: { _eq: $id } } }
-      order_by: { id: asc }
-    ) {
+    dialogue(where: { puzzle: { id: { _eq: $id } } }, order_by: { id: asc }) {
       ...DialogueShared
     }
   }
@@ -58,12 +55,9 @@ export const PUZZLE_DIALOGUE_QUERY = gql`
 
 export const PUZZLES_UNSOLVED_QUERY = gql`
   query PuzzlesUnsolvedQuery {
-    sui_hei_puzzle(
-      order_by: { modified: desc }
-      where: { status: { _eq: 0 } }
-    ) {
+    puzzle(order_by: { modified: desc }, where: { status: { _eq: 0 } }) {
       ...PuzzleShared
-      sui_hei_dialogues_aggregate {
+      dialogues_aggregate {
         aggregate {
           count
           max {
@@ -79,14 +73,14 @@ export const PUZZLES_UNSOLVED_QUERY = gql`
 
 export const PUZZLES_SOLVED_QUERY = gql`
   query PuzzlesSolvedQuery($limit: Int, $offset: Int) {
-    sui_hei_puzzle(
+    puzzle(
       order_by: { modified: desc }
       where: { status: { _gt: 0, _lt: 4 } }
       limit: $limit
       offset: $offset
-    ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
+    ) @connection(key: "puzzle", filter: ["order_by", "where"]) {
       ...PuzzleShared
-      sui_hei_stars_aggregate {
+      stars_aggregate {
         aggregate {
           count
           sum {
@@ -94,17 +88,17 @@ export const PUZZLES_SOLVED_QUERY = gql`
           }
         }
       }
-      sui_hei_comments_aggregate {
+      comments_aggregate {
         aggregate {
           count
         }
       }
-      sui_hei_bookmarks_aggregate {
+      bookmarks_aggregate {
         aggregate {
           count
         }
       }
-      sui_hei_dialogues_aggregate {
+      dialogues_aggregate {
         aggregate {
           count
         }
@@ -116,9 +110,9 @@ export const PUZZLES_SOLVED_QUERY = gql`
 
 export const PUZZLE_UNIQUE_PARTICIPANTS_QUERY = gql`
   query PuzzleUniqueParticipantsQuery($puzzleId: Int, $dialogueTrue: Boolean) {
-    sui_hei_user(
+    user(
       where: {
-        sui_hei_dialogues: {
+        dialogues: {
           puzzle_id: { _eq: $puzzleId }
           true: { _eq: $dialogueTrue }
         }
@@ -126,7 +120,7 @@ export const PUZZLE_UNIQUE_PARTICIPANTS_QUERY = gql`
     ) {
       id
       nickname
-      sui_hei_dialogues_aggregate(where: { puzzle_id: { _eq: $puzzleId } }) {
+      dialogues_aggregate(where: { puzzle_id: { _eq: $puzzleId } }) {
         aggregate {
           count
         }
@@ -146,9 +140,9 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
     $genre: Int
     $yami: Int
     $userNickname: String
-    $orderBy: [sui_hei_puzzle_order_by!]
+    $orderBy: [puzzle_order_by!]
   ) {
-    sui_hei_puzzle(
+    puzzle(
       order_by: $orderBy
       where: {
         status: { _neq: 0 }
@@ -157,14 +151,14 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
         solution: { _like: $solution }
         genre: { _eq: $genre }
         yami: { _eq: $yami }
-        sui_hei_user: { nickname: { _like: $userNickname } }
+        user: { nickname: { _like: $userNickname } }
       }
       limit: $limit
       offset: $offset
-    ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
+    ) @connection(key: "puzzle", filter: ["order_by", "where"]) {
       ...PuzzleAggregate
     }
-    sui_hei_puzzle_aggregate(
+    puzzle_aggregate(
       where: {
         status: { _neq: 0 }
         title: { _like: $title }
@@ -172,7 +166,7 @@ export const SOLVED_PUZZLES_SEARCH_QUERY = gql`
         solution: { _like: $solution }
         genre: { _eq: $genre }
         yami: { _eq: $yami }
-        sui_hei_user: { nickname: { _like: $userNickname } }
+        user: { nickname: { _like: $userNickname } }
       }
     ) {
       aggregate {
@@ -188,19 +182,17 @@ export const TAG_PUZZLES_QUERY = gql`
     $limit: Int
     $offset: Int
     $tagId: Int!
-    $orderBy: [sui_hei_puzzle_order_by!]
+    $orderBy: [puzzle_order_by!]
   ) {
-    sui_hei_puzzle(
+    puzzle(
       order_by: $orderBy
-      where: { sui_hei_puzzle_tags: { tag_id: { _eq: $tagId } } }
+      where: { puzzle_tags: { tag_id: { _eq: $tagId } } }
       limit: $limit
       offset: $offset
-    ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
+    ) @connection(key: "puzzle", filter: ["order_by", "where"]) {
       ...PuzzleAggregate
     }
-    sui_hei_puzzle_aggregate(
-      where: { sui_hei_puzzle_tags: { tag_id: { _eq: $tagId } } }
-    ) {
+    puzzle_aggregate(where: { puzzle_tags: { tag_id: { _eq: $tagId } } }) {
       aggregate {
         count
       }
@@ -214,17 +206,17 @@ export const PROFILE_PUZZLES_QUERY = gql`
     $limit: Int
     $offset: Int
     $userId: Int
-    $orderBy: [sui_hei_puzzle_order_by!]
+    $orderBy: [puzzle_order_by!]
   ) {
-    sui_hei_puzzle(
+    puzzle(
       order_by: $orderBy
       where: { user_id: { _eq: $userId } }
       limit: $limit
       offset: $offset
-    ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
+    ) @connection(key: "puzzle", filter: ["order_by", "where"]) {
       ...PuzzleAggregate
     }
-    sui_hei_puzzle_aggregate(where: { user_id: { _eq: $userId } }) {
+    puzzle_aggregate(where: { user_id: { _eq: $userId } }) {
       aggregate {
         count
       }
@@ -235,17 +227,15 @@ export const PROFILE_PUZZLES_QUERY = gql`
 
 export const PROFILE_FOOTPRINTS_QUERY = gql`
   query ProfileFootprintsQuery($limit: Int, $offset: Int, $userId: Int) {
-    sui_hei_puzzle(
+    puzzle(
       order_by: { modified: desc }
-      where: { sui_hei_dialogues: { user_id: { _eq: $userId } } }
+      where: { dialogues: { user_id: { _eq: $userId } } }
       limit: $limit
       offset: $offset
-    ) @connection(key: "sui_hei_puzzle", filter: ["where"]) {
+    ) @connection(key: "puzzle", filter: ["where"]) {
       ...PuzzleAggregate
     }
-    sui_hei_puzzle_aggregate(
-      where: { sui_hei_dialogues: { user_id: { _eq: $userId } } }
-    ) {
+    puzzle_aggregate(where: { dialogues: { user_id: { _eq: $userId } } }) {
       aggregate {
         count
       }
@@ -256,12 +246,12 @@ export const PROFILE_FOOTPRINTS_QUERY = gql`
 
 export const YAMI_PUZZLE_COUNT_QUERY = gql`
   query YamiPuzzleCountQuery($userId: Int!) {
-    sui_hei_puzzle(
+    puzzle(
       where: { yami: { _neq: 0 }, user_id: { _eq: $userId } }
-      order_by: { sui_hei_dialogues_aggregate: { count: desc } }
+      order_by: { dialogues_aggregate: { count: desc } }
       limit: 1
     ) {
-      sui_hei_dialogues_aggregate {
+      dialogues_aggregate {
         aggregate {
           count
         }
@@ -272,14 +262,14 @@ export const YAMI_PUZZLE_COUNT_QUERY = gql`
 
 export const PUZZLE_JUMP_BUTTONS_QUERY = gql`
   query PuzzleJumpButtonsQuery($puzzleId: Int!) {
-    prev_puzzle: sui_hei_puzzle(
+    prev_puzzle: puzzle(
       where: { status: { _lte: 2 }, id: { _lt: $puzzleId } }
       order_by: { id: desc }
       limit: 1
     ) {
       ...PuzzleShared
     }
-    next_puzzle: sui_hei_puzzle(
+    next_puzzle: puzzle(
       where: { status: { _lte: 2 }, id: { _gt: $puzzleId } }
       order_by: { id: asc }
       limit: 1

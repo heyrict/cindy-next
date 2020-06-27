@@ -67,11 +67,11 @@ export type PuzzleType = {
   anonymous?: boolean;
   created: string;
   modified: string;
-  sui_hei_user: InlineUser;
-  sui_hei_stars_aggregate?: StarsAggregate | null;
-  sui_hei_comments_aggregate?: CommentsAggregate | null;
-  sui_hei_bookmarks_aggregate?: BookmarksAggregate | null;
-  sui_hei_dialogues_aggregate?: DialoguesAggregate | null;
+  user: InlineUser;
+  stars_aggregate?: StarsAggregate | null;
+  comments_aggregate?: CommentsAggregate | null;
+  bookmarks_aggregate?: BookmarksAggregate | null;
+  dialogues_aggregate?: DialoguesAggregate | null;
 };
 
 export type PuzzlePaneProps = {

@@ -45,16 +45,16 @@ const PuzzleDialoguesUserDeduplicator = ({
             toast.error(error.message);
             return null;
           }
-          if (!data || !data.sui_hei_user) {
+          if (!data || !data.user) {
             if (loading) return <Loading centered />;
             return null;
           }
-          const filterUsers = data.sui_hei_user.map(user => ({
+          const filterUsers = data.user.map(user => ({
             id: user.id,
             nickname: user.nickname,
             dialogueCount:
-              (user.sui_hei_dialogues_aggregate.aggregate &&
-                user.sui_hei_dialogues_aggregate.aggregate.count) ||
+              (user.dialogues_aggregate.aggregate &&
+                user.dialogues_aggregate.aggregate.count) ||
               undefined,
           }));
           return (
@@ -75,18 +75,15 @@ const PuzzleDialoguesUserDeduplicator = ({
                   return null;
                 }
                 let filterUsersWithTrue = filterUsers;
-                if (data && data.sui_hei_user) {
+                if (data && data.user) {
                   filterUsersWithTrue = filterUsers.map(user => {
-                    const withTrueUser = data.sui_hei_user.find(
-                      u => u.id === user.id,
-                    );
+                    const withTrueUser = data.user.find(u => u.id === user.id);
                     if (!withTrueUser) return user;
                     return {
                       ...user,
                       dialogueHasTrue: Boolean(
-                        withTrueUser.sui_hei_dialogues_aggregate.aggregate &&
-                          withTrueUser.sui_hei_dialogues_aggregate.aggregate
-                            .count,
+                        withTrueUser.dialogues_aggregate.aggregate &&
+                          withTrueUser.dialogues_aggregate.aggregate.count,
                       ),
                     };
                   });

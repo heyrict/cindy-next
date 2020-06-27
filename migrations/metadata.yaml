@@ -2,73 +2,22 @@ version: 2
 tables:
 - table:
     schema: public
-    name: hasura_directmessage_group_trigger
-  object_relationships:
-  - name: sui_hei_user
-    using:
-      foreign_key_constraint_on: user_id
-  select_permissions:
-  - role: user
-    permission:
-      columns:
-      - last_dm_id
-      - user_id
-      filter: {}
-- table:
-    schema: public
-    name: hasura_int_groupby_trigger
-  select_permissions:
-  - role: user
-    permission:
-      columns:
-      - group
-      - value
-      filter: {}
-- table:
-    schema: public
-    name: hasura_user_ranking_trigger
-  object_relationships:
-  - name: sui_hei_user
-    using:
-      foreign_key_constraint_on: user_id
-  select_permissions:
-  - role: anonymous
-    permission:
-      columns:
-      - user_id
-      - value
-      filter: {}
-  - role: user
-    permission:
-      columns:
-      - user_id
-      - value
-      filter: {}
-- table:
-    schema: public
-    name: sui_hei_award
+    name: award
   array_relationships:
-  - name: sui_hei_awardapplications
+  - name: award_applications
     using:
       foreign_key_constraint_on:
         column: award_id
         table:
           schema: public
-          name: sui_hei_awardapplication
-  - name: sui_hei_eventawards
+          name: award_application
+  - name: user_awards
     using:
       foreign_key_constraint_on:
         column: award_id
         table:
           schema: public
-          name: sui_hei_eventaward
-  - name: sui_hei_userawards
-    using:
-      foreign_key_constraint_on:
-        column: award_id
-        table:
-          schema: public
-          name: sui_hei_useraward
+          name: user_award
   insert_permissions:
   - role: user
     permission:
@@ -90,17 +39,18 @@ tables:
     permission:
       columns: '*'
       filter: {}
+      check: null
 - table:
     schema: public
-    name: sui_hei_awardapplication
+    name: award_application
   object_relationships:
-  - name: sui_hei_award
+  - name: award
     using:
       foreign_key_constraint_on: award_id
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: applier_id
-  - name: suiHeiUserByReviewerId
+  - name: user_by_reviewer_id
     using:
       foreign_key_constraint_on: reviewer_id
   insert_permissions:
@@ -130,14 +80,15 @@ tables:
     permission:
       columns: '*'
       filter: {}
+      check: null
 - table:
     schema: public
-    name: sui_hei_bookmark
+    name: bookmark
   object_relationships:
-  - name: sui_hei_puzzle
+  - name: puzzle
     using:
       foreign_key_constraint_on: puzzle_id
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   insert_permissions:
@@ -169,6 +120,7 @@ tables:
       columns: '*'
       filter:
         user_id: X-HASURA-USER-ID
+      check: null
       set:
         user_id: X-HASURA-USER-ID
   delete_permissions:
@@ -178,12 +130,12 @@ tables:
         user_id: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_chatmessage
+    name: chatmessage
   object_relationships:
-  - name: sui_hei_chatroom
+  - name: chatroom
     using:
       foreign_key_constraint_on: chatroom_id
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   insert_permissions:
@@ -213,30 +165,24 @@ tables:
       columns: '*'
       filter:
         user_id: X-HASURA-USER-ID
+      check: null
       set:
         user_id: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_chatroom
+    name: chatroom
   object_relationships:
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   array_relationships:
-  - name: sui_hei_chatmessages
+  - name: chatmessages
     using:
       foreign_key_constraint_on:
         column: chatroom_id
         table:
           schema: public
-          name: sui_hei_chatmessage
-  - name: sui_hei_favoritechatrooms
-    using:
-      foreign_key_constraint_on:
-        column: chatroom_id
-        table:
-          schema: public
-          name: sui_hei_favoritechatroom
+          name: chatmessage
   insert_permissions:
   - role: user
     permission:
@@ -262,6 +208,7 @@ tables:
       columns: '*'
       filter:
         user_id: X-HASURA-USER-ID
+      check: null
       set:
         user_id: X-HASURA-USER-ID
   delete_permissions:
@@ -271,12 +218,12 @@ tables:
         user_id: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_comment
+    name: comment
   object_relationships:
-  - name: sui_hei_puzzle
+  - name: puzzle
     using:
       foreign_key_constraint_on: puzzle_id
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   insert_permissions:
@@ -306,6 +253,7 @@ tables:
       columns: '*'
       filter:
         user_id: X-HASURA-USER-ID
+      check: null
       set:
         user_id: X-HASURA-USER-ID
   delete_permissions:
@@ -315,12 +263,12 @@ tables:
         user_id: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_dialogue
+    name: dialogue
   object_relationships:
-  - name: sui_hei_puzzle
+  - name: puzzle
     using:
       foreign_key_constraint_on: puzzle_id
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   insert_permissions:
@@ -348,13 +296,14 @@ tables:
       columns: '*'
       filter:
         _or:
-        - sui_hei_puzzle:
+        - puzzle:
             user_id:
               $eq: X-HASURA-USER-ID
         - user_id: X-HASURA-USER-ID
+      check: null
 - table:
     schema: public
-    name: sui_hei_directmessage
+    name: direct_message
   object_relationships:
   - name: receiver
     using:
@@ -386,23 +335,24 @@ tables:
       columns: '*'
       filter:
         sender_id: X-HASURA-USER-ID
+      check: null
       set:
         sender_id: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_event
+    name: event
   object_relationships:
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   array_relationships:
-  - name: sui_hei_eventawards
+  - name: event_awards
     using:
       foreign_key_constraint_on:
         column: event_id
         table:
           schema: public
-          name: sui_hei_eventaward
+          name: event_award
   insert_permissions:
   - role: user
     permission:
@@ -428,6 +378,7 @@ tables:
       columns: '*'
       filter:
         user_id: X-HASURA-USER-ID
+      check: null
       set:
         user_id: X-HASURA-USER-ID
   delete_permissions:
@@ -437,12 +388,12 @@ tables:
         user_id: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_eventaward
+    name: event_award
   object_relationships:
-  - name: sui_hei_award
+  - name: award
     using:
       foreign_key_constraint_on: award_id
-  - name: sui_hei_event
+  - name: event
     using:
       foreign_key_constraint_on: event_id
   insert_permissions:
@@ -466,18 +417,19 @@ tables:
     permission:
       columns: '*'
       filter: {}
+      check: null
   delete_permissions:
   - role: user
     permission:
       filter: {}
 - table:
     schema: public
-    name: sui_hei_favoritechatroom
+    name: favorite_chatroom
   object_relationships:
-  - name: sui_hei_chatroom
+  - name: chatroom
     using:
       foreign_key_constraint_on: chatroom_id
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   insert_permissions:
@@ -501,6 +453,7 @@ tables:
       columns: '*'
       filter:
         user_id: X-HASURA-USER-ID
+      check: null
       set:
         user_id: X-HASURA-USER-ID
   delete_permissions:
@@ -510,19 +463,63 @@ tables:
         user_id: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_hint
+    name: hasura_direct_message_group_trigger
   object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - last_dm_id
+      - user_id
+      filter: {}
+- table:
+    schema: public
+    name: hasura_int_groupby_trigger
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - group
+      - value
+      filter: {}
+- table:
+    schema: public
+    name: hasura_user_ranking_trigger
+  object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - user_id
+      - value
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - value
+      filter: {}
+- table:
+    schema: public
+    name: hint
+  object_relationships:
+  - name: puzzle
+    using:
+      foreign_key_constraint_on: puzzle_id
   - name: receiver
     using:
       foreign_key_constraint_on: receiver_id
-  - name: sui_hei_puzzle
-    using:
-      foreign_key_constraint_on: puzzle_id
   insert_permissions:
   - role: user
     permission:
       check:
-        sui_hei_puzzle:
+        puzzle:
           user_id: X-HASURA-USER-ID
       columns: '*'
   select_permissions:
@@ -541,64 +538,65 @@ tables:
     permission:
       columns: '*'
       filter:
-        sui_hei_puzzle:
+        puzzle:
           user_id: X-HASURA-USER-ID
+      check: null
   delete_permissions:
   - role: user
     permission:
       filter:
-        sui_hei_puzzle:
+        puzzle:
           user_id: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_puzzle
+    name: puzzle
   object_relationships:
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   array_relationships:
-  - name: sui_hei_bookmarks
+  - name: bookmarks
     using:
       foreign_key_constraint_on:
         column: puzzle_id
         table:
           schema: public
-          name: sui_hei_bookmark
-  - name: sui_hei_comments
+          name: bookmark
+  - name: comments
     using:
       foreign_key_constraint_on:
         column: puzzle_id
         table:
           schema: public
-          name: sui_hei_comment
-  - name: sui_hei_dialogues
+          name: comment
+  - name: dialogues
     using:
       foreign_key_constraint_on:
         column: puzzle_id
         table:
           schema: public
-          name: sui_hei_dialogue
-  - name: sui_hei_hints
+          name: dialogue
+  - name: hints
     using:
       foreign_key_constraint_on:
         column: puzzle_id
         table:
           schema: public
-          name: sui_hei_hint
-  - name: sui_hei_puzzle_tags
+          name: hint
+  - name: puzzle_tags
     using:
       foreign_key_constraint_on:
         column: puzzle_id
         table:
           schema: public
-          name: sui_hei_puzzle_tag
-  - name: sui_hei_stars
+          name: puzzle_tag
+  - name: stars
     using:
       foreign_key_constraint_on:
         column: puzzle_id
         table:
           schema: public
-          name: sui_hei_star
+          name: star
   insert_permissions:
   - role: user
     permission:
@@ -626,6 +624,7 @@ tables:
       columns: '*'
       filter:
         user_id: X-HASURA-USER-ID
+      check: null
       set:
         user_id: X-HASURA-USER-ID
   event_triggers:
@@ -641,15 +640,15 @@ tables:
     webhook_from_env: PYTHON_SERVER_WEBHOOK
 - table:
     schema: public
-    name: sui_hei_puzzle_tag
+    name: puzzle_tag
   object_relationships:
-  - name: sui_hei_puzzle
+  - name: puzzle
     using:
       foreign_key_constraint_on: puzzle_id
-  - name: sui_hei_tag
+  - name: tag
     using:
       foreign_key_constraint_on: tag_id
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   insert_permissions:
@@ -677,27 +676,27 @@ tables:
       filter:
         _or:
         - user_id: X-HASURA-USER-ID
-        - sui_hei_puzzle:
+        - puzzle:
             user_id:
               $eq: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_replay
+    name: replay
   object_relationships:
-  - name: sui_hei_puzzle
+  - name: puzzle
     using:
       foreign_key_constraint_on: puzzle_id
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   array_relationships:
-  - name: sui_hei_replay_dialogues
+  - name: replay_dialogues
     using:
       foreign_key_constraint_on:
         column: replay_id
         table:
           schema: public
-          name: sui_hei_replay_dialogue
+          name: replay_dialogue
   insert_permissions:
   - role: user
     permission:
@@ -734,6 +733,7 @@ tables:
       - created
       - title
       filter: {}
+      allow_aggregations: true
   update_permissions:
   - role: user
     permission:
@@ -746,20 +746,21 @@ tables:
       filter:
         user_id:
           _eq: X-Hasura-User-Id
+      check: null
       set:
         user_id: x-hasura-User-Id
 - table:
     schema: public
-    name: sui_hei_replay_dialogue
+    name: replay_dialogue
   object_relationships:
-  - name: sui_hei_replay
+  - name: replay
     using:
       foreign_key_constraint_on: replay_id
   insert_permissions:
   - role: user
     permission:
       check:
-        sui_hei_replay:
+        replay:
           user_id:
             _eq: X-Hasura-User-Id
       columns:
@@ -786,6 +787,7 @@ tables:
       - milestones
       - dependency
       filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -799,6 +801,7 @@ tables:
       - milestones
       - question
       filter: {}
+      allow_aggregations: true
   update_permissions:
   - role: user
     permission:
@@ -813,21 +816,22 @@ tables:
       - milestones
       - question
       filter:
-        sui_hei_replay:
+        replay:
           user_id:
             _eq: X-Hasura-User-Id
+      check: null
   delete_permissions:
   - role: user
     permission:
       filter:
-        sui_hei_replay:
+        replay:
           user_id:
             _eq: X-Hasura-User-Id
 - table:
     schema: public
-    name: sui_hei_schedule
+    name: schedule
   object_relationships:
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   insert_permissions:
@@ -855,6 +859,7 @@ tables:
       columns: '*'
       filter:
         user_id: X-HASURA-USER-ID
+      check: null
       set:
         user_id: X-HASURA-USER-ID
   delete_permissions:
@@ -864,12 +869,12 @@ tables:
         user_id: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_star
+    name: star
   object_relationships:
-  - name: sui_hei_puzzle
+  - name: puzzle
     using:
       foreign_key_constraint_on: puzzle_id
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   insert_permissions:
@@ -899,6 +904,7 @@ tables:
       columns: '*'
       filter:
         user_id: X-HASURA-USER-ID
+      check: null
       set:
         user_id: X-HASURA-USER-ID
   delete_permissions:
@@ -908,15 +914,15 @@ tables:
         user_id: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_tag
+    name: tag
   array_relationships:
-  - name: sui_hei_puzzle_tags
+  - name: puzzle_tags
     using:
       foreign_key_constraint_on:
         column: tag_id
         table:
           schema: public
-          name: sui_hei_puzzle_tag
+          name: puzzle_tag
   insert_permissions:
   - role: user
     permission:
@@ -935,117 +941,117 @@ tables:
       allow_aggregations: true
 - table:
     schema: public
-    name: sui_hei_user
+    name: user
   object_relationships:
-  - name: sui_hei_current_useraward
+  - name: current_user_award
     using:
       foreign_key_constraint_on: current_award_id
   array_relationships:
-  - name: sui_hei_awardapplications
+  - name: award_applications
     using:
       foreign_key_constraint_on:
         column: applier_id
         table:
           schema: public
-          name: sui_hei_awardapplication
-  - name: suiHeiAwardapplicationsByReviewerId
+          name: award_application
+  - name: award_applications_by_reviewer_id
     using:
       foreign_key_constraint_on:
         column: reviewer_id
         table:
           schema: public
-          name: sui_hei_awardapplication
-  - name: sui_hei_bookmarks
+          name: award_application
+  - name: bookmarks
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: sui_hei_bookmark
-  - name: sui_hei_chatmessages
+          name: bookmark
+  - name: chatmessages
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: sui_hei_chatmessage
-  - name: sui_hei_chatrooms
+          name: chatmessage
+  - name: chatrooms
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: sui_hei_chatroom
-  - name: sui_hei_comments
+          name: chatroom
+  - name: comments
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: sui_hei_comment
-  - name: sui_hei_dialogues
+          name: comment
+  - name: dialogues
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: sui_hei_dialogue
-  - name: sui_hei_directmessages
+          name: dialogue
+  - name: direct_messages
     using:
       foreign_key_constraint_on:
         column: receiver_id
         table:
           schema: public
-          name: sui_hei_directmessage
-  - name: suiHeiDirectmessagesBySenderId
+          name: direct_message
+  - name: direct_messages_by_sender_id
     using:
       foreign_key_constraint_on:
         column: sender_id
         table:
           schema: public
-          name: sui_hei_directmessage
-  - name: sui_hei_events
+          name: direct_message
+  - name: events
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: sui_hei_event
-  - name: sui_hei_favoritechatrooms
+          name: event
+  - name: favorite_chatrooms
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: sui_hei_favoritechatroom
-  - name: sui_hei_puzzles
+          name: favorite_chatroom
+  - name: puzzles
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: sui_hei_puzzle
-  - name: sui_hei_schedules
+          name: puzzle
+  - name: schedules
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: sui_hei_schedule
-  - name: sui_hei_stars
+          name: schedule
+  - name: stars
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: sui_hei_star
-  - name: sui_hei_userawards
+          name: star
+  - name: user_awards
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: sui_hei_useraward
+          name: user_award
   select_permissions:
   - role: anonymous
     permission:
@@ -1094,26 +1100,27 @@ tables:
       - last_read_dm_id
       filter:
         id: X-HASURA-USER-ID
+      check: null
       set:
         id: X-HASURA-USER-ID
 - table:
     schema: public
-    name: sui_hei_useraward
+    name: user_award
   object_relationships:
-  - name: sui_hei_award
+  - name: award
     using:
       foreign_key_constraint_on: award_id
-  - name: sui_hei_user
+  - name: user
     using:
       foreign_key_constraint_on: user_id
   array_relationships:
-  - name: sui_hei_users
+  - name: users
     using:
       foreign_key_constraint_on:
         column: current_award_id
         table:
           schema: public
-          name: sui_hei_user
+          name: user
   insert_permissions:
   - role: user
     permission:
@@ -1142,6 +1149,7 @@ tables:
     permission:
       columns: '*'
       filter: {}
+      check: null
 functions:
 - function:
     schema: public

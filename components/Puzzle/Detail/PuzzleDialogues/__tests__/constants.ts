@@ -4,24 +4,24 @@ export const users = {
     icon: null,
     nickname: 'Foo',
     username: 'Foo',
-    sui_hei_current_useraward: null,
-    __typename: 'sui_hei_user' as 'sui_hei_user',
+    current_user_award: null,
+    __typename: 'user' as 'user',
   },
   bar: {
     id: 13,
     icon: null,
     nickname: 'Bar',
     username: 'Bar',
-    sui_hei_current_useraward: null,
-    __typename: 'sui_hei_user' as 'sui_hei_user',
+    current_user_award: null,
+    __typename: 'user' as 'user',
   },
   carrot: {
     id: 621,
     icon: null,
     nickname: 'Carrot',
     username: 'last_scene',
-    sui_hei_current_useraward: null,
-    __typename: 'sui_hei_user' as 'sui_hei_user',
+    current_user_award: null,
+    __typename: 'user' as 'user',
   },
 };
 
@@ -37,8 +37,8 @@ export const dialogues = [
     answerEditTimes: 0,
     created: '2019-06-17T12:51:56.774611+00:00',
     answeredtime: '2019-06-17T12:53:40.056463+00:00',
-    sui_hei_user: users.foo,
-    __typename: 'sui_hei_dialogue' as 'sui_hei_dialogue',
+    user: users.foo,
+    __typename: 'dialogue' as 'dialogue',
   },
   {
     id: 106339,
@@ -51,8 +51,8 @@ export const dialogues = [
     answerEditTimes: 1,
     created: '2019-06-17T12:54:56.634567+00:00',
     answeredtime: '2019-06-17T12:55:56.464007+00:00',
-    sui_hei_user: users.bar,
-    __typename: 'sui_hei_dialogue' as 'sui_hei_dialogue',
+    user: users.bar,
+    __typename: 'dialogue' as 'dialogue',
   },
   {
     id: 106340,
@@ -65,8 +65,8 @@ export const dialogues = [
     answerEditTimes: 0,
     created: '2019-06-17T12:56:43.204862+00:00',
     answeredtime: '2019-06-17T12:57:24.681986+00:00',
-    sui_hei_user: users.foo,
-    __typename: 'sui_hei_dialogue' as 'sui_hei_dialogue',
+    user: users.foo,
+    __typename: 'dialogue' as 'dialogue',
   },
 ];
 
@@ -77,7 +77,7 @@ export const hints = [
     created: '2019-06-17T13:12:37.900021+00:00',
     edittimes: 0,
     receiver: null,
-    __typename: 'sui_hei_hint' as 'sui_hei_hint',
+    __typename: 'hint' as 'hint',
   },
   {
     id: 2848,
@@ -85,7 +85,7 @@ export const hints = [
     created: '2019-06-17T13:12:37.900021+00:00',
     edittimes: 1,
     receiver: users.foo,
-    __typename: 'sui_hei_hint' as 'sui_hei_hint',
+    __typename: 'hint' as 'hint',
   },
 ];
 
@@ -99,8 +99,8 @@ export const puzzle = {
   created: '2019-06-17T12:46:13.164992+00:00',
   modified: '2019-06-17T12:46:13.164992+00:00',
   grotesque: false,
-  sui_hei_user: users.carrot,
-  __typename: 'sui_hei_puzzle' as 'sui_hei_puzzle',
+  user: users.carrot,
+  __typename: 'puzzle' as 'puzzle',
   dazed_on: '2019-07-01',
   content: 'Test Question Content',
   solution: 'Test Solution',

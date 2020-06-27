@@ -22,9 +22,9 @@ const WithSolution = ({ puzzleId, children }: WithSolutionProps) => (
         return null;
       }
       if (loading) return <Loading centered />;
-      if (!data || !data.sui_hei_puzzle_by_pk) return null;
+      if (!data || !data.puzzle_by_pk) return null;
 
-      const solution = data.sui_hei_puzzle_by_pk.solution;
+      const solution = data.puzzle_by_pk.solution;
       return children(solution);
     }}
   </Query>

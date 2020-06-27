@@ -12,7 +12,7 @@ export type PuzzleType = {
   content: string;
   memo: string;
   dazed_on: string;
-  sui_hei_user: InlineUser;
+  user: InlineUser;
   created: string;
   modified: string;
 };

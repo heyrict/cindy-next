@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const ALL_AWARDS_QUERY = gql`
   query AllAwardsQuery {
-    sui_hei_award {
+    award {
       id
       name
       description
@@ -12,14 +12,14 @@ export const ALL_AWARDS_QUERY = gql`
 
 export const AWARDS_INFO_QUERY = gql`
   query AwardsInfoQuery($userId: Int!) {
-    sui_hei_user_by_pk(id: $userId) {
+    user_by_pk(id: $userId) {
       id
       date_joined
-      sui_hei_userawards {
+      user_awards {
         id
         award_id
       }
-      sui_hei_puzzles_aggregate {
+      puzzles_aggregate {
         aggregate {
           count
           max {
@@ -27,28 +27,26 @@ export const AWARDS_INFO_QUERY = gql`
           }
         }
       }
-      yami_puzzles_aggregate: sui_hei_puzzles_aggregate(
-        where: { yami: { _neq: 0 } }
-      ) {
+      yami_puzzles_aggregate: puzzles_aggregate(where: { yami: { _neq: 0 } }) {
         aggregate {
           count
         }
       }
-      good_questions_aggregate: sui_hei_dialogues_aggregate(
+      good_questions_aggregate: dialogues_aggregate(
         where: { good: { _eq: true } }
       ) {
         aggregate {
           count
         }
       }
-      true_answers_aggregate: sui_hei_dialogues_aggregate(
+      true_answers_aggregate: dialogues_aggregate(
         where: { true: { _eq: true } }
       ) {
         aggregate {
           count
         }
       }
-      sui_hei_dialogues_aggregate {
+      dialogues_aggregate {
         aggregate {
           count
         }

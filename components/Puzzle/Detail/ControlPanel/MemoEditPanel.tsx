@@ -61,11 +61,11 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
                       memo: newMemo,
                     },
                     optimisticResponse: {
-                      update_sui_hei_puzzle: {
-                        __typename: 'sui_hei_puzzle_mutation_response',
+                      update_puzzle: {
+                        __typename: 'puzzle_mutation_response',
                         returning: [
                           {
-                            __typename: 'sui_hei_puzzle',
+                            __typename: 'puzzle',
                             id: puzzleId,
                             memo: newMemo,
                           },

@@ -40,11 +40,11 @@ const ProfileHideBookmarksToggle = ({
                   hideBookmark: !hideBookmark,
                 },
                 optimisticResponse: {
-                  update_sui_hei_user: {
-                    __typename: 'sui_hei_user_mutation_response',
+                  update_user: {
+                    __typename: 'user_mutation_response',
                     returning: [
                       {
-                        __typename: 'sui_hei_user',
+                        __typename: 'user',
                         id: userId,
                         hide_bookmark: !hideBookmark,
                       },

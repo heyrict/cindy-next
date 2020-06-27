@@ -73,11 +73,11 @@ const ChatRoomMessagesBody = ({
     console.log(error);
     return <ErrorReload refetch={refetch} error={error} />;
   }
-  if (!data || !data.sui_hei_chatmessage) {
+  if (!data || !data.chatmessage) {
     if (loading) return <Loading centered />;
     return null;
   }
-  const { sui_hei_chatmessage: chatmessages } = data;
+  const { chatmessage: chatmessages } = data;
 
   const [hasMore, setHasMore] = useState(false);
   useEffect(() => {
@@ -99,23 +99,19 @@ const ChatRoomMessagesBody = ({
           }: { subscriptionData: { data: ChatroomChatmessageLiveQuery } },
         ) => {
           if (prev === undefined) return prev;
-          if (
-            !subscriptionData.data ||
-            !subscriptionData.data.sui_hei_chatmessage
-          )
+          if (!subscriptionData.data || !subscriptionData.data.chatmessage)
             return prev;
-          if (subscriptionData.data.sui_hei_chatmessage.length === 0)
-            return prev;
+          if (subscriptionData.data.chatmessage.length === 0) return prev;
           chatmessageUpdate(
             chatroomId,
-            subscriptionData.data.sui_hei_chatmessage[
-              subscriptionData.data.sui_hei_chatmessage.length - 1
+            subscriptionData.data.chatmessage[
+              subscriptionData.data.chatmessage.length - 1
             ].id,
           );
           return Object.assign({}, prev, {
-            sui_hei_chatmessage: upsertMultipleItem(
-              prev.sui_hei_chatmessage,
-              subscriptionData.data.sui_hei_chatmessage,
+            chatmessage: upsertMultipleItem(
+              prev.chatmessage,
+              subscriptionData.data.chatmessage,
               'id',
               'desc',
             ),
@@ -176,7 +172,7 @@ const ChatRoomMessagesBody = ({
                   if (res.error) return <div>Error</div>;
                   if (!res.data) return <div>No messages</div>;
 
-                  const { sui_hei_puzzle_by_pk: relatedPuzzle } = res.data;
+                  const { puzzle_by_pk: relatedPuzzle } = res.data;
                   if (!relatedPuzzle) return null;
                   if (relatedPuzzle.anonymous && relatedPuzzle.status === 0) {
                     return (
@@ -185,10 +181,7 @@ const ChatRoomMessagesBody = ({
                           <Chatmessage
                             key={`chatmessage-${cm.id}`}
                             chatmessage={cm}
-                            anonymous={
-                              relatedPuzzle.sui_hei_user.id ===
-                              cm.sui_hei_user.id
-                            }
+                            anonymous={relatedPuzzle.user.id === cm.user.id}
                           />
                         ))}
                       </>
@@ -220,12 +213,12 @@ const ChatRoomMessagesBody = ({
                     },
                     updateQuery: (prev, { fetchMoreResult }) => {
                       if (!fetchMoreResult) return prev;
-                      if (fetchMoreResult.sui_hei_chatmessage.length === 0)
+                      if (fetchMoreResult.chatmessage.length === 0)
                         setHasMore(false);
                       return Object.assign({}, prev, {
-                        sui_hei_chatmessage: [
-                          ...prev.sui_hei_chatmessage,
-                          ...fetchMoreResult.sui_hei_chatmessage,
+                        chatmessage: [
+                          ...prev.chatmessage,
+                          ...fetchMoreResult.chatmessage,
                         ],
                       });
                     },

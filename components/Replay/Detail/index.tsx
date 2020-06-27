@@ -18,7 +18,7 @@ const ReplayDetail = ({ replay, constructTree }: ReplayDetailProps) => {
   // construct tree
   useEffect(() => {
     constructTree(
-      replay.sui_hei_replay_dialogues.map(d => ({
+      replay.replay_dialogues.map(d => ({
         id: d.id,
         question: d.question,
         answer: d.answer,
@@ -38,11 +38,11 @@ const ReplayDetail = ({ replay, constructTree }: ReplayDetailProps) => {
         {replay.title}
       </PuzzleTitleBase>
       <ContentsFrame
-        text={replay.sui_hei_puzzle ? replay.sui_hei_puzzle.content : ''}
-        user={replay.sui_hei_user}
+        text={replay.puzzle ? replay.puzzle.content : ''}
+        user={replay.user}
         created={replay.created}
       />
-      <ReplayLogs dialogues={replay.sui_hei_replay_dialogues} />
+      <ReplayLogs dialogues={replay.replay_dialogues} />
       <SolutionFrame replay={replay} />
     </Flex>
   );

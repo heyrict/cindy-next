@@ -65,11 +65,11 @@ const HintEdit = ({ hint, setEdit }: HintEditProps) => {
                       content: newHint,
                     },
                     optimisticResponse: {
-                      update_sui_hei_hint: {
-                        __typename: 'sui_hei_hint_mutation_response',
+                      update_hint: {
+                        __typename: 'hint_mutation_response',
                         returning: [
                           {
-                            __typename: 'sui_hei_hint',
+                            __typename: 'hint',
                             ...hint,
                             content: newHint,
                           },

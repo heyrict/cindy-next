@@ -6,57 +6,57 @@ import {
 import { GlobalUserType } from 'reducers/types';
 
 type Award = {
-  __typename: 'sui_hei_award';
+  __typename: 'award';
   id: number;
   name: string;
   description: string;
 };
 
 type UserAward = {
-  __typename: 'sui_hei_useraward';
+  __typename: 'user_award';
   id: number;
   created: any;
-  sui_hei_award: Award;
+  award: Award;
 };
 
 type PuzzlesAggregateAggregate = {
-  __typename: 'sui_hei_puzzle_aggregate_fields';
+  __typename: 'puzzle_aggregate_fields';
   count: number | null;
 };
 type PuzzlesAggregate = {
-  __typename: 'sui_hei_puzzle_aggregate';
+  __typename: 'puzzle_aggregate';
   aggregate: PuzzlesAggregateAggregate | null;
 };
 
 type DialoguesAggregateAggregate = {
-  __typename: 'sui_hei_dialogue_aggregate_fields';
+  __typename: 'dialogue_aggregate_fields';
   count: number | null;
 };
 type DialoguesAggregate = {
-  __typename: 'sui_hei_dialogue_aggregate';
+  __typename: 'dialogue_aggregate';
   aggregate: DialoguesAggregateAggregate | null;
 };
 
 type CommentsAggregateAggregate = {
-  __typename: 'sui_hei_comment_aggregate_fields';
+  __typename: 'comment_aggregate_fields';
   count: number | null;
 };
 type CommentsAggregate = {
-  __typename: 'sui_hei_comment_aggregate';
+  __typename: 'comment_aggregate';
   aggregate: CommentsAggregateAggregate | null;
 };
 
 type StarsAggregateAggregateSum = {
-  __typename: 'sui_hei_star_sum_fields';
+  __typename: 'star_sum_fields';
   value: number;
 };
 type StarsAggregateAggregate = {
-  __typename: 'sui_hei_star_aggregate_fields';
+  __typename: 'star_aggregate_fields';
   count: number | null;
   sum: StarsAggregateAggregateSum | null;
 };
 type StarsAggregate = {
-  __typename: 'sui_hei_star_aggregate';
+  __typename: 'star_aggregate';
   aggregate: StarsAggregateAggregate | null;
 };
 
@@ -67,15 +67,15 @@ export type ProfileUserType = {
   username: string;
   date_joined: string;
   last_login?: string;
-  sui_hei_userawards: Array<UserAward>;
-  sui_hei_current_useraward?: UserAward | null;
-  sui_hei_puzzles_aggregate?: PuzzlesAggregate | null;
-  sui_hei_dialogues_aggregate?: DialoguesAggregate | null;
+  user_awards: Array<UserAward>;
+  current_user_award?: UserAward | null;
+  puzzles_aggregate?: PuzzlesAggregate | null;
+  dialogues_aggregate?: DialoguesAggregate | null;
   good_questions_aggregate?: DialoguesAggregate | null;
   true_answers_aggregate?: DialoguesAggregate | null;
-  sui_hei_comments_aggregate?: CommentsAggregate | null;
+  comments_aggregate?: CommentsAggregate | null;
   received_comments_aggregate?: CommentsAggregate | null;
-  sui_hei_stars_aggregate?: StarsAggregate | null;
+  stars_aggregate?: StarsAggregate | null;
   received_stars_aggregate?: StarsAggregate | null;
 };
 

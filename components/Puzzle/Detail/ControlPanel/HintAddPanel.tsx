@@ -41,8 +41,8 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
         update={(cache: DataProxy, { data }) => {
           if (
             !data ||
-            !data.insert_sui_hei_hint ||
-            data.insert_sui_hei_hint.returning.length !== 1
+            !data.insert_hint ||
+            data.insert_hint.returning.length !== 1
           )
             return;
 
@@ -56,20 +56,20 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
             },
           });
           if (!prevDialogueHints) return;
-          const { sui_hei_hint, sui_hei_dialogue } = prevDialogueHints;
+          const { hint, dialogue } = prevDialogueHints;
 
-          const newItem = data.insert_sui_hei_hint.returning[0];
+          const newItem = data.insert_hint.returning[0];
           cache.writeQuery({
             query: DIALOGUE_HINT_QUERY,
             variables: {
               puzzleId,
             },
             data: {
-              sui_hei_hint:
+              hint:
                 newItem.id === -1
-                  ? [...sui_hei_hint, newItem]
-                  : upsertItem(sui_hei_hint, newItem),
-              sui_hei_dialogue,
+                  ? [...hint, newItem]
+                  : upsertItem(hint, newItem),
+              dialogue,
             },
           });
         }}
@@ -110,11 +110,11 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
                     content: hint,
                   },
                   optimisticResponse: {
-                    insert_sui_hei_hint: {
-                      __typename: 'sui_hei_hint_mutation_response',
+                    insert_hint: {
+                      __typename: 'hint_mutation_response',
                       returning: [
                         {
-                          __typename: 'sui_hei_hint',
+                          __typename: 'hint',
                           id: -1,
                           content: hint,
                           created: Date.now(),
@@ -123,12 +123,12 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
                             receiverId === null
                               ? null
                               : {
-                                  __typename: 'sui_hei_user',
+                                  __typename: 'user',
                                   id: receiverId,
                                   icon: null,
                                   nickname: '...',
                                   username: '...',
-                                  sui_hei_current_useraward: null,
+                                  current_user_award: null,
                                 },
                         },
                       ],

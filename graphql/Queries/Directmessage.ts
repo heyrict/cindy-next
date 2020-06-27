@@ -1,17 +1,17 @@
 import gql from 'graphql-tag';
 
 import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
-import { DIRECTMESSAGE_FRAGMENT } from '../Fragments/Directmessage';
+import { DIRECT_MESSAGE_FRAGMENT } from '../Fragments/DirectMessage';
 
-export const DIRECTMESSAGE_GROUP_QUERY = gql`
-  query DirectmessageGroupQuery($userId: Int!) {
+export const DIRECT_MESSAGE_GROUP_QUERY = gql`
+  query DirectMessageGroupQuery($userId: Int!) {
     direct_message_group(
       args: { user_id: $userId }
       order_by: { last_dm_id: desc }
     ) {
       last_dm_id
       user_id
-      sui_hei_user {
+      user {
         ...UserBrief
       }
     }
@@ -19,14 +19,14 @@ export const DIRECTMESSAGE_GROUP_QUERY = gql`
   ${USER_BRIEF_FRAGMENT}
 `;
 
-export const DIRECTMESSAGE_GROUP_MESSAGES_QUERY = gql`
-  query DirectmessageGroupMessagesQuery(
+export const DIRECT_MESSAGE_GROUP_MESSAGES_QUERY = gql`
+  query DirectMessageGroupMessagesQuery(
     $userId: Int!
     $withUserId: Int!
     $limit: Int
     $offset: Int
   ) {
-    sui_hei_directmessage(
+    direct_message(
       where: {
         _or: [
           { sender_id: { _eq: $userId }, receiver_id: { _eq: $withUserId } }
@@ -36,9 +36,9 @@ export const DIRECTMESSAGE_GROUP_MESSAGES_QUERY = gql`
       limit: $limit
       offset: $offset
       order_by: [{ id: desc }]
-    ) @connection(key: "sui_hei_directmessage", filter: ["where"]) {
-      ...Directmessage
+    ) @connection(key: "direct_message", filter: ["where"]) {
+      ...DirectMessage
     }
   }
-  ${DIRECTMESSAGE_FRAGMENT}
+  ${DIRECT_MESSAGE_FRAGMENT}
 `;

@@ -68,14 +68,12 @@ const BookmarkPopupContent = ({
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.sui_hei_bookmark) {
+            if (!data || !data.bookmark) {
               if (loading) return <Loading centered />;
               return null;
             }
             const initialValue =
-              data.sui_hei_bookmark.length === 0
-                ? 0
-                : data.sui_hei_bookmark[0].value;
+              data.bookmark.length === 0 ? 0 : data.bookmark[0].value;
             return (
               <>
                 <Box width={1} pr={1}>
@@ -90,12 +88,11 @@ const BookmarkPopupContent = ({
                   update={(proxy, { data }) => {
                     if (
                       !data ||
-                      !data.insert_sui_hei_bookmark ||
-                      data.insert_sui_hei_bookmark.returning.length === 0
+                      !data.insert_bookmark ||
+                      data.insert_bookmark.returning.length === 0
                     )
                       return;
-                    const newBookmark =
-                      data.insert_sui_hei_bookmark.returning[0];
+                    const newBookmark = data.insert_bookmark.returning[0];
                     proxy.writeQuery<
                       PreviousBookmarkValueQuery,
                       PreviousBookmarkValueQueryVariables
@@ -106,7 +103,7 @@ const BookmarkPopupContent = ({
                         userId: userId as number,
                       },
                       data: {
-                        sui_hei_bookmark: [{ ...newBookmark }],
+                        bookmark: [{ ...newBookmark }],
                       },
                     });
                   }}
@@ -129,15 +126,14 @@ const BookmarkPopupContent = ({
                                 value,
                               },
                               optimisticResponse: {
-                                insert_sui_hei_bookmark: {
-                                  __typename:
-                                    'sui_hei_bookmark_mutation_response',
+                                insert_bookmark: {
+                                  __typename: 'bookmark_mutation_response',
                                   returning: [
                                     {
-                                      __typename: 'sui_hei_bookmark',
+                                      __typename: 'bookmark',
                                       id:
-                                        data.sui_hei_bookmark.length > 0
-                                          ? data.sui_hei_bookmark[0].id
+                                        data.bookmark.length > 0
+                                          ? data.bookmark[0].id
                                           : -1,
                                       value,
                                     },

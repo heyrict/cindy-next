@@ -110,10 +110,7 @@ const PuzzleDialogues = ({
           userId,
         }}
         onCompleted={data => {
-          if (
-            puzzleYami === 2 &&
-            data.sui_hei_dialogue.some(dialogue => dialogue.true)
-          )
+          if (puzzleYami === 2 && data.dialogue.some(dialogue => dialogue.true))
             setTrueSolvedLongtermYami();
         }}
         fetchPolicy="cache-and-network"

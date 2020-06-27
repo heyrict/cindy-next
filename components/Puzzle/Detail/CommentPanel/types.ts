@@ -1,4 +1,4 @@
-import { PuzzleCommentQuery_sui_hei_comment } from 'graphql/Queries/generated/PuzzleCommentQuery';
+import { PuzzleCommentQuery_comment } from 'graphql/Queries/generated/PuzzleCommentQuery';
 import { GlobalUserType } from 'reducers/types';
 
 export type CommentPanelProps = {
@@ -20,5 +20,5 @@ export type CommentModalAddPanelProps = {
 };
 
 export type CommentModalCommentProps = {
-  comment: PuzzleCommentQuery_sui_hei_comment;
+  comment: PuzzleCommentQuery_comment;
 };

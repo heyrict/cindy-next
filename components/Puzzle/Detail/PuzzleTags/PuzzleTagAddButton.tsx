@@ -42,8 +42,8 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
           <Mutation<AddPuzzleTagByPkMutation, AddPuzzleTagByPkMutationVariables>
             mutation={ADD_PUZZLE_TAG_BY_PK_MUTATION}
             update={(proxy, { data }) => {
-              if (!data || !data.insert_sui_hei_puzzle_tag) return;
-              const newPuzzleTag = data.insert_sui_hei_puzzle_tag.returning;
+              if (!data || !data.insert_puzzle_tag) return;
+              const newPuzzleTag = data.insert_puzzle_tag.returning;
               const queryData = proxy.readQuery<
                 PuzzlePageTagsQuery,
                 PuzzlePageTagsQueryVariables
@@ -53,7 +53,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
               });
               if (newPuzzleTag.length === 0) return;
               if (!queryData) return;
-              const { sui_hei_puzzle_tag } = queryData;
+              const { puzzle_tag } = queryData;
               proxy.writeQuery<
                 PuzzlePageTagsQuery,
                 PuzzlePageTagsQueryVariables
@@ -62,7 +62,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                 variables: { puzzleId },
                 data: {
                   ...queryData,
-                  sui_hei_puzzle_tag: [...sui_hei_puzzle_tag, newPuzzleTag[0]],
+                  puzzle_tag: [...puzzle_tag, newPuzzleTag[0]],
                 },
               });
             }}
@@ -71,8 +71,8 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
               <Mutation<AddPuzzleTagMutation, AddPuzzleTagMutationVariables>
                 mutation={ADD_PUZZLE_TAG_MUTATION}
                 update={(proxy, { data }) => {
-                  if (!data || !data.insert_sui_hei_puzzle_tag) return;
-                  const newPuzzleTag = data.insert_sui_hei_puzzle_tag.returning;
+                  if (!data || !data.insert_puzzle_tag) return;
+                  const newPuzzleTag = data.insert_puzzle_tag.returning;
                   const queryData = proxy.readQuery<
                     PuzzlePageTagsQuery,
                     PuzzlePageTagsQueryVariables
@@ -82,7 +82,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                   });
                   if (newPuzzleTag.length === 0) return;
                   if (!queryData) return;
-                  const { sui_hei_puzzle_tag } = queryData;
+                  const { puzzle_tag } = queryData;
                   proxy.writeQuery<
                     PuzzlePageTagsQuery,
                     PuzzlePageTagsQueryVariables
@@ -91,10 +91,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                     variables: { puzzleId },
                     data: {
                       ...queryData,
-                      sui_hei_puzzle_tag: [
-                        ...sui_hei_puzzle_tag,
-                        newPuzzleTag[0],
-                      ],
+                      puzzle_tag: [...puzzle_tag, newPuzzleTag[0]],
                     },
                   });
                 }}
@@ -118,26 +115,25 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                             },
                           },
                           optimisticResponse: {
-                            insert_sui_hei_puzzle_tag: {
-                              __typename:
-                                'sui_hei_puzzle_tag_mutation_response',
+                            insert_puzzle_tag: {
+                              __typename: 'puzzle_tag_mutation_response',
                               returning: [
                                 {
-                                  __typename: 'sui_hei_puzzle_tag',
+                                  __typename: 'puzzle_tag',
                                   id: -1,
-                                  sui_hei_tag: {
-                                    __typename: 'sui_hei_tag',
+                                  tag: {
+                                    __typename: 'tag',
                                     id: -1,
                                     name: tag.value,
                                     created: new Date().toISOString(),
                                   },
-                                  sui_hei_user: {
-                                    __typename: 'sui_hei_user',
+                                  user: {
+                                    __typename: 'user',
                                     id: -1,
                                     icon: null,
                                     nickname: '...',
                                     username: '...',
-                                    sui_hei_current_useraward: null,
+                                    current_user_award: null,
                                   },
                                 },
                               ],
@@ -163,27 +159,26 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                             tagId: tag.id,
                           },
                           optimisticResponse: {
-                            insert_sui_hei_puzzle_tag: {
-                              __typename:
-                                'sui_hei_puzzle_tag_mutation_response',
+                            insert_puzzle_tag: {
+                              __typename: 'puzzle_tag_mutation_response',
                               returning: [
                                 {
-                                  __typename: 'sui_hei_puzzle_tag',
+                                  __typename: 'puzzle_tag',
                                   id: -1,
-                                  sui_hei_tag: {
-                                    __typename: 'sui_hei_tag',
+                                  tag: {
+                                    __typename: 'tag',
                                     id: tag.id,
                                     name: tag.value,
                                     created:
                                       tag.created || new Date().toISOString(),
                                   },
-                                  sui_hei_user: {
-                                    __typename: 'sui_hei_user',
+                                  user: {
+                                    __typename: 'user',
                                     id: -1,
                                     icon: null,
                                     nickname: '...',
                                     username: '...',
-                                    sui_hei_current_useraward: null,
+                                    current_user_award: null,
                                   },
                                 },
                               ],

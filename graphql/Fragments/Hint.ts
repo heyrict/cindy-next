@@ -2,18 +2,15 @@ import gql from 'graphql-tag';
 
 import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
-export const DIRECTMESSAGE_FRAGMENT = gql`
-  fragment Directmessage on sui_hei_directmessage {
+export const HINT_SHARED_FRAGMENT = gql`
+  fragment HintShared on hint {
     id
     content
     created
-    sender {
-      ...UserBrief
-    }
+    edittimes
     receiver {
       ...UserBrief
     }
-    editTimes
   }
   ${USER_BRIEF_FRAGMENT}
 `;

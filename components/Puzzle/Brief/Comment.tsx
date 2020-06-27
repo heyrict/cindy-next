@@ -68,11 +68,11 @@ const Comment = ({ count, puzzleId }: CommentProps) => {
                 toast.error(error.message);
                 return null;
               }
-              if (!data || !data.sui_hei_puzzle_by_pk) {
+              if (!data || !data.puzzle_by_pk) {
                 if (loading) return <Loading centered />;
                 return null;
               }
-              const puzzle = data.sui_hei_puzzle_by_pk;
+              const puzzle = data.puzzle_by_pk;
               return (
                 <Flex width={1} flexDirection="column">
                   <Box textAlign="center" fontSize="0.8em" width={1}>
@@ -103,7 +103,7 @@ const Comment = ({ count, puzzleId }: CommentProps) => {
                         <Box display="inline-box" p={1}>
                           <FormattedMessage {...puzzlePageMessages.creator} />:
                         </Box>
-                        <UserInline user={puzzle.sui_hei_user} />
+                        <UserInline user={puzzle.user} />
                       </Box>
                     </Flex>
                   </Flex>

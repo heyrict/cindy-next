@@ -10,10 +10,10 @@ import * as loginReducer from 'reducers/login';
 
 import { Query, Mutation } from '@apollo/react-components';
 import {
-  DIRECTMESSAGE_GROUP_MESSAGES_QUERY,
-  DIRECTMESSAGE_GROUP_QUERY,
+  DIRECT_MESSAGE_GROUP_MESSAGES_QUERY,
+  DIRECT_MESSAGE_GROUP_QUERY,
 } from 'graphql/Queries/Directmessage';
-import { DIRECTMESSAGE_SEND_MUTATION } from 'graphql/Mutations/Directmessage';
+import { DIRECT_MESSAGE_SEND_MUTATION } from 'graphql/Mutations/Directmessage';
 
 import { FormattedMessage } from 'react-intl';
 import chatMessages from 'messages/components/chat';
@@ -33,20 +33,20 @@ import {
 } from 'reducers/types';
 import { MessageGroupChatProps, MessageGroupChatInnerProps } from './types';
 import {
-  DirectmessageGroupMessagesQuery,
-  DirectmessageGroupMessagesQueryVariables,
-} from 'graphql/Queries/generated/DirectmessageGroupMessagesQuery';
+  DirectMessageGroupMessagesQuery,
+  DirectMessageGroupMessagesQueryVariables,
+} from 'graphql/Queries/generated/DirectMessageGroupMessagesQuery';
 import { stampNamespaces } from 'stamps/types';
 import {
-  DirectmessageSendMutation,
-  DirectmessageSendMutationVariables,
-} from 'graphql/Mutations/generated/DirectmessageSendMutation';
+  DirectMessageSendMutation,
+  DirectMessageSendMutationVariables,
+} from 'graphql/Mutations/generated/DirectMessageSendMutation';
 import {
-  DirectmessageGroupQueryVariables,
-  DirectmessageGroupQuery,
-} from 'graphql/Queries/generated/DirectmessageGroupQuery';
+  DirectMessageGroupQueryVariables,
+  DirectMessageGroupQuery,
+} from 'graphql/Queries/generated/DirectMessageGroupQuery';
 
-const DIRECTMESSAGES_PER_PAGE = 20;
+const DIRECT_MESSAGES_PER_PAGE = 20;
 
 const MessageGroupChatInner = ({
   user,
@@ -63,13 +63,13 @@ const MessageGroupChatInner = ({
   const { id: userId } = user;
 
   useEffect(() => {
-    if (loading || error || !data || !data.sui_hei_directmessage) return;
-    const { sui_hei_directmessage: directmessages } = data;
+    if (loading || error || !data || !data.direct_message) return;
+    const { direct_message: direct_messages } = data;
 
-    if (directmessages.length >= DIRECTMESSAGES_PER_PAGE) setHasMore(true);
+    if (direct_messages.length >= DIRECT_MESSAGES_PER_PAGE) setHasMore(true);
     /* TODO add notification when new direct message received
-    if (directmessages.length > 0)
-      directmessageUpdate(chatroomId, directmessages[directmessages.length - 1].id);
+    if (direct_messages.length > 0)
+      direct_messageUpdate(chatroomId, direct_messages[direct_messages.length - 1].id);
      */
   }, [directGroupUser, loading]);
 
@@ -77,11 +77,11 @@ const MessageGroupChatInner = ({
     toast.error(error.message);
     return null;
   }
-  if (!data || !data.sui_hei_directmessage) {
+  if (!data || !data.direct_message) {
     if (loading) return <Loading centered />;
     return null;
   }
-  const { sui_hei_directmessage: directmessages } = data;
+  const { direct_message: direct_messages } = data;
 
   if (userId === directGroupUser)
     return (
@@ -101,49 +101,49 @@ const MessageGroupChatInner = ({
 
   return (
     <React.Fragment>
-      <Mutation<DirectmessageSendMutation, DirectmessageSendMutationVariables>
-        mutation={DIRECTMESSAGE_SEND_MUTATION}
+      <Mutation<DirectMessageSendMutation, DirectMessageSendMutationVariables>
+        mutation={DIRECT_MESSAGE_SEND_MUTATION}
         update={(cache, { data }) => {
           if (!data) return;
-          if (data.insert_sui_hei_directmessage === null) return;
-          const newMessages = data.insert_sui_hei_directmessage.returning;
+          if (data.insert_direct_message === null) return;
+          const newMessages = data.insert_direct_message.returning;
           if (newMessages.length === 0) return;
           const newMessage = newMessages[0];
 
           // update messages
           const dmResult = cache.readQuery<
-            DirectmessageGroupMessagesQuery,
-            DirectmessageGroupMessagesQueryVariables
+            DirectMessageGroupMessagesQuery,
+            DirectMessageGroupMessagesQueryVariables
           >({
-            query: DIRECTMESSAGE_GROUP_MESSAGES_QUERY,
+            query: DIRECT_MESSAGE_GROUP_MESSAGES_QUERY,
             variables: {
               userId,
               withUserId: directGroupUser,
             },
           });
           if (dmResult === null) return;
-          const { sui_hei_directmessage } = dmResult;
+          const { direct_message } = dmResult;
           if (newMessage.id === -1) {
             cache.writeQuery({
-              query: DIRECTMESSAGE_GROUP_MESSAGES_QUERY,
+              query: DIRECT_MESSAGE_GROUP_MESSAGES_QUERY,
               variables: {
                 userId,
                 withUserId: directGroupUser,
               },
               data: {
-                sui_hei_directmessage: [newMessage, ...sui_hei_directmessage],
+                direct_message: [newMessage, ...direct_message],
               },
             });
           } else {
             cache.writeQuery({
-              query: DIRECTMESSAGE_GROUP_MESSAGES_QUERY,
+              query: DIRECT_MESSAGE_GROUP_MESSAGES_QUERY,
               variables: {
                 userId,
                 withUserId: directGroupUser,
               },
               data: {
-                sui_hei_directmessage: upsertItem(
-                  sui_hei_directmessage,
+                direct_message: upsertItem(
+                  direct_message,
                   newMessage,
                   'id',
                   'desc',
@@ -154,10 +154,10 @@ const MessageGroupChatInner = ({
 
           // update message groups
           const cachedResult = cache.readQuery<
-            DirectmessageGroupQuery,
-            DirectmessageGroupQueryVariables
+            DirectMessageGroupQuery,
+            DirectMessageGroupQueryVariables
           >({
-            query: DIRECTMESSAGE_GROUP_QUERY,
+            query: DIRECT_MESSAGE_GROUP_QUERY,
             variables: {
               userId,
             },
@@ -165,7 +165,7 @@ const MessageGroupChatInner = ({
           if (cachedResult === null) return;
           const { direct_message_group } = cachedResult;
           cache.writeQuery({
-            query: DIRECTMESSAGE_GROUP_QUERY,
+            query: DIRECT_MESSAGE_GROUP_QUERY,
             variables: {
               userId,
             },
@@ -173,10 +173,10 @@ const MessageGroupChatInner = ({
               direct_message_group: upsertItem(
                 direct_message_group,
                 {
-                  __typename: 'hasura_directmessage_group_trigger',
+                  __typename: 'hasura_direct_message_group_trigger',
                   last_dm_id: newMessage.id,
                   user_id: newMessage.receiver.id,
-                  sui_hei_user: {
+                  user: {
                     ...newMessage.receiver,
                   },
                 },
@@ -195,30 +195,30 @@ const MessageGroupChatInner = ({
                 receiverId: directGroupUser,
               },
               optimisticResponse: {
-                insert_sui_hei_directmessage: {
-                  __typename: 'sui_hei_directmessage_mutation_response',
+                insert_direct_message: {
+                  __typename: 'direct_message_mutation_response',
                   returning: [
                     {
-                      __typename: 'sui_hei_directmessage',
+                      __typename: 'direct_message',
                       id: -1,
                       content,
                       created: Date.now(),
                       editTimes: 0,
                       sender: {
-                        __typename: 'sui_hei_user',
+                        __typename: 'user',
                         id: user.id,
                         icon: user.icon,
                         nickname: user.nickname || '...',
                         username: user.username || '...',
-                        sui_hei_current_useraward: null,
+                        current_user_award: null,
                       },
                       receiver: {
-                        __typename: 'sui_hei_user',
+                        __typename: 'user',
                         id: -1,
                         icon: user.icon,
                         nickname: '...',
                         username: '...',
-                        sui_hei_current_useraward: null,
+                        current_user_award: null,
                       },
                     },
                   ],
@@ -315,11 +315,11 @@ const MessageGroupChatInner = ({
         borderColor="orange.3"
         flexDirection="column"
       >
-        {directmessages.length === 0 && (
+        {direct_messages.length === 0 && (
           <FormattedMessage {...chatMessages.noLogs} />
         )}
-        {directmessages.map(dm => (
-          <Directmessage key={dm.id} directmessage={dm} />
+        {direct_messages.map(dm => (
+          <Directmessage key={dm.id} direct_message={dm} />
         ))}
         {hasMore && (
           <Box width={1} bg="teal.5">
@@ -331,16 +331,16 @@ const MessageGroupChatInner = ({
               onClick={() => {
                 fetchMore({
                   variables: {
-                    offset: directmessages.length,
+                    offset: direct_messages.length,
                   },
                   updateQuery: (prev, { fetchMoreResult }) => {
                     if (!fetchMoreResult) return prev;
-                    if (fetchMoreResult.sui_hei_directmessage.length === 0)
+                    if (fetchMoreResult.direct_message.length === 0)
                       setHasMore(false);
                     return Object.assign({}, prev, {
-                      sui_hei_directmessage: [
-                        ...prev.sui_hei_directmessage,
-                        ...fetchMoreResult.sui_hei_directmessage,
+                      direct_message: [
+                        ...prev.direct_message,
+                        ...fetchMoreResult.direct_message,
                       ],
                     });
                   },
@@ -365,14 +365,14 @@ const MessageGroupChat = ({
 }: MessageGroupChatProps) =>
   directGroupUser && user.id ? (
     <Query<
-      DirectmessageGroupMessagesQuery,
-      DirectmessageGroupMessagesQueryVariables
+      DirectMessageGroupMessagesQuery,
+      DirectMessageGroupMessagesQueryVariables
     >
-      query={DIRECTMESSAGE_GROUP_MESSAGES_QUERY}
+      query={DIRECT_MESSAGE_GROUP_MESSAGES_QUERY}
       variables={{
         userId: user.id,
         withUserId: directGroupUser,
-        limit: DIRECTMESSAGES_PER_PAGE,
+        limit: DIRECT_MESSAGES_PER_PAGE,
       }}
     >
       {params => (

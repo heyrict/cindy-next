@@ -20,7 +20,7 @@ const puzzleMinimal = {
   yami: 0,
   created: '2019-06-26T00:00:00Z',
   modified: '2019-06-26T00:00:00Z',
-  sui_hei_user: {
+  user: {
     id: 1,
     nickname: 'はやて',
   },
@@ -30,7 +30,7 @@ const puzzleMaximum = {
   ...puzzleMinimal,
   anonymous: true,
   dazed_on: '2018-11-29',
-  sui_hei_stars_aggregate: {
+  stars_aggregate: {
     aggregate: {
       count: 7,
       sum: {
@@ -38,17 +38,17 @@ const puzzleMaximum = {
       },
     },
   },
-  sui_hei_comments_aggregate: {
+  comments_aggregate: {
     aggregate: {
       count: 5,
     },
   },
-  sui_hei_bookmarks_aggregate: {
+  bookmarks_aggregate: {
     aggregate: {
       count: 15,
     },
   },
-  sui_hei_dialogues_aggregate: {
+  dialogues_aggregate: {
     aggregate: {
       count: 16,
       max: {
@@ -101,7 +101,11 @@ describe('<Brief />', () => {
 
   describe('renders with maximum props in external props', () => {
     const node = shallow(
-      <PuzzleBrief puzzle={puzzleMinimal} showGenreImage={true} {...externalProps} />,
+      <PuzzleBrief
+        puzzle={puzzleMinimal}
+        showGenreImage={true}
+        {...externalProps}
+      />,
     );
     it('has Star, Comment, Bookmark', () => {
       expect(node.find(Star).exists()).toBe(true);

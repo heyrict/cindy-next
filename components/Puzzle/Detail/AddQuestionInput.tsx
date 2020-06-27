@@ -112,8 +112,8 @@ const AddQuestionInput = ({
       update={(cache, { data }) => {
         if (
           !data ||
-          !data.insert_sui_hei_dialogue ||
-          data.insert_sui_hei_dialogue.returning.length !== 1
+          !data.insert_dialogue ||
+          data.insert_dialogue.returning.length !== 1
         )
           return;
         const prevDialogueHints = cache.readQuery<
@@ -127,8 +127,8 @@ const AddQuestionInput = ({
           },
         });
         if (!prevDialogueHints) return;
-        const { sui_hei_hint, sui_hei_dialogue } = prevDialogueHints;
-        const newItem = data.insert_sui_hei_dialogue.returning[0];
+        const { hint, dialogue } = prevDialogueHints;
+        const newItem = data.insert_dialogue.returning[0];
         if (newItem.id === -1) {
           cache.writeQuery({
             query: DIALOGUE_HINT_QUERY,
@@ -137,8 +137,8 @@ const AddQuestionInput = ({
               userId,
             },
             data: {
-              sui_hei_hint,
-              sui_hei_dialogue: [...sui_hei_dialogue, newItem],
+              hint,
+              dialogue: [...dialogue, newItem],
             },
           });
         } else {
@@ -150,8 +150,8 @@ const AddQuestionInput = ({
               userId,
             },
             data: {
-              sui_hei_hint,
-              sui_hei_dialogue: upsertItem(sui_hei_dialogue, newItem),
+              hint,
+              dialogue: upsertItem(dialogue, newItem),
             },
           });
         }
@@ -172,11 +172,11 @@ const AddQuestionInput = ({
                   puzzleId,
                 },
                 optimisticResponse: {
-                  insert_sui_hei_dialogue: {
-                    __typename: 'sui_hei_dialogue_mutation_response',
+                  insert_dialogue: {
+                    __typename: 'dialogue_mutation_response',
                     returning: [
                       {
-                        __typename: 'sui_hei_dialogue',
+                        __typename: 'dialogue',
                         id: -1,
                         qno: -1,
                         good: false,
@@ -187,13 +187,13 @@ const AddQuestionInput = ({
                         answerEditTimes: 0,
                         created: Date.now(),
                         answeredtime: null,
-                        sui_hei_user: {
-                          __typename: 'sui_hei_user',
+                        user: {
+                          __typename: 'user',
                           id: -1,
                           icon: null,
                           nickname: '...',
                           username: '...',
-                          sui_hei_current_useraward: null,
+                          current_user_award: null,
                         },
                       },
                     ],

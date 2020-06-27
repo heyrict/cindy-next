@@ -37,9 +37,9 @@ const PuzzleTagBubble = ({
   return (
     <PuzzleTagBubbleBox>
       <Box>
-        <Link href="/tag/[id]" as={`/tag/${puzzleTag.sui_hei_tag.id}`} passHref>
+        <Link href="/tag/[id]" as={`/tag/${puzzleTag.tag.id}`} passHref>
           <ButtonTransparentA pl={1} pr={canDelete ? 0 : 1}>
-            {puzzleTag.sui_hei_tag.name}
+            {puzzleTag.tag.name}
           </ButtonTransparentA>
         </Link>
       </Box>
@@ -47,7 +47,7 @@ const PuzzleTagBubble = ({
         <Mutation<DeletePuzzleTagMutation, DeletePuzzleTagMutationVariables>
           mutation={DELETE_PUZZLE_TAG_MUTATION}
           update={(proxy, { data }) => {
-            if (!data || !data.delete_sui_hei_puzzle_tag) return null;
+            if (!data || !data.delete_puzzle_tag) return null;
             const prevData = proxy.readQuery<
               PuzzlePageTagsQuery,
               PuzzlePageTagsQueryVariables
@@ -62,7 +62,7 @@ const PuzzleTagBubble = ({
                 variables: { puzzleId },
                 data: {
                   ...prevData,
-                  sui_hei_puzzle_tag: prevData.sui_hei_puzzle_tag.filter(
+                  puzzle_tag: prevData.puzzle_tag.filter(
                     pt => pt.id !== puzzleTag.id,
                   ),
                 },
@@ -80,7 +80,7 @@ const PuzzleTagBubble = ({
                     <FormattedMessage
                       {...puzzlePageMessages.deleteTagConfirm}
                       values={{
-                        tag: puzzleTag.sui_hei_tag.name,
+                        tag: puzzleTag.tag.name,
                       }}
                     />
                     <Box
@@ -100,9 +100,8 @@ const PuzzleTagBubble = ({
                               puzzleTagId: puzzleTag.id,
                             },
                             optimisticResponse: {
-                              delete_sui_hei_puzzle_tag: {
-                                __typename:
-                                  'sui_hei_puzzle_tag_mutation_response',
+                              delete_puzzle_tag: {
+                                __typename: 'puzzle_tag_mutation_response',
                                 affected_rows: 1,
                               },
                             },
