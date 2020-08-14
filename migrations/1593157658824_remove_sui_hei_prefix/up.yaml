@@ -1,6 +1,41 @@
 - args:
     cascade: false
     read_only: false
+    sql: alter table "public"."sui_hei_chatmessage" rename to "chatmessage";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_tag" rename to "tag";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_user" rename to "user";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_useraward" rename to "useraward";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_hint" rename to "hint";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_dialogue" rename to "dialogue";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."sui_hei_puzzle" rename to "puzzle";
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
     sql: alter table "public"."sui_hei_award" rename to "award";
   type: run_sql
 - args:
@@ -12,11 +47,6 @@
     cascade: false
     read_only: false
     sql: alter table "public"."sui_hei_bookmark" rename to "bookmark";
-  type: run_sql
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."sui_hei_chatmessage" rename to "chatmessage";
   type: run_sql
 - args:
     cascade: false
@@ -99,11 +129,6 @@
       schema: public
   type: rename_relationship
 - args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."sui_hei_dialogue" rename to "dialogue";
-  type: run_sql
-- args:
     name: sui_hei_puzzle
     new_name: puzzle
     table:
@@ -183,19 +208,9 @@
     name: sui_hei_puzzle
     new_name: puzzle
     table:
-      name: sui_hei_hint
+      name: hint
       schema: public
   type: rename_relationship
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."sui_hei_hint" rename to "hint";
-  type: run_sql
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."sui_hei_puzzle" rename to "puzzle";
-  type: run_sql
 - args:
     name: sui_hei_user
     new_name: user
@@ -344,19 +359,9 @@
     name: sui_hei_puzzle_tags
     new_name: puzzle_tags
     table:
-      name: sui_hei_tag
+      name: tag
       schema: public
   type: rename_relationship
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."sui_hei_tag" rename to "tag";
-  type: run_sql
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."sui_hei_user" rename to "user";
-  type: run_sql
 - args:
     name: sui_hei_current_useraward
     new_name: current_user_award
@@ -473,28 +478,23 @@
     name: sui_hei_user
     new_name: user
     table:
-      name: sui_hei_useraward
+      name: useraward
       schema: public
   type: rename_relationship
 - args:
     name: sui_hei_award
     new_name: award
     table:
-      name: sui_hei_useraward
+      name: useraward
       schema: public
   type: rename_relationship
 - args:
     name: sui_hei_users
     new_name: users
     table:
-      name: sui_hei_useraward
+      name: useraward
       schema: public
   type: rename_relationship
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."sui_hei_useraward" rename to "user_award";
-  type: run_sql
 - args:
     name: sui_hei_user
     new_name: user
