@@ -210,7 +210,13 @@ export const PROFILE_PUZZLES_QUERY = gql`
   ) {
     puzzle(
       order_by: $orderBy
-      where: { user_id: { _eq: $userId } }
+      where: {
+        user_id: { _eq: $userId }
+        _or: [
+          { anonymous: { _eq: true }, status: { _neq: 0 } }
+          { anonymous: { _eq: false } }
+        ]
+      }
       limit: $limit
       offset: $offset
     ) @connection(key: "puzzle", filter: ["order_by", "where"]) {
