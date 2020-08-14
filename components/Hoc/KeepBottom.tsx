@@ -83,7 +83,7 @@ class KeepBottom extends React.Component<KeepBottomProps> {
     logDev(`KeepBottom: Handle toBottom for ${o.name}`);
     const behavior = o.smooth ? 'smooth' : 'auto';
     const wait = o.wait || 200;
-    const sr: any = this.scrollerRef.current;
+    const sr = this.scrollerRef.current as HTMLElement;
 
     if (this.pendingTimeout) {
       // First choice: clear previous timeout
@@ -154,14 +154,16 @@ class KeepBottom extends React.Component<KeepBottomProps> {
           clientHeight: ch,
         } = this.prevState;
 
-        if (sh - st - ch * 1.3 < 0) {
+        if (sh - st < ch * 1.3) {
+          // Near bottom
           sr.scrollTo({
             top: sr.scrollHeight,
             behavior: 'smooth',
           });
-        } else {
+        } else if (st < ch * 0.3) {
+          // Near top
           sr.scrollTo({
-            top: sr.scrollHeight - this.prevState.scrollHeight,
+            top: sr.scrollHeight - sh,
             behavior,
           });
         }
