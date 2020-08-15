@@ -60,7 +60,7 @@
 - args:
     cascade: false
     read_only: false
-    sql: alter table "public"."useraward" rename to "sui_hei_useraward";
+    sql: alter table "public"."user_award" rename to "sui_hei_useraward";
   type: run_sql
 - args:
     name: users

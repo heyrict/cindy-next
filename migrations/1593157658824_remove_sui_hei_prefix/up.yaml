@@ -16,7 +16,7 @@
 - args:
     cascade: false
     read_only: false
-    sql: alter table "public"."sui_hei_useraward" rename to "useraward";
+    sql: alter table "public"."sui_hei_useraward" rename to "user_award";
   type: run_sql
 - args:
     cascade: false
@@ -478,21 +478,21 @@
     name: sui_hei_user
     new_name: user
     table:
-      name: useraward
+      name: user_award
       schema: public
   type: rename_relationship
 - args:
     name: sui_hei_award
     new_name: award
     table:
-      name: useraward
+      name: user_award
       schema: public
   type: rename_relationship
 - args:
     name: sui_hei_users
     new_name: users
     table:
-      name: useraward
+      name: user_award
       schema: public
   type: rename_relationship
 - args:
