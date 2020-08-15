@@ -1,1 +1,17 @@
-[]
+- args:
+    cascade: true
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.puzzle_count_ranking(
+        created_gte timestamp without time zone,
+        created_lt timestamp without time zone
+      ) RETURNS SETOF hasura_user_ranking_trigger LANGUAGE sql STABLE AS $$
+      select
+        user_id,
+        count(id) as value
+      from
+        puzzle
+      where
+        created >= created_gte
+        and created < created_lt
+      group by user_id $$
+  type: run_sql

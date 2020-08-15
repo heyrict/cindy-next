@@ -1,1 +1,19 @@
-[]
+- args:
+    cascade: true
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.user_star_groups(
+        "userId" integer
+      ) RETURNS SETOF hasura_int_groupby_trigger LANGUAGE sql STABLE AS $$
+      select
+        cast(star_sum as integer) as group,
+        count(puzzle_id) as value
+      from puzzle
+      left join (
+        select puzzle_id, sum(value) as star_sum
+        from star
+        group by puzzle_id
+      ) as puzzle_stars
+      on puzzle.id = puzzle_stars.puzzle_id
+      where puzzle.user_id = "userId" and star_sum is not null
+      group by star_sum $$
+  type: run_sql
