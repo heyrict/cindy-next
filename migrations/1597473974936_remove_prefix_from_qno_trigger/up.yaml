@@ -1,0 +1,21 @@
+- args:
+    cascade: false
+    sql: |-
+      create or replace function add_dialogue_qno_before_dialogue_insert()
+      returns trigger as $$
+      declare
+        qno integer;
+      begin
+        select count(id) + 1 as qno from dialogue where puzzle_id = NEW.puzzle_id into qno;
+        NEW.qno = qno;
+        return NEW;
+      end;
+      $$ language 'plpgsql';
+
+      drop trigger add_dialogue_qno_before_dialogue_insert_trigger on public.dialogue;
+      create trigger add_dialogue_qno_before_dialogue_insert_trigger before insert
+      on public.dialogue
+      for each row
+      execute procedure add_dialogue_qno_before_dialogue_insert();
+  type: run_sql
+

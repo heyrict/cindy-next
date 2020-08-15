@@ -1,0 +1,20 @@
+- args:
+    cascade: false
+    sql: |-
+      create or replace function add_puzzle_chatroom_after_puzzle_insert()
+      returns trigger as $$
+      declare
+        existing_chatroom_id integer;
+      begin
+        select id from chatroom where name = format('puzzle-%s', NEW.id) into existing_chatroom_id;
+        if existing_chatroom_id IS NOT NULL then
+          delete from chatmessages where chatroom_id = existing_chatroom_id;
+          update chatroom set description = '', user_id = NEW.user_id;
+        else
+          insert into chatroom (name, description, user_id) values (format('puzzle-%s', NEW.id), '', NEW.user_id);
+        end if;
+        return NEW;
+      end;
+      $$ language 'plpgsql';
+  type: run_sql
+
