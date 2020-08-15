@@ -30,7 +30,7 @@ MESSAGES = getattr(__import__("templates"), LOCALE)
 
 AWARD_BY_ID_QUERY = '''
 query($id: Int!) {
-  sui_hei_award_by_pk(id: $id) {
+  award_by_pk(id: $id) {
     id
     name
   }
@@ -39,7 +39,7 @@ query($id: Int!) {
 
 MONTHLY_AWARDS_COUNT_QUERY = '''
 query($userId: Int!, $monthlyAwards: [Int!]) {
-  sui_hei_useraward_aggregate(
+  useraward_aggregate(
     where: {
       user_id: { _eq: $userId }
       award_id: { _in: $monthlyAwards }
@@ -54,10 +54,10 @@ query($userId: Int!, $monthlyAwards: [Int!]) {
 
 PUZZLE_STAR_RANKING_QUERY = '''
 query($createdGte: timestamptz!, $createdLt: timestamptz!) {
-  sui_hei_puzzle(
+  puzzle(
     order_by: [
-      { sui_hei_stars_aggregate: { count: desc } }
-      { sui_hei_stars_aggregate: { sum: { value: desc } } }
+      { stars_aggregate: { count: desc } }
+      { stars_aggregate: { sum: { value: desc } } }
       { id: asc }
     ]
     limit: 10
@@ -68,11 +68,11 @@ query($createdGte: timestamptz!, $createdLt: timestamptz!) {
     title
     status
     yami
-    sui_hei_user {
+    user {
       id
       nickname
     }
-    sui_hei_stars_aggregate {
+    stars_aggregate {
       aggregate {
         count
         sum {
@@ -86,7 +86,7 @@ query($createdGte: timestamptz!, $createdLt: timestamptz!) {
 
 ADD_USERAWARD_MUTATION = '''
 mutation($awardId: Int!, $userId: Int!) {
-  insert_sui_hei_useraward(objects: {
+  insert_useraward(objects: {
     award_id: $awardId
     user_id: $userId
   }) {
@@ -100,12 +100,12 @@ def grant_collection_award(user):
     monthly_award_count = query(MONTHLY_AWARDS_COUNT_QUERY, {
         'userId': user['id'],
         'monthlyAwards': monthly_awards,
-    })['sui_hei_useraward_aggregate']['aggregate']['count']
+    })['useraward_aggregate']['aggregate']['count']
 
     if monthly_award_count % 3 == 0 and monthly_award_count > 0:
         award_data = query(AWARD_BY_ID_QUERY, {
             'id': monthly_collection_awards[int(monthly_award_count / 3) - 1]
-        })['sui_hei_award_by_pk'] # yapf: disable
+        })['award_by_pk'] # yapf: disable
 
         try:
             query(ADD_USERAWARD_MUTATION, {
@@ -136,7 +136,7 @@ def grant_monthly_award():
     puzzles_data = query(PUZZLE_STAR_RANKING_QUERY, {
         'createdGte': month_start.isoformat(),
         'createdLt': month_end.isoformat()
-    })['sui_hei_puzzle']
+    })['puzzle']
 
     if puzzles_data == 0:
         return
@@ -150,8 +150,8 @@ def grant_monthly_award():
     best_sum = -1
 
     for i, puzzle in enumerate(puzzles_data):
-        puzzle_count = puzzle['sui_hei_stars_aggregate']['aggregate']['count']
-        puzzle_sum = puzzle['sui_hei_stars_aggregate']['aggregate']['sum'][
+        puzzle_count = puzzle['stars_aggregate']['aggregate']['count']
+        puzzle_sum = puzzle['stars_aggregate']['aggregate']['sum'][
             'value']
         if i == 0:
             best_puzzles.append(puzzle)
@@ -170,19 +170,19 @@ def grant_monthly_award():
 
     award_data = query(AWARD_BY_ID_QUERY, {
         'id': monthly_awards[target_month - 1]
-    })['sui_hei_award_by_pk'] # yapf: disable
+    })['award_by_pk'] # yapf: disable
 
     status_message = MESSAGES.BOM_TWEET_MESSAGE % {
-        'user_nickname': ', '.join([p['sui_hei_user']['nickname'] for p in best_puzzles]),
+        'user_nickname': ', '.join([p['user']['nickname'] for p in best_puzzles]),
         'award_name': award_data['name'],
         'year': target_year,
         'month': target_month,
         'ranking': ''.join([
             MESSAGES.BOM_RANKING_MESSAGE % {
                 'no': rank,
-                'user_nickname': puzzle['sui_hei_user']['nickname'],
-                'star__sum': puzzle['sui_hei_stars_aggregate']['aggregate']['sum']['value'],
-                'star__count': puzzle['sui_hei_stars_aggregate']['aggregate']['count'],
+                'user_nickname': puzzle['user']['nickname'],
+                'star__sum': puzzle['stars_aggregate']['aggregate']['sum']['value'],
+                'star__count': puzzle['stars_aggregate']['aggregate']['count'],
                 'title': puzzle['title'],
                 'id': puzzle['id'],
             } for rank, puzzle in zip(ranks, puzzles_data)
@@ -202,7 +202,7 @@ def grant_monthly_award():
 
     # grant awards
     for puzzle in best_puzzles:
-        user = puzzle['sui_hei_user']
+        user = puzzle['user']
         try:
             query(ADD_USERAWARD_MUTATION, {
                 'userId': user['id'],

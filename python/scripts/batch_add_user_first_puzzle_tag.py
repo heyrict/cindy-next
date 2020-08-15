@@ -8,7 +8,7 @@ USER_ID = 1
 
 USER_COUNT_QUERY = '''
 query {
-  sui_hei_user_aggregate {
+  user_aggregate {
     aggregate {
       count
     }
@@ -18,13 +18,13 @@ query {
 
 USER_FIRST_PUZZLE_QUERY = '''
 query($limit: Int!, $offset: Int!) {
-  sui_hei_user(
+  user(
     order_by: { id: asc }
     limit: $limit
     offset: $offset
   ) {
     id
-    sui_hei_puzzles(
+    puzzles(
       where: { status: { _eq: 1 } }
       order_by: { id: asc }
       limit: 1
@@ -38,7 +38,7 @@ query($limit: Int!, $offset: Int!) {
 
 ADD_PUZZLE_TAG_MUTATION = '''
 mutation($puzzleId: Int!, $tagId: Int!, $userId: Int!) {
-  insert_sui_hei_puzzle_tag(objects: {
+  insert_puzzle_tag(objects: {
     puzzle_id: $puzzleId
     tag_id: $tagId
     user_id: $userId
@@ -49,18 +49,18 @@ mutation($puzzleId: Int!, $tagId: Int!, $userId: Int!) {
 '''
 
 if __name__ == '__main__':
-    num_users = query(USER_COUNT_QUERY)['sui_hei_user_aggregate']['aggregate'][
+    num_users = query(USER_COUNT_QUERY)['user_aggregate']['aggregate'][
         'count']
     for offset in tqdm(range(0, num_users, BATCH_SIZE)):
         users = query(USER_FIRST_PUZZLE_QUERY, {
             'limit': BATCH_SIZE,
             'offset': offset,
-        })['sui_hei_user']
+        })['user']
         for user in users:
-            if len(user['sui_hei_puzzles']) == 0:
+            if len(user['puzzles']) == 0:
                 continue
-            assert len(user['sui_hei_puzzles']) <= 1
-            puzzle = user['sui_hei_puzzles'][0]
+            assert len(user['puzzles']) <= 1
+            puzzle = user['puzzles'][0]
             try:
                 query(ADD_PUZZLE_TAG_MUTATION, {
                     'puzzleId': puzzle['id'],
@@ -68,7 +68,7 @@ if __name__ == '__main__':
                     'userId': USER_ID,
                 })
             except Exception as e:
-                if str(e).find("sui_hei_puzzle_tag_puzzle_id_tag_id_key") > 0:
+                if str(e).find("puzzle_tag_puzzle_id_tag_id_key") > 0:
                     continue
                 else:
                     raise e
