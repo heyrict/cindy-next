@@ -39,7 +39,7 @@ query($id: Int!) {
 
 MONTHLY_AWARDS_COUNT_QUERY = '''
 query($userId: Int!, $monthlyAwards: [Int!]) {
-  useraward_aggregate(
+  user_award_aggregate(
     where: {
       user_id: { _eq: $userId }
       award_id: { _in: $monthlyAwards }
@@ -86,7 +86,7 @@ query($createdGte: timestamptz!, $createdLt: timestamptz!) {
 
 ADD_USERAWARD_MUTATION = '''
 mutation($awardId: Int!, $userId: Int!) {
-  insert_useraward(objects: {
+  insert_user_award(objects: {
     award_id: $awardId
     user_id: $userId
   }) {
@@ -100,7 +100,7 @@ def grant_collection_award(user):
     monthly_award_count = query(MONTHLY_AWARDS_COUNT_QUERY, {
         'userId': user['id'],
         'monthlyAwards': monthly_awards,
-    })['useraward_aggregate']['aggregate']['count']
+    })['user_award_aggregate']['aggregate']['count']
 
     if monthly_award_count % 3 == 0 and monthly_award_count > 0:
         award_data = query(AWARD_BY_ID_QUERY, {

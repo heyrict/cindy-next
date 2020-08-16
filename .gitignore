@@ -16,6 +16,9 @@ storybook-static
 dist
 .next
 
+# Graphql config
+.graphqlconfig
+
 # Cruft
 .DS_Store
 npm-debug.log
