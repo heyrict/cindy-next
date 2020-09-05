@@ -54,7 +54,8 @@ export const postLogin = async (req: Request, res: Response) => {
   }
 
   try {
-    const jwt = await localAuth(username, password);
+    const ip = get_ip(req);
+    const jwt = await localAuth(username, password, ip || '');
     res.set({
       'Set-Cookie': formatCookie('cindy-jwt-token', jwt),
     });
@@ -114,6 +115,8 @@ export const postSignup = async (req: Request, res: Response) => {
       password: encoded,
     });
 
+    const ip = get_ip(req);
+    console.log(`[${ip}] Signup -> user:${user.id} (${user.nickname})`);
     const jwt = getJwt(user);
     res.set({
       'Set-Cookie': formatCookie('cindy-jwt-token', jwt),
@@ -135,12 +138,18 @@ export const getWebhook = async (req: Request, res: Response) => {
     }
     const token = bearer.slice(7);
     const user = await bearerAuth(token, requestedRole);
+    const ip = get_ip(req);
+    console.log(`[${ip}] Auth -> user:${user['x-hasura-user-id']}`);
     return handleResponse(res, 200, user);
   } catch (error) {
     return handleResponse(res, 401, {
       errors: [{ type: 'InternalServerError', message: error.message }],
     });
   }
+};
+
+const get_ip = (req: Request) => {
+  return req.headers['x-real_ip'] || req.connection.remoteAddress;
 };
 
 function handleResponse(
