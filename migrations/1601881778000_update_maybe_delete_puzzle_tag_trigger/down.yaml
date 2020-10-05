@@ -13,9 +13,4 @@
         RETURN OLD;
       END;
       $$ LANGUAGE 'plpgsql';
-
-      CREATE TRIGGER maybe_delete_tag_after_puzzle_tag_delete_trigger AFTER DELETE
-      ON public.sui_hei_puzzle_tag
-      FOR EACH ROW
-      EXECUTE PROCEDURE maybe_delete_tag_after_puzzle_tag_delete();
   type: run_sql
