@@ -28,7 +28,7 @@ const PublicChatroomsList = ({
         toast.error(error.message);
         return null;
       }
-      if (!data || !data.sui_hei_chatroom) {
+      if (!data || !data.chatroom) {
         if (loading) return <Loading centered />;
         return null;
       }
@@ -37,7 +37,7 @@ const PublicChatroomsList = ({
           <Box mt={2} width={1} borderBottom="3px solid" borderColor="orange.6">
             <FormattedMessage {...chatMessages.publicChatrooms} />
           </Box>
-          {data.sui_hei_chatroom.map(chatroom => (
+          {data.chatroom.map(chatroom => (
             <Box
               key={chatroom.id}
               border="2px solid"

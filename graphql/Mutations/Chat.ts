@@ -4,7 +4,7 @@ import { CHATMESSAGE_FRAGMENT } from '../Fragments/Chat';
 
 export const CHATROOM_SEND_MESSAGE_MUTATION = gql`
   mutation ChatroomSendMessage($content: String, $chatroomId: Int) {
-    insert_sui_hei_chatmessage(
+    insert_chatmessage(
       objects: [{ chatroom_id: $chatroomId, content: $content }]
     ) {
       returning {
@@ -17,7 +17,7 @@ export const CHATROOM_SEND_MESSAGE_MUTATION = gql`
 
 export const CHATROOM_EDIT_MESSAGE_MUTATION = gql`
   mutation ChatroomEditMessage($chatmessageId: Int, $content: String) {
-    update_sui_hei_chatmessage(
+    update_chatmessage(
       _inc: { editTimes: 1 }
       _set: { content: $content }
       where: { id: { _eq: $chatmessageId } }
@@ -32,10 +32,10 @@ export const CHATROOM_EDIT_MESSAGE_MUTATION = gql`
 
 export const INSERT_FAVORITE_CHATROOM_MUTATION = gql`
   mutation InsertFavoriteChatroomMutation($chatroomId: Int!) {
-    insert_sui_hei_favoritechatroom(objects: [{ chatroom_id: $chatroomId }]) {
+    insert_favorite_chatroom(objects: [{ chatroom_id: $chatroomId }]) {
       returning {
         id
-        sui_hei_chatroom {
+        chatroom {
           id
           name
         }
@@ -46,9 +46,7 @@ export const INSERT_FAVORITE_CHATROOM_MUTATION = gql`
 
 export const DELETE_FAVORITE_CHATROOM_MUTATION = gql`
   mutation DeleteFavoriteChatroomMutation($favoriteChatroomId: Int!) {
-    delete_sui_hei_favoritechatroom(
-      where: { id: { _eq: $favoriteChatroomId } }
-    ) {
+    delete_favorite_chatroom(where: { id: { _eq: $favoriteChatroomId } }) {
       affected_rows
     }
   }
@@ -56,9 +54,7 @@ export const DELETE_FAVORITE_CHATROOM_MUTATION = gql`
 
 export const CREATE_CHATROOM_MUTATION = gql`
   mutation CreateChatroomMutation($name: String!, $description: String!) {
-    insert_sui_hei_chatroom(
-      objects: [{ name: $name, description: $description }]
-    ) {
+    insert_chatroom(objects: [{ name: $name, description: $description }]) {
       returning {
         id
         name
@@ -72,7 +68,7 @@ export const UPDATE_CHATROOM_DESCRIPTION_MUTATION = gql`
     $chatroomId: Int!
     $description: String!
   ) {
-    update_sui_hei_chatroom(
+    update_chatroom(
       where: { id: { _eq: $chatroomId } }
       _set: { description: $description }
     ) {

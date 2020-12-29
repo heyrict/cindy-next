@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { maybeSendNotification } from 'common/web-notify';
 
 import Loading from 'components/General/Loading';
-import ErrorReload from 'components/General/ErrorReload'
+import ErrorReload from 'components/General/ErrorReload';
 import PuzzleDetail from 'components/Puzzle/Detail';
 
 import { connect } from 'react-redux';
@@ -50,15 +50,15 @@ const PuzzleRenderer = ({
   );
 
   useEffect(() => {
-    if (data && data.sui_hei_puzzle_by_pk) {
-      const puzzleId = data.sui_hei_puzzle_by_pk.id;
+    if (data && data.puzzle_by_pk) {
+      const puzzleId = data.puzzle_by_pk.id;
       return subscribeToMore({
         document: PUZZLE_LIVEQUERY,
         variables: { id: puzzleId },
         updateQuery: (prev, { subscriptionData }) => {
           if (!prev) return prev;
-          const newPuzzle = subscriptionData.data.sui_hei_puzzle_by_pk;
-          const oldPuzzle = prev.sui_hei_puzzle_by_pk;
+          const newPuzzle = subscriptionData.data.puzzle_by_pk;
+          const oldPuzzle = prev.puzzle_by_pk;
           if (!oldPuzzle) return subscriptionData.data;
           if (!newPuzzle) return prev;
           if (
@@ -75,26 +75,26 @@ const PuzzleRenderer = ({
             );
             console.log(not);
           }
-          return { sui_hei_puzzle_by_pk: { ...oldPuzzle, ...newPuzzle } };
+          return { puzzle_by_pk: { ...oldPuzzle, ...newPuzzle } };
         },
       } as SubscribeToMoreOptions<PuzzleQuery, PuzzleQueryVariables, PuzzleLiveQuery>);
     }
-  }, [data && data.sui_hei_puzzle_by_pk && data.sui_hei_puzzle_by_pk.id]);
+  }, [data && data.puzzle_by_pk && data.puzzle_by_pk.id]);
 
   if (error) {
     if (error.networkError === null) {
       console.log(error);
       return puzzleNotExistElement;
     } else {
-      return <ErrorReload error={error} refetch={refetch} />
+      return <ErrorReload error={error} refetch={refetch} />;
     }
   }
 
-  if (!data || !data.sui_hei_puzzle_by_pk) {
+  if (!data || !data.puzzle_by_pk) {
     if (loading) return <Loading centered />;
     return puzzleNotExistElement;
   }
-  const puzzle = data.sui_hei_puzzle_by_pk;
+  const puzzle = data.puzzle_by_pk;
   if (puzzle.id === undefined) return puzzleNotExistElement;
   const shouldHideIdentity = puzzle.anonymous && puzzle.status === 0;
   return (
@@ -104,7 +104,7 @@ const PuzzleRenderer = ({
           {puzzle.title} by{' '}
           {shouldHideIdentity
             ? _(userMessages.anonymousUser)
-            : puzzle.sui_hei_user.nickname}{' '}
+            : puzzle.user.nickname}{' '}
           | Cindy
         </title>
         <meta

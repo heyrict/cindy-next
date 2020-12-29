@@ -61,23 +61,23 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               <Loading />
             </Flex>
           );
-        if (!data || !data.sui_hei_award) return null;
+        if (!data || !data.award) return null;
         if (error) {
           toast.error(error.message);
         }
 
-        const awardsDefs = data.sui_hei_award;
+        const awardsDefs = data.award;
 
         const puzzleCount =
           userInfo &&
-          userInfo.sui_hei_puzzles_aggregate.aggregate &&
-          userInfo.sui_hei_puzzles_aggregate.aggregate.count &&
-          userInfo.sui_hei_puzzles_aggregate.aggregate.count;
+          userInfo.puzzles_aggregate.aggregate &&
+          userInfo.puzzles_aggregate.aggregate.count &&
+          userInfo.puzzles_aggregate.aggregate.count;
         const questionCount =
           userInfo &&
-          userInfo.sui_hei_dialogues_aggregate.aggregate &&
-          userInfo.sui_hei_dialogues_aggregate.aggregate.count &&
-          userInfo.sui_hei_dialogues_aggregate.aggregate.count;
+          userInfo.dialogues_aggregate.aggregate &&
+          userInfo.dialogues_aggregate.aggregate.count &&
+          userInfo.dialogues_aggregate.aggregate.count;
         const goodQuestionCount =
           userInfo &&
           userInfo.good_questions_aggregate.aggregate &&
@@ -107,7 +107,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, count) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.sui_hei_userawards.findIndex(
+                  userInfo.user_awards.findIndex(
                     ua => ua.award_id === awardId,
                   ) >= 0;
 
@@ -131,7 +131,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, count) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.sui_hei_userawards.findIndex(
+                  userInfo.user_awards.findIndex(
                     ua => ua.award_id === awardId,
                   ) >= 0;
 
@@ -155,7 +155,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, count) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.sui_hei_userawards.findIndex(
+                  userInfo.user_awards.findIndex(
                     ua => ua.award_id === awardId,
                   ) >= 0;
 
@@ -179,7 +179,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, count) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.sui_hei_userawards.findIndex(
+                  userInfo.user_awards.findIndex(
                     ua => ua.award_id === awardId,
                   ) >= 0;
 
@@ -234,7 +234,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                         checker={(awardId, awardObj) => {
                           const hasThisAward =
                             userInfo &&
-                            userInfo.sui_hei_userawards.findIndex(
+                            userInfo.user_awards.findIndex(
                               ua => ua.award_id === awardId,
                             ) >= 0;
 
@@ -317,7 +317,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                           checker={(awardId, awardObj) => {
                             const hasThisAward =
                               userInfo &&
-                              userInfo.sui_hei_userawards.findIndex(
+                              userInfo.user_awards.findIndex(
                                 ua => ua.award_id === awardId,
                               ) >= 0;
 
@@ -346,7 +346,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                           checker={(awardId, awardObj) => {
                             const hasThisAward =
                               userInfo &&
-                              userInfo.sui_hei_userawards.findIndex(
+                              userInfo.user_awards.findIndex(
                                 ua => ua.award_id === awardId,
                               ) >= 0;
 
@@ -398,7 +398,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, awardObj) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.sui_hei_userawards.findIndex(
+                  userInfo.user_awards.findIndex(
                     ua => ua.award_id === awardId,
                   ) >= 0;
 
@@ -427,7 +427,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, awardObj) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.sui_hei_userawards.findIndex(
+                  userInfo.user_awards.findIndex(
                     ua => ua.award_id === awardId,
                   ) >= 0;
 
@@ -462,14 +462,14 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                       toast.error(error);
                       return null;
                     }
-                    if (!data || !data.sui_hei_puzzle) {
+                    if (!data || !data.puzzle) {
                       if (loading) return <Loading centered />;
                       return null;
                     }
                     const maxYamiDialogues =
-                      data.sui_hei_puzzle.length === 0
+                      data.puzzle.length === 0
                         ? null
-                        : data.sui_hei_puzzle[0].sui_hei_dialogues_aggregate;
+                        : data.puzzle[0].dialogues_aggregate;
                     const yamiPuzzleDialogueMaxCount =
                       maxYamiDialogues &&
                       maxYamiDialogues.aggregate &&
@@ -488,7 +488,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                         checker={(awardId, awardObj) => {
                           const hasThisAward =
                             userInfo &&
-                            userInfo.sui_hei_userawards.findIndex(
+                            userInfo.user_awards.findIndex(
                               ua => ua.award_id === awardId,
                             ) >= 0;
 
@@ -537,13 +537,12 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                 if (!userInfo) return AwardStatusType.WAIT;
 
                 const hasThisAward =
-                  userInfo.sui_hei_userawards.findIndex(
+                  userInfo.user_awards.findIndex(
                     ua => ua.award_id === awardId,
                   ) >= 0;
                 if (hasThisAward) return AwardStatusType.GET;
 
-                const puzzlesAggr =
-                  userInfo.sui_hei_puzzles_aggregate.aggregate;
+                const puzzlesAggr = userInfo.puzzles_aggregate.aggregate;
                 const puzzlesMaxCreated =
                   puzzlesAggr && puzzlesAggr.max && puzzlesAggr.max.created;
 

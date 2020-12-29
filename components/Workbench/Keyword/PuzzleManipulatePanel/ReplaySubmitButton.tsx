@@ -69,14 +69,14 @@ const ReplaySubmitButton = ({
                   const { data } = returns;
                   if (
                     !data ||
-                    !data.insert_sui_hei_replay ||
-                    !data.insert_sui_hei_replay.returning
+                    !data.insert_replay ||
+                    !data.insert_replay.returning
                   ) {
                     toast.error('Error: no data returns');
                     setSubmitting(false);
                     return;
                   }
-                  let replay = data.insert_sui_hei_replay.returning[0];
+                  let replay = data.insert_replay.returning[0];
                   toast.info(
                     <FormattedMessage {...commonMessages.submitted} />,
                   );

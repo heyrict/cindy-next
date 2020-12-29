@@ -27,8 +27,8 @@ const ChatroomEditableDescription = ({
           toast.error(error.message);
           return null;
         }
-        if (!data || !data.sui_hei_chatroom_by_pk) return null;
-        const chatroom = data.sui_hei_chatroom_by_pk;
+        if (!data || !data.chatroom_by_pk) return null;
+        const chatroom = data.chatroom_by_pk;
 
         return <ChatroomDescriptionInner chatroom={chatroom} />;
       }}

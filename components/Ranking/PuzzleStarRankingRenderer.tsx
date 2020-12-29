@@ -33,12 +33,12 @@ const PuzzleStarRankingRenderer = ({
     toast.error(error.message);
     return <ErrorReload error={error} refetch={refetch} />;
   }
-  if (!data || !data.sui_hei_puzzle) {
+  if (!data || !data.puzzle) {
     if (loading) return <Loading centered />;
     return null;
   }
 
-  const puzzles = data.sui_hei_puzzle;
+  const puzzles = data.puzzle;
   return (
     <React.Fragment>
       {puzzles.map((puzzle, index) => (
@@ -55,18 +55,13 @@ const PuzzleStarRankingRenderer = ({
           loadMore={() =>
             fetchMore({
               variables: {
-                offset: data.sui_hei_puzzle.length,
+                offset: data.puzzle.length,
               },
               updateQuery: (prev, { fetchMoreResult }) => {
-                if (!fetchMoreResult || !fetchMoreResult.sui_hei_puzzle)
-                  return prev;
-                if (fetchMoreResult.sui_hei_puzzle.length === 0)
-                  setHasMore(false);
+                if (!fetchMoreResult || !fetchMoreResult.puzzle) return prev;
+                if (fetchMoreResult.puzzle.length === 0) setHasMore(false);
                 return Object.assign({}, prev, {
-                  sui_hei_puzzle: [
-                    ...prev.sui_hei_puzzle,
-                    ...fetchMoreResult.sui_hei_puzzle,
-                  ],
+                  puzzle: [...prev.puzzle, ...fetchMoreResult.puzzle],
                 });
               },
             })

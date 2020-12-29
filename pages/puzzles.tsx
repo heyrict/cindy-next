@@ -56,15 +56,15 @@ const PuzzlesSolvedRenderer = ({
 
   // Update first 20 questions upon second+ load
   useEffect(() => {
-    if (data && data.sui_hei_puzzle && data.sui_hei_puzzle.length !== 0) {
+    if (data && data.puzzle && data.puzzle.length !== 0) {
       fetchMore({
         updateQuery: (prev, { fetchMoreResult }) => {
-          if (!fetchMoreResult || !fetchMoreResult.sui_hei_puzzle) return prev;
+          if (!fetchMoreResult || !fetchMoreResult.puzzle) return prev;
           return {
             ...prev,
-            sui_hei_puzzle: mergeList(
-              prev.sui_hei_puzzle,
-              fetchMoreResult.sui_hei_puzzle,
+            puzzle: mergeList(
+              prev.puzzle,
+              fetchMoreResult.puzzle,
               'id',
               'desc',
             ),
@@ -74,40 +74,33 @@ const PuzzlesSolvedRenderer = ({
     }
   }, []);
 
-  if (
-    loading &&
-    (!data || !data.sui_hei_puzzle || data.sui_hei_puzzle.length === 0)
-  )
+  if (loading && (!data || !data.puzzle || data.puzzle.length === 0))
     return puzzleLoadingPanel;
   if (error) {
     return <ErrorReload error={error} refetch={refetch} />;
   }
-  if (data && data.sui_hei_puzzle) {
+  if (data && data.puzzle) {
     return (
       <React.Fragment>
-        {data.sui_hei_puzzle.map(puzzle => (
+        {data.puzzle.map(puzzle => (
           <MultiColBox key={`puzzle-brief-${puzzle.id}`}>
             <PuzzleBrief puzzle={puzzle} />
           </MultiColBox>
         ))}
-        {data.sui_hei_puzzle.length >= PUZZLES_PER_PAGE && hasMore && (
+        {data.puzzle.length >= PUZZLES_PER_PAGE && hasMore && (
           <LoadMoreVis
             wait={0}
             loadMore={() =>
               fetchMore({
                 variables: {
-                  offset: data.sui_hei_puzzle.length,
+                  offset: data.puzzle.length,
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult || !fetchMoreResult.sui_hei_puzzle)
-                    return prev;
-                  if (fetchMoreResult.sui_hei_puzzle.length < PUZZLES_PER_PAGE)
+                  if (!fetchMoreResult || !fetchMoreResult.puzzle) return prev;
+                  if (fetchMoreResult.puzzle.length < PUZZLES_PER_PAGE)
                     setHasMore(false);
                   return Object.assign({}, prev, {
-                    sui_hei_puzzle: [
-                      ...prev.sui_hei_puzzle,
-                      ...fetchMoreResult.sui_hei_puzzle,
-                    ],
+                    puzzle: [...prev.puzzle, ...fetchMoreResult.puzzle],
                   });
                 },
               })
@@ -139,33 +132,33 @@ const PuzzlesUnsolvedRenderer = ({
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
 
-        const newUnsolved = subscriptionData.data.sui_hei_puzzle;
-        if (prev.sui_hei_puzzle.length > newUnsolved.length) {
+        const newUnsolved = subscriptionData.data.puzzle;
+        if (prev.puzzle.length > newUnsolved.length) {
           // Puzzles changed from unsolved to other
           const statusChangedPuzzle = {
-            ...prev.sui_hei_puzzle.find(
+            ...prev.puzzle.find(
               p => newUnsolved.findIndex(p2 => p2.id === p.id) === -1,
             ),
-            sui_hei_stars_aggregate: null,
-            sui_hei_bookmarks_aggregate: null,
-            sui_hei_comments_aggregate: null,
+            stars_aggregate: null,
+            bookmarks_aggregate: null,
+            comments_aggregate: null,
             status: 1,
           };
           const puzzleSolvedQueryResult = client.readQuery({
             query: PUZZLES_SOLVED_QUERY,
           });
           if (puzzleSolvedQueryResult !== null) {
-            const { sui_hei_puzzle } = puzzleSolvedQueryResult;
+            const { puzzle } = puzzleSolvedQueryResult;
             client.writeQuery({
               query: PUZZLES_SOLVED_QUERY,
               data: {
-                sui_hei_puzzle: [statusChangedPuzzle, ...sui_hei_puzzle],
+                puzzle: [statusChangedPuzzle, ...puzzle],
               },
             });
           }
         }
 
-        if (prev.sui_hei_puzzle.length < newUnsolved.length) {
+        if (prev.puzzle.length < newUnsolved.length) {
           // new puzzle added
           let genreMessage = '';
           switch (newUnsolved[0].genre) {
@@ -185,7 +178,7 @@ const PuzzlesUnsolvedRenderer = ({
           if (document.hidden) {
             const user = newUnsolved[0].anonymous
               ? _(userMessages.anonymousUser)
-              : newUnsolved[0].sui_hei_user.nickname;
+              : newUnsolved[0].user.nickname;
 
             maybeSendNotification(_(webNotifyMessages.newPuzzleAdded), {
               body: _(webNotifyMessages.newPuzzleAddedDetail, {
@@ -200,24 +193,21 @@ const PuzzlesUnsolvedRenderer = ({
 
         return {
           ...prev,
-          sui_hei_puzzle: newUnsolved,
+          puzzle: newUnsolved,
         };
       },
     });
   });
 
-  if (
-    loading &&
-    (!data || !data.sui_hei_puzzle || data.sui_hei_puzzle.length === 0)
-  )
+  if (loading && (!data || !data.puzzle || data.puzzle.length === 0))
     return puzzleLoadingPanel;
   if (error) {
     return <ErrorReload error={error} refetch={refetch} />;
   }
-  if (data && data.sui_hei_puzzle)
+  if (data && data.puzzle)
     return (
       <React.Fragment>
-        {data.sui_hei_puzzle.map(puzzle => (
+        {data.puzzle.map(puzzle => (
           <MultiColBox key={`puzzle-brief-${puzzle.id}`}>
             <PuzzleBrief puzzle={puzzle} />
           </MultiColBox>

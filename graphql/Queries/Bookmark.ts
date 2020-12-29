@@ -4,7 +4,7 @@ import { PUZZLE_AGGREGATE_FRAGMENT } from '../Fragments/Puzzles';
 
 export const PUZZLE_BOOKMARK_AGGREGATE_QUERY = gql`
   query PuzzleBookmarkAggregateQuery($puzzleId: Int!) {
-    sui_hei_bookmark_aggregate(where: { puzzle_id: { _eq: $puzzleId } }) {
+    bookmark_aggregate(where: { puzzle_id: { _eq: $puzzleId } }) {
       aggregate {
         count
       }
@@ -14,7 +14,7 @@ export const PUZZLE_BOOKMARK_AGGREGATE_QUERY = gql`
 
 export const PREVIOUS_BOOKMARK_VALUE_QUERY = gql`
   query PreviousBookmarkValueQuery($userId: Int!, $puzzleId: Int!) {
-    sui_hei_bookmark(
+    bookmark(
       where: { puzzle_id: { _eq: $puzzleId }, user_id: { _eq: $userId } }
     ) {
       id
@@ -28,21 +28,21 @@ export const PROFILE_BOOKMARKS_QUERY = gql`
     $limit: Int
     $offset: Int
     $userId: Int
-    $orderBy: [sui_hei_bookmark_order_by!]
+    $orderBy: [bookmark_order_by!]
   ) {
-    sui_hei_bookmark(
+    bookmark(
       order_by: $orderBy
       where: { user_id: { _eq: $userId } }
       limit: $limit
       offset: $offset
-    ) @connection(key: "sui_hei_bookmark", filter: ["order_by", "where"]) {
+    ) @connection(key: "bookmark", filter: ["order_by", "where"]) {
       id
       value
-      sui_hei_puzzle {
+      puzzle {
         ...PuzzleAggregate
       }
     }
-    sui_hei_bookmark_aggregate(where: { user_id: { _eq: $userId } }) {
+    bookmark_aggregate(where: { user_id: { _eq: $userId } }) {
       aggregate {
         count
       }

@@ -58,8 +58,8 @@ const ChatRoomInput = ({
       mutation={CHATROOM_SEND_MESSAGE_MUTATION}
       update={(cache, { data }) => {
         if (!data) return;
-        if (data.insert_sui_hei_chatmessage === null) return;
-        const newMessages = data.insert_sui_hei_chatmessage.returning;
+        if (data.insert_chatmessage === null) return;
+        const newMessages = data.insert_chatmessage.returning;
         const cachedResult = cache.readQuery<
           ChatroomChatmessages,
           ChatroomChatmessagesVariables
@@ -70,15 +70,15 @@ const ChatRoomInput = ({
           },
         });
         if (cachedResult === null) return;
-        const { sui_hei_chatmessage } = cachedResult;
+        const { chatmessage } = cachedResult;
         cache.writeQuery({
           query: CHATROOM_CHATMESSAGES_QUERY,
           variables: {
             chatroomId,
           },
           data: {
-            sui_hei_chatmessage: upsertMultipleItem(
-              sui_hei_chatmessage,
+            chatmessage: upsertMultipleItem(
+              chatmessage,
               newMessages,
               'id',
               'desc',
@@ -96,22 +96,22 @@ const ChatRoomInput = ({
                 chatroomId,
               },
               optimisticResponse: {
-                insert_sui_hei_chatmessage: {
-                  __typename: 'sui_hei_chatmessage_mutation_response',
+                insert_chatmessage: {
+                  __typename: 'chatmessage_mutation_response',
                   returning: [
                     {
-                      __typename: 'sui_hei_chatmessage',
+                      __typename: 'chatmessage',
                       id: -1,
                       content,
                       created: Date.now(),
                       editTimes: 0,
-                      sui_hei_user: {
-                        __typename: 'sui_hei_user',
+                      user: {
+                        __typename: 'user',
                         id: -1,
                         icon: null,
                         nickname: '...',
                         username: '...',
-                        sui_hei_current_useraward: null,
+                        current_user_award: null,
                       },
                     },
                   ],

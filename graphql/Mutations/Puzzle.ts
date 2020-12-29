@@ -13,7 +13,7 @@ export const ADD_PUZZLE_MUTATION = gql`
     $grotesque: Boolean!
     $dazedOn: date!
   ) {
-    insert_sui_hei_puzzle(
+    insert_puzzle(
       objects: [
         {
           title: $title
@@ -40,7 +40,7 @@ export const ADD_PUZZLE_MUTATION = gql`
 
 export const EDIT_SOLUTION_MUTATION = gql`
   mutation EditSolutionMutation($puzzleId: Int!, $solution: String!) {
-    update_sui_hei_puzzle(
+    update_puzzle(
       _set: { solution: $solution }
       where: { id: { _eq: $puzzleId } }
     ) {
@@ -54,10 +54,7 @@ export const EDIT_SOLUTION_MUTATION = gql`
 
 export const EDIT_MEMO_MUTATION = gql`
   mutation EditMemoMutation($puzzleId: Int!, $memo: String!) {
-    update_sui_hei_puzzle(
-      _set: { memo: $memo }
-      where: { id: { _eq: $puzzleId } }
-    ) {
+    update_puzzle(_set: { memo: $memo }, where: { id: { _eq: $puzzleId } }) {
       returning {
         id
         memo
@@ -68,7 +65,7 @@ export const EDIT_MEMO_MUTATION = gql`
 
 export const UPDATE_PUZZLE_DAZED_ON_MUTATION = gql`
   mutation UpdatePuzzleDazedOnMutation($dazedOn: date, $puzzleId: Int!) {
-    update_sui_hei_puzzle(
+    update_puzzle(
       _set: { dazed_on: $dazedOn }
       where: { id: { _eq: $puzzleId } }
     ) {
@@ -87,7 +84,7 @@ export const UPDATE_PUZZLE_MUTATION = gql`
     $status: Int
     $yami: Int
   ) {
-    update_sui_hei_puzzle(
+    update_puzzle(
       _set: { grotesque: $grotesque, status: $status, yami: $yami }
       where: { id: { _eq: $puzzleId } }
     ) {

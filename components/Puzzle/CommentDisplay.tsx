@@ -81,31 +81,28 @@ class CommentDisplay extends React.PureComponent<
               user: (
                 <Link
                   href={'/user/[id]'}
-                  as={`/user/${comment.sui_hei_user.id}`}
+                  as={`/user/${comment.user.id}`}
                   passHref
                 >
                   <ButtonTransparentA>
-                    {comment.sui_hei_user.nickname}
+                    {comment.user.nickname}
                   </ButtonTransparentA>
                 </Link>
               ),
               puzzle_user: (
                 <Link
                   href={'/user/[id]'}
-                  as={`/user/${comment.sui_hei_puzzle.sui_hei_user.id}`}
+                  as={`/user/${comment.puzzle.user.id}`}
                   passHref
                 >
                   <ButtonTransparentA>
-                    {comment.sui_hei_puzzle.sui_hei_user.nickname}
+                    {comment.puzzle.user.nickname}
                   </ButtonTransparentA>
                 </Link>
               ),
               puzzle_title: (
-                <Link
-                  href={'/puzzle/[id]'}
-                  as={`/puzzle/${comment.sui_hei_puzzle.id}`}
-                >
-                  <a>{comment.sui_hei_puzzle.title}</a>
+                <Link href={'/puzzle/[id]'} as={`/puzzle/${comment.puzzle.id}`}>
+                  <a>{comment.puzzle.title}</a>
                 </Link>
               ),
             }}
@@ -137,11 +134,11 @@ class CommentDisplay extends React.PureComponent<
               ——
               <Link
                 href={'/user/[id]'}
-                as={`/user/${comment.sui_hei_user.id}`}
+                as={`/user/${comment.user.id}`}
                 passHref
               >
                 <ButtonTransparentA color="white">
-                  {comment.sui_hei_user.nickname}
+                  {comment.user.nickname}
                 </ButtonTransparentA>
               </Link>
             </div>

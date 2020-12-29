@@ -29,12 +29,12 @@ const FavChatManipulateButton = ({
           toast.error(error.message);
           return null;
         }
-        if (!data || !data.sui_hei_favoritechatroom) {
+        if (!data || !data.favorite_chatroom) {
           if (loading) return <Loading centered />;
           return null;
         }
-        const favchat = data.sui_hei_favoritechatroom.find(
-          fc => fc.sui_hei_chatroom.id === chatroomId,
+        const favchat = data.favorite_chatroom.find(
+          fc => fc.chatroom.id === chatroomId,
         );
         return favchat === undefined ? (
           <InsertFavChatButton

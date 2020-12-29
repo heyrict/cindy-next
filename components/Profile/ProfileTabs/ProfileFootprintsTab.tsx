@@ -19,16 +19,16 @@ const ProfileFootprintsTab = ({ userId }: ProfileFootprintsTabProps) => (
       userId,
     }}
     getItemCount={data =>
-      (data.sui_hei_puzzle_aggregate &&
-        data.sui_hei_puzzle_aggregate.aggregate &&
-        data.sui_hei_puzzle_aggregate.aggregate.count) ||
+      (data.puzzle_aggregate &&
+        data.puzzle_aggregate.aggregate &&
+        data.puzzle_aggregate.aggregate.count) ||
       0
     }
     renderItems={data => {
-      if (!data.sui_hei_puzzle) return null;
+      if (!data.puzzle) return null;
       return (
         <>
-          {data.sui_hei_puzzle.map(puzzle => (
+          {data.puzzle.map(puzzle => (
             <MultiColBox key={puzzle.id}>
               <PuzzleBrief puzzle={puzzle} />
             </MultiColBox>

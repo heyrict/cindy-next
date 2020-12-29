@@ -56,18 +56,16 @@ const CommentModalAddPanelRenderer = ({
   const notifHdlRef = useRef<React.ReactText | null>(null);
 
   useEffect(() => {
-    if (!data || !data.sui_hei_comment || data.sui_hei_comment.length === 0)
-      return;
-    setSpoiler(data.sui_hei_comment[0].spoiler);
-    if (inputRef.current)
-      inputRef.current.value = data.sui_hei_comment[0].content;
+    if (!data || !data.comment || data.comment.length === 0) return;
+    setSpoiler(data.comment[0].spoiler);
+    if (inputRef.current) inputRef.current.value = data.comment[0].content;
   }, [data]);
 
   if (error) {
     toast.error(error.message);
     return null;
   }
-  if (!data || !data.sui_hei_comment) {
+  if (!data || !data.comment) {
     if (loading) return <Loading centered />;
     return null;
   }
@@ -83,7 +81,7 @@ const CommentModalAddPanelRenderer = ({
       mb={2}
     >
       <Box bg="yellow.3" width={1} p={2} mb={2}>
-        {data.sui_hei_comment.length === 0 ? (
+        {data.comment.length === 0 ? (
           <FormattedMessage {...puzzleMessages.addComment} />
         ) : (
           <FormattedMessage {...puzzleMessages.yourComment} />
@@ -114,11 +112,11 @@ const CommentModalAddPanelRenderer = ({
           update={(proxy, { data }) => {
             if (
               !data ||
-              !data.insert_sui_hei_comment ||
-              data.insert_sui_hei_comment.returning.length === 0
+              !data.insert_comment ||
+              data.insert_comment.returning.length === 0
             )
               return;
-            const newComment = data.insert_sui_hei_comment.returning[0];
+            const newComment = data.insert_comment.returning[0];
 
             // Update comment list
             const oldComments = proxy.readQuery<
@@ -139,11 +137,11 @@ const CommentModalAddPanelRenderer = ({
                   },
                   data: {
                     ...oldComments,
-                    sui_hei_comment:
+                    comment:
                       newComment.id === -1
-                        ? [newComment, ...oldComments.sui_hei_comment]
+                        ? [newComment, ...oldComments.comment]
                         : upsertItem(
-                            oldComments.sui_hei_comment,
+                            oldComments.comment,
                             newComment,
                             'id',
                             'desc',
@@ -165,7 +163,7 @@ const CommentModalAddPanelRenderer = ({
                 userId: user.id,
               },
               data: {
-                sui_hei_comment: [newComment],
+                comment: [newComment],
               },
             });
           }}
@@ -184,22 +182,19 @@ const CommentModalAddPanelRenderer = ({
                     spoiler,
                   },
                   optimisticResponse: {
-                    insert_sui_hei_comment: {
-                      __typename: 'sui_hei_comment_mutation_response',
+                    insert_comment: {
+                      __typename: 'comment_mutation_response',
                       returning: [
                         {
-                          __typename: 'sui_hei_comment',
-                          id:
-                            data.sui_hei_comment.length > 0
-                              ? data.sui_hei_comment[0].id
-                              : -1,
+                          __typename: 'comment',
+                          id: data.comment.length > 0 ? data.comment[0].id : -1,
                           content,
                           spoiler,
-                          sui_hei_user: {
-                            __typename: 'sui_hei_user',
+                          user: {
+                            __typename: 'user',
                             id: user.id || -1,
                             icon: user.icon || null,
-                            sui_hei_current_useraward: null,
+                            current_user_award: null,
                             nickname: user.nickname || '...',
                             username: user.username || '...',
                           },
@@ -229,7 +224,7 @@ const CommentModalAddPanelRenderer = ({
                 );
               }}
             >
-              {data.sui_hei_comment.length === 0 ? (
+              {data.comment.length === 0 ? (
                 <FormattedMessage {...commonMessages.send} />
               ) : (
                 <FormattedMessage {...commonMessages.save} />

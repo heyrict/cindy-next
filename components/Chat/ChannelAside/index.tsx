@@ -84,8 +84,8 @@ const ChannelAside = ({
       >
         {({ data, error }) => {
           let chatroomId: number | null = null;
-          if (data && data.sui_hei_chatroom && data.sui_hei_chatroom[0]) {
-            chatroomId = data.sui_hei_chatroom[0].id;
+          if (data && data.chatroom && data.chatroom[0]) {
+            chatroomId = data.chatroom[0].id;
           }
           if (error) {
             toast.error(error.message);

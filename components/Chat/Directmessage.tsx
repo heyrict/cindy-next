@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 import { Mutation } from '@apollo/react-components';
-import { DIRECTMESSAGE_EDIT_MUTATION } from 'graphql/Mutations/Directmessage';
+import { DIRECT_MESSAGE_EDIT_MUTATION } from 'graphql/Mutations/Directmessage';
 
 import UserInline from 'components/User/UserInline';
 import { ButtonTransparent, Img, EditTimeSpan } from 'components/General';
@@ -23,29 +23,29 @@ import { StateType } from 'reducers/types';
 import { stampNamespaces } from 'stamps';
 import { DirectmessageProps, DirectmessageModeType } from './types';
 import {
-  DirectmessageEditMutation,
-  DirectmessageEditMutationVariables,
-} from 'graphql/Mutations/generated/DirectmessageEditMutation';
+  DirectMessageEditMutation,
+  DirectMessageEditMutationVariables,
+} from 'graphql/Mutations/generated/DirectMessageEditMutation';
 
 const Directmessage = ({
-  directmessage,
+  direct_message,
   currentUserId,
 }: DirectmessageProps) => {
   const [mode, setMode] = useState<DirectmessageModeType>(
     DirectmessageModeType.NORMAL,
   );
-  const isCreator = currentUserId === directmessage.sender.id;
+  const isCreator = currentUserId === direct_message.sender.id;
 
   return (
     <div>
       <ChatBubbleTop>
         <UserInline
           px={1}
-          user={directmessage.sender}
+          user={direct_message.sender}
           timestamp={
-            directmessage.created && (
+            direct_message.created && (
               <FormattedTime
-                value={directmessage.created}
+                value={direct_message.created}
                 year="numeric"
                 month="short"
                 day="numeric"
@@ -58,34 +58,34 @@ const Directmessage = ({
         <div style={{ overflowX: 'auto', width: '100%' }}>
           {mode === DirectmessageModeType.EDIT && (
             <Mutation<
-              DirectmessageEditMutation,
-              DirectmessageEditMutationVariables
+              DirectMessageEditMutation,
+              DirectMessageEditMutationVariables
             >
-              mutation={DIRECTMESSAGE_EDIT_MUTATION}
+              mutation={DIRECT_MESSAGE_EDIT_MUTATION}
             >
               {editMessage => (
                 <SimpleLegacyEditor
                   useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
-                  initialValue={directmessage.content}
+                  initialValue={direct_message.content}
                   canExpand={false}
                   onSubmit={text => {
-                    if (text === directmessage.content) {
+                    if (text === direct_message.content) {
                       setMode(DirectmessageModeType.NORMAL);
                       return;
                     }
                     setMode(DirectmessageModeType.NORMAL);
                     return editMessage({
                       variables: {
-                        directmessageId: directmessage.id,
+                        directmessageId: direct_message.id,
                         content: text,
                       },
                       optimisticResponse: {
-                        update_sui_hei_directmessage: {
-                          __typename: 'sui_hei_directmessage_mutation_response',
+                        update_direct_message: {
+                          __typename: 'direct_message_mutation_response',
                           returning: [
                             {
-                              __typename: 'sui_hei_directmessage',
-                              ...directmessage,
+                              __typename: 'direct_message',
+                              ...direct_message,
                               content: text,
                             },
                           ],
@@ -107,13 +107,15 @@ const Directmessage = ({
             </Mutation>
           )}
           <span
-            dangerouslySetInnerHTML={{ __html: line2md(directmessage.content) }}
+            dangerouslySetInnerHTML={{
+              __html: line2md(direct_message.content),
+            }}
           />
-          {directmessage.editTimes > 0 && (
+          {direct_message.editTimes > 0 && (
             <EditTimeSpan>
               <FormattedMessage
                 {...commonMessages.editTimes}
-                values={{ count: directmessage.editTimes }}
+                values={{ count: direct_message.editTimes }}
               />
             </EditTimeSpan>
           )}

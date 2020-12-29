@@ -8,7 +8,7 @@ export const ADD_HINT_MUTATION = gql`
     $content: String!
     $receiverId: Int
   ) {
-    insert_sui_hei_hint(
+    insert_hint(
       objects: {
         puzzle_id: $puzzleId
         content: $content
@@ -25,7 +25,7 @@ export const ADD_HINT_MUTATION = gql`
 
 export const EDIT_HINT_MUTATION = gql`
   mutation EditHintMutation($hintId: Int!, $content: String!) {
-    update_sui_hei_hint(
+    update_hint(
       _inc: { edittimes: 1 }
       _set: { content: $content }
       where: { id: { _eq: $hintId } }

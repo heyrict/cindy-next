@@ -28,32 +28,32 @@ const userMock = [
     id: 1,
     nickname: 'Foo',
     username: 'Foo',
-    sui_hei_current_useraward: {
+    current_user_award: {
       id: 1,
       created: '2018-05-27T04:29:42+0900',
-      sui_hei_award: {
+      award: {
         id: 1,
         name: 'Awesome Award',
         description: 'Whatever awesome reason',
-        __typename: 'sui_hei_award',
+        __typename: 'award',
       },
-      __typename: 'sui_hei_useraward',
+      __typename: 'user_award',
     },
-    __typename: 'sui_hei_user',
+    __typename: 'user',
   },
   {
     id: 2,
     nickname: 'Bar',
     username: 'Bar',
-    sui_hei_current_useraward: null,
-    __typename: 'sui_hei_user',
+    current_user_award: null,
+    __typename: 'user',
   },
   {
     id: 3,
     nickname: 'Carrot',
     username: 'Carrot',
-    sui_hei_current_useraward: null,
-    __typename: 'sui_hei_user',
+    current_user_award: null,
+    __typename: 'user',
   },
 ];
 // }}}
@@ -67,7 +67,7 @@ const httpLink = new HttpLink({
       switch (parsedParams.operationName) {
         case 'DialogueHintQuery':
           data = {
-            sui_hei_dialogue: [
+            dialogue: [
               {
                 id: 1,
                 good: false,
@@ -79,8 +79,8 @@ const httpLink = new HttpLink({
                 answerEditTimes: 0,
                 created: '2019-06-11T09:00:00+0900',
                 answeredtime: '2019-06-11T09:01:00+0900',
-                sui_hei_user: userMock[0],
-                __typename: 'sui_hei_dialogue',
+                user: userMock[0],
+                __typename: 'dialogue',
               },
               {
                 id: 2,
@@ -93,8 +93,8 @@ const httpLink = new HttpLink({
                 answerEditTimes: 0,
                 created: '2019-06-11T09:01:20+0900',
                 answeredtime: null,
-                sui_hei_user: userMock[0],
-                __typename: 'sui_hei_dialogue',
+                user: userMock[0],
+                __typename: 'dialogue',
               },
               {
                 id: 3,
@@ -107,8 +107,8 @@ const httpLink = new HttpLink({
                 answerEditTimes: 2,
                 created: '2019-06-11T09:01:00+0900',
                 answeredtime: '2019-06-11T09:01:30+0900',
-                sui_hei_user: userMock[0],
-                __typename: 'sui_hei_dialogue',
+                user: userMock[0],
+                __typename: 'dialogue',
               },
               {
                 id: 4,
@@ -122,8 +122,8 @@ const httpLink = new HttpLink({
                 answerEditTimes: 0,
                 created: '2019-06-11T09:05:00+0900',
                 answeredtime: '2019-06-11T09:07:30+0900',
-                sui_hei_user: userMock[0],
-                __typename: 'sui_hei_dialogue',
+                user: userMock[0],
+                __typename: 'dialogue',
               },
               {
                 id: 5,
@@ -136,11 +136,11 @@ const httpLink = new HttpLink({
                 answerEditTimes: 0,
                 created: '2019-06-11T09:09:00+0900',
                 answeredtime: '2019-06-11T09:10:00+0900',
-                sui_hei_user: userMock[2],
-                __typename: 'sui_hei_dialogue',
+                user: userMock[2],
+                __typename: 'dialogue',
               },
             ],
-            sui_hei_hint: [
+            hint: [
               {
                 id: 1,
                 edittimes: 1,
@@ -148,7 +148,7 @@ const httpLink = new HttpLink({
                   '**９時２０分**の時正解を発表します〜\nそれまで質問でもなんでもどうぞ〜',
                 created: '2019-06-11T09:08:30+0900',
                 receiver: null,
-                __typename: 'sui_hei_hint',
+                __typename: 'hint',
               },
               {
                 id: 2,
@@ -156,32 +156,32 @@ const httpLink = new HttpLink({
                 content: '始めまして歓迎します〜',
                 created: '2019-06-11T09:08:30+0900',
                 receiver: userMock[0],
-                __typename: 'sui_hei_hint',
+                __typename: 'hint',
               },
             ],
           };
           break;
         case 'EditQuestionMutation':
           data = {
-            update_sui_hei_dialogue: {
+            update_dialogue: {
               returning: [
                 {
-                  __typename: 'sui_hei_dialogue',
+                  __typename: 'dialogue',
                   id: parsedParams.variables.dialogueId,
                   question: parsedParams.variables.question,
                   questionEditTimes: 0,
                 },
               ],
-              __typename: 'update_sui_hei_dialogue_returning',
+              __typename: 'update_dialogue_returning',
             },
           };
           break;
         case 'EditAnswerMutation':
           data = {
-            update_sui_hei_dialogue: {
+            update_dialogue: {
               returning: [
                 {
-                  __typename: 'sui_hei_dialogue',
+                  __typename: 'dialogue',
                   id: parsedParams.variables.dialogueId,
                   answer: parsedParams.variables.answer,
                   good: parsedParams.variables.good,
@@ -189,7 +189,7 @@ const httpLink = new HttpLink({
                   answerEditTimes: 0,
                 },
               ],
-              __typename: 'update_sui_hei_dialogue_returning',
+              __typename: 'update_dialogue_returning',
             },
           };
           break;
@@ -197,8 +197,8 @@ const httpLink = new HttpLink({
           return reject(new Error('Not mocked'));
         case 'UserBriefExtraQuery':
           data = {
-            sui_hei_user_by_pk: {
-              __typename: 'sui_hei_user',
+            user_by_pk: {
+              __typename: 'user',
               id: parsedParams.variables.id || 1,
               profile: 'Profile Contents',
               date_joined: '2019-01-01T00:01:23Z',
@@ -231,7 +231,7 @@ const apolloClient = new ApolloClient({
   },
   resolvers: {
     Mutation: {
-      update_sui_hei_dialogue: (_root, args) => {
+      update_dialogue: (_root, args) => {
         console.log('RESOLVER', args);
         return null;
       },

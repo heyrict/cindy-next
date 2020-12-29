@@ -9,7 +9,7 @@ import { CurrentUserAwardProps } from './types';
 
 const AnchorButton = Anchor.withComponent('button');
 
-const CurrentUserAward = ({ useraward }: CurrentUserAwardProps) => {
+const CurrentUserAward = ({ user_award }: CurrentUserAwardProps) => {
   const [show, setShow] = useState(false);
   const popupRef = useRef<HTMLDivElement | null>(null);
   const btnRef = useRef<HTMLButtonElement | null>(null);
@@ -45,7 +45,7 @@ const CurrentUserAward = ({ useraward }: CurrentUserAwardProps) => {
             onMouseLeave={() => setShow(false)}
             onTouchMove={() => setShow(false)}
           >
-            [{useraward.sui_hei_award.name}]
+            [{user_award.award.name}]
           </AnchorButton>
         )}
       </Reference>
@@ -69,7 +69,7 @@ const CurrentUserAward = ({ useraward }: CurrentUserAwardProps) => {
               data-placement={placement}
             >
               <Box mt={2} mb={1} width={1} fontSize={2} textAlign="center">
-                {useraward.sui_hei_award.name}
+                {user_award.award.name}
               </Box>
               <Box
                 textAlign="center"
@@ -77,16 +77,16 @@ const CurrentUserAward = ({ useraward }: CurrentUserAwardProps) => {
                 my={1}
                 fontSize={1}
                 dangerouslySetInnerHTML={{
-                  __html: line2md(useraward.sui_hei_award.description),
+                  __html: line2md(user_award.award.description),
                 }}
               />
-              {useraward.created && (
+              {user_award.created && (
                 <Box width={1} textAlign="center" color="#ff582b" fontSize={1}>
                   <span role="img" aria-label="gold-cup">
                     🏆
                   </span>
                   <FormattedTime
-                    value={useraward.created}
+                    value={user_award.created}
                     year="numeric"
                     month="short"
                     day="numeric"

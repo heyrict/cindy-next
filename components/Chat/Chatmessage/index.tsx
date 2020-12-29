@@ -35,7 +35,7 @@ const Chatmessage = ({
   const [mode, setMode] = useState<ChatmessageModeType>(
     ChatmessageModeType.NORMAL,
   );
-  const isCreator = currentUserId === chatmessage.sui_hei_user.id;
+  const isCreator = currentUserId === chatmessage.user.id;
 
   return (
     <div>
@@ -57,7 +57,7 @@ const Chatmessage = ({
         ) : (
           <UserInline
             px={1}
-            user={chatmessage.sui_hei_user}
+            user={chatmessage.user}
             timestamp={
               chatmessage.created && (
                 <FormattedTime
@@ -93,8 +93,8 @@ const Chatmessage = ({
                         content: text,
                       },
                       optimisticResponse: {
-                        update_sui_hei_chatmessage: {
-                          __typename: 'sui_hei_chatmessage_mutation_response',
+                        update_chatmessage: {
+                          __typename: 'chatmessage_mutation_response',
                           returning: [
                             {
                               ...chatmessage,

@@ -1,0 +1,16 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.user_puzzle_genre_groups("userId" integer)
+       RETURNS SETOF hasura_int_groupby_trigger
+       LANGUAGE sql
+       STABLE
+      AS $function$
+      select
+        genre as group,
+        count(id) as value
+      from puzzle
+      where puzzle.user_id = "userId"
+      group by genre $function$;
+  type: run_sql

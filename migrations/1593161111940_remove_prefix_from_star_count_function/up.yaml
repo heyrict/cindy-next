@@ -1,0 +1,20 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.star_count_ranking(created_gte timestamp without time zone, created_lt timestamp without time zone)
+       RETURNS SETOF hasura_user_ranking_trigger
+       LANGUAGE sql
+       STABLE
+      AS $function$
+      select
+        puzzle.user_id as user_id,
+        count(star) as value
+      from
+        puzzle
+      left join star on puzzle.id = star.puzzle_id
+      where
+        puzzle.created >= created_gte
+        and puzzle.created < created_lt
+      group by puzzle.user_id $function$;
+  type: run_sql

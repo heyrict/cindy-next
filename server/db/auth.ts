@@ -32,9 +32,9 @@ export const getClaims = (user: any, reqRole?: CindyRole) => {
   }
 
   return {
-    'x-hasura-default-role': defaultRole,
-    'x-hasura-allowed-roles': roles as CindyRole[],
+    'x-hasura-role': defaultRole,
     'x-hasura-user-id': `${user.id}`,
+    'cache-control': "max-age=3000",
   };
 };
 
@@ -78,7 +78,11 @@ export const formatCookie = (
   return `${c_name}=${c_value}${expiry_str}${path_str}${http_only_str}`;
 };
 
-export async function localAuth(username: string, password: string) {
+export async function localAuth(
+  username: string,
+  password: string,
+  ip: string | string[],
+) {
   const user = await User.findOne({
     where: { username },
     include: [AuthGroup],
@@ -98,6 +102,7 @@ export async function localAuth(username: string, password: string) {
   await user.changed('last_login', true);
   await user.save();
 
+  console.log(`[${ip}] Login -> user:${user.id} (${user.nickname})`);
   const Jwt = getJwt(user);
   return Jwt;
 }

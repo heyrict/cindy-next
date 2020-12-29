@@ -38,16 +38,16 @@ const ProfileCommentsTab = ({ userId }: ProfileCommentsTabProps) => (
           orderBy: [{ id: order_by.desc }],
         }}
         getItemCount={data =>
-          (data.sui_hei_comment_aggregate &&
-            data.sui_hei_comment_aggregate.aggregate &&
-            data.sui_hei_comment_aggregate.aggregate.count) ||
+          (data.comment_aggregate &&
+            data.comment_aggregate.aggregate &&
+            data.comment_aggregate.aggregate.count) ||
           0
         }
         renderItems={data => {
-          if (!data.sui_hei_comment) return null;
+          if (!data.comment) return null;
           return (
             <>
-              {data.sui_hei_comment.map(comment => (
+              {data.comment.map(comment => (
                 <Box key={comment.id} width={1}>
                   <CommentDisplay comment={comment} />
                 </Box>
@@ -71,16 +71,16 @@ const ProfileCommentsTab = ({ userId }: ProfileCommentsTabProps) => (
           orderBy: [{ id: order_by.desc }],
         }}
         getItemCount={data =>
-          (data.sui_hei_comment_aggregate &&
-            data.sui_hei_comment_aggregate.aggregate &&
-            data.sui_hei_comment_aggregate.aggregate.count) ||
+          (data.comment_aggregate &&
+            data.comment_aggregate.aggregate &&
+            data.comment_aggregate.aggregate.count) ||
           0
         }
         renderItems={data => {
-          if (!data.sui_hei_comment) return null;
+          if (!data.comment) return null;
           return (
             <>
-              {data.sui_hei_comment.map(comment => (
+              {data.comment.map(comment => (
                 <Box key={comment.id} width={1}>
                   <CommentDisplay comment={comment} />
                 </Box>

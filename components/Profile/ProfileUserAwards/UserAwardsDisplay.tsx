@@ -21,7 +21,7 @@ const UserAwardsDisplay = ({
             : 'transparent'
         }
       >
-        <UserAward useraward={userAward} />
+        <UserAward user_award={userAward} />
       </Box>
     ))}
   </React.Fragment>

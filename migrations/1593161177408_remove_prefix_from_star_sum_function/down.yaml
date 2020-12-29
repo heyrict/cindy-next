@@ -1,0 +1,28 @@
+- args:
+    cascade: true
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.star_sum_ranking(
+        created_gte timestamp without time zone,
+        created_lt timestamp without time zone
+      ) RETURNS SETOF hasura_user_ranking_trigger LANGUAGE sql STABLE AS $$
+      select
+        id as user_id,
+        cast(star_sum as bigint) as value
+      from
+        user
+        left join (
+          select
+            sum(star.value) as star_sum,
+            puzzle.user_id as user_id
+          from
+            puzzle
+            left join star on puzzle.id = star.puzzle_id
+          where
+            puzzle.created >= created_gte
+            and puzzle.created < created_lt
+          group by
+            puzzle.user_id
+        ) as user_stars on user.id = user_stars.user_id
+      order by
+        star_sum desc nulls last $$
+  type: run_sql

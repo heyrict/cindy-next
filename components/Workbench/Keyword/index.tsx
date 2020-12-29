@@ -66,14 +66,14 @@ const KeywordWorkbench = ({
             toast.error(JSON.stringify(errors));
             return null;
           }
-          if (!data || !data.sui_hei_puzzle_by_pk) {
+          if (!data || !data.puzzle_by_pk) {
             return null;
           }
-          const sui_hei_dialogues = data.sui_hei_puzzle_by_pk.sui_hei_dialogues;
-          setTitle(data.sui_hei_puzzle_by_pk.title);
+          const dialogues = data.puzzle_by_pk.dialogues;
+          setTitle(data.puzzle_by_pk.title);
 
           // Check if the puzzle is solved
-          if (data.sui_hei_puzzle_by_pk.status !== 1) {
+          if (data.puzzle_by_pk.status !== 1) {
             toast.error(
               <FormattedMessage {...replayPageMessages.puzzleNotSolved} />,
             );
@@ -105,7 +105,7 @@ const KeywordWorkbench = ({
           setKuromojiProgress(0.66);
           for (let i = 0; i < parsed_dialogues.length; i++) {
             const parsed = parsed_dialogues[i];
-            const dialogue = sui_hei_dialogues.find(d => d.id === parsed.id);
+            const dialogue = dialogues.find(d => d.id === parsed.id);
             const tokens = parsed.tokens.map(
               (tokens: TokenizeServerTokenType) => ({
                 name: tokens.text,
@@ -127,9 +127,7 @@ const KeywordWorkbench = ({
               question_keywords: tokens,
             });
             if ((i + 1) % 10 === 0)
-              setKuromojiProgress(
-                ((i + 1) * 0.33) / sui_hei_dialogues.length + 0.66,
-              );
+              setKuromojiProgress(((i + 1) * 0.33) / dialogues.length + 0.66);
           }
 
           const keywords = new Object() as ReplayKeywordCounterType;

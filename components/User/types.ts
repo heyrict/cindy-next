@@ -21,7 +21,7 @@ type Award = {
 type UserAward = {
   id: number;
   created?: string;
-  sui_hei_award: Award;
+  award: Award;
 };
 
 export type InlineUser = {
@@ -29,7 +29,7 @@ export type InlineUser = {
   icon?: string | null;
   nickname: string;
   username?: string;
-  sui_hei_current_useraward?: UserAward | null;
+  current_user_award?: UserAward | null;
 };
 
 export type InlineUserExtra = {
@@ -58,7 +58,7 @@ export type AnonymousUserProps = {
 };
 
 export type CurrentUserAwardProps = {
-  useraward: UserAward;
+  user_award: UserAward;
 };
 
 export type UserBriefProfileProps = {

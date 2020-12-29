@@ -73,24 +73,22 @@ function AwardTableRenderer<T = number>({
                               addAward({
                                 variables: { awardId },
                                 optimisticResponse: {
-                                  insert_sui_hei_useraward: {
-                                    __typename:
-                                      'sui_hei_useraward_mutation_response',
+                                  insert_user_award: {
+                                    __typename: 'user_award_mutation_response',
                                     returning: [
                                       {
-                                        __typename: 'sui_hei_useraward',
+                                        __typename: 'user_award',
                                         id: -1,
                                         created: new Date().toISOString(),
-                                        sui_hei_award: award,
+                                        award: award,
                                       },
                                     ],
                                   },
                                 },
                                 update: (proxy, { data }) => {
-                                  if (!data || !data.insert_sui_hei_useraward)
-                                    return;
+                                  if (!data || !data.insert_user_award) return;
                                   const newUserAward =
-                                    data.insert_sui_hei_useraward.returning;
+                                    data.insert_user_award.returning;
                                   if (newUserAward.length < 1) return;
 
                                   // Update AwardsInfoQuery
@@ -105,7 +103,7 @@ function AwardTableRenderer<T = number>({
                                   });
                                   if (
                                     awardsInfoResult &&
-                                    awardsInfoResult.sui_hei_user_by_pk
+                                    awardsInfoResult.user_by_pk
                                   )
                                     proxy.writeQuery({
                                       query: AWARDS_INFO_QUERY,
@@ -114,15 +112,14 @@ function AwardTableRenderer<T = number>({
                                       },
                                       data: {
                                         ...awardsInfoResult,
-                                        sui_hei_user_by_pk: {
-                                          ...awardsInfoResult.sui_hei_user_by_pk,
-                                          sui_hei_userawards: awardsInfoResult.sui_hei_user_by_pk.sui_hei_userawards.concat(
+                                        user_by_pk: {
+                                          ...awardsInfoResult.user_by_pk,
+                                          user_awards: awardsInfoResult.user_by_pk.user_awards.concat(
                                             {
-                                              __typename: 'sui_hei_useraward',
+                                              __typename: 'user_award',
                                               id: newUserAward[0].id,
                                               award_id:
-                                                newUserAward[0].sui_hei_award
-                                                  .id,
+                                                newUserAward[0].award.id,
                                             },
                                           ),
                                         },
@@ -161,9 +158,9 @@ function AwardTableRenderer<T = number>({
                       <td>{getStatusLabel(awardObj)}</td>
                       <td>
                         <CurrentUserAward
-                          useraward={{
+                          user_award={{
                             id: -1,
-                            sui_hei_award: award,
+                            award: award,
                           }}
                         />
                       </td>
@@ -187,9 +184,9 @@ function AwardTableRenderer<T = number>({
                   <td>{getStatusLabel(awardObj)}</td>
                   <td>
                     <CurrentUserAward
-                      useraward={{
+                      user_award={{
                         id: -1,
-                        sui_hei_award: award,
+                        award: award,
                       }}
                     />
                   </td>

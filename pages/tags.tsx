@@ -81,7 +81,7 @@ const Tags = ({ intl }: { intl: IntlShape }) => {
             {
               key: 'puzzle_tag_count',
               getValue: order => ({
-                sui_hei_puzzle_tags_aggregate: { count: order },
+                puzzle_tags_aggregate: { count: order },
               }),
               fieldName: (
                 <FormattedMessage {...tagsPageMessages.tagPuzzleCount} />
@@ -137,9 +137,9 @@ const Tags = ({ intl }: { intl: IntlShape }) => {
             return <ErrorReload error={error} refetch={refetch} />;
           }
           if (loading) return <Loading centered />;
-          if (!data || !data.sui_hei_tag) return null;
+          if (!data || !data.tag) return null;
 
-          const tags = data.sui_hei_tag;
+          const tags = data.tag;
           return (
             <Flex flexWrap="wrap" alignItems="center">
               {tags.map(tag => (
@@ -148,14 +148,14 @@ const Tags = ({ intl }: { intl: IntlShape }) => {
                     <Link href="/tag/[id]" as={`/tag/${tag.id}`} passHref>
                       <ButtonTransparentA p={1} borderRadius={2}>
                         {tag.name}
-                        {tag.sui_hei_puzzle_tags_aggregate.aggregate && (
+                        {tag.puzzle_tags_aggregate.aggregate && (
                           <Box
                             display="inline-box"
                             fontSize="0.8em"
                             color="green.7"
                             pl={1}
                           >
-                            {tag.sui_hei_puzzle_tags_aggregate.aggregate.count}
+                            {tag.puzzle_tags_aggregate.aggregate.count}
                           </Box>
                         )}
                       </ButtonTransparentA>
@@ -170,18 +170,15 @@ const Tags = ({ intl }: { intl: IntlShape }) => {
                       query: TAGS_PAGE_QUERY,
                       variables: {
                         ...variables,
-                        offset: data.sui_hei_tag.length,
+                        offset: data.tag.length,
                       },
                       updateQuery: (prev, { fetchMoreResult }) => {
                         if (!fetchMoreResult) return prev;
-                        if (fetchMoreResult.sui_hei_tag.length < TAGS_PER_PAGE)
+                        if (fetchMoreResult.tag.length < TAGS_PER_PAGE)
                           setHasMore(false);
                         return {
                           ...prev,
-                          sui_hei_tag: concatList(
-                            prev.sui_hei_tag,
-                            fetchMoreResult.sui_hei_tag,
-                          ),
+                          tag: concatList(prev.tag, fetchMoreResult.tag),
                         };
                       },
                     })

@@ -63,7 +63,7 @@ const CommentModalComment = ({ comment }: CommentModalCommentProps) => {
       <CommentModalCommentContent blurred={comment.spoiler && !showSpoiler}>
         <div dangerouslySetInnerHTML={{ __html: line2md(comment.content) }} />
         <CommentModalCommentUser>
-          <UserInline user={comment.sui_hei_user} />
+          <UserInline user={comment.user} />
         </CommentModalCommentUser>
       </CommentModalCommentContent>
       {comment.spoiler && !showSpoiler && (

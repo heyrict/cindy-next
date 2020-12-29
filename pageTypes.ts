@@ -5,10 +5,7 @@ import {
   PuzzlesSolvedQuery,
   PuzzlesSolvedQueryVariables,
 } from 'graphql/Queries/generated/PuzzlesSolvedQuery';
-import {
-  sui_hei_puzzle_order_by,
-  sui_hei_tag_order_by,
-} from 'generated/globalTypes';
+import { puzzle_order_by, tag_order_by } from 'generated/globalTypes';
 import {
   CommentsQuery,
   CommentsQueryVariables,
@@ -38,7 +35,7 @@ export type SearchVariablesStates = {
   userNickname: null | string;
   genre: null | number;
   yami: null | number;
-  orderBy: Array<sui_hei_puzzle_order_by>;
+  orderBy: Array<puzzle_order_by>;
 };
 
 export type RankingProps = {
@@ -62,7 +59,7 @@ export type EULAProps = {
 
 export type TagsVariablesStates = {
   name: null | string;
-  orderBy: Array<sui_hei_tag_order_by>;
+  orderBy: Array<tag_order_by>;
 };
 
 export type CommentsRendererProps = QueryResult<

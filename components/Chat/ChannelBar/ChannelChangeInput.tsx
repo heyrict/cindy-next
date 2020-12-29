@@ -88,8 +88,8 @@ const ChannelChangeInput = ({
                 toast.error(error.message);
                 return null;
               }
-              if (!data || !data.sui_hei_chatroom) return null;
-              if (data.sui_hei_chatroom.length === 0)
+              if (!data || !data.chatroom) return null;
+              if (data.chatroom.length === 0)
                 return (
                   <FormattedMessage {...chatMessages.notExistDescription} />
                 );
@@ -103,17 +103,14 @@ const ChannelChangeInput = ({
                       fontWeight="bold"
                       pr={2}
                     >
-                      {data.sui_hei_chatroom[0].name}
+                      {data.chatroom[0].name}
                     </Box>
                     by
-                    <UserInline
-                      pl={2}
-                      user={data.sui_hei_chatroom[0].sui_hei_user}
-                    />
+                    <UserInline pl={2} user={data.chatroom[0].user} />
                   </Box>
                   <Box
                     dangerouslySetInnerHTML={{
-                      __html: text2md(data.sui_hei_chatroom[0].description),
+                      __html: text2md(data.chatroom[0].description),
                     }}
                   />
                 </>

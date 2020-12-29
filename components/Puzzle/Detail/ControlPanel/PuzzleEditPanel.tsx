@@ -44,11 +44,11 @@ const PuzzleEditPanel = ({
         dazedOn: newDazedOn.toISOString(),
       },
       optimisticResponse: {
-        update_sui_hei_puzzle: {
-          __typename: 'sui_hei_puzzle_mutation_response',
+        update_puzzle: {
+          __typename: 'puzzle_mutation_response',
           returning: [
             {
-              __typename: 'sui_hei_puzzle',
+              __typename: 'puzzle',
               id: puzzleId,
               dazed_on: newDazedOn.toISOString(),
             },
@@ -120,11 +120,11 @@ const PuzzleEditPanel = ({
                               yami,
                             },
                             optimisticResponse: {
-                              update_sui_hei_puzzle: {
-                                __typename: 'sui_hei_puzzle_mutation_response',
+                              update_puzzle: {
+                                __typename: 'puzzle_mutation_response',
                                 returning: [
                                   {
-                                    __typename: 'sui_hei_puzzle',
+                                    __typename: 'puzzle',
                                     id: puzzleId,
                                     grotesque,
                                     status: 1,
@@ -164,11 +164,11 @@ const PuzzleEditPanel = ({
                     yami: 1 - yami,
                   },
                   optimisticResponse: {
-                    update_sui_hei_puzzle: {
-                      __typename: 'sui_hei_puzzle_mutation_response',
+                    update_puzzle: {
+                      __typename: 'puzzle_mutation_response',
                       returning: [
                         {
-                          __typename: 'sui_hei_puzzle',
+                          __typename: 'puzzle',
                           id: puzzleId,
                           grotesque,
                           status,
@@ -224,11 +224,11 @@ const PuzzleEditPanel = ({
                               yami,
                             },
                             optimisticResponse: {
-                              update_sui_hei_puzzle: {
-                                __typename: 'sui_hei_puzzle_mutation_response',
+                              update_puzzle: {
+                                __typename: 'puzzle_mutation_response',
                                 returning: [
                                   {
-                                    __typename: 'sui_hei_puzzle',
+                                    __typename: 'puzzle',
                                     id: puzzleId,
                                     grotesque,
                                     status: status === 3 ? 1 : 3,
@@ -269,11 +269,11 @@ const PuzzleEditPanel = ({
                     yami,
                   },
                   optimisticResponse: {
-                    update_sui_hei_puzzle: {
-                      __typename: 'sui_hei_puzzle_mutation_response',
+                    update_puzzle: {
+                      __typename: 'puzzle_mutation_response',
                       returning: [
                         {
-                          __typename: 'sui_hei_puzzle',
+                          __typename: 'puzzle',
                           id: puzzleId,
                           grotesque: !grotesque,
                           status,

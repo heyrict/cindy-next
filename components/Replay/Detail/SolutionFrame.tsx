@@ -24,19 +24,16 @@ const SolutionFrame = ({
   timeSolved ? (
     <>
       <ContentsFrame
-        text={replay.sui_hei_puzzle ? replay.sui_hei_puzzle.solution : ''}
-        user={replay.sui_hei_user}
+        text={replay.puzzle ? replay.puzzle.solution : ''}
+        user={replay.user}
         solved={timeSolved}
       />
       <Box width={1} mx={widthSplits[2]} mt={2}>
         <Box width={1}>
           <FormattedMessage {...replayMessages.original} />
         </Box>
-        {replay.sui_hei_puzzle && (
-          <PuzzleBrief
-            showGenreImage={puzzleGenreImg}
-            puzzle={replay.sui_hei_puzzle}
-          />
+        {replay.puzzle && (
+          <PuzzleBrief showGenreImage={puzzleGenreImg} puzzle={replay.puzzle} />
         )}
       </Box>
     </>

@@ -4,7 +4,7 @@ import { HINT_SHARED_FRAGMENT } from '../Fragments/Hint';
 
 export const HINT_LIVE_QUERY = gql`
   subscription HintLiveQuery($puzzleId: Int!, $limit: Int!) {
-    sui_hei_hint(
+    hint(
       where: { puzzle_id: { _eq: $puzzleId } }
       limit: $limit
       order_by: { modified: desc }
@@ -21,7 +21,7 @@ export const HINT_WITH_USER_LIVE_QUERY = gql`
     $userId: Int!
     $limit: Int!
   ) {
-    sui_hei_hint(
+    hint(
       where: {
         puzzle_id: { _eq: $puzzleId }
         _or: [

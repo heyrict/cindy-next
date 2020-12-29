@@ -47,7 +47,7 @@ const PuzzleDetail = ({
   const isUser = Boolean(userId);
   const isHidden = puzzle.status === 3;
   const isForbidden = puzzle.status === 4;
-  const isCreator = puzzle.sui_hei_user.id === userId;
+  const isCreator = puzzle.user.id === userId;
 
   const shouldShowShare = puzzle.status === 0 || puzzle.status === 1;
   const shouldShowTags = isCreator || (!isHidden && !isForbidden);
@@ -127,7 +127,7 @@ const PuzzleDetail = ({
           text={puzzleContent}
           anonymous={puzzle.anonymous}
           status={puzzle.status}
-          user={puzzle.sui_hei_user}
+          user={puzzle.user}
           created={puzzle.created}
           solved={puzzle.status === 0 ? undefined : puzzle.modified}
         />
@@ -141,7 +141,7 @@ const PuzzleDetail = ({
         {shouldShowTags && (
           <PuzzleTags
             puzzleId={puzzle.id}
-            puzzleUserId={puzzle.sui_hei_user.id}
+            puzzleUserId={puzzle.user.id}
             userId={userId}
           />
         )}
@@ -149,7 +149,7 @@ const PuzzleDetail = ({
         {shouldShowPuzzleDialogues && (
           <PuzzleDialogues
             puzzleId={puzzle.id}
-            puzzleUser={puzzle.sui_hei_user}
+            puzzleUser={puzzle.user}
             puzzleStatus={puzzle.status}
             puzzleYami={puzzle.yami}
             userId={userId}
@@ -168,7 +168,7 @@ const PuzzleDetail = ({
               <ContentsFrame
                 text={solution}
                 status={puzzle.status}
-                user={puzzle.sui_hei_user}
+                user={puzzle.user}
               />
             )}
           </WithSolution>

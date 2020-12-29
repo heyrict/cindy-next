@@ -1,0 +1,20 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.direct_message_group(user_id integer)
+       RETURNS SETOF hasura_directmessage_group_trigger
+       LANGUAGE sql
+       STABLE
+      AS $function$
+      select
+        CASE WHEN sender_id = user_id THEN receiver_id ELSE sender_id END as dm_user_id,
+        max(id) as last_dm_id
+      from
+        sui_hei_directmessage
+      where
+        sender_id = user_id or receiver_id = user_id
+      group by
+        dm_user_id
+      $function$;
+  type: run_sql

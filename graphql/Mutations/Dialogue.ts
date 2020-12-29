@@ -4,9 +4,7 @@ import { DIALOGUE_SHARED_FRAGMENT } from '../Fragments/Dialogue';
 
 export const ADD_QUESTION_MUTATION = gql`
   mutation AddQuestionMutation($question: String, $puzzleId: Int) {
-    insert_sui_hei_dialogue(
-      objects: { question: $question, puzzle_id: $puzzleId }
-    ) {
+    insert_dialogue(objects: { question: $question, puzzle_id: $puzzleId }) {
       returning {
         ...DialogueShared
       }
@@ -17,7 +15,7 @@ export const ADD_QUESTION_MUTATION = gql`
 
 export const EDIT_QUESTION_MUTATION = gql`
   mutation EditQuestionMutation($question: String, $dialogueId: Int!) {
-    update_sui_hei_dialogue(
+    update_dialogue(
       _inc: { questionEditTimes: 1 }
       _set: { question: $question }
       where: { id: { _eq: $dialogueId } }
@@ -39,7 +37,7 @@ export const EDIT_ANSWER_MUTATION = gql`
     $dialogueId: Int!
     $increaseEditTimes: Int!
   ) {
-    update_sui_hei_dialogue(
+    update_dialogue(
       _inc: { answerEditTimes: $increaseEditTimes }
       _set: { answer: $answer, good: $good, true: $true }
       where: { id: { _eq: $dialogueId } }

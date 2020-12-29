@@ -6,13 +6,13 @@ import { HINT_SHARED_FRAGMENT } from '../Fragments/Hint';
 
 export const DIALOGUE_HINT_QUERY = gql`
   query DialogueHintQuery($puzzleId: Int, $userId: Int) {
-    sui_hei_dialogue(
+    dialogue(
       where: { puzzle_id: { _eq: $puzzleId }, user_id: { _eq: $userId } }
       order_by: { id: asc }
     ) {
       ...DialogueShared
     }
-    sui_hei_hint(
+    hint(
       where: {
         puzzle_id: { _eq: $puzzleId }
         _or: [

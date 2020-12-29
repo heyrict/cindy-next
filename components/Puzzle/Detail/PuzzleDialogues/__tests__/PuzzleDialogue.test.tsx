@@ -8,7 +8,7 @@ import { dialogues, puzzle } from './constants';
 
 const defaultProps = {
   dialogue: dialogues[0],
-  puzzleUser: puzzle.sui_hei_user,
+  puzzleUser: puzzle.user,
   puzzleStatus: puzzle.status,
   anonymous: puzzle.anonymous,
 };

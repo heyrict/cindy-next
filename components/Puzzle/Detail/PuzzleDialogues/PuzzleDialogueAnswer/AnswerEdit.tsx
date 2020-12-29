@@ -80,11 +80,11 @@ const AnswerEdit = ({
                 increaseEditTimes: answer === '' ? 0 : 1,
               },
               optimisticResponse: {
-                update_sui_hei_dialogue: {
-                  __typename: 'sui_hei_dialogue_mutation_response',
+                update_dialogue: {
+                  __typename: 'dialogue_mutation_response',
                   returning: [
                     {
-                      __typename: 'sui_hei_dialogue',
+                      __typename: 'dialogue',
                       id: dialogueId,
                       answer: newAnswer,
                       good: goodSwitch,

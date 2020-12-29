@@ -34,13 +34,13 @@ const Users = ({ intl }: { intl: IntlShape }) => {
           variables={{ limit: 20 }}
           fetchPolicy="cache-first"
           getItemCount={data =>
-            (data.sui_hei_user_aggregate &&
-              data.sui_hei_user_aggregate.aggregate &&
-              data.sui_hei_user_aggregate.aggregate.count) ||
+            (data.user_aggregate &&
+              data.user_aggregate.aggregate &&
+              data.user_aggregate.aggregate.count) ||
             0
           }
           renderItems={data => {
-            const users = data.sui_hei_user;
+            const users = data.user;
             if (!users) return null;
             return (
               <>

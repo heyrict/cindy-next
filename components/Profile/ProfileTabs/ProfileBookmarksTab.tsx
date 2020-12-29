@@ -24,16 +24,16 @@ const ProfileBookmarksTab = ({ userId }: ProfileBookmarksTabProps) => (
       orderBy: [{ value: order_by.desc }],
     }}
     getItemCount={data =>
-      (data.sui_hei_bookmark_aggregate &&
-        data.sui_hei_bookmark_aggregate.aggregate &&
-        data.sui_hei_bookmark_aggregate.aggregate.count) ||
+      (data.bookmark_aggregate &&
+        data.bookmark_aggregate.aggregate &&
+        data.bookmark_aggregate.aggregate.count) ||
       0
     }
     renderItems={data => {
-      if (!data.sui_hei_bookmark) return null;
+      if (!data.bookmark) return null;
       return (
         <>
-          {data.sui_hei_bookmark.map(bookmark => (
+          {data.bookmark.map(bookmark => (
             <MultiColBox key={bookmark.id}>
               <PuzzleWithAny
                 cap={
@@ -44,7 +44,7 @@ const ProfileBookmarksTab = ({ userId }: ProfileBookmarksTabProps) => (
                     </Box>
                   </Box>
                 }
-                puzzle={bookmark.sui_hei_puzzle}
+                puzzle={bookmark.puzzle}
               />
             </MultiColBox>
           ))}

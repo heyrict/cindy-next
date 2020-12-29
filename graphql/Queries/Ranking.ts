@@ -86,16 +86,16 @@ export const PUZZLE_STAR_RANKING_QUERY = gql`
     $createdLt: timestamptz!
     $createdGte: timestamptz!
   ) {
-    sui_hei_puzzle(
+    puzzle(
       order_by: [
-        { sui_hei_stars_aggregate: { count: desc } }
-        { sui_hei_stars_aggregate: { sum: { value: desc } } }
+        { stars_aggregate: { count: desc } }
+        { stars_aggregate: { sum: { value: desc } } }
         { id: asc }
       ]
       limit: $limit
       offset: $offset
       where: { created: { _gte: $createdGte, _lt: $createdLt } }
-    ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
+    ) @connection(key: "puzzle", filter: ["order_by", "where"]) {
       ...PuzzleAggregate
       content
     }
@@ -110,12 +110,12 @@ export const PUZZLE_COMMENT_RANKING_QUERY = gql`
     $createdLt: timestamptz!
     $createdGte: timestamptz!
   ) {
-    sui_hei_puzzle(
-      order_by: [{ sui_hei_comments_aggregate: { count: desc } }, { id: asc }]
+    puzzle(
+      order_by: [{ comments_aggregate: { count: desc } }, { id: asc }]
       limit: $limit
       offset: $offset
       where: { created: { _gte: $createdGte, _lt: $createdLt } }
-    ) @connection(key: "sui_hei_puzzle", filter: ["order_by", "where"]) {
+    ) @connection(key: "puzzle", filter: ["order_by", "where"]) {
       ...PuzzleAggregate
       content
     }

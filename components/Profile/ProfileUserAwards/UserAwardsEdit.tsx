@@ -44,13 +44,13 @@ const UserAwardsEdit = ({
                   userawardId: null,
                 },
                 optimisticResponse: {
-                  update_sui_hei_user: {
-                    __typename: 'sui_hei_user_mutation_response',
+                  update_user: {
+                    __typename: 'user_mutation_response',
                     returning: [
                       {
-                        __typename: 'sui_hei_user',
+                        __typename: 'user',
                         id: userId,
-                        sui_hei_current_useraward: null,
+                        current_user_award: null,
                       },
                     ],
                   },
@@ -94,13 +94,13 @@ const UserAwardsEdit = ({
                     userawardId: userAward.id,
                   },
                   optimisticResponse: {
-                    update_sui_hei_user: {
-                      __typename: 'sui_hei_user_mutation_response',
+                    update_user: {
+                      __typename: 'user_mutation_response',
                       returning: [
                         {
-                          __typename: 'sui_hei_user',
+                          __typename: 'user',
                           id: userId,
-                          sui_hei_current_useraward: userAward,
+                          current_user_award: userAward,
                         },
                       ],
                     },
@@ -121,7 +121,7 @@ const UserAwardsEdit = ({
                 setEdit(false);
               }}
             >
-              {userAward.sui_hei_award.name}
+              {userAward.award.name}
             </ButtonTransparent>
           </Box>
         ))}

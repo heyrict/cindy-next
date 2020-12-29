@@ -3,8 +3,8 @@ import { QueryResult } from '@apollo/react-common';
 import {
   DialogueHintQuery,
   DialogueHintQueryVariables,
-  DialogueHintQuery_sui_hei_hint,
-  DialogueHintQuery_sui_hei_dialogue,
+  DialogueHintQuery_hint,
+  DialogueHintQuery_dialogue,
 } from 'graphql/Queries/generated/DialogueHintQuery';
 import { DialogueShared } from 'graphql/Fragments/generated/DialogueShared';
 import { GlobalUserType } from 'reducers/types';
@@ -56,8 +56,8 @@ export type PuzzleDialoguesRendererProps = {
   typeof PuzzleDialoguesRendererDefaultProps;
 
 export type PuzzleDialoguesRendererInnerProps = {
-  dialogues: Array<DialogueHintQuery_sui_hei_dialogue>;
-  hints: Array<DialogueHintQuery_sui_hei_hint>;
+  dialogues: Array<DialogueHintQuery_dialogue>;
+  hints: Array<DialogueHintQuery_hint>;
   puzzleUser: InlineUser;
   puzzleStatus: number;
   anonymous: boolean;

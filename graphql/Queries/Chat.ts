@@ -4,12 +4,12 @@ import { CHATMESSAGE_FRAGMENT, CHATROOM_FRAGMENT } from '../Fragments/Chat';
 
 export const CHATROOM_CHATMESSAGES_QUERY = gql`
   query ChatroomChatmessages($chatroomId: Int, $limit: Int, $offset: Int) {
-    sui_hei_chatmessage(
+    chatmessage(
       where: { chatroom_id: { _eq: $chatroomId } }
       limit: $limit
       offset: $offset
       order_by: [{ id: desc }]
-    ) @connection(key: "sui_hei_chatmessage", filter: ["where"]) {
+    ) @connection(key: "chatmessage", filter: ["where"]) {
       ...Chatmessage
     }
   }
@@ -18,7 +18,7 @@ export const CHATROOM_CHATMESSAGES_QUERY = gql`
 
 export const CHATROOM_LOGS_QUERY = gql`
   query ChatroomLogsQuery($chatroomId: Int, $limit: Int, $offset: Int) {
-    sui_hei_chatmessage(
+    chatmessage(
       where: { chatroom_id: { _eq: $chatroomId } }
       limit: $limit
       offset: $offset
@@ -26,9 +26,7 @@ export const CHATROOM_LOGS_QUERY = gql`
     ) {
       ...Chatmessage
     }
-    sui_hei_chatmessage_aggregate(
-      where: { chatroom_id: { _eq: $chatroomId } }
-    ) {
+    chatmessage_aggregate(where: { chatroom_id: { _eq: $chatroomId } }) {
       aggregate {
         count
       }
@@ -39,11 +37,11 @@ export const CHATROOM_LOGS_QUERY = gql`
 
 export const CHATROOM_PUZZLE_QUERY = gql`
   query ChatroomPuzzle($puzzleId: Int!) {
-    sui_hei_puzzle_by_pk(id: $puzzleId) {
+    puzzle_by_pk(id: $puzzleId) {
       id
       anonymous
       status
-      sui_hei_user {
+      user {
         id
       }
     }
@@ -52,7 +50,7 @@ export const CHATROOM_PUZZLE_QUERY = gql`
 
 export const CHATROOM_ID_QUERY = gql`
   query ChatroomId($chatroomName: String) {
-    sui_hei_chatroom(where: { name: { _eq: $chatroomName } }, limit: 1) {
+    chatroom(where: { name: { _eq: $chatroomName } }, limit: 1) {
       id
     }
   }
@@ -60,7 +58,7 @@ export const CHATROOM_ID_QUERY = gql`
 
 export const CHATROOM_DESCRIPTION_QUERY = gql`
   query ChatroomDescription($chatroomId: Int!) {
-    sui_hei_chatroom_by_pk(id: $chatroomId) {
+    chatroom_by_pk(id: $chatroomId) {
       ...Chatroom
     }
   }
@@ -69,7 +67,7 @@ export const CHATROOM_DESCRIPTION_QUERY = gql`
 
 export const CHATROOM_ID_DESCRIPTION_QUERY = gql`
   query ChatroomIdDescription($chatroomName: String) {
-    sui_hei_chatroom(where: { name: { _eq: $chatroomName } }, limit: 1) {
+    chatroom(where: { name: { _eq: $chatroomName } }, limit: 1) {
       id
       ...Chatroom
     }
@@ -79,9 +77,9 @@ export const CHATROOM_ID_DESCRIPTION_QUERY = gql`
 
 export const FAVORITE_CHATROOMS_QUERY = gql`
   query FavoriteChatroomsQuery {
-    sui_hei_favoritechatroom {
+    favorite_chatroom {
       id
-      sui_hei_chatroom {
+      chatroom {
         id
         name
       }
@@ -91,10 +89,7 @@ export const FAVORITE_CHATROOMS_QUERY = gql`
 
 export const PUBLIC_CHATROOMS_QUERY = gql`
   query PublicChatroomsQuery {
-    sui_hei_chatroom(
-      where: { private: { _eq: false } }
-      order_by: { id: asc }
-    ) {
+    chatroom(where: { private: { _eq: false } }, order_by: { id: asc }) {
       id
       name
     }

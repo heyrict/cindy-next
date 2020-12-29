@@ -28,12 +28,12 @@ const ChatroomLogs = ({ chatroomId, relatedPuzzleId }: ChatroomLogsProps) => (
       variables={{ chatroomId }}
       getItemCount={data => {
         const itemCount =
-          data.sui_hei_chatmessage_aggregate.aggregate &&
-          data.sui_hei_chatmessage_aggregate.aggregate.count;
+          data.chatmessage_aggregate.aggregate &&
+          data.chatmessage_aggregate.aggregate.count;
         return itemCount || 0;
       }}
       renderItems={data => {
-        const chatmessages = data.sui_hei_chatmessage;
+        const chatmessages = data.chatmessage;
         if (!chatmessages) return null;
         return relatedPuzzleId ? (
           <Query<ChatroomPuzzle, ChatroomPuzzleVariables>
@@ -44,12 +44,12 @@ const ChatroomLogs = ({ chatroomId, relatedPuzzleId }: ChatroomLogsProps) => (
           >
             {({ loading, data, error }) => {
               if (error) return <div>Error</div>;
-              if (!data || !data.sui_hei_puzzle_by_pk) {
+              if (!data || !data.puzzle_by_pk) {
                 if (loading) return <Loading centered />;
                 return null;
               }
 
-              const { sui_hei_puzzle_by_pk: relatedPuzzle } = data;
+              const { puzzle_by_pk: relatedPuzzle } = data;
               if (relatedPuzzle.anonymous) {
                 return (
                   <>
@@ -57,9 +57,7 @@ const ChatroomLogs = ({ chatroomId, relatedPuzzleId }: ChatroomLogsProps) => (
                       <Chatmessage
                         key={`chatmessage-${cm.id}`}
                         chatmessage={cm}
-                        anonymous={
-                          relatedPuzzle.sui_hei_user.id === cm.sui_hei_user.id
-                        }
+                        anonymous={relatedPuzzle.user.id === cm.user.id}
                       />
                     ))}
                   </>

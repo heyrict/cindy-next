@@ -24,13 +24,13 @@ const CommentModalComments = ({ puzzleId }: CommentModalCommentsProps) => (
         toast.error(error.message);
         return null;
       }
-      if (!data || !data.sui_hei_comment) {
+      if (!data || !data.comment) {
         if (loading) return <Loading centered />;
         return null;
       }
       return (
         <Flex flexDirection="column">
-          {data.sui_hei_comment.map(comment => (
+          {data.comment.map(comment => (
             <CommentModalComment key={comment.id} comment={comment} />
           ))}
         </Flex>

@@ -62,14 +62,14 @@ const CommentPanel = ({ puzzleId, canAddComment }: CommentPanelProps) => {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.sui_hei_comment_aggregate) {
+            if (!data || !data.comment_aggregate) {
               if (loading) return <Loading centered />;
               return null;
             }
             const agg = {
               commentCount:
-                (data.sui_hei_comment_aggregate.aggregate &&
-                  data.sui_hei_comment_aggregate.aggregate.count) ||
+                (data.comment_aggregate.aggregate &&
+                  data.comment_aggregate.aggregate.count) ||
                 0,
             };
             return (

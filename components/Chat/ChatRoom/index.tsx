@@ -36,8 +36,8 @@ class ChatRoom extends React.Component<ChatRoomProps> {
       >
         {({ data, error, refetch }) => {
           let chatroomId = null;
-          if (data && data.sui_hei_chatroom && data.sui_hei_chatroom[0]) {
-            chatroomId = data.sui_hei_chatroom[0].id;
+          if (data && data.chatroom && data.chatroom[0]) {
+            chatroomId = data.chatroom[0].id;
           }
           if (error) {
             console.log(error);

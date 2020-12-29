@@ -29,7 +29,7 @@ const PuzzleTags = ({ puzzleId, puzzleUserId, userId }: PuzzleTagsProps) => {
         variables={{ puzzleId }}
       >
         {({ loading, error, data }) => {
-          if (!data || !data.sui_hei_puzzle_tag) {
+          if (!data || !data.puzzle_tag) {
             if (loading) return <Loading centered />;
             return null;
           }
@@ -39,14 +39,13 @@ const PuzzleTags = ({ puzzleId, puzzleUserId, userId }: PuzzleTagsProps) => {
           }
           return (
             <React.Fragment>
-              {data.sui_hei_puzzle_tag.map(puzzleTag => (
+              {data.puzzle_tag.map(puzzleTag => (
                 <PuzzleTagBubble
                   key={puzzleTag.id}
                   puzzleId={puzzleId}
                   puzzleTag={puzzleTag}
                   canDelete={
-                    puzzleUserId === userId ||
-                    puzzleTag.sui_hei_user.id === userId
+                    puzzleUserId === userId || puzzleTag.user.id === userId
                   }
                 />
               ))}

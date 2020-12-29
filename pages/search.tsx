@@ -167,7 +167,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
             {
               key: 'bookmark',
               getValue: order => ({
-                sui_hei_bookmarks_aggregate: { count: order },
+                bookmarks_aggregate: { count: order },
               }),
               fieldName: (
                 <FormattedMessage {...searchMessages.order_bookmarkCount} />
@@ -176,7 +176,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
             {
               key: 'comment',
               getValue: order => ({
-                sui_hei_comments_aggregate: { count: order },
+                comments_aggregate: { count: order },
               }),
               fieldName: (
                 <FormattedMessage {...searchMessages.order_commentCount} />
@@ -185,7 +185,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
             {
               key: 'starCount',
               getValue: order => ({
-                sui_hei_stars_aggregate: { count: order },
+                stars_aggregate: { count: order },
               }),
               fieldName: (
                 <FormattedMessage {...searchMessages.order_starCount} />
@@ -194,7 +194,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
             {
               key: 'starSum',
               getValue: order => ({
-                sui_hei_stars_aggregate: { sum: { value: order } },
+                stars_aggregate: { sum: { value: order } },
               }),
               fieldName: <FormattedMessage {...searchMessages.order_starSum} />,
             },
@@ -260,13 +260,13 @@ const Search = ({ intl }: { intl: IntlShape }) => {
           query={SOLVED_PUZZLES_SEARCH_QUERY}
           variables={variables}
           getItemCount={data =>
-            (data.sui_hei_puzzle_aggregate &&
-              data.sui_hei_puzzle_aggregate.aggregate &&
-              data.sui_hei_puzzle_aggregate.aggregate.count) ||
+            (data.puzzle_aggregate &&
+              data.puzzle_aggregate.aggregate &&
+              data.puzzle_aggregate.aggregate.count) ||
             0
           }
           renderItems={data => {
-            const puzzles = data.sui_hei_puzzle;
+            const puzzles = data.puzzle;
             if (!puzzles) return null;
             return (
               <>

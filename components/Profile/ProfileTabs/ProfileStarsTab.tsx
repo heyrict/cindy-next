@@ -23,16 +23,16 @@ const ProfileStarsTab = ({ userId }: ProfileStarsTabProps) => (
       orderBy: [{ id: order_by.desc }],
     }}
     getItemCount={data =>
-      (data.sui_hei_star_aggregate &&
-        data.sui_hei_star_aggregate.aggregate &&
-        data.sui_hei_star_aggregate.aggregate.count) ||
+      (data.star_aggregate &&
+        data.star_aggregate.aggregate &&
+        data.star_aggregate.aggregate.count) ||
       0
     }
     renderItems={data => {
-      if (!data.sui_hei_star) return null;
+      if (!data.star) return null;
       return (
         <>
-          {data.sui_hei_star.map(star => (
+          {data.star.map(star => (
             <MultiColBox key={star.id}>
               <PuzzleWithAny
                 cap={
@@ -40,7 +40,7 @@ const ProfileStarsTab = ({ userId }: ProfileStarsTabProps) => (
                     <StarDisplay value={star.value} size={3} />
                   </Flex>
                 }
-                puzzle={star.sui_hei_puzzle}
+                puzzle={star.puzzle}
               />
             </MultiColBox>
           ))}

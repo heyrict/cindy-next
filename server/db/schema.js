@@ -18,7 +18,7 @@ const sequelize = new Sequelize(PGDB, {
 });
 
 const User = sequelize.define(
-  'sui_hei_user',
+  'user',
   {
     id: {
       type: Sequelize.INTEGER,

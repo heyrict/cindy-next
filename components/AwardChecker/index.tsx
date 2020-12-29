@@ -26,13 +26,13 @@ const AwardChecker = ({ user, initAwardCount }: AwardCheckerProps) => {
           userId: user.id,
         }}
         onCompleted={data => {
-          if (!data.sui_hei_user_by_pk) return;
-          const user = data.sui_hei_user_by_pk;
+          if (!data.user_by_pk) return;
+          const user = data.user_by_pk;
           initAwardCount({
             puzzles:
-              (user.sui_hei_puzzles_aggregate &&
-                user.sui_hei_puzzles_aggregate.aggregate &&
-                user.sui_hei_puzzles_aggregate.aggregate.count) ||
+              (user.puzzles_aggregate &&
+                user.puzzles_aggregate.aggregate &&
+                user.puzzles_aggregate.aggregate.count) ||
               0,
             goodQuestions:
               (user.good_questions_aggregate &&
@@ -45,9 +45,9 @@ const AwardChecker = ({ user, initAwardCount }: AwardCheckerProps) => {
                 user.true_answers_aggregate.aggregate.count) ||
               0,
             dialogues:
-              (user.sui_hei_dialogues_aggregate &&
-                user.sui_hei_dialogues_aggregate.aggregate &&
-                user.sui_hei_dialogues_aggregate.aggregate.count) ||
+              (user.dialogues_aggregate &&
+                user.dialogues_aggregate.aggregate &&
+                user.dialogues_aggregate.aggregate.count) ||
               0,
           });
         }}

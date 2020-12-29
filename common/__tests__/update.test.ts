@@ -211,24 +211,24 @@ const dialogueList = {
       answerEditTimes: 8,
       created: '2019-06-09T14:19:50.799224+08:00',
       answeredtime: '2019-06-09T14:39:01.110038+08:00',
-      sui_hei_user: {
+      user: {
         id: 1,
         nickname: 'はやて',
         username: 'heyrict',
-        sui_hei_current_useraward: {
+        current_useraward: {
           id: 4,
           created: '2017-11-29',
-          sui_hei_award: {
+          award: {
             id: 2,
             name: '★★管理人',
             description: 'このサイトの創設者でありたった一人の管理人である。',
-            __typename: 'sui_hei_award',
+            __typename: 'award',
           },
-          __typename: 'sui_hei_useraward',
+          __typename: 'user_award',
         },
-        __typename: 'sui_hei_user',
+        __typename: 'user',
       },
-      __typename: 'sui_hei_dialogue',
+      __typename: 'dialogue',
     },
   ],
   up: {
@@ -238,7 +238,7 @@ const dialogueList = {
     true: false,
     answerEditTimes: 9,
     answeredtime: '2019-06-09T14:39:01.110038+08:00',
-    __typename: 'sui_hei_dialogue',
+    __typename: 'dialogue',
   },
   sub: {
     id: 97002,
@@ -250,24 +250,24 @@ const dialogueList = {
     answerEditTimes: 9,
     answeredtime: '2019-06-09T14:39:01.110038+08:00',
     created: '2019-06-09T14:19:50.799224+08:00',
-    sui_hei_user: {
+    user: {
       id: 1,
       nickname: 'はやて',
       username: 'heyrict',
-      sui_hei_current_useraward: {
+      current_useraward: {
         id: 4,
         created: '2017-11-29',
-        sui_hei_award: {
+        award: {
           id: 2,
           name: '★★管理人',
           description: 'このサイトの創設者でありたった一人の管理人である。',
-          __typename: 'sui_hei_award',
+          __typename: 'award',
         },
-        __typename: 'sui_hei_useraward',
+        __typename: 'user_award',
       },
-      __typename: 'sui_hei_user',
+      __typename: 'user',
     },
-    __typename: 'sui_hei_dialogue',
+    __typename: 'dialogue',
   },
   Aup: [
     {
@@ -280,24 +280,24 @@ const dialogueList = {
       answerEditTimes: 9,
       created: '2019-06-09T14:19:50.799224+08:00',
       answeredtime: '2019-06-09T14:39:01.110038+08:00',
-      sui_hei_user: {
+      user: {
         id: 1,
         nickname: 'はやて',
         username: 'heyrict',
-        sui_hei_current_useraward: {
+        current_useraward: {
           id: 4,
           created: '2017-11-29',
-          sui_hei_award: {
+          award: {
             id: 2,
             name: '★★管理人',
             description: 'このサイトの創設者でありたった一人の管理人である。',
-            __typename: 'sui_hei_award',
+            __typename: 'award',
           },
-          __typename: 'sui_hei_useraward',
+          __typename: 'user_award',
         },
-        __typename: 'sui_hei_user',
+        __typename: 'user',
       },
-      __typename: 'sui_hei_dialogue',
+      __typename: 'dialogue',
     },
   ],
 };

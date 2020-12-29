@@ -7,10 +7,10 @@ import theme from 'theme/theme';
 
 import CurrentUserAward from '../CurrentUserAward';
 
-const useraward = {
+const user_award = {
   id: 1,
   created: '2019-01-01T01:00:00Z',
-  sui_hei_award: {
+  award: {
     id: 1,
     name: 'Awesome Award',
     description: "It's awesome!",
@@ -22,7 +22,7 @@ describe('<CurrentUserAward />', () => {
     mount(
       <IntlProvider locale="en">
         <ThemeProvider theme={theme}>
-          <CurrentUserAward useraward={useraward} />
+          <CurrentUserAward user_award={user_award} />
         </ThemeProvider>
       </IntlProvider>,
     );

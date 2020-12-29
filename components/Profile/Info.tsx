@@ -23,13 +23,13 @@ const infoRowLabelProps = {
 const ProfileInfo = ({ user }: ProfileInfoProps) => {
   const aggregates = {
     puzzleCount:
-      user.sui_hei_puzzles_aggregate &&
-      user.sui_hei_puzzles_aggregate.aggregate &&
-      user.sui_hei_puzzles_aggregate.aggregate.count,
+      user.puzzles_aggregate &&
+      user.puzzles_aggregate.aggregate &&
+      user.puzzles_aggregate.aggregate.count,
     dialogueCount:
-      user.sui_hei_dialogues_aggregate &&
-      user.sui_hei_dialogues_aggregate.aggregate &&
-      user.sui_hei_dialogues_aggregate.aggregate.count,
+      user.dialogues_aggregate &&
+      user.dialogues_aggregate.aggregate &&
+      user.dialogues_aggregate.aggregate.count,
     goodQuestionCount:
       user.good_questions_aggregate &&
       user.good_questions_aggregate.aggregate &&
@@ -39,18 +39,18 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
       user.true_answers_aggregate.aggregate &&
       user.true_answers_aggregate.aggregate.count,
     commentCount:
-      user.sui_hei_comments_aggregate &&
-      user.sui_hei_comments_aggregate.aggregate &&
-      user.sui_hei_comments_aggregate.aggregate.count,
+      user.comments_aggregate &&
+      user.comments_aggregate.aggregate &&
+      user.comments_aggregate.aggregate.count,
     starCount:
-      user.sui_hei_stars_aggregate &&
-      user.sui_hei_stars_aggregate.aggregate &&
-      user.sui_hei_stars_aggregate.aggregate.count,
+      user.stars_aggregate &&
+      user.stars_aggregate.aggregate &&
+      user.stars_aggregate.aggregate.count,
     starSum:
-      user.sui_hei_stars_aggregate &&
-      user.sui_hei_stars_aggregate.aggregate &&
-      user.sui_hei_stars_aggregate.aggregate.sum &&
-      user.sui_hei_stars_aggregate.aggregate.sum.value,
+      user.stars_aggregate &&
+      user.stars_aggregate.aggregate &&
+      user.stars_aggregate.aggregate.sum &&
+      user.stars_aggregate.aggregate.sum.value,
     recvCommentCount:
       user.received_comments_aggregate &&
       user.received_comments_aggregate.aggregate &&
@@ -184,8 +184,8 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
           </Flex>
           <Flex mx={1} my={2} py={2}>
             <ProfileUserAwards
-              currentUserAward={user.sui_hei_current_useraward}
-              userAwards={user.sui_hei_userawards}
+              currentUserAward={user.current_user_award}
+              userAwards={user.user_awards}
               userId={user.id}
             />
           </Flex>

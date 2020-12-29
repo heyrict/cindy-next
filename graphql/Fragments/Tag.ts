@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { USER_BRIEF_FRAGMENT } from './User';
 
 export const TAG_FRAGMENT = gql`
-  fragment Tag on sui_hei_tag {
+  fragment Tag on tag {
     id
     name
     created
@@ -11,12 +11,12 @@ export const TAG_FRAGMENT = gql`
 `;
 
 export const PUZZLE_TAG_FRAGMENT = gql`
-  fragment PuzzleTag on sui_hei_puzzle_tag {
+  fragment PuzzleTag on puzzle_tag {
     id
-    sui_hei_tag {
+    tag {
       ...Tag
     }
-    sui_hei_user {
+    user {
       ...UserBrief
     }
   }

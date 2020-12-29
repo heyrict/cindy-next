@@ -42,7 +42,7 @@ export const MessageBox = ({
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.sui_hei_user_by_pk) {
+            if (!data || !data.user_by_pk) {
               if (loading) return <Loading centered />;
               return null;
             }
@@ -55,7 +55,7 @@ export const MessageBox = ({
                 >
                   « <FormattedMessage {...commonMessages.back} />
                 </Button>
-                {data.sui_hei_user_by_pk.nickname}
+                {data.user_by_pk.nickname}
               </React.Fragment>
             );
           }}

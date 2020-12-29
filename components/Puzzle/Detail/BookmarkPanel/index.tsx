@@ -59,14 +59,14 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.sui_hei_bookmark_aggregate) {
+            if (!data || !data.bookmark_aggregate) {
               if (loading) return <Loading centered />;
               return null;
             }
             const agg = {
               bookmarkCount:
-                (data.sui_hei_bookmark_aggregate.aggregate &&
-                  data.sui_hei_bookmark_aggregate.aggregate.count) ||
+                (data.bookmark_aggregate.aggregate &&
+                  data.bookmark_aggregate.aggregate.count) ||
                 0,
             };
             return (

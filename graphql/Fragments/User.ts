@@ -1,16 +1,16 @@
 import gql from 'graphql-tag';
 
-import { USERAWARD_FRAGMENT } from './UserAward';
+import { USER_AWARD_FRAGMENT } from './UserAward';
 
 export const USER_BRIEF_FRAGMENT = gql`
-  fragment UserBrief on sui_hei_user {
+  fragment UserBrief on user {
     id
     icon
     nickname
     username
-    sui_hei_current_useraward {
+    current_user_award {
       ...UserAward
     }
   }
-  ${USERAWARD_FRAGMENT}
+  ${USER_AWARD_FRAGMENT}
 `;

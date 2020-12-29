@@ -28,11 +28,11 @@ const puzzle = {
   anonymous: false,
   created: '2019-01-01T06:00:00Z',
   modified: '2019-01-02T06:00:00Z',
-  sui_hei_user: {
+  user: {
     id: 1,
     nickname: 'Foo',
   },
-  sui_hei_stars_aggregate: {
+  stars_aggregate: {
     aggregate: {
       count: 2,
       sum: {
@@ -40,17 +40,17 @@ const puzzle = {
       },
     },
   },
-  sui_hei_comments_aggregate: {
+  comments_aggregate: {
     aggregate: {
       count: 1,
     },
   },
-  sui_hei_bookmarks_aggregate: {
+  bookmarks_aggregate: {
     aggregate: {
       count: 4,
     },
   },
-  sui_hei_dialogues_aggregate: {
+  dialogues_aggregate: {
     aggregate: {
       count: 34,
     },

@@ -58,7 +58,7 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
               </Heading>
             );
           }
-          if (!data || !data.sui_hei_tag_by_pk) {
+          if (!data || !data.tag_by_pk) {
             return (
               <Heading>
                 <FormattedMessage {...tagMessages.header} />
@@ -70,7 +70,7 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
               <Head>
                 <title key="title">
                   {_(tagMessages.titleWithName, {
-                    name: data.sui_hei_tag_by_pk.name,
+                    name: data.tag_by_pk.name,
                   })}{' '}
                   | Cindy
                 </title>
@@ -78,14 +78,14 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
                   key="description"
                   name="description"
                   content={_(tagMessages.descriptionWithName, {
-                    name: data.sui_hei_tag_by_pk.name,
+                    name: data.tag_by_pk.name,
                   })}
                 />
               </Head>
               <Heading>
                 <FormattedMessage
                   {...tagMessages.headerWithName}
-                  values={{ name: data.sui_hei_tag_by_pk.name }}
+                  values={{ name: data.tag_by_pk.name }}
                 />
               </Heading>
             </React.Fragment>
@@ -101,13 +101,13 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
           }}
           fetchPolicy="cache-first"
           getItemCount={data =>
-            (data.sui_hei_puzzle_aggregate &&
-              data.sui_hei_puzzle_aggregate.aggregate &&
-              data.sui_hei_puzzle_aggregate.aggregate.count) ||
+            (data.puzzle_aggregate &&
+              data.puzzle_aggregate.aggregate &&
+              data.puzzle_aggregate.aggregate.count) ||
             0
           }
           renderItems={data => {
-            const puzzles = data.sui_hei_puzzle;
+            const puzzles = data.puzzle;
             if (!puzzles) return null;
             return (
               <>

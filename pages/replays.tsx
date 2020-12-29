@@ -34,13 +34,13 @@ const Replays = ({ intl }: { intl: IntlShape }) => {
         <PaginatedQuery<ReplayListQuery, ReplayListQueryVariables>
           query={REPLAY_LIST_QUERY}
           getItemCount={data =>
-            (data.sui_hei_replay_aggregate &&
-              data.sui_hei_replay_aggregate.aggregate &&
-              data.sui_hei_replay_aggregate.aggregate.count) ||
+            (data.replay_aggregate &&
+              data.replay_aggregate.aggregate &&
+              data.replay_aggregate.aggregate.count) ||
             0
           }
           renderItems={data => {
-            const replays = data.sui_hei_replay;
+            const replays = data.replay;
             if (!replays) return null;
             return (
               <>
