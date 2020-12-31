@@ -24,7 +24,7 @@
     "start:next": "NODE_ENV=production next start",
     "extract-intl": "NODE_ENV=development babel-node --extensions .js,.ts scripts/extract-intl.js",
     "export-schema": "gq http://localhost:8000/graphql -H \"X-Cindy-Admin-Secret: $ADMIN_SECRET\" --introspect > generated/schema.graphql; echo \"const typeDefs=\\``cat generated/schema.graphql`\\`;\nexport default typeDefs;\" > generated/typeDefs.js",
-    "export-graphql-types": "apollo codegen:generate -c ./apollo.hasura.config.js --target typescript generated",
+    "export-graphql-types": "apollo codegen:generate -c ./apollo.config.js --target typescript generated",
     "clean-graphql-types": "rm -r `find graphql -name generated`",
     "test": "jest",
     "test:watch": "jest --watch",

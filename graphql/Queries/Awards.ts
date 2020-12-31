@@ -28,25 +28,3 @@ export const AWARDS_INFO_QUERY = gql`
     }
   }
 `;
-
-/* Deprecated
-export const PUZZLE_GENRE_GROUPS_QUERY = gql`
-  query PuzzleGenreGroupsQuery($userId: Int!) {
-    user_puzzle_genre_groups(args: { userId: $userId }) {
-      group
-      value
-    }
-  }
-`;
-*/
-
-/* Deprecated
-export const PUZZLE_STAR_COUNT_GROUPS_QUERY = gql`
-  query PuzzleStarCountGroupsQuery($userId: Int!) {
-    user_star_groups(args: { userId: $userId }) {
-      group
-      value
-    }
-  }
-`;
-*/

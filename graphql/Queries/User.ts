@@ -76,15 +76,3 @@ export const USER_LIST_QUERY = gql`
   }
   ${USER_BRIEF_FRAGMENT}
 `;
-
-/* DEPRECATED
-export const USER_LAST_READ_DM_QUERY = gql`
-  query UserLastReadDmQuery($id: Int!) {
-    user(id: $id) {
-      id
-      last_read_dm_id
-    }
-  }
-  ${USER_BRIEF_FRAGMENT}
-`;
-*/

@@ -31,19 +31,3 @@ export const CHANGE_HIDE_BOOKMARK_MUTATION = gql`
     }
   }
 `;
-
-/* DEPRECATED
-export const SET_LAST_READ_DM_MUTATION = gql`
-  mutation SetLastReadDmMutation($userId: Int!, $directMessageId: Int!) {
-    update_user(
-      _set: { last_read_dm_id: $directMessageId }
-      where: { id: { _eq: $userId } }
-    ) {
-      returning {
-        id
-        last_read_dm_id
-      }
-    }
-  }
-`;
-*/

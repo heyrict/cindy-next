@@ -189,24 +189,6 @@ export const PROFILE_FOOTPRINTS_QUERY = gql`
   ${PUZZLE_AGGREGATE_FRAGMENT}
 `;
 
-/* DEPRECATED
-export const YAMI_PUZZLE_COUNT_QUERY = gql`
-  query YamiPuzzleCountQuery($userId: Int!) {
-    puzzle(
-      where: { yami: { _ne: 0 }, user_id: { _eq: $userId } }
-      order_by: { dialogues_aggregate: { count: desc } }
-      limit: 1
-    ) {
-      dialogues_aggregate {
-        aggregate {
-          count
-        }
-      }
-    }
-  }
-`;
-*/
-
 export const PUZZLE_JUMP_BUTTONS_QUERY = gql`
   query PuzzleJumpButtonsQuery($puzzleId: Int!) {
     prev_puzzle: puzzles(

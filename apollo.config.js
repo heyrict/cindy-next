@@ -6,6 +6,7 @@ module.exports = {
     },
     includes: [
       './graphql/Fragments/**',
+      './graphql/Subscriptions/**',
       './graphql/Mutations/**',
       './graphql/Queries/**',
     ],
