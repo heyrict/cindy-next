@@ -11,7 +11,7 @@ export const ADD_PUZZLE_MUTATION = gql`
     $solution: String!
     $anonymous: Boolean!
     $grotesque: Boolean!
-    $dazedOn: DateTime!
+    $dazedOn: NaiveDate
   ) {
     createPuzzle(
       data: {
@@ -53,7 +53,7 @@ export const EDIT_MEMO_MUTATION = gql`
 `;
 
 export const UPDATE_PUZZLE_DAZED_ON_MUTATION = gql`
-  mutation UpdatePuzzleDazedOnMutation($dazedOn: date, $puzzleId: Int!) {
+  mutation UpdatePuzzleDazedOnMutation($dazedOn: NaiveDate, $puzzleId: Int!) {
     updatePuzzle(id: $puzzleId, set: { dazedOn: $dazedOn }) {
       id
       dazedOn

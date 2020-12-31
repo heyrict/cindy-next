@@ -26,24 +26,6 @@ export const PUZZLE_SOLUTION_QUERY = gql`
   }
 `;
 
-/*
-export const PUZZLE_REPLAY_INFO_QUERY = gql`
-  query PuzzleReplayInfoQuery($id: Int!) {
-    puzzle(id: $id) {
-      id
-      ...PuzzleShared
-      content
-      solution
-      dialogues(order_by: { id: asc }) {
-        ...DialogueShared
-      }
-    }
-  }
-  ${PUZZLE_SHARED_FRAGMENT}
-  ${DIALOGUE_SHARED_FRAGMENT}
-`;
-*/
-
 export const PUZZLES_UNSOLVED_QUERY = gql`
   query PuzzlesUnsolvedQuery {
     puzzles(order: { modified: DESC }, filter: { status: { eq: UNDERGOING } }) {
@@ -60,7 +42,7 @@ export const PUZZLES_SOLVED_QUERY = gql`
   query PuzzlesSolvedQuery($limit: Int, $offset: Int) {
     puzzles(
       order: { modified: DESC }
-      filter: { status: { neAll: [UNDERGOING, FORCEHIDDEN] } }
+      filter: { status: { neAll: [UNDERGOING, FORCE_HIDDEN] } }
       limit: $limit
       offset: $offset
     ) @connection(key: "puzzles", filter: ["order", "filter"]) {
