@@ -45,58 +45,16 @@ const PuzzleDialoguesUserDeduplicator = ({
             toast.error(error.message);
             return null;
           }
-          if (!data || !data.user) {
+          if (!data || !data.puzzleParticipants) {
             if (loading) return <Loading centered />;
             return null;
           }
-          const filterUsers = data.user.map(user => ({
-            id: user.id,
-            nickname: user.nickname,
-            dialogueCount:
-              (user.dialogues_aggregate.aggregate &&
-                user.dialogues_aggregate.aggregate.count) ||
-              undefined,
-          }));
           return (
-            <Query<
-              PuzzleUniqueParticipantsQuery,
-              PuzzleUniqueParticipantsQueryVariables
-            >
-              query={PUZZLE_UNIQUE_PARTICIPANTS_QUERY}
-              variables={{
-                puzzleId,
-                dialogueTrue: true,
-              }}
-              fetchPolicy="cache-first"
-            >
-              {({ error, data }) => {
-                if (error) {
-                  toast.error(error.message);
-                  return null;
-                }
-                let filterUsersWithTrue = filterUsers;
-                if (data && data.user) {
-                  filterUsersWithTrue = filterUsers.map(user => {
-                    const withTrueUser = data.user.find(u => u.id === user.id);
-                    if (!withTrueUser) return user;
-                    return {
-                      ...user,
-                      dialogueHasTrue: Boolean(
-                        withTrueUser.dialogues_aggregate.aggregate &&
-                          withTrueUser.dialogues_aggregate.aggregate.count,
-                      ),
-                    };
-                  });
-                }
-                return (
-                  <UserFilterSwitcher
-                    activeUserId={userFilterId}
-                    users={filterUsersWithTrue}
-                    onClick={setUserFilterId}
-                  />
-                );
-              }}
-            </Query>
+            <UserFilterSwitcher
+              activeUserId={userFilterId}
+              users={data.puzzleParticipants}
+              onClick={setUserFilterId}
+            />
           );
         }}
       </Query>

@@ -8,7 +8,7 @@ lgr = logging.Logger(__name__)
 MARK_DAZED_PUZZZLES_MUTATION = '''
 mutation($date: date!) {
   update_puzzle(
-    where: { dazed_on: { _lte: $date }, status: { _eq: 0 } }
+    where: { dazedOn: { _lte: $date }, status: { _eq: 0 } }
     _set: { status: 2 }
   ) {
     returning {

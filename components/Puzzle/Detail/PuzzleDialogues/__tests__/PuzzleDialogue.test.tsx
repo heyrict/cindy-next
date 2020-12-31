@@ -40,7 +40,7 @@ describe('<PuzzleDialogue />', () => {
         dialogue: {
           ...defaultProps.dialogue,
           answer: '',
-          answeredtime: null,
+          answeredTime: null,
         },
       };
       node = shallow(<PuzzleDialogue {...propsWithAnsweredDialogue} />);

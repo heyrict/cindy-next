@@ -23,7 +23,7 @@ import {
   PuzzlePageTagsQuery,
   PuzzlePageTagsQueryVariables,
 } from 'graphql/Queries/generated/PuzzlePageTagsQuery';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -47,7 +47,7 @@ const PuzzleTagBubble = ({
         <Mutation<DeletePuzzleTagMutation, DeletePuzzleTagMutationVariables>
           mutation={DELETE_PUZZLE_TAG_MUTATION}
           update={(proxy, { data }) => {
-            if (!data || !data.delete_puzzle_tag) return null;
+            if (!data || !data.deletePuzzleTag) return null;
             const prevData = proxy.readQuery<
               PuzzlePageTagsQuery,
               PuzzlePageTagsQueryVariables
@@ -62,7 +62,7 @@ const PuzzleTagBubble = ({
                 variables: { puzzleId },
                 data: {
                   ...prevData,
-                  puzzle_tag: prevData.puzzle_tag.filter(
+                  puzzleTags: prevData.puzzleTags.filter(
                     pt => pt.id !== puzzleTag.id,
                   ),
                 },
@@ -100,9 +100,9 @@ const PuzzleTagBubble = ({
                               puzzleTagId: puzzleTag.id,
                             },
                             optimisticResponse: {
-                              delete_puzzle_tag: {
-                                __typename: 'puzzle_tag_mutation_response',
-                                affected_rows: 1,
+                              deletePuzzleTag: {
+                                __typename: 'PuzzleTag',
+                                id: puzzleTag.id,
                               },
                             },
                           })

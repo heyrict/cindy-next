@@ -21,7 +21,7 @@ import {
   AddBookmarkMutation,
   AddBookmarkMutationVariables,
 } from 'graphql/Mutations/generated/AddBookmarkMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 import {
   PreviousBookmarkValueQuery,
   PreviousBookmarkValueQueryVariables,
@@ -68,12 +68,12 @@ const BookmarkPopupContent = ({
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.bookmark) {
+            if (!data || !data.bookmarks) {
               if (loading) return <Loading centered />;
               return null;
             }
             const initialValue =
-              data.bookmark.length === 0 ? 0 : data.bookmark[0].value;
+              data.bookmarks.length === 0 ? 0 : data.bookmarks[0].value;
             return (
               <>
                 <Box width={1} pr={1}>
@@ -86,13 +86,8 @@ const BookmarkPopupContent = ({
                 <Mutation<AddBookmarkMutation, AddBookmarkMutationVariables>
                   mutation={ADD_BOOKMARK_MUTATION}
                   update={(proxy, { data }) => {
-                    if (
-                      !data ||
-                      !data.insert_bookmark ||
-                      data.insert_bookmark.returning.length === 0
-                    )
-                      return;
-                    const newBookmark = data.insert_bookmark.returning[0];
+                    if (!data || !data.createBookmark) return;
+                    const newBookmark = data.createBookmark;
                     proxy.writeQuery<
                       PreviousBookmarkValueQuery,
                       PreviousBookmarkValueQueryVariables
@@ -103,7 +98,7 @@ const BookmarkPopupContent = ({
                         userId: userId as number,
                       },
                       data: {
-                        bookmark: [{ ...newBookmark }],
+                        bookmarks: [{ ...newBookmark }],
                       },
                     });
                   }}
@@ -126,18 +121,13 @@ const BookmarkPopupContent = ({
                                 value,
                               },
                               optimisticResponse: {
-                                insert_bookmark: {
-                                  __typename: 'bookmark_mutation_response',
-                                  returning: [
-                                    {
-                                      __typename: 'bookmark',
-                                      id:
-                                        data.bookmark.length > 0
-                                          ? data.bookmark[0].id
-                                          : -1,
-                                      value,
-                                    },
-                                  ],
+                                createBookmark: {
+                                  __typename: 'Bookmark',
+                                  id:
+                                    data.bookmarks.length > 0
+                                      ? data.bookmarks[0].id
+                                      : -1,
+                                  value,
                                 },
                               },
                             })

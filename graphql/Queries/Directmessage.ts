@@ -1,3 +1,5 @@
+export default {};
+/*
 import gql from 'graphql-tag';
 
 import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
@@ -42,3 +44,4 @@ export const DIRECT_MESSAGE_GROUP_MESSAGES_QUERY = gql`
   }
   ${DIRECT_MESSAGE_FRAGMENT}
 `;
+*/

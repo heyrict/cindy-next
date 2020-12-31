@@ -26,7 +26,7 @@ import {
   DialogueHintQuery,
   DialogueHintQueryVariables,
 } from 'graphql/Queries/generated/DialogueHintQuery';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 import {
   ActionContentType,
   SendMessageTriggerType,
@@ -110,12 +110,7 @@ const AddQuestionInput = ({
     <Mutation<AddQuestionMutation, AddQuestionMutationVariables>
       mutation={ADD_QUESTION_MUTATION}
       update={(cache, { data }) => {
-        if (
-          !data ||
-          !data.insert_dialogue ||
-          data.insert_dialogue.returning.length !== 1
-        )
-          return;
+        if (!data || !data.createDialogue) return;
         const prevDialogueHints = cache.readQuery<
           DialogueHintQuery,
           DialogueHintQueryVariables
@@ -127,8 +122,8 @@ const AddQuestionInput = ({
           },
         });
         if (!prevDialogueHints) return;
-        const { hint, dialogue } = prevDialogueHints;
-        const newItem = data.insert_dialogue.returning[0];
+        const { puzzleLogs } = prevDialogueHints;
+        const newItem = data.createDialogue;
         if (newItem.id === -1) {
           cache.writeQuery({
             query: DIALOGUE_HINT_QUERY,
@@ -137,8 +132,7 @@ const AddQuestionInput = ({
               userId,
             },
             data: {
-              hint,
-              dialogue: [...dialogue, newItem],
+              puzzleLogs: [...puzzleLogs, newItem],
             },
           });
         } else {
@@ -150,8 +144,7 @@ const AddQuestionInput = ({
               userId,
             },
             data: {
-              hint,
-              dialogue: upsertItem(dialogue, newItem),
+              puzzleLogs: upsertItem(puzzleLogs, newItem),
             },
           });
         }
@@ -172,31 +165,26 @@ const AddQuestionInput = ({
                   puzzleId,
                 },
                 optimisticResponse: {
-                  insert_dialogue: {
-                    __typename: 'dialogue_mutation_response',
-                    returning: [
-                      {
-                        __typename: 'dialogue',
-                        id: -1,
-                        qno: -1,
-                        good: false,
-                        true: false,
-                        question: content,
-                        questionEditTimes: 0,
-                        answer: '',
-                        answerEditTimes: 0,
-                        created: Date.now(),
-                        answeredtime: null,
-                        user: {
-                          __typename: 'user',
-                          id: -1,
-                          icon: null,
-                          nickname: '...',
-                          username: '...',
-                          current_user_award: null,
-                        },
-                      },
-                    ],
+                  createDialogue: {
+                    __typename: 'Dialogue',
+                    id: -1,
+                    qno: -1,
+                    good: false,
+                    true: false,
+                    question: content,
+                    questionEditTimes: 0,
+                    answer: '',
+                    answerEditTimes: 0,
+                    created: Date.now(),
+                    answeredTime: null,
+                    user: {
+                      __typename: 'User',
+                      id: -1,
+                      icon: null,
+                      nickname: '...',
+                      username: '...',
+                      currentAward: null,
+                    },
                   },
                 },
               });

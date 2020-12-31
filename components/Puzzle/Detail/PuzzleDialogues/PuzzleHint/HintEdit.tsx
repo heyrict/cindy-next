@@ -15,7 +15,7 @@ import {
   EditHintMutation,
   EditHintMutationVariables,
 } from 'graphql/Mutations/generated/EditHintMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 
 const HintEdit = ({ hint, setEdit }: HintEditProps) => {
   const [text, setText] = useState(hint.content);
@@ -65,15 +65,10 @@ const HintEdit = ({ hint, setEdit }: HintEditProps) => {
                       content: newHint,
                     },
                     optimisticResponse: {
-                      update_hint: {
-                        __typename: 'hint_mutation_response',
-                        returning: [
-                          {
-                            __typename: 'hint',
-                            ...hint,
-                            content: newHint,
-                          },
-                        ],
+                      updateHint: {
+                        __typename: 'Hint',
+                        ...hint,
+                        content: newHint,
                       },
                     },
                   })

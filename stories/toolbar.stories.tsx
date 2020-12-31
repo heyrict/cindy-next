@@ -21,7 +21,7 @@ import { IntlProvider } from 'react-intl';
 
 import ToolbarBox from 'components/Layout/ToolbarBox';
 import Toolbar from 'components/Toolbar';
-import ApolloClient from 'apollo-client';
+import ApolloClient from '@apollo/client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { GlobalUserType } from 'reducers/types';

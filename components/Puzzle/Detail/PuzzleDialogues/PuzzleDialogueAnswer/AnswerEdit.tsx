@@ -27,7 +27,7 @@ import {
   EditAnswerMutation,
   EditAnswerMutationVariables,
 } from 'graphql/Mutations/generated/EditAnswerMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 import { StateType, SendMessageTriggerType } from 'reducers/types';
 
 const AnswerEdit = ({
@@ -35,7 +35,7 @@ const AnswerEdit = ({
   goodAns,
   trueAns,
   dialogueId,
-  answeredtime,
+  answeredTime,
   setMode,
   puzzleStatus,
   sendAnswerTrigger,
@@ -77,22 +77,16 @@ const AnswerEdit = ({
                 answer: newAnswer,
                 good: goodSwitch,
                 true: trueSwitch,
-                increaseEditTimes: answer === '' ? 0 : 1,
               },
               optimisticResponse: {
-                update_dialogue: {
-                  __typename: 'dialogue_mutation_response',
-                  returning: [
-                    {
-                      __typename: 'dialogue',
-                      id: dialogueId,
-                      answer: newAnswer,
-                      good: goodSwitch,
-                      true: trueSwitch,
-                      answerEditTimes: answer === '' ? 0 : 1,
-                      answeredtime,
-                    },
-                  ],
+                updateDialogue: {
+                  __typename: 'Dialogue',
+                  id: dialogueId,
+                  answer: newAnswer,
+                  good: goodSwitch,
+                  true: trueSwitch,
+                  answerEditTimes: answer === '' ? 0 : 1,
+                  answeredTime,
                 },
               },
             })

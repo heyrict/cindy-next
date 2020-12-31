@@ -68,11 +68,11 @@ const Comment = ({ count, puzzleId }: CommentProps) => {
                 toast.error(error.message);
                 return null;
               }
-              if (!data || !data.puzzle_by_pk) {
+              if (!data || !data.puzzle) {
                 if (loading) return <Loading centered />;
                 return null;
               }
-              const puzzle = data.puzzle_by_pk;
+              const puzzle = data.puzzle;
               return (
                 <Flex width={1} flexDirection="column">
                   <Box textAlign="center" fontSize="0.8em" width={1}>

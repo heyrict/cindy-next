@@ -69,15 +69,10 @@ const SolutionEditPanel = ({
                       solution: newSolution,
                     },
                     optimisticResponse: {
-                      update_puzzle: {
-                        __typename: 'puzzle_mutation_response',
-                        returning: [
-                          {
-                            __typename: 'puzzle',
-                            id: puzzleId,
-                            solution: newSolution,
-                          },
-                        ],
+                      updatePuzzle: {
+                        __typename: 'Puzzle',
+                        id: puzzleId,
+                        solution: newSolution,
                       },
                     },
                   })

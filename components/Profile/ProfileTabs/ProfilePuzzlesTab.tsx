@@ -11,26 +11,21 @@ import {
   ProfilePuzzlesQuery,
   ProfilePuzzlesQueryVariables,
 } from 'graphql/Queries/generated/ProfilePuzzlesQuery';
-import { order_by } from 'generated/globalTypes';
+import { Ordering } from 'generated/globalTypes';
 
 const ProfilePuzzlesTab = ({ userId }: ProfilePuzzlesTabProps) => (
   <PaginatedQuery<ProfilePuzzlesQuery, ProfilePuzzlesQueryVariables>
     query={PROFILE_PUZZLES_QUERY}
     variables={{
       userId,
-      orderBy: [{ id: order_by.desc }],
+      orderBy: [{ id: Ordering.DESC }],
     }}
-    getItemCount={data =>
-      (data.puzzle_aggregate &&
-        data.puzzle_aggregate.aggregate &&
-        data.puzzle_aggregate.aggregate.count) ||
-      0
-    }
+    getItemCount={data => data.puzzleCount}
     renderItems={data => {
-      if (!data.puzzle) return null;
+      if (!data.puzzles) return null;
       return (
         <>
-          {data.puzzle.map(puzzle => (
+          {data.puzzles.map(puzzle => (
             <MultiColBox key={puzzle.id}>
               <PuzzleBrief puzzle={puzzle} />
             </MultiColBox>

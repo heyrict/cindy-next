@@ -3,28 +3,18 @@ import gql from 'graphql-tag';
 import { CHATMESSAGE_FRAGMENT } from '../Fragments/Chat';
 
 export const CHATROOM_SEND_MESSAGE_MUTATION = gql`
-  mutation ChatroomSendMessage($content: String, $chatroomId: Int) {
-    insert_chatmessage(
-      objects: [{ chatroom_id: $chatroomId, content: $content }]
-    ) {
-      returning {
-        ...Chatmessage
-      }
+  mutation ChatroomSendMessage($content: String!, $chatroomId: Int!) {
+    createChatmessage(data: { chatroomId: $chatroomId, content: $content }) {
+      ...Chatmessage
     }
   }
   ${CHATMESSAGE_FRAGMENT}
 `;
 
 export const CHATROOM_EDIT_MESSAGE_MUTATION = gql`
-  mutation ChatroomEditMessage($chatmessageId: Int, $content: String) {
-    update_chatmessage(
-      _inc: { editTimes: 1 }
-      _set: { content: $content }
-      where: { id: { _eq: $chatmessageId } }
-    ) {
-      returning {
-        ...Chatmessage
-      }
+  mutation ChatroomEditMessage($chatmessageId: Int!, $content: String) {
+    updateChatmessage(id: $chatmessageId, set: { content: $content }) {
+      ...Chatmessage
     }
   }
   ${CHATMESSAGE_FRAGMENT}
@@ -32,33 +22,29 @@ export const CHATROOM_EDIT_MESSAGE_MUTATION = gql`
 
 export const INSERT_FAVORITE_CHATROOM_MUTATION = gql`
   mutation InsertFavoriteChatroomMutation($chatroomId: Int!) {
-    insert_favorite_chatroom(objects: [{ chatroom_id: $chatroomId }]) {
-      returning {
+    createFavchat(data: { chatroomId: $chatroomId }) {
+      id
+      chatroom {
         id
-        chatroom {
-          id
-          name
-        }
+        name
       }
     }
   }
 `;
 
 export const DELETE_FAVORITE_CHATROOM_MUTATION = gql`
-  mutation DeleteFavoriteChatroomMutation($favoriteChatroomId: Int!) {
-    delete_favorite_chatroom(where: { id: { _eq: $favoriteChatroomId } }) {
-      affected_rows
+  mutation DeleteFavoriteChatroomMutation($favchatId: Int!) {
+    deleteFavchat(id: $favchatId) {
+      id
     }
   }
 `;
 
 export const CREATE_CHATROOM_MUTATION = gql`
   mutation CreateChatroomMutation($name: String!, $description: String!) {
-    insert_chatroom(objects: [{ name: $name, description: $description }]) {
-      returning {
-        id
-        name
-      }
+    createChatroom(data: { name: $name, description: $description }) {
+      id
+      name
     }
   }
 `;
@@ -68,14 +54,9 @@ export const UPDATE_CHATROOM_DESCRIPTION_MUTATION = gql`
     $chatroomId: Int!
     $description: String!
   ) {
-    update_chatroom(
-      where: { id: { _eq: $chatroomId } }
-      _set: { description: $description }
-    ) {
-      returning {
-        id
-        description
-      }
+    updateChatroom(id: $chatroomId, set: { description: $description }) {
+      id
+      description
     }
   }
 `;

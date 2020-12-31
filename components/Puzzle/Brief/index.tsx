@@ -24,7 +24,6 @@ import Process from './Process';
 import Star from './Star';
 import Status from './Status';
 import Yami from './Yami';
-import NewQuestion from './NewQuestion';
 import PuzzlePane from './PuzzlePane';
 
 import { PuzzleBriefProps } from './types';
@@ -57,57 +56,20 @@ export const PuzzleBrief = ({
   starSum,
   commentCount,
   dialogueCount,
-  dialogueMaxAnsweredtime,
-  dialogueMaxCreated,
+  dialogueNewCount,
+  dialogueMaxAnsweredTime,
   showGenreImage,
 }: PuzzleBriefProps) => {
   const aggregates = {
-    bookmarkCount:
-      bookmarkCount ||
-      (puzzle.bookmarks_aggregate &&
-        puzzle.bookmarks_aggregate.aggregate &&
-        puzzle.bookmarks_aggregate.aggregate.count),
-    commentCount:
-      commentCount ||
-      (puzzle.comments_aggregate &&
-        puzzle.comments_aggregate.aggregate &&
-        puzzle.comments_aggregate.aggregate.count),
-    starCount:
-      starCount ||
-      (puzzle.stars_aggregate &&
-        puzzle.stars_aggregate.aggregate &&
-        puzzle.stars_aggregate.aggregate.count),
-    starSum:
-      starSum ||
-      (puzzle.stars_aggregate &&
-        puzzle.stars_aggregate.aggregate &&
-        puzzle.stars_aggregate.aggregate.sum &&
-        puzzle.stars_aggregate.aggregate.sum.value),
-    dialogueCount:
-      dialogueCount ||
-      (puzzle.dialogues_aggregate &&
-        puzzle.dialogues_aggregate.aggregate &&
-        puzzle.dialogues_aggregate.aggregate.count),
-    dialogueMaxAnsweredtime:
-      dialogueMaxAnsweredtime ||
-      (puzzle.dialogues_aggregate &&
-        puzzle.dialogues_aggregate.aggregate &&
-        puzzle.dialogues_aggregate.aggregate.max &&
-        puzzle.dialogues_aggregate.aggregate.max.answeredtime),
-    dialogueMaxCreatedtime:
-      dialogueMaxCreated ||
-      (puzzle.dialogues_aggregate &&
-        puzzle.dialogues_aggregate.aggregate &&
-        puzzle.dialogues_aggregate.aggregate.max &&
-        puzzle.dialogues_aggregate.aggregate.max.created),
+    bookmarkCount: bookmarkCount || puzzle.bookmarkCount,
+    commentCount: commentCount || puzzle.commentCount,
+    starCount: starCount || puzzle.starCount,
+    starSum: starSum || puzzle.starSum,
+    dialogueCount: dialogueCount || puzzle.dialogueCount,
+    dialogueNewCount: dialogueNewCount || puzzle.dialogueNewCount,
+    dialogueMaxAnsweredTime:
+      dialogueMaxAnsweredTime || puzzle.dialogueMaxAnsweredTime,
   };
-
-  const shouldShowNewQuestion =
-    (aggregates.dialogueMaxCreatedtime &&
-      !aggregates.dialogueMaxAnsweredtime) ||
-    (aggregates.dialogueMaxCreatedtime &&
-      aggregates.dialogueMaxAnsweredtime &&
-      aggregates.dialogueMaxCreatedtime > aggregates.dialogueMaxAnsweredtime);
 
   return (
     <PuzzlePane
@@ -140,7 +102,7 @@ export const PuzzleBrief = ({
             </Link>
           </Box>
         )}
-        {aggregates.dialogueMaxAnsweredtime && (
+        {aggregates.dialogueMaxAnsweredTime && (
           <Time width={1}>
             <FormattedMessage {...messages.lastupdate} />:{' '}
             <FormattedRelativeTime
@@ -148,7 +110,7 @@ export const PuzzleBrief = ({
               numeric="auto"
               updateIntervalInSeconds={15}
               value={
-                (Date.parse(aggregates.dialogueMaxAnsweredtime as string) -
+                (Date.parse(aggregates.dialogueMaxAnsweredTime as string) -
                   Date.now()) /
                 1000
               }
@@ -181,9 +143,11 @@ export const PuzzleBrief = ({
         <Flex p={1} flexWrap="wrap" alignItems="center">
           {puzzle.status !== 0 && puzzle.anonymous && <Anonymous />}
           <Status status={puzzle.status} />
-          {shouldShowNewQuestion && <NewQuestion />}
           {typeof aggregates.dialogueCount === 'number' && (
-            <Process count={aggregates.dialogueCount} />
+            <Process
+              count={aggregates.dialogueCount}
+              newCount={aggregates.dialogueNewCount}
+            />
           )}
           {typeof aggregates.starCount === 'number' &&
             aggregates.starCount > 0 &&

@@ -210,7 +210,7 @@ const MessageGroupChatInner = ({
                         icon: user.icon,
                         nickname: user.nickname || '...',
                         username: user.username || '...',
-                        current_user_award: null,
+                        currentAward: null,
                       },
                       receiver: {
                         __typename: 'user',
@@ -218,7 +218,7 @@ const MessageGroupChatInner = ({
                         icon: user.icon,
                         nickname: '...',
                         username: '...',
-                        current_user_award: null,
+                        currentAward: null,
                       },
                     },
                   ],

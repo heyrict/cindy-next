@@ -26,8 +26,8 @@ const AllAwardsWithUser = ({
     variables={{ userId }}
     fetchPolicy="cache-and-network"
     onCompleted={data => {
-      if (!data.user_by_pk) return;
-      const user = data.user_by_pk;
+      if (!data.user) return;
+      const user = data.user;
       initAwardCount({
         puzzles:
           (user.puzzles_aggregate &&
@@ -53,7 +53,7 @@ const AllAwardsWithUser = ({
     }}
   >
     {({ loading, data, error }) => {
-      if (!data || !data.user_by_pk) {
+      if (!data || !data.user) {
         if (loading) return <Loading centered />;
         return <AllAwards />;
       }
@@ -61,7 +61,7 @@ const AllAwardsWithUser = ({
         toast.error(error.message);
         return null;
       }
-      return <AllAwards userInfo={data.user_by_pk} />;
+      return <AllAwards userInfo={data.user} />;
     }}
   </Query>
 );

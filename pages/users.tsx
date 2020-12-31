@@ -33,14 +33,9 @@ const Users = ({ intl }: { intl: IntlShape }) => {
           query={USER_LIST_QUERY}
           variables={{ limit: 20 }}
           fetchPolicy="cache-first"
-          getItemCount={data =>
-            (data.user_aggregate &&
-              data.user_aggregate.aggregate &&
-              data.user_aggregate.aggregate.count) ||
-            0
-          }
+          getItemCount={data => data.userCount}
           renderItems={data => {
-            const users = data.user;
+            const { users } = data;
             if (!users) return null;
             return (
               <>

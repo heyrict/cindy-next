@@ -14,7 +14,7 @@ import {
   ChangeCurrentUserawardMutation,
   ChangeCurrentUserawardMutationVariables,
 } from 'graphql/Mutations/generated/ChangeCurrentUserawardMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 
 const UserAwardsEdit = ({
   setEdit,
@@ -44,15 +44,10 @@ const UserAwardsEdit = ({
                   userawardId: null,
                 },
                 optimisticResponse: {
-                  update_user: {
-                    __typename: 'user_mutation_response',
-                    returning: [
-                      {
-                        __typename: 'user',
-                        id: userId,
-                        current_user_award: null,
-                      },
-                    ],
+                  updateUser: {
+                    __typename: 'User',
+                    id: userId,
+                    currentAward: null,
                   },
                 },
               })
@@ -100,7 +95,7 @@ const UserAwardsEdit = ({
                         {
                           __typename: 'user',
                           id: userId,
-                          current_user_award: userAward,
+                          currentAward: userAward,
                         },
                       ],
                     },

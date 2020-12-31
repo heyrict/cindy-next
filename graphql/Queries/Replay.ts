@@ -1,8 +1,11 @@
+export default {};
+/*
 import gql from 'graphql-tag';
 
 import { REPLAY_SHARED_FRAGMENT } from '../Fragments/Replay';
 import { PUZZLE_SHARED_FRAGMENT } from 'graphql/Fragments/Puzzles';
 
+// DEPRECATED
 export const REPLAY_QUERY = gql`
   query ReplayQuery($id: Int!) {
     replay_by_pk(id: $id) {
@@ -31,6 +34,7 @@ export const REPLAY_QUERY = gql`
   ${PUZZLE_SHARED_FRAGMENT}
 `;
 
+// DEPRECATED
 export const REPLAY_LIST_QUERY = gql`
   query ReplayListQuery($limit: Int, $offset: Int) {
     replay(order_by: { id: desc }, limit: $limit, offset: $offset)
@@ -47,3 +51,4 @@ export const REPLAY_LIST_QUERY = gql`
   }
   ${REPLAY_SHARED_FRAGMENT}
 `;
+*/

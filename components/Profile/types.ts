@@ -65,10 +65,10 @@ export type ProfileUserType = {
   profile: string;
   nickname: string;
   username: string;
-  date_joined: string;
-  last_login?: string;
-  user_awards: Array<UserAward>;
-  current_user_award?: UserAward | null;
+  dateJoined: string;
+  lastLogin?: string;
+  userAwards: Array<UserAward>;
+  currentAward?: UserAward | null;
   puzzles_aggregate?: PuzzlesAggregate | null;
   dialogues_aggregate?: DialoguesAggregate | null;
   good_questions_aggregate?: DialoguesAggregate | null;

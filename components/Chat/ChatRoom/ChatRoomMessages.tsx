@@ -73,11 +73,11 @@ const ChatRoomMessagesBody = ({
     console.log(error);
     return <ErrorReload refetch={refetch} error={error} />;
   }
-  if (!data || !data.chatmessage) {
+  if (!data || !data.chatmessages) {
     if (loading) return <Loading centered />;
     return null;
   }
-  const { chatmessage: chatmessages } = data;
+  const { chatmessages } = data;
 
   const [hasMore, setHasMore] = useState(false);
   useEffect(() => {
@@ -172,7 +172,7 @@ const ChatRoomMessagesBody = ({
                   if (res.error) return <div>Error</div>;
                   if (!res.data) return <div>No messages</div>;
 
-                  const { puzzle_by_pk: relatedPuzzle } = res.data;
+                  const { puzzle: relatedPuzzle } = res.data;
                   if (!relatedPuzzle) return null;
                   if (relatedPuzzle.anonymous && relatedPuzzle.status === 0) {
                     return (

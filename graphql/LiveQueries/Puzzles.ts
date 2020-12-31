@@ -9,7 +9,7 @@ export const PUZZLES_UNSOLVED_LIVEQUERY = gql`
         aggregate {
           count
           max {
-            answeredtime
+            answeredTime
             created
           }
         }

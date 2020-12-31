@@ -24,7 +24,7 @@ import SearchVarSetPanel from 'components/Search/SearchVarSetPanel';
 import SortVarSetPanel from 'components/Search/SortVarSetPanel';
 import PuzzleBrief from 'components/Puzzle/Brief';
 
-import { order_by } from 'generated/globalTypes';
+import { Ordering } from 'generated/globalTypes';
 import {
   SolvedPuzzlesSearchQuery,
   SolvedPuzzlesSearchQueryVariables,
@@ -40,10 +40,9 @@ const Search = ({ intl }: { intl: IntlShape }) => {
     title: null,
     content: null,
     solution: null,
-    userNickname: null,
     genre: null,
     yami: null,
-    orderBy: [{ id: order_by.desc_nulls_last }],
+    orderBy: [{ id: Ordering.desc_nulls_last }],
   } as SearchVariablesStates);
 
   return (
@@ -74,11 +73,6 @@ const Search = ({ intl }: { intl: IntlShape }) => {
               type: FilterFieldTypeEnum.TEXT,
               key: 'solution',
               fieldName: <FormattedMessage {...puzzleMessages.solution} />,
-            },
-            {
-              type: FilterFieldTypeEnum.TEXT,
-              key: 'userNickname',
-              fieldName: <FormattedMessage {...puzzlePageMessages.creator} />,
             },
             {
               type: FilterFieldTypeEnum.SELECT,
@@ -154,7 +148,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
         <SortVarSetPanel
           ref={sortRef}
           initialField="id"
-          defaultValue={[{ id: order_by.desc_nulls_last }]}
+          defaultValue={[{ id: Ordering.desc_nulls_last }]}
           fields={[
             {
               key: 'id',
@@ -213,11 +207,10 @@ const Search = ({ intl }: { intl: IntlShape }) => {
                   newVariables.title = null;
                   newVariables.content = null;
                   newVariables.solution = null;
-                  newVariables.userNickname = null;
                 }
                 if (sortRef.current) {
                   sortRef.current.reset();
-                  newVariables.orderBy = [{ id: order_by.desc_nulls_last }];
+                  newVariables.orderBy = [{ id: Ordering.desc_nulls_last }];
                 }
                 setVariables(newVariables);
               }}
@@ -237,7 +230,6 @@ const Search = ({ intl }: { intl: IntlShape }) => {
                   newVariables.title = asSearch(data.title);
                   newVariables.content = asSearch(data.content);
                   newVariables.solution = asSearch(data.solution);
-                  newVariables.userNickname = asSearch(data.userNickname);
                   newVariables.orderBy = [];
                 }
                 if (sortRef.current) {
@@ -259,14 +251,9 @@ const Search = ({ intl }: { intl: IntlShape }) => {
         >
           query={SOLVED_PUZZLES_SEARCH_QUERY}
           variables={variables}
-          getItemCount={data =>
-            (data.puzzle_aggregate &&
-              data.puzzle_aggregate.aggregate &&
-              data.puzzle_aggregate.aggregate.count) ||
-            0
-          }
+          getItemCount={data => data.puzzleCount}
           renderItems={data => {
-            const puzzles = data.puzzle;
+            const puzzles = data.puzzles;
             if (!puzzles) return null;
             return (
               <>

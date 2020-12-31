@@ -25,7 +25,7 @@ import {
   CreateChatroomMutation,
   CreateChatroomMutationVariables,
 } from 'graphql/Mutations/generated/CreateChatroomMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 
 const ChatroomCreateModal = ({
   chatroomCreateModal,

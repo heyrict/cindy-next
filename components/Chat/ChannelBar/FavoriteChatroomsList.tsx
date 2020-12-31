@@ -30,7 +30,7 @@ const FavoriteChatroomsList = ({
           toast.error(error.message);
           return null;
         }
-        if (!data || !data.favorite_chatroom) {
+        if (!data || !data.favchats) {
           if (loading) return <Loading centered />;
           return null;
         }
@@ -44,7 +44,7 @@ const FavoriteChatroomsList = ({
             >
               <FormattedMessage {...chatMessages.favoriteChatrooms} />
             </Box>
-            {data.favorite_chatroom.map(fc => (
+            {data.favchats.map(fc => (
               <Box
                 key={fc.id}
                 border="2px solid"

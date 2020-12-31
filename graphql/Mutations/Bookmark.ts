@@ -1,18 +1,28 @@
 import gql from 'graphql-tag';
 
 export const ADD_BOOKMARK_MUTATION = gql`
-  mutation AddBookmarkMutation($puzzleId: Int!, $value: smallint!) {
-    insert_bookmark(
-      objects: { puzzle_id: $puzzleId, value: $value }
-      on_conflict: {
-        constraint: sui_hei_bookmark_puzzle_id_user_id_key
-        update_columns: [value]
-      }
-    ) {
-      returning {
-        id
-        value
-      }
+  mutation AddBookmarkMutation($puzzleId: Int!, $value: Int!) {
+    createBookmark(data: { puzzleId: $puzzleId, value: $value }) {
+      id
+      value
+    }
+  }
+`;
+
+// TODO these mutations are created upon splitting the upsert mutation above
+export const UPDATE_BOOKMARK_MUTATION = gql`
+  mutation UpdateBookmarkMutation($id: Int!, $value: Int!) {
+    updateBookmark(id: $id, set: { value: $value }) {
+      id
+      value
+    }
+  }
+`;
+
+export const DELETE_BOOKMARK_MUTATION = gql`
+  mutation DeleteBookmarkMutation($id: Int!) {
+    deleteBookmark(id: $id) {
+      id
     }
   }
 `;

@@ -137,9 +137,9 @@ const Tags = ({ intl }: { intl: IntlShape }) => {
             return <ErrorReload error={error} refetch={refetch} />;
           }
           if (loading) return <Loading centered />;
-          if (!data || !data.tag) return null;
+          if (!data || !data.tags) return null;
 
-          const tags = data.tag;
+          const { tags } = data;
           return (
             <Flex flexWrap="wrap" alignItems="center">
               {tags.map(tag => (
@@ -148,16 +148,14 @@ const Tags = ({ intl }: { intl: IntlShape }) => {
                     <Link href="/tag/[id]" as={`/tag/${tag.id}`} passHref>
                       <ButtonTransparentA p={1} borderRadius={2}>
                         {tag.name}
-                        {tag.puzzle_tags_aggregate.aggregate && (
-                          <Box
-                            display="inline-box"
-                            fontSize="0.8em"
-                            color="green.7"
-                            pl={1}
-                          >
-                            {tag.puzzle_tags_aggregate.aggregate.count}
-                          </Box>
-                        )}
+                        <Box
+                          display="inline-box"
+                          fontSize="0.8em"
+                          color="green.7"
+                          pl={1}
+                        >
+                          {tag.puzzleTagCount}
+                        </Box>
                       </ButtonTransparentA>
                     </Link>
                   </Box>

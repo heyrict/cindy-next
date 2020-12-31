@@ -29,7 +29,7 @@ const PuzzleTags = ({ puzzleId, puzzleUserId, userId }: PuzzleTagsProps) => {
         variables={{ puzzleId }}
       >
         {({ loading, error, data }) => {
-          if (!data || !data.puzzle_tag) {
+          if (!data || !data.puzzleTags) {
             if (loading) return <Loading centered />;
             return null;
           }
@@ -39,7 +39,7 @@ const PuzzleTags = ({ puzzleId, puzzleUserId, userId }: PuzzleTagsProps) => {
           }
           return (
             <React.Fragment>
-              {data.puzzle_tag.map(puzzleTag => (
+              {data.puzzleTags.map(puzzleTag => (
                 <PuzzleTagBubble
                   key={puzzleTag.id}
                   puzzleId={puzzleId}

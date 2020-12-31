@@ -49,11 +49,11 @@ const DescriptionModal = ({
         if (error) {
           toast.error(error.message);
           return null;
-        } else if (!data || !data.chatroom_by_pk) {
+        } else if (!data || !data.chatroom) {
           if (loading) chatroom.description = 'Loading...';
           chatroom.description = 'Fatal Error: No data returned';
         } else {
-          chatroom = data.chatroom_by_pk;
+          chatroom = data.chatroom;
         }
 
         return (

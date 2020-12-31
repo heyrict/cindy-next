@@ -63,8 +63,8 @@ class PuzzleTagInput extends React.PureComponent {
                           toast.error(JSON.stringify(errors));
                           return [];
                         }
-                        if (!data || !data.tag) return [];
-                        return data.tag.map(tag => ({
+                        if (!data || !data.tags) return [];
+                        return data.tags.map(tag => ({
                           id: tag.id,
                           value: tag.name,
                           label: tag.name,

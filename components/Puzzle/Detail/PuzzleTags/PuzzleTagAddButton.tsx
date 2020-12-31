@@ -20,7 +20,7 @@ import {
   AddPuzzleTagMutationVariables,
 } from 'graphql/Mutations/generated/AddPuzzleTagMutation';
 import { PuzzleTagAddButtonProps } from './types';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 import {
   PuzzlePageTagsQuery,
   PuzzlePageTagsQueryVariables,
@@ -42,8 +42,8 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
           <Mutation<AddPuzzleTagByPkMutation, AddPuzzleTagByPkMutationVariables>
             mutation={ADD_PUZZLE_TAG_BY_PK_MUTATION}
             update={(proxy, { data }) => {
-              if (!data || !data.insert_puzzle_tag) return;
-              const newPuzzleTag = data.insert_puzzle_tag.returning;
+              if (!data || !data.createPuzzleTag) return;
+              const newPuzzleTag = data.createPuzzleTag;
               const queryData = proxy.readQuery<
                 PuzzlePageTagsQuery,
                 PuzzlePageTagsQueryVariables
@@ -53,7 +53,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
               });
               if (newPuzzleTag.length === 0) return;
               if (!queryData) return;
-              const { puzzle_tag } = queryData;
+              const { puzzleTags } = queryData;
               proxy.writeQuery<
                 PuzzlePageTagsQuery,
                 PuzzlePageTagsQueryVariables
@@ -62,7 +62,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                 variables: { puzzleId },
                 data: {
                   ...queryData,
-                  puzzle_tag: [...puzzle_tag, newPuzzleTag[0]],
+                  puzzle_tag: [...puzzleTags, newPuzzleTag[0]],
                 },
               });
             }}
@@ -82,7 +82,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                   });
                   if (newPuzzleTag.length === 0) return;
                   if (!queryData) return;
-                  const { puzzle_tag } = queryData;
+                  const { puzzleTags } = queryData;
                   proxy.writeQuery<
                     PuzzlePageTagsQuery,
                     PuzzlePageTagsQueryVariables
@@ -91,7 +91,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                     variables: { puzzleId },
                     data: {
                       ...queryData,
-                      puzzle_tag: [...puzzle_tag, newPuzzleTag[0]],
+                      puzzle_tag: [...puzzleTags, newPuzzleTag[0]],
                     },
                   });
                 }}
@@ -133,7 +133,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                                     icon: null,
                                     nickname: '...',
                                     username: '...',
-                                    current_user_award: null,
+                                    currentAward: null,
                                   },
                                 },
                               ],
@@ -159,29 +159,24 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                             tagId: tag.id,
                           },
                           optimisticResponse: {
-                            insert_puzzle_tag: {
-                              __typename: 'puzzle_tag_mutation_response',
-                              returning: [
-                                {
-                                  __typename: 'puzzle_tag',
-                                  id: -1,
-                                  tag: {
-                                    __typename: 'tag',
-                                    id: tag.id,
-                                    name: tag.value,
-                                    created:
-                                      tag.created || new Date().toISOString(),
-                                  },
-                                  user: {
-                                    __typename: 'user',
-                                    id: -1,
-                                    icon: null,
-                                    nickname: '...',
-                                    username: '...',
-                                    current_user_award: null,
-                                  },
-                                },
-                              ],
+                            createPuzzleTag: {
+                              __typename: 'PuzzleTag',
+                              id: -1,
+                              tag: {
+                                __typename: 'Tag',
+                                id: tag.id,
+                                name: tag.value,
+                                created:
+                                  tag.created || new Date().toISOString(),
+                              },
+                              user: {
+                                __typename: 'User',
+                                id: -1,
+                                icon: null,
+                                nickname: '...',
+                                username: '...',
+                                currentAward: null,
+                              },
                             },
                           },
                         })

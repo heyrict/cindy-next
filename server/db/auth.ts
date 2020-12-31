@@ -34,7 +34,7 @@ export const getClaims = (user: any, reqRole?: CindyRole) => {
   return {
     'x-hasura-role': defaultRole,
     'x-hasura-user-id': `${user.id}`,
-    'cache-control': "max-age=3000",
+    'cache-control': 'max-age=3000',
   };
 };
 

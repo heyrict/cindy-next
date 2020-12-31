@@ -74,20 +74,20 @@ const PuzzlesSolvedRenderer = ({
     }
   }, []);
 
-  if (loading && (!data || !data.puzzle || data.puzzle.length === 0))
+  if (loading && (!data || !data.puzzles || data.puzzles.length === 0))
     return puzzleLoadingPanel;
   if (error) {
     return <ErrorReload error={error} refetch={refetch} />;
   }
-  if (data && data.puzzle) {
+  if (data && data.puzzles) {
     return (
       <React.Fragment>
-        {data.puzzle.map(puzzle => (
+        {data.puzzles.map(puzzle => (
           <MultiColBox key={`puzzle-brief-${puzzle.id}`}>
             <PuzzleBrief puzzle={puzzle} />
           </MultiColBox>
         ))}
-        {data.puzzle.length >= PUZZLES_PER_PAGE && hasMore && (
+        {data.puzzles.length >= PUZZLES_PER_PAGE && hasMore && (
           <LoadMoreVis
             wait={0}
             loadMore={() =>
@@ -199,15 +199,15 @@ const PuzzlesUnsolvedRenderer = ({
     });
   });
 
-  if (loading && (!data || !data.puzzle || data.puzzle.length === 0))
+  if (loading && (!data || !data.puzzles || data.puzzles.length === 0))
     return puzzleLoadingPanel;
   if (error) {
     return <ErrorReload error={error} refetch={refetch} />;
   }
-  if (data && data.puzzle)
+  if (data && data.puzzles)
     return (
       <React.Fragment>
-        {data.puzzle.map(puzzle => (
+        {data.puzzles.map(puzzle => (
           <MultiColBox key={`puzzle-brief-${puzzle.id}`}>
             <PuzzleBrief puzzle={puzzle} />
           </MultiColBox>

@@ -57,7 +57,7 @@ export type PuzzleEditPanelProps = {
   genre: number;
   grotesque: boolean;
   status: number;
-  dazed_on: string;
+  dazedOn: string;
   show?: boolean;
 };
 

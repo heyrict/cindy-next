@@ -24,7 +24,7 @@ import {
   TagQuery,
   TagQueryVariables,
 } from 'graphql/Queries/generated/TagQuery';
-import { order_by } from 'generated/globalTypes';
+import { Ordering } from 'generated/globalTypes';
 
 const TagPage = ({ intl }: { intl: IntlShape }) => {
   const _ = intl.formatMessage;
@@ -58,7 +58,7 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
               </Heading>
             );
           }
-          if (!data || !data.tag_by_pk) {
+          if (!data || !data.tag) {
             return (
               <Heading>
                 <FormattedMessage {...tagMessages.header} />
@@ -70,7 +70,7 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
               <Head>
                 <title key="title">
                   {_(tagMessages.titleWithName, {
-                    name: data.tag_by_pk.name,
+                    name: data.tag.name,
                   })}{' '}
                   | Cindy
                 </title>
@@ -78,14 +78,14 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
                   key="description"
                   name="description"
                   content={_(tagMessages.descriptionWithName, {
-                    name: data.tag_by_pk.name,
+                    name: data.tag.name,
                   })}
                 />
               </Head>
               <Heading>
                 <FormattedMessage
                   {...tagMessages.headerWithName}
-                  values={{ name: data.tag_by_pk.name }}
+                  values={{ name: data.tag.name }}
                 />
               </Heading>
             </React.Fragment>
@@ -97,23 +97,18 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
           query={TAG_PUZZLES_QUERY}
           variables={{
             tagId,
-            orderBy: [{ id: order_by.desc }],
+            orderBy: [{ id: Ordering.desc }],
           }}
           fetchPolicy="cache-first"
-          getItemCount={data =>
-            (data.puzzle_aggregate &&
-              data.puzzle_aggregate.aggregate &&
-              data.puzzle_aggregate.aggregate.count) ||
-            0
-          }
+          getItemCount={data => data.puzzleTagCount}
           renderItems={data => {
-            const puzzles = data.puzzle;
-            if (!puzzles) return null;
+            const puzzleTags = data.puzzleTags;
+            if (!puzzleTags) return null;
             return (
               <>
-                {puzzles.map(puzzle => (
-                  <MultiColBox key={`tag-${tagId}-${puzzle.id}`}>
-                    <PuzzleBrief puzzle={puzzle} />
+                {puzzleTags.map(puzzleTag => (
+                  <MultiColBox key={`tag-${puzzleTag.id}`}>
+                    <PuzzleBrief puzzle={puzzleTag.puzzle} />
                   </MultiColBox>
                 ))}
               </>

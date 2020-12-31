@@ -75,7 +75,7 @@ const ControlPanel = ({ puzzle }: ControlPanelProps) => {
                 genre={puzzle.genre}
                 grotesque={puzzle.grotesque}
                 status={puzzle.status}
-                dazed_on={puzzle.dazed_on}
+                dazedOn={puzzle.dazedOn}
                 show={currentPanel === ControlPanelPanelType.PUZZLE_EDIT}
               />
             )}

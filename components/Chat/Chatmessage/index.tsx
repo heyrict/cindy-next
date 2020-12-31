@@ -93,14 +93,9 @@ const Chatmessage = ({
                         content: text,
                       },
                       optimisticResponse: {
-                        update_chatmessage: {
-                          __typename: 'chatmessage_mutation_response',
-                          returning: [
-                            {
-                              ...chatmessage,
-                              content: text,
-                            },
-                          ],
+                        updateChatmessage: {
+                          ...chatmessage,
+                          content: text,
                         },
                       },
                     }).then(result => {

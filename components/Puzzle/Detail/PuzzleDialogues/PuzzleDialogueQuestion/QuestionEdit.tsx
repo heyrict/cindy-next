@@ -17,7 +17,7 @@ import {
   EditQuestionMutation,
   EditQuestionMutationVariables,
 } from 'graphql/Mutations/generated/EditQuestionMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 import { StateType, SendMessageTriggerType } from 'reducers/types';
 
 const QuestionEdit = ({
@@ -47,16 +47,11 @@ const QuestionEdit = ({
                 question: newQuestion,
               },
               optimisticResponse: {
-                update_dialogue: {
-                  __typename: 'dialogue_mutation_response',
-                  returning: [
-                    {
-                      __typename: 'dialogue',
-                      id: dialogueId,
-                      question: newQuestion,
-                      questionEditTimes: 0,
-                    },
-                  ],
+                updateDialogue: {
+                  __typename: 'Dialogue',
+                  id: dialogueId,
+                  question: newQuestion,
+                  questionEditTimes: 0,
                 },
               },
             })

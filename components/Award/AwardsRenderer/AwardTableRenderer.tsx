@@ -20,7 +20,7 @@ import {
   AddAwardMutation,
   AddAwardMutationVariables,
 } from 'graphql/Mutations/generated/AddAwardMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 import {
   AwardsInfoQuery,
   AwardsInfoQueryVariables,
@@ -73,22 +73,16 @@ function AwardTableRenderer<T = number>({
                               addAward({
                                 variables: { awardId },
                                 optimisticResponse: {
-                                  insert_user_award: {
-                                    __typename: 'user_award_mutation_response',
-                                    returning: [
-                                      {
-                                        __typename: 'user_award',
-                                        id: -1,
-                                        created: new Date().toISOString(),
-                                        award: award,
-                                      },
-                                    ],
+                                  createUserAward: {
+                                    __typename: 'UserAward',
+                                    id: -1,
+                                    created: new Date().toISOString(),
+                                    award: award,
                                   },
                                 },
                                 update: (proxy, { data }) => {
-                                  if (!data || !data.insert_user_award) return;
-                                  const newUserAward =
-                                    data.insert_user_award.returning;
+                                  if (!data || !data.createUserAward) return;
+                                  const newUserAward = data.createUserAward;
                                   if (newUserAward.length < 1) return;
 
                                   // Update AwardsInfoQuery
@@ -101,10 +95,7 @@ function AwardTableRenderer<T = number>({
                                       userId: userInfo.id,
                                     },
                                   });
-                                  if (
-                                    awardsInfoResult &&
-                                    awardsInfoResult.user_by_pk
-                                  )
+                                  if (awardsInfoResult && awardsInfoResult.user)
                                     proxy.writeQuery({
                                       query: AWARDS_INFO_QUERY,
                                       variables: {
@@ -112,14 +103,13 @@ function AwardTableRenderer<T = number>({
                                       },
                                       data: {
                                         ...awardsInfoResult,
-                                        user_by_pk: {
-                                          ...awardsInfoResult.user_by_pk,
-                                          user_awards: awardsInfoResult.user_by_pk.user_awards.concat(
+                                        user: {
+                                          ...awardsInfoResult.user,
+                                          userAwards: awardsInfoResult.user.userAwards.concat(
                                             {
                                               __typename: 'user_award',
                                               id: newUserAward[0].id,
-                                              award_id:
-                                                newUserAward[0].award.id,
+                                              awardId: newUserAward[0].award.id,
                                             },
                                           ),
                                         },

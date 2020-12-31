@@ -1,8 +1,11 @@
+export default {};
+/*
 import gql from 'graphql-tag';
 
 import { USER_RANKING_TRIGGER_FRAGMENT } from '../Fragments/Trigger';
 import { PUZZLE_AGGREGATE_FRAGMENT } from '../Fragments/Puzzles';
 
+// DEPRECATED
 export const STAR_COUNT_RANKING_QUERY = gql`
   query StarCountRankingQuery(
     $limit: Int
@@ -22,6 +25,7 @@ export const STAR_COUNT_RANKING_QUERY = gql`
   ${USER_RANKING_TRIGGER_FRAGMENT}
 `;
 
+// DEPRECATED
 export const STAR_SUM_RANKING_QUERY = gql`
   query StarSumRankingQuery(
     $limit: Int
@@ -41,6 +45,7 @@ export const STAR_SUM_RANKING_QUERY = gql`
   ${USER_RANKING_TRIGGER_FRAGMENT}
 `;
 
+// DEPRECATED
 export const USER_DIALOGUE_RANKING_QUERY = gql`
   query UserDialogueRankingQuery(
     $limit: Int
@@ -60,6 +65,7 @@ export const USER_DIALOGUE_RANKING_QUERY = gql`
   ${USER_RANKING_TRIGGER_FRAGMENT}
 `;
 
+// DEPRECATED
 export const USER_PUZZLE_RANKING_QUERY = gql`
   query UserPuzzleRankingQuery(
     $limit: Int
@@ -79,6 +85,7 @@ export const USER_PUZZLE_RANKING_QUERY = gql`
   ${USER_RANKING_TRIGGER_FRAGMENT}
 `;
 
+// DEPRECATED
 export const PUZZLE_STAR_RANKING_QUERY = gql`
   query PuzzleStarRankingQuery(
     $limit: Int
@@ -103,6 +110,7 @@ export const PUZZLE_STAR_RANKING_QUERY = gql`
   ${PUZZLE_AGGREGATE_FRAGMENT}
 `;
 
+// DEPRECATED
 export const PUZZLE_COMMENT_RANKING_QUERY = gql`
   query PuzzleCommentRankingQuery(
     $limit: Int
@@ -122,3 +130,4 @@ export const PUZZLE_COMMENT_RANKING_QUERY = gql`
   }
   ${PUZZLE_AGGREGATE_FRAGMENT}
 `;
+*/

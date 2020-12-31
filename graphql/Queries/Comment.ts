@@ -7,7 +7,7 @@ import {
 
 export const PUZZLE_COMMENT_QUERY = gql`
   query PuzzleCommentQuery($puzzleId: Int!) {
-    comment(where: { puzzle_id: { _eq: $puzzleId } }, order_by: { id: desc }) {
+    comments(filter: { puzzleId: { eq: $puzzleId } }, order: { id: DESC }) {
       ...Comment
     }
   }
@@ -16,19 +16,13 @@ export const PUZZLE_COMMENT_QUERY = gql`
 
 export const PUZZLE_COMMENT_AGGREGATE_QUERY = gql`
   query PuzzleCommentAggregateQuery($puzzleId: Int!) {
-    comment_aggregate(where: { puzzle_id: { _eq: $puzzleId } }) {
-      aggregate {
-        count
-      }
-    }
+    commentCount(filter: { puzzleId: { eq: $puzzleId } })
   }
 `;
 
 export const PREVIOUS_COMMENT_VALUE_QUERY = gql`
   query PreviousCommentValueQuery($userId: Int!, $puzzleId: Int!) {
-    comment(
-      where: { puzzle_id: { _eq: $puzzleId }, user_id: { _eq: $userId } }
-    ) {
+    comments(filter: { puzzleId: { eq: $puzzleId }, userId: { eq: $userId } }) {
       ...Comment
     }
   }
@@ -36,61 +30,39 @@ export const PREVIOUS_COMMENT_VALUE_QUERY = gql`
 `;
 
 export const PROFILE_COMMENTS_QUERY = gql`
-  query ProfileCommentsQuery(
-    $limit: Int
-    $offset: Int
-    $userId: Int
-    $orderBy: [comment_order_by!]
-  ) {
-    comment(
-      order_by: $orderBy
-      where: { user_id: { _eq: $userId } }
+  query ProfileCommentsQuery($limit: Int, $offset: Int, $userId: Int) {
+    comments(
+      order: { id: DESC }
+      filter: { userId: { eq: $userId } }
       limit: $limit
       offset: $offset
-    ) @connection(key: "comment", filter: ["order_by", "where"]) {
+    ) @connection(key: "comment", filter: ["order", "filter"]) {
       ...CommentDetail
     }
-    comment_aggregate(where: { user_id: { _eq: $userId } }) {
-      aggregate {
-        count
-      }
-    }
+    commentCount(filter: { userId: { eq: $userId } })
   }
   ${COMMENT_DETAIL_FRAGMENT}
 `;
 
 export const PROFILE_COMMENTS_RECEIVED_QUERY = gql`
   query ProfileCommentsReceivedQuery(
-    $limit: Int
-    $offset: Int
-    $userId: Int
-    $orderBy: [comment_order_by!]
+    $limit: Int!
+    $offset: Int!
+    $userId: Int!
   ) {
-    comment(
-      order_by: $orderBy
-      where: { puzzle: { user_id: { _eq: $userId } } }
-      limit: $limit
-      offset: $offset
-    ) @connection(key: "comment", filter: ["order_by", "where"]) {
+    userReceivedComments(userId: $userId, limit: $limit, offset: $offset)
+      @connection(key: "userReceivedComments", filter: ["userId"]) {
       ...CommentDetail
     }
-    comment_aggregate(where: { puzzle: { user_id: { _eq: $userId } } }) {
-      aggregate {
-        count
-      }
-    }
+    userReceivedCommentCount(userId: $userId)
   }
   ${COMMENT_DETAIL_FRAGMENT}
 `;
 
 export const COMMENTS_QUERY = gql`
-  query CommentsQuery($limit: Int, $offset: Int) {
-    comment(
-      where: { puzzle: { status: { _eq: 1 } } }
-      order_by: { id: desc }
-      limit: $limit
-      offset: $offset
-    ) @connection(key: "comment", filter: ["order_by", "where"]) {
+  query CommentsQuery($limit: Int!, $offset: Int!) {
+    commentsInSolvedPuzzle(limit: $limit, offset: $offset)
+      @connection(key: "commentsInSolvedPuzzle") {
       ...CommentDetail
     }
   }

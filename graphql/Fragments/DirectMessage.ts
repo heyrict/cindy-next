@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
 export const DIRECT_MESSAGE_FRAGMENT = gql`
-  fragment DirectMessage on direct_message {
+  fragment DirectMessage on DirectMessage {
     id
     content
     created

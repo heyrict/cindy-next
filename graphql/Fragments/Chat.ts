@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
 export const CHATMESSAGE_FRAGMENT = gql`
-  fragment Chatmessage on chatmessage {
+  fragment Chatmessage on Chatmessage {
     id
     content
     created
@@ -16,7 +16,7 @@ export const CHATMESSAGE_FRAGMENT = gql`
 `;
 
 export const CHATROOM_FRAGMENT = gql`
-  fragment Chatroom on chatroom {
+  fragment Chatroom on Chatroom {
     id
     name
     description

@@ -30,7 +30,7 @@ import {
   AddStarMutation,
   AddStarMutationVariables,
 } from 'graphql/Mutations/generated/AddStarMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 import {
   PreviousStarValueQuery,
   PreviousStarValueQueryVariables,
@@ -74,7 +74,7 @@ const StarPopupContent = ({
             toast.error(error.message);
             return null;
           }
-          if (!data || !data.star) {
+          if (!data || !data.stars) {
             if (loading) return <Loading centered />;
             return null;
           }
@@ -84,7 +84,7 @@ const StarPopupContent = ({
                 <FormattedMessage
                   {...puzzleMessages.starUsersWithExtra}
                   values={{
-                    users: data.star
+                    users: data.stars
                       .slice(0, MAX_DISPLAY_STAR_USERS)
                       .map(star => star.user.nickname)
                       .join(', '),
@@ -95,7 +95,9 @@ const StarPopupContent = ({
                 <FormattedMessage
                   {...puzzleMessages.starUsers}
                   values={{
-                    users: data.star.map(star => star.user.nickname).join(', '),
+                    users: data.stars
+                      .map(star => star.user.nickname)
+                      .join(', '),
                   }}
                 />
               )}
@@ -117,12 +119,12 @@ const StarPopupContent = ({
                 toast.error(error.message);
                 return null;
               }
-              if (!data || !data.star) {
+              if (!data || !data.stars) {
                 if (loading) return <Loading centered />;
                 return null;
               }
               const initialValue =
-                data.star.length === 0 ? 0 : data.star[0].value;
+                data.stars.length === 0 ? 0 : data.stars[0].value;
               return (
                 <>
                   {initialValue === 0 ? (
@@ -137,13 +139,8 @@ const StarPopupContent = ({
                   <Mutation<AddStarMutation, AddStarMutationVariables>
                     mutation={ADD_STAR_MUTATION}
                     update={(proxy, { data }) => {
-                      if (
-                        !data ||
-                        !data.insert_star ||
-                        data.insert_star.returning.length === 0
-                      )
-                        return;
-                      const newStar = data.insert_star.returning[0];
+                      if (!data || !data.createStar) return;
+                      const newStar = data.createStar;
                       proxy.writeQuery<
                         PreviousStarValueQuery,
                         PreviousStarValueQueryVariables
@@ -154,7 +151,7 @@ const StarPopupContent = ({
                           userId,
                         },
                         data: {
-                          star: [{ ...newStar }],
+                          stars: [{ ...newStar }],
                         },
                       });
                     }}
@@ -169,18 +166,11 @@ const StarPopupContent = ({
                               value,
                             },
                             optimisticResponse: {
-                              insert_star: {
-                                __typename: 'star_mutation_response',
-                                returning: [
-                                  {
-                                    __typename: 'star',
-                                    id:
-                                      data.star.length > 0
-                                        ? data.star[0].id
-                                        : -1,
-                                    value,
-                                  },
-                                ],
+                              createStar: {
+                                __typename: 'Star',
+                                id:
+                                  data.stars.length > 0 ? data.stars[0].id : -1,
+                                value,
                               },
                             },
                           })

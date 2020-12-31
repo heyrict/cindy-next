@@ -8,16 +8,24 @@ export const ADD_COMMENT_MUTATION = gql`
     $content: String!
     $spoiler: Boolean!
   ) {
-    insert_comment(
-      objects: { puzzle_id: $puzzleId, content: $content, spoiler: $spoiler }
-      on_conflict: {
-        constraint: sui_hei_comment_puzzle_id_user_id_key
-        update_columns: [content, spoiler]
-      }
+    createComment(
+      data: { puzzleId: $puzzleId, content: $content, spoiler: $spoiler }
     ) {
-      returning {
-        ...Comment
-      }
+      ...Comment
+    }
+  }
+  ${COMMENT_FRAGMENT}
+`;
+
+// TODO this mutations is created upon splitting the upsert mutation above
+export const UPDATE_COMMENT_MUTATION = gql`
+  mutation UpdateCommentMutation(
+    $id: Int!
+    $content: String!
+    $spoiler: Boolean!
+  ) {
+    updateComment(id: $id, set: { content: $content, spoiler: $spoiler }) {
+      ...Comment
     }
   }
   ${COMMENT_FRAGMENT}

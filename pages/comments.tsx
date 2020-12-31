@@ -41,7 +41,11 @@ const CommentsRenderer = ({
 
   // Update first 20 questions upon second+ load
   useEffect(() => {
-    if (data && data.comment && data.comment.length !== 0) {
+    if (
+      data &&
+      data.commentsInSolvedPuzzle &&
+      data.commentsInSolvedPuzzle.length !== 0
+    ) {
       fetchMore({
         updateQuery: (prev, { fetchMoreResult }) => {
           if (!fetchMoreResult || !fetchMoreResult.comment) return prev;
@@ -59,16 +63,21 @@ const CommentsRenderer = ({
     }
   }, []);
 
-  if (loading && (!data || !data.comment || data.comment.length === 0))
+  if (
+    loading &&
+    (!data ||
+      !data.commentsInSolvedPuzzle ||
+      data.commentsInSolvedPuzzle.length === 0)
+  )
     return commentLoadingPanel;
   if (error) {
     toast.error(error.message);
     return null;
   }
-  if (data && data.comment) {
+  if (data && data.commentsInSolvedPuzzle) {
     return (
       <React.Fragment>
-        {data.comment.map(comment => (
+        {data.commentsInSolvedPuzzle.map(comment => (
           <MultiColBox key={`comment-brief-${comment.id}`}>
             <CommentDisplay comment={comment} />
           </MultiColBox>
@@ -79,14 +88,24 @@ const CommentsRenderer = ({
             loadMore={() =>
               fetchMore({
                 variables: {
-                  offset: data.comment.length,
+                  offset: data.commentsInSolvedPuzzle.length,
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult || !fetchMoreResult.comment) return prev;
-                  if (fetchMoreResult.comment.length < COMMENTS_PER_PAGE)
+                  if (
+                    !fetchMoreResult ||
+                    !fetchMoreResult.commentsInSolvedPuzzle
+                  )
+                    return prev;
+                  if (
+                    fetchMoreResult.commentsInSolvedPuzzle.length <
+                    COMMENTS_PER_PAGE
+                  )
                     setHasMore(false);
                   return Object.assign({}, prev, {
-                    comment: [...prev.comment, ...fetchMoreResult.comment],
+                    comment: [
+                      ...prev.commentsInSolvedPuzzle,
+                      ...fetchMoreResult.commentsInSolvedPuzzle,
+                    ],
                   });
                 },
               })

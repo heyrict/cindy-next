@@ -71,16 +71,16 @@ export type FilterButtonProps = {
 export type UserFilterSwitcherUserType = {
   id: number;
   nickname: string;
-  dialogueCount?: number;
-  dialogueUnsolvedCount?: number;
-  dialogueHasTrue?: boolean;
+  dialogueCount: number;
+  answeredDialogueCount: number;
+  dialogueHasTrue: boolean;
 };
 
 export type ExtractUserFilterUserReturnType = {
   id: number;
   nickname: string;
   dialogueCount: number;
-  dialogueUnsolvedCount: number;
+  answeredDialogueCount: number;
   dialogueHasTrue: boolean;
 };
 

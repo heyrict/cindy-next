@@ -18,12 +18,14 @@ export const ProcessBase = styled.div`
 
 export type ProcessProps = {
   count: number;
+  newCount?: number;
 };
 
-const Process = ({ count }: ProcessProps) => (
+const Process = ({ count, newCount }: ProcessProps) => (
   <ProcessBase>
     <Img size="0.8em" pr={1} src={Q} />
     {count}
+    {Boolean(newCount) && `(${newCount})`}
   </ProcessBase>
 );
 

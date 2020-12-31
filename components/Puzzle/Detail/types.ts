@@ -11,7 +11,7 @@ export type PuzzleType = {
   status: number;
   content: string;
   memo: string;
-  dazed_on: string;
+  dazedOn: string;
   user: InlineUser;
   created: string;
   modified: string;

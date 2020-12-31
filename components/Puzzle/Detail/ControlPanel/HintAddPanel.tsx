@@ -39,12 +39,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
       <Mutation<AddHintMutation, AddHintMutationVariables>
         mutation={ADD_HINT_MUTATION}
         update={(cache: DataProxy, { data }) => {
-          if (
-            !data ||
-            !data.insert_hint ||
-            data.insert_hint.returning.length !== 1
-          )
-            return;
+          if (!data || !data.createHint) return;
 
           const prevDialogueHints = cache.readQuery<
             DialogueHintQuery,
@@ -58,7 +53,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
           if (!prevDialogueHints) return;
           const { hint, dialogue } = prevDialogueHints;
 
-          const newItem = data.insert_hint.returning[0];
+          const newItem = data.createHint;
           cache.writeQuery({
             query: DIALOGUE_HINT_QUERY,
             variables: {
@@ -110,28 +105,23 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
                     content: hint,
                   },
                   optimisticResponse: {
-                    insert_hint: {
-                      __typename: 'hint_mutation_response',
-                      returning: [
-                        {
-                          __typename: 'hint',
-                          id: -1,
-                          content: hint,
-                          created: Date.now(),
-                          edittimes: 0,
-                          receiver:
-                            receiverId === null
-                              ? null
-                              : {
-                                  __typename: 'user',
-                                  id: receiverId,
-                                  icon: null,
-                                  nickname: '...',
-                                  username: '...',
-                                  current_user_award: null,
-                                },
-                        },
-                      ],
+                    createHint: {
+                      __typename: 'Hint',
+                      id: -1,
+                      content: hint,
+                      created: Date.now(),
+                      editTimes: 0,
+                      receiver:
+                        receiverId === null
+                          ? null
+                          : {
+                              __typename: 'User',
+                              id: receiverId,
+                              icon: null,
+                              nickname: '...',
+                              username: '...',
+                              currentAward: null,
+                            },
                     },
                   },
                 })

@@ -5,7 +5,7 @@ import { PUZZLE_AGGREGATE_FRAGMENT } from '../Fragments/Puzzles';
 
 export const PUZZLE_STAR_QUERY = gql`
   query PuzzleStarQuery($puzzleId: Int!, $limit: Int) {
-    star(where: { puzzle_id: { _eq: $puzzleId } }, limit: $limit) {
+    stars(filter: { puzzleId: { eq: $puzzleId } }, limit: $limit) {
       id
       value
       user {
@@ -18,20 +18,14 @@ export const PUZZLE_STAR_QUERY = gql`
 
 export const PUZZLE_STAR_AGGREGATE_QUERY = gql`
   query PuzzleStarAggregateQuery($puzzleId: Int!) {
-    star_aggregate(where: { puzzle_id: { _eq: $puzzleId } }) {
-      aggregate {
-        count
-        sum {
-          value
-        }
-      }
-    }
+    starCount(filter: { puzzleId: { eq: $puzzleId } })
+    starSumByPuzzle(puzzleId: $puzzleId)
   }
 `;
 
 export const PREVIOUS_STAR_VALUE_QUERY = gql`
   query PreviousStarValueQuery($userId: Int!, $puzzleId: Int!) {
-    star(where: { puzzle_id: { _eq: $puzzleId }, user_id: { _eq: $userId } }) {
+    stars(filter: { puzzleId: { eq: $puzzleId }, userId: { eq: $userId } }) {
       id
       value
     }
@@ -39,29 +33,20 @@ export const PREVIOUS_STAR_VALUE_QUERY = gql`
 `;
 
 export const PROFILE_STARS_QUERY = gql`
-  query ProfileStarsQuery(
-    $limit: Int
-    $offset: Int
-    $userId: Int
-    $orderBy: [star_order_by!]
-  ) {
-    star(
-      order_by: $orderBy
-      where: { user_id: { _eq: $userId } }
+  query ProfileStarsQuery($limit: Int, $offset: Int, $userId: Int) {
+    stars(
+      order: { id: DESC }
+      filter: { userId: { eq: $userId } }
       limit: $limit
       offset: $offset
-    ) @connection(key: "star", filter: ["order_by", "where"]) {
+    ) @connection(key: "stars", filter: ["order", "filter"]) {
       id
       value
       puzzle {
         ...PuzzleAggregate
       }
     }
-    star_aggregate(where: { user_id: { _eq: $userId } }) {
-      aggregate {
-        count
-      }
-    }
+    starCount(filter: { userId: { eq: $userId } })
   }
   ${PUZZLE_AGGREGATE_FRAGMENT}
 `;

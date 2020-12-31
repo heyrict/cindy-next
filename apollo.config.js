@@ -1,12 +1,11 @@
 module.exports = {
   client: {
     service: {
-      name: 'hasura-graphqlengine',
+      name: 'cindy-next-rust',
       localSchemaFile: './generated/schema.graphql',
     },
     includes: [
       './graphql/Fragments/**',
-      './graphql/LiveQueries/**',
       './graphql/Mutations/**',
       './graphql/Queries/**',
     ],

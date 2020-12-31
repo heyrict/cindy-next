@@ -29,21 +29,20 @@ const InsertFavChatButton = ({
   >
     mutation={INSERT_FAVORITE_CHATROOM_MUTATION}
     update={(proxy, { data, errors }) => {
-      if (!data || !data.insert_favorite_chatroom) return;
-      if (data.insert_favorite_chatroom.returning.length === 0) return;
+      if (!data || !data.createFavchat) return;
       if (errors) {
         toast.error(JSON.stringify(errors));
         return;
       }
-      const favChatrooms = proxy.readQuery<FavoriteChatroomsQuery>({
+      const favchatrooms = proxy.readQuery<FavoriteChatroomsQuery>({
         query: FAVORITE_CHATROOMS_QUERY,
       });
-      const newChatroom = data.insert_favorite_chatroom.returning[0];
-      if (!favChatrooms) return;
-      favChatrooms.favorite_chatroom.push(newChatroom);
+      const newChatroom = data.createFavchat;
+      if (!favchatrooms) return;
+      favchatrooms.favchats.push(newChatroom);
       proxy.writeQuery({
         query: FAVORITE_CHATROOMS_QUERY,
-        data: favChatrooms,
+        data: favchatrooms,
       });
     }}
   >
@@ -54,19 +53,14 @@ const InsertFavChatButton = ({
             chatroomId,
           },
           optimisticResponse: {
-            insert_favorite_chatroom: {
-              __typename: 'favorite_chatroom_mutation_response',
-              returning: [
-                {
-                  __typename: 'favorite_chatroom',
-                  id: -1,
-                  chatroom: {
-                    __typename: 'chatroom',
-                    id: chatroomId,
-                    name: chatroomName || '...',
-                  },
-                },
-              ],
+            createFavchat: {
+              __typename: 'Favchat',
+              id: -1,
+              chatroom: {
+                __typename: 'Chatroom',
+                id: chatroomId,
+                name: chatroomName || '...',
+              },
             },
           },
         });

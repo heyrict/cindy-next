@@ -62,16 +62,10 @@ const CommentPanel = ({ puzzleId, canAddComment }: CommentPanelProps) => {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.comment_aggregate) {
+            if (!data || !data.commentCount) {
               if (loading) return <Loading centered />;
               return null;
             }
-            const agg = {
-              commentCount:
-                (data.comment_aggregate.aggregate &&
-                  data.comment_aggregate.aggregate.count) ||
-                0,
-            };
             return (
               <>
                 <Box width={[1, 1 / 2]} mb={2}>
@@ -89,7 +83,7 @@ const CommentPanel = ({ puzzleId, canAddComment }: CommentPanelProps) => {
                       <Flex alignItems="center" justifyContent="center" p={2}>
                         <Img mr={2} size="xs" src={commentIcon} />
                         <Box fontSize={3} color="blue.6">
-                          {agg.commentCount}{' '}
+                          {data.commentCount}{' '}
                           <FormattedMessage {...puzzleMessages.comment} />
                         </Box>
                       </Flex>

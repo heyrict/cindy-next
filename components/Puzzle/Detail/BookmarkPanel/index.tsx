@@ -59,16 +59,10 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.bookmark_aggregate) {
+            if (!data || !data.bookmarkCount) {
               if (loading) return <Loading centered />;
               return null;
             }
-            const agg = {
-              bookmarkCount:
-                (data.bookmark_aggregate.aggregate &&
-                  data.bookmark_aggregate.aggregate.count) ||
-                0,
-            };
             return (
               <Box width={[1, 1 / 2]} mb={2}>
                 <Box px={2}>
@@ -96,7 +90,7 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
                           >
                             <Img mr={2} size="xs" src={bookmarkIcon} />
                             <Box fontSize={3} color="green.6">
-                              {agg.bookmarkCount}{' '}
+                              {data.bookmarkCount}{' '}
                               <FormattedMessage {...puzzleMessages.bookmark} />
                             </Box>
                           </Flex>

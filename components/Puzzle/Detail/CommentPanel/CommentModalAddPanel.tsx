@@ -38,7 +38,7 @@ import {
   PuzzleCommentQuery,
   PuzzleCommentQueryVariables,
 } from 'graphql/Queries/generated/PuzzleCommentQuery';
-import { ApolloError } from 'apollo-client';
+import { ApolloError } from '@apollo/client';
 
 const CommentModalAddPanelRenderer = ({
   puzzleId,
@@ -56,16 +56,16 @@ const CommentModalAddPanelRenderer = ({
   const notifHdlRef = useRef<React.ReactText | null>(null);
 
   useEffect(() => {
-    if (!data || !data.comment || data.comment.length === 0) return;
-    setSpoiler(data.comment[0].spoiler);
-    if (inputRef.current) inputRef.current.value = data.comment[0].content;
+    if (!data || !data.comments || data.comments.length === 0) return;
+    setSpoiler(data.comments[0].spoiler);
+    if (inputRef.current) inputRef.current.value = data.comments[0].content;
   }, [data]);
 
   if (error) {
     toast.error(error.message);
     return null;
   }
-  if (!data || !data.comment) {
+  if (!data || !data.comments) {
     if (loading) return <Loading centered />;
     return null;
   }
@@ -81,7 +81,7 @@ const CommentModalAddPanelRenderer = ({
       mb={2}
     >
       <Box bg="yellow.3" width={1} p={2} mb={2}>
-        {data.comment.length === 0 ? (
+        {data.comments.length === 0 ? (
           <FormattedMessage {...puzzleMessages.addComment} />
         ) : (
           <FormattedMessage {...puzzleMessages.yourComment} />
@@ -110,13 +110,8 @@ const CommentModalAddPanelRenderer = ({
         <Mutation<AddCommentMutation, AddCommentMutationVariables>
           mutation={ADD_COMMENT_MUTATION}
           update={(proxy, { data }) => {
-            if (
-              !data ||
-              !data.insert_comment ||
-              data.insert_comment.returning.length === 0
-            )
-              return;
-            const newComment = data.insert_comment.returning[0];
+            if (!data || !data.createComment) return;
+            const newComment = data.createComment;
 
             // Update comment list
             const oldComments = proxy.readQuery<
@@ -137,11 +132,11 @@ const CommentModalAddPanelRenderer = ({
                   },
                   data: {
                     ...oldComments,
-                    comment:
+                    comments:
                       newComment.id === -1
-                        ? [newComment, ...oldComments.comment]
+                        ? [newComment, ...oldComments.comments]
                         : upsertItem(
-                            oldComments.comment,
+                            oldComments.comments,
                             newComment,
                             'id',
                             'desc',
@@ -163,7 +158,7 @@ const CommentModalAddPanelRenderer = ({
                 userId: user.id,
               },
               data: {
-                comment: [newComment],
+                comments: [newComment],
               },
             });
           }}
@@ -182,24 +177,19 @@ const CommentModalAddPanelRenderer = ({
                     spoiler,
                   },
                   optimisticResponse: {
-                    insert_comment: {
-                      __typename: 'comment_mutation_response',
-                      returning: [
-                        {
-                          __typename: 'comment',
-                          id: data.comment.length > 0 ? data.comment[0].id : -1,
-                          content,
-                          spoiler,
-                          user: {
-                            __typename: 'user',
-                            id: user.id || -1,
-                            icon: user.icon || null,
-                            current_user_award: null,
-                            nickname: user.nickname || '...',
-                            username: user.username || '...',
-                          },
-                        },
-                      ],
+                    createComment: {
+                      __typename: 'Comment',
+                      id: data.comments.length > 0 ? data.comments[0].id : -1,
+                      content,
+                      spoiler,
+                      user: {
+                        __typename: 'user',
+                        id: user.id || -1,
+                        icon: user.icon || null,
+                        currentAward: null,
+                        nickname: user.nickname || '...',
+                        username: user.username || '...',
+                      },
                     },
                   },
                 })
@@ -224,7 +214,7 @@ const CommentModalAddPanelRenderer = ({
                 );
               }}
             >
-              {data.comment.length === 0 ? (
+              {data.comments.length === 0 ? (
                 <FormattedMessage {...commonMessages.send} />
               ) : (
                 <FormattedMessage {...commonMessages.save} />

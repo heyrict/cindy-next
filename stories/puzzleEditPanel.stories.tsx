@@ -65,7 +65,7 @@ const PuzzleEditPanelWrapper = ({ genre }: { genre: number }) => {
         genre={genre}
         grotesque={grotesque}
         status={status}
-        dazed_on={dazedOn}
+        dazedOn={dazedOn}
         updatePuzzle={({ variables: { grotesque, status, yami } }: any) => {
           setYami(yami);
           setGrotesque(grotesque);

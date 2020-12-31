@@ -58,8 +58,8 @@ const ChatRoomInput = ({
       mutation={CHATROOM_SEND_MESSAGE_MUTATION}
       update={(cache, { data }) => {
         if (!data) return;
-        if (data.insert_chatmessage === null) return;
-        const newMessages = data.insert_chatmessage.returning;
+        if (data.createChatmessage === null) return;
+        const newMessages = data.createChatmessage;
         const cachedResult = cache.readQuery<
           ChatroomChatmessages,
           ChatroomChatmessagesVariables
@@ -70,15 +70,15 @@ const ChatRoomInput = ({
           },
         });
         if (cachedResult === null) return;
-        const { chatmessage } = cachedResult;
+        const { chatmessages } = cachedResult;
         cache.writeQuery({
           query: CHATROOM_CHATMESSAGES_QUERY,
           variables: {
             chatroomId,
           },
           data: {
-            chatmessage: upsertMultipleItem(
-              chatmessage,
+            chatmessages: upsertMultipleItem(
+              chatmessages,
               newMessages,
               'id',
               'desc',
@@ -96,25 +96,20 @@ const ChatRoomInput = ({
                 chatroomId,
               },
               optimisticResponse: {
-                insert_chatmessage: {
-                  __typename: 'chatmessage_mutation_response',
-                  returning: [
-                    {
-                      __typename: 'chatmessage',
-                      id: -1,
-                      content,
-                      created: Date.now(),
-                      editTimes: 0,
-                      user: {
-                        __typename: 'user',
-                        id: -1,
-                        icon: null,
-                        nickname: '...',
-                        username: '...',
-                        current_user_award: null,
-                      },
-                    },
-                  ],
+                createChatmessage: {
+                  __typename: 'Chatmessage',
+                  id: -1,
+                  content,
+                  created: Date.now(),
+                  editTimes: 0,
+                  user: {
+                    __typename: 'User',
+                    id: -1,
+                    icon: null,
+                    nickname: '...',
+                    username: '...',
+                    currentAward: null,
+                  },
                 },
               },
             });

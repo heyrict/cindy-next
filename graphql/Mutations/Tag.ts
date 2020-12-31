@@ -2,26 +2,23 @@ import gql from 'graphql-tag';
 
 import { PUZZLE_TAG_FRAGMENT } from '../Fragments/Tag';
 
+// TODO Add new endpoint for this mutation
 export const ADD_PUZZLE_TAG_MUTATION = gql`
   mutation AddPuzzleTagMutation(
     $puzzleId: Int!
     $newTagData: tag_obj_rel_insert_input
   ) {
-    insert_puzzle_tag(objects: { puzzle_id: $puzzleId, tag: $newTagData }) {
-      returning {
-        ...PuzzleTag
-      }
+    insert_puzzle_tag(data: { puzzleId: $puzzleId, tag: $newTagData }) {
+      ...PuzzleTag
     }
   }
   ${PUZZLE_TAG_FRAGMENT}
 `;
 
 export const ADD_PUZZLE_TAG_BY_PK_MUTATION = gql`
-  mutation AddPuzzleTagByPkMutation($puzzleId: Int!, $tagId: Int) {
-    insert_puzzle_tag(objects: { puzzle_id: $puzzleId, tag_id: $tagId }) {
-      returning {
-        ...PuzzleTag
-      }
+  mutation AddPuzzleTagByPkMutation($puzzleId: Int!, $tagId: Int!) {
+    createPuzzleTag(data: { puzzleId: $puzzleId, tagId: $tagId }) {
+      ...PuzzleTag
     }
   }
   ${PUZZLE_TAG_FRAGMENT}
@@ -29,8 +26,8 @@ export const ADD_PUZZLE_TAG_BY_PK_MUTATION = gql`
 
 export const DELETE_PUZZLE_TAG_MUTATION = gql`
   mutation DeletePuzzleTagMutation($puzzleTagId: Int!) {
-    delete_puzzle_tag(where: { id: { _eq: $puzzleTagId } }) {
-      affected_rows
+    deletePuzzleTag(id: $puzzleTagId) {
+      id
     }
   }
 `;

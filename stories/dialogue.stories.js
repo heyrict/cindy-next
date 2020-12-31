@@ -28,7 +28,7 @@ const userMock = [
     id: 1,
     nickname: 'Foo',
     username: 'Foo',
-    current_user_award: {
+    currentAward: {
       id: 1,
       created: '2018-05-27T04:29:42+0900',
       award: {
@@ -45,14 +45,14 @@ const userMock = [
     id: 2,
     nickname: 'Bar',
     username: 'Bar',
-    current_user_award: null,
+    currentAward: null,
     __typename: 'user',
   },
   {
     id: 3,
     nickname: 'Carrot',
     username: 'Carrot',
-    current_user_award: null,
+    currentAward: null,
     __typename: 'user',
   },
 ];
@@ -78,7 +78,7 @@ const httpLink = new HttpLink({
                 answer: 'Yes!',
                 answerEditTimes: 0,
                 created: '2019-06-11T09:00:00+0900',
-                answeredtime: '2019-06-11T09:01:00+0900',
+                answeredTime: '2019-06-11T09:01:00+0900',
                 user: userMock[0],
                 __typename: 'dialogue',
               },
@@ -92,7 +92,7 @@ const httpLink = new HttpLink({
                 answer: '',
                 answerEditTimes: 0,
                 created: '2019-06-11T09:01:20+0900',
-                answeredtime: null,
+                answeredTime: null,
                 user: userMock[0],
                 __typename: 'dialogue',
               },
@@ -106,7 +106,7 @@ const httpLink = new HttpLink({
                 answer: 'Yes！',
                 answerEditTimes: 2,
                 created: '2019-06-11T09:01:00+0900',
-                answeredtime: '2019-06-11T09:01:30+0900',
+                answeredTime: '2019-06-11T09:01:30+0900',
                 user: userMock[0],
                 __typename: 'dialogue',
               },
@@ -121,7 +121,7 @@ const httpLink = new HttpLink({
                 answer: 'Yes！正解です！\n正解は１０分後に発表します〜',
                 answerEditTimes: 0,
                 created: '2019-06-11T09:05:00+0900',
-                answeredtime: '2019-06-11T09:07:30+0900',
+                answeredTime: '2019-06-11T09:07:30+0900',
                 user: userMock[0],
                 __typename: 'dialogue',
               },
@@ -135,7 +135,7 @@ const httpLink = new HttpLink({
                 answer: '',
                 answerEditTimes: 0,
                 created: '2019-06-11T09:09:00+0900',
-                answeredtime: '2019-06-11T09:10:00+0900',
+                answeredTime: '2019-06-11T09:10:00+0900',
                 user: userMock[2],
                 __typename: 'dialogue',
               },
@@ -143,7 +143,7 @@ const httpLink = new HttpLink({
             hint: [
               {
                 id: 1,
-                edittimes: 1,
+                editTimes: 1,
                 content:
                   '**９時２０分**の時正解を発表します〜\nそれまで質問でもなんでもどうぞ〜',
                 created: '2019-06-11T09:08:30+0900',
@@ -152,7 +152,7 @@ const httpLink = new HttpLink({
               },
               {
                 id: 2,
-                edittimes: 0,
+                editTimes: 0,
                 content: '始めまして歓迎します〜',
                 created: '2019-06-11T09:08:30+0900',
                 receiver: userMock[0],
@@ -197,12 +197,12 @@ const httpLink = new HttpLink({
           return reject(new Error('Not mocked'));
         case 'UserBriefExtraQuery':
           data = {
-            user_by_pk: {
+            user: {
               __typename: 'user',
               id: parsedParams.variables.id || 1,
               profile: 'Profile Contents',
-              date_joined: '2019-01-01T00:01:23Z',
-              last_login: '2019-01-04T00:01:23Z',
+              dateJoined: '2019-01-01T00:01:23Z',
+              lastLogin: '2019-01-04T00:01:23Z',
             },
           };
           break;

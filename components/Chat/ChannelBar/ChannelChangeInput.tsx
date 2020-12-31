@@ -88,8 +88,8 @@ const ChannelChangeInput = ({
                 toast.error(error.message);
                 return null;
               }
-              if (!data || !data.chatroom) return null;
-              if (data.chatroom.length === 0)
+              if (!data || !data.chatrooms) return null;
+              if (data.chatrooms.length === 0)
                 return (
                   <FormattedMessage {...chatMessages.notExistDescription} />
                 );
@@ -103,14 +103,14 @@ const ChannelChangeInput = ({
                       fontWeight="bold"
                       pr={2}
                     >
-                      {data.chatroom[0].name}
+                      {data.chatrooms[0].name}
                     </Box>
                     by
-                    <UserInline pl={2} user={data.chatroom[0].user} />
+                    <UserInline pl={2} user={data.chatrooms[0].user} />
                   </Box>
                   <Box
                     dangerouslySetInnerHTML={{
-                      __html: text2md(data.chatroom[0].description),
+                      __html: text2md(data.chatrooms[0].description),
                     }}
                   />
                 </>

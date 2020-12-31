@@ -21,43 +21,6 @@ export enum StatusType {
   Forbidden,
 }
 
-type StarsAggregateAggregateSum = {
-  value: number | null;
-};
-type StarsAggregateAggregate = {
-  count: number | null;
-  sum: StarsAggregateAggregateSum | null;
-};
-type StarsAggregate = {
-  aggregate: StarsAggregateAggregate | null;
-};
-
-type CommentsAggregateAggregate = {
-  count: number | null;
-};
-type CommentsAggregate = {
-  aggregate: CommentsAggregateAggregate | null;
-};
-
-type BookmarksAggregateAggregate = {
-  count: number | null;
-};
-type BookmarksAggregate = {
-  aggregate: BookmarksAggregateAggregate | null;
-};
-
-type DialoguesAggregateAggregateMax = {
-  answeredtime: string | number | null;
-  created: string | number | null;
-};
-type DialoguesAggregateAggregate = {
-  count: number | null;
-  max?: DialoguesAggregateAggregateMax | null;
-};
-type DialoguesAggregate = {
-  aggregate: DialoguesAggregateAggregate | null;
-};
-
 export type PuzzleType = {
   id: number;
   genre: number;
@@ -68,10 +31,13 @@ export type PuzzleType = {
   created: string;
   modified: string;
   user: InlineUser;
-  stars_aggregate?: StarsAggregate | null;
-  comments_aggregate?: CommentsAggregate | null;
-  bookmarks_aggregate?: BookmarksAggregate | null;
-  dialogues_aggregate?: DialoguesAggregate | null;
+  starCount?: number;
+  starSum?: number;
+  commentCount?: number;
+  bookmarkCount?: number;
+  dialogueCount?: number;
+  dialogueNewCount?: number;
+  dialogueMaxAnsweredtime?: string;
 };
 
 export type PuzzlePaneProps = {
@@ -85,8 +51,8 @@ export type PuzzleBriefProps = {
   starCount?: number;
   starSum?: number;
   dialogueCount?: number;
+  dialogueNewCount?: number;
   dialogueMaxAnsweredtime?: string;
-  dialogueMaxCreated?: string;
   showGenreImage: boolean;
 };
 

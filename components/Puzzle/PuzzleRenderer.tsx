@@ -20,7 +20,7 @@ import webNotifyMessages from 'messages/webNotify';
 import { PuzzleRendererProps } from './types';
 import { text2raw } from 'common/markdown';
 import { PuzzleLiveQuery } from 'graphql/LiveQueries/generated/PuzzleLiveQuery';
-import { SubscribeToMoreOptions } from 'apollo-client/core/watchQueryOptions';
+import { SubscribeToMoreOptions } from '@apollo/client/core/watchQueryOptions';
 import {
   PuzzleQuery,
   PuzzleQueryVariables,
@@ -51,7 +51,7 @@ const PuzzleRenderer = ({
 
   useEffect(() => {
     if (data && data.puzzle_by_pk) {
-      const puzzleId = data.puzzle_by_pk.id;
+      const puzzleId = data.puzzle.id;
       return subscribeToMore({
         document: PUZZLE_LIVEQUERY,
         variables: { id: puzzleId },
@@ -79,7 +79,7 @@ const PuzzleRenderer = ({
         },
       } as SubscribeToMoreOptions<PuzzleQuery, PuzzleQueryVariables, PuzzleLiveQuery>);
     }
-  }, [data && data.puzzle_by_pk && data.puzzle_by_pk.id]);
+  }, [data && data.puzzle && data.puzzle.id]);
 
   if (error) {
     if (error.networkError === null) {
@@ -90,11 +90,11 @@ const PuzzleRenderer = ({
     }
   }
 
-  if (!data || !data.puzzle_by_pk) {
+  if (!data || !data.puzzle) {
     if (loading) return <Loading centered />;
     return puzzleNotExistElement;
   }
-  const puzzle = data.puzzle_by_pk;
+  const puzzle = data.puzzle;
   if (puzzle.id === undefined) return puzzleNotExistElement;
   const shouldHideIdentity = puzzle.anonymous && puzzle.status === 0;
   return (

@@ -25,7 +25,7 @@ MESSAGES = getattr(__import__("templates"), LOCALE)
 
 GET_USER_QUERY = """
 query _GetUserQuery($userId: Int!){
-  user_by_pk(id: $userId) {
+  user(id: $userId) {
     id
     nickname
   }
@@ -40,7 +40,7 @@ def add_puzzle_callback(event):
         "variables": {
             'userId': puzzle["user_id"],
         }
-    })["user_by_pk"]
+    })["user"]
     msg = MESSAGES.ADD_PUZZLE_TWEET % {
         "id": puzzle["id"],
         "title": puzzle["title"],

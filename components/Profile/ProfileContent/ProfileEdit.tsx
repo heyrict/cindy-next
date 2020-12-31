@@ -15,7 +15,7 @@ import {
   EditProfileMutation,
   EditProfileMutationVariables,
 } from 'graphql/Mutations/generated/EditProfileMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 
 const ProfileEdit = ({ profile, setEdit, userId }: ProfileEditProps) => {
   const editorRef = useRef<LegacyEditor>(null!);
@@ -62,15 +62,10 @@ const ProfileEdit = ({ profile, setEdit, userId }: ProfileEditProps) => {
                       content: newProfile,
                     },
                     optimisticResponse: {
-                      update_user: {
-                        __typename: 'user_mutation_response',
-                        returning: [
-                          {
-                            __typename: 'user',
-                            id: userId,
-                            profile: newProfile,
-                          },
-                        ],
+                      updateUser: {
+                        __typename: 'User',
+                        id: userId,
+                        profile: newProfile,
                       },
                     },
                   })

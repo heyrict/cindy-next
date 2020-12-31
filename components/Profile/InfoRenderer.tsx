@@ -42,11 +42,11 @@ const ProfileInfoRenderer = ({
     toast.error(error.message);
     return null;
   }
-  if (!data || !data.user_by_pk) {
+  if (!data || !data.user) {
     if (loading) return <Loading centered />;
     return null;
   }
-  const user = data.user_by_pk;
+  const user = data.user;
 
   return (
     <React.Fragment>
@@ -69,20 +69,12 @@ const ProfileInfoRenderer = ({
         </Box>
       </Box>
       <ProfileSubbar
-        hideBookmark={currentUser.id !== user.id && user.hide_bookmark}
+        hideBookmark={currentUser.id !== user.id && user.hideBookmark}
         tab={tab}
         setTab={setTab}
       />
       <Flex flexWrap="wrap">
-        {tab === ProfileTabType.INFO && (
-          <ProfileInfo
-            user={{
-              ...user,
-              received_comments_aggregate: data.received_comments_aggregate,
-              received_stars_aggregate: data.received_stars_aggregate,
-            }}
-          />
-        )}
+        {tab === ProfileTabType.INFO && <ProfileInfo user={user} />}
         {tab === ProfileTabType.FOOTPRINTS && (
           <ProfileFootprintsTab userId={user.id} />
         )}
@@ -93,7 +85,7 @@ const ProfileInfoRenderer = ({
         {tab === ProfileTabType.BOOKMARKS && currentUser.id === user.id && (
           <ProfileHideBookmarksToggle
             userId={user.id}
-            hideBookmark={user.hide_bookmark}
+            hideBookmark={user.hideBookmark}
           />
         )}
         {tab === ProfileTabType.BOOKMARKS && (

@@ -47,25 +47,15 @@ import { HintLiveQuery } from 'graphql/LiveQueries/generated/HintLiveQuery';
 import { DialogueLiveQuery } from 'graphql/LiveQueries/generated/DialogueLiveQuery';
 
 export const PuzzleDialoguesRendererInner = ({
-  dialogues,
-  hints,
+  puzzleLogs,
   puzzleUser,
   puzzleStatus,
   anonymous,
 }: PuzzleDialoguesRendererInnerProps) => {
-  const dialogueHints: Array<
-    DialogueHintQuery_dialogue | DialogueHintQuery_hint
-  > = mergeList<DialogueHintQuery_dialogue | DialogueHintQuery_hint>(
-    dialogues,
-    hints,
-    'created',
-    'asc',
-  );
-
   return (
     <React.Fragment>
-      {dialogueHints.map(node =>
-        node.__typename === 'dialogue' ? (
+      {puzzleLogs.map(node =>
+        node.__typename === 'Dialogue' ? (
           <PuzzleDialogue
             index={node.qno}
             key={`dialogue-${node.id}`}
@@ -236,18 +226,13 @@ export const PuzzleDialoguesRenderer = ({
     }
   }, [variables && variables.puzzleId, user.id, shouldSubscribe]);
 
-  let dialogues;
-  let hints;
+  let puzzleLogs;
   if (applyUserFilter && userFilterId !== -1) {
-    dialogues = data.dialogue.filter(
-      dialogue => dialogue.user.id === userFilterId,
-    );
-    hints = data.hint.filter(
-      hint => hint.receiver === null || hint.receiver.id === userFilterId,
+    puzzleLogs = data.puzzleLogs.filter(
+      puzzleLog => puzzleLog.user.id === userFilterId,
     );
   } else {
-    dialogues = data.dialogue;
-    hints = data.hint;
+    puzzleLogs = data.puzzleLogs;
   }
 
   return (
@@ -260,8 +245,7 @@ export const PuzzleDialoguesRenderer = ({
         />
       )}
       <PuzzleDialoguesRendererInner
-        dialogues={dialogues}
-        hints={hints}
+        puzzleLogs={puzzleLogs}
         puzzleUser={puzzleUser}
         puzzleStatus={puzzleStatus}
         anonymous={anonymous}

@@ -8,16 +8,10 @@ export const ADD_HINT_MUTATION = gql`
     $content: String!
     $receiverId: Int
   ) {
-    insert_hint(
-      objects: {
-        puzzle_id: $puzzleId
-        content: $content
-        receiver_id: $receiverId
-      }
+    createHint(
+      data: { puzzleId: $puzzleId, content: $content, receiverId: $receiverId }
     ) {
-      returning {
-        ...HintShared
-      }
+      ...HintShared
     }
   }
   ${HINT_SHARED_FRAGMENT}
@@ -25,14 +19,8 @@ export const ADD_HINT_MUTATION = gql`
 
 export const EDIT_HINT_MUTATION = gql`
   mutation EditHintMutation($hintId: Int!, $content: String!) {
-    update_hint(
-      _inc: { edittimes: 1 }
-      _set: { content: $content }
-      where: { id: { _eq: $hintId } }
-    ) {
-      returning {
-        ...HintShared
-      }
+    updateHint(id: $hintId, set: { content: $content }) {
+      ...HintShared
     }
   }
   ${HINT_SHARED_FRAGMENT}

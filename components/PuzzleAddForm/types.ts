@@ -2,7 +2,7 @@ import {
   AddPuzzleMutationVariables,
   AddPuzzleMutation,
 } from 'graphql/Mutations/generated/AddPuzzleMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 
 type PuzzleFormValidationErrorType = Array<React.ReactNode>;
 

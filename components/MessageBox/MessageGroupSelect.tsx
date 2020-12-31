@@ -56,8 +56,8 @@ const MessageGroupSelectRenderer = ({
         query={USER_LAST_READ_DM_QUERY}
         variables={{ id: userId }}
         onCompleted={data => {
-          if (!data || !data.user_by_pk) return;
-          const lastReadId = data.user_by_pk.last_read_dm_id;
+          if (!data || !data.user) return;
+          const lastReadId = data.user.last_read_dm_id;
           if (!lastReadId) return;
 
           if (directMessageGroup.some(grp => grp.last_dm_id > lastReadId))
@@ -70,11 +70,11 @@ const MessageGroupSelectRenderer = ({
             toast.error(error.message);
             return null;
           }
-          if (!userData || !userData.user_by_pk) {
+          if (!userData || !userData.user) {
             if (loading) return <Loading centered />;
             return null;
           }
-          const lastReadId = userData.user_by_pk.last_read_dm_id || -1;
+          const lastReadId = userData.user.last_read_dm_id || -1;
           return (
             <Mutation<SetLastReadDmMutation, SetLastReadDmMutationVariables>
               mutation={SET_LAST_READ_DM_MUTATION}

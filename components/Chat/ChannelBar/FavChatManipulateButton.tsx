@@ -29,13 +29,11 @@ const FavChatManipulateButton = ({
           toast.error(error.message);
           return null;
         }
-        if (!data || !data.favorite_chatroom) {
+        if (!data || !data.favchats) {
           if (loading) return <Loading centered />;
           return null;
         }
-        const favchat = data.favorite_chatroom.find(
-          fc => fc.chatroom.id === chatroomId,
-        );
+        const favchat = data.favchats.find(fc => fc.chatroom.id === chatroomId);
         return favchat === undefined ? (
           <InsertFavChatButton
             chatroomId={chatroomId}

@@ -70,9 +70,9 @@ const PuzzleDialogue = ({
               <AnonymousUserInline
                 px={1}
                 timestamp={
-                  dialogue.answeredtime && (
+                  dialogue.answeredTime && (
                     <FormattedTime
-                      value={dialogue.answeredtime}
+                      value={dialogue.answeredTime}
                       year="numeric"
                       month="short"
                       day="numeric"
@@ -85,9 +85,9 @@ const PuzzleDialogue = ({
                 px={1}
                 user={puzzleUser}
                 timestamp={
-                  dialogue.answeredtime && (
+                  dialogue.answeredTime && (
                     <FormattedTime
-                      value={dialogue.answeredtime}
+                      value={dialogue.answeredTime}
                       year="numeric"
                       month="short"
                       day="numeric"
@@ -103,7 +103,7 @@ const PuzzleDialogue = ({
             goodAns={dialogue.good}
             trueAns={dialogue.true}
             answer={dialogue.answer}
-            answeredtime={dialogue.answeredtime}
+            answeredTime={dialogue.answeredTime}
             puzzleUserId={puzzleUser.id}
             answerEditTimes={dialogue.answerEditTimes}
             puzzleStatus={puzzleStatus}

@@ -4,26 +4,19 @@ import { USER_AWARD_FRAGMENT } from '../Fragments/UserAward';
 
 export const EDIT_PROFILE_MUTATION = gql`
   mutation EditProfileMutation($userId: Int!, $content: String!) {
-    update_user(_set: { profile: $content }, where: { id: { _eq: $userId } }) {
-      returning {
-        id
-        profile
-      }
+    updateUser(id: $userId, set: { profile: $content }) {
+      id
+      profile
     }
   }
 `;
 
 export const CHANGE_CURRERNT_USERAWARD_MUTATION = gql`
   mutation ChangeCurrentUserawardMutation($userId: Int!, $userawardId: Int) {
-    update_user(
-      _set: { current_award_id: $userawardId }
-      where: { id: { _eq: $userId } }
-    ) {
-      returning {
-        id
-        current_user_award {
-          ...UserAward
-        }
+    updateUser(id: $userId, set: { currentAwardId: $userawardId }) {
+      id
+      currentAward {
+        ...UserAward
       }
     }
   }
@@ -32,18 +25,14 @@ export const CHANGE_CURRERNT_USERAWARD_MUTATION = gql`
 
 export const CHANGE_HIDE_BOOKMARK_MUTATION = gql`
   mutation ChangeHideBookmarkMutation($userId: Int!, $hideBookmark: Boolean!) {
-    update_user(
-      _set: { hide_bookmark: $hideBookmark }
-      where: { id: { _eq: $userId } }
-    ) {
-      returning {
-        id
-        hide_bookmark
-      }
+    updateUser(id: $userId, set: { hideBookmark: $hideBookmark }) {
+      id
+      hideBookmark
     }
   }
 `;
 
+/* DEPRECATED
 export const SET_LAST_READ_DM_MUTATION = gql`
   mutation SetLastReadDmMutation($userId: Int!, $directMessageId: Int!) {
     update_user(
@@ -57,3 +46,4 @@ export const SET_LAST_READ_DM_MUTATION = gql`
     }
   }
 `;
+*/

@@ -46,12 +46,12 @@ const UserPanel = ({ user, maxLength, directChatWithUser }: UserPanelProps) => (
     </Box>
     <Box minWidth="50%" style={{ flexGrow: 1 }} mb={1}>
       <EditTimeSpan>
-        <FormattedMessage {...authMessages.date_joined} />:
+        <FormattedMessage {...authMessages.dateJoined} />:
         <FormattedTime
           year="numeric"
           month="short"
           day="numeric"
-          value={user.date_joined}
+          value={user.dateJoined}
         />
       </EditTimeSpan>
     </Box>

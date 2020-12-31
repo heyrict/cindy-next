@@ -15,7 +15,7 @@ import {
   ChangeHideBookmarkMutation,
   ChangeHideBookmarkMutationVariables,
 } from 'graphql/Mutations/generated/ChangeHideBookmarkMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 
 import { ProfileHideBookmarksToggleProps } from './types';
 
@@ -40,15 +40,10 @@ const ProfileHideBookmarksToggle = ({
                   hideBookmark: !hideBookmark,
                 },
                 optimisticResponse: {
-                  update_user: {
-                    __typename: 'user_mutation_response',
-                    returning: [
-                      {
-                        __typename: 'user',
-                        id: userId,
-                        hide_bookmark: !hideBookmark,
-                      },
-                    ],
+                  updateUser: {
+                    __typename: 'User',
+                    id: userId,
+                    hideBookmark: !hideBookmark,
                   },
                 },
               })

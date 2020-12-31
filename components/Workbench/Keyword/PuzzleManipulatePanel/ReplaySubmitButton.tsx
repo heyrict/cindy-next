@@ -14,7 +14,7 @@ import { ADD_REPLAY_MUTATION } from 'graphql/Mutations/Replay';
 
 import { Box, ButtonTransparent } from 'components/General';
 
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors/ApolloError';
 import { StateType, ActionContentType } from 'reducers/types';
 import { ReplaySubmitButtonProps } from './types';
 import {

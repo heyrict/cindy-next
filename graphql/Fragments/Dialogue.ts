@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { USER_BRIEF_FRAGMENT } from './User';
 
 export const DIALOGUE_SHARED_FRAGMENT = gql`
-  fragment DialogueShared on dialogue {
+  fragment DialogueShared on Dialogue {
     id
     qno
     good
@@ -13,7 +13,7 @@ export const DIALOGUE_SHARED_FRAGMENT = gql`
     answer
     answerEditTimes
     created
-    answeredtime
+    answeredTime
     user {
       ...UserBrief
     }

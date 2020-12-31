@@ -61,38 +61,18 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               <Loading />
             </Flex>
           );
-        if (!data || !data.award) return null;
+        if (!data || !data.awards) return null;
         if (error) {
           toast.error(error.message);
         }
 
-        const awardsDefs = data.award;
+        const awardsDefs = data.awards;
 
-        const puzzleCount =
-          userInfo &&
-          userInfo.puzzles_aggregate.aggregate &&
-          userInfo.puzzles_aggregate.aggregate.count &&
-          userInfo.puzzles_aggregate.aggregate.count;
-        const questionCount =
-          userInfo &&
-          userInfo.dialogues_aggregate.aggregate &&
-          userInfo.dialogues_aggregate.aggregate.count &&
-          userInfo.dialogues_aggregate.aggregate.count;
-        const goodQuestionCount =
-          userInfo &&
-          userInfo.good_questions_aggregate.aggregate &&
-          userInfo.good_questions_aggregate.aggregate.count &&
-          userInfo.good_questions_aggregate.aggregate.count;
-        const trueAnswerCount =
-          userInfo &&
-          userInfo.true_answers_aggregate.aggregate &&
-          userInfo.true_answers_aggregate.aggregate.count &&
-          userInfo.true_answers_aggregate.aggregate.count;
-        const yamiPuzzleCount =
-          userInfo &&
-          userInfo.yami_puzzles_aggregate &&
-          userInfo.yami_puzzles_aggregate.aggregate &&
-          userInfo.yami_puzzles_aggregate.aggregate.count;
+        const puzzleCount = userInfo && userInfo.puzzleCount;
+        const questionCount = userInfo && userInfo.dialogueCount;
+        const goodQuestionCount = userInfo && userInfo.goodQuestionCount;
+        const trueAnswerCount = userInfo && userInfo.trueAnswerCount;
+        const yamiPuzzleCount = userInfo && userInfo.yamiPuzzleCount;
 
         return (
           <React.Fragment>
@@ -107,9 +87,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, count) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.user_awards.findIndex(
-                    ua => ua.award_id === awardId,
-                  ) >= 0;
+                  userInfo.userAwards.findIndex(ua => ua.awardId === awardId) >=
+                    0;
 
                 if (hasThisAward) {
                   return AwardStatusType.GET;
@@ -131,9 +110,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, count) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.user_awards.findIndex(
-                    ua => ua.award_id === awardId,
-                  ) >= 0;
+                  userInfo.userAwards.findIndex(ua => ua.awardId === awardId) >=
+                    0;
 
                 if (hasThisAward) {
                   return AwardStatusType.GET;
@@ -155,9 +133,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, count) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.user_awards.findIndex(
-                    ua => ua.award_id === awardId,
-                  ) >= 0;
+                  userInfo.userAwards.findIndex(ua => ua.awardId === awardId) >=
+                    0;
 
                 if (hasThisAward) {
                   return AwardStatusType.GET;
@@ -179,9 +156,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, count) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.user_awards.findIndex(
-                    ua => ua.award_id === awardId,
-                  ) >= 0;
+                  userInfo.userAwards.findIndex(ua => ua.awardId === awardId) >=
+                    0;
 
                 if (hasThisAward) {
                   return AwardStatusType.GET;
@@ -234,8 +210,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                         checker={(awardId, awardObj) => {
                           const hasThisAward =
                             userInfo &&
-                            userInfo.user_awards.findIndex(
-                              ua => ua.award_id === awardId,
+                            userInfo.userAwards.findIndex(
+                              ua => ua.awardId === awardId,
                             ) >= 0;
 
                           if (hasThisAward) {
@@ -317,8 +293,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                           checker={(awardId, awardObj) => {
                             const hasThisAward =
                               userInfo &&
-                              userInfo.user_awards.findIndex(
-                                ua => ua.award_id === awardId,
+                              userInfo.userAwards.findIndex(
+                                ua => ua.awardId === awardId,
                               ) >= 0;
 
                             if (hasThisAward) {
@@ -346,8 +322,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                           checker={(awardId, awardObj) => {
                             const hasThisAward =
                               userInfo &&
-                              userInfo.user_awards.findIndex(
-                                ua => ua.award_id === awardId,
+                              userInfo.userAwards.findIndex(
+                                ua => ua.awardId === awardId,
                               ) >= 0;
 
                             if (hasThisAward) {
@@ -398,9 +374,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, awardObj) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.user_awards.findIndex(
-                    ua => ua.award_id === awardId,
-                  ) >= 0;
+                  userInfo.userAwards.findIndex(ua => ua.awardId === awardId) >=
+                    0;
 
                 if (hasThisAward) {
                   return AwardStatusType.GET;
@@ -427,9 +402,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
               checker={(awardId, awardObj) => {
                 const hasThisAward =
                   userInfo &&
-                  userInfo.user_awards.findIndex(
-                    ua => ua.award_id === awardId,
-                  ) >= 0;
+                  userInfo.userAwards.findIndex(ua => ua.awardId === awardId) >=
+                    0;
 
                 if (hasThisAward) {
                   return AwardStatusType.GET;
@@ -488,8 +462,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                         checker={(awardId, awardObj) => {
                           const hasThisAward =
                             userInfo &&
-                            userInfo.user_awards.findIndex(
-                              ua => ua.award_id === awardId,
+                            userInfo.userAwards.findIndex(
+                              ua => ua.awardId === awardId,
                             ) >= 0;
 
                           if (hasThisAward) {
@@ -537,9 +511,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
                 if (!userInfo) return AwardStatusType.WAIT;
 
                 const hasThisAward =
-                  userInfo.user_awards.findIndex(
-                    ua => ua.award_id === awardId,
-                  ) >= 0;
+                  userInfo.userAwards.findIndex(ua => ua.awardId === awardId) >=
+                  0;
                 if (hasThisAward) return AwardStatusType.GET;
 
                 const puzzlesAggr = userInfo.puzzles_aggregate.aggregate;
@@ -548,7 +521,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => (
 
                 if (!puzzlesMaxCreated) return AwardStatusType.WAIT;
 
-                const userDateJoined = new Date(userInfo.date_joined);
+                const userDateJoined = new Date(userInfo.dateJoined);
                 const lastPuzzleCreated = new Date(puzzlesMaxCreated);
                 const daysOfLastPuzzleSinceJoined =
                   (lastPuzzleCreated.getTime() - userDateJoined.getTime()) /

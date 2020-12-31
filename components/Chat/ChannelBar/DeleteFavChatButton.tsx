@@ -28,23 +28,21 @@ const DeleteFavChatButton = ({
   >
     mutation={DELETE_FAVORITE_CHATROOM_MUTATION}
     update={(proxy, { data, errors }) => {
-      if (!data || !data.delete_favorite_chatroom) return;
-      if (data.delete_favorite_chatroom.affected_rows === 0) return;
+      if (!data || !data.deleteFavChat) return;
+      if (data.deleteFavChat.affected_rows === 0) return;
       if (errors) {
         toast.error(JSON.stringify(errors));
         return;
       }
-      const favChatrooms = proxy.readQuery<FavoriteChatroomsQuery>({
+      const favchats = proxy.readQuery<FavoriteChatroomsQuery>({
         query: FAVORITE_CHATROOMS_QUERY,
       });
-      if (!favChatrooms) return;
+      if (!favchats) return;
       proxy.writeQuery({
         query: FAVORITE_CHATROOMS_QUERY,
         data: {
-          ...favChatrooms,
-          favorite_chatroom: favChatrooms.favorite_chatroom.filter(
-            fc => fc.id !== favchatId,
-          ),
+          ...favchats,
+          favchats: favchats.favchats.filter(fc => fc.id !== favchatId),
         },
       });
     }}
@@ -53,12 +51,12 @@ const DeleteFavChatButton = ({
       const _handleDeleteFavChat = () => {
         deleteFavChat({
           variables: {
-            favoriteChatroomId: favchatId,
+            favchatId: favchatId,
           },
           optimisticResponse: {
-            delete_favorite_chatroom: {
-              __typename: 'favorite_chatroom_mutation_response',
-              affected_rows: 1,
+            deleteFavChat: {
+              __typename: 'Favchat',
+              id: favchatId,
             },
           },
         });

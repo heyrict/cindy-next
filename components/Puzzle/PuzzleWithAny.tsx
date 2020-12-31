@@ -66,7 +66,7 @@ const PuzzleWithAny = ({
       (puzzle.dialogues_aggregate &&
         puzzle.dialogues_aggregate.aggregate &&
         puzzle.dialogues_aggregate.aggregate.max &&
-        puzzle.dialogues_aggregate.aggregate.max.answeredtime),
+        puzzle.dialogues_aggregate.aggregate.max.answeredTime),
     dialogueMaxCreatedtime:
       dialogueMaxCreated ||
       (puzzle.dialogues_aggregate &&

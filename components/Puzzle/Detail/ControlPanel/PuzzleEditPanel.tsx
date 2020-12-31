@@ -17,14 +17,14 @@ const PuzzleEditPanel = ({
   genre,
   grotesque,
   status,
-  dazed_on,
+  dazedOn,
   updatePuzzle,
   updatePuzzleDazedOn,
   show,
 }: PuzzleEditPanelProps) => {
   const notifHdlRef = useRef<React.ReactText | null>(null);
 
-  // Update dazed_on date
+  // Update dazedOn date
   useEffect(() => {
     if (status !== 0) return;
     const newDazedOn = new Date();
@@ -35,7 +35,7 @@ const PuzzleEditPanel = ({
     newDazedOn.setDate(newDazedOn.getDate() + dazedTimeOffset);
     if (
       `${newDazedOn.getUTCFullYear()}-${newDazedOn.getUTCMonth()}${newDazedOn.getUTCDate()}` ===
-      dazed_on
+      dazedOn
     )
       return;
     updatePuzzleDazedOn({
@@ -44,15 +44,10 @@ const PuzzleEditPanel = ({
         dazedOn: newDazedOn.toISOString(),
       },
       optimisticResponse: {
-        update_puzzle: {
-          __typename: 'puzzle_mutation_response',
-          returning: [
-            {
-              __typename: 'puzzle',
-              id: puzzleId,
-              dazed_on: newDazedOn.toISOString(),
-            },
-          ],
+        updatePuzzle: {
+          __typename: 'Puzzle',
+          id: puzzleId,
+          dazedOn: newDazedOn.toISOString(),
         },
       },
     });
@@ -80,7 +75,7 @@ const PuzzleEditPanel = ({
         </Box>
         <Box mx="auto" py={1}>
           <FormattedDate
-            value={dazed_on}
+            value={dazedOn}
             year="numeric"
             month="short"
             day="numeric"
@@ -120,17 +115,12 @@ const PuzzleEditPanel = ({
                               yami,
                             },
                             optimisticResponse: {
-                              update_puzzle: {
-                                __typename: 'puzzle_mutation_response',
-                                returning: [
-                                  {
-                                    __typename: 'puzzle',
-                                    id: puzzleId,
-                                    grotesque,
-                                    status: 1,
-                                    yami,
-                                  },
-                                ],
+                              updatePuzzle: {
+                                __typename: 'Puzzle',
+                                id: puzzleId,
+                                grotesque,
+                                status: 1,
+                                yami,
                               },
                             },
                           });
@@ -164,17 +154,12 @@ const PuzzleEditPanel = ({
                     yami: 1 - yami,
                   },
                   optimisticResponse: {
-                    update_puzzle: {
-                      __typename: 'puzzle_mutation_response',
-                      returning: [
-                        {
-                          __typename: 'puzzle',
-                          id: puzzleId,
-                          grotesque,
-                          status,
-                          yami: 1 - yami,
-                        },
-                      ],
+                    updatePuzzle: {
+                      __typename: 'Puzzle',
+                      id: puzzleId,
+                      grotesque,
+                      status,
+                      yami: 1 - yami,
                     },
                   },
                 });
@@ -224,17 +209,12 @@ const PuzzleEditPanel = ({
                               yami,
                             },
                             optimisticResponse: {
-                              update_puzzle: {
-                                __typename: 'puzzle_mutation_response',
-                                returning: [
-                                  {
-                                    __typename: 'puzzle',
-                                    id: puzzleId,
-                                    grotesque,
-                                    status: status === 3 ? 1 : 3,
-                                    yami,
-                                  },
-                                ],
+                              updatePuzzle: {
+                                __typename: 'Puzzle',
+                                id: puzzleId,
+                                grotesque,
+                                status: status === 3 ? 1 : 3,
+                                yami,
                               },
                             },
                           });
@@ -269,17 +249,12 @@ const PuzzleEditPanel = ({
                     yami,
                   },
                   optimisticResponse: {
-                    update_puzzle: {
-                      __typename: 'puzzle_mutation_response',
-                      returning: [
-                        {
-                          __typename: 'puzzle',
-                          id: puzzleId,
-                          grotesque: !grotesque,
-                          status,
-                          yami,
-                        },
-                      ],
+                    updatePuzzle: {
+                      __typename: 'Puzzle',
+                      id: puzzleId,
+                      grotesque: !grotesque,
+                      status,
+                      yami,
                     },
                   },
                 });

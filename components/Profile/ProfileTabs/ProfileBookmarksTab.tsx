@@ -23,17 +23,12 @@ const ProfileBookmarksTab = ({ userId }: ProfileBookmarksTabProps) => (
       userId,
       orderBy: [{ value: order_by.desc }],
     }}
-    getItemCount={data =>
-      (data.bookmark_aggregate &&
-        data.bookmark_aggregate.aggregate &&
-        data.bookmark_aggregate.aggregate.count) ||
-      0
-    }
+    getItemCount={data => data.bookmarkCount}
     renderItems={data => {
-      if (!data.bookmark) return null;
+      if (!data.bookmarks) return null;
       return (
         <>
-          {data.bookmark.map(bookmark => (
+          {data.bookmarks.map(bookmark => (
             <MultiColBox key={bookmark.id}>
               <PuzzleWithAny
                 cap={

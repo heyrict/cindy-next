@@ -29,7 +29,7 @@ const puzzleMinimal = {
 const puzzleMaximum = {
   ...puzzleMinimal,
   anonymous: true,
-  dazed_on: '2018-11-29',
+  dazedOn: '2018-11-29',
   stars_aggregate: {
     aggregate: {
       count: 7,
@@ -52,7 +52,7 @@ const puzzleMaximum = {
     aggregate: {
       count: 16,
       max: {
-        answeredtime: '2017-10-02T21:49:22.066+08:00',
+        answeredTime: '2017-10-02T21:49:22.066+08:00',
         created: '2017-10-02T20:07:00.000+08:00',
       },
     },

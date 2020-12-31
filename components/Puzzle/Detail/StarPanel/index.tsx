@@ -56,21 +56,14 @@ const StarPanel = ({ puzzleId, canAddStar }: StarPanelProps) => {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.star_aggregate) {
+            if (!data || !data.starCount) {
               if (loading) return <Loading centered />;
               return null;
             }
 
             const agg = {
-              starCount:
-                (data.star_aggregate.aggregate &&
-                  data.star_aggregate.aggregate.count) ||
-                0,
-              starSum:
-                (data.star_aggregate.aggregate &&
-                  data.star_aggregate.aggregate.sum &&
-                  data.star_aggregate.aggregate.sum.value) ||
-                0,
+              starCount: data.starCount,
+              starSum: data.starSum || 0,
             };
 
             return (
