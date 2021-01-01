@@ -17,7 +17,7 @@ import {
   EditQuestionMutation,
   EditQuestionMutationVariables,
 } from 'graphql/Mutations/generated/EditQuestionMutation';
-import { ApolloError } from '@apollo/client/errors/ApolloError';
+import { ApolloError } from '@apollo/client';
 import { StateType, SendMessageTriggerType } from 'reducers/types';
 
 const QuestionEdit = ({

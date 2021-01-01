@@ -15,7 +15,7 @@ import {
   EditProfileMutation,
   EditProfileMutationVariables,
 } from 'graphql/Mutations/generated/EditProfileMutation';
-import { ApolloError } from '@apollo/client/errors/ApolloError';
+import { ApolloError } from '@apollo/client';
 
 const ProfileEdit = ({ profile, setEdit, userId }: ProfileEditProps) => {
   const editorRef = useRef<LegacyEditor>(null!);

@@ -14,7 +14,7 @@ import {
   ChangeCurrentUserawardMutation,
   ChangeCurrentUserawardMutationVariables,
 } from 'graphql/Mutations/generated/ChangeCurrentUserawardMutation';
-import { ApolloError } from '@apollo/client/errors/ApolloError';
+import { ApolloError } from '@apollo/client';
 
 const UserAwardsEdit = ({
   setEdit,

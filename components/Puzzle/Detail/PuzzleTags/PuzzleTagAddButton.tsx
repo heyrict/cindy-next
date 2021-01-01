@@ -20,7 +20,7 @@ import {
   AddPuzzleTagMutationVariables,
 } from 'graphql/Mutations/generated/AddPuzzleTagMutation';
 import { PuzzleTagAddButtonProps } from './types';
-import { ApolloError } from '@apollo/client/errors/ApolloError';
+import { ApolloError } from '@apollo/client';
 import {
   PuzzlePageTagsQuery,
   PuzzlePageTagsQueryVariables,

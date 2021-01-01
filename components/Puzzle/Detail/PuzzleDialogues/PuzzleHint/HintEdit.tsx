@@ -15,7 +15,7 @@ import {
   EditHintMutation,
   EditHintMutationVariables,
 } from 'graphql/Mutations/generated/EditHintMutation';
-import { ApolloError } from '@apollo/client/errors/ApolloError';
+import { ApolloError } from '@apollo/client';
 
 const HintEdit = ({ hint, setEdit }: HintEditProps) => {
   const [text, setText] = useState(hint.content);

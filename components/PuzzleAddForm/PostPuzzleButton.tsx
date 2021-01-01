@@ -11,7 +11,7 @@ import messages from 'messages/pages/add_puzzle';
 import { ButtonTransparent } from 'components/General';
 import Loading from 'components/General/Loading';
 
-import { ApolloError } from '@apollo/client/errors/ApolloError';
+import { ApolloError } from '@apollo/client';
 import { ActionContentType } from 'reducers/types';
 import { PostPuzzleDetailProps } from './types';
 

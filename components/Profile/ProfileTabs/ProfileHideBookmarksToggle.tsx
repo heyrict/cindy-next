@@ -15,7 +15,7 @@ import {
   ChangeHideBookmarkMutation,
   ChangeHideBookmarkMutationVariables,
 } from 'graphql/Mutations/generated/ChangeHideBookmarkMutation';
-import { ApolloError } from '@apollo/client/errors/ApolloError';
+import { ApolloError } from '@apollo/client';
 
 import { ProfileHideBookmarksToggleProps } from './types';
 

@@ -23,7 +23,7 @@ import {
   PuzzlePageTagsQuery,
   PuzzlePageTagsQueryVariables,
 } from 'graphql/Queries/generated/PuzzlePageTagsQuery';
-import { ApolloError } from '@apollo/client/errors/ApolloError';
+import { ApolloError } from '@apollo/client';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
