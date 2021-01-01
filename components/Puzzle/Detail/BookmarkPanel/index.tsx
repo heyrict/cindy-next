@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'theme/styled';
 
+import { connect } from 'react-redux';
+import * as globalReducer from 'reducers/global';
+
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
@@ -17,6 +20,7 @@ import BookmarkPopoverContent from './BookmarkPopoverContent';
 import bookmarkIcon from 'svgs/puzzleDetailBookmark.svg';
 
 import { BookmarkPanelProps } from './types';
+import { StateType } from 'reducers/types';
 import {
   PuzzleBookmarkAggregateQuery,
   PuzzleBookmarkAggregateQueryVariables,
@@ -32,7 +36,7 @@ const BookmarkButton = styled(Button)`
   }
 `;
 
-const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
+const BookmarkPanel = ({ puzzleId, userId }: BookmarkPanelProps) => {
   const [loaded, setLoaded] = useState(false);
   const [show, setShow] = useState(false);
   let buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -97,7 +101,7 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
                         </BookmarkButton>
                       )}
                     </Reference>
-                    {show && (
+                    {show && userId && (
                       <Popper placement="top">
                         {({ ref, style, placement }) => (
                           <Flex
@@ -114,6 +118,7 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
                             data-placement={placement}
                           >
                             <BookmarkPopoverContent
+                              userId={userId}
                               puzzleId={puzzleId}
                               setShow={setShow}
                               buttonRef={buttonRef}
@@ -133,4 +138,10 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
   );
 };
 
-export default BookmarkPanel;
+const mapStateToProps = (state: StateType) => ({
+  userId: globalReducer.rootSelector(state).user.id,
+});
+
+const withRedux = connect(mapStateToProps);
+
+export default withRedux(BookmarkPanel);

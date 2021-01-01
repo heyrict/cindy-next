@@ -14,14 +14,14 @@ import {
   ProfileBookmarksQuery,
   ProfileBookmarksQueryVariables,
 } from 'graphql/Queries/generated/ProfileBookmarksQuery';
-import { order_by } from 'generated/globalTypes';
+import { Ordering } from 'generated/globalTypes';
 
 const ProfileBookmarksTab = ({ userId }: ProfileBookmarksTabProps) => (
   <PaginatedQuery<ProfileBookmarksQuery, ProfileBookmarksQueryVariables>
     query={PROFILE_BOOKMARKS_QUERY}
     variables={{
       userId,
-      orderBy: [{ value: order_by.desc }],
+      orderBy: [{ value: Ordering.DESC }],
     }}
     getItemCount={data => data.bookmarkCount}
     renderItems={data => {
