@@ -179,7 +179,7 @@ const PuzzleDetail = ({
           <StarPanel puzzleId={puzzle.id} canAddStar={!isCreator} />
         )}
         {shouldShowCommentPanel && (
-          <CommentPanel puzzleId={puzzle.id} canAddComment={!isCreator} />
+          <CommentPanel puzzleId={puzzle.id} canAddComment={!isCreator} userId={userId} />
         )}
         {shouldShowBookmarkPanel && <BookmarkPanel puzzleId={puzzle.id} />}
         {shouldShowReplayPanel && <ReplayPanel puzzleId={puzzle.id} />}

@@ -52,10 +52,9 @@ export type TagsVariablesStates = {
   orderBy: Array<PuzzleTagOrder>;
 };
 
-export type CommentsRendererProps = QueryResult<
-  CommentsQuery,
-  CommentsQueryVariables
->;
+export type CommentsRendererProps = {
+  variables: CommentsQueryVariables;
+};
 
 export type ChannelPageProps = {
   chatroom: string;

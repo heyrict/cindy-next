@@ -6,7 +6,7 @@ import { mergeList } from 'common/update';
 import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import messages from 'messages/pages/comments';
 
-import { Query } from '@apollo/react-components';
+import { useQuery } from '@apollo/client';
 import { COMMENTS_QUERY } from 'graphql/Queries/Comment';
 
 import { Heading, Flex, Panel } from 'components/General';
@@ -31,13 +31,15 @@ const commentLoadingPanel = (
   </MultiColBox>
 );
 
-const CommentsRenderer = ({
-  loading,
-  error,
-  data,
-  fetchMore,
-}: CommentsRendererProps) => {
+const CommentsRenderer = ({ variables }: CommentsRendererProps) => {
   const [hasMore, setHasMore] = useState(true);
+
+  const { loading, error, data, fetchMore } = useQuery<
+    CommentsQuery,
+    CommentsQueryVariables
+  >(COMMENTS_QUERY, {
+    variables,
+  });
 
   // Update first 20 questions upon second+ load
   useEffect(() => {
@@ -48,12 +50,13 @@ const CommentsRenderer = ({
     ) {
       fetchMore({
         updateQuery: (prev, { fetchMoreResult }) => {
-          if (!fetchMoreResult || !fetchMoreResult.comment) return prev;
+          if (!fetchMoreResult || !fetchMoreResult.commentsInSolvedPuzzle)
+            return prev;
           return {
             ...prev,
             comment: mergeList(
-              prev.comment,
-              fetchMoreResult.comment,
+              prev.commentsInSolvedPuzzle,
+              fetchMoreResult.commentsInSolvedPuzzle,
               'id',
               'desc',
             ),
@@ -82,7 +85,7 @@ const CommentsRenderer = ({
             <CommentDisplay comment={comment} />
           </MultiColBox>
         ))}
-        {data.comment.length >= COMMENTS_PER_PAGE && hasMore && (
+        {data.commentsInSolvedPuzzle.length >= COMMENTS_PER_PAGE && hasMore && (
           <LoadMoreVis
             wait={0}
             loadMore={() =>
@@ -134,13 +137,7 @@ const Comments = ({ intl }: { intl: IntlShape }) => {
       </Heading>
       <PuzzleSubbar />
       <Flex flexWrap="wrap">
-        <Query<CommentsQuery, CommentsQueryVariables>
-          query={COMMENTS_QUERY}
-          variables={{ limit: COMMENTS_PER_PAGE }}
-          fetchPolicy="cache-first"
-        >
-          {params => <CommentsRenderer {...params} />}
-        </Query>
+        <CommentsRenderer variables={{ limit: COMMENTS_PER_PAGE, offset: 0 }} />
       </Flex>
     </React.Fragment>
   );

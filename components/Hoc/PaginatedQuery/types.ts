@@ -29,7 +29,7 @@ export type PaginatedQueryProps<
   getItemCount: (data: TData) => number;
   renderItems: (data: TData) => JSX.Element | null;
 } & typeof PaginatedQueryDefaultProps &
-  QueryPropsWithoutChildren<TData, TVariables>;
+  QueryPropsWithoutChildren<TData, Omit<TVariables, 'limit' | 'offset'>>;
 
 export type PaginatedQueryStates = {
   page: number;

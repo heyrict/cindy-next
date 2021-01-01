@@ -15,7 +15,6 @@ import Heading from 'components/General/Heading';
 import CommentDisplay from 'components/Puzzle/CommentDisplay';
 
 import { ProfileCommentsTabProps } from './types';
-import { order_by } from 'generated/globalTypes';
 import {
   ProfileCommentsQuery,
   ProfileCommentsQueryVariables,
@@ -63,7 +62,7 @@ const ProfileCommentsTab = ({ userId }: ProfileCommentsTabProps) => (
         variables={{
           userId,
         }}
-        getItemCount={data => userReceivedCommentCount}
+        getItemCount={data => data.userReceivedCommentCount}
         renderItems={data => {
           if (!data.userReceivedComments) return null;
           return (

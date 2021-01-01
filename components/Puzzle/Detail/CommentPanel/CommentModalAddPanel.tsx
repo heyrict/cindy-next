@@ -2,11 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { upsertItem } from 'common/update';
 import { toast } from 'react-toastify';
 
-import { connect } from 'react-redux';
-import * as globalReducer from 'reducers/global';
-
-import { Query, Mutation } from '@apollo/react-components';
-import { QueryResult } from '@apollo/react-common';
+import { ApolloError, useQuery, useMutation } from '@apollo/client';
 import {
   PREVIOUS_COMMENT_VALUE_QUERY,
   PUZZLE_COMMENT_QUERY,
@@ -24,7 +20,10 @@ import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 import commonMessages from 'messages/common';
 
-import { CommentModalAddPanelProps } from './types';
+import {
+  CommentModalAddPanelProps,
+  CommentModalAddPanelRendererProps,
+} from './types';
 import {
   PreviousCommentValueQuery,
   PreviousCommentValueQueryVariables,
@@ -33,42 +32,77 @@ import {
   AddCommentMutationVariables,
   AddCommentMutation,
 } from 'graphql/Mutations/generated/AddCommentMutation';
-import { StateType } from 'reducers/types';
 import {
   PuzzleCommentQuery,
   PuzzleCommentQueryVariables,
 } from 'graphql/Queries/generated/PuzzleCommentQuery';
-import { ApolloError } from '@apollo/client';
 
 const CommentModalAddPanelRenderer = ({
   puzzleId,
-  user,
-  data,
-  loading,
-  error,
-}: CommentModalAddPanelProps &
-  QueryResult<
-    PreviousCommentValueQuery,
-    PreviousCommentValueQueryVariables
-  >) => {
+  userId,
+  comments,
+}: CommentModalAddPanelRendererProps) => {
   const [spoiler, setSpoiler] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null!);
   const notifHdlRef = useRef<React.ReactText | null>(null);
 
-  useEffect(() => {
-    if (!data || !data.comments || data.comments.length === 0) return;
-    setSpoiler(data.comments[0].spoiler);
-    if (inputRef.current) inputRef.current.value = data.comments[0].content;
-  }, [data]);
+  const [addComment] = useMutation<
+    AddCommentMutation,
+    AddCommentMutationVariables
+  >(ADD_COMMENT_MUTATION, {
+    update: (proxy, { data }) => {
+      if (!data || !data.createComment) return;
+      const newComment = data.createComment;
 
-  if (error) {
-    toast.error(error.message);
-    return null;
-  }
-  if (!data || !data.comments) {
-    if (loading) return <Loading centered />;
-    return null;
-  }
+      // Update comment list
+      const oldComments = proxy.readQuery<
+        PuzzleCommentQuery,
+        PuzzleCommentQueryVariables
+      >({
+        query: PUZZLE_COMMENT_QUERY,
+        variables: {
+          puzzleId,
+        },
+      });
+      if (oldComments) {
+        proxy.writeQuery<PuzzleCommentQuery, PuzzleCommentQueryVariables>({
+          query: PUZZLE_COMMENT_QUERY,
+          variables: {
+            puzzleId,
+          },
+          data: {
+            ...oldComments,
+            comments:
+              newComment.id === -1
+                ? [newComment, ...oldComments.comments]
+                : upsertItem(oldComments.comments, newComment, 'id', 'desc'),
+          },
+        });
+      }
+
+      // Update user comment
+      if (!userId) return;
+      proxy.writeQuery<
+        PreviousCommentValueQuery,
+        PreviousCommentValueQueryVariables
+      >({
+        query: PREVIOUS_COMMENT_VALUE_QUERY,
+        variables: {
+          puzzleId,
+          userId,
+        },
+        data: {
+          comments: [newComment],
+        },
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (comments.length === 0) return;
+    setSpoiler(comments[0].spoiler);
+    if (inputRef.current) inputRef.current.value = comments[0].content;
+  }, [comments]);
 
   return (
     <Flex
@@ -81,7 +115,7 @@ const CommentModalAddPanelRenderer = ({
       mb={2}
     >
       <Box bg="yellow.3" width={1} p={2} mb={2}>
-        {data.comments.length === 0 ? (
+        {comments.length === 0 ? (
           <FormattedMessage {...puzzleMessages.addComment} />
         ) : (
           <FormattedMessage {...puzzleMessages.yourComment} />
@@ -107,121 +141,62 @@ const CommentModalAddPanelRenderer = ({
         <FormattedMessage {...puzzleMessages.spoiler} />
       </Box>
       <Box width={1} bg="yellow.4">
-        <Mutation<AddCommentMutation, AddCommentMutationVariables>
-          mutation={ADD_COMMENT_MUTATION}
-          update={(proxy, { data }) => {
-            if (!data || !data.createComment) return;
-            const newComment = data.createComment;
-
-            // Update comment list
-            const oldComments = proxy.readQuery<
-              PuzzleCommentQuery,
-              PuzzleCommentQueryVariables
-            >({
-              query: PUZZLE_COMMENT_QUERY,
+        <ButtonTransparent
+          p={2}
+          width={1}
+          onClick={() => {
+            if (!inputRef.current) return;
+            const content = inputRef.current.value.trim();
+            addComment({
               variables: {
                 puzzleId,
+                content,
+                spoiler,
               },
-            });
-            if (oldComments) {
-              proxy.writeQuery<PuzzleCommentQuery, PuzzleCommentQueryVariables>(
-                {
-                  query: PUZZLE_COMMENT_QUERY,
-                  variables: {
-                    puzzleId,
-                  },
-                  data: {
-                    ...oldComments,
-                    comments:
-                      newComment.id === -1
-                        ? [newComment, ...oldComments.comments]
-                        : upsertItem(
-                            oldComments.comments,
-                            newComment,
-                            'id',
-                            'desc',
-                          ),
+              optimisticResponse: {
+                createComment: {
+                  __typename: 'Comment',
+                  id: comments.length > 0 ? comments[0].id : -1,
+                  content,
+                  spoiler,
+                  user: {
+                    __typename: 'User',
+                    id: userId || -1,
+                    icon: null,
+                    currentAward: null,
+                    nickname: '...',
+                    username: '...',
                   },
                 },
-              );
-            }
+              },
+            })
+              .then(res => {
+                if (!res) return;
+                const { errors } = res;
+                if (errors) {
+                  toast.error(JSON.stringify(errors));
+                  setSpoiler(spoiler);
+                  return;
+                }
+                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+                toast.info(<FormattedMessage {...commonMessages.saved} />);
+              })
+              .catch((e: ApolloError) => {
+                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+                toast.error(e.message);
+              });
 
-            // Update user comment
-            if (!user.id) return;
-            proxy.writeQuery<
-              PreviousCommentValueQuery,
-              PreviousCommentValueQueryVariables
-            >({
-              query: PREVIOUS_COMMENT_VALUE_QUERY,
-              variables: {
-                puzzleId,
-                userId: user.id,
-              },
-              data: {
-                comments: [newComment],
-              },
-            });
+            notifHdlRef.current = toast.info(
+              <FormattedMessage {...commonMessages.saving} />,
+            );
           }}
         >
-          {addComment => (
-            <ButtonTransparent
-              p={2}
-              width={1}
-              onClick={() => {
-                if (!inputRef.current) return;
-                const content = inputRef.current.value.trim();
-                addComment({
-                  variables: {
-                    puzzleId,
-                    content,
-                    spoiler,
-                  },
-                  optimisticResponse: {
-                    createComment: {
-                      __typename: 'Comment',
-                      id: data.comments.length > 0 ? data.comments[0].id : -1,
-                      content,
-                      spoiler,
-                      user: {
-                        __typename: 'user',
-                        id: user.id || -1,
-                        icon: user.icon || null,
-                        currentAward: null,
-                        nickname: user.nickname || '...',
-                        username: user.username || '...',
-                      },
-                    },
-                  },
-                })
-                  .then(res => {
-                    if (!res) return;
-                    const { errors } = res;
-                    if (errors) {
-                      toast.error(JSON.stringify(errors));
-                      setSpoiler(spoiler);
-                      return;
-                    }
-                    if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                    toast.info(<FormattedMessage {...commonMessages.saved} />);
-                  })
-                  .catch((e: ApolloError) => {
-                    if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                    toast.error(e.message);
-                  });
-
-                notifHdlRef.current = toast.info(
-                  <FormattedMessage {...commonMessages.saving} />,
-                );
-              }}
-            >
-              {data.comments.length === 0 ? (
-                <FormattedMessage {...commonMessages.send} />
-              ) : (
-                <FormattedMessage {...commonMessages.save} />
-              )}
-            </ButtonTransparent>
+          {comments.length === 0 ? (
+            <FormattedMessage {...commonMessages.send} />
+          ) : (
+            <FormattedMessage {...commonMessages.save} />
           )}
-        </Mutation>
+        </ButtonTransparent>
       </Box>
     </Flex>
   );
@@ -229,31 +204,34 @@ const CommentModalAddPanelRenderer = ({
 
 const CommentModalAddPanel = ({
   puzzleId,
-  user,
+  userId,
 }: CommentModalAddPanelProps) => {
-  return user.id ? (
-    <Query<PreviousCommentValueQuery, PreviousCommentValueQueryVariables>
-      query={PREVIOUS_COMMENT_VALUE_QUERY}
-      variables={{
-        puzzleId,
-        userId: user.id,
-      }}
-    >
-      {params => (
-        <CommentModalAddPanelRenderer
-          puzzleId={puzzleId}
-          user={user}
-          {...params}
-        />
-      )}
-    </Query>
-  ) : null;
+  const { data, loading, error } = useQuery<
+    PreviousCommentValueQuery,
+    PreviousCommentValueQueryVariables
+  >(PREVIOUS_COMMENT_VALUE_QUERY, {
+    variables: {
+      puzzleId,
+      userId,
+    },
+  });
+
+  if (error) {
+    toast.error(error.message);
+    return null;
+  }
+  if (!data || !data.comments) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
+
+  return (
+    <CommentModalAddPanelRenderer
+      comments={data.comments}
+      puzzleId={puzzleId}
+      userId={userId}
+    />
+  );
 };
 
-const mapStateToProps = (state: StateType) => ({
-  user: globalReducer.rootSelector(state).user,
-});
-
-const withRedux = connect(mapStateToProps);
-
-export default withRedux(CommentModalAddPanel);
+export default CommentModalAddPanel;
