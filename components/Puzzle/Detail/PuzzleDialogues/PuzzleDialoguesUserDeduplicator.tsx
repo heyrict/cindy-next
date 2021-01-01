@@ -59,24 +59,16 @@ const PuzzleDialoguesUserDeduplicator = ({
         }}
       </Query>
       {userFilterId && (
-        <Query<DialogueHintQuery, DialogueHintQueryVariables>
-          query={DIALOGUE_HINT_QUERY}
+        <PuzzleDialoguesRenderer
           variables={{
             puzzleId,
             userId: userFilterId === -1 ? undefined : userFilterId,
           }}
-          fetchPolicy="cache-and-network"
-        >
-          {queryResult => (
-            <PuzzleDialoguesRenderer
-              {...queryResult}
-              shouldSubscribe={shouldSubscribe}
-              puzzleUser={puzzleUser}
-              anonymous={anonymous}
-              puzzleStatus={puzzleStatus}
-            />
-          )}
-        </Query>
+          shouldSubscribe={shouldSubscribe}
+          puzzleUser={puzzleUser}
+          anonymous={anonymous}
+          puzzleStatus={puzzleStatus}
+        />
       )}
     </React.Fragment>
   );

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { mergeList, upsertMultipleItem } from 'common/update';
+import { upsertMultipleItem } from 'common/update';
 import { maybeSendNotification } from 'common/web-notify';
-import { SUBSCRIPTION_BATCH_LIMIT } from 'settings';
 
 import { useIntl } from 'react-intl';
 import webNotifyMessages from 'messages/webNotify';
@@ -14,13 +13,9 @@ import * as awardCheckerReducer from 'reducers/awardChecker';
 import * as settingReducer from 'reducers/setting';
 
 import {
-  HINT_LIVE_QUERY,
-  HINT_WITH_USER_LIVE_QUERY,
-} from 'graphql/LiveQueries/Hint';
-import {
-  DIALOGUE_LIVE_QUERY,
-  DIALOGUE_WITH_USER_LIVE_QUERY,
-} from 'graphql/LiveQueries/Dialogue';
+  PUZZLE_LOG_WITH_USER_SUB,
+  PUZZLE_LOG_SUB,
+} from 'graphql/Subscriptions/PuzzleLog';
 
 import { Flex } from 'components/General';
 import Loading from 'components/General/Loading';
@@ -38,13 +33,25 @@ import {
   UserFilterSwitcherUserType,
 } from './types';
 import {
-  DialogueHintQuery_hint,
-  DialogueHintQuery_dialogue,
   DialogueHintQuery,
+  DialogueHintQueryVariables,
+  DialogueHintQuery_puzzleLogs_Hint,
+  DialogueHintQuery_puzzleLogs_Dialogue,
 } from 'graphql/Queries/generated/DialogueHintQuery';
 import { ActionContentType, StateType } from 'reducers/types';
-import { HintLiveQuery } from 'graphql/LiveQueries/generated/HintLiveQuery';
-import { DialogueLiveQuery } from 'graphql/LiveQueries/generated/DialogueLiveQuery';
+import { useQuery, useApolloClient } from '@apollo/client';
+import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
+import {
+  PuzzleLogSub,
+  PuzzleLogSubVariables,
+} from 'graphql/Subscriptions/generated/PuzzleLogSub';
+import {
+  PuzzleLogWithUserSub,
+  PuzzleLogWithUserSubVariables,
+} from 'graphql/Subscriptions/generated/PuzzleLogWithUserSub';
+
+type Hint = DialogueHintQuery_puzzleLogs_Hint;
+type Dialogue = DialogueHintQuery_puzzleLogs_Dialogue;
 
 export const PuzzleDialoguesRendererInner = ({
   puzzleLogs,
@@ -76,12 +83,9 @@ export const PuzzleDialoguesRendererInner = ({
   );
 };
 
+// TODO Missing onCompleted function
 export const PuzzleDialoguesRenderer = ({
-  loading,
-  error,
-  data,
   variables,
-  subscribeToMore,
   shouldSubscribe,
   user,
   incGoodQuestions,
@@ -95,7 +99,16 @@ export const PuzzleDialoguesRenderer = ({
   setTrueSolvedLongtermYami,
   updateSolvedLongTermYamiOnSubscribe,
 }: PuzzleDialoguesRendererProps) => {
-  if (!data || !data.dialogue || !data.hint) {
+  const client = useApolloClient();
+  const { loading, error, data, subscribeToMore } = useQuery<
+    DialogueHintQuery,
+    DialogueHintQueryVariables
+  >(DIALOGUE_HINT_QUERY, {
+    variables,
+    fetchPolicy: "cache-and-network",
+  });
+
+  if (!data || !data.puzzleLogs) {
     if (loading) return <Loading centered />;
     return null;
   }
@@ -106,7 +119,7 @@ export const PuzzleDialoguesRenderer = ({
   let users;
 
   if (applyUserFilter) {
-    users = extractUserFilterUserFromDialogues(data.dialogue);
+    users = extractUserFilterUserFromDialogues(data.puzzleLogs);
     setParticipants(users);
   }
 
@@ -121,106 +134,136 @@ export const PuzzleDialoguesRenderer = ({
     if (shouldSubscribe) {
       if (!variables || !variables.puzzleId) return;
 
-      // {{{ handleDialogueSubscribeUpdate()
-      const handleDialogueSubscribeUpdate = (
+      // {{{ handlePuzzleLogSubUpdate()
+      const handlePuzzleLogSubUpdate = (
         prev: DialogueHintQuery,
-        { subscriptionData }: { subscriptionData: { data: DialogueLiveQuery } },
+        { subscriptionData }: { subscriptionData: { data: PuzzleLogSub } },
       ) => {
         if (!subscriptionData.data) return prev;
-        const { dialogue } = subscriptionData.data;
-        if (dialogue === null || dialogue.length === 0) {
-          return prev;
-        }
-        // display answer if user get true answer in long-term yami
-        if (updateSolvedLongTermYamiOnSubscribe && dialogue[0].true)
-          setTrueSolvedLongtermYami();
+        const { puzzleLogSub } = subscriptionData.data;
+        if (!puzzleLogSub) return prev;
 
-        // Update award checker
-        const toUpdate = prev.dialogue.find(d => d.id === dialogue[0].id);
-        if (toUpdate && toUpdate.user.id === user.id) {
-          if (!toUpdate.good && dialogue[0].good) {
-            incGoodQuestions();
-          }
-          if (toUpdate.good && !dialogue[0].good) {
-            incGoodQuestions(-1);
-          }
-          if (!toUpdate.true && dialogue[0].true) {
-            incTrueAnswers();
-          }
-          if (toUpdate.true && !dialogue[0].true) {
-            incTrueAnswers(-1);
-          }
-        }
+        const maxModified = Math.max(
+          ...prev.puzzleLogs.map(({ modified }: { modified: string }) =>
+            new Date(modified).getTime(),
+          ),
+        );
+        const newModified = new Date(puzzleLogSub.data.modified).getTime();
 
-        // Notification for creator
-        if (pushNotification && document.hidden && puzzleUser.id === user.id) {
-          maybeSendNotification(_(webNotifyMessages.newDialogueAdded), {
-            body: dialogue[0].question,
-            renotify: true,
+        if (maxModified >= newModified) return prev;
+
+        client
+          .query<DialogueHintQuery, DialogueHintQueryVariables>({
+            query: DIALOGUE_HINT_QUERY,
+            variables: {
+              ...variables,
+              since: new Date(maxModified).toISOString(),
+            },
+          })
+          .then(({ data }) => {
+            const hints = data.puzzleLogs.filter(
+              puzzleLog => puzzleLog.__typename === 'Hint',
+            ) as Array<Hint>;
+            const dialogues = data.puzzleLogs.filter(
+              puzzleLog => puzzleLog.__typename === 'Dialogue',
+            ) as Array<Dialogue>;
+
+            hints.forEach(hint => {
+              // Notification for participants
+              if (document.hidden && puzzleUser.id !== user.id) {
+                maybeSendNotification(_(webNotifyMessages.newHintAdded), {
+                  body: hint.content,
+                  renotify: true,
+                });
+              }
+            });
+
+            dialogues.forEach(dialogue => {
+              // display answer if user get true answer in long-term yami
+              if (updateSolvedLongTermYamiOnSubscribe && dialogue.true)
+                setTrueSolvedLongtermYami();
+
+              // Update award checker
+              const toUpdate = prev.puzzleLogs.find(
+                d => d.__typename === 'Dialogue' && d.id === dialogue.id,
+              ) as Dialogue | undefined;
+              if (toUpdate && toUpdate.user.id === user.id) {
+                if (!toUpdate.good && dialogue.good) {
+                  incGoodQuestions();
+                }
+                if (toUpdate.good && !dialogue.good) {
+                  incGoodQuestions(-1);
+                }
+                if (!toUpdate.true && dialogue.true) {
+                  incTrueAnswers();
+                }
+                if (toUpdate.true && !dialogue.true) {
+                  incTrueAnswers(-1);
+                }
+              }
+
+              // Notification for creator
+              if (
+                pushNotification &&
+                document.hidden &&
+                puzzleUser.id === user.id
+              ) {
+                maybeSendNotification(_(webNotifyMessages.newDialogueAdded), {
+                  body: dialogue.question,
+                  renotify: true,
+                });
+              }
+            });
+
+            // Updates the original query
+            client.writeQuery({
+              query: DIALOGUE_HINT_QUERY,
+              data: {
+                puzzleLogs: upsertMultipleItem(
+                  prev.puzzleLogs,
+                  data.puzzleLogs,
+                  'id',
+                  'asc',
+                ),
+              },
+            });
           });
-        }
 
-        return Object.assign({}, prev, {
-          dialogue: upsertMultipleItem(prev.dialogue, dialogue, 'id', 'asc'),
-        });
+        return prev;
       };
       // }}}
 
-      // {{{ handleHintSubscribeUpdate()
-      const handleHintSubscribeUpdate = (
-        prev: DialogueHintQuery,
-        { subscriptionData }: { subscriptionData: { data: HintLiveQuery } },
-      ) => {
-        if (!subscriptionData.data) return prev;
-        const { hint } = subscriptionData.data;
-        if (hint === null || hint.length === 0) {
-          return prev;
-        }
-        // Notification for participants
-        if (document.hidden && puzzleUser.id !== user.id) {
-          maybeSendNotification(_(webNotifyMessages.newHintAdded), {
-            body: hint[0].content,
-            renotify: true,
-          });
-        }
-
-        return Object.assign({}, prev, {
-          hint: upsertMultipleItem(prev.hint, hint, 'id', 'asc'),
-        });
-      };
-      // }}}
-
-      if (variables.userId) {
+      const userId = variables.userId;
+      if (userId !== null && userId !== undefined) {
         // Subscribe with user id filtering
-        const unsubscribeHint = subscribeToMore({
-          document: HINT_WITH_USER_LIVE_QUERY,
-          variables: { ...variables, limit: SUBSCRIPTION_BATCH_LIMIT },
-          updateQuery: handleHintSubscribeUpdate,
-        });
-        const unsubscribeDialogue = subscribeToMore({
-          document: DIALOGUE_WITH_USER_LIVE_QUERY,
-          variables: { ...variables, limit: SUBSCRIPTION_BATCH_LIMIT },
-          updateQuery: handleDialogueSubscribeUpdate,
+        const unsubscribePuzzleLog = subscribeToMore<
+          PuzzleLogWithUserSub,
+          PuzzleLogWithUserSubVariables
+        >({
+          document: PUZZLE_LOG_WITH_USER_SUB,
+          variables: {
+            puzzleId: variables.puzzleId,
+            userId,
+          },
+          updateQuery: handlePuzzleLogSubUpdate,
         });
         return () => {
-          unsubscribeHint();
-          unsubscribeDialogue();
+          unsubscribePuzzleLog();
         };
       } else {
         // Subscribe without filtering
-        const unsubscribeHint = subscribeToMore({
-          document: HINT_LIVE_QUERY,
-          variables: { ...variables, limit: SUBSCRIPTION_BATCH_LIMIT },
-          updateQuery: handleHintSubscribeUpdate,
-        });
-        const unsubscribeDialogue = subscribeToMore({
-          document: DIALOGUE_LIVE_QUERY,
-          variables: { ...variables, limit: SUBSCRIPTION_BATCH_LIMIT },
-          updateQuery: handleDialogueSubscribeUpdate,
+        const unsubscribePuzzleLog = subscribeToMore<
+          PuzzleLogSub,
+          PuzzleLogSubVariables
+        >({
+          document: PUZZLE_LOG_SUB,
+          variables: {
+            puzzleId: variables.puzzleId,
+          },
+          updateQuery: handlePuzzleLogSubUpdate,
         });
         return () => {
-          unsubscribeHint();
-          unsubscribeDialogue();
+          unsubscribePuzzleLog();
         };
       }
     }
@@ -228,8 +271,12 @@ export const PuzzleDialoguesRenderer = ({
 
   let puzzleLogs;
   if (applyUserFilter && userFilterId !== -1) {
-    puzzleLogs = data.puzzleLogs.filter(
-      puzzleLog => puzzleLog.user.id === userFilterId,
+    puzzleLogs = data.puzzleLogs.filter(puzzleLog =>
+      puzzleLog.__typename === 'Dialogue'
+        ? puzzleLog.user.id === userFilterId
+        : puzzleLog.receiver
+        ? puzzleLog.receiver.id === userFilterId
+        : true,
     );
   } else {
     puzzleLogs = data.puzzleLogs;

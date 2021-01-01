@@ -3,7 +3,7 @@ import styled from 'theme/styled';
 import { FormattedMessage } from 'react-intl';
 
 import messages from 'messages/components/puzzle';
-import { StatusType } from './types';
+import { Status as StatusType } from 'generated/globalTypes'
 
 export type StatusBaseProps = {
   status: StatusType;
@@ -13,15 +13,15 @@ export type StatusProps = StatusBaseProps;
 
 export const getStatusColor = (status: StatusType) => {
   switch (status) {
-    case StatusType.Undergoing:
+    case StatusType.UNDERGOING:
       return 'red';
-    case StatusType.Solved:
+    case StatusType.SOLVED:
       return 'lime';
-    case StatusType.Dazed:
+    case StatusType.DAZED:
       return 'orange';
-    case StatusType.Hidden:
+    case StatusType.HIDDEN:
       return 'gray';
-    case StatusType.Forbidden:
+    case StatusType.FORCE_HIDDEN:
       return 'gray';
     default:
       return 'gray';
@@ -52,15 +52,15 @@ export const StatusBase = styled.span<StatusBaseProps>`
 
 export const StatusText = ({ status }: StatusBaseProps) => {
   switch (status) {
-    case StatusType.Undergoing:
+    case StatusType.UNDERGOING:
       return <FormattedMessage {...messages.status_undergoing} />;
-    case StatusType.Solved:
+    case StatusType.SOLVED:
       return <FormattedMessage {...messages.status_solved} />;
-    case StatusType.Dazed:
+    case StatusType.DAZED:
       return <FormattedMessage {...messages.status_dazed} />;
-    case StatusType.Hidden:
+    case StatusType.HIDDEN:
       return <FormattedMessage {...messages.status_hidden} />;
-    case StatusType.Forbidden:
+    case StatusType.FORCE_HIDDEN:
       return <FormattedMessage {...messages.status_forbidden} />;
     default:
       return null;

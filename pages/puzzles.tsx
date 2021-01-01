@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { maybeSendNotification } from 'common/web-notify';
-import { mergeList } from 'common/update';
+import { mergeList, upsertMultipleItem } from 'common/update';
 
 import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import messages from 'messages/pages/puzzles';
@@ -9,13 +9,12 @@ import webNotifyMessages from 'messages/webNotify';
 import puzzleMessages from 'messages/components/puzzle';
 import userMessages from 'messages/components/user';
 
-import { useApolloClient } from '@apollo/react-hooks';
-import { Query } from '@apollo/react-components';
+import { useApolloClient, useQuery } from '@apollo/client';
 import {
   PUZZLES_SOLVED_QUERY,
   PUZZLES_UNSOLVED_QUERY,
 } from 'graphql/Queries/Puzzles';
-import { PUZZLES_UNSOLVED_LIVEQUERY } from 'graphql/LiveQueries/Puzzles';
+import { PUZZLES_UNSOLVED_SUB } from 'graphql/Subscriptions/Puzzles';
 
 import { Heading, Flex, Panel } from 'components/General';
 import Loading from 'components/General/Loading';
@@ -25,16 +24,17 @@ import PuzzleBrief from 'components/Puzzle/Brief';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 import ErrorReload from 'components/General/ErrorReload';
 
-import { PuzzlesUnsolvedLiveQuery } from 'graphql/LiveQueries/generated/PuzzlesUnsolvedLiveQuery';
 import {
   PuzzlesSolvedQuery,
   PuzzlesSolvedQueryVariables,
 } from 'graphql/Queries/generated/PuzzlesSolvedQuery';
+import { PuzzlesUnsolvedRendererProps } from 'pageTypes';
 import {
-  PuzzlesSolvedRendererProps,
-  PuzzlesUnsolvedRendererProps,
-} from 'pageTypes';
-import { PuzzlesUnsolvedQuery } from 'graphql/Queries/generated/PuzzlesUnsolvedQuery';
+  PuzzlesUnsolvedQuery,
+  PuzzlesUnsolvedQueryVariables,
+} from 'graphql/Queries/generated/PuzzlesUnsolvedQuery';
+import { PuzzlesUnsolvedSub } from 'graphql/Subscriptions/generated/PuzzlesUnsolvedSub';
+import { Status, Genre } from 'generated/globalTypes';
 
 const PUZZLES_PER_PAGE = 20;
 const puzzleLoadingPanel = (
@@ -45,26 +45,28 @@ const puzzleLoadingPanel = (
   </MultiColBox>
 );
 
-const PuzzlesSolvedRenderer = ({
-  loading,
-  error,
-  data,
-  refetch,
-  fetchMore,
-}: PuzzlesSolvedRendererProps) => {
+const PuzzlesSolvedRenderer = () => {
   const [hasMore, setHasMore] = useState(true);
+
+  const { loading, error, data, refetch, fetchMore } = useQuery<
+    PuzzlesSolvedQuery,
+    PuzzlesSolvedQueryVariables
+  >(PUZZLES_SOLVED_QUERY, {
+    variables: { limit: PUZZLES_PER_PAGE },
+    fetchPolicy: 'cache-first',
+  });
 
   // Update first 20 questions upon second+ load
   useEffect(() => {
-    if (data && data.puzzle && data.puzzle.length !== 0) {
+    if (data && data.puzzles && data.puzzles.length !== 0) {
       fetchMore({
         updateQuery: (prev, { fetchMoreResult }) => {
-          if (!fetchMoreResult || !fetchMoreResult.puzzle) return prev;
+          if (!fetchMoreResult || !fetchMoreResult.puzzles) return prev;
           return {
             ...prev,
             puzzle: mergeList(
-              prev.puzzle,
-              fetchMoreResult.puzzle,
+              prev.puzzles,
+              fetchMoreResult.puzzles,
               'id',
               'desc',
             ),
@@ -93,14 +95,14 @@ const PuzzlesSolvedRenderer = ({
             loadMore={() =>
               fetchMore({
                 variables: {
-                  offset: data.puzzle.length,
+                  offset: data.puzzles.length,
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult || !fetchMoreResult.puzzle) return prev;
-                  if (fetchMoreResult.puzzle.length < PUZZLES_PER_PAGE)
+                  if (!fetchMoreResult || !fetchMoreResult.puzzles) return prev;
+                  if (fetchMoreResult.puzzles.length < PUZZLES_PER_PAGE)
                     setHasMore(false);
                   return Object.assign({}, prev, {
-                    puzzle: [...prev.puzzle, ...fetchMoreResult.puzzle],
+                    puzzle: [...prev.puzzles, ...fetchMoreResult.puzzles],
                   });
                 },
               })
@@ -115,86 +117,149 @@ const PuzzlesSolvedRenderer = ({
   return null;
 };
 
-const PuzzlesUnsolvedRenderer = ({
-  loading,
-  error,
-  refetch,
-  data,
-  intl,
-  subscribeToMore,
-}: PuzzlesUnsolvedRendererProps) => {
+const PuzzlesUnsolvedRenderer = ({ intl }: PuzzlesUnsolvedRendererProps) => {
   const client = useApolloClient();
   const _ = intl.formatMessage;
 
+  const { loading, error, refetch, data, subscribeToMore } = useQuery<
+    PuzzlesUnsolvedQuery
+  >(PUZZLES_UNSOLVED_QUERY, {
+    fetchPolicy: 'cache-and-network',
+  });
+
   useEffect(() => {
-    subscribeToMore<PuzzlesUnsolvedLiveQuery>({
-      document: PUZZLES_UNSOLVED_LIVEQUERY,
+    subscribeToMore<PuzzlesUnsolvedSub>({
+      document: PUZZLES_UNSOLVED_SUB,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
 
-        const newUnsolved = subscriptionData.data.puzzle;
-        if (prev.puzzle.length > newUnsolved.length) {
-          // Puzzles changed from unsolved to other
-          const statusChangedPuzzle = {
-            ...prev.puzzle.find(
-              p => newUnsolved.findIndex(p2 => p2.id === p.id) === -1,
-            ),
-            stars_aggregate: null,
-            bookmarks_aggregate: null,
-            comments_aggregate: null,
-            status: 1,
-          };
-          const puzzleSolvedQueryResult = client.readQuery({
-            query: PUZZLES_SOLVED_QUERY,
-          });
-          if (puzzleSolvedQueryResult !== null) {
-            const { puzzle } = puzzleSolvedQueryResult;
-            client.writeQuery({
-              query: PUZZLES_SOLVED_QUERY,
-              data: {
-                puzzle: [statusChangedPuzzle, ...puzzle],
+        const newUnsolved = subscriptionData.data.puzzleSub;
+        const maxModified = Math.max(
+          ...prev.puzzles.map(({ modified }: { modified: string }) =>
+            new Date(modified).getTime(),
+          ),
+        );
+        const newModified = newUnsolved
+          ? new Date(newUnsolved.data.modified).getTime()
+          : null;
+
+        if (newModified && maxModified < newModified) {
+          // Update received
+          client
+            .query<PuzzlesUnsolvedQuery, PuzzlesUnsolvedQueryVariables>({
+              query: PUZZLES_UNSOLVED_QUERY,
+              variables: {
+                since: new Date(maxModified).toISOString(),
               },
+            })
+            .then(({ data }) => {
+              const solvedPuzzles = data.puzzles.filter(
+                puzzle => puzzle.status !== Status.UNDERGOING,
+              );
+              const unsolvedPuzzles = data.puzzles.filter(
+                puzzle => puzzle.status === Status.UNDERGOING,
+              );
+
+              if (solvedPuzzles.length > 0) {
+                // Status Changed
+                const puzzleSolvedQueryResult = client.readQuery<
+                  PuzzlesSolvedQuery,
+                  PuzzlesSolvedQueryVariables
+                >({
+                  query: PUZZLES_SOLVED_QUERY,
+                });
+                if (puzzleSolvedQueryResult !== null) {
+                  const { puzzles } = puzzleSolvedQueryResult;
+                  client.writeQuery({
+                    query: PUZZLES_SOLVED_QUERY,
+                    data: {
+                      puzzle: upsertMultipleItem(
+                        puzzles,
+                        data.puzzles.map(puzzle => ({
+                          ...puzzle,
+                          starCount: 0,
+                          starSum: 0,
+                          bookmarkCount: 0,
+                          commentCount: 0,
+                        })),
+                        'modified',
+                        'desc',
+                      ),
+                    },
+                  });
+                }
+              }
+
+              if (unsolvedPuzzles.length > 0) {
+                const puzzleUnsolvedQueryResult = client.readQuery<
+                  PuzzlesUnsolvedQuery,
+                  PuzzlesUnsolvedQueryVariables
+                >({
+                  query: PUZZLES_UNSOLVED_QUERY,
+                });
+
+                // Notify user that a new puzzle's added
+                if (puzzleUnsolvedQueryResult !== null) {
+                  const newPuzzles = unsolvedPuzzles.filter(
+                    puzzle =>
+                      puzzleUnsolvedQueryResult.puzzles.findIndex(
+                        p => p.id === puzzle.id,
+                      ) > -1,
+                  );
+
+                  newPuzzles.forEach(puzzle => {
+                    let genreMessage = '';
+                    switch (puzzle.genre) {
+                      case Genre.CLASSIC:
+                        genreMessage = _(puzzleMessages.genre_classic);
+                        break;
+                      case Genre.TWENTY_QUESTIONS:
+                        genreMessage = _(puzzleMessages.genre_twentyQuestions);
+                        break;
+                      case Genre.LITTLE_ALBAT:
+                        genreMessage = _(puzzleMessages.genre_littleAlbat);
+                        break;
+                      case Genre.OTHERS:
+                        genreMessage = _(puzzleMessages.genre_others);
+                        break;
+                    }
+                    if (document.hidden) {
+                      const user = puzzle.anonymous
+                        ? _(userMessages.anonymousUser)
+                        : puzzle.user.nickname;
+
+                      maybeSendNotification(
+                        _(webNotifyMessages.newPuzzleAdded),
+                        {
+                          body: _(webNotifyMessages.newPuzzleAddedDetail, {
+                            user,
+                            puzzle: puzzle.title,
+                            genre: genreMessage,
+                          }),
+                          renotify: true,
+                        },
+                      );
+                    }
+                  });
+
+                  // Updates the original query
+                  client.writeQuery<PuzzlesUnsolvedQuery>({
+                    query: PUZZLES_UNSOLVED_QUERY,
+                    data: {
+                      puzzles: upsertMultipleItem(
+                        puzzleUnsolvedQueryResult.puzzles,
+                        data.puzzles,
+                        'modified',
+                        'desc',
+                      ),
+                    },
+                  });
+                }
+              }
             });
-          }
         }
 
-        if (prev.puzzle.length < newUnsolved.length) {
-          // new puzzle added
-          let genreMessage = '';
-          switch (newUnsolved[0].genre) {
-            case 0:
-              genreMessage = _(puzzleMessages.genre_classic);
-              break;
-            case 1:
-              genreMessage = _(puzzleMessages.genre_twentyQuestions);
-              break;
-            case 2:
-              genreMessage = _(puzzleMessages.genre_littleAlbat);
-              break;
-            case 3:
-              genreMessage = _(puzzleMessages.genre_others);
-              break;
-          }
-          if (document.hidden) {
-            const user = newUnsolved[0].anonymous
-              ? _(userMessages.anonymousUser)
-              : newUnsolved[0].user.nickname;
-
-            maybeSendNotification(_(webNotifyMessages.newPuzzleAdded), {
-              body: _(webNotifyMessages.newPuzzleAddedDetail, {
-                user,
-                puzzle: newUnsolved[0].title,
-                genre: genreMessage,
-              }),
-              renotify: true,
-            });
-          }
-        }
-
-        return {
-          ...prev,
-          puzzle: newUnsolved,
-        };
+        return prev;
       },
     });
   });
@@ -231,19 +296,8 @@ const Puzzles = ({ intl }: { intl: IntlShape }) => {
       </Heading>
       <PuzzleSubbar />
       <Flex flexWrap="wrap">
-        <Query<PuzzlesUnsolvedQuery>
-          query={PUZZLES_UNSOLVED_QUERY}
-          fetchPolicy="cache-and-network"
-        >
-          {params => <PuzzlesUnsolvedRenderer {...params} intl={intl} />}
-        </Query>
-        <Query<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>
-          query={PUZZLES_SOLVED_QUERY}
-          variables={{ limit: PUZZLES_PER_PAGE }}
-          fetchPolicy="cache-first"
-        >
-          {params => <PuzzlesSolvedRenderer {...params} />}
-        </Query>
+        <PuzzlesUnsolvedRenderer intl={intl} />
+        <PuzzlesSolvedRenderer />
       </Flex>
     </React.Fragment>
   );

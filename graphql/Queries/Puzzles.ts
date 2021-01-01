@@ -27,8 +27,11 @@ export const PUZZLE_SOLUTION_QUERY = gql`
 `;
 
 export const PUZZLES_UNSOLVED_QUERY = gql`
-  query PuzzlesUnsolvedQuery {
-    puzzles(order: { modified: DESC }, filter: { status: { eq: UNDERGOING } }) {
+  query PuzzlesUnsolvedQuery($since: DateTime) {
+    puzzles(
+      order: { modified: DESC }
+      filter: { status: { eq: UNDERGOING }, modified: { gt: $since } }
+    ) @connection(key: "puzzles", filter: ["order", "filter"]) {
       ...PuzzleShared
       dialogueCount
       dialogueNewCount: dialogueCount(answered: false)

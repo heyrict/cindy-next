@@ -1,17 +1,12 @@
 import { IntlShape } from 'react-intl';
 import * as settingReducer from 'reducers/setting';
 
-import {
-  PuzzlesSolvedQuery,
-  PuzzlesSolvedQueryVariables,
-} from 'graphql/Queries/generated/PuzzlesSolvedQuery';
-import { puzzle_order_by, tag_order_by } from 'generated/globalTypes';
+import { PuzzleOrder, PuzzleTagOrder } from 'generated/globalTypes';
 import {
   CommentsQuery,
   CommentsQueryVariables,
 } from 'graphql/Queries/generated/CommentsQuery';
 import { GlobalUserType } from 'reducers/types';
-import { PuzzlesUnsolvedQuery } from 'graphql/Queries/generated/PuzzlesUnsolvedQuery';
 import { QueryResult } from '@apollo/react-common';
 
 export type UserPageProps = {
@@ -19,14 +14,9 @@ export type UserPageProps = {
   intl: IntlShape;
 };
 
-export type PuzzlesSolvedRendererProps = QueryResult<
-  PuzzlesSolvedQuery,
-  PuzzlesSolvedQueryVariables
->;
-
 export type PuzzlesUnsolvedRendererProps = {
   intl: IntlShape;
-} & QueryResult<PuzzlesUnsolvedQuery>;
+};
 
 export type SearchVariablesStates = {
   title: null | string;
@@ -35,7 +25,7 @@ export type SearchVariablesStates = {
   userNickname: null | string;
   genre: null | number;
   yami: null | number;
-  orderBy: Array<puzzle_order_by>;
+  orderBy: Array<PuzzleOrder>;
 };
 
 export type RankingProps = {
@@ -59,7 +49,7 @@ export type EULAProps = {
 
 export type TagsVariablesStates = {
   name: null | string;
-  orderBy: Array<tag_order_by>;
+  orderBy: Array<PuzzleTagOrder>;
 };
 
 export type CommentsRendererProps = QueryResult<

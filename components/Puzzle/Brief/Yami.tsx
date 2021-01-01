@@ -10,7 +10,7 @@ import longtermYamiJp from 'svgs/longtermYamiJp.svg';
 
 import messages from 'messages/components/puzzle';
 
-import { YamiType } from './types';
+import { Yami as YamiType } from 'generated/globalTypes';
 
 export type YamiInnerProps = {
   yami: YamiType;
@@ -22,13 +22,13 @@ export type YamiProps = {
 
 export const YamiText = ({ yami }: YamiInnerProps) => {
   switch (yami) {
-    case 1:
+    case YamiType.NORMAL:
       return (
         <span>
           [<FormattedMessage {...messages.yami_yami} />]
         </span>
       );
-    case 2:
+    case YamiType.LONGTERM:
       return (
         <span>
           [<FormattedMessage {...messages.yami_longtermYami} />]
@@ -41,9 +41,9 @@ export const YamiText = ({ yami }: YamiInnerProps) => {
 
 export const YamiImage = ({ yami }: YamiInnerProps) => {
   switch (yami) {
-    case 1:
+    case YamiType.NORMAL:
       return <Img size="sm" pr={1} src={yamiJp} />;
-    case 2:
+    case YamiType.LONGTERM:
       return <Img size="sm" pr={1} src={longtermYamiJp} />;
     default:
       return null;
