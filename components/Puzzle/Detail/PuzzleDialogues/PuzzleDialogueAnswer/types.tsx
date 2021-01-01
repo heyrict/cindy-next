@@ -1,4 +1,5 @@
 import { GlobalUserType } from 'reducers/types';
+import {Status} from 'generated/globalTypes';
 
 export type AnswerDisplayProps = {
   answer: string;
@@ -14,7 +15,7 @@ export type AnswerEditProps = {
   dialogueId: number;
   answeredTime?: string | null;
   setMode: (mode: symbol) => any;
-  puzzleStatus: number;
+  puzzleStatus: Status;
   sendAnswerTrigger: number;
 };
 
@@ -25,14 +26,14 @@ export type AnswerModeSelectorProps = {
   answeredTime?: string | null;
   trueAns: boolean;
   goodAns: boolean;
-  puzzleStatus: number;
+  puzzleStatus: Status;
 };
 
 export type PuzzleDialogueAnswerProps = {
   dialogueId: number;
   user: GlobalUserType;
   puzzleUserId: number;
-  puzzleStatus: number;
+  puzzleStatus: Status;
   answer: string;
   answerEditTimes: number;
   answeredTime?: string | null;

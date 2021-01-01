@@ -18,19 +18,19 @@ const solvedYamiUsers: Array<UserFilterSwitcherUserType> = [
     id: 1,
     nickname: 'Foo',
     dialogueCount: 12,
-    dialogueHasTrue: false,
+    trueAnswer: false,
   },
   {
     id: 2,
     nickname: 'Bar',
     dialogueCount: 3,
-    dialogueHasTrue: true,
+    trueAnswer: true,
   },
   {
     id: 3,
     nickname: 'Carrot',
     dialogueCount: 1,
-    dialogueHasTrue: false,
+    trueAnswer: false,
   },
 ];
 
@@ -40,21 +40,21 @@ const unsolvedClassicUsers: Array<UserFilterSwitcherUserType> = [
     nickname: 'Foo',
     dialogueCount: 12,
     dialogueUnsolvedCount: 2,
-    dialogueHasTrue: false,
+    trueAnswer: false,
   },
   {
     id: 2,
     nickname: 'Bar',
     dialogueCount: 3,
     dialogueUnsolvedCount: 0,
-    dialogueHasTrue: true,
+    trueAnswer: true,
   },
   {
     id: 3,
     nickname: 'Carrot',
     dialogueCount: 1,
     dialogueUnsolvedCount: 1,
-    dialogueHasTrue: false,
+    trueAnswer: false,
   },
 ];
 

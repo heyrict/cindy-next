@@ -5,20 +5,21 @@ import {
   DialogueHintQueryVariables,
   DialogueHintQuery_puzzleLogs,
 } from 'graphql/Queries/generated/DialogueHintQuery';
+import { Yami, Status } from 'generated/globalTypes';
 
 export type PuzzleDialogueProps = {
   index?: number;
   dialogue: DialogueShared;
   puzzleUser: InlineUser;
-  puzzleStatus: number;
+  puzzleStatus: Status;
   anonymous: boolean;
 };
 
 export type PuzzleDialoguesProps = {
   puzzleId: number;
   puzzleUser: InlineUser;
-  puzzleStatus: number;
-  puzzleYami: number;
+  puzzleStatus: Status;
+  puzzleYami: Yami;
   userId?: number;
   anonymous: boolean;
   setTrueSolvedLongtermYami: () => void;
@@ -27,7 +28,7 @@ export type PuzzleDialoguesProps = {
 export type PuzzleDialoguesUserDeduplicatorProps = {
   puzzleId: number;
   puzzleUser: InlineUser;
-  puzzleStatus: number;
+  puzzleStatus: Status;
   userId?: number;
   anonymous: boolean;
   shouldSubscribe: boolean;
@@ -40,7 +41,7 @@ export const PuzzleDialoguesRendererDefaultProps = {
 
 export type PuzzleDialoguesRendererProps = {
   puzzleUser: InlineUser;
-  puzzleStatus: number;
+  puzzleStatus: Status;
   variables: DialogueHintQueryVariables;
   anonymous: boolean;
   shouldSubscribe: boolean;
@@ -55,7 +56,7 @@ export type PuzzleDialoguesRendererProps = {
 export type PuzzleDialoguesRendererInnerProps = {
   puzzleLogs: Array<DialogueHintQuery_puzzleLogs>;
   puzzleUser: InlineUser;
-  puzzleStatus: number;
+  puzzleStatus: Status;
   anonymous: boolean;
 };
 
@@ -69,7 +70,7 @@ export type UserFilterSwitcherUserType = {
   nickname: string;
   dialogueCount: number;
   answeredDialogueCount: number;
-  dialogueHasTrue: boolean;
+  trueAnswer: boolean;
 };
 
 export type ExtractUserFilterUserReturnType = {
@@ -77,7 +78,7 @@ export type ExtractUserFilterUserReturnType = {
   nickname: string;
   dialogueCount: number;
   answeredDialogueCount: number;
-  dialogueHasTrue: boolean;
+  trueAnswer: boolean;
 };
 
 export const UserFilterSwitcherDefaltProps = {

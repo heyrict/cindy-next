@@ -3,11 +3,6 @@ import { toast } from 'react-toastify';
 
 import { Query } from '@apollo/react-components';
 import {
-  DialogueHintQuery,
-  DialogueHintQueryVariables,
-} from 'graphql/Queries/generated/DialogueHintQuery';
-import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
-import {
   PuzzleUniqueParticipantsQuery,
   PuzzleUniqueParticipantsQueryVariables,
 } from 'graphql/Queries/generated/PuzzleUniqueParticipantsQuery';

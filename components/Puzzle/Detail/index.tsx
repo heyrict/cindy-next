@@ -29,6 +29,7 @@ import { StateType, ActionContentType } from 'reducers/types';
 import { PuzzleDetailProps } from './types';
 import WithSolution from './WithSolution';
 import JumpButtons from './JumpButtons';
+import {Status, Yami} from 'generated/globalTypes';
 
 const PuzzleDetail = ({
   puzzle,
@@ -45,20 +46,20 @@ const PuzzleDetail = ({
 
   let puzzleContent;
   const isUser = Boolean(userId);
-  const isHidden = puzzle.status === 3;
-  const isForbidden = puzzle.status === 4;
+  const isHidden = puzzle.status === Status.HIDDEN;
+  const isForbidden = puzzle.status === Status.FORCE_HIDDEN;
   const isCreator = puzzle.user.id === userId;
 
-  const shouldShowShare = puzzle.status === 0 || puzzle.status === 1;
+  const shouldShowShare = puzzle.status === Status.UNDERGOING || puzzle.status === Status.SOLVED;
   const shouldShowTags = isCreator || (!isHidden && !isForbidden);
   const shouldShowMemo = puzzle.memo.trim() !== '';
   const shouldShowAnswer =
-    puzzle.status === 1 ||
-    puzzle.status === 2 ||
-    (puzzle.status === 3 && isCreator) ||
+    puzzle.status === Status.SOLVED ||
+    puzzle.status === Status.DAZED ||
+    (puzzle.status === Status.HIDDEN && isCreator) ||
     solvedLongtermYami;
   const shouldShowAddQuestionInput =
-    puzzle.status === 0 && !isCreator && isUser;
+    puzzle.status === Status.UNDERGOING && !isCreator && isUser;
   const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
   const shouldShowNotLoggedInMessage = !isUser;
 
@@ -68,7 +69,7 @@ const PuzzleDetail = ({
   const shouldShowReplayPanel = shouldShowAnswer;
   const shouldShowControlPanel = isCreator;
 
-  const queryWithCurrentUserOnly = puzzle.yami !== 0 && !isCreator;
+  const queryWithCurrentUserOnly = puzzle.yami !== Yami.NONE && !isCreator;
 
   const [showGrotesqueModal, setShowGrotesqueModal] = useState(false);
 
@@ -129,13 +130,13 @@ const PuzzleDetail = ({
           status={puzzle.status}
           user={puzzle.user}
           created={puzzle.created}
-          solved={puzzle.status === 0 ? undefined : puzzle.modified}
+          solved={puzzle.status === Status.UNDERGOING ? undefined : puzzle.modified}
         />
         {shouldShowShare && (
           <ShareFrame
             title={puzzle.title}
             content={puzzle.content}
-            solved={puzzle.status === 0}
+            solved={puzzle.status === Status.UNDERGOING}
           />
         )}
         {shouldShowTags && (

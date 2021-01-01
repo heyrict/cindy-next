@@ -21,6 +21,7 @@ import PuzzleDialoguesUserDeduplicator from './PuzzleDialoguesUserDeduplicator';
 
 import { PuzzleDialoguesProps } from './types';
 import { ActionContentType } from 'reducers/types';
+import {Status, Yami} from 'generated/globalTypes';
 
 const PuzzleDialogues = ({
   puzzleId,
@@ -32,16 +33,16 @@ const PuzzleDialogues = ({
   setTrueSolvedLongtermYami,
 }: PuzzleDialoguesProps) => {
   // Should remain in subscription if puzzle finished just now
-  const [shouldSubscribe, setShouldSubscribe] = useState(puzzleStatus === 0);
+  const [shouldSubscribe, setShouldSubscribe] = useState(puzzleStatus === Status.UNDERGOING);
 
   useEffect(() => {
-    if (puzzleStatus === 0) {
+    if (puzzleStatus === Status.UNDERGOING) {
       setShouldSubscribe(true);
     }
     return () => setShouldSubscribe(false);
   }, []);
 
-  if (puzzleYami === 0) {
+  if (puzzleYami === Yami.NONE) {
     // Query all
     return (
       <PuzzleDialoguesRenderer
@@ -56,12 +57,12 @@ const PuzzleDialogues = ({
     );
   }
 
-  if (puzzleStatus === 0 && !userId) {
+  if (puzzleStatus === Status.UNDERGOING && !userId) {
     // Don't show anything in unsolved puzzle if user does not login
     return null;
   }
 
-  if (puzzleYami !== 0 && puzzleUser.id === userId) {
+  if (puzzleUser.id === userId) {
     // For Unsolved yami, current user is creator: Query all, but filter by users
     return (
       <PuzzleDialoguesRenderer
@@ -77,7 +78,7 @@ const PuzzleDialogues = ({
     );
   }
 
-  if (puzzleStatus === 0) {
+  if (puzzleStatus === Status.UNDERGOING) {
     // Unsolved yami: Query only dialogues by current user
     // TODO on completed, setTrueSolvedLongtermYami();
     return (
@@ -90,7 +91,7 @@ const PuzzleDialogues = ({
         puzzleUser={puzzleUser}
         anonymous={anonymous}
         puzzleStatus={puzzleStatus}
-        updateSolvedLongTermYamiOnSubscribe={puzzleYami === 2}
+        updateSolvedLongTermYamiOnSubscribe={puzzleYami === Yami.LONGTERM}
       />
     );
   }

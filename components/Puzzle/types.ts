@@ -1,15 +1,11 @@
-import {
-  PuzzleQuery,
-  PuzzleQueryVariables,
-} from 'graphql/Queries/generated/PuzzleQuery';
-import { QueryResult } from '@apollo/react-common';
 import { PuzzleType } from './Brief/types';
 import { CommentDetail } from 'graphql/Fragments/generated/CommentDetail';
 
 export type PuzzleRendererProps = {
+  puzzleId: number;
   formatMessage: any;
   pushNotification: boolean;
-} & QueryResult<PuzzleQuery, PuzzleQueryVariables>;
+};
 
 export enum RankedPuzzleDisplayType {
   star,

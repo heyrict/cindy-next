@@ -27,8 +27,9 @@ import {
   EditAnswerMutation,
   EditAnswerMutationVariables,
 } from 'graphql/Mutations/generated/EditAnswerMutation';
-import { ApolloError } from '@apollo/client/errors/ApolloError';
+import { ApolloError } from '@apollo/client/errors';
 import { StateType, SendMessageTriggerType } from 'reducers/types';
+import {Status} from 'generated/globalTypes';
 
 const AnswerEdit = ({
   answer,
@@ -182,7 +183,7 @@ const AnswerEdit = ({
               borderStyle="solid"
               flexDirection="column"
             >
-              {puzzleStatus === 0 && answer !== '' && (
+              {puzzleStatus === Status.UNDERGOING && answer !== '' && (
                 <ButtonTransparent
                   height={1}
                   p={1}

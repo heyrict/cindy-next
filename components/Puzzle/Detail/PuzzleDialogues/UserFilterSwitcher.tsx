@@ -43,7 +43,7 @@ const UserFilterSwitcher = ({
         active={activeUserId === user.id}
         onClick={() => onClick(user.id)}
       >
-        {user.dialogueHasTrue && <Img height="xxs" src={starFillIcon} />}
+        {user.trueAnswer && <Img height="xxs" src={starFillIcon} />}
         {user.nickname}
         <sup>
           {user.dialogueCount - user.answeredDialogueCount}/{user.dialogueCount}

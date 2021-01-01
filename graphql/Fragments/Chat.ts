@@ -8,6 +8,7 @@ export const CHATMESSAGE_FRAGMENT = gql`
     content
     created
     editTimes
+    modified
     user {
       ...UserBrief
     }

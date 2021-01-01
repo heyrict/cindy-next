@@ -3,9 +3,14 @@ import gql from 'graphql-tag';
 import { CHATMESSAGE_FRAGMENT, CHATROOM_FRAGMENT } from '../Fragments/Chat';
 
 export const CHATROOM_CHATMESSAGES_QUERY = gql`
-  query ChatroomChatmessages($chatroomId: Int, $limit: Int, $offset: Int) {
+  query ChatroomChatmessages(
+    $chatroomId: Int
+    $limit: Int
+    $offset: Int
+    $since: DateTime
+  ) {
     chatmessages(
-      filter: { chatroomId: { eq: $chatroomId } }
+      filter: { chatroomId: { eq: $chatroomId }, modified: { gt: $since } }
       limit: $limit
       offset: $offset
       order: [{ id: DESC }]

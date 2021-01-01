@@ -19,7 +19,7 @@ export type ChatRoomMessagesBodyProps = {
   user: GlobalUserType;
   chatmessageUpdate: (chatroomId: number, messagesHash: number) => void;
   autoExpand: boolean;
-} & QueryResult<ChatroomChatmessages, ChatroomChatmessagesVariables>;
+};
 
 export const ChatRoomMessagesDefaultProps = {
   autoExpand: false,

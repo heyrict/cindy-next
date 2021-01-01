@@ -22,7 +22,7 @@ export const extractUserFilterUserFromDialogues = (
         nickname: dialogue.user.nickname,
         dialogueCount: 1,
         answeredDialogueCount: dialogue.answer === '' ? 0 : 1,
-        dialogueHasTrue: dialogue.true,
+        trueAnswer: dialogue.true,
       };
       return;
     }
@@ -30,7 +30,7 @@ export const extractUserFilterUserFromDialogues = (
     users[dialogue.user.id].dialogueCount += 1;
     if (dialogue.answer !== '')
       users[dialogue.user.id].answeredDialogueCount += 1;
-    if (dialogue.true) users[dialogue.user.id].dialogueHasTrue = true;
+    if (dialogue.true) users[dialogue.user.id].trueAnswer = true;
   });
   return Object.values(users);
 };
