@@ -1,10 +1,12 @@
-export type AuthErrorType = {
-  type: string;
-  message: string;
+export type AuthResponseDataType = {
+  id: number;
+  username: string;
+  auth_token: string;
 };
 
 export type AuthResponseType = {
-  errors?: Array<AuthErrorType>;
+  error: Array<String> | null;
+  data: AuthResponseDataType;
 };
 
 export type SignupFnType = (

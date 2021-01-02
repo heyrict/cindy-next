@@ -1,5 +1,5 @@
 import { DocumentNode } from 'graphql';
-import { OperationVariables, BaseQueryOptions } from '@apollo/react-common';
+import { OperationVariables, BaseQueryOptions } from '@apollo/client';
 import { ApolloError } from '@apollo/client';
 
 export enum PaginatorBarPosition {

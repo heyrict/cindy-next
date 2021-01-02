@@ -56,12 +56,15 @@ export const PuzzleBrief = ({
   dialogueNewCount,
   showGenreImage,
 }: PuzzleBriefProps) => {
-  puzzle.bookmarkCount = bookmarkCount || puzzle.bookmarkCount;
-  puzzle.commentCount = commentCount || puzzle.commentCount;
-  puzzle.starCount = starCount || puzzle.starCount;
-  puzzle.starSum = starSum || puzzle.starSum;
-  puzzle.dialogueCount = dialogueCount || puzzle.dialogueCount;
-  puzzle.dialogueNewCount = dialogueNewCount || puzzle.dialogueNewCount;
+  const aggregates = {
+    bookmarkCount: bookmarkCount || puzzle.bookmarkCount,
+    commentCount: commentCount || puzzle.commentCount,
+    starCount: starCount || puzzle.starCount,
+    starSum: starSum || puzzle.starSum,
+    dialogueCount: dialogueCount || puzzle.dialogueCount,
+    dialogueNewCount: dialogueNewCount || puzzle.dialogueNewCount,
+
+  }
 
   return (
     <PuzzlePane
@@ -122,24 +125,24 @@ export const PuzzleBrief = ({
             <Anonymous />
           )}
           <Status status={puzzle.status} />
-          {typeof puzzle.dialogueCount === 'number' && (
+          {typeof aggregates.dialogueCount === 'number' && (
             <Process
-              count={puzzle.dialogueCount}
-              newCount={puzzle.dialogueNewCount}
+              count={aggregates.dialogueCount}
+              newCount={aggregates.dialogueNewCount}
             />
           )}
-          {typeof puzzle.starCount === 'number' &&
-            puzzle.starCount > 0 &&
-            typeof puzzle.starSum === 'number' && (
-              <Star count={puzzle.starCount} sum={puzzle.starSum} />
+          {typeof aggregates.starCount === 'number' &&
+            aggregates.starCount > 0 &&
+            typeof aggregates.starSum === 'number' && (
+              <Star count={aggregates.starCount} sum={aggregates.starSum} />
             )}
-          {typeof puzzle.commentCount === 'number' &&
-            puzzle.commentCount > 0 && (
-              <Comment puzzleId={puzzle.id} count={puzzle.commentCount} />
+          {typeof aggregates.commentCount === 'number' &&
+            aggregates.commentCount > 0 && (
+              <Comment puzzleId={puzzle.id} count={aggregates.commentCount} />
             )}
-          {typeof puzzle.bookmarkCount === 'number' &&
-            puzzle.bookmarkCount > 0 && (
-              <Bookmark count={puzzle.bookmarkCount} />
+          {typeof aggregates.bookmarkCount === 'number' &&
+            aggregates.bookmarkCount > 0 && (
+              <Bookmark count={aggregates.bookmarkCount} />
             )}
         </Flex>
       </Box>

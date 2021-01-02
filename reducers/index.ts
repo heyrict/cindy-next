@@ -38,10 +38,14 @@ export const initializeStore = (
 ) => {
   const route = appContext && appContext.router ? appContext.router.asPath : '';
   const cookies =
-    appContext && appContext.ctx.req ? appContext.ctx.req.headers.cookie : '';
+    appContext && appContext.ctx.req
+      ? appContext.ctx.req.headers.cookie
+      : undefined;
   const settingsState =
     JSON.parse(getCookie('settings-server-side', cookies) || '{}') || {};
-  const globalUser = getUser(cookies) || globalReducer.initialState.user;
+  const globalUser =
+    getUser(process.browser ? document.cookie : cookies) ||
+    globalReducer.initialState.user;
   const sagaMiddleware = createSagaMiddleware();
   const store: ExtendedStore = createStore(
     reducer,

@@ -21,7 +21,7 @@ export type PuzzleType = {
 };
 
 export type PuzzlePaneProps = {
-  status: number;
+  status: Status;
 };
 
 export type PuzzleBriefProps = {

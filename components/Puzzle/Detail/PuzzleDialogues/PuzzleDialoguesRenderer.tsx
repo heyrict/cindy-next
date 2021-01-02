@@ -108,27 +108,11 @@ export const PuzzleDialoguesRenderer = ({
     fetchPolicy: 'cache-and-network',
   });
 
-  if (!data || !data.puzzleLogs) {
-    if (loading) return <Loading centered />;
-    return null;
-  }
-  if (error) {
-    toast.error(error.message);
-    return null;
-  }
-  let users;
-
-  if (applyUserFilter) {
-    users = extractUserFilterUserFromDialogues(data.puzzleLogs);
-    setParticipants(users);
-  }
-
-  const intl = useIntl();
-  const _ = intl.formatMessage;
-
   const [userFilterId, setUserFilterId] = useState<number | undefined>(
     undefined,
   );
+
+  const { formatMessage: _ } = useIntl();
 
   useEffect(() => {
     if (shouldSubscribe) {
@@ -268,6 +252,21 @@ export const PuzzleDialoguesRenderer = ({
       }
     }
   }, [variables && variables.puzzleId, user.id, shouldSubscribe]);
+
+  if (!data || !data.puzzleLogs) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
+  if (error) {
+    toast.error(error.message);
+    return null;
+  }
+  let users;
+
+  if (applyUserFilter) {
+    users = extractUserFilterUserFromDialogues(data.puzzleLogs);
+    setParticipants(users);
+  }
 
   let puzzleLogs;
   if (applyUserFilter && userFilterId !== -1) {

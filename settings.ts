@@ -4,13 +4,13 @@ export const isDev = process.env.NODE_ENV !== 'production';
 
 // Graphql
 export const GRAPHQL_SERVER = {
-  ENDPOINT: 'http://localhost:8080/v1/graphql',
-  LIVEQUERY: 'ws://localhost:8080/v1/graphql',
+  ENDPOINT: 'http://localhost:8000/graphql',
+  SUBSCRIPTION: 'ws://localhost:8000/graphql',
 };
 
 const defaultLocation = {
   protocol: 'http:',
-  host: 'localhost:8080',
+  host: 'localhost:8000',
 };
 
 const { protocol, host } = process.browser ? window.location : defaultLocation;
@@ -18,18 +18,16 @@ const wsProtocol = protocol === 'https:' ? 'wss:' : 'ws:';
 
 export const GRAPHQL_CLIENT = {
   ENDPOINT: isDev
-    ? 'http://localhost:8080/v1/graphql'
-    : `${protocol}//${host}/v1/graphql`,
-  LIVEQUERY: isDev
-    ? 'ws://localhost:8080/v1/graphql'
-    : `${wsProtocol}//${host}/v1/graphql`,
+    ? 'http://localhost:8000/graphql'
+    : `${protocol}//${host}/graphql`,
+  SUBSCRIPTION: isDev
+    ? 'ws://localhost:8000/graphql'
+    : `${wsProtocol}//${host}/graphql`,
 };
 
 export const SUBSCRIPTION_BATCH_LIMIT = 2;
 
-export const WEBHOOK_SERVER = isDev
-  ? 'http://localhost:3001/webhook'
-  : '/webhook';
+export const WEBHOOK_SERVER = isDev ? 'http://localhost:8000' : '';
 
 export const TOKENIZE_SERVER = isDev
   ? 'http://localhost:3003/tokenize'

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import tagMessages from 'messages/pages/tag';
 
 import { Query } from '@apollo/react-components';
@@ -26,8 +26,8 @@ import {
 } from 'graphql/Queries/generated/TagQuery';
 import { Ordering } from 'generated/globalTypes';
 
-const TagPage = ({ intl }: { intl: IntlShape }) => {
-  const _ = intl.formatMessage;
+const TagPage = () => {
+  const { formatMessage: _ } = useIntl();
   const router = useRouter();
   const { id } = router.query;
   const tagId = parseInt(id as string, 10);
@@ -120,4 +120,4 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
   );
 };
 
-export default injectIntl(TagPage);
+export default TagPage;

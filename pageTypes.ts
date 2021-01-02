@@ -10,11 +10,6 @@ import {
 import { CommentsQueryVariables } from 'graphql/Queries/generated/CommentsQuery';
 import { GlobalUserType } from 'reducers/types';
 
-export type UserPageProps = {
-  userId: number;
-  intl: IntlShape;
-};
-
 export type PuzzlesUnsolvedRendererProps = {
   intl: IntlShape;
 };
@@ -30,11 +25,6 @@ export type SearchVariablesStates = {
 };
 
 export type RankingProps = {
-  intl: IntlShape;
-};
-
-export type PuzzleProps = {
-  puzzleId: number;
   intl: IntlShape;
 };
 

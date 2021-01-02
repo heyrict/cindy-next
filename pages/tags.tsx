@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { asSearch } from 'common/search';
-import { concatList } from 'common/update';
 
 import { FormattedMessage, useIntl } from 'react-intl';
 import tagsPageMessages from 'messages/pages/tags';
@@ -90,16 +89,11 @@ function TagsPageContents({ variables }: { variables: TagsVariablesStates }) {
                 ...variables,
                 offset: data.tags.length,
               },
-              updateQuery: (prev, { fetchMoreResult }) => {
-                if (!fetchMoreResult) return prev;
-                if (fetchMoreResult.tags.length < TAGS_PER_PAGE)
-                  setHasMore(false);
-                return {
-                  ...prev,
-                  tag: concatList(prev.tags, fetchMoreResult.tags),
-                };
-              },
             })
+              .then(({ data }) => {
+                if (data.tags.length < TAGS_PER_PAGE)
+                  setHasMore(false);
+              })
           }
         />
       )}

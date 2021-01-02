@@ -85,19 +85,9 @@ const ChatRoomMessagesBody = ({
     },
   );
 
-  if (error) {
-    console.log(error);
-    return <ErrorReload refetch={refetch} error={error} />;
-  }
-  if (!data || !data.chatmessages) {
-    if (loading) return <Loading centered />;
-    return null;
-  }
-  const { chatmessages } = data;
-
   const [hasMore, setHasMore] = useState(false);
   useEffect(() => {
-    if (loading) return;
+    if (loading || error || !data) return;
     if (chatmessages.length >= CHATMESSAGES_PER_PAGE) setHasMore(true);
     if (chatmessages.length > 0)
       chatmessageUpdate(chatroomId, chatmessages[chatmessages.length - 1].id);
@@ -158,6 +148,16 @@ const ChatRoomMessagesBody = ({
       }),
     [chatroomId],
   );
+
+  if (error) {
+    console.log(error);
+    return <ErrorReload refetch={refetch} error={error} />;
+  }
+  if (!data) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
+  const { chatmessages } = data;
 
   return (
     <KeepBottom
@@ -252,17 +252,9 @@ const ChatRoomMessagesBody = ({
                     variables: {
                       offset: chatmessages.length,
                     },
-                    updateQuery: (prev, { fetchMoreResult }) => {
-                      if (!fetchMoreResult) return prev;
-                      if (fetchMoreResult.chatmessages.length === 0)
-                        setHasMore(false);
-                      return Object.assign({}, prev, {
-                        chatmessage: [
-                          ...prev.chatmessages,
-                          ...fetchMoreResult.chatmessages,
-                        ],
-                      });
-                    },
+                  }).then(({ data }) => {
+                    if (data.chatmessages.length < CHATMESSAGES_PER_PAGE)
+                      setHasMore(false);
                   });
                 }}
               />

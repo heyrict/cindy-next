@@ -36,12 +36,14 @@ const InsertFavChatButton = ({
       }
       const favchatrooms = proxy.readQuery<FavoriteChatroomsQuery>({
         query: FAVORITE_CHATROOMS_QUERY,
+        // userId ?
       });
       const newChatroom = data.createFavchat;
       if (!favchatrooms) return;
       favchatrooms.favchats.push(newChatroom);
       proxy.writeQuery({
         query: FAVORITE_CHATROOMS_QUERY,
+        // userId ?
         data: favchatrooms,
       });
     },

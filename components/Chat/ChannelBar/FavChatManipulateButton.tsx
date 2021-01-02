@@ -23,7 +23,12 @@ const FavChatManipulateButton = ({
 }: FavChatManipulateButtonProps) => {
   if (!user.id) return null;
   return (
-    <Query<FavoriteChatroomsQuery> query={FAVORITE_CHATROOMS_QUERY}>
+    <Query<FavoriteChatroomsQuery>
+      query={FAVORITE_CHATROOMS_QUERY}
+      variables={{
+        userId: user.id,
+      }}
+    >
       {({ loading, error, data }) => {
         if (error) {
           toast.error(error.message);

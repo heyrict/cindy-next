@@ -97,15 +97,11 @@ const PuzzlesSolvedRenderer = () => {
                 variables: {
                   offset: data.puzzles.length,
                 },
-                updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult || !fetchMoreResult.puzzles) return prev;
-                  if (fetchMoreResult.puzzles.length < PUZZLES_PER_PAGE)
-                    setHasMore(false);
-                  return Object.assign({}, prev, {
-                    puzzle: [...prev.puzzles, ...fetchMoreResult.puzzles],
-                  });
-                },
               })
+              .then(({ data }) => {
+                  if (data.puzzles.length < PUZZLES_PER_PAGE)
+                    setHasMore(false);
+            })
             }
           >
             {puzzleLoadingPanel}

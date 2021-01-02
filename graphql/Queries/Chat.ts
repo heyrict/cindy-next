@@ -77,8 +77,8 @@ export const CHATROOM_ID_DESCRIPTION_QUERY = gql`
 `;
 
 export const FAVORITE_CHATROOMS_QUERY = gql`
-  query FavoriteChatroomsQuery {
-    favchats {
+  query FavoriteChatroomsQuery($userId: Int!) {
+    favchats(filter: { userId: { eq: $userId } }) {
       id
       chatroom {
         id

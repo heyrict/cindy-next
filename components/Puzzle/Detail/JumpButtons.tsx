@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import { GenreText } from 'components/Puzzle/Brief/Genre';
 
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { PUZZLE_JUMP_BUTTONS_QUERY } from 'graphql/Queries/Puzzles';
 
 import { widthSplits } from './constants';

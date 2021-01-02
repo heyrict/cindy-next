@@ -93,24 +93,12 @@ const CommentsRenderer = ({ variables }: CommentsRendererProps) => {
                 variables: {
                   offset: data.commentsInSolvedPuzzle.length,
                 },
-                updateQuery: (prev, { fetchMoreResult }) => {
-                  if (
-                    !fetchMoreResult ||
-                    !fetchMoreResult.commentsInSolvedPuzzle
-                  )
-                    return prev;
-                  if (
-                    fetchMoreResult.commentsInSolvedPuzzle.length <
-                    COMMENTS_PER_PAGE
-                  )
-                    setHasMore(false);
-                  return Object.assign({}, prev, {
-                    comment: [
-                      ...prev.commentsInSolvedPuzzle,
-                      ...fetchMoreResult.commentsInSolvedPuzzle,
-                    ],
-                  });
-                },
+              }).then(({ data }) => {
+                if (
+                  data.commentsInSolvedPuzzle.length <
+                  COMMENTS_PER_PAGE
+                )
+                  setHasMore(false);
               })
             }
           >
