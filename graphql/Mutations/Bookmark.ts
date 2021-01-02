@@ -9,7 +9,6 @@ export const ADD_BOOKMARK_MUTATION = gql`
   }
 `;
 
-// TODO these mutations are created upon splitting the upsert mutation above
 export const UPDATE_BOOKMARK_MUTATION = gql`
   mutation UpdateBookmarkMutation($id: Int!, $value: Int!) {
     updateBookmark(id: $id, set: { value: $value }) {
@@ -19,6 +18,7 @@ export const UPDATE_BOOKMARK_MUTATION = gql`
   }
 `;
 
+// TODO these mutations are created upon splitting the upsert mutation above
 export const DELETE_BOOKMARK_MUTATION = gql`
   mutation DeleteBookmarkMutation($id: Int!) {
     deleteBookmark(id: $id) {

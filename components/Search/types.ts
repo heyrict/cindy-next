@@ -1,5 +1,5 @@
 import { ButtonSelectOptionType } from 'components/ButtonSelect/types';
-import { order_by } from 'generated/globalTypes';
+import { Ordering } from 'generated/globalTypes';
 
 export enum FilterFieldTypeEnum {
   TEXT = 'text',
@@ -23,7 +23,7 @@ export type SelectFilterFieldType = {
 
 export type OrderByFieldType = {
   key: string;
-  getValue?: (order: order_by) => object;
+  getValue?: (order: Ordering) => object;
   fieldName?: React.ReactNode;
 };
 
@@ -34,5 +34,5 @@ export type SearchVarSetPanelProps = {
 export type SortVarSetPanelProps = {
   fields: Array<OrderByFieldType>;
   initialField: string;
-  defaultValue?: Array<{ [key: string]: order_by }>;
+  defaultValue?: Array<{ [key: string]: Ordering }>;
 };

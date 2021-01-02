@@ -52,7 +52,7 @@ const ChatroomDescriptionInner = ({
                   },
                 });
               }
-              return new Promise(resolve => resolve());
+              return new Promise(resolve => resolve({}));
             }}
           />
         </Box>

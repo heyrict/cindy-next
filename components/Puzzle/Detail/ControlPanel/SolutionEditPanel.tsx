@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { text2md } from 'common/markdown';
 
-import { Mutation } from '@apollo/react-components';
+import { useMutation } from '@apollo/client';
 import { EDIT_SOLUTION_MUTATION } from 'graphql/Mutations/Puzzle';
 import {
   EditSolutionMutation,
@@ -15,6 +15,7 @@ import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
 
 import { SolutionEditPanelProps } from './types';
+import {Status, Yami} from 'generated/globalTypes';
 
 const SolutionEditPanel = ({
   puzzleId,
@@ -25,7 +26,12 @@ const SolutionEditPanel = ({
   const [editing, setEditing] = useState(false);
   const editorRef = useRef<LegacyEditor>(null);
 
-  const canEdit = status === 0 && yami !== 2;
+  const [editSolution] = useMutation<
+    EditSolutionMutation,
+    EditSolutionMutationVariables
+  >(EDIT_SOLUTION_MUTATION);
+
+  const canEdit = status === Status.UNDERGOING && yami !== Yami.LONGTERM;
 
   return (
     <Flex
@@ -36,81 +42,75 @@ const SolutionEditPanel = ({
       flexWrap="wrap"
       width={1}
     >
-      <Mutation<EditSolutionMutation, EditSolutionMutationVariables>
-        mutation={EDIT_SOLUTION_MUTATION}
-      >
-        {editSolution =>
-          editing ? (
-            <React.Fragment>
-              <Box width={1}>
-                <LegacyEditor ref={editorRef} initialValue={solution} />
-              </Box>
-              <ButtonTransparent
-                width={1 / 2}
-                onClick={() => {
-                  setEditing(false);
-                }}
-              >
-                <Img height="xs" src={crossIcon} />
-              </ButtonTransparent>
-              <ButtonTransparent
-                width={1 / 2}
-                onClick={() => {
-                  if (!canEdit) return;
-                  if (!editorRef.current) return;
-                  const newSolution = editorRef.current.getText();
-                  if (newSolution === solution || newSolution.trim() === '') {
-                    setEditing(false);
-                    return;
+      {editing ? (
+        <React.Fragment>
+          <Box width={1}>
+            <LegacyEditor ref={editorRef} initialValue={solution} />
+          </Box>
+          <ButtonTransparent
+            width={1 / 2}
+            onClick={() => {
+              setEditing(false);
+            }}
+          >
+            <Img height="xs" src={crossIcon} />
+          </ButtonTransparent>
+          <ButtonTransparent
+            width={1 / 2}
+            onClick={() => {
+              if (!canEdit) return;
+              if (!editorRef.current) return;
+              const newSolution = editorRef.current.getText();
+              if (newSolution === solution || newSolution.trim() === '') {
+                setEditing(false);
+                return;
+              }
+              editSolution({
+                variables: {
+                  puzzleId,
+                  solution: newSolution,
+                },
+                optimisticResponse: {
+                  updatePuzzle: {
+                    __typename: 'Puzzle',
+                    id: puzzleId,
+                    solution: newSolution,
+                  },
+                },
+              })
+                .then(result => {
+                  if (!result) return;
+                  if (result.errors) {
+                    console.log(result.errors);
+                    setEditing(true);
+                    if (editorRef.current) {
+                      editorRef.current.setText(newSolution);
+                    }
                   }
-                  editSolution({
-                    variables: {
-                      puzzleId,
-                      solution: newSolution,
-                    },
-                    optimisticResponse: {
-                      updatePuzzle: {
-                        __typename: 'Puzzle',
-                        id: puzzleId,
-                        solution: newSolution,
-                      },
-                    },
-                  })
-                    .then(result => {
-                      if (!result) return;
-                      if (result.errors) {
-                        console.log(result.errors);
-                        setEditing(true);
-                        if (editorRef.current) {
-                          editorRef.current.setText(newSolution);
-                        }
-                      }
-                    })
-                    .catch(e => {
-                      console.log(e);
-                      setEditing(true);
-                      if (editorRef.current) {
-                        editorRef.current.setText(newSolution);
-                      }
-                    });
-                  setEditing(false);
-                }}
-              >
-                <Img height="xs" src={tickIcon} />
-              </ButtonTransparent>
-            </React.Fragment>
-          ) : (
-            <Box p={2}>
-              <span dangerouslySetInnerHTML={{ __html: text2md(solution) }} />
-              {canEdit && (
-                <ButtonTransparent onClick={() => setEditing(true)}>
-                  <Img height="xxs" src={pencilIcon} />
-                </ButtonTransparent>
-              )}
-            </Box>
-          )
-        }
-      </Mutation>
+                })
+                .catch(e => {
+                  console.log(e);
+                  setEditing(true);
+                  if (editorRef.current) {
+                    editorRef.current.setText(newSolution);
+                  }
+                });
+              setEditing(false);
+            }}
+          >
+            <Img height="xs" src={tickIcon} />
+          </ButtonTransparent>
+        </React.Fragment>
+      ) : (
+        <Box p={2}>
+          <span dangerouslySetInnerHTML={{ __html: text2md(solution) }} />
+          {canEdit && (
+            <ButtonTransparent onClick={() => setEditing(true)}>
+              <Img height="xxs" src={pencilIcon} />
+            </ButtonTransparent>
+          )}
+        </Box>
+      )}
     </Flex>
   );
 };

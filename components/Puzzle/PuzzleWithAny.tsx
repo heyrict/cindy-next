@@ -21,6 +21,7 @@ import Anonymous from './Brief/Anonymous';
 
 import { PuzzleWithAnyProps } from './types';
 import { StateType } from 'reducers/types';
+import { Status as StatusEnum } from 'generated/globalTypes';
 
 const PuzzleWithAny = ({
   puzzle,
@@ -31,49 +32,14 @@ const PuzzleWithAny = ({
   commentCount,
   dialogueCount,
   dialogueMaxAnsweredtime,
-  dialogueMaxCreated,
   showGenreImage,
 }: PuzzleWithAnyProps) => {
-  const aggregates = {
-    bookmarkCount:
-      bookmarkCount ||
-      (puzzle.bookmarks_aggregate &&
-        puzzle.bookmarks_aggregate.aggregate &&
-        puzzle.bookmarks_aggregate.aggregate.count),
-    commentCount:
-      commentCount ||
-      (puzzle.comments_aggregate &&
-        puzzle.comments_aggregate.aggregate &&
-        puzzle.comments_aggregate.aggregate.count),
-    starCount:
-      starCount ||
-      (puzzle.stars_aggregate &&
-        puzzle.stars_aggregate.aggregate &&
-        puzzle.stars_aggregate.aggregate.count),
-    starSum:
-      starSum ||
-      (puzzle.stars_aggregate &&
-        puzzle.stars_aggregate.aggregate &&
-        puzzle.stars_aggregate.aggregate.sum &&
-        puzzle.stars_aggregate.aggregate.sum.value),
-    dialogueCount:
-      dialogueCount ||
-      (puzzle.dialogues_aggregate &&
-        puzzle.dialogues_aggregate.aggregate &&
-        puzzle.dialogues_aggregate.aggregate.count),
-    dialogueMaxAnsweredtime:
-      dialogueMaxAnsweredtime ||
-      (puzzle.dialogues_aggregate &&
-        puzzle.dialogues_aggregate.aggregate &&
-        puzzle.dialogues_aggregate.aggregate.max &&
-        puzzle.dialogues_aggregate.aggregate.max.answeredTime),
-    dialogueMaxCreatedtime:
-      dialogueMaxCreated ||
-      (puzzle.dialogues_aggregate &&
-        puzzle.dialogues_aggregate.aggregate &&
-        puzzle.dialogues_aggregate.aggregate.max &&
-        puzzle.dialogues_aggregate.aggregate.max.created),
-  };
+  puzzle.bookmarkCount = bookmarkCount || puzzle.bookmarkCount;
+  puzzle.starCount = starCount || puzzle.starCount;
+  puzzle.starSum = starSum || puzzle.starSum;
+  puzzle.commentCount = commentCount || puzzle.commentCount;
+  puzzle.dialogueCount = dialogueCount || puzzle.dialogueCount;
+  puzzle.dialogueMaxAnsweredtime = dialogueMaxAnsweredtime || puzzle.dialogueMaxAnsweredtime;
 
   return (
     <Panel minHeight="8em">
@@ -113,23 +79,23 @@ const PuzzleWithAny = ({
         </Box>
         <Hr />
         <Flex p={1} flexWrap="wrap" alignItems="center">
-          {puzzle.status !== 0 && puzzle.anonymous && <Anonymous />}
+          {puzzle.status !== StatusEnum.UNDERGOING && puzzle.anonymous && <Anonymous />}
           <Status status={puzzle.status} />
-          {typeof aggregates.dialogueCount === 'number' && (
-            <Process count={aggregates.dialogueCount} />
+          {typeof puzzle.dialogueCount === 'number' && (
+            <Process count={puzzle.dialogueCount} />
           )}
-          {typeof aggregates.starCount === 'number' &&
-            aggregates.starCount > 0 &&
-            typeof aggregates.starSum === 'number' && (
-              <Star count={aggregates.starCount} sum={aggregates.starSum} />
+          {typeof puzzle.starCount === 'number' &&
+            puzzle.starCount > 0 &&
+            typeof puzzle.starSum === 'number' && (
+              <Star count={puzzle.starCount} sum={puzzle.starSum} />
             )}
-          {typeof aggregates.commentCount === 'number' &&
-            aggregates.commentCount > 0 && (
-              <Comment puzzleId={puzzle.id} count={aggregates.commentCount} />
+          {typeof puzzle.commentCount === 'number' &&
+            puzzle.commentCount > 0 && (
+              <Comment puzzleId={puzzle.id} count={puzzle.commentCount} />
             )}
-          {typeof aggregates.bookmarkCount === 'number' &&
-            aggregates.bookmarkCount > 0 && (
-              <Bookmark count={aggregates.bookmarkCount} />
+          {typeof puzzle.bookmarkCount === 'number' &&
+            puzzle.bookmarkCount > 0 && (
+              <Bookmark count={puzzle.bookmarkCount} />
             )}
         </Flex>
       </Box>

@@ -33,6 +33,7 @@ import {
 } from './types';
 import UserInline from 'components/User/UserInline';
 import IndexLabel from 'components/Puzzle/Detail/PuzzleDialogues/IndexLabel';
+import {Genre, Yami} from 'generated/globalTypes';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -183,7 +184,7 @@ class PuzzleShowcase extends React.Component<
           <Flex width={1} flexWrap="wrap">
             <FormattedMessage {...messages.title}>
               {title => (
-                <PuzzleTitle title={title as string} genre={0} yami={0} />
+                <PuzzleTitle title={title as string} genre={Genre.CLASSIC} yami={Yami.NONE} />
               )}
             </FormattedMessage>
             <FormattedMessage {...messages.content}>

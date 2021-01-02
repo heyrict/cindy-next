@@ -1,5 +1,16 @@
 import React, { useEffect, useRef } from 'react';
+import { getMaxDazedDays } from 'settings';
 import { toast } from 'react-toastify';
+
+import { useMutation } from '@apollo/client';
+import {
+  UPDATE_PUZZLE_MUTATION,
+  UPDATE_PUZZLE_DAZED_ON_MUTATION,
+} from 'graphql/Mutations/Puzzle';
+import {
+  UpdatePuzzleMutation,
+  UpdatePuzzleMutationVariables,
+} from 'graphql/Mutations/generated/UpdatePuzzleMutation';
 
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import messages from 'messages/pages/puzzle';
@@ -9,7 +20,11 @@ import commonMessages from 'messages/common';
 import { Flex, Box, ButtonTransparent, Switch } from 'components/General';
 
 import { PuzzleEditPanelProps } from './types';
-import { getMaxDazedDays } from 'settings';
+import {
+  UpdatePuzzleDazedOnMutationVariables,
+  UpdatePuzzleDazedOnMutation,
+} from 'graphql/Mutations/generated/UpdatePuzzleDazedOnMutation';
+import { Status, Yami } from 'generated/globalTypes';
 
 const PuzzleEditPanel = ({
   puzzleId,
@@ -18,15 +33,22 @@ const PuzzleEditPanel = ({
   grotesque,
   status,
   dazedOn,
-  updatePuzzle,
-  updatePuzzleDazedOn,
   show,
 }: PuzzleEditPanelProps) => {
   const notifHdlRef = useRef<React.ReactText | null>(null);
 
+  const [updatePuzzle] = useMutation<
+    UpdatePuzzleMutation,
+    UpdatePuzzleMutationVariables
+  >(UPDATE_PUZZLE_MUTATION);
+  const [updatePuzzleDazedOn] = useMutation<
+    UpdatePuzzleDazedOnMutation,
+    UpdatePuzzleDazedOnMutationVariables
+  >(UPDATE_PUZZLE_DAZED_ON_MUTATION);
+
   // Update dazedOn date
   useEffect(() => {
-    if (status !== 0) return;
+    if (status !== Status.UNDERGOING) return;
     const newDazedOn = new Date();
     const dazedTimeOffset = getMaxDazedDays({
       yami,
@@ -55,10 +77,13 @@ const PuzzleEditPanel = ({
 
   if (!show) return null;
 
-  const shouldShowPutSolution = status === 0;
-  const shouldShowSetHidden = status !== 4 && status !== 2;
-  const shouldShowToggleGrotesque = status !== 4;
-  const shouldShowToggleYami = status === 0 && (yami === 0 || yami === 1);
+  const shouldShowPutSolution = status === Status.UNDERGOING;
+  const shouldShowSetHidden =
+    status !== Status.FORCE_HIDDEN && status !== Status.DAZED;
+  const shouldShowToggleGrotesque = status !== Status.FORCE_HIDDEN;
+  const shouldShowToggleYami =
+    status === Status.UNDERGOING &&
+    (yami === Yami.NONE || yami === Yami.NORMAL);
 
   return (
     <Flex
@@ -110,7 +135,7 @@ const PuzzleEditPanel = ({
                           updatePuzzle({
                             variables: {
                               puzzleId,
-                              status: 1,
+                              status: Status.SOLVED,
                               grotesque,
                               yami,
                             },
@@ -119,7 +144,7 @@ const PuzzleEditPanel = ({
                                 __typename: 'Puzzle',
                                 id: puzzleId,
                                 grotesque,
-                                status: 1,
+                                status: Status.SOLVED,
                                 yami,
                               },
                             },
@@ -151,7 +176,7 @@ const PuzzleEditPanel = ({
                     puzzleId,
                     status,
                     grotesque,
-                    yami: 1 - yami,
+                    yami: yami === Yami.NONE ? Yami.NORMAL : Yami.NONE,
                   },
                   optimisticResponse: {
                     updatePuzzle: {
@@ -159,13 +184,13 @@ const PuzzleEditPanel = ({
                       id: puzzleId,
                       grotesque,
                       status,
-                      yami: 1 - yami,
+                      yami: yami === Yami.NONE ? Yami.NORMAL : Yami.NONE,
                     },
                   },
                 });
               }}
             >
-              {yami === 1 ? (
+              {yami === Yami.NONE ? (
                 <FormattedMessage {...messages.unsetYami} />
               ) : (
                 <FormattedMessage {...messages.setYami} />
@@ -185,7 +210,7 @@ const PuzzleEditPanel = ({
                 notifHdlRef.current = toast.warn(
                   <Box>
                     <FormattedMessage
-                      {...(status === 3
+                      {...(status === Status.HIDDEN
                         ? messages.unsetHiddenConfirm
                         : messages.setHiddenConfirm)}
                     />
@@ -204,7 +229,10 @@ const PuzzleEditPanel = ({
                           updatePuzzle({
                             variables: {
                               puzzleId,
-                              status: status === 3 ? 1 : 3,
+                              status:
+                                status === Status.HIDDEN
+                                  ? Status.SOLVED
+                                  : Status.HIDDEN,
                               grotesque,
                               yami,
                             },
@@ -213,7 +241,10 @@ const PuzzleEditPanel = ({
                                 __typename: 'Puzzle',
                                 id: puzzleId,
                                 grotesque,
-                                status: status === 3 ? 1 : 3,
+                                status:
+                                  status === Status.HIDDEN
+                                    ? Status.SOLVED
+                                    : Status.HIDDEN,
                                 yami,
                               },
                             },
@@ -228,7 +259,7 @@ const PuzzleEditPanel = ({
                 );
               }}
             >
-              {status === 3 ? (
+              {status === Status.HIDDEN ? (
                 <FormattedMessage {...messages.unsetHidden} />
               ) : (
                 <FormattedMessage {...messages.setHidden} />

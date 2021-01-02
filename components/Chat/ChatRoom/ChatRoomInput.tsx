@@ -142,7 +142,7 @@ const ChatRoomInput = ({
       onKeyDown={(e: React.KeyboardEvent) => {
         if (sendChatTrigger & SendMessageTriggerType.ON_ENTER) {
           if (
-            e.nativeEvent.keyCode === 13 &&
+            e.nativeEvent.key === 'Enter' &&
             !e.nativeEvent.shiftKey &&
             !e.nativeEvent.ctrlKey
           ) {
@@ -152,14 +152,14 @@ const ChatRoomInput = ({
           }
         }
         if (sendChatTrigger & SendMessageTriggerType.ON_CTRL_ENTER) {
-          if (e.nativeEvent.keyCode === 13 && e.nativeEvent.ctrlKey) {
+          if (e.nativeEvent.key === 'Enter' && e.nativeEvent.ctrlKey) {
             handleSubmitWithError(editorRef.current.getText());
             e.preventDefault();
             return;
           }
         }
         if (sendChatTrigger & SendMessageTriggerType.ON_SHIFT_ENTER) {
-          if (e.nativeEvent.keyCode === 13 && e.nativeEvent.shiftKey) {
+          if (e.nativeEvent.key === 'Enter' && e.nativeEvent.shiftKey) {
             handleSubmitWithError(editorRef.current.getText());
             e.preventDefault();
             return;

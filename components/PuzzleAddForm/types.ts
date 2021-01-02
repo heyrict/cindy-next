@@ -10,7 +10,7 @@ type PuzzleAddFormOnSubmitType = (
   variables: AddPuzzleMutationVariables,
 ) => Promise<
   | void
-  | { error?: ApolloError; data?: AddPuzzleMutation }
+  | { error?: ApolloError; data?: AddPuzzleMutation | null }
   | { validationErrors: PuzzleFormValidationErrorType }
 >;
 

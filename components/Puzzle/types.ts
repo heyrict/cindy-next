@@ -29,7 +29,6 @@ export type PuzzleWithAnyProps = {
   starSum?: number;
   dialogueCount?: number;
   dialogueMaxAnsweredtime?: string;
-  dialogueMaxCreated?: string;
   showGenreImage: boolean;
 };
 

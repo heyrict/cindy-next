@@ -7,7 +7,7 @@ import {
   PREVIOUS_COMMENT_VALUE_QUERY,
   PUZZLE_COMMENT_QUERY,
 } from 'graphql/Queries/Comment';
-import { ADD_COMMENT_MUTATION } from 'graphql/Mutations/Comment';
+import { ADD_COMMENT_MUTATION, UPDATE_COMMENT_MUTATION } from 'graphql/Mutations/Comment';
 
 import Loading from 'components/General/Loading';
 import Flex from 'components/General/Flex';
@@ -36,6 +36,7 @@ import {
   PuzzleCommentQuery,
   PuzzleCommentQueryVariables,
 } from 'graphql/Queries/generated/PuzzleCommentQuery';
+import {UpdateCommentMutation, UpdateCommentMutationVariables} from 'graphql/Mutations/generated/UpdateCommentMutation';
 
 const CommentModalAddPanelRenderer = ({
   puzzleId,
@@ -98,6 +99,11 @@ const CommentModalAddPanelRenderer = ({
     },
   });
 
+  const [updateComment] = useMutation<
+    UpdateCommentMutation,
+    UpdateCommentMutationVariables
+  >(UPDATE_COMMENT_MUTATION);
+
   useEffect(() => {
     if (comments.length === 0) return;
     setSpoiler(comments[0].spoiler);
@@ -147,29 +153,31 @@ const CommentModalAddPanelRenderer = ({
           onClick={() => {
             if (!inputRef.current) return;
             const content = inputRef.current.value.trim();
-            addComment({
-              variables: {
-                puzzleId,
-                content,
-                spoiler,
-              },
-              optimisticResponse: {
-                createComment: {
-                  __typename: 'Comment',
-                  id: comments.length > 0 ? comments[0].id : -1,
+
+            if (comments.length === 0) {
+              addComment({
+                variables: {
+                  puzzleId,
                   content,
                   spoiler,
-                  user: {
-                    __typename: 'User',
-                    id: userId || -1,
-                    icon: null,
-                    currentAward: null,
-                    nickname: '...',
-                    username: '...',
+                },
+                optimisticResponse: {
+                  createComment: {
+                    __typename: 'Comment',
+                    id: comments.length > 0 ? comments[0].id : -1,
+                    content,
+                    spoiler,
+                    user: {
+                      __typename: 'User',
+                      id: userId,
+                      icon: null,
+                      currentAward: null,
+                      nickname: '...',
+                      username: '...',
+                    },
                   },
                 },
-              },
-            })
+              })
               .then(res => {
                 if (!res) return;
                 const { errors } = res;
@@ -185,6 +193,31 @@ const CommentModalAddPanelRenderer = ({
                 if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
                 toast.error(e.message);
               });
+            } else {
+              const comment = comments[0];
+              updateComment({
+                variables: {
+                  id: comment.id,
+                  content,
+                  spoiler,
+                }
+              })
+              .then(res => {
+                if (!res) return;
+                const { errors } = res;
+                if (errors) {
+                  toast.error(JSON.stringify(errors));
+                  setSpoiler(spoiler);
+                  return;
+                }
+                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+                toast.info(<FormattedMessage {...commonMessages.saved} />);
+              })
+              .catch((e: ApolloError) => {
+                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+                toast.error(e.message);
+              });
+            }
 
             notifHdlRef.current = toast.info(
               <FormattedMessage {...commonMessages.saving} />,

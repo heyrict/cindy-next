@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/puzzle';
 
 import { SetPanelToolbarProps, ControlPanelPanelType } from './types';
+import {Status} from 'generated/globalTypes';
 
 const PanelToolbarButonProps = {
   px: 1,
@@ -19,7 +20,7 @@ const SetPanelToolbar = ({
   status,
 }: SetPanelToolbarProps) => (
   <Flex width={1} mb={1}>
-    {status === 0 && (
+    {status === Status.UNDERGOING && (
       <ButtonTransparent
         {...PanelToolbarButonProps}
         borderColor={
@@ -43,7 +44,7 @@ const SetPanelToolbar = ({
     >
       <FormattedMessage {...messages.memo} />
     </ButtonTransparent>
-    {status === 0 && (
+    {status === Status.UNDERGOING && (
       <ButtonTransparent
         {...PanelToolbarButonProps}
         borderColor={

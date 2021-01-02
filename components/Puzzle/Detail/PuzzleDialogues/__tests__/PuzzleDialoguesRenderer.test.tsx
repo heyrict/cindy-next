@@ -62,8 +62,7 @@ describe('<PuzzleDialoguesRendererInner />', () => {
   it('Should render all dialogues and hints in combination', () => {
     const node = shallow(
       <PuzzleDialoguesRendererInner
-        dialogues={dialogues}
-        hints={hints}
+        puzzleLogs={dialogues}
         puzzleUser={puzzle.user}
         puzzleStatus={puzzle.status}
         anonymous={puzzle.anonymous}

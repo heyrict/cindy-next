@@ -10,10 +10,8 @@ import { Query } from '@apollo/react-components';
 import { useQuery } from '@apollo/client';
 import {
   ALL_AWARDS_QUERY,
-  PUZZLE_GENRE_GROUPS_QUERY,
-  PUZZLE_STAR_COUNT_GROUPS_QUERY,
 } from 'graphql/Queries/Awards';
-import { YAMI_PUZZLE_COUNT_QUERY } from 'graphql/Queries/Puzzles';
+import { PUZZLE_GENRE_GROUPS_QUERY, PUZZLE_STAR_COUNT_GROUPS_QUERY, USER_MAX_YAMI_DIALOGUE_COUNT_QUERY } from 'graphql/Queries/Puzzles';
 
 import { FormattedMessage, FormattedRelativeTime } from 'react-intl';
 import awardsMessages from 'messages/pages/awards';
@@ -35,17 +33,11 @@ import {
 } from 'components/AwardChecker/constants';
 import { AllAwardsProps, AwardStatusType } from './types';
 import {
-  YamiPuzzleCountQuery,
-  YamiPuzzleCountQueryVariables,
-} from 'graphql/Queries/generated/YamiPuzzleCountQuery';
-import {
-  PuzzleGenreGroupsQuery,
-  PuzzleGenreGroupsQueryVariables,
-} from 'graphql/Queries/generated/PuzzleGenreGroupsQuery';
-import {
   PuzzleStarCountGroupsQuery,
   PuzzleStarCountGroupsQueryVariables,
 } from 'graphql/Queries/generated/PuzzleStarCountGroupsQuery';
+import {UserMaxYamiDialogueCountQuery, UserMaxYamiDialogueCountQueryVariables} from 'graphql/Queries/generated/UserMaxYamiDialogueCountQuery';
+import {PuzzleCountByGenreQuery, PuzzleCountByGenreQueryVariables} from 'graphql/Queries/generated/PuzzleCountByGenreQuery';
 
 const AllAwards = ({ userInfo }: AllAwardsProps) => {
   const { loading, data, error } = useQuery<AllAwardsQuery>(ALL_AWARDS_QUERY, {
@@ -174,7 +166,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
         }
       >
         {userInfo ? (
-          <Query<PuzzleGenreGroupsQuery, PuzzleGenreGroupsQueryVariables>
+          <Query<PuzzleCountByGenreQuery, PuzzleCountByGenreQueryVariables>
             query={PUZZLE_GENRE_GROUPS_QUERY}
             variables={{ userId: userInfo.id }}
           >
@@ -183,11 +175,11 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
                 toast.error(error);
                 return null;
               }
-              if (!data || !data.user_puzzle_genre_groups) {
+              if (!data || !data.puzzleCountByGenre) {
                 if (loading) return <Loading centered />;
                 return null;
               }
-              const groups = data.user_puzzle_genre_groups;
+              const groups = data.puzzleCountByGenre;
 
               return (
                 <AwardTableRenderer
@@ -211,9 +203,9 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
                       return AwardStatusType.GET;
                     }
                     const group = groups.find(
-                      grp => grp.group === awardObj.genre,
+                      grp => grp.genre === awardObj.genre,
                     );
-                    if (group && group.value >= awardObj.count) {
+                    if (group && group.puzzleCount >= awardObj.count) {
                       return AwardStatusType.REACH;
                     }
                     return AwardStatusType.WAIT;
@@ -259,14 +251,14 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
                 toast.error(error);
                 return null;
               }
-              if (!data || !data.user_star_groups) {
+              if (!data) {
                 if (loading) return <Loading centered />;
                 return null;
               }
-              const groups = data.user_star_groups;
-              let starSum = 0;
-              data.user_star_groups.forEach(grp => {
-                starSum += grp.group * grp.value;
+              const groups = data.puzzleStarCountGroups;
+              let totalStarCount = 0;
+              groups.forEach(grp => {
+                totalStarCount += grp.group * grp.puzzleCount;
               });
 
               return (
@@ -293,7 +285,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
                       }
                       const puzzleCount = groups
                         .filter(grp => grp.group >= awardObj.starCount)
-                        .reduce((a, b) => a + b.value, 0);
+                        .reduce((a, b) => a + b.puzzleCount, 0);
                       if (puzzleCount >= awardObj.puzzleCount) {
                         return AwardStatusType.REACH;
                       }
@@ -319,7 +311,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
                         return AwardStatusType.GET;
                       }
 
-                      if (starSum >= awardObj) {
+                      if (totalStarCount >= awardObj) {
                         return AwardStatusType.REACH;
                       }
                       return AwardStatusType.WAIT;
@@ -408,8 +400,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
         }
       >
         {userInfo ? (
-          <Query<YamiPuzzleCountQuery, YamiPuzzleCountQueryVariables>
-            query={YAMI_PUZZLE_COUNT_QUERY}
+          <Query<UserMaxYamiDialogueCountQuery, UserMaxYamiDialogueCountQueryVariables>
+            query={USER_MAX_YAMI_DIALOGUE_COUNT_QUERY}
             variables={{ userId: userInfo.id }}
           >
             {({ error, data, loading }) => {
@@ -417,18 +409,11 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
                 toast.error(error);
                 return null;
               }
-              if (!data || !data.puzzle) {
+              if (!data) {
                 if (loading) return <Loading centered />;
                 return null;
               }
-              const maxYamiDialogues =
-                data.puzzle.length === 0
-                  ? null
-                  : data.puzzle[0].dialogues_aggregate;
-              const yamiPuzzleDialogueMaxCount =
-                maxYamiDialogues &&
-                maxYamiDialogues.aggregate &&
-                maxYamiDialogues.aggregate.count;
+              const count = data.userMaxYamiDialogueCount.dialogueCount;
               return (
                 <AwardTableRenderer
                   awardsDefs={awardsDefs}
@@ -451,8 +436,8 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
                       return AwardStatusType.GET;
                     }
                     if (
-                      yamiPuzzleDialogueMaxCount &&
-                      yamiPuzzleDialogueMaxCount > awardObj
+                      count &&
+                      count > awardObj
                     ) {
                       return AwardStatusType.REACH;
                     }
@@ -491,14 +476,12 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
             userInfo.userAwards.findIndex(ua => ua.awardId === awardId) >= 0;
           if (hasThisAward) return AwardStatusType.GET;
 
-          const puzzlesAggr = userInfo.puzzles_aggregate.aggregate;
-          const puzzlesMaxCreated =
-            puzzlesAggr && puzzlesAggr.max && puzzlesAggr.max.created;
+          const {puzzleMaxCreated} = userInfo;
 
-          if (!puzzlesMaxCreated) return AwardStatusType.WAIT;
+          if (!puzzleMaxCreated) return AwardStatusType.WAIT;
 
           const userDateJoined = new Date(userInfo.dateJoined);
-          const lastPuzzleCreated = new Date(puzzlesMaxCreated);
+          const lastPuzzleCreated = new Date(puzzleMaxCreated);
           const daysOfLastPuzzleSinceJoined =
             (lastPuzzleCreated.getTime() - userDateJoined.getTime()) / 86400000;
 

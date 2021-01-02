@@ -48,17 +48,13 @@ const PostPuzzleButton = ({
                 setSubmitting(false);
                 return;
               }
-              if (
-                !data ||
-                !data.insert_puzzle ||
-                !data.insert_puzzle.returning
-              ) {
+              if (!data) {
                 toast.error('Error: no data returns');
                 setSubmitting(false);
                 return;
               }
               incPuzzles();
-              const addedPuzzle = data.insert_puzzle.returning[0];
+              const addedPuzzle = data.createPuzzle;
               Router.push('/puzzle/[id]', `/puzzle/${addedPuzzle.id}`);
             })
             .catch((error: ApolloError) => {

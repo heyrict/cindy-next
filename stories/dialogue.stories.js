@@ -16,9 +16,12 @@ import * as settingReducer from 'reducers/setting';
 
 import { IntlProvider } from 'react-intl';
 
-import { ApolloClient, ApolloProvider } from '@apollo/react-common';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  HttpLink,
+} from '@apollo/client';
 
 import PuzzleDialogues from '../components/Puzzle/Detail/PuzzleDialogues';
 

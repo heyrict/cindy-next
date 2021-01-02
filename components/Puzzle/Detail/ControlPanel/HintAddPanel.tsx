@@ -21,6 +21,7 @@ import {
   DialogueHintQuery,
   DialogueHintQueryVariables,
 } from 'graphql/Queries/generated/DialogueHintQuery';
+import {Yami} from 'generated/globalTypes';
 
 const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
   const [receiverId, setReceiverId] = useState<number | null>(null);
@@ -70,7 +71,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
       flexWrap="wrap"
       width={1}
     >
-      {yami !== 0 && (
+      {yami !== Yami.NONE && (
         <Box width={1}>
           <ParticipantSelector
             value={receiverId}

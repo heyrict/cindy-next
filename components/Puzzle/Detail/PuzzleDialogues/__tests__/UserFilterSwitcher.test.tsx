@@ -17,6 +17,9 @@ describe('<UserFilterSwitcher />', () => {
       users: userFilterUsers.map(user => ({
         id: user.id,
         nickname: user.nickname,
+        dialogueCount: user.dialogueCount,
+        answeredDialogueCount: user.answeredDialogueCount,
+        trueAnswer: user.trueAnswer,
       })),
       onClick: clickFn,
       activeUserId: undefined,

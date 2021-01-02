@@ -29,26 +29,10 @@ const AllAwardsWithUser = ({
       if (!data.user) return;
       const user = data.user;
       initAwardCount({
-        puzzles:
-          (user.puzzles_aggregate &&
-            user.puzzles_aggregate.aggregate &&
-            user.puzzles_aggregate.aggregate.count) ||
-          0,
-        goodQuestions:
-          (user.good_questions_aggregate &&
-            user.good_questions_aggregate.aggregate &&
-            user.good_questions_aggregate.aggregate.count) ||
-          0,
-        trueAnswers:
-          (user.true_answers_aggregate &&
-            user.true_answers_aggregate.aggregate &&
-            user.true_answers_aggregate.aggregate.count) ||
-          0,
-        dialogues:
-          (user.dialogues_aggregate &&
-            user.dialogues_aggregate.aggregate &&
-            user.dialogues_aggregate.aggregate.count) ||
-          0,
+        puzzles: user.puzzleCount,
+        goodQuestions: user.goodQuestionCount,
+        trueAnswers: user.trueAnswerCount,
+        dialogues: user.dialogueCount,
       });
     }}
   >

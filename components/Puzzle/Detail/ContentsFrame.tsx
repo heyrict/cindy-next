@@ -13,6 +13,7 @@ import { text2md } from 'common/markdown';
 import { widthSplits } from './constants';
 
 import { ContentsFrameType } from './types';
+import {Status} from 'generated/globalTypes';
 
 const Label = styled.span`
   padding: 5px;
@@ -30,7 +31,7 @@ const ContentBox = styled(Box)`
 
 function ContentsFrame(props: ContentsFrameType) {
   const { text, anonymous, status, user, created, solved } = props;
-  const shouldHideIdentity = anonymous && status === 0;
+  const shouldHideIdentity = anonymous && status === Status.UNDERGOING;
 
   return (
     <Panel display="block" width={1} mx={widthSplits[2]} my={3}>

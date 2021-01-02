@@ -17,6 +17,7 @@ import PreviewPuzzleDetail from './PreviewPuzzleDetail';
 import { StateType } from 'reducers/types';
 import { stampNamespaces } from 'stamps/types';
 import { PuzzleAddFormInnerProps, PostPuzzleDetailType } from './types';
+import {Genre, Yami} from 'generated/globalTypes';
 
 const fieldNameStyle = {
   width: [1, 1 / 6],
@@ -56,8 +57,8 @@ export const PuzzleAddFormInner = ({
   const contentEditor = useRef<LegacyEditor>(null);
   const solutionEditor = useRef<LegacyEditor>(null);
   const [title, setTitle] = useState('');
-  const [genre, setGenre] = useState(0);
-  const [yami, setYami] = useState(0);
+  const [genre, setGenre] = useState(Genre.CLASSIC);
+  const [yami, setYami] = useState(Yami.NONE);
   const [anonymous, setAnonymous] = useState(false);
   const [grotesque, setGrotesque] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -118,24 +119,24 @@ export const PuzzleAddFormInner = ({
           options={[
             {
               key: 'classic',
-              value: 0,
+              value: Genre.CLASSIC,
               label: <FormattedMessage {...puzzleMessages.genre_classic} />,
             },
             {
               key: 'twentyQuestions',
-              value: 1,
+              value: Genre.TWENTY_QUESTIONS,
               label: (
                 <FormattedMessage {...puzzleMessages.genre_twentyQuestions} />
               ),
             },
             {
               key: 'littleAlbat',
-              value: 2,
+              value: Genre.LITTLE_ALBAT,
               label: <FormattedMessage {...puzzleMessages.genre_littleAlbat} />,
             },
             {
               key: 'others',
-              value: 3,
+              value: Genre.OTHERS,
               label: <FormattedMessage {...puzzleMessages.genre_others} />,
             },
           ]}
@@ -152,17 +153,17 @@ export const PuzzleAddFormInner = ({
           options={[
             {
               key: 'none',
-              value: 0,
+              value: Yami.NONE,
               label: <FormattedMessage {...commonMessages.none} />,
             },
             {
               key: 'yami',
-              value: 1,
+              value: Yami.NORMAL,
               label: <FormattedMessage {...puzzleMessages.yami_yami} />,
             },
             {
               key: 'longtermYami',
-              value: 2,
+              value: Yami.LONGTERM,
               label: <FormattedMessage {...puzzleMessages.yami_longtermYami} />,
             },
           ]}

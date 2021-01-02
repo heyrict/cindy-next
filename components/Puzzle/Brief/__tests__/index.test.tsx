@@ -12,12 +12,18 @@ import Star from '../Star';
 import Status from '../Status';
 import Yami from '../Yami';
 
+import {
+  Genre as GenreEnum,
+  Yami as YamiEnum,
+  Status as StatusEnum,
+} from 'generated/globalTypes';
+
 const puzzleMinimal = {
   id: 1,
-  genre: 0,
+  genre: GenreEnum.CLASSIC,
   title: 'ウミガメのスープ',
-  status: 1,
-  yami: 0,
+  status: StatusEnum.SOLVED,
+  yami: YamiEnum.NONE,
   created: '2019-06-26T00:00:00Z',
   modified: '2019-06-26T00:00:00Z',
   user: {

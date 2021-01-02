@@ -8,28 +8,27 @@ import starFillIcon from 'svgs/starFill.svg';
 import { FormattedMessage } from 'react-intl';
 import chatMessages from 'messages/components/chat';
 
-import { Mutation } from '@apollo/react-components';
+import { useMutation } from '@apollo/client';
 import { DELETE_FAVORITE_CHATROOM_MUTATION } from 'graphql/Mutations/Chat';
+import { FAVORITE_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
+
 import {
   DeleteFavoriteChatroomMutation,
   DeleteFavoriteChatroomMutationVariables,
 } from 'graphql/Mutations/generated/DeleteFavoriteChatroomMutation';
 import { DeleteFavChatButtonProps } from './types';
-import { FAVORITE_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
 import { FavoriteChatroomsQuery } from 'graphql/Queries/generated/FavoriteChatroomsQuery';
 
 const DeleteFavChatButton = ({
   favchatId,
   compact,
-}: DeleteFavChatButtonProps) => (
-  <Mutation<
+}: DeleteFavChatButtonProps) => {
+  const [deleteFavChat] = useMutation<
     DeleteFavoriteChatroomMutation,
     DeleteFavoriteChatroomMutationVariables
-  >
-    mutation={DELETE_FAVORITE_CHATROOM_MUTATION}
-    update={(proxy, { data, errors }) => {
-      if (!data || !data.deleteFavChat) return;
-      if (data.deleteFavChat.affected_rows === 0) return;
+  >(DELETE_FAVORITE_CHATROOM_MUTATION, {
+    update: (proxy, { data, errors }) => {
+      if (!data || !data.deleteFavchat) return;
       if (errors) {
         toast.error(JSON.stringify(errors));
         return;
@@ -45,46 +44,42 @@ const DeleteFavChatButton = ({
           favchats: favchats.favchats.filter(fc => fc.id !== favchatId),
         },
       });
-    }}
-  >
-    {deleteFavChat => {
-      const _handleDeleteFavChat = () => {
-        deleteFavChat({
-          variables: {
-            favchatId: favchatId,
-          },
-          optimisticResponse: {
-            deleteFavChat: {
-              __typename: 'Favchat',
-              id: favchatId,
-            },
-          },
-        });
-      };
+    },
+  });
 
-      return (
-        <Tooltip
-          reference={
-            <ButtonTransparent
-              px={2}
-              height="channelbar"
-              onClick={_handleDeleteFavChat}
-            >
-              <Img height="xxs" src={starFillIcon} alt="Star" />
-              {!compact && (
-                <FormattedMessage
-                  {...chatMessages.deleteFromFavoriteChatrooms}
-                />
-              )}
-            </ButtonTransparent>
-          }
-          tooltip={
+  const _handleDeleteFavChat = () => {
+    deleteFavChat({
+      variables: {
+        favchatId: favchatId,
+      },
+      optimisticResponse: {
+        deleteFavchat: {
+          __typename: 'Favchat',
+          id: favchatId,
+        },
+      },
+    });
+  };
+
+  return (
+    <Tooltip
+      reference={
+        <ButtonTransparent
+          px={2}
+          height="channelbar"
+          onClick={_handleDeleteFavChat}
+        >
+          <Img height="xxs" src={starFillIcon} alt="Star" />
+          {!compact && (
             <FormattedMessage {...chatMessages.deleteFromFavoriteChatrooms} />
-          }
-        />
-      );
-    }}
-  </Mutation>
-);
+          )}
+        </ButtonTransparent>
+      }
+      tooltip={
+        <FormattedMessage {...chatMessages.deleteFromFavoriteChatrooms} />
+      }
+    />
+  );
+};
 
 export default DeleteFavChatButton;

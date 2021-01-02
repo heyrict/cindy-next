@@ -219,7 +219,7 @@ class LegacyEditor extends React.Component<
             reference={
               <ButtonTransparent
                 height="2.2em"
-                onClick={e => {
+                onClick={(e: React.MouseEvent) => {
                   this.onClickWrap(e, '', TAB_TEXT);
                 }}
               >

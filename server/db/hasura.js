@@ -1,6 +1,5 @@
 import fetch from 'node-fetch';
-import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink, InMemoryCache } from '@apollo/client';
 import { GRAPHQL_SERVER } from '../../settings';
 
 const createClient = () =>

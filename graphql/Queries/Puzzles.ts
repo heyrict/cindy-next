@@ -175,6 +175,33 @@ export const PROFILE_FOOTPRINTS_QUERY = gql`
   ${PUZZLE_AGGREGATE_FRAGMENT}
 `;
 
+export const USER_MAX_YAMI_DIALOGUE_COUNT_QUERY = gql`
+  query UserMaxYamiDialogueCountQuery($userId: Int!) {
+    userMaxYamiDialogueCount(userId: $userId) {
+      id
+      dialogueCount
+    }
+  }
+`;
+
+export const PUZZLE_GENRE_GROUPS_QUERY = gql`
+  query PuzzleCountByGenreQuery($userId: Int!) {
+    puzzleCountByGenre(userId: $userId) {
+      genre
+      puzzleCount
+    }
+  }
+`;
+
+export const PUZZLE_STAR_COUNT_GROUPS_QUERY = gql`
+  query PuzzleStarCountGroupsQuery($userId: Int!) {
+    puzzleStarCountGroups(userId: $userId) {
+      group
+      puzzleCount
+    }
+  }
+`;
+
 export const PUZZLE_JUMP_BUTTONS_QUERY = gql`
   query PuzzleJumpButtonsQuery($puzzleId: Int!) {
     prev_puzzle: puzzles(

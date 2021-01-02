@@ -17,14 +17,15 @@ import { IntlProvider } from 'react-intl';
 
 import RankedPuzzle from 'components/Puzzle/RankedPuzzle';
 import { RankedPuzzleDisplayType } from 'components/Puzzle/types';
+import {Genre, Status, Yami} from 'generated/globalTypes';
 
 // {{{ puzzle mock
 const puzzle = {
   id: 1,
-  genre: 0,
+  genre: Genre.CLASSIC,
   title: 'Great Puzzle',
-  status: 1,
-  yami: 0,
+  status: Status.SOLVED,
+  yami: Yami.NONE,
   anonymous: false,
   created: '2019-01-01T06:00:00Z',
   modified: '2019-01-02T06:00:00Z',

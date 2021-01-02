@@ -128,7 +128,7 @@ const AnswerEdit = ({
                 onKeyDown={(e: React.KeyboardEvent) => {
                   if (sendAnswerTrigger & SendMessageTriggerType.ON_ENTER) {
                     if (
-                      e.nativeEvent.keyCode === 13 &&
+                      e.nativeEvent.key === 'Enter' &&
                       !e.nativeEvent.shiftKey &&
                       !e.nativeEvent.ctrlKey
                     ) {
@@ -140,7 +140,7 @@ const AnswerEdit = ({
                   if (
                     sendAnswerTrigger & SendMessageTriggerType.ON_CTRL_ENTER
                   ) {
-                    if (e.nativeEvent.keyCode === 13 && e.nativeEvent.ctrlKey) {
+                    if (e.nativeEvent.key === 'Enter' && e.nativeEvent.ctrlKey) {
                       handleSubmit();
                       e.preventDefault();
                       return;
@@ -150,7 +150,7 @@ const AnswerEdit = ({
                     sendAnswerTrigger & SendMessageTriggerType.ON_SHIFT_ENTER
                   ) {
                     if (
-                      e.nativeEvent.keyCode === 13 &&
+                      e.nativeEvent.key === 'Enter' &&
                       e.nativeEvent.shiftKey
                     ) {
                       handleSubmit();

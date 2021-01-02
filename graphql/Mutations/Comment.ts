@@ -17,7 +17,6 @@ export const ADD_COMMENT_MUTATION = gql`
   ${COMMENT_FRAGMENT}
 `;
 
-// TODO this mutations is created upon splitting the upsert mutation above
 export const UPDATE_COMMENT_MUTATION = gql`
   mutation UpdateCommentMutation(
     $id: Int!

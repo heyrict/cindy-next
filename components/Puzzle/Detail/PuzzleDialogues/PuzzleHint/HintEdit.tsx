@@ -66,7 +66,6 @@ const HintEdit = ({ hint, setEdit }: HintEditProps) => {
                     },
                     optimisticResponse: {
                       updateHint: {
-                        __typename: 'Hint',
                         ...hint,
                         content: newHint,
                       },

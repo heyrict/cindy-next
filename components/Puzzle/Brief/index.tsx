@@ -9,11 +9,7 @@ import { AnonymousUserCol } from 'components/User/Anonymous';
 import { connect } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
 
-import {
-  FormattedMessage,
-  FormattedTime,
-  FormattedRelativeTime,
-} from 'react-intl';
+import { FormattedMessage, FormattedTime } from 'react-intl';
 import messages from 'messages/components/puzzle';
 
 import Anonymous from './Anonymous';
@@ -28,6 +24,7 @@ import PuzzlePane from './PuzzlePane';
 
 import { PuzzleBriefProps } from './types';
 import { StateType } from 'reducers/types';
+import { Status as StatusEnum } from 'generated/globalTypes';
 
 export const Hr = styled.hr`
   color: ${p => p.theme.colors.gray[6]};
@@ -57,19 +54,14 @@ export const PuzzleBrief = ({
   commentCount,
   dialogueCount,
   dialogueNewCount,
-  dialogueMaxAnsweredTime,
   showGenreImage,
 }: PuzzleBriefProps) => {
-  const aggregates = {
-    bookmarkCount: bookmarkCount || puzzle.bookmarkCount,
-    commentCount: commentCount || puzzle.commentCount,
-    starCount: starCount || puzzle.starCount,
-    starSum: starSum || puzzle.starSum,
-    dialogueCount: dialogueCount || puzzle.dialogueCount,
-    dialogueNewCount: dialogueNewCount || puzzle.dialogueNewCount,
-    dialogueMaxAnsweredTime:
-      dialogueMaxAnsweredTime || puzzle.dialogueMaxAnsweredTime,
-  };
+  puzzle.bookmarkCount = bookmarkCount || puzzle.bookmarkCount;
+  puzzle.commentCount = commentCount || puzzle.commentCount;
+  puzzle.starCount = starCount || puzzle.starCount;
+  puzzle.starSum = starSum || puzzle.starSum;
+  puzzle.dialogueCount = dialogueCount || puzzle.dialogueCount;
+  puzzle.dialogueNewCount = dialogueNewCount || puzzle.dialogueNewCount;
 
   return (
     <PuzzlePane
@@ -77,7 +69,7 @@ export const PuzzleBrief = ({
       alignItems="center"
       justifyContent="center"
     >
-      {puzzle.status === 0 && puzzle.anonymous ? (
+      {puzzle.status === StatusEnum.UNDERGOING && puzzle.anonymous ? (
         <AnonymousUserCol width={[1 / 4, 1 / 6]} />
       ) : (
         <UserCol width={[1 / 4, 1 / 6]} user={puzzle.user} />
@@ -102,21 +94,6 @@ export const PuzzleBrief = ({
             </Link>
           </Box>
         )}
-        {aggregates.dialogueMaxAnsweredTime && (
-          <Time width={1}>
-            <FormattedMessage {...messages.lastupdate} />:{' '}
-            <FormattedRelativeTime
-              unit="second"
-              numeric="auto"
-              updateIntervalInSeconds={15}
-              value={
-                (Date.parse(aggregates.dialogueMaxAnsweredTime as string) -
-                  Date.now()) /
-                1000
-              }
-            />
-          </Time>
-        )}
         {puzzle.created && (
           <Time width={1}>
             <FormattedMessage {...messages.createdAt} />:{' '}
@@ -128,7 +105,7 @@ export const PuzzleBrief = ({
             />
           </Time>
         )}
-        {puzzle.status !== 0 && puzzle.modified && (
+        {puzzle.status !== StatusEnum.UNDERGOING && puzzle.modified && (
           <Time width={1}>
             <FormattedMessage {...messages.solvedAt} />:{' '}
             <FormattedTime
@@ -141,26 +118,28 @@ export const PuzzleBrief = ({
         )}
         <Hr />
         <Flex p={1} flexWrap="wrap" alignItems="center">
-          {puzzle.status !== 0 && puzzle.anonymous && <Anonymous />}
+          {puzzle.status !== StatusEnum.UNDERGOING && puzzle.anonymous && (
+            <Anonymous />
+          )}
           <Status status={puzzle.status} />
-          {typeof aggregates.dialogueCount === 'number' && (
+          {typeof puzzle.dialogueCount === 'number' && (
             <Process
-              count={aggregates.dialogueCount}
-              newCount={aggregates.dialogueNewCount}
+              count={puzzle.dialogueCount}
+              newCount={puzzle.dialogueNewCount}
             />
           )}
-          {typeof aggregates.starCount === 'number' &&
-            aggregates.starCount > 0 &&
-            typeof aggregates.starSum === 'number' && (
-              <Star count={aggregates.starCount} sum={aggregates.starSum} />
+          {typeof puzzle.starCount === 'number' &&
+            puzzle.starCount > 0 &&
+            typeof puzzle.starSum === 'number' && (
+              <Star count={puzzle.starCount} sum={puzzle.starSum} />
             )}
-          {typeof aggregates.commentCount === 'number' &&
-            aggregates.commentCount > 0 && (
-              <Comment puzzleId={puzzle.id} count={aggregates.commentCount} />
+          {typeof puzzle.commentCount === 'number' &&
+            puzzle.commentCount > 0 && (
+              <Comment puzzleId={puzzle.id} count={puzzle.commentCount} />
             )}
-          {typeof aggregates.bookmarkCount === 'number' &&
-            aggregates.bookmarkCount > 0 && (
-              <Bookmark count={aggregates.bookmarkCount} />
+          {typeof puzzle.bookmarkCount === 'number' &&
+            puzzle.bookmarkCount > 0 && (
+              <Bookmark count={puzzle.bookmarkCount} />
             )}
         </Flex>
       </Box>

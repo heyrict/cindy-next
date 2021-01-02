@@ -3,8 +3,10 @@ import { shallow } from 'enzyme';
 
 import { Yami, YamiText, YamiImage } from '../Yami';
 
+import { Yami as YamiEnum } from 'generated/globalTypes';
+
 const defaultProps = {
-  yami: 0,
+  yami: YamiEnum.NONE,
   showGenreImage: false,
 };
 
@@ -24,8 +26,8 @@ describe('<Yami />', () => {
   });
 
   describe('<YamiImage yami={...} />', () => {
-    it('<YamiImage yami={0} />', () => {
-      const node = shallow(<YamiImage yami={0} />);
+    it('<YamiImage yami={YamiEnum.NONE} />', () => {
+      const node = shallow(<YamiImage yami={YamiEnum.NONE} />);
       expect(node.isEmptyRender()).toBe(true);
     });
 
@@ -40,8 +42,8 @@ describe('<Yami />', () => {
   });
 
   describe('<YamiText yami={...} />', () => {
-    it('<YamiText yami={0} />', () => {
-      const node = shallow(<YamiText yami={0} />);
+    it('<YamiText yami={YamiEnum.NONE} />', () => {
+      const node = shallow(<YamiText yami={YamiEnum.NONE} />);
       expect(node.isEmptyRender()).toBe(true);
     });
 

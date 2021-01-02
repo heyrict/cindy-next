@@ -6,7 +6,10 @@ import Loading from 'components/General/Loading';
 import StarInput from 'components/Star/StarInput';
 
 import { ApolloError, useMutation, useQuery } from '@apollo/client';
-import { ADD_STAR_MUTATION } from 'graphql/Mutations/Star';
+import {
+  ADD_STAR_MUTATION,
+  UPDATE_STAR_MUTATION,
+} from 'graphql/Mutations/Star';
 import {
   PUZZLE_STAR_QUERY,
   PREVIOUS_STAR_VALUE_QUERY,
@@ -35,6 +38,10 @@ import {
   PreviousStarValueQueryVariables,
 } from 'graphql/Queries/generated/PreviousStarValueQuery';
 import { StateType } from 'reducers/types';
+import {
+  UpdateStarMutation,
+  UpdateStarMutationVariables,
+} from 'graphql/Mutations/generated/UpdateStarMutation';
 
 const AddStarContent = ({ userId, puzzleId }: AddStarContentProps) => {
   const notifHdlRef = useRef<React.ReactText | null>(null);
@@ -64,12 +71,16 @@ const AddStarContent = ({ userId, puzzleId }: AddStarContentProps) => {
             userId,
           },
           data: {
-            stars: [{ ...newStar }],
+            stars: [newStar],
           },
         });
       },
     },
   );
+  const [updateStar] = useMutation<
+    UpdateStarMutation,
+    UpdateStarMutationVariables
+  >(UPDATE_STAR_MUTATION);
 
   if (error) {
     toast.error(error.message);
@@ -94,33 +105,68 @@ const AddStarContent = ({ userId, puzzleId }: AddStarContentProps) => {
       <StarInput
         initialValue={initialValue}
         onChange={value => {
-          addStar({
-            variables: {
-              puzzleId,
-              value,
-            },
-            optimisticResponse: {
-              createStar: {
-                __typename: 'Star',
-                id: data.stars.length > 0 ? data.stars[0].id : -1,
+          if (data.stars.length === 0) {
+            // If the user does not have a star on this puzzle
+            // before, create one.
+            addStar({
+              variables: {
+                puzzleId,
                 value,
               },
-            },
-          })
-            .then(res => {
-              if (!res) return;
-              const { errors } = res;
-              if (errors) {
-                toast.error(JSON.stringify(errors));
-              } else {
-                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                toast.info(<FormattedMessage {...commonMessages.saved} />);
-              }
+              optimisticResponse: {
+                createStar: {
+                  __typename: 'Star',
+                  id: -1,
+                  value,
+                },
+              },
             })
-            .catch((e: ApolloError) => {
-              if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-              toast.error(e.message);
-            });
+              .then(res => {
+                if (!res) return;
+                const { errors } = res;
+                if (errors) {
+                  toast.error(JSON.stringify(errors));
+                } else {
+                  if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+                  toast.info(<FormattedMessage {...commonMessages.saved} />);
+                }
+              })
+              .catch((e: ApolloError) => {
+                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+                toast.error(e.message);
+              });
+          } else {
+            // Otherwise, update that star
+            const star = data.stars[0];
+            updateStar({
+              variables: {
+                id: star.id,
+                value,
+              },
+              optimisticResponse: {
+                updateStar: {
+                  __typename: 'Star',
+                  id: star.id,
+                  value,
+                },
+              },
+            })
+              .then(res => {
+                if (!res) return;
+                const { errors } = res;
+                if (errors) {
+                  toast.error(JSON.stringify(errors));
+                } else {
+                  if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+                  toast.info(<FormattedMessage {...commonMessages.saved} />);
+                }
+              })
+              .catch((e: ApolloError) => {
+                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+                toast.error(e.message);
+              });
+          }
+
           notifHdlRef.current = toast.info(
             <FormattedMessage {...commonMessages.saving} />,
           );
