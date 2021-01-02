@@ -36,7 +36,7 @@ export type InlineUserExtra = {
   id: number;
   profile: string;
   dateJoined: string;
-  lastLogin: string;
+  lastLogin: string | null;
 };
 
 export type UserInlineProps = {

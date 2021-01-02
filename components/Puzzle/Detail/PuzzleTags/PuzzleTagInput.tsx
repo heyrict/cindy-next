@@ -5,7 +5,7 @@ import { asSearch } from 'common/search';
 
 import AsyncCreatableSelect from 'react-select/async-creatable';
 
-import { ApolloConsumer } from '@apollo/react-common';
+import { ApolloConsumer } from '@apollo/client'
 import { PUZZLE_TAGS_SEARCH_QUERY } from 'graphql/Queries/Tag';
 
 import {

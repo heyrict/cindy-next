@@ -15,7 +15,6 @@ export const DIALOGUE_HINT_QUERY = gql`
       ... on Hint {
         ...HintShared
       }
-      modified
     }
   }
   ${DIALOGUE_SHARED_FRAGMENT}

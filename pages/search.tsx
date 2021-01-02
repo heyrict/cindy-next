@@ -5,7 +5,6 @@ import { asSearch } from 'common/search';
 import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
 import searchMessages from 'messages/pages/search';
 import puzzleMessages from 'messages/components/puzzle';
-import puzzlePageMessages from 'messages/pages/puzzle';
 import commonMessages from 'messages/common';
 
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
@@ -24,7 +23,7 @@ import SearchVarSetPanel from 'components/Search/SearchVarSetPanel';
 import SortVarSetPanel from 'components/Search/SortVarSetPanel';
 import PuzzleBrief from 'components/Puzzle/Brief';
 
-import { Ordering } from 'generated/globalTypes';
+import { Genre, Ordering, Yami } from 'generated/globalTypes';
 import {
   SolvedPuzzlesSearchQuery,
   SolvedPuzzlesSearchQueryVariables,
@@ -42,7 +41,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
     solution: null,
     genre: null,
     yami: null,
-    orderBy: [{ id: Ordering.desc_nulls_last }],
+    orderBy: [{ id: Ordering.DESC_NULLS_LAST }],
   } as SearchVariablesStates);
 
   return (
@@ -87,12 +86,12 @@ const Search = ({ intl }: { intl: IntlShape }) => {
                 },
                 {
                   key: 'classic',
-                  value: 0,
+                  value: Genre.CLASSIC,
                   label: <FormattedMessage {...puzzleMessages.genre_classic} />,
                 },
                 {
                   key: 'twentyQuestions',
-                  value: 1,
+                  value: Genre.TWENTY_QUESTIONS,
                   label: (
                     <FormattedMessage
                       {...puzzleMessages.genre_twentyQuestions}
@@ -101,14 +100,14 @@ const Search = ({ intl }: { intl: IntlShape }) => {
                 },
                 {
                   key: 'littleAlbat',
-                  value: 2,
+                  value: Genre.LITTLE_ALBAT,
                   label: (
                     <FormattedMessage {...puzzleMessages.genre_littleAlbat} />
                   ),
                 },
                 {
                   key: 'others',
-                  value: 3,
+                  value: Genre.OTHERS,
                   label: <FormattedMessage {...puzzleMessages.genre_others} />,
                 },
               ],
@@ -126,17 +125,17 @@ const Search = ({ intl }: { intl: IntlShape }) => {
                 },
                 {
                   key: 'none',
-                  value: 0,
+                  value: Yami.NONE,
                   label: <FormattedMessage {...commonMessages.none} />,
                 },
                 {
                   key: 'yami',
-                  value: 1,
+                  value: Yami.NORMAL,
                   label: <FormattedMessage {...puzzleMessages.yami_yami} />,
                 },
                 {
                   key: 'longtermYami',
-                  value: 2,
+                  value: Yami.LONGTERM,
                   label: (
                     <FormattedMessage {...puzzleMessages.yami_longtermYami} />
                   ),
@@ -148,7 +147,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
         <SortVarSetPanel
           ref={sortRef}
           initialField="id"
-          defaultValue={[{ id: Ordering.desc_nulls_last }]}
+          defaultValue={[{ id: Ordering.DESC_NULLS_LAST }]}
           fields={[
             {
               key: 'id',
@@ -158,6 +157,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
               key: 'modified',
               fieldName: <FormattedMessage {...puzzleMessages.solvedAt} />,
             },
+            /*
             {
               key: 'bookmark',
               getValue: order => ({
@@ -192,6 +192,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
               }),
               fieldName: <FormattedMessage {...searchMessages.order_starSum} />,
             },
+           */
           ]}
         />
         <Flex width={1}>
@@ -210,7 +211,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
                 }
                 if (sortRef.current) {
                   sortRef.current.reset();
-                  newVariables.orderBy = [{ id: Ordering.desc_nulls_last }];
+                  newVariables.orderBy = [{ id: Ordering.DESC_NULLS_LAST }];
                 }
                 setVariables(newVariables);
               }}

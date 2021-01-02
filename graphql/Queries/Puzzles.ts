@@ -126,6 +126,7 @@ export const TAG_PUZZLES_QUERY = gql`
       limit: $limit
       offset: $offset
     ) @connection(key: "puzzleTags", filter: ["order", "filter"]) {
+      id
       puzzle {
         ...PuzzleAggregate
       }

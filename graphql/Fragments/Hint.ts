@@ -11,6 +11,7 @@ export const HINT_SHARED_FRAGMENT = gql`
     receiver {
       ...UserBrief
     }
+    modified
   }
   ${USER_BRIEF_FRAGMENT}
 `;

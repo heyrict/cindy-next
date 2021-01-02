@@ -12,6 +12,8 @@ import * as globalReducer from 'reducers/global';
 import * as awardCheckerReducer from 'reducers/awardChecker';
 import * as settingReducer from 'reducers/setting';
 
+import { useQuery, useApolloClient } from '@apollo/client';
+import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
 import {
   PUZZLE_LOG_WITH_USER_SUB,
   PUZZLE_LOG_SUB,
@@ -39,8 +41,6 @@ import {
   DialogueHintQuery_puzzleLogs_Dialogue,
 } from 'graphql/Queries/generated/DialogueHintQuery';
 import { ActionContentType, StateType } from 'reducers/types';
-import { useQuery, useApolloClient } from '@apollo/client';
-import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
 import {
   PuzzleLogSub,
   PuzzleLogSubVariables,
@@ -105,7 +105,7 @@ export const PuzzleDialoguesRenderer = ({
     DialogueHintQueryVariables
   >(DIALOGUE_HINT_QUERY, {
     variables,
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: 'cache-and-network',
   });
 
   if (!data || !data.puzzleLogs) {

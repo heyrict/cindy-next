@@ -24,6 +24,7 @@ import {
   UserBriefExtraQueryVariables,
 } from 'graphql/Queries/generated/UserBriefExtraQuery';
 import { ActionContentType } from 'reducers/types';
+import commonMessages from 'messages/common';
 
 const AnchorButton = Anchor.withComponent('button');
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
@@ -123,12 +124,16 @@ const UserBriefProfile = ({
                           <FormattedMessage {...authMessages.lastLogin} />
                         </Box>
                         <Box mx="auto">
-                          <FormattedTime
-                            value={data.user.lastLogin}
-                            year="numeric"
-                            month="short"
-                            day="numeric"
-                          />
+                          {data.user.lastLogin ? (
+                            <FormattedTime
+                              value={data.user.lastLogin}
+                              year="numeric"
+                              month="short"
+                              day="numeric"
+                            />
+                          ) : (
+                            <FormattedMessage {...commonMessages.none} />
+                          )}
                         </Box>
                       </Flex>
                       {data.user.profile && (

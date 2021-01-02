@@ -11,3 +11,8 @@ export type StarPopupContentProps = {
   buttonRef: React.RefObject<HTMLElement | null>;
   canAddStar: boolean;
 };
+
+export type AddStarContentProps = {
+  userId: number;
+  puzzleId: number;
+};

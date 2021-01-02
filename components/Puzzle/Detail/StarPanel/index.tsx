@@ -63,7 +63,7 @@ const StarPanel = ({ puzzleId, canAddStar }: StarPanelProps) => {
 
             const agg = {
               starCount: data.starCount,
-              starSum: data.starSum || 0,
+              starSum: data.starSumByPuzzle || 0,
             };
 
             return (

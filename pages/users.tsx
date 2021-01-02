@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import messages from 'messages/pages/users';
 
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
@@ -16,7 +16,8 @@ import {
   UserListQueryVariables,
 } from 'graphql/Queries/generated/UserListQuery';
 
-const Users = ({ intl }: { intl: IntlShape }) => {
+const Users = () => {
+  const intl = useIntl();
   const _ = intl.formatMessage;
 
   return (
@@ -53,4 +54,4 @@ const Users = ({ intl }: { intl: IntlShape }) => {
   );
 };
 
-export default injectIntl(Users);
+export default Users;

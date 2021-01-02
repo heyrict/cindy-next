@@ -17,6 +17,7 @@ export const DIALOGUE_SHARED_FRAGMENT = gql`
     user {
       ...UserBrief
     }
+    modified
   }
   ${USER_BRIEF_FRAGMENT}
 `;

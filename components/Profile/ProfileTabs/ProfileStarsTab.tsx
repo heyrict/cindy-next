@@ -13,7 +13,6 @@ import {
   ProfileStarsQuery,
   ProfileStarsQueryVariables,
 } from 'graphql/Queries/generated/ProfileStarsQuery';
-import { order_by } from 'generated/globalTypes';
 
 const ProfileStarsTab = ({ userId }: ProfileStarsTabProps) => (
   <PaginatedQuery<ProfileStarsQuery, ProfileStarsQueryVariables>

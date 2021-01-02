@@ -1,13 +1,14 @@
 import { IntlShape } from 'react-intl';
 import * as settingReducer from 'reducers/setting';
 
-import { PuzzleOrder, PuzzleTagOrder } from 'generated/globalTypes';
 import {
-  CommentsQuery,
-  CommentsQueryVariables,
-} from 'graphql/Queries/generated/CommentsQuery';
+  Genre,
+  PuzzleOrder,
+  PuzzleTagOrder,
+  Yami,
+} from 'generated/globalTypes';
+import { CommentsQueryVariables } from 'graphql/Queries/generated/CommentsQuery';
 import { GlobalUserType } from 'reducers/types';
-import { QueryResult } from '@apollo/react-common';
 
 export type UserPageProps = {
   userId: number;
@@ -23,8 +24,8 @@ export type SearchVariablesStates = {
   content: null | string;
   solution: null | string;
   userNickname: null | string;
-  genre: null | number;
-  yami: null | number;
+  genre: null | Genre;
+  yami: null | Yami;
   orderBy: Array<PuzzleOrder>;
 };
 

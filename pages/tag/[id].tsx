@@ -97,7 +97,7 @@ const TagPage = ({ intl }: { intl: IntlShape }) => {
           query={TAG_PUZZLES_QUERY}
           variables={{
             tagId,
-            orderBy: [{ id: Ordering.desc }],
+            orderBy: [{ id: Ordering.DESC }],
           }}
           fetchPolicy="cache-first"
           getItemCount={data => data.puzzleTagCount}
