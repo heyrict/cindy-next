@@ -24,7 +24,6 @@ import LoginButton from './Login/LoginButton';
 import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
 import SettingsButton from './Settings/SettingsButton';
-import MessageBoxButton from './MessageBoxButton';
 import menuIcon from 'svgs/menu.svg';
 import userIcon from 'svgs/user.svg';
 import logoInline from 'svgs/logoInline.svg';
@@ -203,8 +202,7 @@ const Toolbar = ({
                   bg="orange.5"
                   color="gray.1"
                 >
-                  <MessageBoxButton />
-                  {directHasnew && <RedDot right={20} top={8} />}
+                  DM's under construction
                 </ToolbarResponsiveButton>
               </Box>
             )}

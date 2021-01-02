@@ -20,7 +20,6 @@ import LoginButton from './Login/LoginButton';
 import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
 import SettingsButton from './Settings/SettingsButton';
-import MessageBoxButton from './MessageBoxButton';
 import logoInline from 'svgs/logoInline.svg';
 import chevronUpIcon from 'svgs/chevronUp.svg';
 import chevronDownIcon from 'svgs/chevronDown.svg';
@@ -339,8 +338,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                       color="gray.1"
                       fontWeight="bold"
                     >
-                      <MessageBoxButton />
-                      {directHasnew && <RedDot right={20} top={8} />}
+                      Dm's under construction
                     </ToolbarButton>
                   )}
                   {user.id && (
