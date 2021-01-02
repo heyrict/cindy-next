@@ -9,11 +9,9 @@ import * as globalReducer from './global';
 import * as chatReducer from './chat';
 import * as loginReducer from './login';
 import * as settingReducer from './setting';
-import * as addReplayReducer from './addReplay';
 import * as puzzleReducer from './puzzle';
 import * as awardCheckerReducer from './awardChecker';
 import * as directReducer from './direct';
-import * as replayReducer from './replay';
 
 import { StateType, ExtendedStore } from './types';
 import { AppContextType } from 'next/dist/next-server/lib/utils';
@@ -24,11 +22,9 @@ const reducer = combineReducers({
   [chatReducer.scope]: chatReducer.reducer as any,
   [loginReducer.scope]: loginReducer.reducer as any,
   [settingReducer.scope]: settingReducer.reducer as any,
-  [addReplayReducer.scope]: addReplayReducer.reducer as any,
   [puzzleReducer.scope]: puzzleReducer.reducer as any,
   [awardCheckerReducer.scope]: awardCheckerReducer.reducer as any,
   [directReducer.scope]: directReducer.reducer as any,
-  [replayReducer.scope]: replayReducer.reducer as any,
 });
 
 const composeEnhancers =
