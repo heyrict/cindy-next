@@ -30,7 +30,6 @@ const PuzzleDialogues = ({
   userId,
   anonymous,
   puzzleStatus,
-  setTrueSolvedLongtermYami,
 }: PuzzleDialoguesProps) => {
   // Should remain in subscription if puzzle finished just now
   const [shouldSubscribe, setShouldSubscribe] = useState(puzzleStatus === Status.UNDERGOING);
