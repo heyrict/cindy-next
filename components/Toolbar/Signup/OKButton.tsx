@@ -20,8 +20,10 @@ const OKButton = ({
     color="white"
     onClick={() => {
       signup(nickname, username, password).then(res => {
-        const { errors } = res;
-        if (!errors) {
+        const { error } = res;
+        if (error) {
+          error.forEach(e => toast.error(e));
+        } else {
           resetForm();
         }
       });
