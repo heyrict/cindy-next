@@ -5,7 +5,7 @@ import Loading from 'components/General/Loading';
 import Flex from 'components/General/Flex';
 import CommentModalComment from './CommentModalComment';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { PUZZLE_COMMENT_QUERY } from 'graphql/Queries/Comment';
 
 import {

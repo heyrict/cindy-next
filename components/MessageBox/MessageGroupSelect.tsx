@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as directReducer from 'reducers/direct';
 
-import { Query, Mutation } from '@apollo/react-components';
+import { Query, Mutation } from '@apollo/client/react/components';
 import { DIRECT_MESSAGE_GROUP_QUERY } from 'graphql/Queries/Directmessage';
 import { USER_LAST_READ_DM_QUERY } from 'graphql/Queries/User';
 import { SET_LAST_READ_DM_MUTATION } from 'graphql/Mutations/User';

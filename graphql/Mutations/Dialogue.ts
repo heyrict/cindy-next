@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 import { DIALOGUE_SHARED_FRAGMENT } from '../Fragments/Dialogue';
 

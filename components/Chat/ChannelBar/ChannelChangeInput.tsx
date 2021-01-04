@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import * as chatReducer from 'reducers/chat';
 import * as globalReducer from 'reducers/global';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { CHATROOM_ID_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
 
 import { FormattedMessage } from 'react-intl';

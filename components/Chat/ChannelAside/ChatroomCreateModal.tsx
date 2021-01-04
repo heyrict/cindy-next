@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import * as chatReducer from 'reducers/chat';
 import * as globalReducer from 'reducers/global';
 
-import { Mutation } from '@apollo/react-components';
+import { Mutation } from '@apollo/client/react/components';
 import { CREATE_CHATROOM_MUTATION } from 'graphql/Mutations/Chat';
 
 import Flex from 'components/General/Flex';

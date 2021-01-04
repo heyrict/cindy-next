@@ -8,7 +8,7 @@ import * as directReducer from 'reducers/direct';
 import * as settingReducer from 'reducers/setting';
 import * as loginReducer from 'reducers/login';
 
-import { Query, Mutation } from '@apollo/react-components';
+import { Query, Mutation } from '@apollo/client/react/components';
 import {
   DIRECT_MESSAGE_GROUP_MESSAGES_QUERY,
   DIRECT_MESSAGE_GROUP_QUERY,

@@ -8,7 +8,7 @@ import ErrorReload from 'components/General/ErrorReload';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import {
   CHATROOM_CHATMESSAGES_QUERY,
   CHATROOM_PUZZLE_QUERY,

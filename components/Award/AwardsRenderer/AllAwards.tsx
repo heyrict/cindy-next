@@ -6,7 +6,7 @@ import Loading from 'components/General/Loading';
 import DelayRendering from 'components/Hoc/DelayRendering';
 import AwardTableRenderer from './AwardTableRenderer';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { useQuery } from '@apollo/client';
 import {
   ALL_AWARDS_QUERY,

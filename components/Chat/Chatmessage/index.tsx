@@ -7,7 +7,7 @@ import commonMessages from 'messages/common';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { Mutation } from '@apollo/react-components';
+import { Mutation } from '@apollo/client/react/components';
 import { CHATROOM_EDIT_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
 
 import UserInline from 'components/User/UserInline';

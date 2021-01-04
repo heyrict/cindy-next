@@ -8,7 +8,7 @@ import * as globalReducer from 'reducers/global';
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { PUZZLE_BOOKMARK_AGGREGATE_QUERY } from 'graphql/Queries/Bookmark';
 
 import { Waypoint } from 'react-waypoint';

@@ -8,7 +8,7 @@ import commonMessages from 'messages/common';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { Mutation } from '@apollo/react-components';
+import { Mutation } from '@apollo/client/react/components';
 import { DIRECT_MESSAGE_EDIT_MUTATION } from 'graphql/Mutations/Directmessage';
 
 import UserInline from 'components/User/UserInline';

@@ -7,7 +7,7 @@ import AllAwards from './AllAwards';
 import { connect } from 'react-redux';
 import * as awardCheckerReducer from 'reducers/awardChecker';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { AWARDS_INFO_QUERY } from 'graphql/Queries/Awards';
 
 import {

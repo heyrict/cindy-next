@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { USER_DIALOGUE_RANKING_QUERY } from 'graphql/Queries/Ranking';
 
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';

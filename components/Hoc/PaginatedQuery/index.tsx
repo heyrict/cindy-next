@@ -12,7 +12,7 @@ import {
   PaginatorBarPosition,
 } from './types';
 import { OperationVariables } from '@apollo/client';
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 
 class PaginatedQuery<
   TData = any,

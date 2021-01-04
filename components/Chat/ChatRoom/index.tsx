@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
 import ErrorReload from 'components/General/ErrorReload';

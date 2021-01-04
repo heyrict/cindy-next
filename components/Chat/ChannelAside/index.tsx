@@ -14,7 +14,7 @@ import ChannelChangeModal from '../ChannelBar/ChannelChangeModal';
 import ChatroomCreateModal from './ChatroomCreateModal';
 import ChatroomEditableDescription from './ChatroomEditableDescription';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
 import { FormattedMessage } from 'react-intl';

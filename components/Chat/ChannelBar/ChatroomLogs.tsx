@@ -4,7 +4,7 @@ import { Flex } from 'components/General';
 import Loading from 'components/General/Loading';
 import Chatmessage from '../Chatmessage';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
 import {
   CHATROOM_LOGS_QUERY,

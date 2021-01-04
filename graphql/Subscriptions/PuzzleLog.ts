@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export const PUZZLE_LOG_SUB = gql`
   subscription PuzzleLogSub($puzzleId: Int!) {

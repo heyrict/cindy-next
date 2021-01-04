@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export const ADD_STAR_MUTATION = gql`
   mutation AddStarMutation($puzzleId: Int!, $value: Int!) {

@@ -9,7 +9,7 @@ import puzzleMessages from 'messages/components/puzzle';
 import puzzlePageMessages from 'messages/pages/puzzle';
 import commonMessages from 'messages/common';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { PUZZLE_QUERY } from 'graphql/Queries/Puzzles';
 
 import { Img, ButtonTransparent, Flex, Box } from 'components/General';

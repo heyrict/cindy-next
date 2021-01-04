@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export const USER_AWARD_FRAGMENT = gql`
   fragment UserAward on UserAward {

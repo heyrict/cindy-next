@@ -6,7 +6,7 @@ import Loading from 'components/General/Loading';
 import PuzzleTagBubble from './PuzzleTagBubble';
 import PuzzleTagAddButton from './PuzzleTagAddButton';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { PUZZLE_PAGE_TAGS_QUERY } from 'graphql/Queries/Tag';
 
 import { FormattedMessage } from 'react-intl';

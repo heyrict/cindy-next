@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { text2raw } from 'common/markdown';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { USER_BRIEF_EXTRA_QUERY } from 'graphql/Queries/User';
 
 import { connect } from 'react-redux';

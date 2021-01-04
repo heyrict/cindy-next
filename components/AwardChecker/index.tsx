@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { USERAWARD_CHECKER_QUERY } from 'graphql/Queries/User';
 
 import CheckNotifier from './CheckNotifier';

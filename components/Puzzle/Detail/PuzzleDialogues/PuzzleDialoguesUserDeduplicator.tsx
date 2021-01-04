@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import {
   PuzzleUniqueParticipantsQuery,
   PuzzleUniqueParticipantsQueryVariables,

@@ -6,7 +6,7 @@ import Head from 'next/head';
 import { FormattedMessage, useIntl } from 'react-intl';
 import tagMessages from 'messages/pages/tag';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
 import { TAG_PUZZLES_QUERY } from 'graphql/Queries/Puzzles';
 import { TAG_QUERY } from 'graphql/Queries/Tag';

@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export const CHATROOM_CHATMESSAGES_SUB = gql`
   subscription ChatroomChatmessageSub($chatroomId: Int!) {
