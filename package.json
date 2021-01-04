@@ -42,7 +42,6 @@
     "apollo-link-ws": "^1.0.20",
     "body-parser": "^1.19.0",
     "dompurify": "^2.0.7",
-    "dequal": "^2.0.2",
     "emotion-theming": "^10.0.10",
     "express": "4.16.4",
     "fnv-plus": "^1.2.12",
