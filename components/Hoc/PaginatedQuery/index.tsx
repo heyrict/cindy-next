@@ -70,7 +70,7 @@ class PaginatedQuery<
             limit: itemsPerPage,
             offset: (this.state.page - 1) * itemsPerPage,
           }}
-          fetchPolicy="cache-and-network"
+          fetchPolicy="cache-first"
           onCompleted={data => {
             const numPages = Math.ceil(getItemCount(data) / itemsPerPage);
             if (this.state.numPages !== numPages)

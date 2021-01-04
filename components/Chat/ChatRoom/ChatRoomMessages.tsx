@@ -252,9 +252,17 @@ const ChatRoomMessagesBody = ({
                     variables: {
                       offset: chatmessages.length,
                     },
-                  }).then(({ data }) => {
-                    if (data.chatmessages.length < CHATMESSAGES_PER_PAGE)
-                      setHasMore(false);
+                    updateQuery: (prev, { fetchMoreResult }) => {
+                      if (!fetchMoreResult) return prev;
+                      if (fetchMoreResult.chatmessages.length === 0)
+                        setHasMore(false);
+                      return Object.assign({}, prev, {
+                        chatmessage: [
+                          ...prev.chatmessages,
+                          ...fetchMoreResult.chatmessages,
+                        ],
+                      });
+                    },
                   });
                 }}
               />
