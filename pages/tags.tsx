@@ -89,6 +89,13 @@ function TagsPageContents({ variables }: { variables: TagsVariablesStates }) {
                 ...variables,
                 offset: data.tags.length,
               },
+              updateQuery: (prev, { fetchMoreResult }) => {
+                if (!fetchMoreResult) return prev;
+                return {
+                  ...prev,
+                  tags: concatList(prev.tags, fetchMoreResult.tags),
+                };
+              },
             })
               .then(({ data }) => {
                 if (data.tags.length < TAGS_PER_PAGE)

@@ -252,9 +252,20 @@ const ChatRoomMessagesBody = ({
                     variables: {
                       offset: chatmessages.length,
                     },
+                    updateQuery: (prev, { fetchMoreResult }) => {
+                      if (!fetchMoreResult) return prev;
+                      return Object.assign({}, prev, {
+                        chatmessages: [
+                          ...prev.chatmessages,
+                          ...fetchMoreResult.chatmessages,
+                        ],
+                      });
+                    },
                   }).then(({ data }) => {
                     if (data.chatmessages.length < CHATMESSAGES_PER_PAGE)
                       setHasMore(false);
+                  }).catch((error) => {
+                    toast.error(`${error.name}: ${error.message}`);
                   });
                 }}
               />

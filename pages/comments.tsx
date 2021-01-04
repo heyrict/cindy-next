@@ -54,7 +54,7 @@ const CommentsRenderer = ({ variables }: CommentsRendererProps) => {
             return prev;
           return {
             ...prev,
-            comment: mergeList(
+            comments: mergeList(
               prev.commentsInSolvedPuzzle,
               fetchMoreResult.commentsInSolvedPuzzle,
               'id',

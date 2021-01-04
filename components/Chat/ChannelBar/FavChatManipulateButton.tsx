@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import Loading from 'components/General/Loading';
 import InsertFavChatButton from './InsertFavChatButton';
 import DeleteFavChatButton from './DeleteFavChatButton';
+import { ButtonTransparent } from 'components/General';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -21,7 +22,12 @@ const FavChatManipulateButton = ({
   chatroomName,
   compact,
 }: FavChatManipulateButtonProps) => {
-  if (!user.id) return null;
+  const emptyButton = (
+    <ButtonTransparent width={31} height="channelbar" />
+  );
+
+  if (!user.id) return emptyButton;
+
   return (
     <Query<FavoriteChatroomsQuery>
       query={FAVORITE_CHATROOMS_QUERY}
@@ -32,11 +38,10 @@ const FavChatManipulateButton = ({
       {({ loading, error, data }) => {
         if (error) {
           toast.error(error.message);
-          return null;
+          return emptyButton;
         }
         if (!data || !data.favchats) {
-          if (loading) return <Loading centered />;
-          return null;
+          return emptyButton;
         }
         const favchat = data.favchats.find(fc => fc.chatroom.id === chatroomId);
         return favchat === undefined ? (

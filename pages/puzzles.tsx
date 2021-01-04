@@ -97,6 +97,12 @@ const PuzzlesSolvedRenderer = () => {
                 variables: {
                   offset: data.puzzles.length,
                 },
+                updateQuery: (prev, { fetchMoreResult }) => {
+                  if (!fetchMoreResult || !fetchMoreResult.puzzles) return prev;
+                  return Object.assign({}, prev, {
+                    puzzles: [...prev.puzzles, ...fetchMoreResult.puzzles],
+                  });
+                },
               })
               .then(({ data }) => {
                   if (data.puzzles.length < PUZZLES_PER_PAGE)
