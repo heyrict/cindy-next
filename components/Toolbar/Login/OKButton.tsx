@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/auth';
@@ -17,8 +18,12 @@ const OKButton = ({ login, username, password, resetForm }: OKButtonProps) => (
     color="white"
     onClick={() => {
       login(username, password).then(res => {
-        const { errors } = res;
-        if (!errors) resetForm();
+        const { error } = res;
+        if (error) {
+          error.forEach(e => toast.error(e));
+        } else {
+          resetForm();
+        }
       });
     }}
   >

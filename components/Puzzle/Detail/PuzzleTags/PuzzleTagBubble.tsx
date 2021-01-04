@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import commonMessages from 'messages/common';
 import puzzlePageMessages from 'messages/pages/puzzle';
 
-import { ApolloError, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { DELETE_PUZZLE_TAG_MUTATION } from 'graphql/Mutations/Tag';
 import { PUZZLE_PAGE_TAGS_QUERY } from 'graphql/Queries/Tag';
 
@@ -56,6 +56,9 @@ const PuzzleTagBubble = ({
         },
       });
     },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+    },
   });
 
   return (
@@ -102,17 +105,7 @@ const PuzzleTagBubble = ({
                             id: puzzleTag.id,
                           },
                         },
-                      })
-                        .then(res => {
-                          if (!res) return;
-                          const { errors } = res;
-                          if (errors) {
-                            toast.error(JSON.stringify(errors));
-                          }
-                        })
-                        .catch((e: ApolloError) => {
-                          toast.error(e.message);
-                        });
+                      });
                       if (warnHdl.current) toast.dismiss(warnHdl.current);
                     }}
                   >

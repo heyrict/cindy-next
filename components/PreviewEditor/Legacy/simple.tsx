@@ -391,9 +391,9 @@ class SimpleLegacyEditor extends React.Component<
                       const result = onSubmit(text);
                       if (result) {
                         result
-                          .then(returns => {
-                            if (returns.errors) {
-                              toast.error(JSON.stringify(returns.errors));
+                          .then(results => {
+                            if (results.errors) {
+                              toast.error(JSON.stringify(results.errors));
                               this.setText(text);
                             }
                           })

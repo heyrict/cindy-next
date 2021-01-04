@@ -27,12 +27,8 @@ const DeleteFavChatButton = ({
     DeleteFavoriteChatroomMutation,
     DeleteFavoriteChatroomMutationVariables
   >(DELETE_FAVORITE_CHATROOM_MUTATION, {
-    update: (proxy, { data, errors }) => {
+    update: (proxy, { data }) => {
       if (!data || !data.deleteFavchat) return;
-      if (errors) {
-        toast.error(JSON.stringify(errors));
-        return;
-      }
       const favchats = proxy.readQuery<FavoriteChatroomsQuery>({
         query: FAVORITE_CHATROOMS_QUERY,
       });
@@ -44,6 +40,9 @@ const DeleteFavChatButton = ({
           favchats: favchats.favchats.filter(fc => fc.id !== favchatId),
         },
       });
+    },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
     },
   });
 

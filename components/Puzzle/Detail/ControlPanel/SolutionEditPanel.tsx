@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { toast } from 'react-toastify';
 import { text2md } from 'common/markdown';
 
 import { useMutation } from '@apollo/client';
@@ -15,7 +16,7 @@ import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
 
 import { SolutionEditPanelProps } from './types';
-import {Status, Yami} from 'generated/globalTypes';
+import { Status, Yami } from 'generated/globalTypes';
 
 const SolutionEditPanel = ({
   puzzleId,
@@ -26,10 +27,20 @@ const SolutionEditPanel = ({
   const [editing, setEditing] = useState(false);
   const editorRef = useRef<LegacyEditor>(null);
 
+  const newSolution = editorRef.current ? editorRef.current.getText() : '';
+
   const [editSolution] = useMutation<
     EditSolutionMutation,
     EditSolutionMutationVariables
-  >(EDIT_SOLUTION_MUTATION);
+  >(EDIT_SOLUTION_MUTATION, {
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+      setEditing(true);
+      if (editorRef.current) {
+        editorRef.current.setText(newSolution);
+      }
+    },
+  });
 
   const canEdit = status === Status.UNDERGOING && yami !== Yami.LONGTERM;
 
@@ -77,24 +88,7 @@ const SolutionEditPanel = ({
                     solution: newSolution,
                   },
                 },
-              })
-                .then(result => {
-                  if (!result) return;
-                  if (result.errors) {
-                    console.log(result.errors);
-                    setEditing(true);
-                    if (editorRef.current) {
-                      editorRef.current.setText(newSolution);
-                    }
-                  }
-                })
-                .catch(e => {
-                  console.log(e);
-                  setEditing(true);
-                  if (editorRef.current) {
-                    editorRef.current.setText(newSolution);
-                  }
-                });
+              });
               setEditing(false);
             }}
           >

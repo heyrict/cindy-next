@@ -5,8 +5,11 @@ import { Flex, Box, ButtonTransparent } from 'components/General';
 import Loading from 'components/General/Loading';
 import BookmarkInput from './BookmarkInput';
 
-import { ApolloError, useQuery, useMutation } from '@apollo/client';
-import { ADD_BOOKMARK_MUTATION, UPDATE_BOOKMARK_MUTATION } from 'graphql/Mutations/Bookmark';
+import { useQuery, useMutation } from '@apollo/client';
+import {
+  ADD_BOOKMARK_MUTATION,
+  UPDATE_BOOKMARK_MUTATION,
+} from 'graphql/Mutations/Bookmark';
 import { PREVIOUS_BOOKMARK_VALUE_QUERY } from 'graphql/Queries/Bookmark';
 
 import { FormattedMessage } from 'react-intl';
@@ -22,7 +25,10 @@ import {
   PreviousBookmarkValueQuery,
   PreviousBookmarkValueQueryVariables,
 } from 'graphql/Queries/generated/PreviousBookmarkValueQuery';
-import {UpdateBookmarkMutation, UpdateBookmarkMutationVariables} from 'graphql/Mutations/generated/UpdateBookmarkMutation';
+import {
+  UpdateBookmarkMutation,
+  UpdateBookmarkMutationVariables,
+} from 'graphql/Mutations/generated/UpdateBookmarkMutation';
 
 const BookmarkPopupContent = ({
   userId,
@@ -63,6 +69,14 @@ const BookmarkPopupContent = ({
           bookmarks: [newBookmark],
         },
       });
+    },
+    onCompleted: () => {
+      if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+      toast.info(<FormattedMessage {...commonMessages.saved} />);
+    },
+    onError: error => {
+      if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+      toast.error(`${error.name}: ${error.message}`);
     },
   });
   const [updateBookmark] = useMutation<
@@ -146,20 +160,6 @@ const BookmarkPopupContent = ({
                     value,
                   },
                 },
-              })
-              .then(res => {
-                if (!res) return;
-                const { errors } = res;
-                if (errors) {
-                  toast.error(JSON.stringify(errors));
-                } else {
-                  if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                  toast.info(<FormattedMessage {...commonMessages.saved} />);
-                }
-              })
-              .catch((e: ApolloError) => {
-                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                toast.error(e.message);
               });
             } else {
               const prevBookmark = data.bookmarks[0];
@@ -176,20 +176,6 @@ const BookmarkPopupContent = ({
                     value,
                   },
                 },
-              })
-              .then(res => {
-                if (!res) return;
-                const { errors } = res;
-                if (errors) {
-                  toast.error(JSON.stringify(errors));
-                } else {
-                  if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                  toast.info(<FormattedMessage {...commonMessages.saved} />);
-                }
-              })
-              .catch((e: ApolloError) => {
-                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                toast.error(e.message);
               });
             }
 

@@ -28,12 +28,8 @@ const InsertFavChatButton = ({
     InsertFavoriteChatroomMutation,
     InsertFavoriteChatroomMutationVariables
   >(INSERT_FAVORITE_CHATROOM_MUTATION, {
-    update: (proxy, { data, errors }) => {
+    update: (proxy, { data }) => {
       if (!data || !data.createFavchat) return;
-      if (errors) {
-        toast.error(JSON.stringify(errors));
-        return;
-      }
       const favchatrooms = proxy.readQuery<FavoriteChatroomsQuery>({
         query: FAVORITE_CHATROOMS_QUERY,
         // userId ?
@@ -46,6 +42,9 @@ const InsertFavChatButton = ({
         // userId ?
         data: favchatrooms,
       });
+    },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
     },
   });
 

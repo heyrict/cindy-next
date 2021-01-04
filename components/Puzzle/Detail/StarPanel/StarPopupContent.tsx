@@ -5,7 +5,7 @@ import { Flex, Box } from 'components/General';
 import Loading from 'components/General/Loading';
 import StarInput from 'components/Star/StarInput';
 
-import { ApolloError, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import {
   ADD_STAR_MUTATION,
   UPDATE_STAR_MUTATION,
@@ -75,12 +75,27 @@ const AddStarContent = ({ userId, puzzleId }: AddStarContentProps) => {
           },
         });
       },
+      onCompleted: () => {
+        if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+        toast.info(<FormattedMessage {...commonMessages.saved} />);
+      },
+      onError: error => {
+        toast.error(`${error.name}: ${error.message}`);
+      },
     },
   );
   const [updateStar] = useMutation<
     UpdateStarMutation,
     UpdateStarMutationVariables
-  >(UPDATE_STAR_MUTATION);
+  >(UPDATE_STAR_MUTATION, {
+    onCompleted: () => {
+      if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+      toast.info(<FormattedMessage {...commonMessages.saved} />);
+    },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+    },
+  });
 
   if (error) {
     toast.error(error.message);
@@ -120,21 +135,7 @@ const AddStarContent = ({ userId, puzzleId }: AddStarContentProps) => {
                   value,
                 },
               },
-            })
-              .then(res => {
-                if (!res) return;
-                const { errors } = res;
-                if (errors) {
-                  toast.error(JSON.stringify(errors));
-                } else {
-                  if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                  toast.info(<FormattedMessage {...commonMessages.saved} />);
-                }
-              })
-              .catch((e: ApolloError) => {
-                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                toast.error(e.message);
-              });
+            });
           } else {
             // Otherwise, update that star
             const star = data.stars[0];
@@ -150,21 +151,7 @@ const AddStarContent = ({ userId, puzzleId }: AddStarContentProps) => {
                   value,
                 },
               },
-            })
-              .then(res => {
-                if (!res) return;
-                const { errors } = res;
-                if (errors) {
-                  toast.error(JSON.stringify(errors));
-                } else {
-                  if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                  toast.info(<FormattedMessage {...commonMessages.saved} />);
-                }
-              })
-              .catch((e: ApolloError) => {
-                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                toast.error(e.message);
-              });
+            });
           }
 
           notifHdlRef.current = toast.info(

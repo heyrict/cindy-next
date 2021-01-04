@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { Box, ButtonTransparent } from 'components/General';
 
-import { ApolloError, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { CHANGE_CURRERNT_USERAWARD_MUTATION } from 'graphql/Mutations/User';
 
 import { FormattedMessage } from 'react-intl';
@@ -24,7 +24,12 @@ const UserAwardsEdit = ({
   const [changeCurrentUserAward] = useMutation<
     ChangeCurrentUserawardMutation,
     ChangeCurrentUserawardMutationVariables
-  >(CHANGE_CURRERNT_USERAWARD_MUTATION);
+  >(CHANGE_CURRERNT_USERAWARD_MUTATION, {
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+      setEdit(true);
+    },
+  });
 
   return (
     <React.Fragment>
@@ -48,19 +53,7 @@ const UserAwardsEdit = ({
                   currentAward: null,
                 },
               },
-            })
-              .then(result => {
-                if (!result) return;
-                const { errors } = result;
-                if (errors) {
-                  toast.error(JSON.stringify(errors));
-                  setEdit(true);
-                }
-              })
-              .catch((error: ApolloError) => {
-                toast.error(error.message);
-                setEdit(true);
-              });
+            });
             setEdit(false);
           }}
         >
@@ -93,19 +86,7 @@ const UserAwardsEdit = ({
                     currentAward: userAward,
                   },
                 },
-              })
-                .then(result => {
-                  if (!result) return;
-                  const { errors } = result;
-                  if (errors) {
-                    toast.error(JSON.stringify(errors));
-                    setEdit(true);
-                  }
-                })
-                .catch((error: ApolloError) => {
-                  toast.error(error.message);
-                  setEdit(true);
-                });
+              });
               setEdit(false);
             }}
           >

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import { ApolloError, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { EDIT_PROFILE_MUTATION } from 'graphql/Mutations/User';
 
 import { Flex, ButtonTransparent, Img, Box } from 'components/General';
@@ -22,7 +22,14 @@ const ProfileEdit = ({ profile, setEdit, userId }: ProfileEditProps) => {
   const [editProfile] = useMutation<
     EditProfileMutation,
     EditProfileMutationVariables
-  >(EDIT_PROFILE_MUTATION);
+  >(EDIT_PROFILE_MUTATION, {
+    onError: error => {
+      const newProfile = editorRef.current.getText().trim();
+      toast.error(JSON.stringify(error));
+      setEdit(true);
+      editorRef.current.setText(newProfile);
+    },
+  });
 
   return (
     <React.Fragment>
@@ -63,21 +70,7 @@ const ProfileEdit = ({ profile, setEdit, userId }: ProfileEditProps) => {
                     profile: newProfile,
                   },
                 },
-              })
-                .then(result => {
-                  if (!result) return;
-                  const { errors } = result;
-                  if (errors) {
-                    toast.error(JSON.stringify(errors));
-                    setEdit(true);
-                    editorRef.current.setText(newProfile);
-                  }
-                })
-                .catch((error: ApolloError) => {
-                  toast.error(error.message);
-                  setEdit(true);
-                  editorRef.current.setText(newProfile);
-                });
+              });
               setEdit(false);
             }
           }}

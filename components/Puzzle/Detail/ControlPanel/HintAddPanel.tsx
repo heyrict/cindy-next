@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 import { upsertItem } from 'common/update';
 
 import { useMutation } from '@apollo/client';
@@ -21,11 +22,13 @@ import {
   DialogueHintQuery,
   DialogueHintQueryVariables,
 } from 'graphql/Queries/generated/DialogueHintQuery';
-import {Yami} from 'generated/globalTypes';
+import { Yami } from 'generated/globalTypes';
 
 const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
   const [receiverId, setReceiverId] = useState<number | null>(null);
   const editorRef = useRef<LegacyEditor>(null);
+
+  const hint = editorRef.current ? editorRef.current.getText() : '';
 
   const [addHint] = useMutation<AddHintMutation, AddHintMutationVariables>(
     ADD_HINT_MUTATION,
@@ -58,6 +61,11 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
                 : upsertItem(puzzleLogs, newItem),
           },
         });
+      },
+      onError: error => {
+        if (editorRef.current) editorRef.current.setText(hint);
+        setReceiverId(receiverId);
+        toast.error(`${error.name}: ${error.message}`);
       },
     },
   );
@@ -94,9 +102,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
       <ButtonTransparent
         width={1 / 2}
         onClick={() => {
-          if (!editorRef.current) return;
-          const hint = editorRef.current.getText();
-          if (hint.trim() === '') return;
+          if (!editorRef.current || hint.trim() === '') return;
 
           addHint({
             variables: {
@@ -125,20 +131,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
                 modified: Date.now(),
               },
             },
-          })
-            .then(result => {
-              if (!result) return;
-              if (result.errors) {
-                if (editorRef.current) editorRef.current.setText(hint);
-                setReceiverId(receiverId);
-                console.log(result.errors);
-              }
-            })
-            .catch(e => {
-              console.log(e);
-              if (editorRef.current) editorRef.current.setText(hint);
-              setReceiverId(receiverId);
-            });
+          });
           if (editorRef.current) editorRef.current.setText('');
           setReceiverId(null);
         }}

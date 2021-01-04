@@ -2,12 +2,15 @@ import React, { useRef, useState, useEffect } from 'react';
 import { upsertItem } from 'common/update';
 import { toast } from 'react-toastify';
 
-import { ApolloError, useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import {
   PREVIOUS_COMMENT_VALUE_QUERY,
   PUZZLE_COMMENT_QUERY,
 } from 'graphql/Queries/Comment';
-import { ADD_COMMENT_MUTATION, UPDATE_COMMENT_MUTATION } from 'graphql/Mutations/Comment';
+import {
+  ADD_COMMENT_MUTATION,
+  UPDATE_COMMENT_MUTATION,
+} from 'graphql/Mutations/Comment';
 
 import Loading from 'components/General/Loading';
 import Flex from 'components/General/Flex';
@@ -36,7 +39,10 @@ import {
   PuzzleCommentQuery,
   PuzzleCommentQueryVariables,
 } from 'graphql/Queries/generated/PuzzleCommentQuery';
-import {UpdateCommentMutation, UpdateCommentMutationVariables} from 'graphql/Mutations/generated/UpdateCommentMutation';
+import {
+  UpdateCommentMutation,
+  UpdateCommentMutationVariables,
+} from 'graphql/Mutations/generated/UpdateCommentMutation';
 
 const CommentModalAddPanelRenderer = ({
   puzzleId,
@@ -96,6 +102,15 @@ const CommentModalAddPanelRenderer = ({
           comments: [newComment],
         },
       });
+    },
+    onCompleted: () => {
+      if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+      toast.info(<FormattedMessage {...commonMessages.saved} />);
+    },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+      setSpoiler(spoiler);
+      return;
     },
   });
 
@@ -177,21 +192,6 @@ const CommentModalAddPanelRenderer = ({
                     },
                   },
                 },
-              })
-              .then(res => {
-                if (!res) return;
-                const { errors } = res;
-                if (errors) {
-                  toast.error(JSON.stringify(errors));
-                  setSpoiler(spoiler);
-                  return;
-                }
-                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                toast.info(<FormattedMessage {...commonMessages.saved} />);
-              })
-              .catch((e: ApolloError) => {
-                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                toast.error(e.message);
               });
             } else {
               const comment = comments[0];
@@ -200,22 +200,7 @@ const CommentModalAddPanelRenderer = ({
                   id: comment.id,
                   content,
                   spoiler,
-                }
-              })
-              .then(res => {
-                if (!res) return;
-                const { errors } = res;
-                if (errors) {
-                  toast.error(JSON.stringify(errors));
-                  setSpoiler(spoiler);
-                  return;
-                }
-                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                toast.info(<FormattedMessage {...commonMessages.saved} />);
-              })
-              .catch((e: ApolloError) => {
-                if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-                toast.error(e.message);
+                },
               });
             }
 

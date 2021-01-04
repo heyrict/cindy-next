@@ -51,6 +51,10 @@ const ChatRoomInput = ({
   setTrueLoginModal,
   setTrueSignupModal,
 }: ChatRoomInputProps) => {
+  const editorRef = useRef<SimpleLegacyEditor>(null);
+
+  const text = editorRef.current ? editorRef.current.getText() : '';
+
   const [sendMessage] = useMutation<
     ChatroomSendMessage,
     ChatroomSendMessageVariables
@@ -80,8 +84,13 @@ const ChatRoomInput = ({
         },
       });
     },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+      if (editorRef.current) {
+        editorRef.current.setText(text);
+      }
+    },
   });
-  const editorRef = useRef<SimpleLegacyEditor>(null!);
 
   const handleSubmit = (content: string) => {
     if (content.trim() !== '') {
@@ -117,19 +126,7 @@ const ChatRoomInput = ({
     const text = editorRef.current.getText();
     editorRef.current.setText('');
     let result = handleSubmit(content);
-    if (result) {
-      result
-        .then(returns => {
-          if (returns.errors) {
-            toast.error(JSON.stringify(returns.errors));
-            editorRef.current.setText(text);
-          }
-        })
-        .catch(error => {
-          toast.error(JSON.stringify(error));
-          editorRef.current.setText(text);
-        });
-    } else {
+    if (!result) {
       // Cancelled
       editorRef.current.setText(text);
     }
@@ -140,6 +137,7 @@ const ChatRoomInput = ({
       ref={editorRef}
       useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
       onKeyDown={(e: React.KeyboardEvent) => {
+        if (!editorRef.current) return;
         if (sendChatTrigger & SendMessageTriggerType.ON_ENTER) {
           if (
             e.nativeEvent.key === 'Enter' &&

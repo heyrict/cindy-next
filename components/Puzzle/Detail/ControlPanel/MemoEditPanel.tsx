@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { toast } from 'react-toastify';
 import { text2md } from 'common/markdown';
 
 import { useMutation } from '@apollo/client';
@@ -20,8 +21,19 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
   const [editing, setEditing] = useState(false);
   const editorRef = useRef<LegacyEditor>(null);
 
+  const newMemo = editorRef.current ? editorRef.current.getText() : '';
+
   const [editMemo] = useMutation<EditMemoMutation, EditMemoMutationVariables>(
     EDIT_MEMO_MUTATION,
+    {
+      onError: error => {
+        toast.error(`${error.name}: ${error.message}`);
+        setEditing(true);
+        if (editorRef.current) {
+          editorRef.current.setText(newMemo);
+        }
+      },
+    },
   );
 
   return (
@@ -50,7 +62,6 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
             width={1 / 2}
             onClick={() => {
               if (!editorRef.current) return;
-              const newMemo = editorRef.current.getText();
               if (newMemo === memo) {
                 setEditing(false);
                 return;
@@ -67,24 +78,7 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
                     memo: newMemo,
                   },
                 },
-              })
-                .then(result => {
-                  if (!result) return;
-                  if (result.errors) {
-                    console.log(result.errors);
-                    setEditing(true);
-                    if (editorRef.current) {
-                      editorRef.current.setText(newMemo);
-                    }
-                  }
-                })
-                .catch(e => {
-                  console.log(e);
-                  setEditing(true);
-                  if (editorRef.current) {
-                    editorRef.current.setText(newMemo);
-                  }
-                });
+              });
               setEditing(false);
               if (editorRef.current) {
                 editorRef.current.setText('');

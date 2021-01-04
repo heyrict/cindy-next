@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import { ApolloError, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { CHANGE_HIDE_BOOKMARK_MUTATION } from 'graphql/Mutations/User';
 
 import { FormattedMessage } from 'react-intl';
@@ -26,7 +26,15 @@ const ProfileHideBookmarksToggle = ({
   const [changeHideBookmark] = useMutation<
     ChangeHideBookmarkMutation,
     ChangeHideBookmarkMutationVariables
-  >(CHANGE_HIDE_BOOKMARK_MUTATION);
+  >(CHANGE_HIDE_BOOKMARK_MUTATION, {
+    onCompleted: () => {
+      toast.info(<FormattedMessage {...commonMessages.saved} />);
+    },
+    onError: error => {
+      if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+      toast.error(`${error.name}: ${error.message}`);
+    },
+  });
 
   return (
     <Flex width={1} mb={2} alignItems="center">
@@ -45,21 +53,7 @@ const ProfileHideBookmarksToggle = ({
                 hideBookmark: !hideBookmark,
               },
             },
-          })
-            .then(res => {
-              if (!res) return;
-              const { errors } = res;
-              if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-              if (errors) {
-                toast.error(JSON.stringify(errors));
-                return;
-              }
-              toast.info(<FormattedMessage {...commonMessages.saved} />);
-            })
-            .catch((e: ApolloError) => {
-              if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
-              toast.error(JSON.stringify(e.message));
-            });
+          });
           notifHdlRef.current = toast.info(
             <FormattedMessage {...commonMessages.saving} />,
           );

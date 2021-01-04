@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import { ApolloError, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import {
   ADD_PUZZLE_TAG_MUTATION,
   ADD_PUZZLE_TAG_WITH_TAG_MUTATION,
@@ -58,6 +58,10 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
         },
       });
     },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+      setEdit(true);
+    },
   });
 
   const [addPuzzleTagWithTag] = useMutation<
@@ -84,6 +88,10 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
           puzzleTags: [...puzzleTags, newPuzzleTag],
         },
       });
+    },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+      setEdit(true);
     },
   });
 
@@ -128,19 +136,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                       },
                     },
                   },
-                })
-                  .then(res => {
-                    if (!res) return;
-                    const { errors } = res;
-                    if (errors) {
-                      toast.error(JSON.stringify(errors));
-                      setEdit(true);
-                    }
-                  })
-                  .catch((error: ApolloError) => {
-                    toast.error(error.message);
-                    setEdit(true);
-                  });
+                });
               } else {
                 addPuzzleTag({
                   variables: {
@@ -167,19 +163,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                       },
                     },
                   },
-                })
-                  .then(res => {
-                    if (!res) return;
-                    const { errors } = res;
-                    if (errors) {
-                      toast.error(JSON.stringify(errors));
-                      setEdit(true);
-                    }
-                  })
-                  .catch((error: ApolloError) => {
-                    toast.error(error.message);
-                    setEdit(true);
-                  });
+                });
               }
               setEdit(false);
             }}
