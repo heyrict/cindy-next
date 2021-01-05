@@ -21,6 +21,7 @@ import { FavoriteChatroomsQuery } from 'graphql/Queries/generated/FavoriteChatro
 
 const InsertFavChatButton = ({
   chatroomId,
+  userId,
   chatroomName,
   compact,
 }: InsertFavChatButtonProps) => {
@@ -32,15 +33,20 @@ const InsertFavChatButton = ({
       if (!data || !data.createFavchat) return;
       const favchatrooms = proxy.readQuery<FavoriteChatroomsQuery>({
         query: FAVORITE_CHATROOMS_QUERY,
-        // userId ?
+        variables: {
+          userId,
+        },
       });
       const newChatroom = data.createFavchat;
       if (!favchatrooms) return;
-      favchatrooms.favchats.push(newChatroom);
       proxy.writeQuery({
         query: FAVORITE_CHATROOMS_QUERY,
-        // userId ?
-        data: favchatrooms,
+        variables: {
+          userId,
+        },
+        data: {
+          favchats: [...favchatrooms.favchats, newChatroom],
+        },
       });
     },
     onError: error => {
@@ -52,17 +58,6 @@ const InsertFavChatButton = ({
     insertFavChat({
       variables: {
         chatroomId,
-      },
-      optimisticResponse: {
-        createFavchat: {
-          __typename: 'Favchat',
-          id: -1,
-          chatroom: {
-            __typename: 'Chatroom',
-            id: chatroomId,
-            name: chatroomName || '...',
-          },
-        },
       },
     });
   };

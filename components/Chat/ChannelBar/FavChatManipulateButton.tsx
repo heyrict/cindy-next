@@ -46,12 +46,13 @@ const FavChatManipulateButton = ({
         const favchat = data.favchats.find(fc => fc.chatroom.id === chatroomId);
         return favchat === undefined ? (
           <InsertFavChatButton
+            userId={user.id}
             chatroomId={chatroomId}
             chatroomName={chatroomName}
             compact={compact}
           />
         ) : (
-          <DeleteFavChatButton favchatId={favchat.id} compact={compact} />
+          <DeleteFavChatButton userId={user.id} favchatId={favchat.id} compact={compact} />
         );
       }}
     </Query>

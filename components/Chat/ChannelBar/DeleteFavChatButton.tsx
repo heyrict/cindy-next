@@ -21,6 +21,7 @@ import { FavoriteChatroomsQuery } from 'graphql/Queries/generated/FavoriteChatro
 
 const DeleteFavChatButton = ({
   favchatId,
+  userId,
   compact,
 }: DeleteFavChatButtonProps) => {
   const [deleteFavChat] = useMutation<
@@ -31,10 +32,16 @@ const DeleteFavChatButton = ({
       if (!data || !data.deleteFavchat) return;
       const favchats = proxy.readQuery<FavoriteChatroomsQuery>({
         query: FAVORITE_CHATROOMS_QUERY,
+        variables: {
+          userId,
+        },
       });
       if (!favchats) return;
       proxy.writeQuery({
         query: FAVORITE_CHATROOMS_QUERY,
+        variables: {
+          userId,
+        },
         data: {
           ...favchats,
           favchats: favchats.favchats.filter(fc => fc.id !== favchatId),

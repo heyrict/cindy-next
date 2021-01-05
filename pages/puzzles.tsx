@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { maybeSendNotification } from 'common/web-notify';
 import { mergeList, upsertMultipleItem } from 'common/update';
 
-import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import messages from 'messages/pages/puzzles';
 import webNotifyMessages from 'messages/webNotify';
 import puzzleMessages from 'messages/components/puzzle';
@@ -119,9 +119,9 @@ const PuzzlesSolvedRenderer = () => {
   return null;
 };
 
-const PuzzlesUnsolvedRenderer = ({ intl }: PuzzlesUnsolvedRendererProps) => {
+const PuzzlesUnsolvedRenderer = () => {
   const client = useApolloClient();
-  const _ = intl.formatMessage;
+  const { formatMessage: _ } = useIntl();
 
   const { loading, error, refetch, data, subscribeToMore } = useQuery<
     PuzzlesUnsolvedQuery
@@ -284,8 +284,8 @@ const PuzzlesUnsolvedRenderer = ({ intl }: PuzzlesUnsolvedRendererProps) => {
   return null;
 };
 
-const Puzzles = ({ intl }: { intl: IntlShape }) => {
-  const _ = intl.formatMessage;
+const Puzzles = () => {
+  const { formatMessage: _ } = useIntl();
 
   return (
     <React.Fragment>
@@ -298,11 +298,11 @@ const Puzzles = ({ intl }: { intl: IntlShape }) => {
       </Heading>
       <PuzzleSubbar />
       <Flex flexWrap="wrap">
-        <PuzzlesUnsolvedRenderer intl={intl} />
+        <PuzzlesUnsolvedRenderer />
         <PuzzlesSolvedRenderer />
       </Flex>
     </React.Fragment>
   );
 };
 
-export default injectIntl(Puzzles);
+export default Puzzles;

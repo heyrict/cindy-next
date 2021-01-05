@@ -30,12 +30,14 @@ export type FavChatManipulateButtonProps = {
 
 export type InsertFavChatButtonProps = {
   chatroomId: number;
+  userId: number;
   chatroomName?: string;
   compact?: boolean;
 };
 
 export type DeleteFavChatButtonProps = {
   favchatId: number;
+  userId: number;
   compact?: boolean;
 };
 
