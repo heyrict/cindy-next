@@ -28,7 +28,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
   const [receiverId, setReceiverId] = useState<number | null>(null);
   const editorRef = useRef<LegacyEditor>(null);
 
-  const hint = editorRef.current ? editorRef.current.getText() : '';
+  const get_hint = () => editorRef.current ? editorRef.current.getText() : '';
 
   const [addHint] = useMutation<AddHintMutation, AddHintMutationVariables>(
     ADD_HINT_MUTATION,
@@ -63,7 +63,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
         });
       },
       onError: error => {
-        if (editorRef.current) editorRef.current.setText(hint);
+        if (editorRef.current) editorRef.current.setText(get_hint());
         setReceiverId(receiverId);
         toast.error(`${error.name}: ${error.message}`);
       },
@@ -102,6 +102,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
       <ButtonTransparent
         width={1 / 2}
         onClick={() => {
+          const hint = get_hint();
           if (!editorRef.current || hint.trim() === '') return;
 
           addHint({

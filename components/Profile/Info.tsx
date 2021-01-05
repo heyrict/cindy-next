@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FormattedMessage, FormattedDate } from 'react-intl';
+import { FormattedMessage, FormattedTime } from 'react-intl';
 import userMessages from 'messages/components/user';
 import authMessages from 'messages/components/auth';
 
@@ -46,13 +46,13 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => (
                 <FormattedMessage {...authMessages.dateJoined} />
               </Box>
               <Box ml="auto">
-                <FormattedDate
+                <FormattedTime
                   year="numeric"
                   month="short"
                   day="numeric"
                   hour="numeric"
                   minute="numeric"
-                  value={user.dateJoined}
+                  value={user.dateJoined.replace(" UTC", "Z")}
                 />
               </Box>
             </Flex>
@@ -62,13 +62,13 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => (
                   <FormattedMessage {...authMessages.lastLogin} />
                 </Box>
                 <Box ml="auto">
-                  <FormattedDate
+                  <FormattedTime
                     year="numeric"
                     month="short"
                     day="numeric"
                     hour="numeric"
                     minute="numeric"
-                    value={user.lastLogin}
+                    value={user.lastLogin.replace(" UTC", "Z")}
                   />
                 </Box>
               </Flex>

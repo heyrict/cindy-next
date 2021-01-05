@@ -43,6 +43,10 @@ const PuzzleRenderer = ({
     variables: {
       id: puzzleId,
     },
+    fetchPolicy: 'cache-and-network',
+    onCompleted: ({ puzzle }) => {
+      hasNotifiedSolvedRef.current = puzzle.status !== Status.UNDERGOING;
+    },
   });
 
   const hasNotifiedSolvedRef = useRef<boolean>(false);
@@ -59,36 +63,33 @@ const PuzzleRenderer = ({
     </React.Fragment>
   );
 
-  useEffect(() => {
-    if (data && data.puzzle) {
-      const puzzleId = data.puzzle.id;
-      return subscribeToMore<PuzzleSub, PuzzleSubVariables>({
-        document: PUZZLE_SUB,
-        variables: { id: puzzleId },
-        updateQuery: (prev, { subscriptionData }) => {
-          if (!prev) return prev;
-          const newPuzzle = subscriptionData.data.puzzleSub;
-          const oldPuzzle = prev.puzzle;
-          if (!newPuzzle) return prev;
-          if (
-            pushNotification &&
-            document.hidden &&
-            oldPuzzle.status !== Status.SOLVED &&
-            newPuzzle.data.status === Status.SOLVED &&
-            !hasNotifiedSolvedRef.current
-          ) {
-            hasNotifiedSolvedRef.current = true;
-            maybeSendNotification(
-              _(webNotifyMessages.puzzleSolved, {
-                puzzle: oldPuzzle.title,
-              }),
-            );
-          }
-          return { puzzle: { ...oldPuzzle, ...newPuzzle.data } };
-        },
-      });
-    }
-  }, [data && data.puzzle && data.puzzle.id]);
+  useEffect(() =>
+    subscribeToMore<PuzzleSub, PuzzleSubVariables>({
+      document: PUZZLE_SUB,
+      variables: { id: puzzleId },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!prev || !prev.puzzle) return prev;
+        const newPuzzle = subscriptionData.data.puzzleSub;
+        const oldPuzzle = prev.puzzle;
+        if (!newPuzzle) return prev;
+        if (
+          pushNotification &&
+          document.hidden &&
+          oldPuzzle.status !== Status.SOLVED &&
+          newPuzzle.data.status === Status.SOLVED &&
+          !hasNotifiedSolvedRef.current
+        ) {
+          hasNotifiedSolvedRef.current = true;
+          maybeSendNotification(
+            _(webNotifyMessages.puzzleSolved, {
+              puzzle: oldPuzzle.title,
+            }),
+          );
+        }
+        return { puzzle: { ...oldPuzzle, ...newPuzzle.data } };
+      },
+    }),
+  );
 
   if (error) {
     if (error.networkError === null) {
@@ -104,7 +105,8 @@ const PuzzleRenderer = ({
     return puzzleNotExistElement;
   }
   const puzzle = data.puzzle;
-  const shouldHideIdentity = puzzle.anonymous && puzzle.status === Status.UNDERGOING;
+  const shouldHideIdentity =
+    puzzle.anonymous && puzzle.status === Status.UNDERGOING;
   return (
     <React.Fragment>
       <Head>

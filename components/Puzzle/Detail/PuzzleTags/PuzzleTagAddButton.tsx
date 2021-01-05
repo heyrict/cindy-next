@@ -113,7 +113,7 @@ const PuzzleTagAddButton = ({ puzzleId }: PuzzleTagAddButtonProps) => {
                     puzzleId,
                     tag: {
                       name: tag.value,
-                      created: new Date().toUTCString(),
+                      created: new Date().toISOString(),
                     },
                   },
                   optimisticResponse: {

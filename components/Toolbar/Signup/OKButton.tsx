@@ -1,4 +1,5 @@
 import React from 'react';
+import {toast} from 'react-toastify';
 import { FooterButton } from 'components/Modal';
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/auth';
@@ -22,7 +23,7 @@ const OKButton = ({
       signup(nickname, username, password).then(res => {
         const { error } = res;
         if (error) {
-          error.forEach(e => toast.error(e));
+          toast.error(error);
         } else {
           resetForm();
         }

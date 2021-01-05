@@ -1,3 +1,4 @@
+import { Genre, Yami } from 'generated/globalTypes';
 import patronsList from './patrons.json';
 
 export const isDev = process.env.NODE_ENV !== 'production';
@@ -40,26 +41,31 @@ export const APPLOCALES: Array<'en' | 'ja'> = ['en', 'ja'];
 export const addLocaleDatas = () => {
   if (!('PluralRules' in Intl)) {
     require('@formatjs/intl-pluralrules/polyfill');
-    require('@formatjs/intl-pluralrules/dist/locale-data/ja');
-    require('@formatjs/intl-pluralrules/dist/locale-data/en');
+    require('@formatjs/intl-pluralrules/locale-data/ja');
+    require('@formatjs/intl-pluralrules/locale-data/en');
   }
   if (!('RelativeTimeFormat' in Intl)) {
     require('@formatjs/intl-relativetimeformat/polyfill');
-    require('@formatjs/intl-relativetimeformat/dist/locale-data/en');
-    require('@formatjs/intl-relativetimeformat/dist/locale-data/ja');
+    require('@formatjs/intl-relativetimeformat/locale-data/en');
+    require('@formatjs/intl-relativetimeformat/locale-data/ja');
   }
 };
 
 // Max dazed days
-const MAX_DAZED_DAYS_BY_GENRE = [
-  7, // Classic
-  14, // Twenty Questions
-  14, // Little Albat
-  28, // Others
-];
+const MAX_DAZED_DAYS_BY_GENRE = {
+  CLASSIC: 7, // Classic
+  TWENTY_QUESTIONS: 14, // Twenty Questions
+  LITTLE_ALBAT: 14, // Little Albat
+  OTHERS: 28, // Others
+};
+
 const MAX_DAZED_DAYS_LONGTERM_YAMI = 28;
-export const getMaxDazedDays = (puzzle: { yami: any; [arg: string]: any }) =>
-  puzzle.yami === 2
+export const getMaxDazedDays = (puzzle: {
+  yami: Yami;
+  genre: Genre;
+  [arg: string]: any;
+}) =>
+  puzzle.yami === Yami.LONGTERM
     ? MAX_DAZED_DAYS_LONGTERM_YAMI
     : MAX_DAZED_DAYS_BY_GENRE[puzzle.genre];
 

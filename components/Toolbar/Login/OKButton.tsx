@@ -20,7 +20,7 @@ const OKButton = ({ login, username, password, resetForm }: OKButtonProps) => (
       login(username, password).then(res => {
         const { error } = res;
         if (error) {
-          error.forEach(e => toast.error(e));
+          toast.error(error);
         } else {
           resetForm();
         }

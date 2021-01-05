@@ -5,7 +5,7 @@ export type AuthResponseDataType = {
 };
 
 export type AuthResponseType = {
-  error: Array<String> | null;
+  error: String | null;
   data: AuthResponseDataType;
 };
 

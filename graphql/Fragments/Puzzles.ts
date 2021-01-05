@@ -31,3 +31,11 @@ export const PUZZLE_AGGREGATE_FRAGMENT = gql`
   }
   ${PUZZLE_SHARED_FRAGMENT}
 `;
+
+export const PUZZLE_UNSOLVED_EXTRA_FRAGMENT = gql`
+  fragment PuzzleUnsolvedExtra on Puzzle {
+    dialogueCount
+    dialogueNewCount: dialogueCount(answered: false)
+    dialogueMaxAnsweredTime
+  }
+`;

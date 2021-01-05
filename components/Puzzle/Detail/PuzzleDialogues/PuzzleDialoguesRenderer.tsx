@@ -37,7 +37,6 @@ import {
 import {
   DialogueHintQuery,
   DialogueHintQueryVariables,
-  DialogueHintQuery_puzzleLogs_Hint,
   DialogueHintQuery_puzzleLogs_Dialogue,
 } from 'graphql/Queries/generated/DialogueHintQuery';
 import { ActionContentType, StateType } from 'reducers/types';
@@ -50,7 +49,6 @@ import {
   PuzzleLogWithUserSubVariables,
 } from 'graphql/Subscriptions/generated/PuzzleLogWithUserSub';
 
-type Hint = DialogueHintQuery_puzzleLogs_Hint;
 type Dialogue = DialogueHintQuery_puzzleLogs_Dialogue;
 
 export const PuzzleDialoguesRendererInner = ({
@@ -123,6 +121,9 @@ export const PuzzleDialoguesRenderer = ({
         prev: DialogueHintQuery,
         { subscriptionData }: { subscriptionData: { data: PuzzleLogSub } },
       ) => {
+        if (!prev.puzzleLogs) {
+          prev = { puzzleLogs: [] };
+        }
         if (!subscriptionData.data) return prev;
         const { puzzleLogSub } = subscriptionData.data;
         if (!puzzleLogSub) return prev;
@@ -141,72 +142,78 @@ export const PuzzleDialoguesRenderer = ({
             query: DIALOGUE_HINT_QUERY,
             variables: {
               ...variables,
-              since: new Date(maxModified).toISOString(),
+              since:
+                maxModified < 0
+                  ? undefined
+                  : new Date(maxModified).toISOString(),
             },
+            fetchPolicy: 'network-only',
           })
           .then(({ data }) => {
-            const hints = data.puzzleLogs.filter(
-              puzzleLog => puzzleLog.__typename === 'Hint',
-            ) as Array<Hint>;
-            const dialogues = data.puzzleLogs.filter(
-              puzzleLog => puzzleLog.__typename === 'Dialogue',
-            ) as Array<Dialogue>;
+            if (data.puzzleLogs.length > 0) {
+              let tail = data.puzzleLogs[data.puzzleLogs.length - 1];
+              if (tail.__typename === 'Dialogue') {
+                // display answer if user get true answer in long-term yami
+                if (updateSolvedLongTermYamiOnSubscribe && tail.true)
+                  setTrueSolvedLongtermYami();
 
-            hints.forEach(hint => {
-              // Notification for participants
-              if (document.hidden && puzzleUser.id !== user.id) {
-                maybeSendNotification(_(webNotifyMessages.newHintAdded), {
-                  body: hint.content,
-                  renotify: true,
-                });
+                // Update award checker
+                const toUpdate = prev.puzzleLogs.find(
+                  d => d.__typename === 'Dialogue' && d.id === tail.id,
+                ) as Dialogue | undefined;
+                if (toUpdate && toUpdate.user.id === user.id) {
+                  if (!toUpdate.good && tail.good) {
+                    incGoodQuestions();
+                  }
+                  if (toUpdate.good && !tail.good) {
+                    incGoodQuestions(-1);
+                  }
+                  if (!toUpdate.true && tail.true) {
+                    incTrueAnswers();
+                  }
+                  if (toUpdate.true && !tail.true) {
+                    incTrueAnswers(-1);
+                  }
+                }
+
+                // Notification for creator
+                if (
+                  pushNotification &&
+                  document.hidden &&
+                  puzzleUser.id === user.id
+                ) {
+                  maybeSendNotification(_(webNotifyMessages.newDialogueAdded), {
+                    body: tail.question,
+                    renotify: true,
+                  });
+                }
+              } else {
+                // Hint
+                // Notification for participants
+                if (document.hidden && puzzleUser.id !== user.id) {
+                  maybeSendNotification(_(webNotifyMessages.newHintAdded), {
+                    body: tail.content,
+                    renotify: true,
+                  });
+                }
               }
-            });
-
-            dialogues.forEach(dialogue => {
-              // display answer if user get true answer in long-term yami
-              if (updateSolvedLongTermYamiOnSubscribe && dialogue.true)
-                setTrueSolvedLongtermYami();
-
-              // Update award checker
-              const toUpdate = prev.puzzleLogs.find(
-                d => d.__typename === 'Dialogue' && d.id === dialogue.id,
-              ) as Dialogue | undefined;
-              if (toUpdate && toUpdate.user.id === user.id) {
-                if (!toUpdate.good && dialogue.good) {
-                  incGoodQuestions();
-                }
-                if (toUpdate.good && !dialogue.good) {
-                  incGoodQuestions(-1);
-                }
-                if (!toUpdate.true && dialogue.true) {
-                  incTrueAnswers();
-                }
-                if (toUpdate.true && !dialogue.true) {
-                  incTrueAnswers(-1);
-                }
-              }
-
-              // Notification for creator
-              if (
-                pushNotification &&
-                document.hidden &&
-                puzzleUser.id === user.id
-              ) {
-                maybeSendNotification(_(webNotifyMessages.newDialogueAdded), {
-                  body: dialogue.question,
-                  renotify: true,
-                });
-              }
-            });
+            }
 
             // Updates the original query
-            client.writeQuery({
+            console.log(prev.puzzleLogs, data.puzzleLogs, upsertMultipleItem(
+              prev.puzzleLogs,
+              data.puzzleLogs,
+              'created',
+              'asc',
+            ));
+            client.writeQuery<DialogueHintQuery, DialogueHintQueryVariables>({
               query: DIALOGUE_HINT_QUERY,
+              variables,
               data: {
                 puzzleLogs: upsertMultipleItem(
                   prev.puzzleLogs,
                   data.puzzleLogs,
-                  'id',
+                  'created',
                   'asc',
                 ),
               },

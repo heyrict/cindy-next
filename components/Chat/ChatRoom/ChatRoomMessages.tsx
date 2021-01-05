@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'theme/styled';
 import { upsertMultipleItem } from 'common/update';
 
@@ -104,35 +105,45 @@ const ChatRoomMessagesBody = ({
             subscriptionData,
           }: { subscriptionData: { data: ChatroomChatmessageSub } },
         ) => {
-          const { data } = subscriptionData;
+          const {
+            data: { chatmessageSub },
+          } = subscriptionData;
+          if (!prev.chatmessages) {
+            prev = { chatmessages: [] };
+          }
+          if (!chatmessageSub) return prev;
 
           const maxModified = Math.max(
             ...prev.chatmessages.map(({ modified }: { modified: string }) =>
               new Date(modified).getTime(),
             ),
           );
-          const newModified = data.chatmessageSub
-            ? new Date(data.chatmessageSub.data.modified).getTime()
-            : null;
+          const newModified = new Date(chatmessageSub.data.modified).getTime();
+          if (maxModified > newModified) return prev;
 
-          if (!newModified) return prev;
+          const newMessageId = chatmessageSub.data.id;
 
           client
             .query<ChatroomChatmessages, ChatroomChatmessagesVariables>({
               query: CHATROOM_CHATMESSAGES_QUERY,
               variables: {
-                since: new Date(maxModified).toISOString(),
+                chatroomId,
+                since:
+                  maxModified < 0
+                    ? undefined
+                    : new Date(maxModified).toISOString(),
               },
+              fetchPolicy: 'network-only',
             })
             .then(({ data }) => {
-              chatmessageUpdate(
-                chatroomId,
-                data.chatmessages[data.chatmessages.length - 1].id,
-              );
+              chatmessageUpdate(chatroomId, newMessageId);
 
               // Updates the original query
               client.writeQuery<ChatroomChatmessages>({
                 query: CHATROOM_CHATMESSAGES_QUERY,
+                variables: {
+                  chatroomId,
+                },
                 data: {
                   chatmessages: upsertMultipleItem(
                     prev.chatmessages,
@@ -261,12 +272,14 @@ const ChatRoomMessagesBody = ({
                         ],
                       });
                     },
-                  }).then(({ data }) => {
-                    if (data.chatmessages.length < CHATMESSAGES_PER_PAGE)
-                      setHasMore(false);
-                  }).catch((error) => {
-                    toast.error(`${error.name}: ${error.message}`);
-                  });
+                  })
+                    .then(({ data }) => {
+                      if (data.chatmessages.length < CHATMESSAGES_PER_PAGE)
+                        setHasMore(false);
+                    })
+                    .catch(error => {
+                      toast.error(`${error.name}: ${error.message}`);
+                    });
                 }}
               />
             )}

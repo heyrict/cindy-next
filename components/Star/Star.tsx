@@ -24,4 +24,6 @@ export const Star = styled.button<StarProps>`
   }
 `;
 
-export default ({ ...props }: StarProps) => <Star {...props}>★</Star>;
+const StarWithProps = ({ ...props }: StarProps) => <Star {...props}>★</Star>;
+
+export default StarWithProps;

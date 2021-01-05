@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 import {
   PUZZLE_SHARED_FRAGMENT,
   PUZZLE_AGGREGATE_FRAGMENT,
+  PUZZLE_UNSOLVED_EXTRA_FRAGMENT,
 } from '../Fragments/Puzzles';
 
 export const PUZZLE_QUERY = gql`
@@ -33,12 +34,11 @@ export const PUZZLES_UNSOLVED_QUERY = gql`
       filter: { status: { eq: UNDERGOING }, modified: { gt: $since } }
     ) @connection(key: "puzzles", filter: ["order", "filter"]) {
       ...PuzzleShared
-      dialogueCount
-      dialogueNewCount: dialogueCount(answered: false)
-      dialogueMaxAnsweredTime
+      ...PuzzleUnsolvedExtra
     }
   }
   ${PUZZLE_SHARED_FRAGMENT}
+  ${PUZZLE_UNSOLVED_EXTRA_FRAGMENT}
 `;
 
 export const PUZZLES_SOLVED_QUERY = gql`

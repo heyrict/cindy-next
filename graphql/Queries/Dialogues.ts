@@ -7,7 +7,7 @@ export const DIALOGUE_HINT_QUERY = gql`
   query DialogueHintQuery($puzzleId: Int!, $userId: Int, $since: DateTime) {
     puzzleLogs(
       filter: { puzzleId: $puzzleId, userId: $userId, modified: { gt: $since } }
-      order: { id: ASC }
+      order: { created: ASC }
     ) {
       ... on Dialogue {
         ...DialogueShared
