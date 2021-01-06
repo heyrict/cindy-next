@@ -63,7 +63,7 @@ const BookmarkPanel = ({ puzzleId, userId }: BookmarkPanelProps) => {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.bookmarkCount) {
+            if (!data || typeof data.bookmarkCount !== 'number') {
               if (loading) return <Loading centered />;
               return null;
             }

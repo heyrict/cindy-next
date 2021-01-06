@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useQuery, useMutation } from '@apollo/client';
 import {
   PREVIOUS_COMMENT_VALUE_QUERY,
+  PUZZLE_COMMENT_AGGREGATE_QUERY,
   PUZZLE_COMMENT_QUERY,
 } from 'graphql/Queries/Comment';
 import {
@@ -43,6 +44,10 @@ import {
   UpdateCommentMutation,
   UpdateCommentMutationVariables,
 } from 'graphql/Mutations/generated/UpdateCommentMutation';
+import {
+  PuzzleCommentAggregateQuery,
+  PuzzleCommentAggregateQueryVariables,
+} from 'graphql/Queries/generated/PuzzleCommentAggregateQuery';
 
 const CommentModalAddPanelRenderer = ({
   puzzleId,
@@ -102,6 +107,28 @@ const CommentModalAddPanelRenderer = ({
           comments: [newComment],
         },
       });
+
+      // Update aggragated comment count
+      let prevData = proxy.readQuery<
+        PuzzleCommentAggregateQuery,
+        PuzzleCommentAggregateQueryVariables
+      >({
+        query: PUZZLE_COMMENT_AGGREGATE_QUERY,
+        variables: { puzzleId },
+      });
+      if (prevData) {
+        proxy.writeQuery<
+          PuzzleCommentAggregateQuery,
+          PuzzleCommentAggregateQueryVariables
+        >({
+          query: PUZZLE_COMMENT_AGGREGATE_QUERY,
+          variables: { puzzleId },
+          data: {
+            ...prevData,
+            commentCount: prevData.commentCount + 1,
+          },
+        });
+      }
     },
     onCompleted: () => {
       if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);

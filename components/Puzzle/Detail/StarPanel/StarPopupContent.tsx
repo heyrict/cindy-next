@@ -13,6 +13,7 @@ import {
 import {
   PUZZLE_STAR_QUERY,
   PREVIOUS_STAR_VALUE_QUERY,
+  PUZZLE_STAR_AGGREGATE_QUERY,
 } from 'graphql/Queries/Star';
 
 import { connect } from 'react-redux';
@@ -42,6 +43,10 @@ import {
   UpdateStarMutation,
   UpdateStarMutationVariables,
 } from 'graphql/Mutations/generated/UpdateStarMutation';
+import {
+  PuzzleStarAggregateQuery,
+  PuzzleStarAggregateQueryVariables,
+} from 'graphql/Queries/generated/PuzzleStarAggregateQuery';
 
 const AddStarContent = ({ userId, puzzleId }: AddStarContentProps) => {
   const notifHdlRef = useRef<React.ReactText | null>(null);
@@ -61,6 +66,8 @@ const AddStarContent = ({ userId, puzzleId }: AddStarContentProps) => {
       update: (proxy, { data }) => {
         if (!data || !data.createStar) return;
         const newStar = data.createStar;
+
+        // Update user's stars on this puzzle
         proxy.writeQuery<
           PreviousStarValueQuery,
           PreviousStarValueQueryVariables
@@ -74,6 +81,31 @@ const AddStarContent = ({ userId, puzzleId }: AddStarContentProps) => {
             stars: [newStar],
           },
         });
+
+        // Update Aggregated star count
+        let queryData = proxy.readQuery<
+          PuzzleStarAggregateQuery,
+          PuzzleStarAggregateQueryVariables
+        >({
+          query: PUZZLE_STAR_AGGREGATE_QUERY,
+          variables: {
+            puzzleId,
+          },
+        });
+        if (queryData) {
+          proxy.writeQuery<
+            PuzzleStarAggregateQuery,
+            PuzzleStarAggregateQueryVariables
+          >({
+            query: PUZZLE_STAR_AGGREGATE_QUERY,
+            variables: { puzzleId },
+            data: {
+              ...queryData,
+              starCount: queryData.starCount + 1,
+              starSumByPuzzle: (queryData.starSumByPuzzle || 0) + newStar.value,
+            },
+          });
+        }
       },
       onCompleted: () => {
         if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
@@ -88,6 +120,42 @@ const AddStarContent = ({ userId, puzzleId }: AddStarContentProps) => {
     UpdateStarMutation,
     UpdateStarMutationVariables
   >(UPDATE_STAR_MUTATION, {
+    update: (proxy, { data: newData }) => {
+      const prevStarValue =
+        data && data.stars
+          ? data.stars.length === 0
+            ? 0
+            : data.stars[0].value
+          : 0;
+      if (!newData || !newData.updateStar) return;
+
+      // Update Aggregated star count
+      let queryData = proxy.readQuery<
+        PuzzleStarAggregateQuery,
+        PuzzleStarAggregateQueryVariables
+      >({
+        query: PUZZLE_STAR_AGGREGATE_QUERY,
+        variables: {
+          puzzleId,
+        },
+      });
+      if (queryData) {
+        proxy.writeQuery<
+          PuzzleStarAggregateQuery,
+          PuzzleStarAggregateQueryVariables
+        >({
+          query: PUZZLE_STAR_AGGREGATE_QUERY,
+          variables: { puzzleId },
+          data: {
+            ...queryData,
+            starSumByPuzzle:
+              (queryData.starSumByPuzzle || 0) -
+              prevStarValue +
+              newData.updateStar.value,
+          },
+        });
+      }
+    },
     onCompleted: () => {
       if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
       toast.info(<FormattedMessage {...commonMessages.saved} />);

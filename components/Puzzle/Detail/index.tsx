@@ -20,7 +20,6 @@ import PuzzleDialogues from './PuzzleDialogues';
 import StarPanel from './StarPanel';
 import CommentPanel from './CommentPanel';
 import BookmarkPanel from './BookmarkPanel';
-import ReplayPanel from './ReplayPanel';
 import ControlPanel from './ControlPanel';
 import PuzzleTags from './PuzzleTags';
 import NotLoggedInMessage from './NotLoggedInMessage';
@@ -66,7 +65,6 @@ const PuzzleDetail = ({
   const shouldShowStarPanel = shouldShowAnswer;
   const shouldShowCommentPanel = shouldShowAnswer;
   const shouldShowBookmarkPanel = shouldShowAnswer;
-  const shouldShowReplayPanel = shouldShowAnswer;
   const shouldShowControlPanel = isCreator;
 
   const queryWithCurrentUserOnly = puzzle.yami !== Yami.NONE && !isCreator;
@@ -182,7 +180,6 @@ const PuzzleDetail = ({
           <CommentPanel puzzleId={puzzle.id} canAddComment={!isCreator} userId={userId} />
         )}
         {shouldShowBookmarkPanel && <BookmarkPanel puzzleId={puzzle.id} />}
-        {shouldShowReplayPanel && <ReplayPanel puzzleId={puzzle.id} />}
         {shouldShowControlPanel && (
           <WithSolution puzzleId={puzzle.id}>
             {solution => <ControlPanel puzzle={{ ...puzzle, solution }} />}

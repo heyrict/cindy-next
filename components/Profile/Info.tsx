@@ -52,7 +52,7 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => (
                   day="numeric"
                   hour="numeric"
                   minute="numeric"
-                  value={user.dateJoined.replace(" UTC", "Z")}
+                  value={user.dateJoined}
                 />
               </Box>
             </Flex>
@@ -68,7 +68,7 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => (
                     day="numeric"
                     hour="numeric"
                     minute="numeric"
-                    value={user.lastLogin.replace(" UTC", "Z")}
+                    value={user.lastLogin}
                   />
                 </Box>
               </Flex>

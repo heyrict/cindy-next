@@ -10,7 +10,10 @@ import {
   ADD_BOOKMARK_MUTATION,
   UPDATE_BOOKMARK_MUTATION,
 } from 'graphql/Mutations/Bookmark';
-import { PREVIOUS_BOOKMARK_VALUE_QUERY } from 'graphql/Queries/Bookmark';
+import {
+  PREVIOUS_BOOKMARK_VALUE_QUERY,
+  PUZZLE_BOOKMARK_AGGREGATE_QUERY,
+} from 'graphql/Queries/Bookmark';
 
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
@@ -29,6 +32,10 @@ import {
   UpdateBookmarkMutation,
   UpdateBookmarkMutationVariables,
 } from 'graphql/Mutations/generated/UpdateBookmarkMutation';
+import {
+  PuzzleBookmarkAggregateQuery,
+  PuzzleBookmarkAggregateQueryVariables,
+} from 'graphql/Queries/generated/PuzzleBookmarkAggregateQuery';
 
 const BookmarkPopupContent = ({
   userId,
@@ -56,6 +63,8 @@ const BookmarkPopupContent = ({
     update: (proxy, { data }) => {
       if (!data || !data.createBookmark) return;
       const newBookmark = data.createBookmark;
+
+      // Update user's bookmarks on this puzzle
       proxy.writeQuery<
         PreviousBookmarkValueQuery,
         PreviousBookmarkValueQueryVariables
@@ -69,6 +78,28 @@ const BookmarkPopupContent = ({
           bookmarks: [newBookmark],
         },
       });
+
+      // Update aggrevated bookmark count on this puzzle
+      let prevData = proxy.readQuery<
+        PuzzleBookmarkAggregateQuery,
+        PuzzleBookmarkAggregateQueryVariables
+      >({
+        query: PUZZLE_BOOKMARK_AGGREGATE_QUERY,
+        variables: { puzzleId },
+      });
+      if (prevData) {
+        proxy.writeQuery<
+          PuzzleBookmarkAggregateQuery,
+          PuzzleBookmarkAggregateQueryVariables
+        >({
+          query: PUZZLE_BOOKMARK_AGGREGATE_QUERY,
+          variables: { puzzleId },
+          data: {
+            ...prevData,
+            bookmarkCount: prevData.bookmarkCount + 1,
+          },
+        });
+      }
     },
     onCompleted: () => {
       if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);

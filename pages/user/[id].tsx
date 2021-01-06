@@ -19,7 +19,9 @@ const UserPage = () => {
           <title>{_(messages.title)} | Cindy</title>
           <meta name="description" content={_(messages.description)} />
         </Head>
-        <Profile userId={userId} />
+        {userId && !isNaN(userId) && (
+          <Profile userId={userId} />
+        )}
       </React.Fragment>
     );
   }

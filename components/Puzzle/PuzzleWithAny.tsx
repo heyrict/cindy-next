@@ -34,12 +34,14 @@ const PuzzleWithAny = ({
   dialogueMaxAnsweredtime,
   showGenreImage,
 }: PuzzleWithAnyProps) => {
-  puzzle.bookmarkCount = bookmarkCount || puzzle.bookmarkCount;
-  puzzle.starCount = starCount || puzzle.starCount;
-  puzzle.starSum = starSum || puzzle.starSum;
-  puzzle.commentCount = commentCount || puzzle.commentCount;
-  puzzle.dialogueCount = dialogueCount || puzzle.dialogueCount;
-  puzzle.dialogueMaxAnsweredtime = dialogueMaxAnsweredtime || puzzle.dialogueMaxAnsweredtime;
+  let aggregates = {
+    bookmarkCount: bookmarkCount || puzzle.bookmarkCount,
+    starCount: starCount || puzzle.starCount,
+    starSum: starSum || puzzle.starSum,
+    commentCount: commentCount || puzzle.commentCount,
+    dialogueCount: dialogueCount || puzzle.dialogueCount,
+    dialogueMaxAnsweredtime: dialogueMaxAnsweredtime || puzzle.dialogueMaxAnsweredtime,
+  }
 
   return (
     <Panel minHeight="8em">
@@ -81,21 +83,21 @@ const PuzzleWithAny = ({
         <Flex p={1} flexWrap="wrap" alignItems="center">
           {puzzle.status !== StatusEnum.UNDERGOING && puzzle.anonymous && <Anonymous />}
           <Status status={puzzle.status} />
-          {typeof puzzle.dialogueCount === 'number' && (
-            <Process count={puzzle.dialogueCount} />
+          {typeof aggregates.dialogueCount === 'number' && (
+            <Process count={aggregates.dialogueCount} />
           )}
-          {typeof puzzle.starCount === 'number' &&
-            puzzle.starCount > 0 &&
-            typeof puzzle.starSum === 'number' && (
-              <Star count={puzzle.starCount} sum={puzzle.starSum} />
+          {typeof aggregates.starCount === 'number' &&
+            aggregates.starCount > 0 &&
+            typeof aggregates.starSum === 'number' && (
+              <Star count={aggregates.starCount} sum={aggregates.starSum} />
             )}
-          {typeof puzzle.commentCount === 'number' &&
-            puzzle.commentCount > 0 && (
-              <Comment puzzleId={puzzle.id} count={puzzle.commentCount} />
+          {typeof aggregates.commentCount === 'number' &&
+            aggregates.commentCount > 0 && (
+              <Comment puzzleId={puzzle.id} count={aggregates.commentCount} />
             )}
-          {typeof puzzle.bookmarkCount === 'number' &&
-            puzzle.bookmarkCount > 0 && (
-              <Bookmark count={puzzle.bookmarkCount} />
+          {typeof aggregates.bookmarkCount === 'number' &&
+            aggregates.bookmarkCount > 0 && (
+              <Bookmark count={aggregates.bookmarkCount} />
             )}
         </Flex>
       </Box>

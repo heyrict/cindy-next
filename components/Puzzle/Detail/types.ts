@@ -1,5 +1,4 @@
 import { InlineUser } from 'components/User/types';
-import { RightAsideType } from 'reducers/types';
 import { Genre, Yami, Status } from 'generated/globalTypes';
 
 export type PuzzleType = {
@@ -44,7 +43,7 @@ export type ContentsFrameType = {
 
 export type MemoFrameType = {
   memo: string;
-  setRightAside: (rightAside: RightAsideType) => void;
+  toggleRightAsideMemo: () => void;
 };
 
 export type PuzzleTitleProps = {

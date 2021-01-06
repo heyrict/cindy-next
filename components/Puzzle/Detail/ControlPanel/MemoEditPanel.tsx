@@ -21,7 +21,7 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
   const [editing, setEditing] = useState(false);
   const editorRef = useRef<LegacyEditor>(null);
 
-  const newMemo = editorRef.current ? editorRef.current.getText() : '';
+  const getMemo = () => editorRef.current ? editorRef.current.getText() : '';
 
   const [editMemo] = useMutation<EditMemoMutation, EditMemoMutationVariables>(
     EDIT_MEMO_MUTATION,
@@ -30,7 +30,7 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
         toast.error(`${error.name}: ${error.message}`);
         setEditing(true);
         if (editorRef.current) {
-          editorRef.current.setText(newMemo);
+          editorRef.current.setText(getMemo());
         }
       },
     },
@@ -61,6 +61,7 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
           <ButtonTransparent
             width={1 / 2}
             onClick={() => {
+              const newMemo = getMemo();
               if (!editorRef.current) return;
               if (newMemo === memo) {
                 setEditing(false);

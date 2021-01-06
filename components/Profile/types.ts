@@ -51,6 +51,8 @@ export type ProfileInfoProps = {
 
 export type ProfileProps = {
   userId: number;
+  currentUser: GlobalUserType;
+  directChatWithUser: (userId: number) => void;
 };
 
 export enum ProfileTabType {

@@ -62,7 +62,7 @@ const CommentPanel = ({ puzzleId, canAddComment, userId }: CommentPanelProps) =>
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.commentCount) {
+            if (!data || typeof data.commentCount !== 'number') {
               if (loading) return <Loading centered />;
               return null;
             }
