@@ -65,6 +65,7 @@ const PreNorm = (s: string) => {
 };
 
 export const line2md = (s: string) => {
+  if (typeof s !== 'string') return '';
   const rendered = md.render(PreNorm(s));
 
   // Drop the last </p>, replace other </p>s with line break;

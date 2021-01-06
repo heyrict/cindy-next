@@ -38,6 +38,7 @@ import {
 } from 'graphql/Queries/generated/PuzzleStarCountGroupsQuery';
 import {UserMaxYamiDialogueCountQuery, UserMaxYamiDialogueCountQueryVariables} from 'graphql/Queries/generated/UserMaxYamiDialogueCountQuery';
 import {PuzzleCountByGenreQuery, PuzzleCountByGenreQueryVariables} from 'graphql/Queries/generated/PuzzleCountByGenreQuery';
+import {Genre} from 'generated/globalTypes';
 
 const AllAwards = ({ userInfo }: AllAwardsProps) => {
   const { loading, data, error } = useQuery<AllAwardsQuery>(ALL_AWARDS_QUERY, {
@@ -58,7 +59,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
     );
   if (!data || !data.awards) return null;
   if (error) {
-    toast.error(error.message);
+    toast.error(`${error.name}: ${error.message}`);
   }
 
   const awardsDefs = data.awards;
@@ -172,7 +173,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
           >
             {({ error, data, loading }) => {
               if (error) {
-                toast.error(error);
+                toast.error(`${error.name}: ${error.message}`);
                 return null;
               }
               if (!data || !data.puzzleCountByGenre) {
@@ -182,7 +183,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
               const groups = data.puzzleCountByGenre;
 
               return (
-                <AwardTableRenderer
+                <AwardTableRenderer<{ genre: Genre, count: number }>
                   awardsDefs={awardsDefs}
                   userInfo={userInfo}
                   header={
@@ -215,7 +216,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
             }}
           </Query>
         ) : (
-          <AwardTableRenderer
+          <AwardTableRenderer<{ genre: Genre, count: number }>
             awardsDefs={awardsDefs}
             header={
               <FormattedMessage {...awardsMessages.group_puzzleGenreCount} />
@@ -248,7 +249,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
           >
             {({ error, data, loading }) => {
               if (error) {
-                toast.error(error);
+                toast.error(`${error.name}: ${error.message}`);
                 return null;
               }
               if (!data) {
@@ -406,7 +407,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
           >
             {({ error, data, loading }) => {
               if (error) {
-                toast.error(error);
+                toast.error(`${error.name}: ${error.message}`);
                 return null;
               }
               if (!data) {
