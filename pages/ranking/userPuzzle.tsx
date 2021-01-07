@@ -3,7 +3,6 @@ import Head from 'next/head';
 
 import {
   FormattedMessage,
-  injectIntl,
   FormattedDate,
   useIntl,
 } from 'react-intl';
@@ -61,4 +60,4 @@ const UserPuzzleRanking = () => {
   );
 };
 
-export default injectIntl(UserPuzzleRanking);
+export default UserPuzzleRanking;

@@ -73,7 +73,6 @@ const DescriptionModal = ({
               >
                 <FavChatManipulateButton
                   chatroomId={chatroom.id}
-                  chatroomName={chatroom.name}
                 />
               </Box>
               {chatroom.description ? (

@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { FormattedMessage, injectIntl, FormattedDate, useIntl } from 'react-intl';
+import { FormattedMessage, FormattedDate, useIntl } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, Box } from 'components/General';
@@ -57,4 +57,4 @@ const PuzzleStarRanking = () => {
   );
 };
 
-export default injectIntl(PuzzleStarRanking);
+export default PuzzleStarRanking;

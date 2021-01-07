@@ -1,7 +1,6 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 
-import Loading from 'components/General/Loading';
 import InsertFavChatButton from './InsertFavChatButton';
 import DeleteFavChatButton from './DeleteFavChatButton';
 import { ButtonTransparent } from 'components/General';
@@ -19,7 +18,6 @@ import { FavoriteChatroomsQuery } from 'graphql/Queries/generated/FavoriteChatro
 const FavChatManipulateButton = ({
   user,
   chatroomId,
-  chatroomName,
   compact,
 }: FavChatManipulateButtonProps) => {
   const emptyButton = (
@@ -35,7 +33,7 @@ const FavChatManipulateButton = ({
         userId: user.id,
       }}
     >
-      {({ loading, error, data }) => {
+      {({ error, data }) => {
         if (error) {
           toast.error(error.message);
           return emptyButton;
@@ -46,13 +44,12 @@ const FavChatManipulateButton = ({
         const favchat = data.favchats.find(fc => fc.chatroom.id === chatroomId);
         return favchat === undefined ? (
           <InsertFavChatButton
-            userId={user.id}
+            userId={user.id!}
             chatroomId={chatroomId}
-            chatroomName={chatroomName}
             compact={compact}
           />
         ) : (
-          <DeleteFavChatButton userId={user.id} favchatId={favchat.id} compact={compact} />
+          <DeleteFavChatButton userId={user.id!} favchatId={favchat.id} compact={compact} />
         );
       }}
     </Query>

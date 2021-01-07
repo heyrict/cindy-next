@@ -22,7 +22,6 @@ import { FavoriteChatroomsQuery } from 'graphql/Queries/generated/FavoriteChatro
 const InsertFavChatButton = ({
   chatroomId,
   userId,
-  chatroomName,
   compact,
 }: InsertFavChatButtonProps) => {
   const [insertFavChat] = useMutation<

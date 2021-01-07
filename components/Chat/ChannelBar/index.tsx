@@ -42,7 +42,6 @@ const ChannelBar = ({
         {chatroomId && (
           <FavChatManipulateButton
             chatroomId={chatroomId}
-            chatroomName={currentChannel}
             compact
           />
         )}

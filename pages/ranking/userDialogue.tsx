@@ -3,7 +3,6 @@ import Head from 'next/head';
 
 import {
   FormattedMessage,
-  injectIntl,
   FormattedDate,
   useIntl,
 } from 'react-intl';
@@ -61,4 +60,4 @@ const UserDialogueRanking = () => {
   );
 };
 
-export default injectIntl(UserDialogueRanking);
+export default UserDialogueRanking;
