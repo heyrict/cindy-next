@@ -20,10 +20,6 @@ export type SearchVariablesStates = {
   orderBy: Array<PuzzleOrder>;
 };
 
-export type RankingProps = {
-  intl: IntlShape;
-};
-
 export type AddReplayProps = {
   puzzleId: number;
   intl: IntlShape;

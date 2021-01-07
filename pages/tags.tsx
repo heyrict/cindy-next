@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { asSearch } from 'common/search';
+import { concatList } from 'common/update';
 
 import { FormattedMessage, useIntl } from 'react-intl';
 import tagsPageMessages from 'messages/pages/tags';
@@ -96,11 +97,9 @@ function TagsPageContents({ variables }: { variables: TagsVariablesStates }) {
                   tags: concatList(prev.tags, fetchMoreResult.tags),
                 };
               },
+            }).then(({ data }) => {
+              if (data.tags.length < TAGS_PER_PAGE) setHasMore(false);
             })
-              .then(({ data }) => {
-                if (data.tags.length < TAGS_PER_PAGE)
-                  setHasMore(false);
-              })
           }
         />
       )}
@@ -149,6 +148,7 @@ const Tags = () => {
               key: 'id',
               fieldName: <FormattedMessage {...tagsPageMessages.tagCreated} />,
             },
+            /*
             {
               key: 'puzzle_tag_count',
               getValue: order => ({
@@ -158,6 +158,7 @@ const Tags = () => {
                 <FormattedMessage {...tagsPageMessages.tagPuzzleCount} />
               ),
             },
+             */
           ]}
         />
         <Flex width={1}>
