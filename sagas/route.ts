@@ -19,6 +19,8 @@ const getRouteChannel = () =>
 function* routeSaga() {
   if (!process.browser) return;
 
+  yield put(globalReducer.actions.routeChange(Router.pathname));
+
   const routeChannel = yield call(getRouteChannel);
 
   while (true) {
