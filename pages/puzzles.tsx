@@ -213,7 +213,7 @@ const PuzzlesUnsolvedRenderer = () => {
                           bookmarkCount: 0,
                           commentCount: 0,
                         })),
-                        'modified',
+                        'id',
                         'desc',
                       ),
                     },
@@ -280,7 +280,7 @@ const PuzzlesUnsolvedRenderer = () => {
                       puzzles: upsertMultipleItem(
                         puzzleUnsolvedQueryResult.puzzles,
                         data.puzzles,
-                        'modified',
+                        'id',
                         'desc',
                       ),
                     },

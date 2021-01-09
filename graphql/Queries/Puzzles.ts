@@ -30,7 +30,7 @@ export const PUZZLE_SOLUTION_QUERY = gql`
 export const PUZZLES_UNSOLVED_QUERY = gql`
   query PuzzlesUnsolvedQuery($since: DateTime) {
     puzzles(
-      order: { modified: DESC }
+      order: { id: DESC }
       filter: { status: { eq: UNDERGOING }, modified: { gt: $since } }
     ) @connection(key: "puzzles", filter: ["order", "filter"]) {
       ...PuzzleShared

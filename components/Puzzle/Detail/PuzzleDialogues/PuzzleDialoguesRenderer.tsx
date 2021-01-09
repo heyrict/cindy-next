@@ -200,12 +200,6 @@ export const PuzzleDialoguesRenderer = ({
             }
 
             // Updates the original query
-            console.log(prev.puzzleLogs, data.puzzleLogs, upsertMultipleItem(
-              prev.puzzleLogs,
-              data.puzzleLogs,
-              'created',
-              'asc',
-            ));
             client.writeQuery<DialogueHintQuery, DialogueHintQueryVariables>({
               query: DIALOGUE_HINT_QUERY,
               variables,
