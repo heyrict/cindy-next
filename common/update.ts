@@ -73,7 +73,7 @@ export function mergeList<V = any>(
 
 /*
  * function updateItem(list, item)
- * update item if list contains an item with same `id`.
+ * shallow merging two items if list contains an item with same `id` of the param `item`.
  */
 export function updateItem<V = any>(
   list: Array<V>,

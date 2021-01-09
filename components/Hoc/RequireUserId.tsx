@@ -6,7 +6,7 @@ function requireUserId<TOwnProps extends { userId: number }>(
   return function(props: TOwnProps & { userId: number | null | undefined }) {
     const { userId, ...ownProps } = props;
     return typeof userId === 'number' ? (
-      <Component {...ownProps as TOwnProps} />
+      <Component {...ownProps as TOwnProps} userId={userId} />
     ) : null;
   };
 }

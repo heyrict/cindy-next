@@ -16,17 +16,41 @@ export const ProcessBase = styled.div`
   align-items: center;
 `;
 
+export const ProcessBaseLeft = styled(ProcessBase)`
+  padding: 0 3px 0 6px;
+  margin-right: 0;
+  border-radius: 10px 0 0 10px;
+`;
+
+export const ProcessBaseRight = styled(ProcessBase)`
+  padding: 0 6px 0 3px;
+  border-radius: 0 10px 10px 0;
+  background: ${p => p.theme.colors.blue[5]};
+  border: 1px solid ${p => p.theme.colors.blue[5]};
+  color: ${p => p.theme.colors.blue[1]};
+  font-weight: bold;
+`;
+
 export type ProcessProps = {
   count: number;
   newCount?: number;
 };
 
-const Process = ({ count, newCount }: ProcessProps) => (
-  <ProcessBase>
-    <Img size="0.8em" pr={1} src={Q} />
-    {count}
-    {Boolean(newCount) && `(${newCount})`}
-  </ProcessBase>
-);
+const Process = ({ count, newCount }: ProcessProps) => {
+  return Boolean(newCount) ? (
+    <>
+      <ProcessBaseLeft>
+        <Img size="0.8em" pr={1} src={Q} />
+        {count}
+      </ProcessBaseLeft>
+      <ProcessBaseRight>{newCount}</ProcessBaseRight>
+    </>
+  ) : (
+    <ProcessBase>
+      <Img size="0.8em" pr={1} src={Q} />
+      {count}
+    </ProcessBase>
+  );
+};
 
 export default Process;
