@@ -88,7 +88,7 @@ const ChatRoomMessagesBody = ({
       onCompleted: ({ chatmessages }) => {
         if (chatmessages.length >= CHATMESSAGES_PER_PAGE) setHasMore(true);
         if (chatmessages.length > 0)
-          chatmessageUpdate(chatroomId, chatmessages[chatmessages.length - 1].id);
+          chatmessageUpdate(chatroomId, chatmessages[0].id);
       },
     },
   );
