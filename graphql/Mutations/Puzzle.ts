@@ -11,7 +11,6 @@ export const ADD_PUZZLE_MUTATION = gql`
     $solution: String!
     $anonymous: Boolean!
     $grotesque: Boolean!
-    $dazedOn: NaiveDate
   ) {
     createPuzzle(
       data: {
@@ -22,7 +21,6 @@ export const ADD_PUZZLE_MUTATION = gql`
         solution: $solution
         anonymous: $anonymous
         grotesque: $grotesque
-        dazedOn: $dazedOn
       }
     ) {
       ...PuzzleShared

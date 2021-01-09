@@ -85,7 +85,6 @@ export const PuzzleAddFormInner = ({
         yami,
         anonymous,
         grotesque,
-        dazedOn,
       };
     }
   };
