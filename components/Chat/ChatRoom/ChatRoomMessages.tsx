@@ -68,6 +68,8 @@ const ChatRoomMessagesBody = ({
   chatmessageUpdate,
   autoExpand,
 }: ChatRoomMessagesBodyProps) => {
+  const [hasMore, setHasMore] = useState(false);
+
   const client = useApolloClient();
   const {
     loading,
@@ -83,16 +85,13 @@ const ChatRoomMessagesBody = ({
         chatroomId,
         limit: CHATMESSAGES_PER_PAGE,
       },
+      onCompleted: ({ chatmessages }) => {
+        if (chatmessages.length >= CHATMESSAGES_PER_PAGE) setHasMore(true);
+        if (chatmessages.length > 0)
+          chatmessageUpdate(chatroomId, chatmessages[chatmessages.length - 1].id);
+      },
     },
   );
-
-  const [hasMore, setHasMore] = useState(false);
-  useEffect(() => {
-    if (loading || error || !data) return;
-    if (chatmessages.length >= CHATMESSAGES_PER_PAGE) setHasMore(true);
-    if (chatmessages.length > 0)
-      chatmessageUpdate(chatroomId, chatmessages[chatmessages.length - 1].id);
-  }, [chatroomId, loading]);
 
   useEffect(
     () =>
