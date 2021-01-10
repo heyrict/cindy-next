@@ -121,6 +121,7 @@ const MessageGroupChatInner = ({
         const { dmReadAll } = cachedResult;
         let user = cache.readFragment<UserBrief>({
           fragment: USER_BRIEF_FRAGMENT,
+          fragmentName: "UserBrief",
           id: `User:${directGroupUser}`,
         });
         cache.writeQuery<

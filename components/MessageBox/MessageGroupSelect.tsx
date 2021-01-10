@@ -59,9 +59,10 @@ const MessageGroupSelectInner = ({
       });
       if (cachedResult === null) return;
       const { dmReadAll } = cachedResult;
-      let user = cache.readFragment<UserBrief>({
+      let withUser = cache.readFragment<UserBrief>({
         fragment: USER_BRIEF_FRAGMENT,
-        id: `User:${userId}`,
+        fragmentName: "UserBrief",
+        id: `User:${directMessage.withUserId}`,
       });
       cache.writeQuery<
       DmReadAllQuery, Omit<DmReadAllQueryVariables, 'limit' | 'offset'>
@@ -77,13 +78,14 @@ const MessageGroupSelectInner = ({
               __typename: 'DmReadAllEntry',
               dmId: directMessage.id,
               directMessageId: directMessage.id,
+              withUserId: directMessage.withUserId,
               withUser: {
                 __typename: 'User',
-                id: userId,
-                nickname: user?.nickname || '...',
+                id: directMessage.withUserId,
+                nickname: withUser?.nickname || '...',
               },
             },
-            'directMessageId',
+            'withUserId',
             'desc',
           ),
         },

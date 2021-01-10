@@ -5,6 +5,7 @@ import { DIRECT_MESSAGE_BRIEF } from '../Fragments/DirectMessage';
 export const DM_READ_ALL_QUERY = gql`
   query DmReadAllQuery($userId: Int!, $limit: Int!, $offset: Int!) {
     dmReadAll(userId: $userId, limit: $limit, offset: $offset) {
+      withUserId
       withUser {
         id
         nickname
