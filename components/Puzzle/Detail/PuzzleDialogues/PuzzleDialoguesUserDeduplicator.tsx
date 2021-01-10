@@ -13,6 +13,7 @@ import UserFilterSwitcher from './UserFilterSwitcher';
 import PuzzleDialoguesRenderer from './PuzzleDialoguesRenderer';
 
 import { PuzzleDialoguesUserDeduplicatorProps } from './types';
+import { Yami } from 'generated/globalTypes';
 
 const PuzzleDialoguesUserDeduplicator = ({
   puzzleId,
@@ -61,8 +62,13 @@ const PuzzleDialoguesUserDeduplicator = ({
           }}
           shouldSubscribe={shouldSubscribe}
           puzzleUser={puzzleUser}
-          anonymous={anonymous}
           puzzleStatus={puzzleStatus}
+          puzzleYami={
+            // Only Solved yami will be using this component, so this
+            // option will not be used in PuzzleDialoguesRenderer.
+            Yami.NONE
+          }
+          anonymous={anonymous}
         />
       )}
     </React.Fragment>
