@@ -206,7 +206,7 @@ const PuzzlesUnsolvedRenderer = () => {
                     data: {
                       puzzle: upsertMultipleItem(
                         puzzles,
-                        data.puzzles.map(puzzle => ({
+                        solvedPuzzles.map(puzzle => ({
                           ...puzzle,
                           starCount: 0,
                           starSum: 0,
