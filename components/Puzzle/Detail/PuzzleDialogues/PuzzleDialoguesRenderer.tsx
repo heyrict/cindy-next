@@ -48,6 +48,7 @@ import {
   PuzzleLogWithUserSub,
   PuzzleLogWithUserSubVariables,
 } from 'graphql/Subscriptions/generated/PuzzleLogWithUserSub';
+import { Status, Yami } from 'generated/globalTypes';
 
 type Dialogue = DialogueHintQuery_puzzleLogs_Dialogue;
 
@@ -91,6 +92,7 @@ export const PuzzleDialoguesRenderer = ({
   applyUserFilter,
   puzzleUser,
   puzzleStatus,
+  puzzleYami,
   anonymous,
   pushNotification,
   setParticipants,
@@ -104,6 +106,16 @@ export const PuzzleDialoguesRenderer = ({
   >(DIALOGUE_HINT_QUERY, {
     variables,
     fetchPolicy: 'cache-and-network',
+    onCompleted: ({ puzzleLogs }) => {
+      if (!puzzleLogs) return;
+      if (
+        user.id !== puzzleUser.id &&
+        puzzleStatus === Status.UNDERGOING &&
+        puzzleYami === Yami.LONGTERM &&
+        puzzleLogs.some(log => log.__typename === 'Dialogue' && log.true)
+      )
+        setTrueSolvedLongtermYami();
+    },
   });
 
   const [userFilterId, setUserFilterId] = useState<number | undefined>(

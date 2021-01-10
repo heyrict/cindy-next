@@ -42,6 +42,7 @@ export const PuzzleDialoguesRendererDefaultProps = {
 export type PuzzleDialoguesRendererProps = {
   puzzleUser: InlineUser;
   puzzleStatus: Status;
+  puzzleYami: Yami;
   variables: DialogueHintQueryVariables;
   anonymous: boolean;
   shouldSubscribe: boolean;

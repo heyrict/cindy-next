@@ -50,6 +50,7 @@ const PuzzleDialogues = ({
         }}
         shouldSubscribe={shouldSubscribe}
         puzzleUser={puzzleUser}
+        puzzleYami={puzzleYami}
         anonymous={anonymous}
         puzzleStatus={puzzleStatus}
       />
@@ -70,8 +71,9 @@ const PuzzleDialogues = ({
         }}
         shouldSubscribe={shouldSubscribe}
         puzzleUser={puzzleUser}
-        anonymous={anonymous}
         puzzleStatus={puzzleStatus}
+        puzzleYami={puzzleYami}
+        anonymous={anonymous}
         applyUserFilter
       />
     );
@@ -88,8 +90,9 @@ const PuzzleDialogues = ({
         }}
         shouldSubscribe={shouldSubscribe}
         puzzleUser={puzzleUser}
-        anonymous={anonymous}
         puzzleStatus={puzzleStatus}
+        puzzleYami={puzzleYami}
+        anonymous={anonymous}
         updateSolvedLongTermYamiOnSubscribe={puzzleYami === Yami.LONGTERM}
       />
     );
