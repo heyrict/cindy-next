@@ -31,4 +31,6 @@ const PuzzlePage = () => {
   );
 };
 
+export const getInitialProps = async () => ({});
+
 export default PuzzlePage;

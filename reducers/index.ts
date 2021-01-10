@@ -41,9 +41,8 @@ export const initializeStore = (
     appContext && appContext.ctx.req
       ? appContext.ctx.req.headers.cookie
       : undefined;
-  const settingsState = process.browser
-    ? JSON.parse(getCookie('settings-server-side', cookies) || '{}') || {}
-    : document.cookie;
+  const settingsState =
+    JSON.parse(getCookie('settings-server-side', cookies) || '{}') || {};
   const globalUser =
     getUser(process.browser ? document.cookie : cookies) ||
     globalReducer.initialState.user;

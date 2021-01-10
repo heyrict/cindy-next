@@ -2,11 +2,10 @@ import React from 'react';
 import Head from 'next/head';
 import { text2md } from 'common/markdown';
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
 
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import eulaMessages from 'messages/pages/eula';
 
 import Box from 'components/General/Box';
@@ -17,8 +16,8 @@ import { StateType } from 'reducers/types';
 
 const getEULA = (locale: string) => require(`EULA/${locale}.md`).default;
 
-const EULA = ({ intl, language }: EULAProps) => {
-  const _ = intl.formatMessage;
+const EULA = ({ language }: EULAProps) => {
+  const { formatMessage: _ } = useIntl();
 
   const locale = language || DEFAULT_LOCALE;
   const eulaText = getEULA(locale);
@@ -40,7 +39,10 @@ const mapStateToProps = (state: StateType) => ({
 
 const withRedux = connect(mapStateToProps);
 
-export default compose(
-  injectIntl,
-  withRedux,
-)(EULA);
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
+
+export default withRedux(EULA);

@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { toast } from 'react-toastify';
 import { mergeList } from 'common/update';
 
-import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import messages from 'messages/pages/comments';
 
 import { useQuery } from '@apollo/client';
@@ -111,8 +111,8 @@ const CommentsRenderer = ({ variables }: CommentsRendererProps) => {
   return null;
 };
 
-const Comments = ({ intl }: { intl: IntlShape }) => {
-  const _ = intl.formatMessage;
+const Comments = () => {
+  const { formatMessage: _ } = useIntl();
 
   return (
     <React.Fragment>
@@ -131,4 +131,10 @@ const Comments = ({ intl }: { intl: IntlShape }) => {
   );
 };
 
-export default injectIntl(Comments);
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
+
+export default Comments;

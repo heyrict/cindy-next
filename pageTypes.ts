@@ -27,7 +27,6 @@ export type AddReplayProps = {
 
 export type EULAProps = {
   language: typeof settingReducer.initialState.language;
-  intl: IntlShape;
 };
 
 export type TagsVariablesStates = {

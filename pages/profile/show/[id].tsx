@@ -1,4 +1,3 @@
-import React from 'react';
 import { GetServerSideProps } from 'next';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {

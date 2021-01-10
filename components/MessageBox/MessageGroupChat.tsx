@@ -138,6 +138,7 @@ const MessageGroupChatInner = ({
                 __typename: 'DmReadAllEntry',
                 dmId: directMessage.id,
                 directMessageId: directMessage.id,
+                withUserId: directGroupUser,
                 withUser: {
                   __typename: 'User',
                   id: directGroupUser,

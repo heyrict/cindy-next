@@ -26,9 +26,21 @@ if (process.browser) {
 // once, on initial page load in the browser.
 addLocaleDatas();
 
-export default function MyApp({ Component, pageProps, ctx }) {
+export default function MyApp({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState);
   const reduxStore = useRedux(pageProps.initialReduxState);
+
+  useEffect(() => {
+    const handleRouteChange = url => {
+      reduxStore.dispatch(globalActions.routeChange(url));
+    };
+
+    Router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      Router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, []);
 
   const eventDelegation = e => {
     const attr = e.target.attributes;

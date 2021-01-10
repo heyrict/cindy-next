@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import Head from 'next/head';
 import { asSearch } from 'common/search';
 
-import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import searchMessages from 'messages/pages/search';
 import puzzleMessages from 'messages/components/puzzle';
 import commonMessages from 'messages/common';
@@ -31,8 +31,8 @@ import {
 import { FilterFieldTypeEnum } from 'components/Search/types';
 import { SearchVariablesStates } from 'pageTypes';
 
-const Search = ({ intl }: { intl: IntlShape }) => {
-  const _ = intl.formatMessage;
+const Search = () => {
+  const { formatMessage: _ } = useIntl();
   const searchRef = useRef<SearchVarSetPanel>(null);
   const sortRef = useRef<SortVarSetPanel>(null);
   const [variables, setVariables] = useState({
@@ -272,4 +272,10 @@ const Search = ({ intl }: { intl: IntlShape }) => {
   );
 };
 
-export default injectIntl(Search);
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
+
+export default Search;
