@@ -39,6 +39,8 @@ const PuzzleTagBubble = ({
   >(DELETE_PUZZLE_TAG_MUTATION, {
     update: (proxy, { data }) => {
       if (!data || !data.deletePuzzleTag) return null;
+      const puzzleTag = data.deletePuzzleTag;
+
       const prevData = proxy.readQuery<
         PuzzlePageTagsQuery,
         PuzzlePageTagsQueryVariables
@@ -51,7 +53,6 @@ const PuzzleTagBubble = ({
         query: PUZZLE_PAGE_TAGS_QUERY,
         variables: { puzzleId },
         data: {
-          ...prevData,
           puzzleTags: prevData.puzzleTags.filter(pt => pt.id !== puzzleTag.id),
         },
       });
