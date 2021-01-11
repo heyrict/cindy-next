@@ -58,10 +58,7 @@ const md = MarkdownIt({
   });
 
 const PreNorm = (s: string) => {
-  return compose(
-    normTabs,
-    normNewline,
-  )(s);
+  return compose(normTabs, normNewline)(s);
 };
 
 export const line2md = (s: string) => {

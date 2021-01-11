@@ -55,9 +55,9 @@ const PuzzleRightAsideBase = styled.aside`
   }
 `;
 
-const ResponsivePuzzleRightAside = styled(PuzzleRightAsideBase)<
-  AsideContentsInnerProps
->`
+const ResponsivePuzzleRightAside = styled(
+  PuzzleRightAsideBase,
+)<AsideContentsInnerProps>`
   opacity: ${p => (p.open ? 1 : 0)}
   visibility: ${p => (p.open ? 'visible' : 'hidden')};
   transform: ${p => (p.open ? 'none' : 'translateX(-100%)')};
@@ -126,9 +126,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(puzzleReducer.actions.rightAside.set(rightAside)),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(AsideContents);

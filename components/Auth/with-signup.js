@@ -15,10 +15,7 @@ const mapDispatchToProps = dispatch => ({
   auth: user => dispatch(globalReducer.actions.auth(user)),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 const withSignup = Wrapped =>
   withRedux(props => (

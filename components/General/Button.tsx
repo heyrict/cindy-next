@@ -19,7 +19,8 @@ const Button = styled<
   background-color: ${p => p.theme.colors.orange[6]};
   color: ${p => p.theme.colors.gray[1]};
   overflow: hidden;
-  &:hover, &:active {
+  &:hover,
+  &:active {
     background-color: ${p => p.theme.colors.orange[7]};
   }
   display: inline-flex;

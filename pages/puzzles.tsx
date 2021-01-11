@@ -124,9 +124,13 @@ const PuzzlesUnsolvedRenderer = () => {
   const client = useApolloClient();
   const { formatMessage: _ } = useIntl();
 
-  const { loading, error, refetch, data, subscribeToMore } = useQuery<
-    PuzzlesUnsolvedQuery
-  >(PUZZLES_UNSOLVED_QUERY, {
+  const {
+    loading,
+    error,
+    refetch,
+    data,
+    subscribeToMore,
+  } = useQuery<PuzzlesUnsolvedQuery>(PUZZLES_UNSOLVED_QUERY, {
     fetchPolicy: 'cache-and-network',
   });
 

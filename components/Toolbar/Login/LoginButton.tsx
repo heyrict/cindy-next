@@ -29,9 +29,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setTrueLoginModal: () => dispatch(loginReducer.actions.loginModal.setTrue()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 export default compose(withRedux)(LoginButton);

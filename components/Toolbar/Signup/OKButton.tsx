@@ -44,9 +44,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   resetForm: () => dispatch(loginReducer.actions.resetForm()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(OKButton);

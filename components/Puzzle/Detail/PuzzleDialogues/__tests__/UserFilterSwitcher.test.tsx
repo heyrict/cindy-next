@@ -46,10 +46,7 @@ describe('<UserFilterSwitcher />', () => {
     });
 
     it('when all is clicked', () => {
-      node
-        .find(FilterButton)
-        .first()
-        .simulate('click');
+      node.find(FilterButton).first().simulate('click');
       expect(clickFn).toHaveBeenLastCalledWith(-1);
     });
   });

@@ -197,9 +197,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   incDialogues: () => dispatch(awardCheckerReducer.actions.dialogues.inc()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 export default withRedux(AddQuestionInput);
