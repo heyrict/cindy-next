@@ -31,7 +31,7 @@ const PuzzleWithAny = ({
   starSum,
   commentCount,
   dialogueCount,
-  dialogueMaxAnsweredtime,
+  dialogueMaxAnsweredTime,
   showGenreImage,
 }: PuzzleWithAnyProps) => {
   let aggregates = {
@@ -40,7 +40,7 @@ const PuzzleWithAny = ({
     starSum: starSum || puzzle.starSum,
     commentCount: commentCount || puzzle.commentCount,
     dialogueCount: dialogueCount || puzzle.dialogueCount,
-    dialogueMaxAnsweredtime: dialogueMaxAnsweredtime || puzzle.dialogueMaxAnsweredtime,
+    dialogueMaxAnsweredTime: dialogueMaxAnsweredTime || puzzle.dialogueMaxAnsweredTime,
   }
 
   return (

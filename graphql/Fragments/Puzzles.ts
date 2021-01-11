@@ -28,6 +28,7 @@ export const PUZZLE_AGGREGATE_FRAGMENT = gql`
     commentCount
     bookmarkCount
     dialogueCount
+    dialogueMaxAnsweredTime
   }
   ${PUZZLE_SHARED_FRAGMENT}
 `;

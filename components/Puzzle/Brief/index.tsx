@@ -9,7 +9,7 @@ import { AnonymousUserCol } from 'components/User/Anonymous';
 import { connect } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
 
-import { FormattedMessage, FormattedTime } from 'react-intl';
+import { FormattedMessage, FormattedTime, FormattedRelativeTime } from 'react-intl';
 import messages from 'messages/components/puzzle';
 
 import Anonymous from './Anonymous';
@@ -53,6 +53,7 @@ export const PuzzleBrief = ({
   starSum,
   commentCount,
   dialogueCount,
+  dialogueMaxAnsweredTime,
   dialogueNewCount,
   showGenreImage,
 }: PuzzleBriefProps) => {
@@ -62,6 +63,7 @@ export const PuzzleBrief = ({
     starCount: starCount || puzzle.starCount,
     starSum: starSum || puzzle.starSum,
     dialogueCount: dialogueCount || puzzle.dialogueCount,
+    dialogueMaxAnsweredTime: dialogueMaxAnsweredTime || puzzle.dialogueMaxAnsweredTime,
     dialogueNewCount: dialogueNewCount || puzzle.dialogueNewCount,
 
   }
@@ -96,6 +98,21 @@ export const PuzzleBrief = ({
               <Title>{puzzle.title}</Title>
             </Link>
           </Box>
+        )}
+        {aggregates.dialogueMaxAnsweredTime && (
+          <Time width={1}>
+            <FormattedMessage {...messages.lastupdate} />:{' '}
+            <FormattedRelativeTime
+              unit="second"
+              numeric="auto"
+              updateIntervalInSeconds={15}
+              value={
+                (Date.parse(aggregates.dialogueMaxAnsweredTime as string) -
+                  Date.now()) /
+                1000
+              }
+            />
+          </Time>
         )}
         {puzzle.created && (
           <Time width={1}>

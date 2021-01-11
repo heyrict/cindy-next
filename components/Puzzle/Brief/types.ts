@@ -17,7 +17,7 @@ export type PuzzleType = {
   bookmarkCount?: number;
   dialogueCount?: number;
   dialogueNewCount?: number;
-  dialogueMaxAnsweredtime?: string;
+  dialogueMaxAnsweredTime?: string;
 };
 
 export type PuzzlePaneProps = {

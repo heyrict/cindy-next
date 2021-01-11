@@ -34,6 +34,7 @@ describe.skip('<PuzzleDialoguesRenderer />', () => {
     },
     puzzleUser: puzzle.user,
     puzzleStatus: puzzle.status,
+    puzzleYami: puzzle.yami,
     anonymous: puzzle.anonymous,
     shouldSubscribe: true,
     setParticipants: setParticipantsFn,

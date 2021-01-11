@@ -71,7 +71,7 @@ const externalProps = {
   starCount: 7,
   starSum: 35,
   dialogueCount: 16,
-  dialogueMaxAnsweredtime: '2017-10-02T21:49:22.066+08:00',
+  dialogueMaxAnsweredTime: '2017-10-02T21:49:22.066+08:00',
 };
 
 describe('<Brief />', () => {

@@ -42,6 +42,10 @@ export default function MyApp({ Component, pageProps }) {
     };
   }, []);
 
+  useEffect(() => {
+    reduxStore.dispatch(globalActions.appInit());
+  }, []);
+
   const eventDelegation = e => {
     const attr = e.target.attributes;
     if ('data-toggle' in attr && 'data-target' in attr) {

@@ -85,7 +85,7 @@ const HomePage = () => {
         <IntroBox width={[0.7, 0.75, 0.78]} m={20} p={10}>
           <FormattedMessage {...messages.body}>
             {(msg: string) => (
-              <div dangerouslySetInnerHTML={{ __html: line2md(msg) }} />
+              <div dangerouslySetInnerHTML={{ __html: line2md(msg[0]) }} />
             )}
           </FormattedMessage>
         </IntroBox>
