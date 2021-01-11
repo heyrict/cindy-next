@@ -114,6 +114,12 @@ const PuzzleDetail = ({
     puzzleContent = puzzle.content;
   }
 
+  const maybeSetPuzzleIgnored = () => {
+    if (noMoreGrotesqueWarningInput.current.checked) {
+      pushIgnoredGrotesquePuzzles(puzzle.id);
+    }
+  };
+
   return (
     <React.Fragment>
       <Flex justifyContent="center" flexWrap="wrap" mb="100px">
@@ -225,9 +231,7 @@ const PuzzleDetail = ({
                 width={1}
                 color="orange.0"
                 onClick={() => {
-                  if (noMoreGrotesqueWarningInput.current.value == 'on') {
-                    pushIgnoredGrotesquePuzzles(puzzle.id);
-                  }
+                  maybeSetPuzzleIgnored();
                   setShowGrotesqueModal(false);
                 }}
               >
