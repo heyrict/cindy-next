@@ -12,7 +12,7 @@ import Flex from 'components/General/Flex';
 import { IntlProvider } from 'react-intl';
 
 import PuzzleEditPanel from 'components/Puzzle/Detail/ControlPanel/PuzzleEditPanel';
-import {Genre, Status, Yami} from 'generated/globalTypes';
+import { Genre, Status, Yami } from 'generated/globalTypes';
 
 const PuzzleEditPanelWrapper = ({ genre }: { genre: Genre }) => {
   const [status, setStatus] = useState(Status.UNDERGOING);

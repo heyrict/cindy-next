@@ -34,10 +34,10 @@ import {
 } from 'graphql/Queries/generated/PuzzlesUnsolvedQuery';
 import { PuzzlesUnsolvedSub } from 'graphql/Subscriptions/generated/PuzzlesUnsolvedSub';
 import { Status, Genre } from 'generated/globalTypes';
-import {UnsolvedPuzzlePuzzleLogsSub} from 'graphql/Subscriptions/generated/UnsolvedPuzzlePuzzleLogsSub';
-import {UNSOLVED_PUZZLE_PUZZLE_LOGS_SUB} from 'graphql/Subscriptions/PuzzleLog';
-import {PUZZLE_UNSOLVED_EXTRA_FRAGMENT} from 'graphql/Fragments/Puzzles';
-import {PuzzleUnsolvedExtra} from 'graphql/Fragments/generated/PuzzleUnsolvedExtra';
+import { UnsolvedPuzzlePuzzleLogsSub } from 'graphql/Subscriptions/generated/UnsolvedPuzzlePuzzleLogsSub';
+import { UNSOLVED_PUZZLE_PUZZLE_LOGS_SUB } from 'graphql/Subscriptions/PuzzleLog';
+import { PUZZLE_UNSOLVED_EXTRA_FRAGMENT } from 'graphql/Fragments/Puzzles';
+import { PuzzleUnsolvedExtra } from 'graphql/Fragments/generated/PuzzleUnsolvedExtra';
 
 const PUZZLES_PER_PAGE = 20;
 const puzzleLoadingPanel = (
@@ -106,11 +106,9 @@ const PuzzlesSolvedRenderer = () => {
                     puzzles: [...prev.puzzles, ...fetchMoreResult.puzzles],
                   });
                 },
+              }).then(({ data }) => {
+                if (data.puzzles.length < PUZZLES_PER_PAGE) setHasMore(false);
               })
-              .then(({ data }) => {
-                  if (data.puzzles.length < PUZZLES_PER_PAGE)
-                    setHasMore(false);
-            })
             }
           >
             {puzzleLoadingPanel}
@@ -139,23 +137,27 @@ const PuzzlesUnsolvedRenderer = () => {
         const data = subscriptionData.data.unsolvedPuzzleStatsSub;
         if (!data) return prev;
 
-        const { dialogueCount, dialogueCountAnswered, dialogueMaxAnsweredTime } = data;
+        const {
+          dialogueCount,
+          dialogueCountAnswered,
+          dialogueMaxAnsweredTime,
+        } = data;
 
         client.writeFragment<PuzzleUnsolvedExtra>({
           id: `Puzzle:${data.puzzleId}`,
-          fragment: PUZZLE_UNSOLVED_EXTRA_FRAGMENT, 
+          fragment: PUZZLE_UNSOLVED_EXTRA_FRAGMENT,
           data: {
-            __typename: "Puzzle",
+            __typename: 'Puzzle',
             dialogueCount,
             dialogueNewCount: dialogueCount - dialogueCountAnswered,
             dialogueMaxAnsweredTime,
-          }
+          },
         });
 
         return prev;
       },
-    })
-  )
+    }),
+  );
 
   useEffect(() =>
     subscribeToMore<PuzzlesUnsolvedSub>({
@@ -181,7 +183,7 @@ const PuzzlesUnsolvedRenderer = () => {
               variables: {
                 since: new Date(maxModified).toISOString(),
               },
-              fetchPolicy: "network-only",
+              fetchPolicy: 'network-only',
             })
             .then(({ data }) => {
               const solvedPuzzles = data.puzzles.filter(
@@ -292,7 +294,7 @@ const PuzzlesUnsolvedRenderer = () => {
 
         return prev;
       },
-    })
+    }),
   );
 
   if (loading && (!data || !data.puzzles || data.puzzles.length === 0))

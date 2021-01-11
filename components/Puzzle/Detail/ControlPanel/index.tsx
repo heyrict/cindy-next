@@ -10,7 +10,7 @@ import HintAddPanel from './HintAddPanel';
 
 import { ControlPanelProps, ControlPanelPanelType } from './types';
 import { PuzzleType } from '../types';
-import {Status, Yami} from 'generated/globalTypes';
+import { Status, Yami } from 'generated/globalTypes';
 
 const getInitialPanel = (puzzle: PuzzleType): ControlPanelPanelType => {
   if (puzzle.status === Status.UNDERGOING) {

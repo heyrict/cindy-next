@@ -28,7 +28,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
   const [receiverId, setReceiverId] = useState<number | null>(null);
   const editorRef = useRef<LegacyEditor>(null);
 
-  const get_hint = () => editorRef.current ? editorRef.current.getText() : '';
+  const get_hint = () => (editorRef.current ? editorRef.current.getText() : '');
 
   const [addHint] = useMutation<AddHintMutation, AddHintMutationVariables>(
     ADD_HINT_MUTATION,

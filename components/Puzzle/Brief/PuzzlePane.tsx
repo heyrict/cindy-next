@@ -2,7 +2,7 @@ import styled from 'theme/styled';
 import Panel from 'components/General/Panel';
 
 import { PuzzlePaneProps } from './types';
-import {Status} from 'generated/globalTypes';
+import { Status } from 'generated/globalTypes';
 
 const PuzzlePane = styled(Panel)<PuzzlePaneProps>`
   background: ${p => {

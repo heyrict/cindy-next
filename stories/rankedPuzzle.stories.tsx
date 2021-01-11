@@ -17,7 +17,7 @@ import { IntlProvider } from 'react-intl';
 
 import RankedPuzzle from 'components/Puzzle/RankedPuzzle';
 import { RankedPuzzleDisplayType } from 'components/Puzzle/types';
-import {Genre, Status, Yami} from 'generated/globalTypes';
+import { Genre, Status, Yami } from 'generated/globalTypes';
 
 // {{{ puzzle mock
 const puzzle = {

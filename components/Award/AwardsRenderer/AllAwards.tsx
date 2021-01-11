@@ -8,10 +8,12 @@ import AwardTableRenderer from './AwardTableRenderer';
 
 import { Query } from '@apollo/client/react/components';
 import { useQuery } from '@apollo/client';
+import { ALL_AWARDS_QUERY } from 'graphql/Queries/Awards';
 import {
-  ALL_AWARDS_QUERY,
-} from 'graphql/Queries/Awards';
-import { PUZZLE_GENRE_GROUPS_QUERY, PUZZLE_STAR_COUNT_GROUPS_QUERY, USER_MAX_YAMI_DIALOGUE_COUNT_QUERY } from 'graphql/Queries/Puzzles';
+  PUZZLE_GENRE_GROUPS_QUERY,
+  PUZZLE_STAR_COUNT_GROUPS_QUERY,
+  USER_MAX_YAMI_DIALOGUE_COUNT_QUERY,
+} from 'graphql/Queries/Puzzles';
 
 import { FormattedMessage, FormattedRelativeTime } from 'react-intl';
 import awardsMessages from 'messages/pages/awards';
@@ -36,9 +38,15 @@ import {
   PuzzleStarCountGroupsQuery,
   PuzzleStarCountGroupsQueryVariables,
 } from 'graphql/Queries/generated/PuzzleStarCountGroupsQuery';
-import {UserMaxYamiDialogueCountQuery, UserMaxYamiDialogueCountQueryVariables} from 'graphql/Queries/generated/UserMaxYamiDialogueCountQuery';
-import {PuzzleCountByGenreQuery, PuzzleCountByGenreQueryVariables} from 'graphql/Queries/generated/PuzzleCountByGenreQuery';
-import {Genre} from 'generated/globalTypes';
+import {
+  UserMaxYamiDialogueCountQuery,
+  UserMaxYamiDialogueCountQueryVariables,
+} from 'graphql/Queries/generated/UserMaxYamiDialogueCountQuery';
+import {
+  PuzzleCountByGenreQuery,
+  PuzzleCountByGenreQueryVariables,
+} from 'graphql/Queries/generated/PuzzleCountByGenreQuery';
+import { Genre } from 'generated/globalTypes';
 
 const AllAwards = ({ userInfo }: AllAwardsProps) => {
   const { loading, data, error } = useQuery<AllAwardsQuery>(ALL_AWARDS_QUERY, {
@@ -183,7 +191,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
               const groups = data.puzzleCountByGenre;
 
               return (
-                <AwardTableRenderer<{ genre: Genre, count: number }>
+                <AwardTableRenderer<{ genre: Genre; count: number }>
                   awardsDefs={awardsDefs}
                   userInfo={userInfo}
                   header={
@@ -216,7 +224,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
             }}
           </Query>
         ) : (
-          <AwardTableRenderer<{ genre: Genre, count: number }>
+          <AwardTableRenderer<{ genre: Genre; count: number }>
             awardsDefs={awardsDefs}
             header={
               <FormattedMessage {...awardsMessages.group_puzzleGenreCount} />
@@ -401,7 +409,10 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
         }
       >
         {userInfo ? (
-          <Query<UserMaxYamiDialogueCountQuery, UserMaxYamiDialogueCountQueryVariables>
+          <Query<
+            UserMaxYamiDialogueCountQuery,
+            UserMaxYamiDialogueCountQueryVariables
+          >
             query={USER_MAX_YAMI_DIALOGUE_COUNT_QUERY}
             variables={{ userId: userInfo.id }}
           >
@@ -436,10 +447,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
                     if (hasThisAward) {
                       return AwardStatusType.GET;
                     }
-                    if (
-                      count &&
-                      count > awardObj
-                    ) {
+                    if (count && count > awardObj) {
                       return AwardStatusType.REACH;
                     }
                     return AwardStatusType.WAIT;
@@ -477,7 +485,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
             userInfo.userAwards.findIndex(ua => ua.awardId === awardId) >= 0;
           if (hasThisAward) return AwardStatusType.GET;
 
-          const {puzzleMaxCreated} = userInfo;
+          const { puzzleMaxCreated } = userInfo;
 
           if (!puzzleMaxCreated) return AwardStatusType.WAIT;
 

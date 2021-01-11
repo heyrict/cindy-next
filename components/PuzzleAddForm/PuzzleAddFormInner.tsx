@@ -17,7 +17,7 @@ import PreviewPuzzleDetail from './PreviewPuzzleDetail';
 import { StateType } from 'reducers/types';
 import { stampNamespaces } from 'stamps/types';
 import { PuzzleAddFormInnerProps, PostPuzzleDetailType } from './types';
-import {Genre, Yami} from 'generated/globalTypes';
+import { Genre, Yami } from 'generated/globalTypes';
 
 const fieldNameStyle = {
   width: [1, 1 / 6],

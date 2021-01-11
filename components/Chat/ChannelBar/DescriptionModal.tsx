@@ -71,9 +71,7 @@ const DescriptionModal = ({
                   float: 'right',
                 }}
               >
-                <FavChatManipulateButton
-                  chatroomId={chatroom.id}
-                />
+                <FavChatManipulateButton chatroomId={chatroom.id} />
               </Box>
               {chatroom.description ? (
                 <Box

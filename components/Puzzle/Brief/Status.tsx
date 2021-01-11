@@ -3,7 +3,7 @@ import styled from 'theme/styled';
 import { FormattedMessage } from 'react-intl';
 
 import messages from 'messages/components/puzzle';
-import { Status as StatusType } from 'generated/globalTypes'
+import { Status as StatusType } from 'generated/globalTypes';
 
 export type StatusBaseProps = {
   status: StatusType;

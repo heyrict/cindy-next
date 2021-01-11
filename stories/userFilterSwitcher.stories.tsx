@@ -19,21 +19,21 @@ const solvedYamiUsers: Array<UserFilterSwitcherUserType> = [
     nickname: 'Foo',
     dialogueCount: 12,
     trueAnswer: false,
-    answeredDialogueCount: 3
+    answeredDialogueCount: 3,
   },
   {
     id: 2,
     nickname: 'Bar',
     dialogueCount: 3,
     trueAnswer: true,
-    answeredDialogueCount: 2
+    answeredDialogueCount: 2,
   },
   {
     id: 3,
     nickname: 'Carrot',
     dialogueCount: 1,
     trueAnswer: false,
-    answeredDialogueCount: 1
+    answeredDialogueCount: 1,
   },
 ];
 

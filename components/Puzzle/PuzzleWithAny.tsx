@@ -40,8 +40,9 @@ const PuzzleWithAny = ({
     starSum: starSum || puzzle.starSum,
     commentCount: commentCount || puzzle.commentCount,
     dialogueCount: dialogueCount || puzzle.dialogueCount,
-    dialogueMaxAnsweredTime: dialogueMaxAnsweredTime || puzzle.dialogueMaxAnsweredTime,
-  }
+    dialogueMaxAnsweredTime:
+      dialogueMaxAnsweredTime || puzzle.dialogueMaxAnsweredTime,
+  };
 
   return (
     <Panel minHeight="8em">
@@ -81,7 +82,9 @@ const PuzzleWithAny = ({
         </Box>
         <Hr />
         <Flex p={1} flexWrap="wrap" alignItems="center">
-          {puzzle.status !== StatusEnum.UNDERGOING && puzzle.anonymous && <Anonymous />}
+          {puzzle.status !== StatusEnum.UNDERGOING && puzzle.anonymous && (
+            <Anonymous />
+          )}
           <Status status={puzzle.status} />
           {typeof aggregates.dialogueCount === 'number' && (
             <Process count={aggregates.dialogueCount} />

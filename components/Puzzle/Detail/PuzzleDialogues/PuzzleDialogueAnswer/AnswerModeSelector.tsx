@@ -9,7 +9,7 @@ import AnswerDisplay from './AnswerDisplay';
 import AnswerEdit from './AnswerEdit';
 
 import { AnswerModeSelectorProps } from './types';
-import {Status} from 'generated/globalTypes';
+import { Status } from 'generated/globalTypes';
 
 const AnswerModeSelector = ({
   dialogueId,

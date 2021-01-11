@@ -1,5 +1,5 @@
 import React from 'react';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import { FooterButton } from 'components/Modal';
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/auth';

@@ -38,7 +38,7 @@ function* setChatHasnew(action: ActionContentType) {
     if (chatStatStore[innerAction.chatroomId] < innerAction.messagesHash) {
       chatStatStore[innerAction.chatroomId] = innerAction.messagesHash;
       setHashStore(CHAT_HASNEW_HASH_STORE_KEY, chatStatStore);
-    };
+    }
   } else {
     // When aside is closed, don't update,
     // set hasnew to true if not read.

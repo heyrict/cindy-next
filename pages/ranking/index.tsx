@@ -11,7 +11,7 @@ import PuzzleSubbar from 'components/Subbar/Puzzle';
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
 const Ranking = () => {
-  const {formatMessage: _ } = useIntl();
+  const { formatMessage: _ } = useIntl();
 
   return (
     <React.Fragment>

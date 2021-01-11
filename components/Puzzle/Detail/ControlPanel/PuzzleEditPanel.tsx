@@ -63,13 +63,13 @@ const PuzzleEditPanel = ({
     updatePuzzleDazedOn({
       variables: {
         puzzleId,
-        dazedOn: newDazedOn.toISOString().split("T")[0],
+        dazedOn: newDazedOn.toISOString().split('T')[0],
       },
       optimisticResponse: {
         updatePuzzle: {
           __typename: 'Puzzle',
           id: puzzleId,
-          dazedOn: newDazedOn.toISOString().split("T")[0],
+          dazedOn: newDazedOn.toISOString().split('T')[0],
         },
       },
     });

@@ -20,9 +20,7 @@ const FavChatManipulateButton = ({
   chatroomId,
   compact,
 }: FavChatManipulateButtonProps) => {
-  const emptyButton = (
-    <ButtonTransparent width={31} height="channelbar" />
-  );
+  const emptyButton = <ButtonTransparent width={31} height="channelbar" />;
 
   if (!user.id) return emptyButton;
 
@@ -49,7 +47,11 @@ const FavChatManipulateButton = ({
             compact={compact}
           />
         ) : (
-          <DeleteFavChatButton userId={user.id!} favchatId={favchat.id} compact={compact} />
+          <DeleteFavChatButton
+            userId={user.id!}
+            favchatId={favchat.id}
+            compact={compact}
+          />
         );
       }}
     </Query>

@@ -3,7 +3,12 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 //import { action } from '@storybook/addon-actions';
 
-import { ApolloProvider, ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+} from '@apollo/client';
 import { Provider as ReduxProvider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import * as globalReducer from 'reducers/global';

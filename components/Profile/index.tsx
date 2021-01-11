@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as directReducer from 'reducers/direct';
 
-import {useQuery} from '@apollo/client';
-import {USER_QUERY} from 'graphql/Queries/User';
+import { useQuery } from '@apollo/client';
+import { USER_QUERY } from 'graphql/Queries/User';
 
 import { Box, Flex, Img, ButtonTransparent } from 'components/General';
 import Loading from 'components/General/Loading';
@@ -27,7 +27,10 @@ import { ProfileTabType } from './types';
 import { ProfileProps } from './types';
 import { StateType } from 'reducers/types';
 import { ActionContentType } from 'reducers/types';
-import {UserQuery, UserQueryVariables} from 'graphql/Queries/generated/UserQuery';
+import {
+  UserQuery,
+  UserQueryVariables,
+} from 'graphql/Queries/generated/UserQuery';
 
 const ProfileInfoRenderer = ({
   userId,
@@ -35,12 +38,15 @@ const ProfileInfoRenderer = ({
   directChatWithUser,
 }: ProfileProps) => {
   const [tab, setTab] = useState(ProfileTabType.INFO);
-  const { data, loading, error } = useQuery<UserQuery, UserQueryVariables>(USER_QUERY, {
-    variables: {
-      id: userId,
+  const { data, loading, error } = useQuery<UserQuery, UserQueryVariables>(
+    USER_QUERY,
+    {
+      variables: {
+        id: userId,
+      },
+      fetchPolicy: 'cache-first',
     },
-    fetchPolicy: "cache-first",
-  });
+  );
 
   useEffect(() => {
     setTab(ProfileTabType.INFO);
