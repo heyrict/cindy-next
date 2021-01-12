@@ -35,6 +35,11 @@ const UserPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async context => {
+  const serverSideContext = {
+    route: context.resolvedUrl,
+    cookie: context.req.headers.cookie,
+  };
+
   const apolloClient: ApolloClient<object> = initializeApollo();
   let { id } = context.query;
   const userId = parseInt(id as string, 10);
@@ -49,6 +54,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
+      serverSideContext,
     },
   };
 };

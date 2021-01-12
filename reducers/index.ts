@@ -14,7 +14,6 @@ import * as awardCheckerReducer from './awardChecker';
 import * as directReducer from './direct';
 
 import { StateType, ExtendedStore } from './types';
-import { AppContextType } from 'next/dist/next-server/lib/utils';
 import { getUser } from 'common/auth';
 
 const reducer = combineReducers({
@@ -31,16 +30,18 @@ const composeEnhancers =
   //  (process.browser && isDev && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   (process.browser && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
+export type ReduxServerSideCtx = {
+  route: string;
+  cookie?: string;
+};
+
 /* eslint-disable no-underscore-dangle */
 export const initializeStore = (
   initialState: StateType,
-  appContext?: AppContextType,
+  appContext?: ReduxServerSideCtx,
 ) => {
-  const route = appContext && appContext.router ? appContext.router.asPath : '';
-  const cookies =
-    appContext && appContext.ctx.req
-      ? appContext.ctx.req.headers.cookie
-      : undefined;
+  const route = (appContext && appContext.route) || '';
+  const cookies = appContext && appContext.cookie;
   const settingsState =
     JSON.parse(getCookie('settings-server-side', cookies) || '{}') || {};
   const globalUser =
@@ -49,7 +50,8 @@ export const initializeStore = (
   const sagaMiddleware = createSagaMiddleware();
   const store: ExtendedStore = createStore(
     reducer,
-    initialState || {
+    {
+      ...initialState,
       global: { ...globalReducer.initialState, route, user: globalUser },
       setting: { ...settingReducer.initialState, ...settingsState },
     },

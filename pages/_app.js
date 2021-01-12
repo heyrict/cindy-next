@@ -28,7 +28,10 @@ addLocaleDatas();
 
 export default function MyApp({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState);
-  const reduxStore = useRedux(pageProps.initialReduxState);
+  const reduxStore = useRedux(
+    pageProps.initialReduxState,
+    pageProps.serverSideContext,
+  );
 
   useEffect(() => {
     const handleRouteChange = url => {
