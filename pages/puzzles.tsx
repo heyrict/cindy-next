@@ -239,11 +239,12 @@ const PuzzlesUnsolvedRenderer = () => {
 
                 // Notify user that a new puzzle's added
                 if (puzzleUnsolvedQueryResult !== null) {
+                  // New puzzles are puzzles with no exact ids in previous query
                   const newPuzzles = unsolvedPuzzles.filter(
                     puzzle =>
                       puzzleUnsolvedQueryResult.puzzles.findIndex(
                         p => p.id === puzzle.id,
-                      ) > -1,
+                      ) === -1,
                   );
 
                   newPuzzles.forEach(puzzle => {
