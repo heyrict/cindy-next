@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { maybeSendNotification } from 'common/web-notify';
 import { mergeList, upsertMultipleItem } from 'common/update';
@@ -9,7 +10,8 @@ import webNotifyMessages from 'messages/webNotify';
 import puzzleMessages from 'messages/components/puzzle';
 import userMessages from 'messages/components/user';
 
-import { useApolloClient, useQuery } from '@apollo/client';
+import { ApolloClient, useApolloClient, useQuery } from '@apollo/client';
+import { initializeApollo } from 'lib/apollo';
 import {
   PUZZLES_SOLVED_QUERY,
   PUZZLES_UNSOLVED_QUERY,
@@ -340,10 +342,22 @@ const Puzzles = () => {
   );
 };
 
-export async function getStaticProps() {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const apolloClient: ApolloClient<object> = initializeApollo();
+
+  await Promise.all([
+    apolloClient.query<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>({
+      query: PUZZLES_SOLVED_QUERY,
+      variables: { limit: PUZZLES_PER_PAGE },
+    }),
+    apolloClient.query<PuzzlesUnsolvedQuery>({ query: PUZZLES_UNSOLVED_QUERY }),
+  ]);
+
   return {
-    props: {},
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
   };
-}
+};
 
 export default Puzzles;
