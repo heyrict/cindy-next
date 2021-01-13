@@ -107,10 +107,7 @@ const ChatRoomMessagesBody = ({
           const {
             data: { chatmessageSub },
           } = subscriptionData;
-          if (!prev.chatmessages) {
-            prev = { chatmessages: [] };
-          }
-          if (!chatmessageSub) return prev;
+          if (!prev || !prev.chatmessages || !chatmessageSub) return prev;
 
           const maxModified = Math.max(
             ...prev.chatmessages.map(({ modified }: { modified: string }) =>
