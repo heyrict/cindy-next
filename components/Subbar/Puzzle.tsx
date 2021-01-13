@@ -2,7 +2,6 @@ import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import puzzlesMessage from 'messages/pages/puzzles';
-import replaysPageMessages from 'messages/pages/replays';
 import addPuzzleMessage from 'messages/pages/add_puzzle';
 import rankingMessage from 'messages/pages/ranking';
 import awardsMessages from 'messages/pages/awards';
@@ -33,20 +32,6 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         <Link href="/puzzles" passHref>
           <ButtonTransparentA color="red.9" height={1} width={1}>
             <FormattedMessage {...puzzlesMessage.header} />
-          </ButtonTransparentA>
-        </Link>
-      </Box>
-    </Box>
-    <Box width={[1 / 3, 1 / 5, 1 / 6, 1 / 8]} mb={1}>
-      <Box
-        bg={route === '/replays' ? 'yellow.4' : 'orange.4'}
-        borderRadius={2}
-        ml={1}
-        p={1}
-      >
-        <Link href="/replays" passHref>
-          <ButtonTransparentA color="red.9" height={1} width={1}>
-            <FormattedMessage {...replaysPageMessages.header} />
           </ButtonTransparentA>
         </Link>
       </Box>
