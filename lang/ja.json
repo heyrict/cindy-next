@@ -202,7 +202,7 @@
   "puzzle.unsetGrotesque": "グロ注意を非表示にする",
   "puzzle.unsetHidden": "問題を公開する",
   "puzzle.unsetHiddenConfirm": "あなたはこの問題を公開しようとしています。非公開問題を公開すると、自動的に解決状態になります。このページを閲覧している人は即時に問題の内容を見れるようになる恐れがあります。公開したあとでも問題を非公開にすることができます。続けますか？",
-  "puzzle.unsetYami": "闇スープにしない",
+  "puzzle.unsetYami": "闇スープ解除",
   "puzzle.waitForAnswer": "回答はまだです・・・",
   "puzzles.description": "遊びたいパズルを選ぼう。以前出題された問題を閲覧しよう。数多の水平思考パズルがあなたを待っています！",
   "puzzles.header": "問題一覧",

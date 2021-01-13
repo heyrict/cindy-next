@@ -1,4 +1,4 @@
-import { Genre, Yami } from 'generated/globalTypes';
+import { Genre, Yami } from './generated/globalTypes';
 import patronsList from './patrons.json';
 
 export const isDev = process.env.NODE_ENV !== 'production';
