@@ -35,7 +35,10 @@ function* setChatHasnew(action: ActionContentType) {
 
   if (aside) {
     // When aside is open, update the last message;
-    if (chatStatStore[innerAction.chatroomId] < innerAction.messagesHash) {
+    if (
+      !chatStatStore[innerAction.chatroomId] ||
+      chatStatStore[innerAction.chatroomId] < innerAction.messagesHash
+    ) {
       chatStatStore[innerAction.chatroomId] = innerAction.messagesHash;
       setHashStore(CHAT_HASNEW_HASH_STORE_KEY, chatStatStore);
     }
@@ -43,8 +46,8 @@ function* setChatHasnew(action: ActionContentType) {
     // When aside is closed, don't update,
     // set hasnew to true if not read.
     if (
-      !aside &&
-      chatStatStore[innerAction.chatroomId] > innerAction.messagesHash
+      !chatStatStore[innerAction.chatroomId] ||
+      chatStatStore[innerAction.chatroomId] < innerAction.messagesHash
     )
       yield put(chatReducer.actions.chatHasnew.setTrue());
   }
