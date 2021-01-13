@@ -83,7 +83,6 @@ const PuzzleDialogues = ({
 
   if (puzzleStatus === Status.UNDERGOING) {
     // Unsolved yami: Query only dialogues by current user
-    // TODO on completed, setTrueSolvedLongtermYami();
     return (
       <PuzzleDialoguesRenderer
         variables={{
