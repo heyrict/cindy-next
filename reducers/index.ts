@@ -32,7 +32,7 @@ const composeEnhancers =
 
 export type ReduxServerSideCtx = {
   route: string;
-  cookie?: string;
+  cookie: string | null;
 };
 
 /* eslint-disable no-underscore-dangle */
@@ -41,7 +41,7 @@ export const initializeStore = (
   appContext?: ReduxServerSideCtx,
 ) => {
   const route = (appContext && appContext.route) || '';
-  const cookies = appContext && appContext.cookie;
+  const cookies = (appContext && appContext.cookie) || undefined;
   const settingsState =
     JSON.parse(getCookie('settings-server-side', cookies) || '{}') || {};
   const globalUser =

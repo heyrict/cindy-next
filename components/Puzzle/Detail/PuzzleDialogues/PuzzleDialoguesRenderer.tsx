@@ -82,7 +82,6 @@ export const PuzzleDialoguesRendererInner = ({
   );
 };
 
-// TODO Missing onCompleted function
 export const PuzzleDialoguesRenderer = ({
   variables,
   shouldSubscribe,

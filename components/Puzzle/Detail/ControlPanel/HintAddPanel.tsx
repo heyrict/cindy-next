@@ -58,7 +58,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
             puzzleLogs:
               newItem.id === -1
                 ? [...puzzleLogs, newItem]
-                : upsertItem(puzzleLogs, newItem),
+                : upsertItem(puzzleLogs, newItem, 'created', 'asc'),
           },
         });
       },
