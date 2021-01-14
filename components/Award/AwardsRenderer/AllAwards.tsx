@@ -425,7 +425,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
                 if (loading) return <Loading centered />;
                 return null;
               }
-              const count = data.userMaxYamiDialogueCount.dialogueCount;
+              const count = data.userMaxYamiDialogueCount?.dialogueCount;
               return (
                 <AwardTableRenderer
                   awardsDefs={awardsDefs}
