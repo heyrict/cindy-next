@@ -44,6 +44,11 @@ export const messages = defineMessages({
     id: `${scope}.putSolution`,
     defaultMessage: 'Put Solution',
   },
+  putSolutionLongtermYamiConfirm: {
+    id: `${scope}.putSolutionLongtermYamiConfirm`,
+    defaultMessage:
+      'You attempt to put solution. Everyone can see your solution then. This operation cannot be reverted. Continue?',
+  },
   putSolutionConfirm: {
     id: `${scope}.putSolutionConfirm`,
     defaultMessage:

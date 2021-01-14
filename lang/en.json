@@ -193,6 +193,7 @@
   "puzzle.putQuestion": "Ask",
   "puzzle.putSolution": "Put Solution",
   "puzzle.putSolutionConfirm": "You attempt to put solution. Everyone can see your solution then and you cannot edit the solution any more. This operation cannot be reverted. Continue?",
+  "puzzle.putSolutionLongtermYamiConfirm": "You attempt to put solution. Everyone can see your solution then. This operation cannot be reverted. Continue?",
   "puzzle.setGrotesque": "Show grotesque warning",
   "puzzle.setHidden": "Set As Hidden",
   "puzzle.setHiddenConfirm": "You attempt to set the puzzle hidden to public. This operation will forcefully solve the puzzle and mark it as solved. You will NOT be able to change the puzzle to undergoing state. Continue?",

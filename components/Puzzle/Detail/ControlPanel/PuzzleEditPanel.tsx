@@ -119,7 +119,11 @@ const PuzzleEditPanel = ({
                 if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
                 notifHdlRef.current = toast.warn(
                   <Box>
-                    <FormattedMessage {...messages.putSolutionConfirm} />
+                    {yami === Yami.LONGTERM ? (
+                      <FormattedMessage {...messages.putSolutionLongtermYamiConfirm} />
+                    ) : (
+                      <FormattedMessage {...messages.putSolutionConfirm} />
+                    )}
                     <Flex
                       alignItems="center"
                       justifyContent="center"
