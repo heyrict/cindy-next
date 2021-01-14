@@ -134,12 +134,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   toggleAside: () => dispatch(globalReducer.actions.aside.toggle()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
-export default compose(
-  injectIntl,
-  withRedux,
-)(ChannelPage);
+export default compose(injectIntl, withRedux)(ChannelPage);

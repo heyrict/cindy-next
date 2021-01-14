@@ -33,7 +33,7 @@ export function wrapSubsetActions<T = ActionSubsetType>(
     payload: ReturnType<T[K] extends ActionSubsetContentType ? T[K] : never>;
   };
 } {
-  return function<U = string>(actionType: U) {
+  return function <U = string>(actionType: U) {
     type R = {
       [K in keyof T]: (
         ...args: ArgumentsType<T[K]>

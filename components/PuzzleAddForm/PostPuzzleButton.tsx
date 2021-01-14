@@ -73,9 +73,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   incPuzzles: () => dispatch(awardCheckerReducer.actions.puzzles.inc()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 export default withRedux(PostPuzzleButton);

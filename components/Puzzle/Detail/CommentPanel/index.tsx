@@ -33,7 +33,11 @@ const CommentButton = styled(Button)`
   }
 `;
 
-const CommentPanel = ({ puzzleId, canAddComment, userId }: CommentPanelProps) => {
+const CommentPanel = ({
+  puzzleId,
+  canAddComment,
+  userId,
+}: CommentPanelProps) => {
   const [loaded, setLoaded] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -97,7 +101,10 @@ const CommentPanel = ({ puzzleId, canAddComment, userId }: CommentPanelProps) =>
                   </ModalHeader>
                   <Flex flexGrow={1} p={[2, 3]} flexDirection="column">
                     {canAddComment && userId && (
-                      <CommentModalAddPanel puzzleId={puzzleId} userId={userId} />
+                      <CommentModalAddPanel
+                        puzzleId={puzzleId}
+                        userId={userId}
+                      />
                     )}
                     <CommentModalComments puzzleId={puzzleId} />
                   </Flex>

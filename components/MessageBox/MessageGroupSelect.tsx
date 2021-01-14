@@ -1,32 +1,41 @@
 import React from 'react';
 import { toast } from 'react-toastify';
-import {upsertItem} from 'common/update';
+import { upsertItem } from 'common/update';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as directReducer from 'reducers/direct';
 
-import {useMutation, useQuery} from '@apollo/client';
-import {DM_READ_ALL_QUERY} from 'graphql/Queries/DirectMessage';
-import {UPSERT_DM_READ_MUTATION} from 'graphql/Mutations/DirectMessage';
-import {USER_BRIEF_FRAGMENT} from 'graphql/Fragments/User';
+import { useMutation, useQuery } from '@apollo/client';
+import { DM_READ_ALL_QUERY } from 'graphql/Queries/DirectMessage';
+import { UPSERT_DM_READ_MUTATION } from 'graphql/Mutations/DirectMessage';
+import { USER_BRIEF_FRAGMENT } from 'graphql/Fragments/User';
 
 import { Flex, Box, Img, ButtonTransparent, RedDot } from 'components/General';
 import Loading from 'components/General/Loading';
 import messageIcon from 'svgs/message.svg';
 
 import { StateType, ActionContentType } from 'reducers/types';
-import {MessageGroupSelectProps} from './types';
-import {DmReadAllQuery, DmReadAllQueryVariables} from 'graphql/Queries/generated/DmReadAllQuery';
-import {UpsertDmReadMutation, UpsertDmReadMutationVariables} from 'graphql/Mutations/generated/UpsertDmReadMutation';
-import {UserBrief} from 'graphql/Fragments/generated/UserBrief';
+import { MessageGroupSelectProps } from './types';
+import {
+  DmReadAllQuery,
+  DmReadAllQueryVariables,
+} from 'graphql/Queries/generated/DmReadAllQuery';
+import {
+  UpsertDmReadMutation,
+  UpsertDmReadMutationVariables,
+} from 'graphql/Mutations/generated/UpsertDmReadMutation';
+import { UserBrief } from 'graphql/Fragments/generated/UserBrief';
 
 const MessageGroupSelectInner = ({
   userId,
   setDirectGroupUser,
   setDirectHasnew,
 }: MessageGroupSelectProps) => {
-  const { data, loading, error } = useQuery<DmReadAllQuery, DmReadAllQueryVariables>(DM_READ_ALL_QUERY, {
+  const { data, loading, error } = useQuery<
+    DmReadAllQuery,
+    DmReadAllQueryVariables
+  >(DM_READ_ALL_QUERY, {
     variables: {
       userId,
       limit: 50,
@@ -43,14 +52,18 @@ const MessageGroupSelectInner = ({
     },
   });
 
-  const [upsertDmRead] = useMutation<UpsertDmReadMutation, UpsertDmReadMutationVariables>(UPSERT_DM_READ_MUTATION, {
+  const [upsertDmRead] = useMutation<
+    UpsertDmReadMutation,
+    UpsertDmReadMutationVariables
+  >(UPSERT_DM_READ_MUTATION, {
     update: (cache, { data }) => {
       if (!data || !data.upsertDmRead) return;
 
       const directMessage = data.upsertDmRead;
 
       const cachedResult = cache.readQuery<
-      DmReadAllQuery, Omit<DmReadAllQueryVariables, 'limit' | 'offset'>
+        DmReadAllQuery,
+        Omit<DmReadAllQueryVariables, 'limit' | 'offset'>
       >({
         query: DM_READ_ALL_QUERY,
         variables: {
@@ -61,11 +74,12 @@ const MessageGroupSelectInner = ({
       const { dmReadAll } = cachedResult;
       let withUser = cache.readFragment<UserBrief>({
         fragment: USER_BRIEF_FRAGMENT,
-        fragmentName: "UserBrief",
+        fragmentName: 'UserBrief',
         id: `User:${directMessage.withUserId}`,
       });
       cache.writeQuery<
-      DmReadAllQuery, Omit<DmReadAllQueryVariables, 'limit' | 'offset'>
+        DmReadAllQuery,
+        Omit<DmReadAllQueryVariables, 'limit' | 'offset'>
       >({
         query: DM_READ_ALL_QUERY,
         variables: {
@@ -90,7 +104,7 @@ const MessageGroupSelectInner = ({
           ),
         },
       });
-    }
+    },
   });
 
   if (error) {
@@ -101,7 +115,7 @@ const MessageGroupSelectInner = ({
     if (loading) return <Loading centered />;
     return null;
   }
-  const {dmReadAll} = data;
+  const { dmReadAll } = data;
 
   return (
     <Flex flexWrap="wrap" alignItems="center">
@@ -149,13 +163,17 @@ const MessageGroupSelectInner = ({
       ))}
     </Flex>
   );
-}
+};
 
-const MessageGroupSelect = (props: Omit<MessageGroupSelectProps, 'userId'> & { userId: number | undefined }) => {
+const MessageGroupSelect = (
+  props: Omit<MessageGroupSelectProps, 'userId'> & {
+    userId: number | undefined;
+  },
+) => {
   return typeof props.userId === 'number' ? (
     <MessageGroupSelectInner {...props} userId={props.userId} />
   ) : null;
-}
+};
 
 const mapStateToProps = (state: StateType) => ({
   userId: globalReducer.rootSelector(state).user.id,
@@ -168,9 +186,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(directReducer.actions.directHasnew.set(hasnew)),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(MessageGroupSelect);

@@ -13,7 +13,7 @@ import { text2md } from 'common/markdown';
 import { widthSplits } from './constants';
 
 import { ContentsFrameType } from './types';
-import {Status} from 'generated/globalTypes';
+import { Status } from 'generated/globalTypes';
 
 const Label = styled.span`
   padding: 5px;

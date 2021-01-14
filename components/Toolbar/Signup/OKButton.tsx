@@ -1,5 +1,5 @@
 import React from 'react';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import { FooterButton } from 'components/Modal';
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/auth';
@@ -44,9 +44,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   resetForm: () => dispatch(loginReducer.actions.resetForm()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(OKButton);

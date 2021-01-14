@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/puzzle';
 
 import { SetPanelToolbarProps, ControlPanelPanelType } from './types';
-import {Status} from 'generated/globalTypes';
+import { Status } from 'generated/globalTypes';
 
 const PanelToolbarButonProps = {
   px: 1,

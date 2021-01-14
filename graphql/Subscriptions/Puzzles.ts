@@ -13,7 +13,7 @@ export const PUZZLES_UNSOLVED_SUB = gql`
 
 export const PUZZLE_SUB = gql`
   subscription PuzzleSub($id: Int!) {
-    puzzleSub(filter: { id: { eq: $id }}) {
+    puzzleSub(filter: { id: { eq: $id } }) {
       data {
         id
         status

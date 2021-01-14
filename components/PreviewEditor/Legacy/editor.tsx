@@ -54,8 +54,9 @@ class LegacyEditor extends React.Component<
       this.setState(p => ({ stampToolbar: !p.stampToolbar }));
     this.incHeight = (inc: number) => {
       if (!this.editor.current) return;
-      this.editor.current.style.height = `${this.editor.current.clientHeight +
-        inc * 14}px`;
+      this.editor.current.style.height = `${
+        this.editor.current.clientHeight + inc * 14
+      }px`;
     };
   }
 

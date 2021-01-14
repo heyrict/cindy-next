@@ -131,9 +131,7 @@ export type TokenizeServerDialogueTokensType = {
   tokens: Array<TokenizeServerTokenType>;
 };
 
-export type TokenizeServerResponseType = Array<
-  TokenizeServerDialogueTokensType
->;
+export type TokenizeServerResponseType = Array<TokenizeServerDialogueTokensType>;
 
 export type MilestoneType = {
   handle: string;

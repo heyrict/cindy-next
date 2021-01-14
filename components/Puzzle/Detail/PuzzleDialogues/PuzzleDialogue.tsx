@@ -17,7 +17,7 @@ import PuzzleDialogueQuestion from './PuzzleDialogueQuestion';
 import PuzzleDialogueAnswer from './PuzzleDialogueAnswer';
 import IndexLabel from './IndexLabel';
 import { PuzzleDialogueProps } from './types';
-import {Status} from 'generated/globalTypes';
+import { Status } from 'generated/globalTypes';
 
 const IdBlock = styled.div`
   position: relative;

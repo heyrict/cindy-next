@@ -71,9 +71,7 @@ const DescriptionModal = ({
                   float: 'right',
                 }}
               >
-                <FavChatManipulateButton
-                  chatroomId={chatroom.id}
-                />
+                <FavChatManipulateButton chatroomId={chatroom.id} />
               </Box>
               {chatroom.description ? (
                 <Box
@@ -108,9 +106,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(chatReducer.actions.descriptionModal.setFalse()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(DescriptionModal);

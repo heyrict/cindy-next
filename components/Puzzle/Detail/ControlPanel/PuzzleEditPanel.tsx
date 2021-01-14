@@ -1,16 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { getMaxDazedDays } from 'settings';
 import { toast } from 'react-toastify';
+import {upsertItem} from 'common/update';
 
 import { useMutation } from '@apollo/client';
+import {PUZZLES_SOLVED_QUERY} from 'graphql/Queries/Puzzles';
 import {
   UPDATE_PUZZLE_MUTATION,
   UPDATE_PUZZLE_DAZED_ON_MUTATION,
 } from 'graphql/Mutations/Puzzle';
-import {
-  UpdatePuzzleMutation,
-  UpdatePuzzleMutationVariables,
-} from 'graphql/Mutations/generated/UpdatePuzzleMutation';
+import {PUZZLE_SHARED_FRAGMENT} from 'graphql/Fragments/Puzzles';
 
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import messages from 'messages/pages/puzzle';
@@ -25,6 +24,12 @@ import {
   UpdatePuzzleDazedOnMutation,
 } from 'graphql/Mutations/generated/UpdatePuzzleDazedOnMutation';
 import { Status, Yami } from 'generated/globalTypes';
+import {PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables} from 'graphql/Queries/generated/PuzzlesSolvedQuery';
+import {PuzzleShared} from 'graphql/Fragments/generated/PuzzleShared';
+import {
+  UpdatePuzzleMutation,
+  UpdatePuzzleMutationVariables,
+} from 'graphql/Mutations/generated/UpdatePuzzleMutation';
 
 const PuzzleEditPanel = ({
   puzzleId,
@@ -40,7 +45,41 @@ const PuzzleEditPanel = ({
   const [updatePuzzle] = useMutation<
     UpdatePuzzleMutation,
     UpdatePuzzleMutationVariables
-  >(UPDATE_PUZZLE_MUTATION);
+  >(UPDATE_PUZZLE_MUTATION, {
+    update: (proxy, { data }) => {
+      if (!data || !data.updatePuzzle) return;
+
+      if (data.updatePuzzle.status !== Status.UNDERGOING && status === Status.UNDERGOING) {
+        let prevQuery = proxy.readQuery<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>({
+          query: PUZZLES_SOLVED_QUERY,
+        });
+
+        let prevPuzzle = proxy.readFragment<PuzzleShared>({
+          fragment: PUZZLE_SHARED_FRAGMENT,
+          fragmentName: "PuzzleShared",
+          id: `Puzzle:${data.updatePuzzle.id}`,
+        })
+
+        if (prevQuery && prevPuzzle) {
+          proxy.writeQuery<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>({
+            query: PUZZLES_SOLVED_QUERY,
+            data: {
+              puzzles: upsertItem(prevQuery.puzzles, {
+                ...prevPuzzle,
+                ...data.updatePuzzle,
+                starCount: 0,
+                starSum: 0,
+                commentCount: 0,
+                bookmarkCount: 0,
+                dialogueCount: 0,
+                dialogueNewCount: 0,
+              }, "modified", "desc")
+            },
+          });
+        }
+      }
+    }
+  });
   const [updatePuzzleDazedOn] = useMutation<
     UpdatePuzzleDazedOnMutation,
     UpdatePuzzleDazedOnMutationVariables
@@ -63,13 +102,13 @@ const PuzzleEditPanel = ({
     updatePuzzleDazedOn({
       variables: {
         puzzleId,
-        dazedOn: newDazedOn.toISOString().split("T")[0],
+        dazedOn: newDazedOn.toISOString().split('T')[0],
       },
       optimisticResponse: {
         updatePuzzle: {
           __typename: 'Puzzle',
           id: puzzleId,
-          dazedOn: newDazedOn.toISOString().split("T")[0],
+          dazedOn: newDazedOn.toISOString().split('T')[0],
         },
       },
     });
@@ -195,9 +234,9 @@ const PuzzleEditPanel = ({
               }}
             >
               {yami === Yami.NONE ? (
-                <FormattedMessage {...messages.unsetYami} />
-              ) : (
                 <FormattedMessage {...messages.setYami} />
+              ) : (
+                <FormattedMessage {...messages.unsetYami} />
               )}
             </ButtonTransparent>
           </Box>

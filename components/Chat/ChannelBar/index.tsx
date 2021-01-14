@@ -40,10 +40,7 @@ const ChannelBar = ({
     <Box width={1} height="channelbar">
       <Flex bg="orange.5">
         {chatroomId && (
-          <FavChatManipulateButton
-            chatroomId={chatroomId}
-            compact
-          />
+          <FavChatManipulateButton chatroomId={chatroomId} compact />
         )}
         <Box
           color="white"
@@ -115,9 +112,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(chatReducer.actions.channelChangeModal.setTrue()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(ChannelBar);

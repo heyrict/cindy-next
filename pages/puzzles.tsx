@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { maybeSendNotification } from 'common/web-notify';
 import { mergeList, upsertMultipleItem } from 'common/update';
@@ -9,7 +10,8 @@ import webNotifyMessages from 'messages/webNotify';
 import puzzleMessages from 'messages/components/puzzle';
 import userMessages from 'messages/components/user';
 
-import { useApolloClient, useQuery } from '@apollo/client';
+import { ApolloClient, useApolloClient, useQuery } from '@apollo/client';
+import { initializeApollo } from 'lib/apollo';
 import {
   PUZZLES_SOLVED_QUERY,
   PUZZLES_UNSOLVED_QUERY,
@@ -34,10 +36,10 @@ import {
 } from 'graphql/Queries/generated/PuzzlesUnsolvedQuery';
 import { PuzzlesUnsolvedSub } from 'graphql/Subscriptions/generated/PuzzlesUnsolvedSub';
 import { Status, Genre } from 'generated/globalTypes';
-import {UnsolvedPuzzlePuzzleLogsSub} from 'graphql/Subscriptions/generated/UnsolvedPuzzlePuzzleLogsSub';
-import {UNSOLVED_PUZZLE_PUZZLE_LOGS_SUB} from 'graphql/Subscriptions/PuzzleLog';
-import {PUZZLE_UNSOLVED_EXTRA_FRAGMENT} from 'graphql/Fragments/Puzzles';
-import {PuzzleUnsolvedExtra} from 'graphql/Fragments/generated/PuzzleUnsolvedExtra';
+import { UnsolvedPuzzlePuzzleLogsSub } from 'graphql/Subscriptions/generated/UnsolvedPuzzlePuzzleLogsSub';
+import { UNSOLVED_PUZZLE_PUZZLE_LOGS_SUB } from 'graphql/Subscriptions/PuzzleLog';
+import { PUZZLE_UNSOLVED_EXTRA_FRAGMENT } from 'graphql/Fragments/Puzzles';
+import { PuzzleUnsolvedExtra } from 'graphql/Fragments/generated/PuzzleUnsolvedExtra';
 
 const PUZZLES_PER_PAGE = 20;
 const puzzleLoadingPanel = (
@@ -106,11 +108,9 @@ const PuzzlesSolvedRenderer = () => {
                     puzzles: [...prev.puzzles, ...fetchMoreResult.puzzles],
                   });
                 },
+              }).then(({ data }) => {
+                if (data.puzzles.length < PUZZLES_PER_PAGE) setHasMore(false);
               })
-              .then(({ data }) => {
-                  if (data.puzzles.length < PUZZLES_PER_PAGE)
-                    setHasMore(false);
-            })
             }
           >
             {puzzleLoadingPanel}
@@ -126,9 +126,13 @@ const PuzzlesUnsolvedRenderer = () => {
   const client = useApolloClient();
   const { formatMessage: _ } = useIntl();
 
-  const { loading, error, refetch, data, subscribeToMore } = useQuery<
-    PuzzlesUnsolvedQuery
-  >(PUZZLES_UNSOLVED_QUERY, {
+  const {
+    loading,
+    error,
+    refetch,
+    data,
+    subscribeToMore,
+  } = useQuery<PuzzlesUnsolvedQuery>(PUZZLES_UNSOLVED_QUERY, {
     fetchPolicy: 'cache-and-network',
   });
 
@@ -139,23 +143,27 @@ const PuzzlesUnsolvedRenderer = () => {
         const data = subscriptionData.data.unsolvedPuzzleStatsSub;
         if (!data) return prev;
 
-        const { dialogueCount, dialogueCountAnswered, dialogueMaxAnsweredTime } = data;
+        const {
+          dialogueCount,
+          dialogueCountAnswered,
+          dialogueMaxAnsweredTime,
+        } = data;
 
         client.writeFragment<PuzzleUnsolvedExtra>({
           id: `Puzzle:${data.puzzleId}`,
-          fragment: PUZZLE_UNSOLVED_EXTRA_FRAGMENT, 
+          fragment: PUZZLE_UNSOLVED_EXTRA_FRAGMENT,
           data: {
-            __typename: "Puzzle",
+            __typename: 'Puzzle',
             dialogueCount,
             dialogueNewCount: dialogueCount - dialogueCountAnswered,
             dialogueMaxAnsweredTime,
-          }
+          },
         });
 
         return prev;
       },
-    })
-  )
+    }),
+  );
 
   useEffect(() =>
     subscribeToMore<PuzzlesUnsolvedSub>({
@@ -181,7 +189,7 @@ const PuzzlesUnsolvedRenderer = () => {
               variables: {
                 since: new Date(maxModified).toISOString(),
               },
-              fetchPolicy: "network-only",
+              fetchPolicy: 'network-only',
             })
             .then(({ data }) => {
               const solvedPuzzles = data.puzzles.filter(
@@ -231,11 +239,12 @@ const PuzzlesUnsolvedRenderer = () => {
 
                 // Notify user that a new puzzle's added
                 if (puzzleUnsolvedQueryResult !== null) {
+                  // New puzzles are puzzles with no exact ids in previous query
                   const newPuzzles = unsolvedPuzzles.filter(
                     puzzle =>
                       puzzleUnsolvedQueryResult.puzzles.findIndex(
                         p => p.id === puzzle.id,
-                      ) > -1,
+                      ) === -1,
                   );
 
                   newPuzzles.forEach(puzzle => {
@@ -292,7 +301,7 @@ const PuzzlesUnsolvedRenderer = () => {
 
         return prev;
       },
-    })
+    }),
   );
 
   if (loading && (!data || !data.puzzles || data.puzzles.length === 0))
@@ -334,10 +343,22 @@ const Puzzles = () => {
   );
 };
 
-export async function getStaticProps() {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const apolloClient: ApolloClient<object> = initializeApollo();
+
+  await Promise.all([
+    apolloClient.query<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>({
+      query: PUZZLES_SOLVED_QUERY,
+      variables: { limit: PUZZLES_PER_PAGE },
+    }),
+    apolloClient.query<PuzzlesUnsolvedQuery>({ query: PUZZLES_UNSOLVED_QUERY }),
+  ]);
+
   return {
-    props: {},
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
   };
-}
+};
 
 export default Puzzles;

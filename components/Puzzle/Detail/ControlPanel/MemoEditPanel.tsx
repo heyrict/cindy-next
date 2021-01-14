@@ -21,7 +21,7 @@ const MemoEditPanel = ({ puzzleId, memo }: MemoEditPanelProps) => {
   const [editing, setEditing] = useState(false);
   const editorRef = useRef<LegacyEditor>(null);
 
-  const getMemo = () => editorRef.current ? editorRef.current.getText() : '';
+  const getMemo = () => (editorRef.current ? editorRef.current.getText() : '');
 
   const [editMemo] = useMutation<EditMemoMutation, EditMemoMutationVariables>(
     EDIT_MEMO_MUTATION,

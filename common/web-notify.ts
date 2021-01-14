@@ -1,16 +1,12 @@
 import { NotificationPermissionType } from './types';
 
-export const requestNotificationPermission = (): Promise<
-  NotificationPermissionType
-> => {
+export const requestNotificationPermission = (): Promise<NotificationPermissionType> => {
   if (!('Notification' in window)) {
     return new Promise(resolve =>
       resolve(NotificationPermissionType.NOT_SUPPORTED),
     );
   } else if (Notification.permission === NotificationPermissionType.DEFAULT) {
-    return Notification.requestPermission() as Promise<
-      NotificationPermissionType
-    >;
+    return Notification.requestPermission() as Promise<NotificationPermissionType>;
   }
   return new Promise(resolve =>
     resolve(Notification.permission as NotificationPermissionType),

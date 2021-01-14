@@ -1,5 +1,5 @@
 import { GlobalUserType } from 'reducers/types';
-import {Status} from 'generated/globalTypes';
+import { Status } from 'generated/globalTypes';
 
 export type AnswerDisplayProps = {
   answer: string;

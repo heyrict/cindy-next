@@ -9,7 +9,10 @@ import * as settingReducer from 'reducers/setting';
 import * as loginReducer from 'reducers/login';
 
 import { useMutation, useQuery } from '@apollo/client';
-import { DIRECT_MESSAGE_GROUP_MESSAGES_QUERY, DM_READ_ALL_QUERY } from 'graphql/Queries/DirectMessage';
+import {
+  DIRECT_MESSAGE_GROUP_MESSAGES_QUERY,
+  DM_READ_ALL_QUERY,
+} from 'graphql/Queries/DirectMessage';
 
 import { FormattedMessage } from 'react-intl';
 import chatMessages from 'messages/components/chat';
@@ -28,13 +31,22 @@ import {
   ActionContentType,
 } from 'reducers/types';
 import { MessageGroupChatProps, MessageGroupChatInnerProps } from './types';
-import {DirectMessageGroupMessagesQuery, DirectMessageGroupMessagesQueryVariables} from 'graphql/Queries/generated/DirectMessageGroupMessagesQuery';
-import {stampNamespaces} from 'stamps';
-import {SEND_DIRECT_MESSAGE_MUTATION} from 'graphql/Mutations/DirectMessage';
-import {SendDirectMessageMutation, SendDirectMessageMutationVariables} from 'graphql/Mutations/generated/SendDirectMessageMutation';
-import {DmReadAllQuery, DmReadAllQueryVariables} from 'graphql/Queries/generated/DmReadAllQuery';
-import {USER_BRIEF_FRAGMENT} from 'graphql/Fragments/User';
-import {UserBrief} from 'graphql/Fragments/generated/UserBrief';
+import {
+  DirectMessageGroupMessagesQuery,
+  DirectMessageGroupMessagesQueryVariables,
+} from 'graphql/Queries/generated/DirectMessageGroupMessagesQuery';
+import { stampNamespaces } from 'stamps';
+import { SEND_DIRECT_MESSAGE_MUTATION } from 'graphql/Mutations/DirectMessage';
+import {
+  SendDirectMessageMutation,
+  SendDirectMessageMutationVariables,
+} from 'graphql/Mutations/generated/SendDirectMessageMutation';
+import {
+  DmReadAllQuery,
+  DmReadAllQueryVariables,
+} from 'graphql/Queries/generated/DmReadAllQuery';
+import { USER_BRIEF_FRAGMENT } from 'graphql/Fragments/User';
+import { UserBrief } from 'graphql/Fragments/generated/UserBrief';
 
 const DIRECT_MESSAGES_PER_PAGE = 20;
 
@@ -60,15 +72,18 @@ const MessageGroupChatInner = ({
     },
   });
 
-  const [sendDirect] = useMutation<SendDirectMessageMutation, SendDirectMessageMutationVariables>(SEND_DIRECT_MESSAGE_MUTATION, {
+  const [sendDirect] = useMutation<
+    SendDirectMessageMutation,
+    SendDirectMessageMutationVariables
+  >(SEND_DIRECT_MESSAGE_MUTATION, {
     update: (cache, { data }) => {
       if (!data || !data.createDirectMessage) return;
       const directMessage = data.createDirectMessage;
 
       // update messages
       const dmResult = cache.readQuery<
-      DirectMessageGroupMessagesQuery,
-      DirectMessageGroupMessagesQueryVariables
+        DirectMessageGroupMessagesQuery,
+        DirectMessageGroupMessagesQueryVariables
       >({
         query: DIRECT_MESSAGE_GROUP_MESSAGES_QUERY,
         variables: {
@@ -79,7 +94,10 @@ const MessageGroupChatInner = ({
       if (dmResult === null) return;
       const { directMessages } = dmResult;
       if (directMessage.id === -1) {
-        cache.writeQuery<DirectMessageGroupMessagesQuery, Omit<DirectMessageGroupMessagesQueryVariables, 'limit' | 'offset'>>({
+        cache.writeQuery<
+          DirectMessageGroupMessagesQuery,
+          Omit<DirectMessageGroupMessagesQueryVariables, 'limit' | 'offset'>
+        >({
           query: DIRECT_MESSAGE_GROUP_MESSAGES_QUERY,
           variables: {
             userId,
@@ -90,7 +108,10 @@ const MessageGroupChatInner = ({
           },
         });
       } else {
-        cache.writeQuery<DirectMessageGroupMessagesQuery, Omit<DirectMessageGroupMessagesQueryVariables, 'limit' | 'offset'>>({
+        cache.writeQuery<
+          DirectMessageGroupMessagesQuery,
+          Omit<DirectMessageGroupMessagesQueryVariables, 'limit' | 'offset'>
+        >({
           query: DIRECT_MESSAGE_GROUP_MESSAGES_QUERY,
           variables: {
             userId,
@@ -110,22 +131,24 @@ const MessageGroupChatInner = ({
       // update message groups
       if (directMessage.id !== -1) {
         const cachedResult = cache.readQuery<
-          DmReadAllQuery, DmReadAllQueryVariables
-          >({
-            query: DM_READ_ALL_QUERY,
-            variables: {
-              userId,
-            } as DmReadAllQueryVariables,
-          });
+          DmReadAllQuery,
+          DmReadAllQueryVariables
+        >({
+          query: DM_READ_ALL_QUERY,
+          variables: {
+            userId,
+          } as DmReadAllQueryVariables,
+        });
         if (cachedResult === null) return;
         const { dmReadAll } = cachedResult;
         let user = cache.readFragment<UserBrief>({
           fragment: USER_BRIEF_FRAGMENT,
-          fragmentName: "UserBrief",
+          fragmentName: 'UserBrief',
           id: `User:${directGroupUser}`,
         });
         cache.writeQuery<
-        DmReadAllQuery, Omit<DmReadAllQueryVariables, 'limit' | 'offset'>
+          DmReadAllQuery,
+          Omit<DmReadAllQueryVariables, 'limit' | 'offset'>
         >({
           query: DM_READ_ALL_QUERY,
           variables: {
@@ -151,9 +174,8 @@ const MessageGroupChatInner = ({
           },
         });
       }
-    }
-  }
-  );
+    },
+  });
 
   useEffect(() => {
     if (loading || error || !data || !data.directMessages) return;
@@ -194,64 +216,64 @@ const MessageGroupChatInner = ({
       </Flex>
     );
 
-          const handleSubmit = (content: string) => {
-            if (content.trim() === '') return;
-            return sendDirect({
-              variables: {
-                content: content.trim(),
-                receiverId: directGroupUser,
-              },
-              optimisticResponse: {
-                createDirectMessage: {
-                  __typename:'DirectMessage',
-                  id: -1,
-                  content,
-                  created: Date.now(),
-                  modified: Date.now(),
-                  editTimes: 0,
-                  sender: {
-                    __typename: 'User',
-                    id: user.id,
-                    icon: user.icon,
-                    nickname: user.nickname || '...',
-                    username: user.username || '...',
-                    currentAward: null,
-                  },
-                  receiver: {
-                    __typename: 'User',
-                    id: -1,
-                    icon: user.icon,
-                    nickname: '...',
-                    username: '...',
-                    currentAward: null,
-                  },
-                },
-              },
-            });
-          };
+  const handleSubmit = (content: string) => {
+    if (content.trim() === '') return;
+    return sendDirect({
+      variables: {
+        content: content.trim(),
+        receiverId: directGroupUser,
+      },
+      optimisticResponse: {
+        createDirectMessage: {
+          __typename: 'DirectMessage',
+          id: -1,
+          content,
+          created: Date.now(),
+          modified: Date.now(),
+          editTimes: 0,
+          sender: {
+            __typename: 'User',
+            id: user.id,
+            icon: user.icon,
+            nickname: user.nickname || '...',
+            username: user.username || '...',
+            currentAward: null,
+          },
+          receiver: {
+            __typename: 'User',
+            id: -1,
+            icon: user.icon,
+            nickname: '...',
+            username: '...',
+            currentAward: null,
+          },
+        },
+      },
+    });
+  };
 
-          const handleSubmitWithError = (content: string) => {
-            if (!editorRef.current) return;
-            const text = editorRef.current.getText();
-            editorRef.current.setText('');
-            const result = handleSubmit(content);
-            if (result) {
-              result
-                .then(returns => {
-                  if (returns.errors) {
-                    toast.error(JSON.stringify(returns.errors));
-                    editorRef.current.setText(text);
-                  }
-                })
-                .catch(error => {
-                  toast.error(JSON.stringify(error));
-                  editorRef.current.setText(text);
-                });
-            } else {
-              // Cancelled
-              editorRef.current.setText(text);
-            }
-          };
+  const handleSubmitWithError = (content: string) => {
+    if (!editorRef.current) return;
+    const text = editorRef.current.getText();
+    editorRef.current.setText('');
+    const result = handleSubmit(content);
+    if (result) {
+      result
+        .then(returns => {
+          if (returns.errors) {
+            toast.error(JSON.stringify(returns.errors));
+            editorRef.current.setText(text);
+          }
+        })
+        .catch(error => {
+          toast.error(JSON.stringify(error));
+          editorRef.current.setText(text);
+        });
+    } else {
+      // Cancelled
+      editorRef.current.setText(text);
+    }
+  };
 
   return (
     <>
@@ -268,9 +290,7 @@ const MessageGroupChatInner = ({
           ref={editorRef}
           useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
           onKeyDown={(e: React.KeyboardEvent) => {
-            if (
-              sendDirectmessageTrigger & SendMessageTriggerType.ON_ENTER
-            ) {
+            if (sendDirectmessageTrigger & SendMessageTriggerType.ON_ENTER) {
               if (
                 e.nativeEvent.key === 'Enter' &&
                 !e.nativeEvent.shiftKey &&
@@ -282,8 +302,7 @@ const MessageGroupChatInner = ({
               }
             }
             if (
-              sendDirectmessageTrigger &
-              SendMessageTriggerType.ON_CTRL_ENTER
+              sendDirectmessageTrigger & SendMessageTriggerType.ON_CTRL_ENTER
             ) {
               if (e.nativeEvent.key === 'Enter' && e.nativeEvent.ctrlKey) {
                 handleSubmitWithError(editorRef.current.getText());
@@ -292,13 +311,9 @@ const MessageGroupChatInner = ({
               }
             }
             if (
-              sendDirectmessageTrigger &
-              SendMessageTriggerType.ON_SHIFT_ENTER
+              sendDirectmessageTrigger & SendMessageTriggerType.ON_SHIFT_ENTER
             ) {
-              if (
-                e.nativeEvent.key === 'Enter' &&
-                e.nativeEvent.shiftKey
-              ) {
+              if (e.nativeEvent.key === 'Enter' && e.nativeEvent.shiftKey) {
                 handleSubmitWithError(editorRef.current.getText());
                 e.preventDefault();
                 return;
@@ -409,9 +424,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(loginReducer.actions.signupModal.setTrue()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(MessageGroupChat);

@@ -8,10 +8,7 @@ const mapDispatchToProps = dispatch => ({
   deauth: () => dispatch(globalReducer.actions.deauth()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 const withLogout = Wrapped =>
   withRedux(props => (

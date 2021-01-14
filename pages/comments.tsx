@@ -94,10 +94,7 @@ const CommentsRenderer = ({ variables }: CommentsRendererProps) => {
                   offset: data.commentsInSolvedPuzzle.length,
                 },
               }).then(({ data }) => {
-                if (
-                  data.commentsInSolvedPuzzle.length <
-                  COMMENTS_PER_PAGE
-                )
+                if (data.commentsInSolvedPuzzle.length < COMMENTS_PER_PAGE)
                   setHasMore(false);
               })
             }

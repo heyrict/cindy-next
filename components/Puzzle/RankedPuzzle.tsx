@@ -34,7 +34,6 @@ const RankedPuzzle = ({
   rank,
   display,
 }: RankedPuzzleProps) => {
-
   return (
     <Panel width={1} minHeight="8em">
       <Flex
@@ -101,7 +100,9 @@ const RankedPuzzle = ({
         </Box>
         <Hr />
         <Flex p={1} flexWrap="wrap" alignItems="center">
-          {puzzle.status !== StatusEnum.UNDERGOING && puzzle.anonymous && <Anonymous />}
+          {puzzle.status !== StatusEnum.UNDERGOING && puzzle.anonymous && (
+            <Anonymous />
+          )}
           <Status status={puzzle.status} />
           {typeof puzzle.dialogueCount === 'number' && (
             <Process count={puzzle.dialogueCount} />

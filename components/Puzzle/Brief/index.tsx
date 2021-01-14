@@ -9,7 +9,11 @@ import { AnonymousUserCol } from 'components/User/Anonymous';
 import { connect } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
 
-import { FormattedMessage, FormattedTime, FormattedRelativeTime } from 'react-intl';
+import {
+  FormattedMessage,
+  FormattedTime,
+  FormattedRelativeTime,
+} from 'react-intl';
 import messages from 'messages/components/puzzle';
 
 import Anonymous from './Anonymous';
@@ -63,10 +67,10 @@ export const PuzzleBrief = ({
     starCount: starCount || puzzle.starCount,
     starSum: starSum || puzzle.starSum,
     dialogueCount: dialogueCount || puzzle.dialogueCount,
-    dialogueMaxAnsweredTime: dialogueMaxAnsweredTime || puzzle.dialogueMaxAnsweredTime,
+    dialogueMaxAnsweredTime:
+      dialogueMaxAnsweredTime || puzzle.dialogueMaxAnsweredTime,
     dialogueNewCount: dialogueNewCount || puzzle.dialogueNewCount,
-
-  }
+  };
 
   return (
     <PuzzlePane

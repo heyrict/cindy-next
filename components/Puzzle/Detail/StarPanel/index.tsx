@@ -133,9 +133,7 @@ const StarPanel = ({ puzzleId, canAddStar }: StarPanelProps) => {
   return (
     <React.Fragment>
       <Waypoint key="puzzle-star-panel" onEnter={() => setLoaded(true)} />
-      {loaded && (
-        <StarPanelInner puzzleId={puzzleId} canAddStar={canAddStar} />
-      )}
+      {loaded && <StarPanelInner puzzleId={puzzleId} canAddStar={canAddStar} />}
     </React.Fragment>
   );
 };

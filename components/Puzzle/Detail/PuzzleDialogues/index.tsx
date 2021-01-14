@@ -21,7 +21,7 @@ import PuzzleDialoguesUserDeduplicator from './PuzzleDialoguesUserDeduplicator';
 
 import { PuzzleDialoguesProps } from './types';
 import { ActionContentType } from 'reducers/types';
-import {Status, Yami} from 'generated/globalTypes';
+import { Status, Yami } from 'generated/globalTypes';
 
 const PuzzleDialogues = ({
   puzzleId,
@@ -32,7 +32,9 @@ const PuzzleDialogues = ({
   puzzleStatus,
 }: PuzzleDialoguesProps) => {
   // Should remain in subscription if puzzle finished just now
-  const [shouldSubscribe, setShouldSubscribe] = useState(puzzleStatus === Status.UNDERGOING);
+  const [shouldSubscribe, setShouldSubscribe] = useState(
+    puzzleStatus === Status.UNDERGOING,
+  );
 
   useEffect(() => {
     if (puzzleStatus === Status.UNDERGOING) {
@@ -116,9 +118,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(puzzleReducer.actions.solvedLongtermYami.setTrue()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 export default withRedux(PuzzleDialogues);

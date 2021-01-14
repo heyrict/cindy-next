@@ -41,11 +41,7 @@ const PuzzleStarRanking = () => {
               {...rankingMessages.puzzleStarRankingWithMonth}
               values={{
                 date: (
-                  <FormattedDate
-                    value={date}
-                    year="numeric"
-                    month="long"
-                  />
+                  <FormattedDate value={date} year="numeric" month="long" />
                 ),
               }}
             />

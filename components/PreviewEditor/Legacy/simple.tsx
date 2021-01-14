@@ -76,9 +76,9 @@ class SimpleLegacyEditor extends React.Component<
       this.setState(p => ({ stampToolbar: !p.stampToolbar }));
     this.incHeight = (inc: number) => {
       if (!this.modalEditor.current) return;
-      this.modalEditor.current.style.height = `${this.modalEditor.current
-        .clientHeight +
-        inc * 14}px`;
+      this.modalEditor.current.style.height = `${
+        this.modalEditor.current.clientHeight + inc * 14
+      }px`;
     };
   }
 

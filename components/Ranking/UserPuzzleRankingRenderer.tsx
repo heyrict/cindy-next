@@ -14,10 +14,13 @@ import {
   UserPuzzleRankingRendererProps,
   UserPuzzleRankingRendererDefaultProps,
 } from './types';
-import {useQuery} from '@apollo/client';
-import {UserPuzzleRankingQuery, UserPuzzleRankingQueryVariables} from 'graphql/Queries/generated/UserPuzzleRankingQuery';
-import {USER_PUZZLE_RANKING_QUERY} from 'graphql/Queries/Ranking';
-import {getRankingDate, ITEMS_PER_PAGE} from './constants';
+import { useQuery } from '@apollo/client';
+import {
+  UserPuzzleRankingQuery,
+  UserPuzzleRankingQueryVariables,
+} from 'graphql/Queries/generated/UserPuzzleRankingQuery';
+import { USER_PUZZLE_RANKING_QUERY } from 'graphql/Queries/Ranking';
+import { getRankingDate, ITEMS_PER_PAGE } from './constants';
 
 const loadingPanel = (
   <Panel minHeight="4em" width={1}>
