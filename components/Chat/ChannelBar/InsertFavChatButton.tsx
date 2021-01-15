@@ -8,8 +8,9 @@ import starEmptyIcon from 'svgs/starEmpty.svg';
 import { FormattedMessage } from 'react-intl';
 import chatMessages from 'messages/components/chat';
 
-import { Mutation } from '@apollo/react-components';
+import { useMutation } from '@apollo/client';
 import { INSERT_FAVORITE_CHATROOM_MUTATION } from 'graphql/Mutations/Chat';
+
 import {
   InsertFavoriteChatroomMutation,
   InsertFavoriteChatroomMutationVariables,
@@ -20,79 +21,63 @@ import { FavoriteChatroomsQuery } from 'graphql/Queries/generated/FavoriteChatro
 
 const InsertFavChatButton = ({
   chatroomId,
-  chatroomName,
+  userId,
   compact,
-}: InsertFavChatButtonProps) => (
-  <Mutation<
+}: InsertFavChatButtonProps) => {
+  const [insertFavChat] = useMutation<
     InsertFavoriteChatroomMutation,
     InsertFavoriteChatroomMutationVariables
-  >
-    mutation={INSERT_FAVORITE_CHATROOM_MUTATION}
-    update={(proxy, { data, errors }) => {
-      if (!data || !data.insert_favorite_chatroom) return;
-      if (data.insert_favorite_chatroom.returning.length === 0) return;
-      if (errors) {
-        toast.error(JSON.stringify(errors));
-        return;
-      }
-      const favChatrooms = proxy.readQuery<FavoriteChatroomsQuery>({
+  >(INSERT_FAVORITE_CHATROOM_MUTATION, {
+    update: (proxy, { data }) => {
+      if (!data || !data.createFavchat) return;
+      const favchatrooms = proxy.readQuery<FavoriteChatroomsQuery>({
         query: FAVORITE_CHATROOMS_QUERY,
+        variables: {
+          userId,
+        },
       });
-      const newChatroom = data.insert_favorite_chatroom.returning[0];
-      if (!favChatrooms) return;
-      favChatrooms.favorite_chatroom.push(newChatroom);
+      const newChatroom = data.createFavchat;
+      if (!favchatrooms) return;
       proxy.writeQuery({
         query: FAVORITE_CHATROOMS_QUERY,
-        data: favChatrooms,
+        variables: {
+          userId,
+        },
+        data: {
+          favchats: [...favchatrooms.favchats, newChatroom],
+        },
       });
-    }}
-  >
-    {insertFavChat => {
-      const _handleInsertFavChat = () => {
-        insertFavChat({
-          variables: {
-            chatroomId,
-          },
-          optimisticResponse: {
-            insert_favorite_chatroom: {
-              __typename: 'favorite_chatroom_mutation_response',
-              returning: [
-                {
-                  __typename: 'favorite_chatroom',
-                  id: -1,
-                  chatroom: {
-                    __typename: 'chatroom',
-                    id: chatroomId,
-                    name: chatroomName || '...',
-                  },
-                },
-              ],
-            },
-          },
-        });
-      };
+    },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+    },
+  });
 
-      return (
-        <Tooltip
-          reference={
-            <ButtonTransparent
-              px={2}
-              height="channelbar"
-              onClick={_handleInsertFavChat}
-            >
-              <Img height="xxs" src={starEmptyIcon} alt="Star" />
-              {!compact && (
-                <FormattedMessage {...chatMessages.addToFavoriteChatrooms} />
-              )}
-            </ButtonTransparent>
-          }
-          tooltip={
+  const _handleInsertFavChat = () => {
+    insertFavChat({
+      variables: {
+        chatroomId,
+      },
+    });
+  };
+
+  return (
+    <Tooltip
+      reference={
+        <ButtonTransparent
+          px={2}
+          height="channelbar"
+          onClick={_handleInsertFavChat}
+        >
+          <Img height="xxs" src={starEmptyIcon} alt="Star" />
+          {!compact && (
             <FormattedMessage {...chatMessages.addToFavoriteChatrooms} />
-          }
-        />
-      );
-    }}
-  </Mutation>
-);
+          )}
+        </ButtonTransparent>
+      }
+      tooltip={<FormattedMessage {...chatMessages.addToFavoriteChatrooms} />}
+    />
+  );
+};
 
 export default InsertFavChatButton;

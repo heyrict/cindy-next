@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import * as directReducer from 'reducers/direct';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { USER_BRIEF_QUERY } from 'graphql/Queries/User';
 
 import { FormattedMessage } from 'react-intl';
@@ -42,7 +42,7 @@ export const MessageBox = ({
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.user_by_pk) {
+            if (!data || !data.user) {
               if (loading) return <Loading centered />;
               return null;
             }
@@ -55,7 +55,7 @@ export const MessageBox = ({
                 >
                   « <FormattedMessage {...commonMessages.back} />
                 </Button>
-                {data.user_by_pk.nickname}
+                {data.user.nickname}
               </React.Fragment>
             );
           }}
@@ -86,9 +86,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(directReducer.actions.directGroupUser.set(userId)),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(MessageBox);

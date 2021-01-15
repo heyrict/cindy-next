@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 
 import Loading from 'components/General/Loading';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { PUZZLE_SOLUTION_QUERY } from 'graphql/Queries/Puzzles';
 
 import {
@@ -22,9 +22,9 @@ const WithSolution = ({ puzzleId, children }: WithSolutionProps) => (
         return null;
       }
       if (loading) return <Loading centered />;
-      if (!data || !data.puzzle_by_pk) return null;
+      if (!data || !data.puzzle) return null;
 
-      const solution = data.puzzle_by_pk.solution;
+      const solution = data.puzzle.solution;
       return children(solution);
     }}
   </Query>

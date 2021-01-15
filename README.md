@@ -41,17 +41,6 @@ Requisitories
 
 Environment Variables
 --------
-### For apollo server
-
-| env              | description                       | default                                     |
-|------------------|-----------------------------------|---------------------------------------------|
-| PORT             | port to use                       | 3001                                        |
-| PGDB             | Postgres database URL             | postgres://cindy:cindy@localhost:5432/cindy |
-| AUTH_PRIVATE_KEY | Private key for authorization     | Content of `private.pem`                    |
-| AUTH_PUBLIC_KEY  | Public key for authorization      | Content of `public.pem`                     |
-| AUTH_KEY_ID      | Key identifier for the key        | Hash of \$AUTH_PUBLIC_KEY                   |
-| NODE_ENV         | Node env (development/production) |                                             |
-
 ### For next server
 
 | env  | description | default |

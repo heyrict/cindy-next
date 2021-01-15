@@ -14,6 +14,13 @@ import {
   UserDialogueRankingRendererProps,
   UserDialogueRankingRendererDefaultProps,
 } from './types';
+import {
+  UserDialogueRankingQuery,
+  UserDialogueRankingQueryVariables,
+} from 'graphql/Queries/generated/UserDialogueRankingQuery';
+import { USER_DIALOGUE_RANKING_QUERY } from 'graphql/Queries/Ranking';
+import { useQuery } from '@apollo/client';
+import { getRankingDate, ITEMS_PER_PAGE } from './constants';
 
 const loadingPanel = (
   <Panel minHeight="4em" width={1}>
@@ -22,26 +29,33 @@ const loadingPanel = (
 );
 
 const UserDialogueRankingRenderer = ({
-  loading,
-  error,
-  data,
-  refetch,
-  fetchMore,
   shouldLoadMore,
 }: UserDialogueRankingRendererProps) => {
+  const { year, month } = getRankingDate();
+  const { loading, error, data, refetch, fetchMore } = useQuery<
+    UserDialogueRankingQuery,
+    UserDialogueRankingQueryVariables
+  >(USER_DIALOGUE_RANKING_QUERY, {
+    variables: {
+      limit: ITEMS_PER_PAGE,
+      offset: 0,
+      year,
+      month,
+    },
+  });
   const [hasMore, setHasMore] = useState(true);
 
   if (error) {
     toast.error(error.message);
     return <ErrorReload error={error} refetch={refetch} />;
   }
-  if (!data || !data.dialogue_count_ranking) {
+  if (!data || !data.userDialogueRanking) {
     if (loading) return <Loading centered />;
     return null;
   }
 
-  if (data && data.dialogue_count_ranking) {
-    const ranks = data.dialogue_count_ranking;
+  if (data && data.userDialogueRanking) {
+    const ranks = data.userDialogueRanking;
     return (
       <React.Fragment>
         {ranks.map((rank, index) => (
@@ -65,7 +79,7 @@ const UserDialogueRankingRenderer = ({
                 :
               </Box>
               <Box fontSize="1.3em" fontWeight="bold">
-                {rank.value}
+                {rank.valueCount}
               </Box>
             </Flex>
             <Flex
@@ -85,23 +99,12 @@ const UserDialogueRankingRenderer = ({
             loadMore={() =>
               fetchMore({
                 variables: {
-                  offset: data.dialogue_count_ranking.length,
+                  offset: data.userDialogueRanking.length,
                 },
-                updateQuery: (prev, { fetchMoreResult }) => {
-                  if (
-                    !fetchMoreResult ||
-                    !fetchMoreResult.dialogue_count_ranking
-                  )
-                    return prev;
-                  if (fetchMoreResult.dialogue_count_ranking.length === 0)
-                    setHasMore(false);
-                  return Object.assign({}, prev, {
-                    dialogue_count_ranking: [
-                      ...prev.dialogue_count_ranking,
-                      ...fetchMoreResult.dialogue_count_ranking,
-                    ],
-                  });
-                },
+              }).then(({ data }) => {
+                if (!data || !data.userDialogueRanking) return;
+                if (data.userDialogueRanking.length < ITEMS_PER_PAGE)
+                  setHasMore(false);
               })
             }
           >

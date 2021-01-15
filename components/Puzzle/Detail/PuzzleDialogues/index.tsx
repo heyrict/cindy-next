@@ -16,18 +16,12 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as puzzleReducer from 'reducers/puzzle';
 
-import { Query } from '@apollo/react-components';
-import {
-  DialogueHintQuery,
-  DialogueHintQueryVariables,
-} from 'graphql/Queries/generated/DialogueHintQuery';
-import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
-
 import PuzzleDialoguesRenderer from './PuzzleDialoguesRenderer';
 import PuzzleDialoguesUserDeduplicator from './PuzzleDialoguesUserDeduplicator';
 
 import { PuzzleDialoguesProps } from './types';
 import { ActionContentType } from 'reducers/types';
+import { Status, Yami } from 'generated/globalTypes';
 
 const PuzzleDialogues = ({
   puzzleId,
@@ -36,96 +30,72 @@ const PuzzleDialogues = ({
   userId,
   anonymous,
   puzzleStatus,
-  setTrueSolvedLongtermYami,
 }: PuzzleDialoguesProps) => {
   // Should remain in subscription if puzzle finished just now
-  const [shouldSubscribe, setShouldSubscribe] = useState(puzzleStatus === 0);
+  const [shouldSubscribe, setShouldSubscribe] = useState(
+    puzzleStatus === Status.UNDERGOING,
+  );
 
   useEffect(() => {
-    if (puzzleStatus === 0) {
+    if (puzzleStatus === Status.UNDERGOING) {
       setShouldSubscribe(true);
     }
     return () => setShouldSubscribe(false);
   }, []);
 
-  if (puzzleYami === 0) {
+  if (puzzleYami === Yami.NONE) {
     // Query all
     return (
-      <Query<DialogueHintQuery, DialogueHintQueryVariables>
-        query={DIALOGUE_HINT_QUERY}
+      <PuzzleDialoguesRenderer
         variables={{
           puzzleId,
         }}
-        fetchPolicy="cache-and-network"
-      >
-        {queryResult => (
-          <PuzzleDialoguesRenderer
-            {...queryResult}
-            shouldSubscribe={shouldSubscribe}
-            puzzleUser={puzzleUser}
-            anonymous={anonymous}
-            puzzleStatus={puzzleStatus}
-          />
-        )}
-      </Query>
+        shouldSubscribe={shouldSubscribe}
+        puzzleUser={puzzleUser}
+        puzzleYami={puzzleYami}
+        anonymous={anonymous}
+        puzzleStatus={puzzleStatus}
+      />
     );
   }
 
-  if (puzzleStatus === 0 && !userId) {
+  if (puzzleStatus === Status.UNDERGOING && !userId) {
     // Don't show anything in unsolved puzzle if user does not login
     return null;
   }
 
-  if (puzzleYami !== 0 && puzzleUser.id === userId) {
+  if (puzzleUser.id === userId) {
     // For Unsolved yami, current user is creator: Query all, but filter by users
     return (
-      <Query<DialogueHintQuery, DialogueHintQueryVariables>
-        query={DIALOGUE_HINT_QUERY}
+      <PuzzleDialoguesRenderer
         variables={{
           puzzleId,
         }}
-        fetchPolicy="cache-and-network"
-      >
-        {queryResult => (
-          <PuzzleDialoguesRenderer
-            {...queryResult}
-            shouldSubscribe={shouldSubscribe}
-            puzzleUser={puzzleUser}
-            anonymous={anonymous}
-            puzzleStatus={puzzleStatus}
-            applyUserFilter
-          />
-        )}
-      </Query>
+        shouldSubscribe={shouldSubscribe}
+        puzzleUser={puzzleUser}
+        puzzleStatus={puzzleStatus}
+        puzzleYami={puzzleYami}
+        anonymous={anonymous}
+        applyUserFilter
+      />
     );
   }
 
-  if (puzzleStatus === 0) {
+  if (puzzleStatus === Status.UNDERGOING) {
     // Unsolved yami: Query only dialogues by current user
     return (
-      <Query<DialogueHintQuery, DialogueHintQueryVariables>
-        query={DIALOGUE_HINT_QUERY}
+      <PuzzleDialoguesRenderer
         variables={{
           puzzleId,
           userId,
         }}
-        onCompleted={data => {
-          if (puzzleYami === 2 && data.dialogue.some(dialogue => dialogue.true))
-            setTrueSolvedLongtermYami();
-        }}
-        fetchPolicy="cache-and-network"
-      >
-        {queryResult => (
-          <PuzzleDialoguesRenderer
-            {...queryResult}
-            shouldSubscribe={shouldSubscribe}
-            puzzleUser={puzzleUser}
-            anonymous={anonymous}
-            puzzleStatus={puzzleStatus}
-            updateSolvedLongTermYamiOnSubscribe={puzzleYami === 2}
-          />
-        )}
-      </Query>
+        shouldSubscribe={shouldSubscribe}
+        puzzleUser={puzzleUser}
+        puzzleStatus={puzzleStatus}
+        puzzleYami={puzzleYami}
+        anonymous={anonymous}
+        updateSolvedLongTermYamiOnSubscribe={puzzleYami === Yami.LONGTERM}
+      />
     );
   }
 
@@ -147,9 +117,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(puzzleReducer.actions.solvedLongtermYami.setTrue()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 export default withRedux(PuzzleDialogues);

@@ -1,31 +1,23 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { Query } from '@apollo/react-components';
-import { PUZZLE_STAR_RANKING_QUERY } from 'graphql/Queries/Ranking';
-
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import { FormattedMessage, FormattedDate, useIntl } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, Box } from 'components/General';
 import PuzzleStarRankingRenderer from 'components/Ranking/PuzzleStarRankingRenderer';
 import Back from 'components/Ranking/Back';
 import {
-  getMonthlyDate,
+  getRankingDate,
   rankingPanelProps,
   rankingPanelTitleProps,
 } from 'components/Ranking/constants';
 
-import {
-  PuzzleStarRankingQuery,
-  PuzzleStarRankingQueryVariables,
-} from 'graphql/Queries/generated/PuzzleStarRankingQuery';
-import { RankingProps } from 'pageTypes';
+const PuzzleStarRanking = () => {
+  const { formatMessage: _ } = useIntl();
+  const { year, month } = getRankingDate();
+  const date = new Date(year, month);
 
-const PuzzleStarRanking = ({ intl }: RankingProps) => {
-  const _ = intl.formatMessage;
-  const now = new Date();
-  const [monthlyStart, monthlyEnd] = getMonthlyDate(now);
   return (
     <div>
       <Head>
@@ -49,29 +41,16 @@ const PuzzleStarRanking = ({ intl }: RankingProps) => {
               {...rankingMessages.puzzleStarRankingWithMonth}
               values={{
                 date: (
-                  <FormattedDate
-                    value={monthlyStart as string}
-                    year="numeric"
-                    month="long"
-                  />
+                  <FormattedDate value={date} year="numeric" month="long" />
                 ),
               }}
             />
           </Box>
-          <Query<PuzzleStarRankingQuery, PuzzleStarRankingQueryVariables>
-            query={PUZZLE_STAR_RANKING_QUERY}
-            variables={{
-              createdGte: monthlyStart,
-              createdLt: monthlyEnd,
-              limit: 10,
-            }}
-          >
-            {params => <PuzzleStarRankingRenderer {...params} shouldLoadMore />}
-          </Query>
+          <PuzzleStarRankingRenderer shouldLoadMore />
         </Flex>
       </Flex>
     </div>
   );
 };
 
-export default injectIntl(PuzzleStarRanking);
+export default PuzzleStarRanking;

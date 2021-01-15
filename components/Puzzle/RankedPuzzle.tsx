@@ -26,6 +26,7 @@ import bookmarkIcon from 'svgs/puzzleBriefBookmark.svg';
 
 import { RankedPuzzleProps, RankedPuzzleDisplayType } from './types';
 import { StateType } from 'reducers/types';
+import { Status as StatusEnum } from 'generated/globalTypes';
 
 const RankedPuzzle = ({
   puzzle,
@@ -33,35 +34,6 @@ const RankedPuzzle = ({
   rank,
   display,
 }: RankedPuzzleProps) => {
-  const aggregates = {
-    bookmarkCount:
-      puzzle.bookmarks_aggregate &&
-      puzzle.bookmarks_aggregate.aggregate &&
-      puzzle.bookmarks_aggregate.aggregate.count,
-    commentCount:
-      puzzle.comments_aggregate &&
-      puzzle.comments_aggregate.aggregate &&
-      puzzle.comments_aggregate.aggregate.count,
-    starCount:
-      puzzle.stars_aggregate &&
-      puzzle.stars_aggregate.aggregate &&
-      puzzle.stars_aggregate.aggregate.count,
-    starSum:
-      puzzle.stars_aggregate &&
-      puzzle.stars_aggregate.aggregate &&
-      puzzle.stars_aggregate.aggregate.sum &&
-      puzzle.stars_aggregate.aggregate.sum.value,
-    dialogueCount:
-      puzzle.dialogues_aggregate &&
-      puzzle.dialogues_aggregate.aggregate &&
-      puzzle.dialogues_aggregate.aggregate.count,
-    dialogueMaxCreatedtime:
-      puzzle.dialogues_aggregate &&
-      puzzle.dialogues_aggregate.aggregate &&
-      puzzle.dialogues_aggregate.aggregate.max &&
-      puzzle.dialogues_aggregate.aggregate.max.created,
-  };
-
   return (
     <Panel width={1} minHeight="8em">
       <Flex
@@ -77,28 +49,28 @@ const RankedPuzzle = ({
           <FormattedMessage {...rankingMessages.rank} values={{ rank }} />
         </Box>
         {display === RankedPuzzleDisplayType.star &&
-          typeof aggregates.starCount === 'number' &&
-          aggregates.starCount > 0 &&
-          typeof aggregates.starSum === 'number' && (
+          typeof puzzle.starCount === 'number' &&
+          puzzle.starCount > 0 &&
+          typeof puzzle.starSum === 'number' && (
             <Box fontWeight="bold">
               <Img size="0.9em" pr="1px" src={starIcon} />
-              {aggregates.starCount}({aggregates.starSum})
+              {puzzle.starCount}({puzzle.starSum})
             </Box>
           )}
         {display === RankedPuzzleDisplayType.comment &&
-          typeof aggregates.commentCount === 'number' &&
-          aggregates.commentCount > 0 && (
+          typeof puzzle.commentCount === 'number' &&
+          puzzle.commentCount > 0 && (
             <Box fontWeight="bold">
               <Img size="1.25em" pr={1} src={commentIcon} />{' '}
-              {aggregates.commentCount}
+              {puzzle.commentCount}
             </Box>
           )}
         {display === RankedPuzzleDisplayType.bookmark &&
-          typeof aggregates.bookmarkCount === 'number' &&
-          aggregates.bookmarkCount > 0 && (
+          typeof puzzle.bookmarkCount === 'number' &&
+          puzzle.bookmarkCount > 0 && (
             <Box fontWeight="bold">
               <Img size="0.8em" pr={1} src={bookmarkIcon} />
-              {aggregates.bookmarkCount}
+              {puzzle.bookmarkCount}
             </Box>
           )}
       </Flex>
@@ -128,23 +100,25 @@ const RankedPuzzle = ({
         </Box>
         <Hr />
         <Flex p={1} flexWrap="wrap" alignItems="center">
-          {puzzle.status !== 0 && puzzle.anonymous && <Anonymous />}
-          <Status status={puzzle.status} />
-          {typeof aggregates.dialogueCount === 'number' && (
-            <Process count={aggregates.dialogueCount} />
+          {puzzle.status !== StatusEnum.UNDERGOING && puzzle.anonymous && (
+            <Anonymous />
           )}
-          {typeof aggregates.starCount === 'number' &&
-            aggregates.starCount > 0 &&
-            typeof aggregates.starSum === 'number' && (
-              <Star count={aggregates.starCount} sum={aggregates.starSum} />
+          <Status status={puzzle.status} />
+          {typeof puzzle.dialogueCount === 'number' && (
+            <Process count={puzzle.dialogueCount} />
+          )}
+          {typeof puzzle.starCount === 'number' &&
+            puzzle.starCount > 0 &&
+            typeof puzzle.starSum === 'number' && (
+              <Star count={puzzle.starCount} sum={puzzle.starSum} />
             )}
-          {typeof aggregates.commentCount === 'number' &&
-            aggregates.commentCount > 0 && (
-              <Comment puzzleId={puzzle.id} count={aggregates.commentCount} />
+          {typeof puzzle.commentCount === 'number' &&
+            puzzle.commentCount > 0 && (
+              <Comment puzzleId={puzzle.id} count={puzzle.commentCount} />
             )}
-          {typeof aggregates.bookmarkCount === 'number' &&
-            aggregates.bookmarkCount > 0 && (
-              <Bookmark count={aggregates.bookmarkCount} />
+          {typeof puzzle.bookmarkCount === 'number' &&
+            puzzle.bookmarkCount > 0 && (
+              <Bookmark count={puzzle.bookmarkCount} />
             )}
         </Flex>
       </Box>

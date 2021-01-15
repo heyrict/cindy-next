@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import commonMessages from 'messages/common';
 import puzzlePageMessages from 'messages/pages/puzzle';
 
-import { Mutation } from '@apollo/react-components';
+import { useMutation } from '@apollo/client';
 import { DELETE_PUZZLE_TAG_MUTATION } from 'graphql/Mutations/Tag';
 import { PUZZLE_PAGE_TAGS_QUERY } from 'graphql/Queries/Tag';
 
@@ -23,7 +23,6 @@ import {
   PuzzlePageTagsQuery,
   PuzzlePageTagsQueryVariables,
 } from 'graphql/Queries/generated/PuzzlePageTagsQuery';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -33,6 +32,35 @@ const PuzzleTagBubble = ({
   canDelete,
 }: PuzzleTagBubbleProps) => {
   const warnHdl = useRef<React.ReactText | null>(null);
+
+  const [deletePuzzleTag] = useMutation<
+    DeletePuzzleTagMutation,
+    DeletePuzzleTagMutationVariables
+  >(DELETE_PUZZLE_TAG_MUTATION, {
+    update: (proxy, { data }) => {
+      if (!data || !data.deletePuzzleTag) return null;
+      const puzzleTag = data.deletePuzzleTag;
+
+      const prevData = proxy.readQuery<
+        PuzzlePageTagsQuery,
+        PuzzlePageTagsQueryVariables
+      >({
+        query: PUZZLE_PAGE_TAGS_QUERY,
+        variables: { puzzleId },
+      });
+      if (!prevData) return null;
+      proxy.writeQuery<PuzzlePageTagsQuery, PuzzlePageTagsQueryVariables>({
+        query: PUZZLE_PAGE_TAGS_QUERY,
+        variables: { puzzleId },
+        data: {
+          puzzleTags: prevData.puzzleTags.filter(pt => pt.id !== puzzleTag.id),
+        },
+      });
+    },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+    },
+  });
 
   return (
     <PuzzleTagBubbleBox>
@@ -44,92 +72,53 @@ const PuzzleTagBubble = ({
         </Link>
       </Box>
       {canDelete && (
-        <Mutation<DeletePuzzleTagMutation, DeletePuzzleTagMutationVariables>
-          mutation={DELETE_PUZZLE_TAG_MUTATION}
-          update={(proxy, { data }) => {
-            if (!data || !data.delete_puzzle_tag) return null;
-            const prevData = proxy.readQuery<
-              PuzzlePageTagsQuery,
-              PuzzlePageTagsQueryVariables
-            >({
-              query: PUZZLE_PAGE_TAGS_QUERY,
-              variables: { puzzleId },
-            });
-            if (!prevData) return null;
-            proxy.writeQuery<PuzzlePageTagsQuery, PuzzlePageTagsQueryVariables>(
-              {
-                query: PUZZLE_PAGE_TAGS_QUERY,
-                variables: { puzzleId },
-                data: {
-                  ...prevData,
-                  puzzle_tag: prevData.puzzle_tag.filter(
-                    pt => pt.id !== puzzleTag.id,
-                  ),
-                },
-              },
+        <ButtonTransparent
+          p={1}
+          onClick={() => {
+            if (warnHdl.current) toast.dismiss(warnHdl.current);
+            warnHdl.current = toast.warn(
+              <Box>
+                <FormattedMessage
+                  {...puzzlePageMessages.deleteTagConfirm}
+                  values={{
+                    tag: puzzleTag.tag.name,
+                  }}
+                />
+                <Box
+                  bg="red.4"
+                  border="3px solid"
+                  borderColor="red.7"
+                  borderRadius={2}
+                >
+                  <ButtonTransparent
+                    p={2}
+                    width={1}
+                    color="red.1"
+                    fontWeight="bold"
+                    onClick={() => {
+                      deletePuzzleTag({
+                        variables: {
+                          puzzleTagId: puzzleTag.id,
+                        },
+                        optimisticResponse: {
+                          deletePuzzleTag: {
+                            __typename: 'PuzzleTag',
+                            id: puzzleTag.id,
+                          },
+                        },
+                      });
+                      if (warnHdl.current) toast.dismiss(warnHdl.current);
+                    }}
+                  >
+                    <FormattedMessage {...commonMessages.continue} />
+                  </ButtonTransparent>
+                </Box>
+              </Box>,
             );
           }}
         >
-          {deletePuzzleTag => (
-            <ButtonTransparent
-              p={1}
-              onClick={() => {
-                if (warnHdl.current) toast.dismiss(warnHdl.current);
-                warnHdl.current = toast.warn(
-                  <Box>
-                    <FormattedMessage
-                      {...puzzlePageMessages.deleteTagConfirm}
-                      values={{
-                        tag: puzzleTag.tag.name,
-                      }}
-                    />
-                    <Box
-                      bg="red.4"
-                      border="3px solid"
-                      borderColor="red.7"
-                      borderRadius={2}
-                    >
-                      <ButtonTransparent
-                        p={2}
-                        width={1}
-                        color="red.1"
-                        fontWeight="bold"
-                        onClick={() => {
-                          deletePuzzleTag({
-                            variables: {
-                              puzzleTagId: puzzleTag.id,
-                            },
-                            optimisticResponse: {
-                              delete_puzzle_tag: {
-                                __typename: 'puzzle_tag_mutation_response',
-                                affected_rows: 1,
-                              },
-                            },
-                          })
-                            .then(res => {
-                              if (!res) return;
-                              const { errors } = res;
-                              if (errors) {
-                                toast.error(JSON.stringify(errors));
-                              }
-                            })
-                            .catch((e: ApolloError) => {
-                              toast.error(e.message);
-                            });
-                          if (warnHdl.current) toast.dismiss(warnHdl.current);
-                        }}
-                      >
-                        <FormattedMessage {...commonMessages.continue} />
-                      </ButtonTransparent>
-                    </Box>
-                  </Box>,
-                );
-              }}
-            >
-              <Img src={denyPlainIcon} height="0.8em" alt="x" />
-            </ButtonTransparent>
-          )}
-        </Mutation>
+          <Img src={denyPlainIcon} height="0.8em" alt="x" />
+        </ButtonTransparent>
       )}
     </PuzzleTagBubbleBox>
   );

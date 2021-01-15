@@ -5,10 +5,15 @@ import { Flex, Box } from 'components/General';
 import Loading from 'components/General/Loading';
 import StarInput from 'components/Star/StarInput';
 
-import { Query, Mutation } from '@apollo/react-components';
+import { useMutation, useQuery } from '@apollo/client';
+import {
+  ADD_STAR_MUTATION,
+  UPDATE_STAR_MUTATION,
+} from 'graphql/Mutations/Star';
 import {
   PUZZLE_STAR_QUERY,
   PREVIOUS_STAR_VALUE_QUERY,
+  PUZZLE_STAR_AGGREGATE_QUERY,
 } from 'graphql/Queries/Star';
 
 import { connect } from 'react-redux';
@@ -20,22 +25,211 @@ import commonMessages from 'messages/common';
 
 import { MAX_DISPLAY_STAR_USERS } from './constants';
 
-import { StarPopupContentProps } from './types';
+import { AddStarContentProps, StarPopupContentProps } from './types';
 import {
   PuzzleStarQuery,
   PuzzleStarQueryVariables,
 } from 'graphql/Queries/generated/PuzzleStarQuery';
-import { ADD_STAR_MUTATION } from 'graphql/Mutations/Star';
 import {
   AddStarMutation,
   AddStarMutationVariables,
 } from 'graphql/Mutations/generated/AddStarMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
 import {
   PreviousStarValueQuery,
   PreviousStarValueQueryVariables,
 } from 'graphql/Queries/generated/PreviousStarValueQuery';
 import { StateType } from 'reducers/types';
+import {
+  UpdateStarMutation,
+  UpdateStarMutationVariables,
+} from 'graphql/Mutations/generated/UpdateStarMutation';
+import {
+  PuzzleStarAggregateQuery,
+  PuzzleStarAggregateQueryVariables,
+} from 'graphql/Queries/generated/PuzzleStarAggregateQuery';
+
+const AddStarContent = ({ userId, puzzleId }: AddStarContentProps) => {
+  const notifHdlRef = useRef<React.ReactText | null>(null);
+
+  const { data, error, loading } = useQuery<
+    PreviousStarValueQuery,
+    PreviousStarValueQueryVariables
+  >(PREVIOUS_STAR_VALUE_QUERY, {
+    variables: {
+      puzzleId,
+      userId,
+    },
+  });
+  const [addStar] = useMutation<AddStarMutation, AddStarMutationVariables>(
+    ADD_STAR_MUTATION,
+    {
+      update: (proxy, { data }) => {
+        if (!data || !data.createStar) return;
+        const newStar = data.createStar;
+
+        // Update user's stars on this puzzle
+        proxy.writeQuery<
+          PreviousStarValueQuery,
+          PreviousStarValueQueryVariables
+        >({
+          query: PREVIOUS_STAR_VALUE_QUERY,
+          variables: {
+            puzzleId,
+            userId,
+          },
+          data: {
+            stars: [newStar],
+          },
+        });
+
+        // Update Aggregated star count
+        let queryData = proxy.readQuery<
+          PuzzleStarAggregateQuery,
+          PuzzleStarAggregateQueryVariables
+        >({
+          query: PUZZLE_STAR_AGGREGATE_QUERY,
+          variables: {
+            puzzleId,
+          },
+        });
+        if (queryData) {
+          proxy.writeQuery<
+            PuzzleStarAggregateQuery,
+            PuzzleStarAggregateQueryVariables
+          >({
+            query: PUZZLE_STAR_AGGREGATE_QUERY,
+            variables: { puzzleId },
+            data: {
+              ...queryData,
+              starCount: queryData.starCount + 1,
+              starSumByPuzzle: (queryData.starSumByPuzzle || 0) + newStar.value,
+            },
+          });
+        }
+      },
+      onCompleted: () => {
+        if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+        toast.info(<FormattedMessage {...commonMessages.saved} />);
+      },
+      onError: error => {
+        toast.error(`${error.name}: ${error.message}`);
+      },
+    },
+  );
+  const [updateStar] = useMutation<
+    UpdateStarMutation,
+    UpdateStarMutationVariables
+  >(UPDATE_STAR_MUTATION, {
+    update: (proxy, { data: newData }) => {
+      const prevStarValue =
+        data && data.stars
+          ? data.stars.length === 0
+            ? 0
+            : data.stars[0].value
+          : 0;
+      if (!newData || !newData.updateStar) return;
+
+      // Update Aggregated star count
+      let queryData = proxy.readQuery<
+        PuzzleStarAggregateQuery,
+        PuzzleStarAggregateQueryVariables
+      >({
+        query: PUZZLE_STAR_AGGREGATE_QUERY,
+        variables: {
+          puzzleId,
+        },
+      });
+      if (queryData) {
+        proxy.writeQuery<
+          PuzzleStarAggregateQuery,
+          PuzzleStarAggregateQueryVariables
+        >({
+          query: PUZZLE_STAR_AGGREGATE_QUERY,
+          variables: { puzzleId },
+          data: {
+            ...queryData,
+            starSumByPuzzle:
+              (queryData.starSumByPuzzle || 0) -
+              prevStarValue +
+              newData.updateStar.value,
+          },
+        });
+      }
+    },
+    onCompleted: () => {
+      if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+      toast.info(<FormattedMessage {...commonMessages.saved} />);
+    },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+    },
+  });
+
+  if (error) {
+    toast.error(error.message);
+    return null;
+  }
+  if (!data || !data.stars) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
+  const initialValue = data.stars.length === 0 ? 0 : data.stars[0].value;
+  return (
+    <>
+      {initialValue === 0 ? (
+        <Box pr={1}>
+          <FormattedMessage {...puzzleMessages.addStars} />:
+        </Box>
+      ) : (
+        <Box pr={1}>
+          <FormattedMessage {...puzzleMessages.yourStars} />:
+        </Box>
+      )}
+      <StarInput
+        initialValue={initialValue}
+        onChange={value => {
+          if (data.stars.length === 0) {
+            // If the user does not have a star on this puzzle
+            // before, create one.
+            addStar({
+              variables: {
+                puzzleId,
+                value,
+              },
+              optimisticResponse: {
+                createStar: {
+                  __typename: 'Star',
+                  id: -1,
+                  value,
+                },
+              },
+            });
+          } else {
+            // Otherwise, update that star
+            const star = data.stars[0];
+            updateStar({
+              variables: {
+                id: star.id,
+                value,
+              },
+              optimisticResponse: {
+                updateStar: {
+                  __typename: 'Star',
+                  id: star.id,
+                  value,
+                },
+              },
+            });
+          }
+
+          notifHdlRef.current = toast.info(
+            <FormattedMessage {...commonMessages.saving} />,
+          );
+        }}
+      />
+    </>
+  );
+};
 
 const StarPopupContent = ({
   userId,
@@ -46,7 +240,13 @@ const StarPopupContent = ({
   canAddStar,
 }: StarPopupContentProps) => {
   const contentRef = useRef<HTMLDivElement>(null!);
-  const notifHdlRef = useRef<React.ReactText | null>(null);
+
+  const { data, error, loading } = useQuery<
+    PuzzleStarQuery,
+    PuzzleStarQueryVariables
+  >(PUZZLE_STAR_QUERY, {
+    variables: { puzzleId, limit: MAX_DISPLAY_STAR_USERS },
+  });
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
@@ -63,161 +263,46 @@ const StarPopupContent = ({
     return () => window.removeEventListener('click', handleOutsideClick);
   }, []);
 
+  if (error) {
+    toast.error(error.message);
+    return null;
+  }
+  if (!data || !data.stars) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
+
   return (
-    <Flex ref={contentRef} width={1} flexWrap="wrap">
-      <Query<PuzzleStarQuery, PuzzleStarQueryVariables>
-        query={PUZZLE_STAR_QUERY}
-        variables={{ puzzleId, limit: MAX_DISPLAY_STAR_USERS }}
-      >
-        {({ data, error, loading }) => {
-          if (error) {
-            toast.error(error.message);
-            return null;
-          }
-          if (!data || !data.star) {
-            if (loading) return <Loading centered />;
-            return null;
-          }
-          return (
-            <Box width={1} mb={2}>
-              {MAX_DISPLAY_STAR_USERS < starCount ? (
-                <FormattedMessage
-                  {...puzzleMessages.starUsersWithExtra}
-                  values={{
-                    users: data.star
-                      .slice(0, MAX_DISPLAY_STAR_USERS)
-                      .map(star => star.user.nickname)
-                      .join(', '),
-                    count: starCount - MAX_DISPLAY_STAR_USERS,
-                  }}
-                />
-              ) : (
-                <FormattedMessage
-                  {...puzzleMessages.starUsers}
-                  values={{
-                    users: data.star.map(star => star.user.nickname).join(', '),
-                  }}
-                />
-              )}
-            </Box>
-          );
-        }}
-      </Query>
+    <>
+      <Flex ref={contentRef} width={1} flexWrap="wrap">
+        <Box width={1} mb={2}>
+          {MAX_DISPLAY_STAR_USERS < starCount ? (
+            <FormattedMessage
+              {...puzzleMessages.starUsersWithExtra}
+              values={{
+                users: data.stars
+                  .slice(0, MAX_DISPLAY_STAR_USERS)
+                  .map(star => star.user.nickname)
+                  .join(', '),
+                count: starCount - MAX_DISPLAY_STAR_USERS,
+              }}
+            />
+          ) : (
+            <FormattedMessage
+              {...puzzleMessages.starUsers}
+              values={{
+                users: data.stars.map(star => star.user.nickname).join(', '),
+              }}
+            />
+          )}
+        </Box>
+      </Flex>
       <Flex width={1} justifyContent="space-around" alignItems="center">
         {userId && canAddStar && (
-          <Query<PreviousStarValueQuery, PreviousStarValueQueryVariables>
-            query={PREVIOUS_STAR_VALUE_QUERY}
-            variables={{
-              puzzleId,
-              userId,
-            }}
-          >
-            {({ data, error, loading }) => {
-              if (error) {
-                toast.error(error.message);
-                return null;
-              }
-              if (!data || !data.star) {
-                if (loading) return <Loading centered />;
-                return null;
-              }
-              const initialValue =
-                data.star.length === 0 ? 0 : data.star[0].value;
-              return (
-                <>
-                  {initialValue === 0 ? (
-                    <Box pr={1}>
-                      <FormattedMessage {...puzzleMessages.addStars} />:
-                    </Box>
-                  ) : (
-                    <Box pr={1}>
-                      <FormattedMessage {...puzzleMessages.yourStars} />:
-                    </Box>
-                  )}
-                  <Mutation<AddStarMutation, AddStarMutationVariables>
-                    mutation={ADD_STAR_MUTATION}
-                    update={(proxy, { data }) => {
-                      if (
-                        !data ||
-                        !data.insert_star ||
-                        data.insert_star.returning.length === 0
-                      )
-                        return;
-                      const newStar = data.insert_star.returning[0];
-                      proxy.writeQuery<
-                        PreviousStarValueQuery,
-                        PreviousStarValueQueryVariables
-                      >({
-                        query: PREVIOUS_STAR_VALUE_QUERY,
-                        variables: {
-                          puzzleId,
-                          userId,
-                        },
-                        data: {
-                          star: [{ ...newStar }],
-                        },
-                      });
-                    }}
-                  >
-                    {addStar => (
-                      <StarInput
-                        initialValue={initialValue}
-                        onChange={value => {
-                          addStar({
-                            variables: {
-                              puzzleId,
-                              value,
-                            },
-                            optimisticResponse: {
-                              insert_star: {
-                                __typename: 'star_mutation_response',
-                                returning: [
-                                  {
-                                    __typename: 'star',
-                                    id:
-                                      data.star.length > 0
-                                        ? data.star[0].id
-                                        : -1,
-                                    value,
-                                  },
-                                ],
-                              },
-                            },
-                          })
-                            .then(res => {
-                              if (!res) return;
-                              const { errors } = res;
-                              if (errors) {
-                                toast.error(JSON.stringify(errors));
-                              } else {
-                                if (notifHdlRef.current)
-                                  toast.dismiss(notifHdlRef.current);
-                                toast.info(
-                                  <FormattedMessage
-                                    {...commonMessages.saved}
-                                  />,
-                                );
-                              }
-                            })
-                            .catch((e: ApolloError) => {
-                              if (notifHdlRef.current)
-                                toast.dismiss(notifHdlRef.current);
-                              toast.error(e.message);
-                            });
-                          notifHdlRef.current = toast.info(
-                            <FormattedMessage {...commonMessages.saving} />,
-                          );
-                        }}
-                      />
-                    )}
-                  </Mutation>
-                </>
-              );
-            }}
-          </Query>
+          <AddStarContent userId={userId} puzzleId={puzzleId} />
         )}
       </Flex>
-    </Flex>
+    </>
   );
 };
 

@@ -1,81 +1,27 @@
 import { InlineUser } from 'components/User/types';
-
-export enum YamiType {
-  NotYami,
-  Yami,
-  LongtermYami,
-}
-
-export enum GenreType {
-  Classic,
-  TwentyQuestions,
-  LittleAlbat,
-  Others,
-}
-
-export enum StatusType {
-  Undergoing,
-  Solved,
-  Dazed,
-  Hidden,
-  Forbidden,
-}
-
-type StarsAggregateAggregateSum = {
-  value: number | null;
-};
-type StarsAggregateAggregate = {
-  count: number | null;
-  sum: StarsAggregateAggregateSum | null;
-};
-type StarsAggregate = {
-  aggregate: StarsAggregateAggregate | null;
-};
-
-type CommentsAggregateAggregate = {
-  count: number | null;
-};
-type CommentsAggregate = {
-  aggregate: CommentsAggregateAggregate | null;
-};
-
-type BookmarksAggregateAggregate = {
-  count: number | null;
-};
-type BookmarksAggregate = {
-  aggregate: BookmarksAggregateAggregate | null;
-};
-
-type DialoguesAggregateAggregateMax = {
-  answeredtime: string | number | null;
-  created: string | number | null;
-};
-type DialoguesAggregateAggregate = {
-  count: number | null;
-  max?: DialoguesAggregateAggregateMax | null;
-};
-type DialoguesAggregate = {
-  aggregate: DialoguesAggregateAggregate | null;
-};
+import { Status, Genre, Yami } from 'generated/globalTypes';
 
 export type PuzzleType = {
   id: number;
-  genre: number;
+  genre: Genre;
   title: string;
-  status: number;
-  yami: number;
+  status: Status;
+  yami: Yami;
   anonymous?: boolean;
   created: string;
   modified: string;
   user: InlineUser;
-  stars_aggregate?: StarsAggregate | null;
-  comments_aggregate?: CommentsAggregate | null;
-  bookmarks_aggregate?: BookmarksAggregate | null;
-  dialogues_aggregate?: DialoguesAggregate | null;
+  starCount?: number;
+  starSum?: number;
+  commentCount?: number;
+  bookmarkCount?: number;
+  dialogueCount?: number;
+  dialogueNewCount?: number;
+  dialogueMaxAnsweredTime?: string;
 };
 
 export type PuzzlePaneProps = {
-  status: number;
+  status: Status;
 };
 
 export type PuzzleBriefProps = {
@@ -85,8 +31,8 @@ export type PuzzleBriefProps = {
   starCount?: number;
   starSum?: number;
   dialogueCount?: number;
-  dialogueMaxAnsweredtime?: string;
-  dialogueMaxCreated?: string;
+  dialogueNewCount?: number;
+  dialogueMaxAnsweredTime?: string;
   showGenreImage: boolean;
 };
 

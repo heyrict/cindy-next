@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import * as chatReducer from 'reducers/chat';
 import * as globalReducer from 'reducers/global';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { CHATROOM_ID_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
 
 import { FormattedMessage } from 'react-intl';
@@ -88,8 +88,8 @@ const ChannelChangeInput = ({
                 toast.error(error.message);
                 return null;
               }
-              if (!data || !data.chatroom) return null;
-              if (data.chatroom.length === 0)
+              if (!data || !data.chatrooms) return null;
+              if (data.chatrooms.length === 0)
                 return (
                   <FormattedMessage {...chatMessages.notExistDescription} />
                 );
@@ -103,14 +103,14 @@ const ChannelChangeInput = ({
                       fontWeight="bold"
                       pr={2}
                     >
-                      {data.chatroom[0].name}
+                      {data.chatrooms[0].name}
                     </Box>
                     by
-                    <UserInline pl={2} user={data.chatroom[0].user} />
+                    <UserInline pl={2} user={data.chatrooms[0].user} />
                   </Box>
                   <Box
                     dangerouslySetInnerHTML={{
-                      __html: text2md(data.chatroom[0].description),
+                      __html: text2md(data.chatrooms[0].description),
                     }}
                   />
                 </>
@@ -136,9 +136,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(chatReducer.actions.channelChangeModal.setFalse()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(ChannelChangeInput);

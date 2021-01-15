@@ -1,4 +1,4 @@
-import { ApolloConsumer } from '@apollo/react-common';
+import { ApolloConsumer } from '@apollo/client';
 import { setCookie } from 'common/cookie';
 
 import { connect } from 'react-redux';
@@ -8,10 +8,7 @@ const mapDispatchToProps = dispatch => ({
   deauth: () => dispatch(globalReducer.actions.deauth()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 const withLogout = Wrapped =>
   withRedux(props => (

@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { asSearch } from 'common/search';
 import { concatList } from 'common/update';
 
-import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import tagsPageMessages from 'messages/pages/tags';
 import commonMessages from 'messages/common';
 
-import { Query } from '@apollo/react-components';
+import { useQuery } from '@apollo/client';
 import { TAGS_PAGE_QUERY } from 'graphql/Queries/Tag';
 
 import {
@@ -26,7 +26,7 @@ import SortVarSetPanel from 'components/Search/SortVarSetPanel';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import { PuzzleTagBubbleBox } from 'components/Puzzle/Detail/PuzzleTags/shared';
 
-import { order_by } from 'generated/globalTypes';
+import { Ordering } from 'generated/globalTypes';
 import { FilterFieldTypeEnum } from 'components/Search/types';
 import { TagsVariablesStates } from 'pageTypes';
 import {
@@ -38,15 +38,85 @@ const TAGS_PER_PAGE = 50;
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
-const Tags = ({ intl }: { intl: IntlShape }) => {
+function TagsPageContents({ variables }: { variables: TagsVariablesStates }) {
+  const [hasMore, setHasMore] = useState(true);
+
+  const { data, loading, error, refetch, fetchMore } = useQuery<
+    TagsPageQuery,
+    TagsPageQueryVariables
+  >(TAGS_PAGE_QUERY, {
+    variables: {
+      ...variables,
+      limit: TAGS_PER_PAGE,
+      offset: 0,
+    },
+    fetchPolicy: 'cache-first',
+  });
+
+  if (error) {
+    return <ErrorReload error={error} refetch={refetch} />;
+  }
+  if (loading) return <Loading centered />;
+  if (!data || !data.tags) return null;
+
+  const { tags } = data;
+  return (
+    <Flex flexWrap="wrap" alignItems="center">
+      {tags.map(tag => (
+        <PuzzleTagBubbleBox key={tag.id}>
+          <Box fontSize="1.2em">
+            <Link href="/tag/[id]" as={`/tag/${tag.id}`} passHref>
+              <ButtonTransparentA p={1} borderRadius={2}>
+                {tag.name}
+                <Box
+                  display="inline-box"
+                  fontSize="0.8em"
+                  color="green.7"
+                  pl={1}
+                >
+                  {tag.puzzleTagCount}
+                </Box>
+              </ButtonTransparentA>
+            </Link>
+          </Box>
+        </PuzzleTagBubbleBox>
+      ))}
+      {tags.length >= TAGS_PER_PAGE && hasMore && (
+        <LoadMoreVis
+          loadMore={() =>
+            fetchMore({
+              query: TAGS_PAGE_QUERY,
+              variables: {
+                ...variables,
+                offset: data.tags.length,
+              },
+              updateQuery: (prev, { fetchMoreResult }) => {
+                if (!fetchMoreResult) return prev;
+                return {
+                  ...prev,
+                  tags: concatList(prev.tags, fetchMoreResult.tags),
+                };
+              },
+            }).then(({ data }) => {
+              if (data.tags.length < TAGS_PER_PAGE) setHasMore(false);
+            })
+          }
+        />
+      )}
+    </Flex>
+  );
+}
+
+const Tags = () => {
+  const intl = useIntl();
   const _ = intl.formatMessage;
   const searchRef = useRef<SearchVarSetPanel>(null!);
   const sortRef = useRef<SortVarSetPanel>(null!);
+
   const [variables, setVariables] = useState({
     name: null,
-    orderBy: [{ id: order_by.desc_nulls_last }],
+    orderBy: [{ id: Ordering.DESC_NULLS_LAST }],
   } as TagsVariablesStates);
-  const [hasMore, setHasMore] = useState(true);
 
   return (
     <React.Fragment>
@@ -72,12 +142,13 @@ const Tags = ({ intl }: { intl: IntlShape }) => {
         <SortVarSetPanel
           ref={sortRef}
           initialField="id"
-          defaultValue={[{ id: order_by.desc_nulls_last }]}
+          defaultValue={[{ id: Ordering.DESC_NULLS_LAST }]}
           fields={[
             {
               key: 'id',
               fieldName: <FormattedMessage {...tagsPageMessages.tagCreated} />,
             },
+            /*
             {
               key: 'puzzle_tag_count',
               getValue: order => ({
@@ -87,6 +158,7 @@ const Tags = ({ intl }: { intl: IntlShape }) => {
                 <FormattedMessage {...tagsPageMessages.tagPuzzleCount} />
               ),
             },
+             */
           ]}
         />
         <Flex width={1}>
@@ -99,7 +171,7 @@ const Tags = ({ intl }: { intl: IntlShape }) => {
                 searchRef.current.reset();
                 sortRef.current.reset();
                 newVariables.name = null;
-                newVariables.orderBy = [{ id: order_by.desc_nulls_last }];
+                newVariables.orderBy = [{ id: Ordering.DESC_NULLS_LAST }];
 
                 setVariables(newVariables);
               }}
@@ -127,70 +199,15 @@ const Tags = ({ intl }: { intl: IntlShape }) => {
           </Box>
         </Flex>
       </Panel>
-      <Query<TagsPageQuery, TagsPageQueryVariables>
-        query={TAGS_PAGE_QUERY}
-        variables={{ ...variables, limit: TAGS_PER_PAGE, offset: 0 }}
-        fetchPolicy="cache-first"
-      >
-        {({ data, loading, error, refetch, fetchMore }) => {
-          if (error) {
-            return <ErrorReload error={error} refetch={refetch} />;
-          }
-          if (loading) return <Loading centered />;
-          if (!data || !data.tag) return null;
-
-          const tags = data.tag;
-          return (
-            <Flex flexWrap="wrap" alignItems="center">
-              {tags.map(tag => (
-                <PuzzleTagBubbleBox key={tag.id}>
-                  <Box fontSize="1.2em">
-                    <Link href="/tag/[id]" as={`/tag/${tag.id}`} passHref>
-                      <ButtonTransparentA p={1} borderRadius={2}>
-                        {tag.name}
-                        {tag.puzzle_tags_aggregate.aggregate && (
-                          <Box
-                            display="inline-box"
-                            fontSize="0.8em"
-                            color="green.7"
-                            pl={1}
-                          >
-                            {tag.puzzle_tags_aggregate.aggregate.count}
-                          </Box>
-                        )}
-                      </ButtonTransparentA>
-                    </Link>
-                  </Box>
-                </PuzzleTagBubbleBox>
-              ))}
-              {tags.length >= TAGS_PER_PAGE && hasMore && (
-                <LoadMoreVis
-                  loadMore={() =>
-                    fetchMore({
-                      query: TAGS_PAGE_QUERY,
-                      variables: {
-                        ...variables,
-                        offset: data.tag.length,
-                      },
-                      updateQuery: (prev, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) return prev;
-                        if (fetchMoreResult.tag.length < TAGS_PER_PAGE)
-                          setHasMore(false);
-                        return {
-                          ...prev,
-                          tag: concatList(prev.tag, fetchMoreResult.tag),
-                        };
-                      },
-                    })
-                  }
-                />
-              )}
-            </Flex>
-          );
-        }}
-      </Query>
+      <TagsPageContents variables={variables} />
     </React.Fragment>
   );
 };
 
-export default injectIntl(Tags);
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
+
+export default Tags;

@@ -3,7 +3,7 @@ import Head from 'next/head';
 import styled from 'theme/styled';
 import { toast } from 'react-toastify';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
 import { compose } from 'redux';
@@ -75,8 +75,8 @@ class ChannelPage extends React.Component<ChannelPageProps> {
         >
           {({ data, error }) => {
             let chatroomId = null;
-            if (data && data.chatroom && data.chatroom[0]) {
-              chatroomId = data.chatroom[0].id;
+            if (data && data.chatrooms && data.chatrooms[0]) {
+              chatroomId = data.chatrooms[0].id;
             }
             if (error) {
               toast.error(error.message);
@@ -134,12 +134,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   toggleAside: () => dispatch(globalReducer.actions.aside.toggle()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
-export default compose(
-  injectIntl,
-  withRedux,
-)(ChannelPage);
+export default compose(injectIntl, withRedux)(ChannelPage);

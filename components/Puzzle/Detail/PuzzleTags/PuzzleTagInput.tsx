@@ -5,7 +5,7 @@ import { asSearch } from 'common/search';
 
 import AsyncCreatableSelect from 'react-select/async-creatable';
 
-import { ApolloConsumer } from '@apollo/react-common';
+import { ApolloConsumer } from '@apollo/client';
 import { PUZZLE_TAGS_SEARCH_QUERY } from 'graphql/Queries/Tag';
 
 import {
@@ -63,8 +63,8 @@ class PuzzleTagInput extends React.PureComponent {
                           toast.error(JSON.stringify(errors));
                           return [];
                         }
-                        if (!data || !data.tag) return [];
-                        return data.tag.map(tag => ({
+                        if (!data || !data.tags) return [];
+                        return data.tags.map(tag => ({
                           id: tag.id,
                           value: tag.name,
                           label: tag.name,

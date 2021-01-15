@@ -1,7 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { CHATROOM_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
 
 import ChatroomDescriptionInner from './ChatroomDescriptionInner';
@@ -27,8 +27,8 @@ const ChatroomEditableDescription = ({
           toast.error(error.message);
           return null;
         }
-        if (!data || !data.chatroom_by_pk) return null;
-        const chatroom = data.chatroom_by_pk;
+        if (!data || !data.chatroom) return null;
+        const chatroom = data.chatroom;
 
         return <ChatroomDescriptionInner chatroom={chatroom} />;
       }}

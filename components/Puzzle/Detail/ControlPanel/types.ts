@@ -1,13 +1,5 @@
-import {
-  UpdatePuzzleMutation,
-  UpdatePuzzleMutationVariables,
-} from 'graphql/Mutations/generated/UpdatePuzzleMutation';
 import { PuzzleTypeWithSolution } from '../types';
-import {
-  UpdatePuzzleDazedOnMutation,
-  UpdatePuzzleDazedOnMutationVariables,
-} from 'graphql/Mutations/generated/UpdatePuzzleDazedOnMutation';
-import { MutationFunction } from '@apollo/react-common';
+import { Genre, Status, Yami } from 'generated/globalTypes';
 
 export enum ControlPanelPanelType {
   SOLUTION_EDIT,
@@ -23,14 +15,14 @@ export type ControlPanelProps = {
 export type SetPanelToolbarProps = {
   currentPanel: ControlPanelPanelType;
   setCurrentPanel: (panel: ControlPanelPanelType) => void;
-  status: number;
+  status: Status;
 };
 
 export type SolutionEditPanelProps = {
   puzzleId: number;
   solution: string;
-  status: number;
-  yami: number;
+  status: Status;
+  yami: Yami;
 };
 
 export type MemoEditPanelProps = {
@@ -40,24 +32,16 @@ export type MemoEditPanelProps = {
 
 export type HintAddPanelProps = {
   puzzleId: number;
-  yami: number;
+  yami: Yami;
 };
 
 export type PuzzleEditPanelProps = {
-  updatePuzzle: MutationFunction<
-    UpdatePuzzleMutation,
-    UpdatePuzzleMutationVariables
-  >;
-  updatePuzzleDazedOn: MutationFunction<
-    UpdatePuzzleDazedOnMutation,
-    UpdatePuzzleDazedOnMutationVariables
-  >;
   puzzleId: number;
-  yami: number;
-  genre: number;
+  yami: Yami;
+  genre: Genre;
   grotesque: boolean;
-  status: number;
-  dazed_on: string;
+  status: Status;
+  dazedOn: string;
   show?: boolean;
 };
 

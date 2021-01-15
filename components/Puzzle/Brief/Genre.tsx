@@ -11,7 +11,7 @@ import littleAlbatJp from 'svgs/littleAlbatJp.svg';
 import othersJp from 'svgs/othersJp.svg';
 
 import messages from 'messages/components/puzzle';
-import { GenreType } from './types';
+import { Genre as GenreType } from 'generated/globalTypes';
 
 export type GenreInnerProps = {
   genre: GenreType;
@@ -23,25 +23,25 @@ export type GenreProps = {
 
 export const GenreText = ({ genre }: GenreInnerProps) => {
   switch (genre) {
-    case GenreType.Classic:
+    case GenreType.CLASSIC:
       return (
         <span>
           [<FormattedMessage {...messages.genre_classic} />]
         </span>
       );
-    case GenreType.TwentyQuestions:
+    case GenreType.TWENTY_QUESTIONS:
       return (
         <span>
           [<FormattedMessage {...messages.genre_twentyQuestions} />]
         </span>
       );
-    case GenreType.LittleAlbat:
+    case GenreType.LITTLE_ALBAT:
       return (
         <span>
           [<FormattedMessage {...messages.genre_littleAlbat} />]
         </span>
       );
-    case GenreType.Others:
+    case GenreType.OTHERS:
       return (
         <span>
           [<FormattedMessage {...messages.genre_others} />]
@@ -54,13 +54,13 @@ export const GenreText = ({ genre }: GenreInnerProps) => {
 
 export const GenreImage = ({ genre }: GenreInnerProps) => {
   switch (genre) {
-    case GenreType.Classic:
+    case GenreType.CLASSIC:
       return <Img size="sm" px={1} src={classicJp} />;
-    case GenreType.TwentyQuestions:
+    case GenreType.TWENTY_QUESTIONS:
       return <Img size="sm" px={1} src={twentyQuestionsJp} />;
-    case GenreType.LittleAlbat:
+    case GenreType.LITTLE_ALBAT:
       return <Img size="sm" px={1} src={littleAlbatJp} />;
-    case GenreType.Others:
+    case GenreType.OTHERS:
       return <Img size="sm" px={1} src={othersJp} />;
     default:
       return null;

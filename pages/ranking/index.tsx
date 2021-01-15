@@ -2,17 +2,16 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, ButtonTransparent, Box } from 'components/General';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
-import { RankingProps } from 'pageTypes';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
-const Ranking = ({ intl }: RankingProps) => {
-  const _ = intl.formatMessage;
+const Ranking = () => {
+  const { formatMessage: _ } = useIntl();
 
   return (
     <React.Fragment>
@@ -90,4 +89,10 @@ const Ranking = ({ intl }: RankingProps) => {
   );
 };
 
-export default injectIntl(Ranking);
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
+
+export default Ranking;

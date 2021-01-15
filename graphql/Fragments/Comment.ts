@@ -1,9 +1,9 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 import { USER_BRIEF_FRAGMENT } from '../Fragments/User';
 
 export const COMMENT_FRAGMENT = gql`
-  fragment Comment on comment {
+  fragment Comment on Comment {
     id
     content
     spoiler
@@ -15,7 +15,7 @@ export const COMMENT_FRAGMENT = gql`
 `;
 
 export const COMMENT_DETAIL_FRAGMENT = gql`
-  fragment CommentDetail on comment {
+  fragment CommentDetail on Comment {
     ...Comment
     puzzle {
       id

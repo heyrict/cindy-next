@@ -170,7 +170,7 @@ memoryTask.then(files => {
       let messages = {};
       Object.keys(localeMappings[locale])
         .sort()
-        .forEach(function(key) {
+        .forEach(function (key) {
           messages[key] = localeMappings[locale][key];
         });
 

@@ -1,9 +1,10 @@
-import { PuzzleCommentQuery_comment } from 'graphql/Queries/generated/PuzzleCommentQuery';
-import { GlobalUserType } from 'reducers/types';
+import { PuzzleCommentQuery_comments } from 'graphql/Queries/generated/PuzzleCommentQuery';
+import { PreviousCommentValueQuery_comments } from 'graphql/Queries/generated/PreviousCommentValueQuery';
 
 export type CommentPanelProps = {
   puzzleId: number;
   canAddComment: boolean;
+  userId?: number;
 };
 
 export type CommentModalCommentsProps = {
@@ -16,9 +17,13 @@ export type CommentModalCommentContentProps = {
 
 export type CommentModalAddPanelProps = {
   puzzleId: number;
-  user: GlobalUserType;
+  userId: number;
 };
 
+export type CommentModalAddPanelRendererProps = {
+  comments: PreviousCommentValueQuery_comments[];
+} & CommentModalAddPanelProps;
+
 export type CommentModalCommentProps = {
-  comment: PuzzleCommentQuery_comment;
+  comment: PuzzleCommentQuery_comments;
 };

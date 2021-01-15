@@ -14,26 +14,21 @@ import {
   ProfileBookmarksQuery,
   ProfileBookmarksQueryVariables,
 } from 'graphql/Queries/generated/ProfileBookmarksQuery';
-import { order_by } from 'generated/globalTypes';
+import { Ordering } from 'generated/globalTypes';
 
 const ProfileBookmarksTab = ({ userId }: ProfileBookmarksTabProps) => (
   <PaginatedQuery<ProfileBookmarksQuery, ProfileBookmarksQueryVariables>
     query={PROFILE_BOOKMARKS_QUERY}
     variables={{
       userId,
-      orderBy: [{ value: order_by.desc }],
+      orderBy: [{ value: Ordering.DESC }],
     }}
-    getItemCount={data =>
-      (data.bookmark_aggregate &&
-        data.bookmark_aggregate.aggregate &&
-        data.bookmark_aggregate.aggregate.count) ||
-      0
-    }
+    getItemCount={data => data.bookmarkCount}
     renderItems={data => {
-      if (!data.bookmark) return null;
+      if (!data.bookmarks) return null;
       return (
         <>
-          {data.bookmark.map(bookmark => (
+          {data.bookmarks.map(bookmark => (
             <MultiColBox key={bookmark.id}>
               <PuzzleWithAny
                 cap={

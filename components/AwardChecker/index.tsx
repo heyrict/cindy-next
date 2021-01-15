@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { USERAWARD_CHECKER_QUERY } from 'graphql/Queries/User';
 
 import CheckNotifier from './CheckNotifier';
@@ -26,29 +26,13 @@ const AwardChecker = ({ user, initAwardCount }: AwardCheckerProps) => {
           userId: user.id,
         }}
         onCompleted={data => {
-          if (!data.user_by_pk) return;
-          const user = data.user_by_pk;
+          if (!data.user) return;
+          const user = data.user;
           initAwardCount({
-            puzzles:
-              (user.puzzles_aggregate &&
-                user.puzzles_aggregate.aggregate &&
-                user.puzzles_aggregate.aggregate.count) ||
-              0,
-            goodQuestions:
-              (user.good_questions_aggregate &&
-                user.good_questions_aggregate.aggregate &&
-                user.good_questions_aggregate.aggregate.count) ||
-              0,
-            trueAnswers:
-              (user.true_answers_aggregate &&
-                user.true_answers_aggregate.aggregate &&
-                user.true_answers_aggregate.aggregate.count) ||
-              0,
-            dialogues:
-              (user.dialogues_aggregate &&
-                user.dialogues_aggregate.aggregate &&
-                user.dialogues_aggregate.aggregate.count) ||
-              0,
+            puzzles: user.puzzleCount,
+            goodQuestions: user.goodQuestionCount,
+            trueAnswers: user.trueAnswerCount,
+            dialogues: user.dialogueCount,
           });
         }}
       >
@@ -68,9 +52,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(awardCheckerReducer.actions.initialize(state)),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(AwardChecker);

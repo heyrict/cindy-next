@@ -26,7 +26,7 @@ export function setCookie(
   if (c_expiry) {
     let expiry_date = new Date();
     expiry_date.setTime(expiry_date.getTime() + c_expiry * 1000);
-    expiry_str = `;expires=${expiry_date.toUTCString()};max-age=${c_expiry}`;
+    expiry_str = `;expires=${expiry_date.toUTCString()};max-age=${c_expiry};SameSite=strict`;
   }
   document.cookie = `${c_name}=${c_value}${expiry_str}${path_str}`;
 }

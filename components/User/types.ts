@@ -29,14 +29,14 @@ export type InlineUser = {
   icon?: string | null;
   nickname: string;
   username?: string;
-  current_user_award?: UserAward | null;
+  currentAward?: UserAward | null;
 };
 
 export type InlineUserExtra = {
   id: number;
   profile: string;
-  date_joined: string;
-  last_login: string;
+  dateJoined: string;
+  lastLogin: string | null;
 };
 
 export type UserInlineProps = {

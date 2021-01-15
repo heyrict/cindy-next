@@ -1,4 +1,4 @@
-import { ApolloConsumer } from '@apollo/react-common';
+import { ApolloConsumer } from '@apollo/client';
 import { connect } from 'react-redux';
 import { setCookie } from 'common/cookie';
 import { getUser } from 'common/auth';
@@ -15,10 +15,7 @@ const mapDispatchToProps = dispatch => ({
   auth: user => dispatch(globalReducer.actions.auth(user)),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 const withSignup = Wrapped =>
   withRedux(props => (
@@ -32,17 +29,19 @@ const withSignup = Wrapped =>
               password,
             })
               .then(res => {
-                const { jwt, errors } = res;
-                if (!errors) {
-                  setCookie('cindy-jwt-token', jwt, 30 * 24 * 60 * 60);
+                const { data, error } = res;
+                if (!error) {
+                  setCookie(
+                    'cindy-jwt-token',
+                    data.auth_token,
+                    30 * 24 * 60 * 60,
+                  );
                   const user = getUser();
                   if (user) {
                     props.auth(user);
                   }
                 } else {
-                  errors.forEach(error => {
-                    toast.error(`${error.type}: ${error.message}`);
-                  });
+                  toast.error(error);
                 }
                 return res;
               })

@@ -2,7 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { line2md } from 'common/markdown';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { CHATROOM_DESCRIPTION_QUERY } from 'graphql/Queries/Chat';
 
 import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
@@ -49,11 +49,11 @@ const DescriptionModal = ({
         if (error) {
           toast.error(error.message);
           return null;
-        } else if (!data || !data.chatroom_by_pk) {
+        } else if (!data || !data.chatroom) {
           if (loading) chatroom.description = 'Loading...';
           chatroom.description = 'Fatal Error: No data returned';
         } else {
-          chatroom = data.chatroom_by_pk;
+          chatroom = data.chatroom;
         }
 
         return (
@@ -71,10 +71,7 @@ const DescriptionModal = ({
                   float: 'right',
                 }}
               >
-                <FavChatManipulateButton
-                  chatroomId={chatroom.id}
-                  chatroomName={chatroom.name}
-                />
+                <FavChatManipulateButton chatroomId={chatroom.id} />
               </Box>
               {chatroom.description ? (
                 <Box
@@ -109,9 +106,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(chatReducer.actions.descriptionModal.setFalse()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(DescriptionModal);

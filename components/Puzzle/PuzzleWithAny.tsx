@@ -21,6 +21,7 @@ import Anonymous from './Brief/Anonymous';
 
 import { PuzzleWithAnyProps } from './types';
 import { StateType } from 'reducers/types';
+import { Status as StatusEnum } from 'generated/globalTypes';
 
 const PuzzleWithAny = ({
   puzzle,
@@ -30,49 +31,17 @@ const PuzzleWithAny = ({
   starSum,
   commentCount,
   dialogueCount,
-  dialogueMaxAnsweredtime,
-  dialogueMaxCreated,
+  dialogueMaxAnsweredTime,
   showGenreImage,
 }: PuzzleWithAnyProps) => {
-  const aggregates = {
-    bookmarkCount:
-      bookmarkCount ||
-      (puzzle.bookmarks_aggregate &&
-        puzzle.bookmarks_aggregate.aggregate &&
-        puzzle.bookmarks_aggregate.aggregate.count),
-    commentCount:
-      commentCount ||
-      (puzzle.comments_aggregate &&
-        puzzle.comments_aggregate.aggregate &&
-        puzzle.comments_aggregate.aggregate.count),
-    starCount:
-      starCount ||
-      (puzzle.stars_aggregate &&
-        puzzle.stars_aggregate.aggregate &&
-        puzzle.stars_aggregate.aggregate.count),
-    starSum:
-      starSum ||
-      (puzzle.stars_aggregate &&
-        puzzle.stars_aggregate.aggregate &&
-        puzzle.stars_aggregate.aggregate.sum &&
-        puzzle.stars_aggregate.aggregate.sum.value),
-    dialogueCount:
-      dialogueCount ||
-      (puzzle.dialogues_aggregate &&
-        puzzle.dialogues_aggregate.aggregate &&
-        puzzle.dialogues_aggregate.aggregate.count),
-    dialogueMaxAnsweredtime:
-      dialogueMaxAnsweredtime ||
-      (puzzle.dialogues_aggregate &&
-        puzzle.dialogues_aggregate.aggregate &&
-        puzzle.dialogues_aggregate.aggregate.max &&
-        puzzle.dialogues_aggregate.aggregate.max.answeredtime),
-    dialogueMaxCreatedtime:
-      dialogueMaxCreated ||
-      (puzzle.dialogues_aggregate &&
-        puzzle.dialogues_aggregate.aggregate &&
-        puzzle.dialogues_aggregate.aggregate.max &&
-        puzzle.dialogues_aggregate.aggregate.max.created),
+  let aggregates = {
+    bookmarkCount: bookmarkCount || puzzle.bookmarkCount,
+    starCount: starCount || puzzle.starCount,
+    starSum: starSum || puzzle.starSum,
+    commentCount: commentCount || puzzle.commentCount,
+    dialogueCount: dialogueCount || puzzle.dialogueCount,
+    dialogueMaxAnsweredTime:
+      dialogueMaxAnsweredTime || puzzle.dialogueMaxAnsweredTime,
   };
 
   return (
@@ -113,7 +82,9 @@ const PuzzleWithAny = ({
         </Box>
         <Hr />
         <Flex p={1} flexWrap="wrap" alignItems="center">
-          {puzzle.status !== 0 && puzzle.anonymous && <Anonymous />}
+          {puzzle.status !== StatusEnum.UNDERGOING && puzzle.anonymous && (
+            <Anonymous />
+          )}
           <Status status={puzzle.status} />
           {typeof aggregates.dialogueCount === 'number' && (
             <Process count={aggregates.dialogueCount} />

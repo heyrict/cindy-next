@@ -1,9 +1,9 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 import { USER_BRIEF_FRAGMENT } from './User';
 
 export const PUZZLE_SHARED_FRAGMENT = gql`
-  fragment PuzzleShared on puzzle {
+  fragment PuzzleShared on Puzzle {
     id
     genre
     title
@@ -21,31 +21,22 @@ export const PUZZLE_SHARED_FRAGMENT = gql`
 `;
 
 export const PUZZLE_AGGREGATE_FRAGMENT = gql`
-  fragment PuzzleAggregate on puzzle {
+  fragment PuzzleAggregate on Puzzle {
     ...PuzzleShared
-    stars_aggregate {
-      aggregate {
-        count
-        sum {
-          value
-        }
-      }
-    }
-    comments_aggregate {
-      aggregate {
-        count
-      }
-    }
-    bookmarks_aggregate {
-      aggregate {
-        count
-      }
-    }
-    dialogues_aggregate {
-      aggregate {
-        count
-      }
-    }
+    starCount
+    starSum
+    commentCount
+    bookmarkCount
+    dialogueCount
+    dialogueMaxAnsweredTime
   }
   ${PUZZLE_SHARED_FRAGMENT}
+`;
+
+export const PUZZLE_UNSOLVED_EXTRA_FRAGMENT = gql`
+  fragment PuzzleUnsolvedExtra on Puzzle {
+    dialogueCount
+    dialogueNewCount: dialogueCount(answered: false)
+    dialogueMaxAnsweredTime
+  }
 `;

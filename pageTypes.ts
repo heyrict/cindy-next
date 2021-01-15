@@ -2,49 +2,22 @@ import { IntlShape } from 'react-intl';
 import * as settingReducer from 'reducers/setting';
 
 import {
-  PuzzlesSolvedQuery,
-  PuzzlesSolvedQueryVariables,
-} from 'graphql/Queries/generated/PuzzlesSolvedQuery';
-import { puzzle_order_by, tag_order_by } from 'generated/globalTypes';
-import {
-  CommentsQuery,
-  CommentsQueryVariables,
-} from 'graphql/Queries/generated/CommentsQuery';
+  Genre,
+  PuzzleOrder,
+  PuzzleTagOrder,
+  Yami,
+} from 'generated/globalTypes';
+import { CommentsQueryVariables } from 'graphql/Queries/generated/CommentsQuery';
 import { GlobalUserType } from 'reducers/types';
-import { PuzzlesUnsolvedQuery } from 'graphql/Queries/generated/PuzzlesUnsolvedQuery';
-import { QueryResult } from '@apollo/react-common';
-
-export type UserPageProps = {
-  userId: number;
-  intl: IntlShape;
-};
-
-export type PuzzlesSolvedRendererProps = QueryResult<
-  PuzzlesSolvedQuery,
-  PuzzlesSolvedQueryVariables
->;
-
-export type PuzzlesUnsolvedRendererProps = {
-  intl: IntlShape;
-} & QueryResult<PuzzlesUnsolvedQuery>;
 
 export type SearchVariablesStates = {
   title: null | string;
   content: null | string;
   solution: null | string;
   userNickname: null | string;
-  genre: null | number;
-  yami: null | number;
-  orderBy: Array<puzzle_order_by>;
-};
-
-export type RankingProps = {
-  intl: IntlShape;
-};
-
-export type PuzzleProps = {
-  puzzleId: number;
-  intl: IntlShape;
+  genre: null | Genre;
+  yami: null | Yami;
+  orderBy: Array<PuzzleOrder>;
 };
 
 export type AddReplayProps = {
@@ -54,18 +27,16 @@ export type AddReplayProps = {
 
 export type EULAProps = {
   language: typeof settingReducer.initialState.language;
-  intl: IntlShape;
 };
 
 export type TagsVariablesStates = {
   name: null | string;
-  orderBy: Array<tag_order_by>;
+  orderBy: Array<PuzzleTagOrder>;
 };
 
-export type CommentsRendererProps = QueryResult<
-  CommentsQuery,
-  CommentsQueryVariables
->;
+export type CommentsRendererProps = {
+  variables: CommentsQueryVariables;
+};
 
 export type ChannelPageProps = {
   chatroom: string;

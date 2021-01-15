@@ -3,10 +3,10 @@ import Head from 'next/head';
 import { toast } from 'react-toastify';
 import { mergeList } from 'common/update';
 
-import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import messages from 'messages/pages/comments';
 
-import { Query } from '@apollo/react-components';
+import { useQuery } from '@apollo/client';
 import { COMMENTS_QUERY } from 'graphql/Queries/Comment';
 
 import { Heading, Flex, Panel } from 'components/General';
@@ -31,25 +31,32 @@ const commentLoadingPanel = (
   </MultiColBox>
 );
 
-const CommentsRenderer = ({
-  loading,
-  error,
-  data,
-  fetchMore,
-}: CommentsRendererProps) => {
+const CommentsRenderer = ({ variables }: CommentsRendererProps) => {
   const [hasMore, setHasMore] = useState(true);
+
+  const { loading, error, data, fetchMore } = useQuery<
+    CommentsQuery,
+    CommentsQueryVariables
+  >(COMMENTS_QUERY, {
+    variables,
+  });
 
   // Update first 20 questions upon second+ load
   useEffect(() => {
-    if (data && data.comment && data.comment.length !== 0) {
+    if (
+      data &&
+      data.commentsInSolvedPuzzle &&
+      data.commentsInSolvedPuzzle.length !== 0
+    ) {
       fetchMore({
         updateQuery: (prev, { fetchMoreResult }) => {
-          if (!fetchMoreResult || !fetchMoreResult.comment) return prev;
+          if (!fetchMoreResult || !fetchMoreResult.commentsInSolvedPuzzle)
+            return prev;
           return {
             ...prev,
-            comment: mergeList(
-              prev.comment,
-              fetchMoreResult.comment,
+            comments: mergeList(
+              prev.commentsInSolvedPuzzle,
+              fetchMoreResult.commentsInSolvedPuzzle,
               'id',
               'desc',
             ),
@@ -59,36 +66,36 @@ const CommentsRenderer = ({
     }
   }, []);
 
-  if (loading && (!data || !data.comment || data.comment.length === 0))
+  if (
+    loading &&
+    (!data ||
+      !data.commentsInSolvedPuzzle ||
+      data.commentsInSolvedPuzzle.length === 0)
+  )
     return commentLoadingPanel;
   if (error) {
     toast.error(error.message);
     return null;
   }
-  if (data && data.comment) {
+  if (data && data.commentsInSolvedPuzzle) {
     return (
       <React.Fragment>
-        {data.comment.map(comment => (
+        {data.commentsInSolvedPuzzle.map(comment => (
           <MultiColBox key={`comment-brief-${comment.id}`}>
             <CommentDisplay comment={comment} />
           </MultiColBox>
         ))}
-        {data.comment.length >= COMMENTS_PER_PAGE && hasMore && (
+        {data.commentsInSolvedPuzzle.length >= COMMENTS_PER_PAGE && hasMore && (
           <LoadMoreVis
             wait={0}
             loadMore={() =>
               fetchMore({
                 variables: {
-                  offset: data.comment.length,
+                  offset: data.commentsInSolvedPuzzle.length,
                 },
-                updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult || !fetchMoreResult.comment) return prev;
-                  if (fetchMoreResult.comment.length < COMMENTS_PER_PAGE)
-                    setHasMore(false);
-                  return Object.assign({}, prev, {
-                    comment: [...prev.comment, ...fetchMoreResult.comment],
-                  });
-                },
+              }).then(({ data }) => {
+                if (data.commentsInSolvedPuzzle.length < COMMENTS_PER_PAGE)
+                  setHasMore(false);
               })
             }
           >
@@ -101,8 +108,8 @@ const CommentsRenderer = ({
   return null;
 };
 
-const Comments = ({ intl }: { intl: IntlShape }) => {
-  const _ = intl.formatMessage;
+const Comments = () => {
+  const { formatMessage: _ } = useIntl();
 
   return (
     <React.Fragment>
@@ -115,16 +122,16 @@ const Comments = ({ intl }: { intl: IntlShape }) => {
       </Heading>
       <PuzzleSubbar />
       <Flex flexWrap="wrap">
-        <Query<CommentsQuery, CommentsQueryVariables>
-          query={COMMENTS_QUERY}
-          variables={{ limit: COMMENTS_PER_PAGE }}
-          fetchPolicy="cache-first"
-        >
-          {params => <CommentsRenderer {...params} />}
-        </Query>
+        <CommentsRenderer variables={{ limit: COMMENTS_PER_PAGE, offset: 0 }} />
       </Flex>
     </React.Fragment>
   );
 };
 
-export default injectIntl(Comments);
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
+
+export default Comments;

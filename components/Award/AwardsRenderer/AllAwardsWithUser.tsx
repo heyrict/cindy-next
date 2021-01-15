@@ -7,7 +7,7 @@ import AllAwards from './AllAwards';
 import { connect } from 'react-redux';
 import * as awardCheckerReducer from 'reducers/awardChecker';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { AWARDS_INFO_QUERY } from 'graphql/Queries/Awards';
 
 import {
@@ -26,34 +26,18 @@ const AllAwardsWithUser = ({
     variables={{ userId }}
     fetchPolicy="cache-and-network"
     onCompleted={data => {
-      if (!data.user_by_pk) return;
-      const user = data.user_by_pk;
+      if (!data.user) return;
+      const user = data.user;
       initAwardCount({
-        puzzles:
-          (user.puzzles_aggregate &&
-            user.puzzles_aggregate.aggregate &&
-            user.puzzles_aggregate.aggregate.count) ||
-          0,
-        goodQuestions:
-          (user.good_questions_aggregate &&
-            user.good_questions_aggregate.aggregate &&
-            user.good_questions_aggregate.aggregate.count) ||
-          0,
-        trueAnswers:
-          (user.true_answers_aggregate &&
-            user.true_answers_aggregate.aggregate &&
-            user.true_answers_aggregate.aggregate.count) ||
-          0,
-        dialogues:
-          (user.dialogues_aggregate &&
-            user.dialogues_aggregate.aggregate &&
-            user.dialogues_aggregate.aggregate.count) ||
-          0,
+        puzzles: user.puzzleCount,
+        goodQuestions: user.goodQuestionCount,
+        trueAnswers: user.trueAnswerCount,
+        dialogues: user.dialogueCount,
       });
     }}
   >
     {({ loading, data, error }) => {
-      if (!data || !data.user_by_pk) {
+      if (!data || !data.user) {
         if (loading) return <Loading centered />;
         return <AllAwards />;
       }
@@ -61,7 +45,7 @@ const AllAwardsWithUser = ({
         toast.error(error.message);
         return null;
       }
-      return <AllAwards userInfo={data.user_by_pk} />;
+      return <AllAwards userInfo={data.user} />;
     }}
   </Query>
 );
@@ -71,9 +55,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(awardCheckerReducer.actions.initialize(state)),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 export default withRedux(AllAwardsWithUser);

@@ -1,17 +1,12 @@
-import React from 'react';
-import { NextPageContext } from 'next';
-import Router from 'next/router';
+import { GetServerSideProps } from 'next';
 
-export default class extends React.Component {
-  static async getInitialProps({ res }: NextPageContext) {
-    if (res) {
-      res.writeHead(301, {
-        Location: '/users',
-      });
-      res.end();
-    } else {
-      Router.push('/users');
-    }
-    return {};
-  }
-}
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    redirect: {
+      destination: `/users`,
+      permanent: true,
+    },
+  };
+};
+
+export default () => null;

@@ -100,9 +100,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   setFalseAside: () => dispatch(globalReducer.actions.aside.setFalse()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(ChatBox);

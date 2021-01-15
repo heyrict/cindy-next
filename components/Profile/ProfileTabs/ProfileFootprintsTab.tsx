@@ -18,17 +18,12 @@ const ProfileFootprintsTab = ({ userId }: ProfileFootprintsTabProps) => (
     variables={{
       userId,
     }}
-    getItemCount={data =>
-      (data.puzzle_aggregate &&
-        data.puzzle_aggregate.aggregate &&
-        data.puzzle_aggregate.aggregate.count) ||
-      0
-    }
+    getItemCount={data => data.puzzleFootprintCount}
     renderItems={data => {
-      if (!data.puzzle) return null;
+      if (!data.puzzleFootprints) return null;
       return (
         <>
-          {data.puzzle.map(puzzle => (
+          {data.puzzleFootprints.map(puzzle => (
             <MultiColBox key={puzzle.id}>
               <PuzzleBrief puzzle={puzzle} />
             </MultiColBox>

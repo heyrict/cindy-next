@@ -1,15 +1,20 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 import { CHATMESSAGE_FRAGMENT, CHATROOM_FRAGMENT } from '../Fragments/Chat';
 
 export const CHATROOM_CHATMESSAGES_QUERY = gql`
-  query ChatroomChatmessages($chatroomId: Int, $limit: Int, $offset: Int) {
-    chatmessage(
-      where: { chatroom_id: { _eq: $chatroomId } }
+  query ChatroomChatmessages(
+    $chatroomId: Int
+    $limit: Int
+    $offset: Int
+    $since: DateTime
+  ) {
+    chatmessages(
+      filter: { chatroomId: { eq: $chatroomId }, modified: { gt: $since } }
       limit: $limit
       offset: $offset
-      order_by: [{ id: desc }]
-    ) @connection(key: "chatmessage", filter: ["where"]) {
+      order: [{ id: DESC }]
+    ) @connection(key: "chatmessage", filter: ["filter"]) {
       ...Chatmessage
     }
   }
@@ -18,26 +23,22 @@ export const CHATROOM_CHATMESSAGES_QUERY = gql`
 
 export const CHATROOM_LOGS_QUERY = gql`
   query ChatroomLogsQuery($chatroomId: Int, $limit: Int, $offset: Int) {
-    chatmessage(
-      where: { chatroom_id: { _eq: $chatroomId } }
+    chatmessages(
+      filter: { chatroomId: { eq: $chatroomId } }
       limit: $limit
       offset: $offset
-      order_by: [{ id: asc }]
+      order: [{ id: ASC }]
     ) {
       ...Chatmessage
     }
-    chatmessage_aggregate(where: { chatroom_id: { _eq: $chatroomId } }) {
-      aggregate {
-        count
-      }
-    }
+    chatmessageCount(filter: { chatroomId: { eq: $chatroomId } })
   }
   ${CHATMESSAGE_FRAGMENT}
 `;
 
 export const CHATROOM_PUZZLE_QUERY = gql`
   query ChatroomPuzzle($puzzleId: Int!) {
-    puzzle_by_pk(id: $puzzleId) {
+    puzzle(id: $puzzleId) {
       id
       anonymous
       status
@@ -50,7 +51,7 @@ export const CHATROOM_PUZZLE_QUERY = gql`
 
 export const CHATROOM_ID_QUERY = gql`
   query ChatroomId($chatroomName: String) {
-    chatroom(where: { name: { _eq: $chatroomName } }, limit: 1) {
+    chatrooms(filter: { name: { eq: $chatroomName } }, limit: 1) {
       id
     }
   }
@@ -58,7 +59,7 @@ export const CHATROOM_ID_QUERY = gql`
 
 export const CHATROOM_DESCRIPTION_QUERY = gql`
   query ChatroomDescription($chatroomId: Int!) {
-    chatroom_by_pk(id: $chatroomId) {
+    chatroom(id: $chatroomId) {
       ...Chatroom
     }
   }
@@ -67,7 +68,7 @@ export const CHATROOM_DESCRIPTION_QUERY = gql`
 
 export const CHATROOM_ID_DESCRIPTION_QUERY = gql`
   query ChatroomIdDescription($chatroomName: String) {
-    chatroom(where: { name: { _eq: $chatroomName } }, limit: 1) {
+    chatrooms(filter: { name: { eq: $chatroomName } }, limit: 1) {
       id
       ...Chatroom
     }
@@ -76,8 +77,8 @@ export const CHATROOM_ID_DESCRIPTION_QUERY = gql`
 `;
 
 export const FAVORITE_CHATROOMS_QUERY = gql`
-  query FavoriteChatroomsQuery {
-    favorite_chatroom {
+  query FavoriteChatroomsQuery($userId: Int!) {
+    favchats(filter: { userId: { eq: $userId } }) {
       id
       chatroom {
         id
@@ -89,7 +90,7 @@ export const FAVORITE_CHATROOMS_QUERY = gql`
 
 export const PUBLIC_CHATROOMS_QUERY = gql`
   query PublicChatroomsQuery {
-    chatroom(where: { private: { _eq: false } }, order_by: { id: asc }) {
+    chatrooms(filter: { private: false }, order: { id: ASC }) {
       id
       name
     }

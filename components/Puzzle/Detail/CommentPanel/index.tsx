@@ -5,7 +5,7 @@ import styled from 'theme/styled';
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { PUZZLE_COMMENT_AGGREGATE_QUERY } from 'graphql/Queries/Comment';
 
 import { Waypoint } from 'react-waypoint';
@@ -33,7 +33,11 @@ const CommentButton = styled(Button)`
   }
 `;
 
-const CommentPanel = ({ puzzleId, canAddComment }: CommentPanelProps) => {
+const CommentPanel = ({
+  puzzleId,
+  canAddComment,
+  userId,
+}: CommentPanelProps) => {
   const [loaded, setLoaded] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -62,16 +66,10 @@ const CommentPanel = ({ puzzleId, canAddComment }: CommentPanelProps) => {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.comment_aggregate) {
+            if (!data || typeof data.commentCount !== 'number') {
               if (loading) return <Loading centered />;
               return null;
             }
-            const agg = {
-              commentCount:
-                (data.comment_aggregate.aggregate &&
-                  data.comment_aggregate.aggregate.count) ||
-                0,
-            };
             return (
               <>
                 <Box width={[1, 1 / 2]} mb={2}>
@@ -89,7 +87,7 @@ const CommentPanel = ({ puzzleId, canAddComment }: CommentPanelProps) => {
                       <Flex alignItems="center" justifyContent="center" p={2}>
                         <Img mr={2} size="xs" src={commentIcon} />
                         <Box fontSize={3} color="blue.6">
-                          {agg.commentCount}{' '}
+                          {data.commentCount}{' '}
                           <FormattedMessage {...puzzleMessages.comment} />
                         </Box>
                       </Flex>
@@ -102,8 +100,11 @@ const CommentPanel = ({ puzzleId, canAddComment }: CommentPanelProps) => {
                     <ModalCloseBtn onClick={() => setShow(false)} />
                   </ModalHeader>
                   <Flex flexGrow={1} p={[2, 3]} flexDirection="column">
-                    {canAddComment && (
-                      <CommentModalAddPanel puzzleId={puzzleId} />
+                    {canAddComment && userId && (
+                      <CommentModalAddPanel
+                        puzzleId={puzzleId}
+                        userId={userId}
+                      />
                     )}
                     <CommentModalComments puzzleId={puzzleId} />
                   </Flex>

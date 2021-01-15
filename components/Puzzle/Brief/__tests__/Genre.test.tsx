@@ -3,8 +3,10 @@ import { shallow } from 'enzyme';
 
 import { Genre, GenreText, GenreImage } from '../Genre';
 
+import { Genre as GenreEnum } from 'generated/globalTypes';
+
 const defaultProps = {
-  genre: 0,
+  genre: GenreEnum.CLASSIC,
   showGenreImage: false,
 };
 
@@ -36,7 +38,7 @@ describe('<Genre />', () => {
     });
 
     it('<GenreImage genre={others} />', () => {
-      const node = shallow(<GenreImage genre={4} />);
+      const node = shallow(<GenreImage genre={GenreEnum.OTHERS} />);
       expect(node.isEmptyRender()).toBe(true);
     });
   });
@@ -54,7 +56,7 @@ describe('<Genre />', () => {
     });
 
     it('<GenreText genre={others} />', () => {
-      const node = shallow(<GenreText genre={4} />);
+      const node = shallow(<GenreText genre={GenreEnum.OTHERS} />);
       expect(node.isEmptyRender()).toBe(true);
     });
   });

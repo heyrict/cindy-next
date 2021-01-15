@@ -33,6 +33,7 @@ import {
 } from './types';
 import UserInline from 'components/User/UserInline';
 import IndexLabel from 'components/Puzzle/Detail/PuzzleDialogues/IndexLabel';
+import { Genre, Yami } from 'generated/globalTypes';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -97,9 +98,9 @@ class PuzzleShowcase extends React.Component<
         </ChatBubbleTop>
         <ChatBubble orientation="left">
           <FormattedMessage {...messages.q1}>
-            {question => (
+            {(question: string[]) => (
               <QuestionDisplay
-                question={question as string}
+                question={question[0] as string}
                 questionEditTimes={0}
               />
             )}
@@ -115,9 +116,9 @@ class PuzzleShowcase extends React.Component<
         </ChatBubbleTop>
         <ChatBubble orientation="left">
           <FormattedMessage {...messages.q2}>
-            {question => (
+            {(question: string[]) => (
               <QuestionDisplay
-                question={question as string}
+                question={question[0] as string}
                 questionEditTimes={0}
               />
             )}
@@ -135,9 +136,11 @@ class PuzzleShowcase extends React.Component<
         <ChatBubble orientation="right">
           <IndicatorIcon pr={2} pb={2} src={goodIcon} />
           <FormattedMessage {...messages.a1}>
-            {answer => (
+            {(answer: string[]) => (
               <span
-                dangerouslySetInnerHTML={{ __html: line2md(answer as string) }}
+                dangerouslySetInnerHTML={{
+                  __html: line2md(answer[0] as string),
+                }}
               />
             )}
           </FormattedMessage>
@@ -154,9 +157,11 @@ class PuzzleShowcase extends React.Component<
         </ChatBubbleTop>
         <ChatBubble orientation="right">
           <FormattedMessage {...messages.a2}>
-            {answer => (
+            {(answer: string[]) => (
               <span
-                dangerouslySetInnerHTML={{ __html: line2md(answer as string) }}
+                dangerouslySetInnerHTML={{
+                  __html: line2md(answer[0] as string),
+                }}
               />
             )}
           </FormattedMessage>
@@ -182,14 +187,18 @@ class PuzzleShowcase extends React.Component<
         >
           <Flex width={1} flexWrap="wrap">
             <FormattedMessage {...messages.title}>
-              {title => (
-                <PuzzleTitle title={title as string} genre={0} yami={0} />
+              {(title: string[]) => (
+                <PuzzleTitle
+                  title={title[0] as string}
+                  genre={Genre.CLASSIC}
+                  yami={Yami.NONE}
+                />
               )}
             </FormattedMessage>
             <FormattedMessage {...messages.content}>
-              {content => (
+              {(content: string[]) => (
                 <ContentsFrame
-                  text={content}
+                  text={content[0]}
                   user={PUZZLE_SHOWCASE_INLINEUSER}
                 />
               )}

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { Box, ButtonTransparent } from 'components/General';
 
-import { Mutation } from '@apollo/react-components';
+import { useMutation } from '@apollo/client';
 import { CHANGE_CURRERNT_USERAWARD_MUTATION } from 'graphql/Mutations/User';
 
 import { FormattedMessage } from 'react-intl';
@@ -14,26 +14,62 @@ import {
   ChangeCurrentUserawardMutation,
   ChangeCurrentUserawardMutationVariables,
 } from 'graphql/Mutations/generated/ChangeCurrentUserawardMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
 
 const UserAwardsEdit = ({
   setEdit,
   currentUserAward,
   userAwards,
   userId,
-}: UserAwardsEditProps) => (
-  <Mutation<
+}: UserAwardsEditProps) => {
+  const [changeCurrentUserAward] = useMutation<
     ChangeCurrentUserawardMutation,
     ChangeCurrentUserawardMutationVariables
-  >
-    mutation={CHANGE_CURRERNT_USERAWARD_MUTATION}
-  >
-    {changeCurrentUserAward => (
-      <React.Fragment>
+  >(CHANGE_CURRERNT_USERAWARD_MUTATION, {
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+      setEdit(true);
+    },
+  });
+
+  return (
+    <React.Fragment>
+      <Box
+        borderRadius={1}
+        m={1}
+        bg={currentUserAward === null ? 'orange.3' : 'transparent'}
+      >
+        <ButtonTransparent
+          borderRadius={1}
+          onClick={() => {
+            changeCurrentUserAward({
+              variables: {
+                userId: userId,
+                userawardId: null,
+              },
+              optimisticResponse: {
+                updateUser: {
+                  __typename: 'User',
+                  id: userId,
+                  currentAward: null,
+                },
+              },
+            });
+            setEdit(false);
+          }}
+        >
+          <FormattedMessage {...commonMessages.none} />
+        </ButtonTransparent>
+      </Box>
+      {userAwards.map(userAward => (
         <Box
+          key={userAward.id}
           borderRadius={1}
           m={1}
-          bg={currentUserAward === null ? 'orange.3' : 'transparent'}
+          bg={
+            currentUserAward && currentUserAward.id === userAward.id
+              ? 'orange.3'
+              : 'transparent'
+          }
         >
           <ButtonTransparent
             borderRadius={1}
@@ -41,93 +77,25 @@ const UserAwardsEdit = ({
               changeCurrentUserAward({
                 variables: {
                   userId: userId,
-                  userawardId: null,
+                  userawardId: userAward.id,
                 },
                 optimisticResponse: {
-                  update_user: {
-                    __typename: 'user_mutation_response',
-                    returning: [
-                      {
-                        __typename: 'user',
-                        id: userId,
-                        current_user_award: null,
-                      },
-                    ],
+                  updateUser: {
+                    __typename: 'User',
+                    id: userId,
+                    currentAward: userAward,
                   },
                 },
-              })
-                .then(result => {
-                  if (!result) return;
-                  const { errors } = result;
-                  if (errors) {
-                    toast.error(JSON.stringify(errors));
-                    setEdit(true);
-                  }
-                })
-                .catch((error: ApolloError) => {
-                  toast.error(error.message);
-                  setEdit(true);
-                });
+              });
               setEdit(false);
             }}
           >
-            <FormattedMessage {...commonMessages.none} />
+            {userAward.award.name}
           </ButtonTransparent>
         </Box>
-        {userAwards.map(userAward => (
-          <Box
-            key={userAward.id}
-            borderRadius={1}
-            m={1}
-            bg={
-              currentUserAward && currentUserAward.id === userAward.id
-                ? 'orange.3'
-                : 'transparent'
-            }
-          >
-            <ButtonTransparent
-              borderRadius={1}
-              onClick={() => {
-                changeCurrentUserAward({
-                  variables: {
-                    userId: userId,
-                    userawardId: userAward.id,
-                  },
-                  optimisticResponse: {
-                    update_user: {
-                      __typename: 'user_mutation_response',
-                      returning: [
-                        {
-                          __typename: 'user',
-                          id: userId,
-                          current_user_award: userAward,
-                        },
-                      ],
-                    },
-                  },
-                })
-                  .then(result => {
-                    if (!result) return;
-                    const { errors } = result;
-                    if (errors) {
-                      toast.error(JSON.stringify(errors));
-                      setEdit(true);
-                    }
-                  })
-                  .catch((error: ApolloError) => {
-                    toast.error(error.message);
-                    setEdit(true);
-                  });
-                setEdit(false);
-              }}
-            >
-              {userAward.award.name}
-            </ButtonTransparent>
-          </Box>
-        ))}
-      </React.Fragment>
-    )}
-  </Mutation>
-);
+      ))}
+    </React.Fragment>
+  );
+};
 
 export default UserAwardsEdit;

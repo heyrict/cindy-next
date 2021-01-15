@@ -210,7 +210,7 @@ const dialogueList = {
       answer: 'Answer 1',
       answerEditTimes: 8,
       created: '2019-06-09T14:19:50.799224+08:00',
-      answeredtime: '2019-06-09T14:39:01.110038+08:00',
+      answeredTime: '2019-06-09T14:39:01.110038+08:00',
       user: {
         id: 1,
         nickname: 'はやて',
@@ -237,7 +237,7 @@ const dialogueList = {
     good: true,
     true: false,
     answerEditTimes: 9,
-    answeredtime: '2019-06-09T14:39:01.110038+08:00',
+    answeredTime: '2019-06-09T14:39:01.110038+08:00',
     __typename: 'dialogue',
   },
   sub: {
@@ -248,7 +248,7 @@ const dialogueList = {
     question: 'Question 1',
     questionEditTimes: 0,
     answerEditTimes: 9,
-    answeredtime: '2019-06-09T14:39:01.110038+08:00',
+    answeredTime: '2019-06-09T14:39:01.110038+08:00',
     created: '2019-06-09T14:19:50.799224+08:00',
     user: {
       id: 1,
@@ -279,7 +279,7 @@ const dialogueList = {
       answer: 'Answer 1',
       answerEditTimes: 9,
       created: '2019-06-09T14:19:50.799224+08:00',
-      answeredtime: '2019-06-09T14:39:01.110038+08:00',
+      answeredTime: '2019-06-09T14:39:01.110038+08:00',
       user: {
         id: 1,
         nickname: 'はやて',

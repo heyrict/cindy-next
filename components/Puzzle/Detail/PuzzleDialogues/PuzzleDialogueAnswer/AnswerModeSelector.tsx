@@ -9,12 +9,13 @@ import AnswerDisplay from './AnswerDisplay';
 import AnswerEdit from './AnswerEdit';
 
 import { AnswerModeSelectorProps } from './types';
+import { Status } from 'generated/globalTypes';
 
 const AnswerModeSelector = ({
   dialogueId,
   answer,
   answerEditTimes,
-  answeredtime,
+  answeredTime,
   trueAns,
   goodAns,
   puzzleStatus,
@@ -36,7 +37,7 @@ const AnswerModeSelector = ({
             trueAns={trueAns}
             goodAns={goodAns}
           />
-          {puzzleStatus === 0 && (
+          {puzzleStatus === Status.UNDERGOING && (
             <ButtonTransparent onClick={() => setMode(AnswerModes.EDIT)}>
               <Img size="1em" src={pencilIcon} />
             </ButtonTransparent>
@@ -50,7 +51,7 @@ const AnswerModeSelector = ({
           answer={answer}
           goodAns={goodAns}
           trueAns={trueAns}
-          answeredtime={answeredtime}
+          answeredTime={answeredTime}
           dialogueId={dialogueId}
           setMode={setMode}
           puzzleStatus={puzzleStatus}

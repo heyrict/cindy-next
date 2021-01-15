@@ -9,7 +9,9 @@ import PuzzleDetail from 'components/Puzzle/Detail';
 import { connect } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
 
-import { PUZZLE_LIVEQUERY } from 'graphql/LiveQueries/Puzzles';
+import { useQuery } from '@apollo/client';
+import { PUZZLE_QUERY } from 'graphql/Queries/Puzzles';
+import { PUZZLE_SUB } from 'graphql/Subscriptions/Puzzles';
 
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/puzzle';
@@ -19,22 +21,34 @@ import webNotifyMessages from 'messages/webNotify';
 
 import { PuzzleRendererProps } from './types';
 import { text2raw } from 'common/markdown';
-import { PuzzleLiveQuery } from 'graphql/LiveQueries/generated/PuzzleLiveQuery';
-import { SubscribeToMoreOptions } from 'apollo-client/core/watchQueryOptions';
+import {
+  PuzzleSubVariables,
+  PuzzleSub,
+} from 'graphql/Subscriptions/generated/PuzzleSub';
 import {
   PuzzleQuery,
   PuzzleQueryVariables,
 } from 'graphql/Queries/generated/PuzzleQuery';
+import { Status } from 'generated/globalTypes';
 
 const PuzzleRenderer = ({
-  loading,
-  error,
-  data,
-  refetch,
-  subscribeToMore,
+  puzzleId,
   formatMessage,
   pushNotification,
 }: PuzzleRendererProps) => {
+  const { loading, error, data, refetch, subscribeToMore } = useQuery<
+    PuzzleQuery,
+    PuzzleQueryVariables
+  >(PUZZLE_QUERY, {
+    variables: {
+      id: puzzleId,
+    },
+    fetchPolicy: 'cache-and-network',
+    onCompleted: ({ puzzle }) => {
+      hasNotifiedSolvedRef.current = puzzle.status !== Status.UNDERGOING;
+    },
+  });
+
   const hasNotifiedSolvedRef = useRef<boolean>(false);
   const _ = formatMessage;
   const puzzleNotExistElement = (
@@ -49,37 +63,33 @@ const PuzzleRenderer = ({
     </React.Fragment>
   );
 
-  useEffect(() => {
-    if (data && data.puzzle_by_pk) {
-      const puzzleId = data.puzzle_by_pk.id;
-      return subscribeToMore({
-        document: PUZZLE_LIVEQUERY,
-        variables: { id: puzzleId },
-        updateQuery: (prev, { subscriptionData }) => {
-          if (!prev) return prev;
-          const newPuzzle = subscriptionData.data.puzzle_by_pk;
-          const oldPuzzle = prev.puzzle_by_pk;
-          if (!oldPuzzle) return subscriptionData.data;
-          if (!newPuzzle) return prev;
-          if (
-            pushNotification &&
-            document.hidden &&
-            newPuzzle.status === 1 &&
-            !hasNotifiedSolvedRef.current
-          ) {
-            hasNotifiedSolvedRef.current = true;
-            const not = maybeSendNotification(
-              _(webNotifyMessages.puzzleSolved, {
-                puzzle: oldPuzzle.title,
-              }),
-            );
-            console.log(not);
-          }
-          return { puzzle_by_pk: { ...oldPuzzle, ...newPuzzle } };
-        },
-      } as SubscribeToMoreOptions<PuzzleQuery, PuzzleQueryVariables, PuzzleLiveQuery>);
-    }
-  }, [data && data.puzzle_by_pk && data.puzzle_by_pk.id]);
+  useEffect(() =>
+    subscribeToMore<PuzzleSub, PuzzleSubVariables>({
+      document: PUZZLE_SUB,
+      variables: { id: puzzleId },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!prev || !prev.puzzle) return prev;
+        const newPuzzle = subscriptionData.data.puzzleSub;
+        const oldPuzzle = prev.puzzle;
+        if (!newPuzzle) return prev;
+        if (
+          pushNotification &&
+          document.hidden &&
+          oldPuzzle.status !== Status.SOLVED &&
+          newPuzzle.data.status === Status.SOLVED &&
+          !hasNotifiedSolvedRef.current
+        ) {
+          hasNotifiedSolvedRef.current = true;
+          maybeSendNotification(
+            _(webNotifyMessages.puzzleSolved, {
+              puzzle: oldPuzzle.title,
+            }),
+          );
+        }
+        return { puzzle: { ...oldPuzzle, ...newPuzzle.data } };
+      },
+    }),
+  );
 
   if (error) {
     if (error.networkError === null) {
@@ -90,13 +100,13 @@ const PuzzleRenderer = ({
     }
   }
 
-  if (!data || !data.puzzle_by_pk) {
+  if (!data || !data.puzzle) {
     if (loading) return <Loading centered />;
     return puzzleNotExistElement;
   }
-  const puzzle = data.puzzle_by_pk;
-  if (puzzle.id === undefined) return puzzleNotExistElement;
-  const shouldHideIdentity = puzzle.anonymous && puzzle.status === 0;
+  const puzzle = data.puzzle;
+  const shouldHideIdentity =
+    puzzle.anonymous && puzzle.status === Status.UNDERGOING;
   return (
     <React.Fragment>
       <Head>

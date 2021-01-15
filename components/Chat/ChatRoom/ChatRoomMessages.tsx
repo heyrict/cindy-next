@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'theme/styled';
-import { SUBSCRIPTION_BATCH_LIMIT } from 'settings';
 import { upsertMultipleItem } from 'common/update';
 
 import { Flex, Box } from 'components/General';
@@ -9,12 +9,11 @@ import ErrorReload from 'components/General/ErrorReload';
 import KeepBottom from 'components/Hoc/KeepBottom';
 import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import {
   CHATROOM_CHATMESSAGES_QUERY,
   CHATROOM_PUZZLE_QUERY,
 } from 'graphql/Queries/Chat';
-import { CHATROOM_CHATMESSAGES_LIVE_QUERY } from 'graphql/LiveQueries/Chat';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -33,13 +32,19 @@ import {
 import { CHATMESSAGES_PER_PAGE } from './constants';
 
 import { WatchObjectActionType } from 'components/Hoc/types';
-import { ChatroomChatmessageLiveQuery } from 'graphql/LiveQueries/generated/ChatroomChatmessageLiveQuery';
 import { StateType, ActionContentType } from 'reducers/types';
 import {
   ChatRoomMessagesProps,
   ChatRoomMessagesBodyProps,
   ChatRoomMessagesDefaultProps,
 } from './types';
+import { CHATROOM_CHATMESSAGES_SUB } from 'graphql/Subscriptions/Chat';
+import {
+  ChatroomChatmessageSub,
+  ChatroomChatmessageSubVariables,
+} from 'graphql/Subscriptions/generated/ChatroomChatmessageSub';
+import { useQuery, useApolloClient } from '@apollo/client';
+import { Status } from 'generated/globalTypes';
 
 // Add Wrapper to ChannelContent due to flex bug: https://github.com/philipwalton/flexbugs/issues/108
 const ChannelContentWrapper = styled.div<{ autoExpand: boolean }>`
@@ -57,69 +62,109 @@ const ChannelContent = styled.div`
 `;
 
 const ChatRoomMessagesBody = ({
-  loading,
-  error,
-  data,
-  fetchMore,
-  subscribeToMore,
   chatroomId,
   user,
-  refetch,
   relatedPuzzleId,
   chatmessageUpdate,
   autoExpand,
 }: ChatRoomMessagesBodyProps) => {
-  if (error) {
-    console.log(error);
-    return <ErrorReload refetch={refetch} error={error} />;
-  }
-  if (!data || !data.chatmessage) {
-    if (loading) return <Loading centered />;
-    return null;
-  }
-  const { chatmessage: chatmessages } = data;
-
   const [hasMore, setHasMore] = useState(false);
-  useEffect(() => {
-    if (loading) return;
-    if (chatmessages.length >= CHATMESSAGES_PER_PAGE) setHasMore(true);
-    if (chatmessages.length > 0)
-      chatmessageUpdate(chatroomId, chatmessages[chatmessages.length - 1].id);
-  }, [chatroomId, loading]);
+
+  const client = useApolloClient();
+  const {
+    loading,
+    error,
+    data,
+    fetchMore,
+    subscribeToMore,
+    refetch,
+  } = useQuery<ChatroomChatmessages, ChatroomChatmessagesVariables>(
+    CHATROOM_CHATMESSAGES_QUERY,
+    {
+      variables: {
+        chatroomId,
+        limit: CHATMESSAGES_PER_PAGE,
+      },
+      onCompleted: ({ chatmessages }) => {
+        if (chatmessages.length >= CHATMESSAGES_PER_PAGE) setHasMore(true);
+        if (chatmessages.length > 0)
+          chatmessageUpdate(chatroomId, chatmessages[0].id);
+      },
+    },
+  );
 
   useEffect(
     () =>
-      subscribeToMore({
-        document: CHATROOM_CHATMESSAGES_LIVE_QUERY,
-        variables: { chatroomId, limit: SUBSCRIPTION_BATCH_LIMIT },
+      subscribeToMore<ChatroomChatmessageSub, ChatroomChatmessageSubVariables>({
+        document: CHATROOM_CHATMESSAGES_SUB,
+        variables: { chatroomId },
         updateQuery: (
           prev,
           {
             subscriptionData,
-          }: { subscriptionData: { data: ChatroomChatmessageLiveQuery } },
+          }: { subscriptionData: { data: ChatroomChatmessageSub } },
         ) => {
-          if (prev === undefined) return prev;
-          if (!subscriptionData.data || !subscriptionData.data.chatmessage)
-            return prev;
-          if (subscriptionData.data.chatmessage.length === 0) return prev;
-          chatmessageUpdate(
-            chatroomId,
-            subscriptionData.data.chatmessage[
-              subscriptionData.data.chatmessage.length - 1
-            ].id,
-          );
-          return Object.assign({}, prev, {
-            chatmessage: upsertMultipleItem(
-              prev.chatmessage,
-              subscriptionData.data.chatmessage,
-              'id',
-              'desc',
+          const {
+            data: { chatmessageSub },
+          } = subscriptionData;
+          if (!prev || !prev.chatmessages || !chatmessageSub) return prev;
+
+          const maxModified = Math.max(
+            ...prev.chatmessages.map(({ modified }: { modified: string }) =>
+              new Date(modified).getTime(),
             ),
-          });
+          );
+          const newModified = new Date(chatmessageSub.data.modified).getTime();
+          if (maxModified > newModified) return prev;
+
+          const newMessageId = chatmessageSub.data.id;
+
+          client
+            .query<ChatroomChatmessages, ChatroomChatmessagesVariables>({
+              query: CHATROOM_CHATMESSAGES_QUERY,
+              variables: {
+                chatroomId,
+                since:
+                  maxModified < 0
+                    ? undefined
+                    : new Date(maxModified).toISOString(),
+              },
+              fetchPolicy: 'network-only',
+            })
+            .then(({ data }) => {
+              chatmessageUpdate(chatroomId, newMessageId);
+
+              // Updates the original query
+              client.writeQuery<ChatroomChatmessages>({
+                query: CHATROOM_CHATMESSAGES_QUERY,
+                variables: {
+                  chatroomId,
+                },
+                data: {
+                  chatmessages: upsertMultipleItem(
+                    prev.chatmessages,
+                    data.chatmessages,
+                    'id',
+                    'desc',
+                  ),
+                },
+              });
+            });
+          return prev;
         },
       }),
     [chatroomId],
   );
+
+  if (error) {
+    console.log(error);
+    return <ErrorReload refetch={refetch} error={error} />;
+  }
+  if (!data) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
+  const { chatmessages } = data;
 
   return (
     <KeepBottom
@@ -172,9 +217,12 @@ const ChatRoomMessagesBody = ({
                   if (res.error) return <div>Error</div>;
                   if (!res.data) return <div>No messages</div>;
 
-                  const { puzzle_by_pk: relatedPuzzle } = res.data;
+                  const { puzzle: relatedPuzzle } = res.data;
                   if (!relatedPuzzle) return null;
-                  if (relatedPuzzle.anonymous && relatedPuzzle.status === 0) {
+                  if (
+                    relatedPuzzle.anonymous &&
+                    relatedPuzzle.status === Status.UNDERGOING
+                  ) {
                     return (
                       <>
                         {chatmessages.map(cm => (
@@ -213,16 +261,21 @@ const ChatRoomMessagesBody = ({
                     },
                     updateQuery: (prev, { fetchMoreResult }) => {
                       if (!fetchMoreResult) return prev;
-                      if (fetchMoreResult.chatmessage.length === 0)
-                        setHasMore(false);
                       return Object.assign({}, prev, {
-                        chatmessage: [
-                          ...prev.chatmessage,
-                          ...fetchMoreResult.chatmessage,
+                        chatmessages: [
+                          ...prev.chatmessages,
+                          ...fetchMoreResult.chatmessages,
                         ],
                       });
                     },
-                  });
+                  })
+                    .then(({ data }) => {
+                      if (data.chatmessages.length < CHATMESSAGES_PER_PAGE)
+                        setHasMore(false);
+                    })
+                    .catch(error => {
+                      toast.error(`${error.name}: ${error.message}`);
+                    });
                 }}
               />
             )}
@@ -241,24 +294,13 @@ const ChatRoomMessages = ({
   autoExpand,
 }: ChatRoomMessagesProps) =>
   chatroomId ? (
-    <Query<ChatroomChatmessages, ChatroomChatmessagesVariables>
-      query={CHATROOM_CHATMESSAGES_QUERY}
-      variables={{
-        chatroomId,
-        limit: CHATMESSAGES_PER_PAGE,
-      }}
-    >
-      {queryParams => (
-        <ChatRoomMessagesBody
-          autoExpand={autoExpand}
-          chatroomId={chatroomId}
-          relatedPuzzleId={relatedPuzzleId}
-          user={user}
-          chatmessageUpdate={chatmessageUpdate}
-          {...queryParams}
-        />
-      )}
-    </Query>
+    <ChatRoomMessagesBody
+      autoExpand={autoExpand}
+      chatroomId={chatroomId}
+      relatedPuzzleId={relatedPuzzleId}
+      user={user}
+      chatmessageUpdate={chatmessageUpdate}
+    />
   ) : (
     <Flex width={1} height={1} alignItems="center" justifyContent="center">
       <Box fontSize={2}>Chatroom does not exist!</Box>
@@ -276,9 +318,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(chatReducer.actions.chatmessageUpdate(chatroomId, messagesHash)),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(ChatRoomMessages);

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { text2raw } from 'common/markdown';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { USER_BRIEF_EXTRA_QUERY } from 'graphql/Queries/User';
 
 import { connect } from 'react-redux';
@@ -24,6 +24,7 @@ import {
   UserBriefExtraQueryVariables,
 } from 'graphql/Queries/generated/UserBriefExtraQuery';
 import { ActionContentType } from 'reducers/types';
+import commonMessages from 'messages/common';
 
 const AnchorButton = Anchor.withComponent('button');
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
@@ -88,8 +89,8 @@ const UserBriefProfile = ({
             >
               <Box mt={2} mb={1} width={1}>
                 {user.nickname}
-                {user.current_user_award && (
-                  <span>[{user.current_user_award.award.name}]</span>
+                {user.currentAward && (
+                  <span>[{user.currentAward.award.name}]</span>
                 )}
               </Box>
               <Query<UserBriefExtraQuery, UserBriefExtraQueryVariables>
@@ -102,16 +103,16 @@ const UserBriefProfile = ({
                     toast.error(error.message);
                     return null;
                   }
-                  if (!data || !data.user_by_pk) return null;
+                  if (!data || !data.user) return null;
                   return (
                     <React.Fragment>
                       <Flex width={1} flexWrap="wrap" color="gray.8">
                         <Box mx="auto" minWidth="12em">
-                          <FormattedMessage {...authMessages.date_joined} />
+                          <FormattedMessage {...authMessages.dateJoined} />
                         </Box>
                         <Box mx="auto">
                           <FormattedTime
-                            value={data.user_by_pk.date_joined}
+                            value={data.user.dateJoined}
                             year="numeric"
                             month="short"
                             day="numeric"
@@ -120,18 +121,22 @@ const UserBriefProfile = ({
                       </Flex>
                       <Flex width={1} flexWrap="wrap" color="gray.8">
                         <Box mx="auto" minWidth="12em">
-                          <FormattedMessage {...authMessages.last_login} />
+                          <FormattedMessage {...authMessages.lastLogin} />
                         </Box>
                         <Box mx="auto">
-                          <FormattedTime
-                            value={data.user_by_pk.last_login}
-                            year="numeric"
-                            month="short"
-                            day="numeric"
-                          />
+                          {data.user.lastLogin ? (
+                            <FormattedTime
+                              value={data.user.lastLogin}
+                              year="numeric"
+                              month="short"
+                              day="numeric"
+                            />
+                          ) : (
+                            <FormattedMessage {...commonMessages.none} />
+                          )}
                         </Box>
                       </Flex>
-                      {data.user_by_pk.profile && (
+                      {data.user.profile && (
                         <Box
                           width={1}
                           borderY="1px solid"
@@ -141,7 +146,7 @@ const UserBriefProfile = ({
                           overflow="hidden"
                           py={1}
                           dangerouslySetInnerHTML={{
-                            __html: text2raw(data.user_by_pk.profile).replace(
+                            __html: text2raw(data.user.profile).replace(
                               /\n/g,
                               '<br />',
                             ),
@@ -179,9 +184,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(directReducer.actions.directChatWithUser(userId)),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 export default withRedux(UserBriefProfile);

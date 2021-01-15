@@ -17,6 +17,7 @@ import PuzzleDialogueQuestion from './PuzzleDialogueQuestion';
 import PuzzleDialogueAnswer from './PuzzleDialogueAnswer';
 import IndexLabel from './IndexLabel';
 import { PuzzleDialogueProps } from './types';
+import { Status } from 'generated/globalTypes';
 
 const IdBlock = styled.div`
   position: relative;
@@ -66,13 +67,13 @@ const PuzzleDialogue = ({
         <ChatBubbleTop>
           {dialogue.answer && index && <IndexLabel>A{index}</IndexLabel>}
           {dialogue.answer &&
-            (anonymous && puzzleStatus === 0 ? (
+            (anonymous && puzzleStatus === Status.UNDERGOING ? (
               <AnonymousUserInline
                 px={1}
                 timestamp={
-                  dialogue.answeredtime && (
+                  dialogue.answeredTime && (
                     <FormattedTime
-                      value={dialogue.answeredtime}
+                      value={dialogue.answeredTime}
                       year="numeric"
                       month="short"
                       day="numeric"
@@ -85,9 +86,9 @@ const PuzzleDialogue = ({
                 px={1}
                 user={puzzleUser}
                 timestamp={
-                  dialogue.answeredtime && (
+                  dialogue.answeredTime && (
                     <FormattedTime
-                      value={dialogue.answeredtime}
+                      value={dialogue.answeredTime}
                       year="numeric"
                       month="short"
                       day="numeric"
@@ -103,7 +104,7 @@ const PuzzleDialogue = ({
             goodAns={dialogue.good}
             trueAns={dialogue.true}
             answer={dialogue.answer}
-            answeredtime={dialogue.answeredtime}
+            answeredTime={dialogue.answeredTime}
             puzzleUserId={puzzleUser.id}
             answerEditTimes={dialogue.answerEditTimes}
             puzzleStatus={puzzleStatus}

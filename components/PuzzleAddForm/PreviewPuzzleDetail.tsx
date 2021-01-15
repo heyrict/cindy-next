@@ -1,6 +1,7 @@
 import { PreviewPuzzleDetailProps } from './types';
 import PuzzleTitle from 'components/Puzzle/Detail/PuzzleTitle';
 import ContentsFrame from 'components/Puzzle/Detail/ContentsFrame';
+import { Status } from 'generated/globalTypes';
 
 const PreviewPuzzleDetail = ({ getData }: PreviewPuzzleDetailProps) => {
   const data = getData();
@@ -10,8 +11,12 @@ const PreviewPuzzleDetail = ({ getData }: PreviewPuzzleDetailProps) => {
   return (
     <>
       <PuzzleTitle title={title} genre={genre} yami={yami} />
-      <ContentsFrame text={content} anonymous={anonymous} status={0} />
-      <ContentsFrame text={solution} status={0} />
+      <ContentsFrame
+        text={content}
+        anonymous={anonymous}
+        status={Status.UNDERGOING}
+      />
+      <ContentsFrame text={solution} status={Status.UNDERGOING} />
     </>
   );
 };

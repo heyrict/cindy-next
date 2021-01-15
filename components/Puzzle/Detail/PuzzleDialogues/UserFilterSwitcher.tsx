@@ -39,20 +39,14 @@ const UserFilterSwitcher = ({
     {users.map(user => (
       <FilterButton
         key={`UserFilterSwitcherUser-${user.id}`}
-        accent={
-          typeof user.dialogueUnsolvedCount === 'number' &&
-          user.dialogueUnsolvedCount > 0
-        }
+        accent={user.dialogueCount - user.answeredDialogueCount > 0}
         active={activeUserId === user.id}
         onClick={() => onClick(user.id)}
       >
-        {user.dialogueHasTrue && <Img height="xxs" src={starFillIcon} />}
+        {user.trueAnswer && <Img height="xxs" src={starFillIcon} />}
         {user.nickname}
         <sup>
-          {typeof user.dialogueUnsolvedCount === 'number'
-            ? `${user.dialogueUnsolvedCount}/`
-            : null}
-          {user.dialogueCount}
+          {user.dialogueCount - user.answeredDialogueCount}/{user.dialogueCount}
         </sup>
       </FilterButton>
     ))}

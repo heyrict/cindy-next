@@ -15,7 +15,6 @@ import Heading from 'components/General/Heading';
 import CommentDisplay from 'components/Puzzle/CommentDisplay';
 
 import { ProfileCommentsTabProps } from './types';
-import { order_by } from 'generated/globalTypes';
 import {
   ProfileCommentsQuery,
   ProfileCommentsQueryVariables,
@@ -35,19 +34,13 @@ const ProfileCommentsTab = ({ userId }: ProfileCommentsTabProps) => (
         query={PROFILE_COMMENTS_QUERY}
         variables={{
           userId,
-          orderBy: [{ id: order_by.desc }],
         }}
-        getItemCount={data =>
-          (data.comment_aggregate &&
-            data.comment_aggregate.aggregate &&
-            data.comment_aggregate.aggregate.count) ||
-          0
-        }
+        getItemCount={data => data.commentCount}
         renderItems={data => {
-          if (!data.comment) return null;
+          if (!data.comments) return null;
           return (
             <>
-              {data.comment.map(comment => (
+              {data.comments.map(comment => (
                 <Box key={comment.id} width={1}>
                   <CommentDisplay comment={comment} />
                 </Box>
@@ -68,19 +61,13 @@ const ProfileCommentsTab = ({ userId }: ProfileCommentsTabProps) => (
         query={PROFILE_COMMENTS_RECEIVED_QUERY}
         variables={{
           userId,
-          orderBy: [{ id: order_by.desc }],
         }}
-        getItemCount={data =>
-          (data.comment_aggregate &&
-            data.comment_aggregate.aggregate &&
-            data.comment_aggregate.aggregate.count) ||
-          0
-        }
+        getItemCount={data => data.userReceivedCommentCount}
         renderItems={data => {
-          if (!data.comment) return null;
+          if (!data.userReceivedComments) return null;
           return (
             <>
-              {data.comment.map(comment => (
+              {data.userReceivedComments.map(comment => (
                 <Box key={comment.id} width={1}>
                   <CommentDisplay comment={comment} />
                 </Box>

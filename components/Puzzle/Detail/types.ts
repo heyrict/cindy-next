@@ -1,17 +1,17 @@
 import { InlineUser } from 'components/User/types';
-import { RightAsideType } from 'reducers/types';
+import { Genre, Yami, Status } from 'generated/globalTypes';
 
 export type PuzzleType = {
   id: number;
   title: string;
-  genre: number;
-  yami: number;
+  genre: Genre;
+  yami: Yami;
   anonymous: boolean;
   grotesque: boolean;
-  status: number;
+  status: Status;
   content: string;
   memo: string;
-  dazed_on: string;
+  dazedOn: string;
   user: InlineUser;
   created: string;
   modified: string;
@@ -35,7 +35,7 @@ export type ReplayPanelProps = {
 export type ContentsFrameType = {
   text: React.ReactNode;
   anonymous?: boolean;
-  status?: number;
+  status?: Status;
   user?: InlineUser;
   created?: string;
   solved?: string;
@@ -43,13 +43,13 @@ export type ContentsFrameType = {
 
 export type MemoFrameType = {
   memo: string;
-  setRightAside: (rightAside: RightAsideType) => void;
+  toggleRightAsideMemo: () => void;
 };
 
 export type PuzzleTitleProps = {
   title: string;
-  genre: number;
-  yami: number;
+  genre: Genre;
+  yami: Yami;
 };
 
 export type PuzzleDetailProps = {

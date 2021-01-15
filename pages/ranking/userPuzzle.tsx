@@ -1,32 +1,23 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { Query } from '@apollo/react-components';
-import { USER_PUZZLE_RANKING_QUERY } from 'graphql/Queries/Ranking';
-
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import { FormattedMessage, FormattedDate, useIntl } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, Box } from 'components/General';
 import UserPuzzleRankingRenderer from 'components/Ranking/UserPuzzleRankingRenderer';
 import Back from 'components/Ranking/Back';
 import {
-  getMonthlyDate,
+  getRankingDate,
   rankingPanelProps,
   rankingPanelTitleProps,
 } from 'components/Ranking/constants';
 
-import {
-  UserPuzzleRankingQuery,
-  UserPuzzleRankingQueryVariables,
-} from 'graphql/Queries/generated/UserPuzzleRankingQuery';
-import { RankingProps } from 'pageTypes';
+const UserPuzzleRanking = () => {
+  const { formatMessage: _ } = useIntl();
+  const { year, month } = getRankingDate();
+  const date = new Date(year, month);
 
-const UserPuzzleRanking = ({ intl }: RankingProps) => {
-  const _ = intl.formatMessage;
-
-  const now = new Date();
-  const [monthlyStart, monthlyEnd] = getMonthlyDate(now);
   return (
     <div>
       <Head>
@@ -53,29 +44,16 @@ const UserPuzzleRanking = ({ intl }: RankingProps) => {
               {...rankingMessages.userPuzzleRankingWithMonth}
               values={{
                 date: (
-                  <FormattedDate
-                    value={monthlyStart as string}
-                    year="numeric"
-                    month="long"
-                  />
+                  <FormattedDate value={date} year="numeric" month="long" />
                 ),
               }}
             />
           </Box>
-          <Query<UserPuzzleRankingQuery, UserPuzzleRankingQueryVariables>
-            query={USER_PUZZLE_RANKING_QUERY}
-            variables={{
-              createdGte: monthlyStart,
-              createdLt: monthlyEnd,
-              limit: 10,
-            }}
-          >
-            {params => <UserPuzzleRankingRenderer {...params} shouldLoadMore />}
-          </Query>
+          <UserPuzzleRankingRenderer shouldLoadMore />
         </Flex>
       </Flex>
     </div>
   );
 };
 
-export default injectIntl(UserPuzzleRanking);
+export default UserPuzzleRanking;

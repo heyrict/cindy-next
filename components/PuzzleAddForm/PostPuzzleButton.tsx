@@ -11,7 +11,7 @@ import messages from 'messages/pages/add_puzzle';
 import { ButtonTransparent } from 'components/General';
 import Loading from 'components/General/Loading';
 
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client';
 import { ActionContentType } from 'reducers/types';
 import { PostPuzzleDetailProps } from './types';
 
@@ -48,17 +48,13 @@ const PostPuzzleButton = ({
                 setSubmitting(false);
                 return;
               }
-              if (
-                !data ||
-                !data.insert_puzzle ||
-                !data.insert_puzzle.returning
-              ) {
+              if (!data) {
                 toast.error('Error: no data returns');
                 setSubmitting(false);
                 return;
               }
               incPuzzles();
-              const addedPuzzle = data.insert_puzzle.returning[0];
+              const addedPuzzle = data.createPuzzle;
               Router.push('/puzzle/[id]', `/puzzle/${addedPuzzle.id}`);
             })
             .catch((error: ApolloError) => {
@@ -77,9 +73,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   incPuzzles: () => dispatch(awardCheckerReducer.actions.puzzles.inc()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 export default withRedux(PostPuzzleButton);

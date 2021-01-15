@@ -1,14 +1,14 @@
 import * as awardCheckerReducer from 'reducers/awardChecker';
 import { GlobalUserType } from 'reducers/types';
-import { AwardsInfoQuery_user_by_pk } from 'graphql/Queries/generated/AwardsInfoQuery';
-import { AllAwardsQuery_award } from 'graphql/Queries/generated/AllAwardsQuery';
+import { AwardsInfoQuery_user } from 'graphql/Queries/generated/AwardsInfoQuery';
+import { AllAwardsQuery_awards } from 'graphql/Queries/generated/AllAwardsQuery';
 
 export type AwardsRendererProps = {
   user: GlobalUserType;
 };
 
 export type AllAwardsProps = {
-  userInfo?: AwardsInfoQuery_user_by_pk;
+  userInfo?: AwardsInfoQuery_user;
 };
 
 export type AllAwardsWithUserProps = {
@@ -24,10 +24,10 @@ export enum AwardStatusType {
 }
 
 export type AwardTableRendererProps<T = number> = {
-  awardsDefs: AllAwardsQuery_award[];
+  awardsDefs: AllAwardsQuery_awards[];
   awardsObj: { [awardId: number]: T };
   header: React.ReactNode;
   checker: (awardId: number, awardObj: T) => AwardStatusType;
   getStatusLabel: (awardObj: T) => React.ReactNode;
-  userInfo?: AwardsInfoQuery_user_by_pk;
+  userInfo?: AwardsInfoQuery_user;
 };

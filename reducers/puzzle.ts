@@ -15,6 +15,12 @@ export enum actionTypes {
   RIGHT_ASIDE = 'puzzle.RIGHT_ASIDE',
 }
 
+export enum rightAsideActionTypes {
+  SET = 'SET',
+  TOGGLE_MEMO = 'TOGGLE_MEMO',
+  TOGGLE_CONTENT = 'TOGGLE_CHAT',
+}
+
 export type ActionPayloadType = {
   PARTICIPANTS: ReturnType<
     ValueOf<array.HelperActionType<UserFilterSwitcherUserType>>
@@ -23,7 +29,10 @@ export type ActionPayloadType = {
   PUZZLE_MEMO: ReturnType<ValueOf<base.HelperActionType<string>>>;
   PUZZLE_MEMO_HASNEW: ReturnType<ValueOf<bool.HelperActionType>>;
   SOLVED_LONGTERM_YAMI: ReturnType<ValueOf<bool.HelperActionType>>;
-  RIGHT_ASIDE: ReturnType<ValueOf<base.HelperActionType<RightAsideType>>>;
+  RIGHT_ASIDE:
+    | { type: rightAsideActionTypes.SET; value: RightAsideType }
+    | { type: rightAsideActionTypes.TOGGLE_MEMO }
+    | { type: rightAsideActionTypes.TOGGLE_CONTENT };
 };
 
 export const actions = {
@@ -34,7 +43,20 @@ export const actions = {
   puzzleMemo: base.wrapActions<string>(actionTypes.PUZZLE_MEMO),
   puzzleMemoHasnew: bool.wrapActions(actionTypes.PUZZLE_MEMO_HASNEW),
   solvedLongtermYami: bool.wrapActions(actionTypes.SOLVED_LONGTERM_YAMI),
-  rightAside: base.wrapActions<RightAsideType>(actionTypes.RIGHT_ASIDE),
+  rightAside: {
+    set: (value: RightAsideType) => ({
+      type: actionTypes.RIGHT_ASIDE,
+      payload: { type: rightAsideActionTypes.SET, value },
+    }),
+    toggle_memo: () => ({
+      type: actionTypes.RIGHT_ASIDE,
+      payload: { type: rightAsideActionTypes.TOGGLE_MEMO },
+    }),
+    toggle_content: () => ({
+      type: actionTypes.RIGHT_ASIDE,
+      payload: { type: rightAsideActionTypes.TOGGLE_CONTENT },
+    }),
+  },
 };
 
 export const rootSelector = (state: StateType): typeof initialState =>
@@ -83,10 +105,29 @@ export const reducer = (
         ),
       };
     case actionTypes.RIGHT_ASIDE:
-      return {
-        ...state,
-        rightAside: base.helper(state.rightAside, action.payload),
-      };
+      switch (action.payload.type) {
+        case rightAsideActionTypes.SET:
+          return {
+            ...state,
+            rightAside: action.payload.value,
+          };
+        case rightAsideActionTypes.TOGGLE_CONTENT:
+          return {
+            ...state,
+            rightAside:
+              state.rightAside === RightAsideType.content
+                ? RightAsideType.none
+                : RightAsideType.content,
+          };
+        case rightAsideActionTypes.TOGGLE_MEMO:
+          return {
+            ...state,
+            rightAside:
+              state.rightAside === RightAsideType.memo
+                ? RightAsideType.none
+                : RightAsideType.memo,
+          };
+      }
     default:
       return state;
   }

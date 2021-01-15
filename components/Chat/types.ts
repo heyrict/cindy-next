@@ -1,11 +1,11 @@
-import { DirectMessage } from 'graphql/Fragments/generated/DirectMessage';
+import { DirectMessageBrief } from 'graphql/Fragments/generated/DirectMessageBrief';
 
 export type ChatProps = {
   currentChannel: string;
 };
 
 export type DirectmessageProps = {
-  direct_message: DirectMessage;
+  directMessage: DirectMessageBrief;
   currentUserId?: number;
 };
 

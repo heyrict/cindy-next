@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { line2md } from 'common/markdown';
 
 import { FormattedTime, FormattedMessage } from 'react-intl';
@@ -7,7 +8,7 @@ import commonMessages from 'messages/common';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { Mutation } from '@apollo/react-components';
+import { useMutation } from '@apollo/client';
 import { CHATROOM_EDIT_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
 
 import UserInline from 'components/User/UserInline';
@@ -36,6 +37,19 @@ const Chatmessage = ({
     ChatmessageModeType.NORMAL,
   );
   const isCreator = currentUserId === chatmessage.user.id;
+
+  const [editMessage] = useMutation<
+    ChatroomEditMessage,
+    ChatroomEditMessageVariables
+  >(CHATROOM_EDIT_MESSAGE_MUTATION, {
+    onCompleted: () => {
+      setMode(ChatmessageModeType.NORMAL);
+    },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+      setMode(ChatmessageModeType.EDIT);
+    },
+  });
 
   return (
     <div>
@@ -74,49 +88,29 @@ const Chatmessage = ({
       <ChatBubble orientation={isCreator ? 'right' : 'left'}>
         <div style={{ overflowX: 'auto', width: '100%' }}>
           {mode === ChatmessageModeType.EDIT && (
-            <Mutation<ChatroomEditMessage, ChatroomEditMessageVariables>
-              mutation={CHATROOM_EDIT_MESSAGE_MUTATION}
-            >
-              {editMessage => (
-                <SimpleLegacyEditor
-                  useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
-                  initialValue={chatmessage.content}
-                  onSubmit={text => {
-                    if (text === chatmessage.content) {
-                      setMode(ChatmessageModeType.NORMAL);
-                      return;
-                    }
-                    setMode(ChatmessageModeType.NORMAL);
-                    return editMessage({
-                      variables: {
-                        chatmessageId: chatmessage.id,
-                        content: text,
-                      },
-                      optimisticResponse: {
-                        update_chatmessage: {
-                          __typename: 'chatmessage_mutation_response',
-                          returning: [
-                            {
-                              ...chatmessage,
-                              content: text,
-                            },
-                          ],
-                        },
-                      },
-                    }).then(result => {
-                      if (result && result.errors) {
-                        const { errors } = result;
-                        console.log(errors);
-                        setMode(ChatmessageModeType.EDIT);
-                      } else {
-                        setMode(ChatmessageModeType.NORMAL);
-                      }
-                      return result;
-                    });
-                  }}
-                />
-              )}
-            </Mutation>
+            <SimpleLegacyEditor
+              useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
+              initialValue={chatmessage.content}
+              onSubmit={text => {
+                if (text === chatmessage.content) {
+                  setMode(ChatmessageModeType.NORMAL);
+                  return;
+                }
+                setMode(ChatmessageModeType.NORMAL);
+                return editMessage({
+                  variables: {
+                    chatmessageId: chatmessage.id,
+                    content: text,
+                  },
+                  optimisticResponse: {
+                    updateChatmessage: {
+                      ...chatmessage,
+                      content: text,
+                    },
+                  },
+                });
+              }}
+            />
           )}
           <span
             dangerouslySetInnerHTML={{ __html: line2md(chatmessage.content) }}

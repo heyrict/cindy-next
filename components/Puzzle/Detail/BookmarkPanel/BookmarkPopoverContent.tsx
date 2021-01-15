@@ -5,28 +5,37 @@ import { Flex, Box, ButtonTransparent } from 'components/General';
 import Loading from 'components/General/Loading';
 import BookmarkInput from './BookmarkInput';
 
-import { Query, Mutation } from '@apollo/react-components';
-import { PREVIOUS_BOOKMARK_VALUE_QUERY } from 'graphql/Queries/Bookmark';
-
-import { connect } from 'react-redux';
-import * as globalReducer from 'reducers/global';
+import { useQuery, useMutation } from '@apollo/client';
+import {
+  ADD_BOOKMARK_MUTATION,
+  UPDATE_BOOKMARK_MUTATION,
+} from 'graphql/Mutations/Bookmark';
+import {
+  PREVIOUS_BOOKMARK_VALUE_QUERY,
+  PUZZLE_BOOKMARK_AGGREGATE_QUERY,
+} from 'graphql/Queries/Bookmark';
 
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 import commonMessages from 'messages/common';
 
 import { BookmarkPopoverContentProps } from './types';
-import { ADD_BOOKMARK_MUTATION } from 'graphql/Mutations/Bookmark';
 import {
   AddBookmarkMutation,
   AddBookmarkMutationVariables,
 } from 'graphql/Mutations/generated/AddBookmarkMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
 import {
   PreviousBookmarkValueQuery,
   PreviousBookmarkValueQueryVariables,
 } from 'graphql/Queries/generated/PreviousBookmarkValueQuery';
-import { StateType } from 'reducers/types';
+import {
+  UpdateBookmarkMutation,
+  UpdateBookmarkMutationVariables,
+} from 'graphql/Mutations/generated/UpdateBookmarkMutation';
+import {
+  PuzzleBookmarkAggregateQuery,
+  PuzzleBookmarkAggregateQueryVariables,
+} from 'graphql/Queries/generated/PuzzleBookmarkAggregateQuery';
 
 const BookmarkPopupContent = ({
   userId,
@@ -37,6 +46,92 @@ const BookmarkPopupContent = ({
   const contentRef = useRef<HTMLDivElement>(null!);
   const inputRef = useRef<BookmarkInput>(null!);
   const notifHdlRef = useRef<React.ReactText | null>(null);
+
+  const { data, error, loading } = useQuery<
+    PreviousBookmarkValueQuery,
+    PreviousBookmarkValueQueryVariables
+  >(PREVIOUS_BOOKMARK_VALUE_QUERY, {
+    variables: {
+      puzzleId,
+      userId,
+    },
+  });
+  const [addBookmark] = useMutation<
+    AddBookmarkMutation,
+    AddBookmarkMutationVariables
+  >(ADD_BOOKMARK_MUTATION, {
+    update: (proxy, { data }) => {
+      if (!data || !data.createBookmark) return;
+      const newBookmark = data.createBookmark;
+
+      // Update user's bookmarks on this puzzle
+      proxy.writeQuery<
+        PreviousBookmarkValueQuery,
+        PreviousBookmarkValueQueryVariables
+      >({
+        query: PREVIOUS_BOOKMARK_VALUE_QUERY,
+        variables: {
+          puzzleId,
+          userId: userId as number,
+        },
+        data: {
+          bookmarks: [newBookmark],
+        },
+      });
+
+      // Update aggrevated bookmark count on this puzzle
+      let prevData = proxy.readQuery<
+        PuzzleBookmarkAggregateQuery,
+        PuzzleBookmarkAggregateQueryVariables
+      >({
+        query: PUZZLE_BOOKMARK_AGGREGATE_QUERY,
+        variables: { puzzleId },
+      });
+      if (prevData) {
+        proxy.writeQuery<
+          PuzzleBookmarkAggregateQuery,
+          PuzzleBookmarkAggregateQueryVariables
+        >({
+          query: PUZZLE_BOOKMARK_AGGREGATE_QUERY,
+          variables: { puzzleId },
+          data: {
+            ...prevData,
+            bookmarkCount: prevData.bookmarkCount + 1,
+          },
+        });
+      }
+    },
+    onCompleted: () => {
+      if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+      toast.info(<FormattedMessage {...commonMessages.saved} />);
+    },
+    onError: error => {
+      if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
+      toast.error(`${error.name}: ${error.message}`);
+    },
+  });
+  const [updateBookmark] = useMutation<
+    UpdateBookmarkMutation,
+    UpdateBookmarkMutationVariables
+  >(UPDATE_BOOKMARK_MUTATION, {
+    update: (proxy, { data }) => {
+      if (!data || !data.updateBookmark) return;
+      const newBookmark = data.updateBookmark;
+      proxy.writeQuery<
+        PreviousBookmarkValueQuery,
+        PreviousBookmarkValueQueryVariables
+      >({
+        query: PREVIOUS_BOOKMARK_VALUE_QUERY,
+        variables: {
+          puzzleId,
+          userId: userId as number,
+        },
+        data: {
+          bookmarks: [newBookmark],
+        },
+      });
+    },
+  });
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
@@ -53,138 +148,78 @@ const BookmarkPopupContent = ({
     return () => window.removeEventListener('click', handleOutsideClick);
   }, []);
 
+  if (error) {
+    toast.error(error.message);
+    return null;
+  }
+  if (!data || !data.bookmarks) {
+    if (loading) return <Loading centered />;
+    return null;
+  }
+
+  const initialValue =
+    data.bookmarks.length === 0 ? 0 : data.bookmarks[0].value;
+
   return (
     <Flex ref={contentRef} width={1} flexWrap="wrap">
-      {userId && (
-        <Query<PreviousBookmarkValueQuery, PreviousBookmarkValueQueryVariables>
-          query={PREVIOUS_BOOKMARK_VALUE_QUERY}
-          variables={{
-            puzzleId,
-            userId,
-          }}
-        >
-          {({ data, error, loading }) => {
-            if (error) {
-              toast.error(error.message);
-              return null;
+      <Box width={1} pr={1}>
+        {initialValue === 0 ? (
+          <FormattedMessage {...puzzleMessages.addBookmarks} />
+        ) : (
+          <FormattedMessage {...puzzleMessages.yourBookmarks} />
+        )}
+      </Box>
+      <BookmarkInput ref={inputRef} initialValue={initialValue} />
+      <Box width={1} bg="orange.5">
+        <ButtonTransparent
+          width={1}
+          onClick={() => {
+            if (!inputRef.current) return;
+            const value = inputRef.current.state.value;
+
+            if (data.bookmarks.length === 0) {
+              // Add a bookmark if there is no bookmark before
+              addBookmark({
+                variables: {
+                  puzzleId,
+                  value,
+                },
+                optimisticResponse: {
+                  createBookmark: {
+                    __typename: 'Bookmark',
+                    id: -1,
+                    value,
+                  },
+                },
+              });
+            } else {
+              const prevBookmark = data.bookmarks[0];
+
+              updateBookmark({
+                variables: {
+                  id: prevBookmark.id,
+                  value,
+                },
+                optimisticResponse: {
+                  updateBookmark: {
+                    __typename: 'Bookmark',
+                    id: prevBookmark.id,
+                    value,
+                  },
+                },
+              });
             }
-            if (!data || !data.bookmark) {
-              if (loading) return <Loading centered />;
-              return null;
-            }
-            const initialValue =
-              data.bookmark.length === 0 ? 0 : data.bookmark[0].value;
-            return (
-              <>
-                <Box width={1} pr={1}>
-                  {initialValue === 0 ? (
-                    <FormattedMessage {...puzzleMessages.addBookmarks} />
-                  ) : (
-                    <FormattedMessage {...puzzleMessages.yourBookmarks} />
-                  )}
-                </Box>
-                <Mutation<AddBookmarkMutation, AddBookmarkMutationVariables>
-                  mutation={ADD_BOOKMARK_MUTATION}
-                  update={(proxy, { data }) => {
-                    if (
-                      !data ||
-                      !data.insert_bookmark ||
-                      data.insert_bookmark.returning.length === 0
-                    )
-                      return;
-                    const newBookmark = data.insert_bookmark.returning[0];
-                    proxy.writeQuery<
-                      PreviousBookmarkValueQuery,
-                      PreviousBookmarkValueQueryVariables
-                    >({
-                      query: PREVIOUS_BOOKMARK_VALUE_QUERY,
-                      variables: {
-                        puzzleId,
-                        userId: userId as number,
-                      },
-                      data: {
-                        bookmark: [{ ...newBookmark }],
-                      },
-                    });
-                  }}
-                >
-                  {addBookmark => (
-                    <React.Fragment>
-                      <BookmarkInput
-                        ref={inputRef}
-                        initialValue={initialValue}
-                      />
-                      <Box width={1} bg="orange.5">
-                        <ButtonTransparent
-                          width={1}
-                          onClick={() => {
-                            if (!inputRef.current) return;
-                            const value = inputRef.current.state.value;
-                            addBookmark({
-                              variables: {
-                                puzzleId,
-                                value,
-                              },
-                              optimisticResponse: {
-                                insert_bookmark: {
-                                  __typename: 'bookmark_mutation_response',
-                                  returning: [
-                                    {
-                                      __typename: 'bookmark',
-                                      id:
-                                        data.bookmark.length > 0
-                                          ? data.bookmark[0].id
-                                          : -1,
-                                      value,
-                                    },
-                                  ],
-                                },
-                              },
-                            })
-                              .then(res => {
-                                if (!res) return;
-                                const { errors } = res;
-                                if (errors) {
-                                  toast.error(JSON.stringify(errors));
-                                } else {
-                                  if (notifHdlRef.current)
-                                    toast.dismiss(notifHdlRef.current);
-                                  toast.info(
-                                    <FormattedMessage
-                                      {...commonMessages.saved}
-                                    />,
-                                  );
-                                }
-                              })
-                              .catch((e: ApolloError) => {
-                                if (notifHdlRef.current)
-                                  toast.dismiss(notifHdlRef.current);
-                                toast.error(e.message);
-                              });
-                            notifHdlRef.current = toast.info(
-                              <FormattedMessage {...commonMessages.saving} />,
-                            );
-                          }}
-                        >
-                          <FormattedMessage {...commonMessages.save} />
-                        </ButtonTransparent>
-                      </Box>
-                    </React.Fragment>
-                  )}
-                </Mutation>
-              </>
+
+            notifHdlRef.current = toast.info(
+              <FormattedMessage {...commonMessages.saving} />,
             );
           }}
-        </Query>
-      )}
+        >
+          <FormattedMessage {...commonMessages.save} />
+        </ButtonTransparent>
+      </Box>
     </Flex>
   );
 };
 
-const mapStateToProps = (state: StateType) => ({
-  userId: globalReducer.rootSelector(state).user.id,
-});
-
-const withRedux = connect(mapStateToProps);
-
-export default withRedux(BookmarkPopupContent);
+export default BookmarkPopupContent;

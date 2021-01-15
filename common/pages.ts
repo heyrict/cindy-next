@@ -1,5 +1,7 @@
 // Puzzle Detail Page: ^/puzzle/(show)?\d+$
-export const puzzleDetailPageRegex = new RegExp('^/puzzle/(show/)?(\\d+)$');
+export const puzzleDetailPageRegex = new RegExp(
+  '^/puzzle/(show/)?(\\d+|\\[id\\])$',
+);
 
 export const onPuzzleDetailPage = (route: string): boolean =>
   Boolean(route.match(puzzleDetailPageRegex));

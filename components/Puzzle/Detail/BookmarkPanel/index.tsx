@@ -2,10 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'theme/styled';
 
+import { connect } from 'react-redux';
+import * as globalReducer from 'reducers/global';
+
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { PUZZLE_BOOKMARK_AGGREGATE_QUERY } from 'graphql/Queries/Bookmark';
 
 import { Waypoint } from 'react-waypoint';
@@ -17,6 +20,7 @@ import BookmarkPopoverContent from './BookmarkPopoverContent';
 import bookmarkIcon from 'svgs/puzzleDetailBookmark.svg';
 
 import { BookmarkPanelProps } from './types';
+import { StateType } from 'reducers/types';
 import {
   PuzzleBookmarkAggregateQuery,
   PuzzleBookmarkAggregateQueryVariables,
@@ -32,7 +36,7 @@ const BookmarkButton = styled(Button)`
   }
 `;
 
-const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
+const BookmarkPanel = ({ puzzleId, userId }: BookmarkPanelProps) => {
   const [loaded, setLoaded] = useState(false);
   const [show, setShow] = useState(false);
   let buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -59,16 +63,10 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
               toast.error(error.message);
               return null;
             }
-            if (!data || !data.bookmark_aggregate) {
+            if (!data || typeof data.bookmarkCount !== 'number') {
               if (loading) return <Loading centered />;
               return null;
             }
-            const agg = {
-              bookmarkCount:
-                (data.bookmark_aggregate.aggregate &&
-                  data.bookmark_aggregate.aggregate.count) ||
-                0,
-            };
             return (
               <Box width={[1, 1 / 2]} mb={2}>
                 <Box px={2}>
@@ -96,14 +94,14 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
                           >
                             <Img mr={2} size="xs" src={bookmarkIcon} />
                             <Box fontSize={3} color="green.6">
-                              {agg.bookmarkCount}{' '}
+                              {data.bookmarkCount}{' '}
                               <FormattedMessage {...puzzleMessages.bookmark} />
                             </Box>
                           </Flex>
                         </BookmarkButton>
                       )}
                     </Reference>
-                    {show && (
+                    {show && userId && (
                       <Popper placement="top">
                         {({ ref, style, placement }) => (
                           <Flex
@@ -120,6 +118,7 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
                             data-placement={placement}
                           >
                             <BookmarkPopoverContent
+                              userId={userId}
                               puzzleId={puzzleId}
                               setShow={setShow}
                               buttonRef={buttonRef}
@@ -139,4 +138,10 @@ const BookmarkPanel = ({ puzzleId }: BookmarkPanelProps) => {
   );
 };
 
-export default BookmarkPanel;
+const mapStateToProps = (state: StateType) => ({
+  userId: globalReducer.rootSelector(state).user.id,
+});
+
+const withRedux = connect(mapStateToProps);
+
+export default withRedux(BookmarkPanel);

@@ -1,4 +1,5 @@
 import { GlobalUserType } from 'reducers/types';
+import { Status } from 'generated/globalTypes';
 
 export type QuestionDisplayProps = {
   question: string;
@@ -24,6 +25,6 @@ export type PuzzleDialogueQuestionProps = {
   userId: number;
   question: string;
   questionEditTimes: number;
-  puzzleStatus: number;
+  puzzleStatus: Status;
   isAnswered: boolean;
 };

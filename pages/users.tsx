@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import messages from 'messages/pages/users';
 
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
@@ -16,7 +16,8 @@ import {
   UserListQueryVariables,
 } from 'graphql/Queries/generated/UserListQuery';
 
-const Users = ({ intl }: { intl: IntlShape }) => {
+const Users = () => {
+  const intl = useIntl();
   const _ = intl.formatMessage;
 
   return (
@@ -33,14 +34,9 @@ const Users = ({ intl }: { intl: IntlShape }) => {
           query={USER_LIST_QUERY}
           variables={{ limit: 20 }}
           fetchPolicy="cache-first"
-          getItemCount={data =>
-            (data.user_aggregate &&
-              data.user_aggregate.aggregate &&
-              data.user_aggregate.aggregate.count) ||
-            0
-          }
+          getItemCount={data => data.userCount}
           renderItems={data => {
-            const users = data.user;
+            const { users } = data;
             if (!users) return null;
             return (
               <>
@@ -58,4 +54,10 @@ const Users = ({ intl }: { intl: IntlShape }) => {
   );
 };
 
-export default injectIntl(Users);
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
+
+export default Users;

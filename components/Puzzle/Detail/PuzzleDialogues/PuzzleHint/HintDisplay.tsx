@@ -18,11 +18,11 @@ const HintDisplay = ({ hint }: HintDisplayProps) => (
         __html: text2md(normPuzzleQjump(hint.content)),
       }}
     />
-    {hint.edittimes > 0 && (
+    {hint.editTimes > 0 && (
       <EditTimeSpan>
         <FormattedMessage
           {...commonMessages.editTimes}
-          values={{ count: hint.edittimes }}
+          values={{ count: hint.editTimes }}
         />
       </EditTimeSpan>
     )}

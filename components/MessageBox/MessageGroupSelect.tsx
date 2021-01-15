@@ -1,160 +1,179 @@
 import React from 'react';
 import { toast } from 'react-toastify';
+import { upsertItem } from 'common/update';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as directReducer from 'reducers/direct';
 
-import { Query, Mutation } from '@apollo/react-components';
-import { DIRECT_MESSAGE_GROUP_QUERY } from 'graphql/Queries/Directmessage';
-import { USER_LAST_READ_DM_QUERY } from 'graphql/Queries/User';
-import { SET_LAST_READ_DM_MUTATION } from 'graphql/Mutations/User';
+import { useMutation, useQuery } from '@apollo/client';
+import { DM_READ_ALL_QUERY } from 'graphql/Queries/DirectMessage';
+import { UPSERT_DM_READ_MUTATION } from 'graphql/Mutations/DirectMessage';
+import { USER_BRIEF_FRAGMENT } from 'graphql/Fragments/User';
 
 import { Flex, Box, Img, ButtonTransparent, RedDot } from 'components/General';
 import Loading from 'components/General/Loading';
 import messageIcon from 'svgs/message.svg';
 
 import { StateType, ActionContentType } from 'reducers/types';
+import { MessageGroupSelectProps } from './types';
 import {
-  DirectMessageGroupQuery,
-  DirectMessageGroupQueryVariables,
-} from 'graphql/Queries/generated/DirectMessageGroupQuery';
+  DmReadAllQuery,
+  DmReadAllQueryVariables,
+} from 'graphql/Queries/generated/DmReadAllQuery';
 import {
-  MessageGroupSelectProps,
-  MessageGroupSelectRendererProps,
-} from './types';
-import {
-  UserLastReadDmQuery,
-  UserLastReadDmQueryVariables,
-} from 'graphql/Queries/generated/UserLastReadDmQuery';
-import {
-  SetLastReadDmMutationVariables,
-  SetLastReadDmMutation,
-} from 'graphql/Mutations/generated/SetLastReadDmMutation';
+  UpsertDmReadMutation,
+  UpsertDmReadMutationVariables,
+} from 'graphql/Mutations/generated/UpsertDmReadMutation';
+import { UserBrief } from 'graphql/Fragments/generated/UserBrief';
 
-const MessageGroupSelectRenderer = ({
+const MessageGroupSelectInner = ({
   userId,
   setDirectGroupUser,
   setDirectHasnew,
-  data,
-  loading,
-  error,
-}: MessageGroupSelectRendererProps) => {
+}: MessageGroupSelectProps) => {
+  const { data, loading, error } = useQuery<
+    DmReadAllQuery,
+    DmReadAllQueryVariables
+  >(DM_READ_ALL_QUERY, {
+    variables: {
+      userId,
+      limit: 50,
+      offset: 0,
+    },
+    onCompleted: ({ dmReadAll }) => {
+      if (!dmReadAll) return;
+
+      if (dmReadAll.some(entry => entry.dmId !== entry.directMessageId)) {
+        setDirectHasnew(true);
+      } else {
+        setDirectHasnew(false);
+      }
+    },
+  });
+
+  const [upsertDmRead] = useMutation<
+    UpsertDmReadMutation,
+    UpsertDmReadMutationVariables
+  >(UPSERT_DM_READ_MUTATION, {
+    update: (cache, { data }) => {
+      if (!data || !data.upsertDmRead) return;
+
+      const directMessage = data.upsertDmRead;
+
+      const cachedResult = cache.readQuery<
+        DmReadAllQuery,
+        Omit<DmReadAllQueryVariables, 'limit' | 'offset'>
+      >({
+        query: DM_READ_ALL_QUERY,
+        variables: {
+          userId,
+        },
+      });
+      if (cachedResult === null) return;
+      const { dmReadAll } = cachedResult;
+      let withUser = cache.readFragment<UserBrief>({
+        fragment: USER_BRIEF_FRAGMENT,
+        fragmentName: 'UserBrief',
+        id: `User:${directMessage.withUserId}`,
+      });
+      cache.writeQuery<
+        DmReadAllQuery,
+        Omit<DmReadAllQueryVariables, 'limit' | 'offset'>
+      >({
+        query: DM_READ_ALL_QUERY,
+        variables: {
+          userId,
+        },
+        data: {
+          dmReadAll: upsertItem(
+            dmReadAll,
+            {
+              __typename: 'DmReadAllEntry',
+              dmId: directMessage.id,
+              directMessageId: directMessage.id,
+              withUserId: directMessage.withUserId,
+              withUser: {
+                __typename: 'User',
+                id: directMessage.withUserId,
+                nickname: withUser?.nickname || '...',
+              },
+            },
+            'withUserId',
+            'desc',
+          ),
+        },
+      });
+    },
+  });
+
   if (error) {
     toast.error(error.message);
     return null;
   }
-  if (!data || !data.direct_message_group) {
+  if (!data || !data.dmReadAll) {
     if (loading) return <Loading centered />;
     return null;
   }
-  const directMessageGroup = data.direct_message_group;
+  const { dmReadAll } = data;
 
   return (
-    <React.Fragment>
-      <Query<UserLastReadDmQuery, UserLastReadDmQueryVariables>
-        query={USER_LAST_READ_DM_QUERY}
-        variables={{ id: userId }}
-        onCompleted={data => {
-          if (!data || !data.user_by_pk) return;
-          const lastReadId = data.user_by_pk.last_read_dm_id;
-          if (!lastReadId) return;
-
-          if (directMessageGroup.some(grp => grp.last_dm_id > lastReadId))
-            setDirectHasnew(true);
-          else setDirectHasnew(false);
-        }}
-      >
-        {({ data: userData, error, loading }) => {
-          if (error) {
-            toast.error(error.message);
-            return null;
-          }
-          if (!userData || !userData.user_by_pk) {
-            if (loading) return <Loading centered />;
-            return null;
-          }
-          const lastReadId = userData.user_by_pk.last_read_dm_id || -1;
-          return (
-            <Mutation<SetLastReadDmMutation, SetLastReadDmMutationVariables>
-              mutation={SET_LAST_READ_DM_MUTATION}
+    <Flex flexWrap="wrap" alignItems="center">
+      {dmReadAll.map(entry => (
+        <Flex key={entry.withUser.id} mr={1}>
+          <Box
+            style={{ position: 'relative' }}
+            m={1}
+            borderRadius={2}
+            bg="rgba(255, 255, 255, 0.5)"
+          >
+            <ButtonTransparent
+              py={2}
+              width={1}
+              onClick={() => {
+                setDirectGroupUser(entry.withUser.id);
+                if (entry.dmId !== entry.directMessageId) {
+                  upsertDmRead({
+                    variables: {
+                      userId,
+                      withUserId: entry.withUser.id,
+                      dmId: entry.directMessageId,
+                    },
+                    optimisticResponse: {
+                      upsertDmRead: {
+                        __typename: 'DmRead',
+                        id: -1,
+                        userId,
+                        withUserId: entry.withUser.id,
+                        dmId: entry.directMessageId,
+                      },
+                    },
+                  });
+                }
+              }}
             >
-              {setLastReadDm => (
-                <Flex flexWrap="wrap" alignItems="center">
-                  {directMessageGroup.map(grp => (
-                    <Flex key={grp.user.id} mr={1}>
-                      <Box
-                        style={{ position: 'relative' }}
-                        m={1}
-                        borderRadius={2}
-                        bg="rgba(255, 255, 255, 0.5)"
-                      >
-                        <ButtonTransparent
-                          py={2}
-                          width={1}
-                          onClick={() => {
-                            setDirectGroupUser(grp.user.id);
-                            if (grp.last_dm_id > lastReadId) {
-                              setLastReadDm({
-                                variables: {
-                                  userId,
-                                  directMessageId: grp.last_dm_id,
-                                },
-                                optimisticResponse: {
-                                  update_user: {
-                                    __typename: 'user_mutation_response',
-                                    returning: [
-                                      {
-                                        __typename: 'user',
-                                        id: userId,
-                                        last_read_dm_id: grp.last_dm_id,
-                                      },
-                                    ],
-                                  },
-                                },
-                              });
-                            }
-                          }}
-                        >
-                          <Img src={messageIcon} height="xs" mr={2} alt="DM" />
-                          {grp.user.nickname}
-                          {grp.last_dm_id > (lastReadId || 1e8) && (
-                            <RedDot right={0} top={8} />
-                          )}
-                        </ButtonTransparent>
-                      </Box>
-                    </Flex>
-                  ))}
-                </Flex>
+              <Img src={messageIcon} height="xs" mr={2} alt="DM" />
+              {entry.withUser.nickname}
+              {entry.dmId !== entry.directMessageId && (
+                <RedDot right={0} top={8} />
               )}
-            </Mutation>
-          );
-        }}
-      </Query>
-    </React.Fragment>
+            </ButtonTransparent>
+          </Box>
+        </Flex>
+      ))}
+    </Flex>
   );
 };
 
-const MessageGroupSelect = ({
-  userId,
-  setDirectGroupUser,
-  setDirectHasnew,
-}: MessageGroupSelectProps) =>
-  userId ? (
-    <Query<DirectMessageGroupQuery, DirectMessageGroupQueryVariables>
-      query={DIRECT_MESSAGE_GROUP_QUERY}
-      variables={{ userId }}
-    >
-      {params => (
-        <MessageGroupSelectRenderer
-          userId={userId}
-          setDirectGroupUser={setDirectGroupUser}
-          setDirectHasnew={setDirectHasnew}
-          {...params}
-        />
-      )}
-    </Query>
+const MessageGroupSelect = (
+  props: Omit<MessageGroupSelectProps, 'userId'> & {
+    userId: number | undefined;
+  },
+) => {
+  return typeof props.userId === 'number' ? (
+    <MessageGroupSelectInner {...props} userId={props.userId} />
   ) : null;
+};
 
 const mapStateToProps = (state: StateType) => ({
   userId: globalReducer.rootSelector(state).user.id,
@@ -167,9 +186,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(directReducer.actions.directHasnew.set(hasnew)),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(MessageGroupSelect);

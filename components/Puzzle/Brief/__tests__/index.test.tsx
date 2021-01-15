@@ -12,12 +12,18 @@ import Star from '../Star';
 import Status from '../Status';
 import Yami from '../Yami';
 
+import {
+  Genre as GenreEnum,
+  Yami as YamiEnum,
+  Status as StatusEnum,
+} from 'generated/globalTypes';
+
 const puzzleMinimal = {
   id: 1,
-  genre: 0,
+  genre: GenreEnum.CLASSIC,
   title: 'ウミガメのスープ',
-  status: 1,
-  yami: 0,
+  status: StatusEnum.SOLVED,
+  yami: YamiEnum.NONE,
   created: '2019-06-26T00:00:00Z',
   modified: '2019-06-26T00:00:00Z',
   user: {
@@ -29,7 +35,7 @@ const puzzleMinimal = {
 const puzzleMaximum = {
   ...puzzleMinimal,
   anonymous: true,
-  dazed_on: '2018-11-29',
+  dazedOn: '2018-11-29',
   stars_aggregate: {
     aggregate: {
       count: 7,
@@ -52,7 +58,7 @@ const puzzleMaximum = {
     aggregate: {
       count: 16,
       max: {
-        answeredtime: '2017-10-02T21:49:22.066+08:00',
+        answeredTime: '2017-10-02T21:49:22.066+08:00',
         created: '2017-10-02T20:07:00.000+08:00',
       },
     },
@@ -65,7 +71,7 @@ const externalProps = {
   starCount: 7,
   starSum: 35,
   dialogueCount: 16,
-  dialogueMaxAnsweredtime: '2017-10-02T21:49:22.066+08:00',
+  dialogueMaxAnsweredTime: '2017-10-02T21:49:22.066+08:00',
 };
 
 describe('<Brief />', () => {

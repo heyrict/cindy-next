@@ -1,3 +1,5 @@
+export const ITEMS_PER_PAGE = 20;
+
 export const getMonthlyDate = (now: Date) => {
   const temp = new Date(now);
   temp.setDate(1);
@@ -16,6 +18,24 @@ export const getMonthlyDate = (now: Date) => {
     temp.setMonth(temp.getMonth() - 1);
     const start = temp.toISOString();
     return [start, end];
+  }
+};
+
+export const getRankingDate = (d?: Date) => {
+  const date = d ? new Date(d) : new Date();
+
+  if (date.getDate() > 15) {
+    date.setMonth(date.getMonth() - 1);
+    return {
+      year: date.getUTCFullYear(),
+      month: date.getUTCMonth(),
+    };
+  } else {
+    date.setMonth(date.getMonth() - 1);
+    return {
+      year: date.getUTCFullYear(),
+      month: date.getUTCMonth(),
+    };
   }
 };
 

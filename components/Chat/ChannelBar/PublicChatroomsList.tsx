@@ -8,7 +8,7 @@ import * as chatReducer from 'reducers/chat';
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import Loading from 'components/General/Loading';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { PUBLIC_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
 
 import { FormattedMessage } from 'react-intl';
@@ -28,7 +28,7 @@ const PublicChatroomsList = ({
         toast.error(error.message);
         return null;
       }
-      if (!data || !data.chatroom) {
+      if (!data || !data.chatrooms) {
         if (loading) return <Loading centered />;
         return null;
       }
@@ -37,7 +37,7 @@ const PublicChatroomsList = ({
           <Box mt={2} width={1} borderBottom="3px solid" borderColor="orange.6">
             <FormattedMessage {...chatMessages.publicChatrooms} />
           </Box>
-          {data.chatroom.map(chatroom => (
+          {data.chatrooms.map(chatroom => (
             <Box
               key={chatroom.id}
               border="2px solid"
@@ -70,9 +70,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(chatReducer.actions.channelChangeModal.setFalse()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 export default withRedux(PublicChatroomsList);

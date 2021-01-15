@@ -11,8 +11,8 @@ import {
   PaginatedQueryStates,
   PaginatorBarPosition,
 } from './types';
-import { QueryResult, OperationVariables } from '@apollo/react-common';
-import { Query } from '@apollo/react-components';
+import { OperationVariables } from '@apollo/client';
+import { Query } from '@apollo/client/react/components';
 
 class PaginatedQuery<
   TData = any,
@@ -79,7 +79,7 @@ class PaginatedQuery<
               });
           }}
         >
-          {({ loading, error, data, refetch }: QueryResult<TData>) => {
+          {({ loading, error, data, refetch }) => {
             if (error) {
               return <ErrorReload error={error} refetch={refetch} />;
             }

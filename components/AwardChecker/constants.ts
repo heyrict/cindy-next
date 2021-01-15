@@ -1,3 +1,5 @@
+import { Genre } from 'generated/globalTypes';
+
 export const PuzzleCountAwards = {
   190: 1,
   191: 5,
@@ -97,18 +99,18 @@ export const StarByPuzzleAwards = {
 };
 
 export const PuzzleByGenreAwards = {
-  200: { genre: 0, count: 10 },
-  201: { genre: 0, count: 30 },
-  202: { genre: 0, count: 50 },
-  203: { genre: 1, count: 5 },
-  204: { genre: 1, count: 10 },
-  205: { genre: 1, count: 15 },
-  206: { genre: 2, count: 1 },
-  207: { genre: 2, count: 5 },
-  208: { genre: 2, count: 10 },
-  209: { genre: 3, count: 1 },
-  210: { genre: 3, count: 5 },
-  211: { genre: 3, count: 10 },
+  200: { genre: Genre.CLASSIC, count: 10 },
+  201: { genre: Genre.CLASSIC, count: 30 },
+  202: { genre: Genre.CLASSIC, count: 50 },
+  203: { genre: Genre.TWENTY_QUESTIONS, count: 5 },
+  204: { genre: Genre.TWENTY_QUESTIONS, count: 10 },
+  205: { genre: Genre.TWENTY_QUESTIONS, count: 15 },
+  206: { genre: Genre.LITTLE_ALBAT, count: 1 },
+  207: { genre: Genre.LITTLE_ALBAT, count: 5 },
+  208: { genre: Genre.LITTLE_ALBAT, count: 10 },
+  209: { genre: Genre.OTHERS, count: 1 },
+  210: { genre: Genre.OTHERS, count: 5 },
+  211: { genre: Genre.OTHERS, count: 10 },
 };
 
 export const PuzzleByYamiAwards = {

@@ -1,31 +1,23 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { Query } from '@apollo/react-components';
-import { USER_DIALOGUE_RANKING_QUERY } from 'graphql/Queries/Ranking';
-
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import { FormattedMessage, FormattedDate, useIntl } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, Box } from 'components/General';
 import UserDialogueRankingRenderer from 'components/Ranking/UserDialogueRankingRenderer';
 import Back from 'components/Ranking/Back';
 import {
-  getMonthlyDate,
+  getRankingDate,
   rankingPanelProps,
   rankingPanelTitleProps,
 } from 'components/Ranking/constants';
 
-import {
-  UserDialogueRankingQuery,
-  UserDialogueRankingQueryVariables,
-} from 'graphql/Queries/generated/UserDialogueRankingQuery';
-import { RankingProps } from 'pageTypes';
+const UserDialogueRanking = () => {
+  const { formatMessage: _ } = useIntl();
+  const { year, month } = getRankingDate();
+  const date = new Date(year, month);
 
-const UserDialogueRanking = ({ intl }: RankingProps) => {
-  const _ = intl.formatMessage;
-  const now = new Date();
-  const [monthlyStart, monthlyEnd] = getMonthlyDate(now);
   return (
     <div>
       <Head>
@@ -52,31 +44,16 @@ const UserDialogueRanking = ({ intl }: RankingProps) => {
               {...rankingMessages.userDialogueRankingWithMonth}
               values={{
                 date: (
-                  <FormattedDate
-                    value={monthlyStart as string}
-                    year="numeric"
-                    month="long"
-                  />
+                  <FormattedDate value={date} year="numeric" month="long" />
                 ),
               }}
             />
           </Box>
-          <Query<UserDialogueRankingQuery, UserDialogueRankingQueryVariables>
-            query={USER_DIALOGUE_RANKING_QUERY}
-            variables={{
-              createdGte: monthlyStart,
-              createdLt: monthlyEnd,
-              limit: 10,
-            }}
-          >
-            {params => (
-              <UserDialogueRankingRenderer {...params} shouldLoadMore />
-            )}
-          </Query>
+          <UserDialogueRankingRenderer shouldLoadMore />
         </Flex>
       </Flex>
     </div>
   );
 };
 
-export default injectIntl(UserDialogueRanking);
+export default UserDialogueRanking;

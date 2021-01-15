@@ -1,9 +1,9 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 import { USER_BRIEF_FRAGMENT } from './User';
 
 export const TAG_FRAGMENT = gql`
-  fragment Tag on tag {
+  fragment Tag on Tag {
     id
     name
     created
@@ -11,7 +11,7 @@ export const TAG_FRAGMENT = gql`
 `;
 
 export const PUZZLE_TAG_FRAGMENT = gql`
-  fragment PuzzleTag on puzzle_tag {
+  fragment PuzzleTag on PuzzleTag {
     id
     tag {
       ...Tag

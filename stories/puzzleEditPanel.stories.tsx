@@ -12,12 +12,13 @@ import Flex from 'components/General/Flex';
 import { IntlProvider } from 'react-intl';
 
 import PuzzleEditPanel from 'components/Puzzle/Detail/ControlPanel/PuzzleEditPanel';
+import { Genre, Status, Yami } from 'generated/globalTypes';
 
-const PuzzleEditPanelWrapper = ({ genre }: { genre: number }) => {
-  const [status, setStatus] = useState(0);
-  const [yami, setYami] = useState(0);
+const PuzzleEditPanelWrapper = ({ genre }: { genre: Genre }) => {
+  const [status, setStatus] = useState(Status.UNDERGOING);
+  const [yami, setYami] = useState(Yami.NONE);
   const [grotesque, setGrotesque] = useState(false);
-  const [dazedOn, setDazedOn] = useState('2019-03-01');
+  const [dazedOn] = useState('2019-03-01');
 
   return (
     <Flex flexWrap="wrap" width={1}>
@@ -28,8 +29,8 @@ const PuzzleEditPanelWrapper = ({ genre }: { genre: number }) => {
             <td>
               <button
                 onClick={() => {
-                  setStatus(0);
-                  setYami(0);
+                  setStatus(Status.UNDERGOING);
+                  setYami(Yami.NONE);
                   setGrotesque(false);
                 }}
               >
@@ -65,17 +66,7 @@ const PuzzleEditPanelWrapper = ({ genre }: { genre: number }) => {
         genre={genre}
         grotesque={grotesque}
         status={status}
-        dazed_on={dazedOn}
-        updatePuzzle={({ variables: { grotesque, status, yami } }: any) => {
-          setYami(yami);
-          setGrotesque(grotesque);
-          setStatus(status);
-          return new Promise(() => {});
-        }}
-        updatePuzzleDazedOn={({ variables: { dazedOn } }: any) => {
-          setDazedOn(dazedOn);
-          return new Promise(() => {});
-        }}
+        dazedOn={dazedOn}
         show
       />
     </Flex>
@@ -87,7 +78,7 @@ storiesOf('Views | PuzzleEditPanel', module)
     <IntlProvider locale="ja">
       <ThemeProvider theme={theme}>
         <Global styles={globalStyle} />
-        <PuzzleEditPanelWrapper genre={0} />
+        <PuzzleEditPanelWrapper genre={Genre.CLASSIC} />
       </ThemeProvider>
     </IntlProvider>
   ))
@@ -95,7 +86,7 @@ storiesOf('Views | PuzzleEditPanel', module)
     <IntlProvider locale="ja">
       <ThemeProvider theme={theme}>
         <Global styles={globalStyle} />
-        <PuzzleEditPanelWrapper genre={3} />
+        <PuzzleEditPanelWrapper genre={Genre.OTHERS} />
       </ThemeProvider>
     </IntlProvider>
   ));

@@ -34,6 +34,7 @@ describe.skip('<PuzzleDialoguesRenderer />', () => {
     },
     puzzleUser: puzzle.user,
     puzzleStatus: puzzle.status,
+    puzzleYami: puzzle.yami,
     anonymous: puzzle.anonymous,
     shouldSubscribe: true,
     setParticipants: setParticipantsFn,
@@ -62,8 +63,7 @@ describe('<PuzzleDialoguesRendererInner />', () => {
   it('Should render all dialogues and hints in combination', () => {
     const node = shallow(
       <PuzzleDialoguesRendererInner
-        dialogues={dialogues}
-        hints={hints}
+        puzzleLogs={dialogues}
         puzzleUser={puzzle.user}
         puzzleStatus={puzzle.status}
         anonymous={puzzle.anonymous}

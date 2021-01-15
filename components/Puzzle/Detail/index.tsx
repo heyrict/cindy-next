@@ -20,7 +20,6 @@ import PuzzleDialogues from './PuzzleDialogues';
 import StarPanel from './StarPanel';
 import CommentPanel from './CommentPanel';
 import BookmarkPanel from './BookmarkPanel';
-import ReplayPanel from './ReplayPanel';
 import ControlPanel from './ControlPanel';
 import PuzzleTags from './PuzzleTags';
 import NotLoggedInMessage from './NotLoggedInMessage';
@@ -29,6 +28,7 @@ import { StateType, ActionContentType } from 'reducers/types';
 import { PuzzleDetailProps } from './types';
 import WithSolution from './WithSolution';
 import JumpButtons from './JumpButtons';
+import { Status, Yami } from 'generated/globalTypes';
 
 const PuzzleDetail = ({
   puzzle,
@@ -45,30 +45,30 @@ const PuzzleDetail = ({
 
   let puzzleContent;
   const isUser = Boolean(userId);
-  const isHidden = puzzle.status === 3;
-  const isForbidden = puzzle.status === 4;
+  const isHidden = puzzle.status === Status.HIDDEN;
+  const isForbidden = puzzle.status === Status.FORCE_HIDDEN;
   const isCreator = puzzle.user.id === userId;
 
-  const shouldShowShare = puzzle.status === 0 || puzzle.status === 1;
+  const shouldShowShare =
+    puzzle.status === Status.UNDERGOING || puzzle.status === Status.SOLVED;
   const shouldShowTags = isCreator || (!isHidden && !isForbidden);
   const shouldShowMemo = puzzle.memo.trim() !== '';
   const shouldShowAnswer =
-    puzzle.status === 1 ||
-    puzzle.status === 2 ||
-    (puzzle.status === 3 && isCreator) ||
+    puzzle.status === Status.SOLVED ||
+    puzzle.status === Status.DAZED ||
+    (puzzle.status === Status.HIDDEN && isCreator) ||
     solvedLongtermYami;
   const shouldShowAddQuestionInput =
-    puzzle.status === 0 && !isCreator && isUser;
+    puzzle.status === Status.UNDERGOING && !isCreator && isUser;
   const shouldShowPuzzleDialogues = (isCreator || !isHidden) && !isForbidden;
   const shouldShowNotLoggedInMessage = !isUser;
 
   const shouldShowStarPanel = shouldShowAnswer;
   const shouldShowCommentPanel = shouldShowAnswer;
   const shouldShowBookmarkPanel = shouldShowAnswer;
-  const shouldShowReplayPanel = shouldShowAnswer;
   const shouldShowControlPanel = isCreator;
 
-  const queryWithCurrentUserOnly = puzzle.yami !== 0 && !isCreator;
+  const queryWithCurrentUserOnly = puzzle.yami !== Yami.NONE && !isCreator;
 
   const [showGrotesqueModal, setShowGrotesqueModal] = useState(false);
 
@@ -114,6 +114,12 @@ const PuzzleDetail = ({
     puzzleContent = puzzle.content;
   }
 
+  const maybeSetPuzzleIgnored = () => {
+    if (noMoreGrotesqueWarningInput.current.checked) {
+      pushIgnoredGrotesquePuzzles(puzzle.id);
+    }
+  };
+
   return (
     <React.Fragment>
       <Flex justifyContent="center" flexWrap="wrap" mb="100px">
@@ -129,13 +135,15 @@ const PuzzleDetail = ({
           status={puzzle.status}
           user={puzzle.user}
           created={puzzle.created}
-          solved={puzzle.status === 0 ? undefined : puzzle.modified}
+          solved={
+            puzzle.status === Status.UNDERGOING ? undefined : puzzle.modified
+          }
         />
         {shouldShowShare && (
           <ShareFrame
             title={puzzle.title}
             content={puzzle.content}
-            solved={puzzle.status === 0}
+            solved={puzzle.status === Status.UNDERGOING}
           />
         )}
         {shouldShowTags && (
@@ -178,10 +186,13 @@ const PuzzleDetail = ({
           <StarPanel puzzleId={puzzle.id} canAddStar={!isCreator} />
         )}
         {shouldShowCommentPanel && (
-          <CommentPanel puzzleId={puzzle.id} canAddComment={!isCreator} />
+          <CommentPanel
+            puzzleId={puzzle.id}
+            canAddComment={!isCreator}
+            userId={userId}
+          />
         )}
         {shouldShowBookmarkPanel && <BookmarkPanel puzzleId={puzzle.id} />}
-        {shouldShowReplayPanel && <ReplayPanel puzzleId={puzzle.id} />}
         {shouldShowControlPanel && (
           <WithSolution puzzleId={puzzle.id}>
             {solution => <ControlPanel puzzle={{ ...puzzle, solution }} />}
@@ -220,9 +231,7 @@ const PuzzleDetail = ({
                 width={1}
                 color="orange.0"
                 onClick={() => {
-                  if (noMoreGrotesqueWarningInput.current.value == 'on') {
-                    pushIgnoredGrotesquePuzzles(puzzle.id);
-                  }
+                  maybeSetPuzzleIgnored();
                   setShowGrotesqueModal(false);
                 }}
               >
@@ -255,9 +264,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(settingReducer.actions.ignoredGrotesquePuzzles.push(puzzleId)),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(PuzzleDetail);

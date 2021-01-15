@@ -7,11 +7,11 @@ import { FormattedMessage } from 'react-intl';
 import commonMessages from 'messages/common';
 
 import { SortVarSetPanelProps, OrderByFieldType } from './types';
-import { order_by } from 'generated/globalTypes';
+import { Ordering } from 'generated/globalTypes';
 
 class SortVarSetPanel extends React.PureComponent<SortVarSetPanelProps> {
   fieldRef = React.createRef<ButtonSelectStateful<string>>();
-  orderRef = React.createRef<ButtonSelectStateful<order_by>>();
+  orderRef = React.createRef<ButtonSelectStateful<Ordering>>();
 
   // {{{1 render()
   render() {
@@ -43,18 +43,18 @@ class SortVarSetPanel extends React.PureComponent<SortVarSetPanelProps> {
               />
             </Box>
             <Box minWidth="50%" style={{ flexGrow: 1 }}>
-              <ButtonSelectStateful<order_by>
+              <ButtonSelectStateful<Ordering>
                 ref={this.orderRef}
-                initialValue={order_by.desc_nulls_last}
+                initialValue={Ordering.DESC_NULLS_LAST}
                 options={[
                   {
                     key: 'desc',
-                    value: order_by.desc_nulls_last,
+                    value: Ordering.DESC_NULLS_LAST,
                     label: <FormattedMessage {...commonMessages.desc} />,
                   },
                   {
                     key: 'asc',
-                    value: order_by.asc_nulls_first,
+                    value: Ordering.ASC_NULLS_FIRST,
                     label: <FormattedMessage {...commonMessages.asc} />,
                   },
                 ]}

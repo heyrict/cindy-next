@@ -13,10 +13,10 @@ import { text2raw } from 'common/markdown';
 import { widthSplits } from './constants';
 
 import { MemoFrameType } from './types';
-import { RightAsideType, ActionContentType } from 'reducers/types';
+import { ActionContentType } from 'reducers/types';
 
 function MemoFrame(props: MemoFrameType) {
-  const { memo, setRightAside } = props;
+  const { memo, toggleRightAsideMemo } = props;
   const memoRaw = text2raw(memo);
   const memoRawContent =
     memoRaw.length > 100 ? `${memoRaw.substr(0, 100)}...` : memoRaw;
@@ -33,7 +33,7 @@ function MemoFrame(props: MemoFrameType) {
       mb={4}
     >
       <ButtonTransparent
-        onClick={() => setRightAside(RightAsideType.memo)}
+        onClick={() => toggleRightAsideMemo()}
         color="grape.6"
         width={1}
       >
@@ -55,13 +55,10 @@ function MemoFrame(props: MemoFrameType) {
 }
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  setRightAside: (rightAside: RightAsideType) =>
-    dispatch(puzzleReducer.actions.rightAside.set(rightAside)),
+  toggleRightAsideMemo: () =>
+    dispatch(puzzleReducer.actions.rightAside.toggle_memo()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 export default withRedux(MemoFrame);

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import * as chatReducer from 'reducers/chat';
 import * as globalReducer from 'reducers/global';
 
-import { Mutation } from '@apollo/react-components';
+import { Mutation } from '@apollo/client/react/components';
 import { CREATE_CHATROOM_MUTATION } from 'graphql/Mutations/Chat';
 
 import Flex from 'components/General/Flex';
@@ -25,7 +25,7 @@ import {
   CreateChatroomMutation,
   CreateChatroomMutationVariables,
 } from 'graphql/Mutations/generated/CreateChatroomMutation';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { ApolloError } from '@apollo/client';
 
 const ChatroomCreateModal = ({
   chatroomCreateModal,
@@ -127,9 +127,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(globalReducer.actions.channel.set(channelName)),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(ChatroomCreateModal);

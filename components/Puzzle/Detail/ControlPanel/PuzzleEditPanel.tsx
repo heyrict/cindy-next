@@ -1,5 +1,15 @@
 import React, { useEffect, useRef } from 'react';
+import { getMaxDazedDays } from 'settings';
 import { toast } from 'react-toastify';
+import { upsertItem } from 'common/update';
+
+import { useMutation } from '@apollo/client';
+import { PUZZLES_SOLVED_QUERY } from 'graphql/Queries/Puzzles';
+import {
+  UPDATE_PUZZLE_MUTATION,
+  UPDATE_PUZZLE_DAZED_ON_MUTATION,
+} from 'graphql/Mutations/Puzzle';
+import { PUZZLE_SHARED_FRAGMENT } from 'graphql/Fragments/Puzzles';
 
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import messages from 'messages/pages/puzzle';
@@ -9,7 +19,20 @@ import commonMessages from 'messages/common';
 import { Flex, Box, ButtonTransparent, Switch } from 'components/General';
 
 import { PuzzleEditPanelProps } from './types';
-import { getMaxDazedDays } from 'settings';
+import {
+  UpdatePuzzleDazedOnMutationVariables,
+  UpdatePuzzleDazedOnMutation,
+} from 'graphql/Mutations/generated/UpdatePuzzleDazedOnMutation';
+import { Status, Yami } from 'generated/globalTypes';
+import {
+  PuzzlesSolvedQuery,
+  PuzzlesSolvedQueryVariables,
+} from 'graphql/Queries/generated/PuzzlesSolvedQuery';
+import { PuzzleShared } from 'graphql/Fragments/generated/PuzzleShared';
+import {
+  UpdatePuzzleMutation,
+  UpdatePuzzleMutationVariables,
+} from 'graphql/Mutations/generated/UpdatePuzzleMutation';
 
 const PuzzleEditPanel = ({
   puzzleId,
@@ -17,16 +40,68 @@ const PuzzleEditPanel = ({
   genre,
   grotesque,
   status,
-  dazed_on,
-  updatePuzzle,
-  updatePuzzleDazedOn,
+  dazedOn,
   show,
 }: PuzzleEditPanelProps) => {
   const notifHdlRef = useRef<React.ReactText | null>(null);
 
-  // Update dazed_on date
+  const [updatePuzzle] = useMutation<
+    UpdatePuzzleMutation,
+    UpdatePuzzleMutationVariables
+  >(UPDATE_PUZZLE_MUTATION, {
+    update: (proxy, { data }) => {
+      if (!data || !data.updatePuzzle) return;
+
+      if (
+        data.updatePuzzle.status !== Status.UNDERGOING &&
+        status === Status.UNDERGOING
+      ) {
+        let prevQuery = proxy.readQuery<
+          PuzzlesSolvedQuery,
+          PuzzlesSolvedQueryVariables
+        >({
+          query: PUZZLES_SOLVED_QUERY,
+        });
+
+        let prevPuzzle = proxy.readFragment<PuzzleShared>({
+          fragment: PUZZLE_SHARED_FRAGMENT,
+          fragmentName: 'PuzzleShared',
+          id: `Puzzle:${data.updatePuzzle.id}`,
+        });
+
+        if (prevQuery && prevPuzzle) {
+          proxy.writeQuery<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>({
+            query: PUZZLES_SOLVED_QUERY,
+            data: {
+              puzzles: upsertItem(
+                prevQuery.puzzles,
+                {
+                  ...prevPuzzle,
+                  ...data.updatePuzzle,
+                  starCount: 0,
+                  starSum: 0,
+                  commentCount: 0,
+                  bookmarkCount: 0,
+                  dialogueCount: 0,
+                  dialogueNewCount: 0,
+                },
+                'modified',
+                'desc',
+              ),
+            },
+          });
+        }
+      }
+    },
+  });
+  const [updatePuzzleDazedOn] = useMutation<
+    UpdatePuzzleDazedOnMutation,
+    UpdatePuzzleDazedOnMutationVariables
+  >(UPDATE_PUZZLE_DAZED_ON_MUTATION);
+
+  // Update dazedOn date
   useEffect(() => {
-    if (status !== 0) return;
+    if (status !== Status.UNDERGOING) return;
     const newDazedOn = new Date();
     const dazedTimeOffset = getMaxDazedDays({
       yami,
@@ -35,24 +110,19 @@ const PuzzleEditPanel = ({
     newDazedOn.setDate(newDazedOn.getDate() + dazedTimeOffset);
     if (
       `${newDazedOn.getUTCFullYear()}-${newDazedOn.getUTCMonth()}${newDazedOn.getUTCDate()}` ===
-      dazed_on
+      dazedOn
     )
       return;
     updatePuzzleDazedOn({
       variables: {
         puzzleId,
-        dazedOn: newDazedOn.toISOString(),
+        dazedOn: newDazedOn.toISOString().split('T')[0],
       },
       optimisticResponse: {
-        update_puzzle: {
-          __typename: 'puzzle_mutation_response',
-          returning: [
-            {
-              __typename: 'puzzle',
-              id: puzzleId,
-              dazed_on: newDazedOn.toISOString(),
-            },
-          ],
+        updatePuzzle: {
+          __typename: 'Puzzle',
+          id: puzzleId,
+          dazedOn: newDazedOn.toISOString().split('T')[0],
         },
       },
     });
@@ -60,10 +130,13 @@ const PuzzleEditPanel = ({
 
   if (!show) return null;
 
-  const shouldShowPutSolution = status === 0;
-  const shouldShowSetHidden = status !== 4 && status !== 2;
-  const shouldShowToggleGrotesque = status !== 4;
-  const shouldShowToggleYami = status === 0 && (yami === 0 || yami === 1);
+  const shouldShowPutSolution = status === Status.UNDERGOING;
+  const shouldShowSetHidden =
+    status !== Status.FORCE_HIDDEN && status !== Status.DAZED;
+  const shouldShowToggleGrotesque = status !== Status.FORCE_HIDDEN;
+  const shouldShowToggleYami =
+    status === Status.UNDERGOING &&
+    (yami === Yami.NONE || yami === Yami.NORMAL);
 
   return (
     <Flex
@@ -80,7 +153,7 @@ const PuzzleEditPanel = ({
         </Box>
         <Box mx="auto" py={1}>
           <FormattedDate
-            value={dazed_on}
+            value={dazedOn}
             year="numeric"
             month="short"
             day="numeric"
@@ -99,7 +172,11 @@ const PuzzleEditPanel = ({
                 if (notifHdlRef.current) toast.dismiss(notifHdlRef.current);
                 notifHdlRef.current = toast.warn(
                   <Box>
-                    <FormattedMessage {...messages.putSolutionConfirm} />
+                    {yami === Yami.LONGTERM ? (
+                      <FormattedMessage {...messages.putSolutionLongtermYamiConfirm} />
+                    ) : (
+                      <FormattedMessage {...messages.putSolutionConfirm} />
+                    )}
                     <Flex
                       alignItems="center"
                       justifyContent="center"
@@ -115,22 +192,17 @@ const PuzzleEditPanel = ({
                           updatePuzzle({
                             variables: {
                               puzzleId,
-                              status: 1,
+                              status: Status.SOLVED,
                               grotesque,
                               yami,
                             },
                             optimisticResponse: {
-                              update_puzzle: {
-                                __typename: 'puzzle_mutation_response',
-                                returning: [
-                                  {
-                                    __typename: 'puzzle',
-                                    id: puzzleId,
-                                    grotesque,
-                                    status: 1,
-                                    yami,
-                                  },
-                                ],
+                              updatePuzzle: {
+                                __typename: 'Puzzle',
+                                id: puzzleId,
+                                grotesque,
+                                status: Status.SOLVED,
+                                yami,
                               },
                             },
                           });
@@ -161,29 +233,24 @@ const PuzzleEditPanel = ({
                     puzzleId,
                     status,
                     grotesque,
-                    yami: 1 - yami,
+                    yami: yami === Yami.NONE ? Yami.NORMAL : Yami.NONE,
                   },
                   optimisticResponse: {
-                    update_puzzle: {
-                      __typename: 'puzzle_mutation_response',
-                      returning: [
-                        {
-                          __typename: 'puzzle',
-                          id: puzzleId,
-                          grotesque,
-                          status,
-                          yami: 1 - yami,
-                        },
-                      ],
+                    updatePuzzle: {
+                      __typename: 'Puzzle',
+                      id: puzzleId,
+                      grotesque,
+                      status,
+                      yami: yami === Yami.NONE ? Yami.NORMAL : Yami.NONE,
                     },
                   },
                 });
               }}
             >
-              {yami === 1 ? (
-                <FormattedMessage {...messages.unsetYami} />
-              ) : (
+              {yami === Yami.NONE ? (
                 <FormattedMessage {...messages.setYami} />
+              ) : (
+                <FormattedMessage {...messages.unsetYami} />
               )}
             </ButtonTransparent>
           </Box>
@@ -200,7 +267,7 @@ const PuzzleEditPanel = ({
                 notifHdlRef.current = toast.warn(
                   <Box>
                     <FormattedMessage
-                      {...(status === 3
+                      {...(status === Status.HIDDEN
                         ? messages.unsetHiddenConfirm
                         : messages.setHiddenConfirm)}
                     />
@@ -219,22 +286,23 @@ const PuzzleEditPanel = ({
                           updatePuzzle({
                             variables: {
                               puzzleId,
-                              status: status === 3 ? 1 : 3,
+                              status:
+                                status === Status.HIDDEN
+                                  ? Status.SOLVED
+                                  : Status.HIDDEN,
                               grotesque,
                               yami,
                             },
                             optimisticResponse: {
-                              update_puzzle: {
-                                __typename: 'puzzle_mutation_response',
-                                returning: [
-                                  {
-                                    __typename: 'puzzle',
-                                    id: puzzleId,
-                                    grotesque,
-                                    status: status === 3 ? 1 : 3,
-                                    yami,
-                                  },
-                                ],
+                              updatePuzzle: {
+                                __typename: 'Puzzle',
+                                id: puzzleId,
+                                grotesque,
+                                status:
+                                  status === Status.HIDDEN
+                                    ? Status.SOLVED
+                                    : Status.HIDDEN,
+                                yami,
                               },
                             },
                           });
@@ -248,7 +316,7 @@ const PuzzleEditPanel = ({
                 );
               }}
             >
-              {status === 3 ? (
+              {status === Status.HIDDEN ? (
                 <FormattedMessage {...messages.unsetHidden} />
               ) : (
                 <FormattedMessage {...messages.setHidden} />
@@ -269,17 +337,12 @@ const PuzzleEditPanel = ({
                     yami,
                   },
                   optimisticResponse: {
-                    update_puzzle: {
-                      __typename: 'puzzle_mutation_response',
-                      returning: [
-                        {
-                          __typename: 'puzzle',
-                          id: puzzleId,
-                          grotesque: !grotesque,
-                          status,
-                          yami,
-                        },
-                      ],
+                    updatePuzzle: {
+                      __typename: 'Puzzle',
+                      id: puzzleId,
+                      grotesque: !grotesque,
+                      status,
+                      yami,
                     },
                   },
                 });

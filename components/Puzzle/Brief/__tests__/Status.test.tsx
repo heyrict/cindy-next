@@ -4,7 +4,9 @@ import { shallow, render } from 'enzyme';
 import { Status, StatusBase, StatusText } from '../Status';
 import theme from 'theme';
 
-const status = 0;
+import { Status as StatusEnum } from 'generated/globalTypes';
+
+const status = StatusEnum.UNDERGOING;
 
 describe('<Status />', () => {
   it('component should render', () => {
@@ -27,7 +29,7 @@ describe('<Status />', () => {
     });
 
     it('<StatusText status={others} />', () => {
-      const node = shallow(<StatusText status={5} />);
+      const node = shallow(<StatusText status={StatusEnum.FORCE_HIDDEN} />);
       expect(node.isEmptyRender()).toBe(true);
     });
   });

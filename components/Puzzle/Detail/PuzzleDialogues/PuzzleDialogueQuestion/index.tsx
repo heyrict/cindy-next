@@ -8,6 +8,7 @@ import QuestionModeSelector from './QuestionModeSelector';
 
 import { StateType } from 'reducers/types';
 import { PuzzleDialogueQuestionProps } from './types';
+import { Status } from 'generated/globalTypes';
 
 export const PuzzleDialogueQuestion = ({
   dialogueId,
@@ -18,7 +19,9 @@ export const PuzzleDialogueQuestion = ({
   puzzleStatus,
   isAnswered,
 }: PuzzleDialogueQuestionProps) => {
-  return !isAnswered && puzzleStatus === 0 && userId === user.id ? (
+  return !isAnswered &&
+    puzzleStatus === Status.UNDERGOING &&
+    userId === user.id ? (
     <QuestionModeSelector
       dialogueId={dialogueId}
       question={question}

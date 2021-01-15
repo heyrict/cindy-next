@@ -13,26 +13,19 @@ import {
   ProfileStarsQuery,
   ProfileStarsQueryVariables,
 } from 'graphql/Queries/generated/ProfileStarsQuery';
-import { order_by } from 'generated/globalTypes';
 
 const ProfileStarsTab = ({ userId }: ProfileStarsTabProps) => (
   <PaginatedQuery<ProfileStarsQuery, ProfileStarsQueryVariables>
     query={PROFILE_STARS_QUERY}
     variables={{
       userId,
-      orderBy: [{ id: order_by.desc }],
     }}
-    getItemCount={data =>
-      (data.star_aggregate &&
-        data.star_aggregate.aggregate &&
-        data.star_aggregate.aggregate.count) ||
-      0
-    }
+    getItemCount={data => data.starCount}
     renderItems={data => {
-      if (!data.star) return null;
+      if (!data.stars) return null;
       return (
         <>
-          {data.star.map(star => (
+          {data.stars.map(star => (
             <MultiColBox key={star.id}>
               <PuzzleWithAny
                 cap={

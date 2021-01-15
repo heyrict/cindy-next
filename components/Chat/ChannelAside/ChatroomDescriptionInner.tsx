@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { line2md } from 'common/markdown';
 
-import { Mutation } from '@apollo/react-components';
+import { Mutation } from '@apollo/client/react/components';
 import { UPDATE_CHATROOM_DESCRIPTION_MUTATION } from 'graphql/Mutations/Chat';
 
 import { Box, Img, ButtonTransparent } from 'components/General';
@@ -52,7 +52,7 @@ const ChatroomDescriptionInner = ({
                   },
                 });
               }
-              return new Promise(resolve => resolve());
+              return new Promise(resolve => resolve({}));
             }}
           />
         </Box>

@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { Query } from '@apollo/react-components';
-import {
-  DialogueHintQuery,
-  DialogueHintQueryVariables,
-} from 'graphql/Queries/generated/DialogueHintQuery';
-import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
+import { Query } from '@apollo/client/react/components';
 import {
   PuzzleUniqueParticipantsQuery,
   PuzzleUniqueParticipantsQueryVariables,
@@ -18,6 +13,7 @@ import UserFilterSwitcher from './UserFilterSwitcher';
 import PuzzleDialoguesRenderer from './PuzzleDialoguesRenderer';
 
 import { PuzzleDialoguesUserDeduplicatorProps } from './types';
+import { Yami } from 'generated/globalTypes';
 
 const PuzzleDialoguesUserDeduplicator = ({
   puzzleId,
@@ -45,80 +41,35 @@ const PuzzleDialoguesUserDeduplicator = ({
             toast.error(error.message);
             return null;
           }
-          if (!data || !data.user) {
+          if (!data || !data.puzzleParticipants) {
             if (loading) return <Loading centered />;
             return null;
           }
-          const filterUsers = data.user.map(user => ({
-            id: user.id,
-            nickname: user.nickname,
-            dialogueCount:
-              (user.dialogues_aggregate.aggregate &&
-                user.dialogues_aggregate.aggregate.count) ||
-              undefined,
-          }));
           return (
-            <Query<
-              PuzzleUniqueParticipantsQuery,
-              PuzzleUniqueParticipantsQueryVariables
-            >
-              query={PUZZLE_UNIQUE_PARTICIPANTS_QUERY}
-              variables={{
-                puzzleId,
-                dialogueTrue: true,
-              }}
-              fetchPolicy="cache-first"
-            >
-              {({ error, data }) => {
-                if (error) {
-                  toast.error(error.message);
-                  return null;
-                }
-                let filterUsersWithTrue = filterUsers;
-                if (data && data.user) {
-                  filterUsersWithTrue = filterUsers.map(user => {
-                    const withTrueUser = data.user.find(u => u.id === user.id);
-                    if (!withTrueUser) return user;
-                    return {
-                      ...user,
-                      dialogueHasTrue: Boolean(
-                        withTrueUser.dialogues_aggregate.aggregate &&
-                          withTrueUser.dialogues_aggregate.aggregate.count,
-                      ),
-                    };
-                  });
-                }
-                return (
-                  <UserFilterSwitcher
-                    activeUserId={userFilterId}
-                    users={filterUsersWithTrue}
-                    onClick={setUserFilterId}
-                  />
-                );
-              }}
-            </Query>
+            <UserFilterSwitcher
+              activeUserId={userFilterId}
+              users={data.puzzleParticipants}
+              onClick={setUserFilterId}
+            />
           );
         }}
       </Query>
       {userFilterId && (
-        <Query<DialogueHintQuery, DialogueHintQueryVariables>
-          query={DIALOGUE_HINT_QUERY}
+        <PuzzleDialoguesRenderer
           variables={{
             puzzleId,
             userId: userFilterId === -1 ? undefined : userFilterId,
           }}
-          fetchPolicy="cache-and-network"
-        >
-          {queryResult => (
-            <PuzzleDialoguesRenderer
-              {...queryResult}
-              shouldSubscribe={shouldSubscribe}
-              puzzleUser={puzzleUser}
-              anonymous={anonymous}
-              puzzleStatus={puzzleStatus}
-            />
-          )}
-        </Query>
+          shouldSubscribe={shouldSubscribe}
+          puzzleUser={puzzleUser}
+          puzzleStatus={puzzleStatus}
+          puzzleYami={
+            // Only Solved yami will be using this component, so this
+            // option will not be used in PuzzleDialoguesRenderer.
+            Yami.NONE
+          }
+          anonymous={anonymous}
+        />
       )}
     </React.Fragment>
   );

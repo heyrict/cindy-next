@@ -2,10 +2,9 @@ import React, { useState, useRef } from 'react';
 import Head from 'next/head';
 import { asSearch } from 'common/search';
 
-import { FormattedMessage, injectIntl, IntlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import searchMessages from 'messages/pages/search';
 import puzzleMessages from 'messages/components/puzzle';
-import puzzlePageMessages from 'messages/pages/puzzle';
 import commonMessages from 'messages/common';
 
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
@@ -24,7 +23,7 @@ import SearchVarSetPanel from 'components/Search/SearchVarSetPanel';
 import SortVarSetPanel from 'components/Search/SortVarSetPanel';
 import PuzzleBrief from 'components/Puzzle/Brief';
 
-import { order_by } from 'generated/globalTypes';
+import { Genre, Ordering, Yami } from 'generated/globalTypes';
 import {
   SolvedPuzzlesSearchQuery,
   SolvedPuzzlesSearchQueryVariables,
@@ -32,18 +31,17 @@ import {
 import { FilterFieldTypeEnum } from 'components/Search/types';
 import { SearchVariablesStates } from 'pageTypes';
 
-const Search = ({ intl }: { intl: IntlShape }) => {
-  const _ = intl.formatMessage;
+const Search = () => {
+  const { formatMessage: _ } = useIntl();
   const searchRef = useRef<SearchVarSetPanel>(null);
   const sortRef = useRef<SortVarSetPanel>(null);
   const [variables, setVariables] = useState({
     title: null,
     content: null,
     solution: null,
-    userNickname: null,
     genre: null,
     yami: null,
-    orderBy: [{ id: order_by.desc_nulls_last }],
+    orderBy: [{ id: Ordering.DESC_NULLS_LAST }],
   } as SearchVariablesStates);
 
   return (
@@ -76,11 +74,6 @@ const Search = ({ intl }: { intl: IntlShape }) => {
               fieldName: <FormattedMessage {...puzzleMessages.solution} />,
             },
             {
-              type: FilterFieldTypeEnum.TEXT,
-              key: 'userNickname',
-              fieldName: <FormattedMessage {...puzzlePageMessages.creator} />,
-            },
-            {
               type: FilterFieldTypeEnum.SELECT,
               key: 'genre',
               fieldName: <FormattedMessage {...puzzleMessages.genre} />,
@@ -93,12 +86,12 @@ const Search = ({ intl }: { intl: IntlShape }) => {
                 },
                 {
                   key: 'classic',
-                  value: 0,
+                  value: Genre.CLASSIC,
                   label: <FormattedMessage {...puzzleMessages.genre_classic} />,
                 },
                 {
                   key: 'twentyQuestions',
-                  value: 1,
+                  value: Genre.TWENTY_QUESTIONS,
                   label: (
                     <FormattedMessage
                       {...puzzleMessages.genre_twentyQuestions}
@@ -107,14 +100,14 @@ const Search = ({ intl }: { intl: IntlShape }) => {
                 },
                 {
                   key: 'littleAlbat',
-                  value: 2,
+                  value: Genre.LITTLE_ALBAT,
                   label: (
                     <FormattedMessage {...puzzleMessages.genre_littleAlbat} />
                   ),
                 },
                 {
                   key: 'others',
-                  value: 3,
+                  value: Genre.OTHERS,
                   label: <FormattedMessage {...puzzleMessages.genre_others} />,
                 },
               ],
@@ -132,17 +125,17 @@ const Search = ({ intl }: { intl: IntlShape }) => {
                 },
                 {
                   key: 'none',
-                  value: 0,
+                  value: Yami.NONE,
                   label: <FormattedMessage {...commonMessages.none} />,
                 },
                 {
                   key: 'yami',
-                  value: 1,
+                  value: Yami.NORMAL,
                   label: <FormattedMessage {...puzzleMessages.yami_yami} />,
                 },
                 {
                   key: 'longtermYami',
-                  value: 2,
+                  value: Yami.LONGTERM,
                   label: (
                     <FormattedMessage {...puzzleMessages.yami_longtermYami} />
                   ),
@@ -154,7 +147,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
         <SortVarSetPanel
           ref={sortRef}
           initialField="id"
-          defaultValue={[{ id: order_by.desc_nulls_last }]}
+          defaultValue={[{ id: Ordering.DESC_NULLS_LAST }]}
           fields={[
             {
               key: 'id',
@@ -164,6 +157,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
               key: 'modified',
               fieldName: <FormattedMessage {...puzzleMessages.solvedAt} />,
             },
+            /*
             {
               key: 'bookmark',
               getValue: order => ({
@@ -198,6 +192,7 @@ const Search = ({ intl }: { intl: IntlShape }) => {
               }),
               fieldName: <FormattedMessage {...searchMessages.order_starSum} />,
             },
+           */
           ]}
         />
         <Flex width={1}>
@@ -213,11 +208,10 @@ const Search = ({ intl }: { intl: IntlShape }) => {
                   newVariables.title = null;
                   newVariables.content = null;
                   newVariables.solution = null;
-                  newVariables.userNickname = null;
                 }
                 if (sortRef.current) {
                   sortRef.current.reset();
-                  newVariables.orderBy = [{ id: order_by.desc_nulls_last }];
+                  newVariables.orderBy = [{ id: Ordering.DESC_NULLS_LAST }];
                 }
                 setVariables(newVariables);
               }}
@@ -237,7 +231,6 @@ const Search = ({ intl }: { intl: IntlShape }) => {
                   newVariables.title = asSearch(data.title);
                   newVariables.content = asSearch(data.content);
                   newVariables.solution = asSearch(data.solution);
-                  newVariables.userNickname = asSearch(data.userNickname);
                   newVariables.orderBy = [];
                 }
                 if (sortRef.current) {
@@ -259,14 +252,9 @@ const Search = ({ intl }: { intl: IntlShape }) => {
         >
           query={SOLVED_PUZZLES_SEARCH_QUERY}
           variables={variables}
-          getItemCount={data =>
-            (data.puzzle_aggregate &&
-              data.puzzle_aggregate.aggregate &&
-              data.puzzle_aggregate.aggregate.count) ||
-            0
-          }
+          getItemCount={data => data.puzzleCount}
           renderItems={data => {
-            const puzzles = data.puzzle;
+            const puzzles = data.puzzles;
             if (!puzzles) return null;
             return (
               <>
@@ -284,4 +272,10 @@ const Search = ({ intl }: { intl: IntlShape }) => {
   );
 };
 
-export default injectIntl(Search);
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
+
+export default Search;

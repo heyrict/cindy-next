@@ -4,7 +4,7 @@ import { Flex } from 'components/General';
 import Loading from 'components/General/Loading';
 import Chatmessage from '../Chatmessage';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
 import {
   CHATROOM_LOGS_QUERY,
@@ -26,14 +26,9 @@ const ChatroomLogs = ({ chatroomId, relatedPuzzleId }: ChatroomLogsProps) => (
     <PaginatedQuery<ChatroomLogsQuery, ChatroomLogsQueryVariables>
       query={CHATROOM_LOGS_QUERY}
       variables={{ chatroomId }}
-      getItemCount={data => {
-        const itemCount =
-          data.chatmessage_aggregate.aggregate &&
-          data.chatmessage_aggregate.aggregate.count;
-        return itemCount || 0;
-      }}
+      getItemCount={data => data.chatmessageCount}
       renderItems={data => {
-        const chatmessages = data.chatmessage;
+        const { chatmessages } = data;
         if (!chatmessages) return null;
         return relatedPuzzleId ? (
           <Query<ChatroomPuzzle, ChatroomPuzzleVariables>
@@ -44,12 +39,12 @@ const ChatroomLogs = ({ chatroomId, relatedPuzzleId }: ChatroomLogsProps) => (
           >
             {({ loading, data, error }) => {
               if (error) return <div>Error</div>;
-              if (!data || !data.puzzle_by_pk) {
+              if (!data || !data.puzzle) {
                 if (loading) return <Loading centered />;
                 return null;
               }
 
-              const { puzzle_by_pk: relatedPuzzle } = data;
+              const { puzzle: relatedPuzzle } = data;
               if (relatedPuzzle.anonymous) {
                 return (
                   <>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/auth';
@@ -17,8 +18,12 @@ const OKButton = ({ login, username, password, resetForm }: OKButtonProps) => (
     color="white"
     onClick={() => {
       login(username, password).then(res => {
-        const { errors } = res;
-        if (!errors) resetForm();
+        const { error } = res;
+        if (error) {
+          toast.error(error);
+        } else {
+          resetForm();
+        }
       });
     }}
   >
@@ -35,9 +40,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
   resetForm: () => dispatch(loginReducer.actions.resetForm()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(OKButton);

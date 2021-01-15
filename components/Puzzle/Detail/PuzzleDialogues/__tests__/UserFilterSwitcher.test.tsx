@@ -17,6 +17,9 @@ describe('<UserFilterSwitcher />', () => {
       users: userFilterUsers.map(user => ({
         id: user.id,
         nickname: user.nickname,
+        dialogueCount: user.dialogueCount,
+        answeredDialogueCount: user.answeredDialogueCount,
+        trueAnswer: user.trueAnswer,
       })),
       onClick: clickFn,
       activeUserId: undefined,
@@ -43,10 +46,7 @@ describe('<UserFilterSwitcher />', () => {
     });
 
     it('when all is clicked', () => {
-      node
-        .find(FilterButton)
-        .first()
-        .simulate('click');
+      node.find(FilterButton).first().simulate('click');
       expect(clickFn).toHaveBeenLastCalledWith(-1);
     });
   });

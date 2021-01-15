@@ -1,32 +1,62 @@
 import React from 'react';
 import Head from 'next/head';
-import { injectIntl } from 'react-intl';
+import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
+
+import { initializeApollo } from 'lib/apollo';
+import { ApolloClient } from '@apollo/client';
+import { USER_QUERY } from 'graphql/Queries/User';
 
 import Profile from 'components/Profile';
 
+import { useIntl } from 'react-intl';
 import messages from 'messages/pages/user';
 
-import { UserPageProps } from 'pageTypes';
+import {
+  UserQuery,
+  UserQueryVariables,
+} from 'graphql/Queries/generated/UserQuery';
 
-class User extends React.Component<UserPageProps> {
-  static async getInitialProps({ query }: { query: { id: string } }) {
-    return { userId: query && query.id };
-  }
+const UserPage = () => {
+  const { formatMessage: _ } = useIntl();
+  const router = useRouter();
+  const { id } = router.query;
+  const userId = parseInt(id as string, 10);
 
-  render() {
-    const _ = this.props.intl.formatMessage;
-    const { userId } = this.props;
+  return (
+    <React.Fragment>
+      <Head>
+        <title>{_(messages.title)} | Cindy</title>
+        <meta name="description" content={_(messages.description)} />
+      </Head>
+      {userId && !isNaN(userId) && <Profile userId={userId} />}
+    </React.Fragment>
+  );
+};
 
-    return (
-      <React.Fragment>
-        <Head>
-          <title>{_(messages.title)} | Cindy</title>
-          <meta name="description" content={_(messages.description)} />
-        </Head>
-        <Profile userId={userId} />
-      </React.Fragment>
-    );
-  }
-}
+export const getServerSideProps: GetServerSideProps = async context => {
+  const serverSideContext = {
+    route: context.resolvedUrl,
+    cookie: context.req.headers.cookie || null,
+  };
 
-export default injectIntl(User);
+  const apolloClient: ApolloClient<object> = initializeApollo();
+  let { id } = context.query;
+  const userId = parseInt(id as string, 10);
+
+  await apolloClient.query<UserQuery, UserQueryVariables>({
+    query: USER_QUERY,
+    variables: {
+      id: userId,
+    },
+  });
+
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+      serverSideContext,
+    },
+  };
+};
+
+export default UserPage;

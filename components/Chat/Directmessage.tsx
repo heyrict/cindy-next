@@ -8,8 +8,8 @@ import commonMessages from 'messages/common';
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { Mutation } from '@apollo/react-components';
-import { DIRECT_MESSAGE_EDIT_MUTATION } from 'graphql/Mutations/Directmessage';
+import { useMutation } from '@apollo/client';
+import { UPDATE_DIRECT_MESSAGE_MUTATION } from 'graphql/Mutations/DirectMessage';
 
 import UserInline from 'components/User/UserInline';
 import { ButtonTransparent, Img, EditTimeSpan } from 'components/General';
@@ -23,29 +23,43 @@ import { StateType } from 'reducers/types';
 import { stampNamespaces } from 'stamps';
 import { DirectmessageProps, DirectmessageModeType } from './types';
 import {
-  DirectMessageEditMutation,
-  DirectMessageEditMutationVariables,
-} from 'graphql/Mutations/generated/DirectMessageEditMutation';
+  UpdateDirectMessageMutation,
+  UpdateDirectMessageMutationVariables,
+} from 'graphql/Mutations/generated/UpdateDirectMessageMutation';
 
 const Directmessage = ({
-  direct_message,
+  directMessage,
   currentUserId,
 }: DirectmessageProps) => {
   const [mode, setMode] = useState<DirectmessageModeType>(
     DirectmessageModeType.NORMAL,
   );
-  const isCreator = currentUserId === direct_message.sender.id;
+
+  const [updateDirect] = useMutation<
+    UpdateDirectMessageMutation,
+    UpdateDirectMessageMutationVariables
+  >(UPDATE_DIRECT_MESSAGE_MUTATION, {
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+      setMode(DirectmessageModeType.EDIT);
+    },
+    onCompleted: () => {
+      setMode(DirectmessageModeType.NORMAL);
+    },
+  });
+
+  const isCreator = currentUserId === directMessage.sender.id;
 
   return (
     <div>
       <ChatBubbleTop>
         <UserInline
           px={1}
-          user={direct_message.sender}
+          user={directMessage.sender}
           timestamp={
-            direct_message.created && (
+            directMessage.created && (
               <FormattedTime
-                value={direct_message.created}
+                value={directMessage.created}
                 year="numeric"
                 month="short"
                 day="numeric"
@@ -57,65 +71,41 @@ const Directmessage = ({
       <ChatBubble orientation={isCreator ? 'right' : 'left'}>
         <div style={{ overflowX: 'auto', width: '100%' }}>
           {mode === DirectmessageModeType.EDIT && (
-            <Mutation<
-              DirectMessageEditMutation,
-              DirectMessageEditMutationVariables
-            >
-              mutation={DIRECT_MESSAGE_EDIT_MUTATION}
-            >
-              {editMessage => (
-                <SimpleLegacyEditor
-                  useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
-                  initialValue={direct_message.content}
-                  canExpand={false}
-                  onSubmit={text => {
-                    if (text === direct_message.content) {
-                      setMode(DirectmessageModeType.NORMAL);
-                      return;
-                    }
-                    setMode(DirectmessageModeType.NORMAL);
-                    return editMessage({
-                      variables: {
-                        directmessageId: direct_message.id,
-                        content: text,
-                      },
-                      optimisticResponse: {
-                        update_direct_message: {
-                          __typename: 'direct_message_mutation_response',
-                          returning: [
-                            {
-                              __typename: 'direct_message',
-                              ...direct_message,
-                              content: text,
-                            },
-                          ],
-                        },
-                      },
-                    }).then(result => {
-                      if (result && result.errors) {
-                        const { errors } = result;
-                        toast.error(JSON.stringify(errors));
-                        setMode(DirectmessageModeType.EDIT);
-                      } else {
-                        setMode(DirectmessageModeType.NORMAL);
-                      }
-                      return result;
-                    });
-                  }}
-                />
-              )}
-            </Mutation>
+            <SimpleLegacyEditor
+              useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
+              initialValue={directMessage.content}
+              canExpand={false}
+              onSubmit={text => {
+                if (text === directMessage.content) {
+                  setMode(DirectmessageModeType.NORMAL);
+                  return;
+                }
+                setMode(DirectmessageModeType.NORMAL);
+                return updateDirect({
+                  variables: {
+                    id: directMessage.id,
+                    content: text,
+                  },
+                  optimisticResponse: {
+                    updateDirectMessage: {
+                      ...directMessage,
+                      content: text,
+                    },
+                  },
+                });
+              }}
+            />
           )}
           <span
             dangerouslySetInnerHTML={{
-              __html: line2md(direct_message.content),
+              __html: line2md(directMessage.content),
             }}
           />
-          {direct_message.editTimes > 0 && (
+          {directMessage.editTimes > 0 && (
             <EditTimeSpan>
               <FormattedMessage
                 {...commonMessages.editTimes}
-                values={{ count: direct_message.editTimes }}
+                values={{ count: directMessage.editTimes }}
               />
             </EditTimeSpan>
           )}

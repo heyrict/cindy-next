@@ -1,9 +1,4 @@
 import { GlobalUserType } from 'reducers/types';
-import {
-  ChatroomChatmessages,
-  ChatroomChatmessagesVariables,
-} from 'graphql/Queries/generated/ChatroomChatmessages';
-import { QueryResult } from '@apollo/react-common';
 
 export type ChatRoomInputProps = {
   chatroomId: number;
@@ -19,7 +14,7 @@ export type ChatRoomMessagesBodyProps = {
   user: GlobalUserType;
   chatmessageUpdate: (chatroomId: number, messagesHash: number) => void;
   autoExpand: boolean;
-} & QueryResult<ChatroomChatmessages, ChatroomChatmessagesVariables>;
+};
 
 export const ChatRoomMessagesDefaultProps = {
   autoExpand: false,

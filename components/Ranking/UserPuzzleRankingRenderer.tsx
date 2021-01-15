@@ -14,6 +14,13 @@ import {
   UserPuzzleRankingRendererProps,
   UserPuzzleRankingRendererDefaultProps,
 } from './types';
+import { useQuery } from '@apollo/client';
+import {
+  UserPuzzleRankingQuery,
+  UserPuzzleRankingQueryVariables,
+} from 'graphql/Queries/generated/UserPuzzleRankingQuery';
+import { USER_PUZZLE_RANKING_QUERY } from 'graphql/Queries/Ranking';
+import { getRankingDate, ITEMS_PER_PAGE } from './constants';
 
 const loadingPanel = (
   <Panel minHeight="4em" width={1}>
@@ -22,25 +29,32 @@ const loadingPanel = (
 );
 
 const UserPuzzleRankingRenderer = ({
-  loading,
-  error,
-  data,
-  refetch,
-  fetchMore,
   shouldLoadMore,
 }: UserPuzzleRankingRendererProps) => {
+  const { year, month } = getRankingDate();
+  const { loading, error, data, refetch, fetchMore } = useQuery<
+    UserPuzzleRankingQuery,
+    UserPuzzleRankingQueryVariables
+  >(USER_PUZZLE_RANKING_QUERY, {
+    variables: {
+      limit: ITEMS_PER_PAGE,
+      offset: 0,
+      year,
+      month,
+    },
+  });
   const [hasMore, setHasMore] = useState(true);
 
   if (error) {
     toast.error(error.message);
     return <ErrorReload error={error} refetch={refetch} />;
   }
-  if (!data || !data.puzzle_count_ranking) {
+  if (!data || !data.userPuzzleRanking) {
     if (loading) return <Loading centered />;
     return null;
   }
 
-  const ranks = data.puzzle_count_ranking;
+  const ranks = data.userPuzzleRanking;
   return (
     <React.Fragment>
       {ranks.map((rank, index) => (
@@ -64,7 +78,7 @@ const UserPuzzleRankingRenderer = ({
               :
             </Box>
             <Box fontSize="1.3em" fontWeight="bold">
-              {rank.value}
+              {rank.valueCount}
             </Box>
           </Flex>
           <Flex
@@ -84,20 +98,12 @@ const UserPuzzleRankingRenderer = ({
           loadMore={() =>
             fetchMore({
               variables: {
-                offset: data.puzzle_count_ranking.length,
+                offset: data.userPuzzleRanking.length,
               },
-              updateQuery: (prev, { fetchMoreResult }) => {
-                if (!fetchMoreResult || !fetchMoreResult.puzzle_count_ranking)
-                  return prev;
-                if (fetchMoreResult.puzzle_count_ranking.length === 0)
-                  setHasMore(false);
-                return Object.assign({}, prev, {
-                  puzzle_count_ranking: [
-                    ...prev.puzzle_count_ranking,
-                    ...fetchMoreResult.puzzle_count_ranking,
-                  ],
-                });
-              },
+            }).then(({ data }) => {
+              if (!data || !data.userPuzzleRanking) return;
+              if (data.userPuzzleRanking.length < ITEMS_PER_PAGE)
+                setHasMore(false);
             })
           }
         >

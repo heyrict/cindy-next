@@ -352,17 +352,12 @@ export const globalStyle = css`
 
 const Layout = ({
   children,
-  appInit,
   route,
   pushNotification,
   setFalsePushNotification,
 }: LayoutProps) => {
   const notifHdlRef = useRef<React.ReactText | null>(null);
   const waitPushHdlRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    appInit();
-  }, []);
 
   // Request notification permission
   useEffect(() => {
@@ -470,14 +465,10 @@ const mapStateToProps = (state: StateType) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  appInit: () => dispatch(globalReducer.actions.appInit()),
   setFalsePushNotification: () =>
     dispatch(settingReducer.actions.pushNotification.setFalse()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(Layout);

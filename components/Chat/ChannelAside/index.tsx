@@ -14,7 +14,7 @@ import ChannelChangeModal from '../ChannelBar/ChannelChangeModal';
 import ChatroomCreateModal from './ChatroomCreateModal';
 import ChatroomEditableDescription from './ChatroomEditableDescription';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
 import { FormattedMessage } from 'react-intl';
@@ -84,8 +84,8 @@ const ChannelAside = ({
       >
         {({ data, error }) => {
           let chatroomId: number | null = null;
-          if (data && data.chatroom && data.chatroom[0]) {
-            chatroomId = data.chatroom[0].id;
+          if (data && data.chatrooms && data.chatrooms[0]) {
+            chatroomId = data.chatrooms[0].id;
           }
           if (error) {
             toast.error(error.message);
@@ -145,9 +145,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(chatReducer.actions.chatroomCreateModal.setTrue()),
 });
 
-const withRedux = connect(
-  null,
-  mapDispatchToProps,
-);
+const withRedux = connect(null, mapDispatchToProps);
 
 export default withRedux(ChannelAside);

@@ -14,14 +14,18 @@ import {
 } from 'reducers/types';
 
 const CHAT_HASNEW_HASH_STORE_KEY = 'chatStatus';
-let lastChatroomId = 0;
-let lastMessagesHash = 0;
+let lastPayload = {
+  chatroomId: 0,
+  messagesHash: 0,
+};
 
 function* setChatHasnew(action: ActionContentType) {
   const innerAction = action.payload as {
     chatroomId: number;
     messagesHash: number;
   };
+  lastPayload = innerAction;
+
   const aside = yield select(
     (state: StateType) => globalReducer.rootSelector(state).aside,
   );
@@ -29,18 +33,21 @@ function* setChatHasnew(action: ActionContentType) {
     CHAT_HASNEW_HASH_STORE_KEY,
   ) as ChatStoreType;
 
-  lastChatroomId = innerAction.chatroomId;
-  lastMessagesHash = innerAction.messagesHash;
   if (aside) {
     // When aside is open, update the last message;
-    chatStatStore[innerAction.chatroomId] = innerAction.messagesHash;
-    setHashStore(CHAT_HASNEW_HASH_STORE_KEY, chatStatStore);
+    if (
+      !chatStatStore[innerAction.chatroomId] ||
+      chatStatStore[innerAction.chatroomId] < innerAction.messagesHash
+    ) {
+      chatStatStore[innerAction.chatroomId] = innerAction.messagesHash;
+      setHashStore(CHAT_HASNEW_HASH_STORE_KEY, chatStatStore);
+    }
   } else {
     // When aside is closed, don't update,
     // set hasnew to true if not read.
     if (
-      !aside &&
-      chatStatStore[innerAction.chatroomId] !== innerAction.messagesHash
+      !chatStatStore[innerAction.chatroomId] ||
+      chatStatStore[innerAction.chatroomId] < innerAction.messagesHash
     )
       yield put(chatReducer.actions.chatHasnew.setTrue());
   }
@@ -54,10 +61,12 @@ function* readChat() {
     (state: StateType) => globalReducer.rootSelector(state).aside,
   );
 
-  if (lastChatroomId && lastMessagesHash) {
+  if (lastPayload.chatroomId > 0) {
     // When open or close aside, update last read message
-    chatStatStore[lastChatroomId] = lastMessagesHash;
-    setHashStore(CHAT_HASNEW_HASH_STORE_KEY, chatStatStore);
+    if (chatStatStore[lastPayload.chatroomId] < lastPayload.messagesHash) {
+      chatStatStore[lastPayload.chatroomId] = lastPayload.messagesHash;
+      setHashStore(CHAT_HASNEW_HASH_STORE_KEY, chatStatStore);
+    }
     if (aside) yield put(chatReducer.actions.chatHasnew.setFalse());
   }
 }

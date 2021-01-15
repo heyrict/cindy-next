@@ -1,10 +1,10 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 import { PUZZLE_TAG_FRAGMENT, TAG_FRAGMENT } from '../Fragments/Tag';
 
 export const PUZZLE_PAGE_TAGS_QUERY = gql`
   query PuzzlePageTagsQuery($puzzleId: Int!) {
-    puzzle_tag(where: { puzzle_id: { _eq: $puzzleId } }) {
+    puzzleTags(filter: { puzzleId: { eq: $puzzleId } }) {
       ...PuzzleTag
     }
   }
@@ -13,7 +13,7 @@ export const PUZZLE_PAGE_TAGS_QUERY = gql`
 
 export const TAG_QUERY = gql`
   query TagQuery($tagId: Int!) {
-    tag_by_pk(id: $tagId) {
+    tag(id: $tagId) {
       ...Tag
     }
   }
@@ -22,11 +22,7 @@ export const TAG_QUERY = gql`
 
 export const PUZZLE_TAGS_SEARCH_QUERY = gql`
   query PuzzleTagsSearchQuery($search: String, $limit: Int!) {
-    tag(
-      where: { name: { _like: $search } }
-      order_by: { puzzle_tags_aggregate: { count: desc } }
-      limit: $limit
-    ) {
+    tags(filter: { name: { like: $search } }, limit: $limit) {
       ...Tag
     }
   }
@@ -38,20 +34,16 @@ export const TAGS_PAGE_QUERY = gql`
     $name: String
     $limit: Int!
     $offset: Int!
-    $orderBy: [tag_order_by!]
+    $orderBy: [TagOrder!]
   ) {
-    tag(
-      where: { name: { _like: $name } }
-      order_by: $orderBy
+    tags(
+      filter: { name: { like: $name } }
+      order: $orderBy
       limit: $limit
       offset: $offset
     ) {
       ...Tag
-      puzzle_tags_aggregate {
-        aggregate {
-          count
-        }
-      }
+      puzzleTagCount
     }
   }
   ${TAG_FRAGMENT}

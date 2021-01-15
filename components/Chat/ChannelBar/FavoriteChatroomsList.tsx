@@ -8,7 +8,7 @@ import * as chatReducer from 'reducers/chat';
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import Loading from 'components/General/Loading';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { FAVORITE_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
 
 import { FormattedMessage } from 'react-intl';
@@ -24,13 +24,18 @@ const FavoriteChatroomsList = ({
   setFalseChannelChangeModal,
 }: FavoriteChatroomsListProps) =>
   user.id ? (
-    <Query<FavoriteChatroomsQuery> query={FAVORITE_CHATROOMS_QUERY}>
+    <Query<FavoriteChatroomsQuery>
+      query={FAVORITE_CHATROOMS_QUERY}
+      variables={{
+        userId: user.id,
+      }}
+    >
       {({ loading, error, data }) => {
         if (error) {
           toast.error(error.message);
           return null;
         }
-        if (!data || !data.favorite_chatroom) {
+        if (!data || !data.favchats) {
           if (loading) return <Loading centered />;
           return null;
         }
@@ -44,7 +49,7 @@ const FavoriteChatroomsList = ({
             >
               <FormattedMessage {...chatMessages.favoriteChatrooms} />
             </Box>
-            {data.favorite_chatroom.map(fc => (
+            {data.favchats.map(fc => (
               <Box
                 key={fc.id}
                 border="2px solid"
@@ -81,9 +86,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(chatReducer.actions.channelChangeModal.setFalse()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(FavoriteChatroomsList);

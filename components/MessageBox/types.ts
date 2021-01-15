@@ -1,13 +1,4 @@
-import {
-  DirectMessageGroupMessagesQuery,
-  DirectMessageGroupMessagesQueryVariables,
-} from 'graphql/Queries/generated/DirectMessageGroupMessagesQuery';
 import { GlobalUserType, SendMessageTriggerType } from 'reducers/types';
-import {
-  DirectMessageGroupQuery,
-  DirectMessageGroupQueryVariables,
-} from 'graphql/Queries/generated/DirectMessageGroupQuery';
-import { QueryResult } from '@apollo/react-common';
 
 export type MessageBoxProps = {
   directModal: boolean;
@@ -16,14 +7,8 @@ export type MessageBoxProps = {
   setDirectGroupUser: (userId: number | null) => void;
 };
 
-export type MessageGroupSelectRendererProps = {
-  userId: number;
-  setDirectGroupUser: (userId: number) => void;
-  setDirectHasnew: (hasnew: boolean) => void;
-} & QueryResult<DirectMessageGroupQuery, DirectMessageGroupQueryVariables>;
-
 export type MessageGroupSelectProps = {
-  userId?: number;
+  userId: number;
   setDirectGroupUser: (userId: number) => void;
   setDirectHasnew: (hasnew: boolean) => void;
 };
@@ -32,10 +17,7 @@ export type MessageGroupChatInnerProps = {
   user: Required<GlobalUserType>;
   directGroupUser: number;
   sendDirectmessageTrigger: SendMessageTriggerType;
-} & QueryResult<
-  DirectMessageGroupMessagesQuery,
-  DirectMessageGroupMessagesQueryVariables
->;
+};
 
 export type MessageGroupChatProps = {
   user: GlobalUserType;

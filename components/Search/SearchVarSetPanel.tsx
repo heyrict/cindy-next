@@ -35,9 +35,9 @@ class SearchVarSetPanel extends React.PureComponent<SearchVarSetPanelProps> {
                   width={1}
                   placeholder={filter.placeholder}
                   ref={
-                    this.textRefs[filter.key] as React.RefObject<
-                      HTMLInputElement
-                    >
+                    this.textRefs[
+                      filter.key
+                    ] as React.RefObject<HTMLInputElement>
                   }
                 />
               );
@@ -48,9 +48,9 @@ class SearchVarSetPanel extends React.PureComponent<SearchVarSetPanelProps> {
                   initialValue={filter.initialValue}
                   options={filter.options}
                   ref={
-                    this.selectRefs[filter.key] as React.RefObject<
-                      ButtonSelectStateful
-                    >
+                    this.selectRefs[
+                      filter.key
+                    ] as React.RefObject<ButtonSelectStateful>
                   }
                 />
               );

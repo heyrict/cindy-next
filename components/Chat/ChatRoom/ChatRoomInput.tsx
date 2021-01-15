@@ -9,7 +9,7 @@ import * as globalReducer from 'reducers/global';
 import * as settingReducer from 'reducers/setting';
 import * as loginReducer from 'reducers/login';
 
-import { Mutation } from '@apollo/react-components';
+import { useMutation } from '@apollo/client';
 import { CHATROOM_CHATMESSAGES_QUERY } from 'graphql/Queries/Chat';
 import { CHATROOM_SEND_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
 
@@ -34,7 +34,7 @@ import {
   ChatroomChatmessagesVariables,
 } from 'graphql/Queries/generated/ChatroomChatmessages';
 import { stampNamespaces } from 'stamps';
-import { upsertMultipleItem } from 'common/update';
+import { upsertItem } from 'common/update';
 
 const LoginRequiredBlock = styled.div`
   height: ${p => p.theme.sizes.chatinput};
@@ -51,135 +51,121 @@ const ChatRoomInput = ({
   setTrueLoginModal,
   setTrueSignupModal,
 }: ChatRoomInputProps) => {
-  const editorRef = useRef<SimpleLegacyEditor>(null!);
+  const editorRef = useRef<SimpleLegacyEditor>(null);
+
+  const text = editorRef.current ? editorRef.current.getText() : '';
+
+  const [sendMessage] = useMutation<
+    ChatroomSendMessage,
+    ChatroomSendMessageVariables
+  >(CHATROOM_SEND_MESSAGE_MUTATION, {
+    update: (cache, { data }) => {
+      if (!data) return;
+      if (data.createChatmessage === null) return;
+      const newMessages = data.createChatmessage;
+      const cachedResult = cache.readQuery<
+        ChatroomChatmessages,
+        ChatroomChatmessagesVariables
+      >({
+        query: CHATROOM_CHATMESSAGES_QUERY,
+        variables: {
+          chatroomId,
+        },
+      });
+      if (cachedResult === null) return;
+      const { chatmessages } = cachedResult;
+      cache.writeQuery({
+        query: CHATROOM_CHATMESSAGES_QUERY,
+        variables: {
+          chatroomId,
+        },
+        data: {
+          chatmessages: upsertItem(chatmessages, newMessages, 'id', 'desc'),
+        },
+      });
+    },
+    onError: error => {
+      toast.error(`${error.name}: ${error.message}`);
+      if (editorRef.current) {
+        editorRef.current.setText(text);
+      }
+    },
+  });
+
+  const handleSubmit = (content: string) => {
+    if (content.trim() !== '') {
+      return sendMessage({
+        variables: {
+          content: content.trim(),
+          chatroomId,
+        },
+        optimisticResponse: {
+          createChatmessage: {
+            __typename: 'Chatmessage',
+            id: -1,
+            content,
+            created: Date.now(),
+            modified: Date.now(),
+            editTimes: 0,
+            user: {
+              __typename: 'User',
+              id: -1,
+              icon: null,
+              nickname: '...',
+              username: '...',
+              currentAward: null,
+            },
+          },
+        },
+      });
+    }
+  };
+
+  const handleSubmitWithError = (content: string) => {
+    if (!editorRef.current) return;
+    const text = editorRef.current.getText();
+    editorRef.current.setText('');
+    let result = handleSubmit(content);
+    if (!result) {
+      // Cancelled
+      editorRef.current.setText(text);
+    }
+  };
 
   return user.id ? (
-    <Mutation<ChatroomSendMessage, ChatroomSendMessageVariables>
-      mutation={CHATROOM_SEND_MESSAGE_MUTATION}
-      update={(cache, { data }) => {
-        if (!data) return;
-        if (data.insert_chatmessage === null) return;
-        const newMessages = data.insert_chatmessage.returning;
-        const cachedResult = cache.readQuery<
-          ChatroomChatmessages,
-          ChatroomChatmessagesVariables
-        >({
-          query: CHATROOM_CHATMESSAGES_QUERY,
-          variables: {
-            chatroomId,
-          },
-        });
-        if (cachedResult === null) return;
-        const { chatmessage } = cachedResult;
-        cache.writeQuery({
-          query: CHATROOM_CHATMESSAGES_QUERY,
-          variables: {
-            chatroomId,
-          },
-          data: {
-            chatmessage: upsertMultipleItem(
-              chatmessage,
-              newMessages,
-              'id',
-              'desc',
-            ),
-          },
-        });
-      }}
-    >
-      {sendMessage => {
-        const handleSubmit = (content: string) => {
-          if (content.trim() !== '') {
-            return sendMessage({
-              variables: {
-                content: content.trim(),
-                chatroomId,
-              },
-              optimisticResponse: {
-                insert_chatmessage: {
-                  __typename: 'chatmessage_mutation_response',
-                  returning: [
-                    {
-                      __typename: 'chatmessage',
-                      id: -1,
-                      content,
-                      created: Date.now(),
-                      editTimes: 0,
-                      user: {
-                        __typename: 'user',
-                        id: -1,
-                        icon: null,
-                        nickname: '...',
-                        username: '...',
-                        current_user_award: null,
-                      },
-                    },
-                  ],
-                },
-              },
-            });
+    <SimpleLegacyEditor
+      ref={editorRef}
+      useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
+      onKeyDown={(e: React.KeyboardEvent) => {
+        if (!editorRef.current) return;
+        if (sendChatTrigger & SendMessageTriggerType.ON_ENTER) {
+          if (
+            e.nativeEvent.key === 'Enter' &&
+            !e.nativeEvent.shiftKey &&
+            !e.nativeEvent.ctrlKey
+          ) {
+            handleSubmitWithError(editorRef.current.getText());
+            e.preventDefault();
+            return;
           }
-        };
-
-        const handleSubmitWithError = (content: string) => {
-          if (!editorRef.current) return;
-          const text = editorRef.current.getText();
-          editorRef.current.setText('');
-          let result = handleSubmit(content);
-          if (result) {
-            result
-              .then(returns => {
-                if (returns.errors) {
-                  toast.error(JSON.stringify(returns.errors));
-                  editorRef.current.setText(text);
-                }
-              })
-              .catch(error => {
-                toast.error(JSON.stringify(error));
-                editorRef.current.setText(text);
-              });
-          } else {
-            // Cancelled
-            editorRef.current.setText(text);
+        }
+        if (sendChatTrigger & SendMessageTriggerType.ON_CTRL_ENTER) {
+          if (e.nativeEvent.key === 'Enter' && e.nativeEvent.ctrlKey) {
+            handleSubmitWithError(editorRef.current.getText());
+            e.preventDefault();
+            return;
           }
-        };
-
-        return (
-          <SimpleLegacyEditor
-            ref={editorRef}
-            useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
-            onKeyDown={(e: React.KeyboardEvent) => {
-              if (sendChatTrigger & SendMessageTriggerType.ON_ENTER) {
-                if (
-                  e.nativeEvent.keyCode === 13 &&
-                  !e.nativeEvent.shiftKey &&
-                  !e.nativeEvent.ctrlKey
-                ) {
-                  handleSubmitWithError(editorRef.current.getText());
-                  e.preventDefault();
-                  return;
-                }
-              }
-              if (sendChatTrigger & SendMessageTriggerType.ON_CTRL_ENTER) {
-                if (e.nativeEvent.keyCode === 13 && e.nativeEvent.ctrlKey) {
-                  handleSubmitWithError(editorRef.current.getText());
-                  e.preventDefault();
-                  return;
-                }
-              }
-              if (sendChatTrigger & SendMessageTriggerType.ON_SHIFT_ENTER) {
-                if (e.nativeEvent.keyCode === 13 && e.nativeEvent.shiftKey) {
-                  handleSubmitWithError(editorRef.current.getText());
-                  e.preventDefault();
-                  return;
-                }
-              }
-            }}
-            onSubmit={handleSubmit}
-          />
-        );
+        }
+        if (sendChatTrigger & SendMessageTriggerType.ON_SHIFT_ENTER) {
+          if (e.nativeEvent.key === 'Enter' && e.nativeEvent.shiftKey) {
+            handleSubmitWithError(editorRef.current.getText());
+            e.preventDefault();
+            return;
+          }
+        }
       }}
-    </Mutation>
+      onSubmit={handleSubmit}
+    />
   ) : (
     <LoginRequiredBlock>
       <FormattedMessage
@@ -220,9 +206,6 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(loginReducer.actions.signupModal.setTrue()),
 });
 
-const withRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRedux(ChatRoomInput);

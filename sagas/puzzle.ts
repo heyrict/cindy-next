@@ -56,20 +56,24 @@ function* updatePuzzleMemoStat(action: ActionContentType) {
   const puzzleMemoHasnew = puzzleState.puzzleMemoHasnew;
 
   if (puzzleId === null) return;
-  if (innerAction.type !== 'BASE_SET') return;
 
-  switch (innerAction.value) {
-    case RightAsideType.memo: {
-      if (puzzleMemoHasnew === true)
-        yield put(puzzleReducer.actions.puzzleMemoHasnew.setFalse());
+  switch (innerAction.type) {
+    case 'SET':
+      switch (innerAction.value) {
+        case RightAsideType.memo: {
+          if (puzzleMemoHasnew === true)
+            yield put(puzzleReducer.actions.puzzleMemoHasnew.setFalse());
 
-      const memoHash = hash(puzzleMemo);
-      const prevMemoHash = memoStatStore[puzzleId];
-      if (memoHash !== prevMemoHash) {
-        memoStatStore[puzzleId] = memoHash;
-        setHashStore(PUZZLE_MEMO_HASNEW_HASH_STORE_KEY, memoStatStore);
+          const memoHash = hash(puzzleMemo);
+          const prevMemoHash = memoStatStore[puzzleId];
+          if (memoHash !== prevMemoHash) {
+            memoStatStore[puzzleId] = memoHash;
+            setHashStore(PUZZLE_MEMO_HASNEW_HASH_STORE_KEY, memoStatStore);
+          }
+        }
+        default:
+          return;
       }
-    }
     default:
       return;
   }

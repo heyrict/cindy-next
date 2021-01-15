@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Query } from '@apollo/react-components';
+import { Query } from '@apollo/client/react/components';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
 import ErrorReload from 'components/General/ErrorReload';
@@ -36,8 +36,8 @@ class ChatRoom extends React.Component<ChatRoomProps> {
       >
         {({ data, error, refetch }) => {
           let chatroomId = null;
-          if (data && data.chatroom && data.chatroom[0]) {
-            chatroomId = data.chatroom[0].id;
+          if (data && data.chatrooms && data.chatrooms[0]) {
+            chatroomId = data.chatrooms[0].id;
           }
           if (error) {
             console.log(error);

@@ -42,7 +42,7 @@ query($userId: Int!, $monthlyAwards: [Int!]) {
   user_award_aggregate(
     where: {
       user_id: { _eq: $userId }
-      award_id: { _in: $monthlyAwards }
+      awardId: { _in: $monthlyAwards }
     }
   ) {
     aggregate {
@@ -87,7 +87,7 @@ query($createdGte: timestamptz!, $createdLt: timestamptz!) {
 ADD_USERAWARD_MUTATION = '''
 mutation($awardId: Int!, $userId: Int!) {
   insert_user_award(objects: {
-    award_id: $awardId
+    awardId: $awardId
     user_id: $userId
   }) {
     affected_rows

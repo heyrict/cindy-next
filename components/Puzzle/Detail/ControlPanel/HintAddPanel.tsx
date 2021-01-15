@@ -1,7 +1,9 @@
 import React, { useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 import { upsertItem } from 'common/update';
 
-import { Mutation } from '@apollo/react-components';
+import { useMutation } from '@apollo/client';
+import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
 import { ADD_HINT_MUTATION } from 'graphql/Mutations/Hint';
 import {
   AddHintMutation,
@@ -16,16 +18,57 @@ import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
 
 import { HintAddPanelProps } from './types';
-import { DataProxy } from 'apollo-cache/lib/types';
-import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
 import {
   DialogueHintQuery,
   DialogueHintQueryVariables,
 } from 'graphql/Queries/generated/DialogueHintQuery';
+import { Yami } from 'generated/globalTypes';
 
 const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
   const [receiverId, setReceiverId] = useState<number | null>(null);
   const editorRef = useRef<LegacyEditor>(null);
+
+  const get_hint = () => (editorRef.current ? editorRef.current.getText() : '');
+
+  const [addHint] = useMutation<AddHintMutation, AddHintMutationVariables>(
+    ADD_HINT_MUTATION,
+    {
+      update: (cache, { data }) => {
+        if (!data || !data.createHint) return;
+
+        const prevDialogueHints = cache.readQuery<
+          DialogueHintQuery,
+          DialogueHintQueryVariables
+        >({
+          query: DIALOGUE_HINT_QUERY,
+          variables: {
+            puzzleId,
+          },
+        });
+        if (!prevDialogueHints) return;
+        const { puzzleLogs } = prevDialogueHints;
+
+        const newItem = data.createHint;
+        cache.writeQuery({
+          query: DIALOGUE_HINT_QUERY,
+          variables: {
+            puzzleId,
+          },
+          data: {
+            puzzleLogs:
+              newItem.id === -1
+                ? [...puzzleLogs, newItem]
+                : upsertItem(puzzleLogs, newItem, 'created', 'asc'),
+          },
+        });
+      },
+      onError: error => {
+        if (editorRef.current) editorRef.current.setText(get_hint());
+        setReceiverId(receiverId);
+        toast.error(`${error.name}: ${error.message}`);
+      },
+    },
+  );
 
   return (
     <Flex
@@ -36,127 +79,66 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
       flexWrap="wrap"
       width={1}
     >
-      <Mutation<AddHintMutation, AddHintMutationVariables>
-        mutation={ADD_HINT_MUTATION}
-        update={(cache: DataProxy, { data }) => {
-          if (
-            !data ||
-            !data.insert_hint ||
-            data.insert_hint.returning.length !== 1
-          )
-            return;
-
-          const prevDialogueHints = cache.readQuery<
-            DialogueHintQuery,
-            DialogueHintQueryVariables
-          >({
-            query: DIALOGUE_HINT_QUERY,
-            variables: {
-              puzzleId,
-            },
-          });
-          if (!prevDialogueHints) return;
-          const { hint, dialogue } = prevDialogueHints;
-
-          const newItem = data.insert_hint.returning[0];
-          cache.writeQuery({
-            query: DIALOGUE_HINT_QUERY,
-            variables: {
-              puzzleId,
-            },
-            data: {
-              hint:
-                newItem.id === -1
-                  ? [...hint, newItem]
-                  : upsertItem(hint, newItem),
-              dialogue,
-            },
-          });
+      {yami !== Yami.NONE && (
+        <Box width={1}>
+          <ParticipantSelector
+            value={receiverId}
+            setValue={value => setReceiverId(value)}
+          />
+        </Box>
+      )}
+      <Box width={1}>
+        <LegacyEditor ref={editorRef} />
+      </Box>
+      <ButtonTransparent
+        width={1 / 2}
+        onClick={() => {
+          if (editorRef.current) editorRef.current.setText('');
+          setReceiverId(null);
         }}
       >
-        {addHint => (
-          <React.Fragment>
-            {yami !== 0 && (
-              <Box width={1}>
-                <ParticipantSelector
-                  value={receiverId}
-                  setValue={value => setReceiverId(value)}
-                />
-              </Box>
-            )}
-            <Box width={1}>
-              <LegacyEditor ref={editorRef} />
-            </Box>
-            <ButtonTransparent
-              width={1 / 2}
-              onClick={() => {
-                if (editorRef.current) editorRef.current.setText('');
-                setReceiverId(null);
-              }}
-            >
-              <Img height="xs" src={crossIcon} />
-            </ButtonTransparent>
-            <ButtonTransparent
-              width={1 / 2}
-              onClick={() => {
-                if (!editorRef.current) return;
-                const hint = editorRef.current.getText();
-                if (hint.trim() === '') return;
+        <Img height="xs" src={crossIcon} />
+      </ButtonTransparent>
+      <ButtonTransparent
+        width={1 / 2}
+        onClick={() => {
+          const hint = get_hint();
+          if (!editorRef.current || hint.trim() === '') return;
 
-                addHint({
-                  variables: {
-                    puzzleId,
-                    receiverId,
-                    content: hint,
-                  },
-                  optimisticResponse: {
-                    insert_hint: {
-                      __typename: 'hint_mutation_response',
-                      returning: [
-                        {
-                          __typename: 'hint',
-                          id: -1,
-                          content: hint,
-                          created: Date.now(),
-                          edittimes: 0,
-                          receiver:
-                            receiverId === null
-                              ? null
-                              : {
-                                  __typename: 'user',
-                                  id: receiverId,
-                                  icon: null,
-                                  nickname: '...',
-                                  username: '...',
-                                  current_user_award: null,
-                                },
-                        },
-                      ],
-                    },
-                  },
-                })
-                  .then(result => {
-                    if (!result) return;
-                    if (result.errors) {
-                      if (editorRef.current) editorRef.current.setText(hint);
-                      setReceiverId(receiverId);
-                      console.log(result.errors);
-                    }
-                  })
-                  .catch(e => {
-                    console.log(e);
-                    if (editorRef.current) editorRef.current.setText(hint);
-                    setReceiverId(receiverId);
-                  });
-                if (editorRef.current) editorRef.current.setText('');
-                setReceiverId(null);
-              }}
-            >
-              <Img height="xs" src={tickIcon} />
-            </ButtonTransparent>
-          </React.Fragment>
-        )}
-      </Mutation>
+          addHint({
+            variables: {
+              puzzleId,
+              receiverId,
+              content: hint,
+            },
+            optimisticResponse: {
+              createHint: {
+                __typename: 'Hint',
+                id: -1,
+                content: hint,
+                created: Date.now(),
+                editTimes: 0,
+                receiver:
+                  receiverId === null
+                    ? null
+                    : {
+                        __typename: 'User',
+                        id: receiverId,
+                        icon: null,
+                        nickname: '...',
+                        username: '...',
+                        currentAward: null,
+                      },
+                modified: Date.now(),
+              },
+            },
+          });
+          if (editorRef.current) editorRef.current.setText('');
+          setReceiverId(null);
+        }}
+      >
+        <Img height="xs" src={tickIcon} />
+      </ButtonTransparent>
     </Flex>
   );
 };

@@ -3,7 +3,12 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 //import { action } from '@storybook/addon-actions';
 
-import { ApolloProvider } from '@apollo/react-common';
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+} from '@apollo/client';
 import { Provider as ReduxProvider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import * as globalReducer from 'reducers/global';
@@ -21,9 +26,6 @@ import { IntlProvider } from 'react-intl';
 
 import ToolbarBox from 'components/Layout/ToolbarBox';
 import Toolbar from 'components/Toolbar';
-import ApolloClient from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
 import { GlobalUserType } from 'reducers/types';
 
 // {{{ apollo client
