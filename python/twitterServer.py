@@ -12,8 +12,6 @@ logger = logging.Logger(__name__)
 WS_ENDPOINT = os.environ.get("WS_ENDPOINT", "ws://127.0.0.1:8000/graphql")
 
 LOCALE = "ja"
-PORT = os.environ.get("PORT", 3002)
-NUM_WORKERS = os.environ.get("NUM_WORKERS", 2)
 TOKEN = os.environ.get("TOKEN")
 TOKEN_SECRET = os.environ.get("TOKEN_SECRET")
 CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
@@ -83,7 +81,7 @@ if __name__ == '__main__':
 
     query = gql(PUZZLE_SUBSCRIPTION)
 
-    for result in client.subscribe(query):
+    for data in client.subscribe(query):
         op = data.get("op")
         if op == 'CREATED':
             add_puzzle_callback(data["data"])

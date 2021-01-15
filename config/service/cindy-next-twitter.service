@@ -6,8 +6,6 @@ After=network.target
 User=heyrict
 Group=www-data
 WorkingDirectory=/path/to/cindy-next
-Environment=PORT=3002
-Environment=NUM_WORKERS=2
 #Environment=TOKEN=
 #Environment=TOKEN_SECRET=
 #Environment=CONSUMER_KEY=
