@@ -1,5 +1,4 @@
 Pillow>3.0
 beautifulsoup4==4.5.3
 twitter>=1.18.0,<2.0
-requests>=2.22.0<3.0
-gunicorn>=19.9.0
+gql>=3.0.0a5,<4.0
