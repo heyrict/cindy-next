@@ -22,7 +22,10 @@ export const PUZZLE_COMMENT_AGGREGATE_QUERY = gql`
 
 export const PREVIOUS_COMMENT_VALUE_QUERY = gql`
   query PreviousCommentValueQuery($userId: Int!, $puzzleId: Int!) {
-    comments(filter: { puzzleId: { eq: $puzzleId }, userId: { eq: $userId } }) {
+    comments(
+      filter: { puzzleId: { eq: $puzzleId }, userId: { eq: $userId } }
+      order: { id: DESC }
+    ) {
       ...Comment
     }
   }
