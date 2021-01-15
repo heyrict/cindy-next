@@ -187,7 +187,10 @@ const PuzzlesUnsolvedRenderer = () => {
             .query<PuzzlesUnsolvedQuery, PuzzlesUnsolvedQueryVariables>({
               query: PUZZLES_UNSOLVED_QUERY,
               variables: {
-                since: new Date(maxModified).toISOString(),
+                since:
+                  maxModified < 0
+                    ? undefined
+                    : new Date(maxModified).toISOString(),
               },
               fetchPolicy: 'network-only',
             })
@@ -291,7 +294,7 @@ const PuzzlesUnsolvedRenderer = () => {
                         data.puzzles,
                         'id',
                         'desc',
-                      ),
+                      ).filter(puzzle => puzzle.status === Status.UNDERGOING),
                     },
                   });
                 }
