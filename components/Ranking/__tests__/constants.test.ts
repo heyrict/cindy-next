@@ -1,30 +1,32 @@
-import { getMonthlyDate } from '../constants';
+import { getRankingDate } from '../constants';
 
 const firstHalf = new Date('2019-03-05T03:01:43Z');
 const secondHalf = new Date('2019-02-25T03:01:43Z');
 
-const expectedStart = new Date(2019, 0, 1);
-const expectedEnd = new Date(2019, 1, 1);
+const expectedResult = {
+  year: 2019,
+  month: 0, // January
+};
 
-describe('getMonthlyDate()', () => {
+describe('getRankingDate()', () => {
   it('date in firstHalf should work', () => {
-    const [start, end] = getMonthlyDate(firstHalf);
-    expect(new Date(start)).toEqual(expectedStart);
-    expect(new Date(end)).toEqual(expectedEnd);
+    const { year, month } = getRankingDate(firstHalf);
+    expect(year).toEqual(expectedResult.year);
+    expect(month).toEqual(expectedResult.month);
   });
 
   it('date in secondHalf should work', () => {
-    const [start, end] = getMonthlyDate(secondHalf);
-    expect(new Date(start)).toEqual(expectedStart);
-    expect(new Date(end)).toEqual(expectedEnd);
+    const { year, month } = getRankingDate(secondHalf);
+    expect(year).toEqual(expectedResult.year);
+    expect(month).toEqual(expectedResult.month);
   });
 
   it('date in January should work', () => {
     const date = new Date('2019-01-02T00:00:00Z');
-    const expectedStart = new Date(2018, 10, 1);
-    const expectedEnd = new Date(2018, 11, 1);
-    const [start, end] = getMonthlyDate(date);
-    expect(new Date(end)).toEqual(expectedEnd);
-    expect(new Date(start)).toEqual(expectedStart);
+    const expectedYear = 2018;
+    const expectedMonth = 10;
+    const { year, month } = getRankingDate(date);
+    expect(year).toEqual(expectedYear);
+    expect(month).toEqual(expectedMonth);
   });
 });

@@ -40,7 +40,7 @@ const UserDialogueRankingRenderer = ({
       limit: ITEMS_PER_PAGE,
       offset: 0,
       year,
-      month,
+      month: month + 1,
     },
   });
   const [hasMore, setHasMore] = useState(true);

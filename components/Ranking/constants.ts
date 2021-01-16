@@ -1,26 +1,5 @@
 export const ITEMS_PER_PAGE = 20;
 
-export const getMonthlyDate = (now: Date) => {
-  const temp = new Date(now);
-  temp.setDate(1);
-  temp.setHours(0);
-  temp.setMinutes(0);
-  temp.setSeconds(0);
-  temp.setMilliseconds(0);
-  if (now.getDate() > 15) {
-    const end = temp.toISOString();
-    temp.setMonth(temp.getMonth() - 1);
-    const start = temp.toISOString();
-    return [start, end];
-  } else {
-    temp.setMonth(temp.getMonth() - 1);
-    const end = temp.toISOString();
-    temp.setMonth(temp.getMonth() - 1);
-    const start = temp.toISOString();
-    return [start, end];
-  }
-};
-
 export const getRankingDate = (d?: Date) => {
   let date = d ? new Date(d) : new Date();
 
