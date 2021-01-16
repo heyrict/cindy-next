@@ -173,7 +173,9 @@ const PuzzleEditPanel = ({
                 notifHdlRef.current = toast.warn(
                   <Box>
                     {yami === Yami.LONGTERM ? (
-                      <FormattedMessage {...messages.putSolutionLongtermYamiConfirm} />
+                      <FormattedMessage
+                        {...messages.putSolutionLongtermYamiConfirm}
+                      />
                     ) : (
                       <FormattedMessage {...messages.putSolutionConfirm} />
                     )}

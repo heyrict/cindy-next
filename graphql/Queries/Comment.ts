@@ -22,10 +22,7 @@ export const PUZZLE_COMMENT_AGGREGATE_QUERY = gql`
 
 export const PREVIOUS_COMMENT_VALUE_QUERY = gql`
   query PreviousCommentValueQuery($userId: Int!, $puzzleId: Int!) {
-    comments(
-      filter: { puzzleId: { eq: $puzzleId }, userId: { eq: $userId } }
-      order: { id: DESC }
-    ) {
+    comments(filter: { puzzleId: { eq: $puzzleId }, userId: { eq: $userId } }) {
       ...Comment
     }
   }
@@ -64,7 +61,7 @@ export const PROFILE_COMMENTS_RECEIVED_QUERY = gql`
 
 export const COMMENTS_QUERY = gql`
   query CommentsQuery($limit: Int!, $offset: Int!) {
-    commentsInSolvedPuzzle(limit: $limit, offset: $offset)
+    commentsInSolvedPuzzle(limit: $limit, offset: $offset, order: { id: DESC })
       @connection(key: "commentsInSolvedPuzzle") {
       ...CommentDetail
     }

@@ -6,15 +6,13 @@ from lib import query
 lgr = logging.Logger(__name__)
 
 MARK_DAZED_PUZZZLES_MUTATION = '''
-mutation($date: date!) {
-  update_puzzle(
-    where: { dazedOn: { _lte: $date }, status: { _eq: 0 } }
-    _set: { status: 2 }
+mutation($date: NaiveDate!) {
+  updateManyPuzzle(
+    filter: { dazedOn: { le: $date }, status: { eq: UNDERGOING } }
+    set: { status: DAZED }
   ) {
-    returning {
-      id
-      title
-    }
+    id
+    title
   }
 }
 '''
@@ -25,7 +23,7 @@ def mark_dazed_puzzles():
 
     dazed_puzzles = query(MARK_DAZED_PUZZZLES_MUTATION, {
         'date': now.date().isoformat(),
-    })['update_puzzle']
+    })
     for puzzle in dazed_puzzles:
         lgr.debug(
             "[INFO]: [mark_dazed_puzzles]: [ID: %(id)d] '%(title)s' is marked as dazed",
