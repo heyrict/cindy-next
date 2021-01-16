@@ -85,6 +85,6 @@ if __name__ == '__main__':
 
     for data in client.subscribe(query):
         logger.debug("Subscription received: %s", data)
-        op = data.get("op")
+        op = data['puzzleSub'].get("op")
         if op == 'CREATED':
             add_puzzle_callback(data["data"])
