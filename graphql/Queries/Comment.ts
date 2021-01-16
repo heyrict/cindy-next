@@ -61,7 +61,7 @@ export const PROFILE_COMMENTS_RECEIVED_QUERY = gql`
 
 export const COMMENTS_QUERY = gql`
   query CommentsQuery($limit: Int!, $offset: Int!) {
-    commentsInSolvedPuzzle(limit: $limit, offset: $offset, order: { id: DESC })
+    commentsInSolvedPuzzle(limit: $limit, offset: $offset)
       @connection(key: "commentsInSolvedPuzzle") {
       ...CommentDetail
     }

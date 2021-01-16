@@ -22,7 +22,7 @@ export const getMonthlyDate = (now: Date) => {
 };
 
 export const getRankingDate = (d?: Date) => {
-  const date = d ? new Date(d) : new Date();
+  let date = d ? new Date(d) : new Date();
 
   if (date.getDate() > 15) {
     date.setMonth(date.getMonth() - 1);
@@ -31,7 +31,7 @@ export const getRankingDate = (d?: Date) => {
       month: date.getUTCMonth(),
     };
   } else {
-    date.setMonth(date.getMonth() - 1);
+    date.setMonth(date.getMonth() - 2);
     return {
       year: date.getUTCFullYear(),
       month: date.getUTCMonth(),
