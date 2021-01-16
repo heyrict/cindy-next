@@ -76,7 +76,7 @@ query($year: Int!, $month: Int!) {
 
 ADD_USERAWARD_MUTATION = '''
 mutation($awardId: Int!, $userId: Int!) {
-  addUserAward(objects: {
+  createUserAward(data: {
     awardId: $awardId
     userId: $userId
   }) {
