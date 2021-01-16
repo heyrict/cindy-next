@@ -7,8 +7,8 @@ from gql.transport.websockets import WebsocketsTransport
 
 from twitter import OAuth, Twitter
 
-logger = logging.Logger(__name__)
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+logger = logging.getLogger(__name__)
 
 WS_ENDPOINT = os.environ.get("WS_ENDPOINT", "ws://127.0.0.1:8000/graphql")
 
@@ -53,7 +53,7 @@ def add_puzzle_callback(puzzle):
     } # yapf: disable
 
     logger.info(
-        "Puzzle Added with id=%d title=%s", (puzzle["id"], puzzle["title"])
+        "Puzzle Added with id=%d title=%s", puzzle["id"], puzzle["title"]
     )
 
     auth = OAuth(TOKEN, TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
@@ -78,13 +78,13 @@ if __name__ == '__main__':
 
     client = Client(
         transport=transport,
-        fetch_schema_from_transport=True,
+        fetch_schema_from_transport=False,
     )
 
     query = gql(PUZZLE_SUBSCRIPTION)
 
     for data in client.subscribe(query):
-        logger.debug("Subscription received: %s", data)
         op = data['puzzleSub'].get("op")
+        logger.info(f"Puzzle <{data['puzzleSub']['data']['id']}> is {op}")
         if op == 'CREATED':
-            add_puzzle_callback(data["data"])
+            add_puzzle_callback(data['puzzleSub']["data"])

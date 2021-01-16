@@ -93,7 +93,7 @@ def render(title,
 
 
 def textify(md):
-    html = markdown.markdown(md, [
+    html = markdown.markdown(md, extensions=[
         'markdown.extensions.extra',
         'markdown.extensions.nl2br',
         'markdown.extensions.tables'
