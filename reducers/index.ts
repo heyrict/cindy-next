@@ -40,10 +40,17 @@ export const initializeStore = (
   initialState: StateType,
   appContext?: ReduxServerSideCtx,
 ) => {
+  let settingsState;
+
   const route = (appContext && appContext.route) || '';
   const cookies = (appContext && appContext.cookie) || undefined;
-  const settingsState =
-    JSON.parse(getCookie('settings-server-side', cookies) || '{}') || {};
+  try {
+    settingsState =
+      JSON.parse(getCookie('settings-server-side', cookies) || '{}') || {};
+  } catch (e) {
+    console.error(e);
+    settingsState = {};
+  }
   const globalUser =
     getUser(process.browser ? document.cookie : cookies) ||
     globalReducer.initialState.user;

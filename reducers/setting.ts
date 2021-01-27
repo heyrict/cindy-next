@@ -107,7 +107,13 @@ export const loadInitialState = (): SettingsStateType => {
   if (!process.browser) return initialState;
   const storedItem = window.localStorage.getItem(`reducer:${scope}`);
   if (storedItem) {
-    const parsedStoredItem = JSON.parse(storedItem) as SettingsStateType;
+    let parsedStoredItem: SettingsStateType;
+    try {
+      parsedStoredItem = JSON.parse(storedItem);
+    } catch (e) {
+      console.error(e);
+      parsedStoredItem = initialState;
+    }
     return {
       ...initialState,
       ...parsedStoredItem,
