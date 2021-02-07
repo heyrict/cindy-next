@@ -77,4 +77,14 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
 
 const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
+export const getStaticProps = async () => {
+  return {
+    props: {
+      serverSideContext: {
+        route: '/add/puzzle',
+      },
+    },
+  };
+};
+
 export default compose(injectIntl, withRedux)(AddPuzzle);

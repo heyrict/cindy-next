@@ -61,7 +61,7 @@ const PuzzlePage = () => {
 export const getServerSideProps: GetServerSideProps = async context => {
   const serverSideContext = {
     route: context.resolvedUrl,
-    cookie: context.req.headers.cookie || null,
+    cookie: context.req.cookies || null,
   };
 
   const apolloClient: ApolloClient<object> = initializeApollo();

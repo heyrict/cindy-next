@@ -56,7 +56,11 @@ const Users = () => {
 
 export async function getStaticProps() {
   return {
-    props: {},
+    props: {
+      serverSideContext: {
+        route: '/users',
+      },
+    },
   };
 }
 

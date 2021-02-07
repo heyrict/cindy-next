@@ -274,7 +274,11 @@ const Search = () => {
 
 export async function getStaticProps() {
   return {
-    props: {},
+    props: {
+      serverSideContext: {
+        route: '/search',
+      },
+    },
   };
 }
 
