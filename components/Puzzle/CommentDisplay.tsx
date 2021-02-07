@@ -22,7 +22,7 @@ const ButtonTransparentA = ButtonTransparent.withComponent('a');
 const CommentContent = styled.div<CommentContentProps>`
   display: flex;
   position: relative;
-  left: ${p => (p.on ? 0 : 'calc(100% - 30px)')};
+  left: ${p => (p._on ? 0 : 'calc(100% - 30px)')};
   transition-property: left;
   transition-duration: 300ms;
   z-index: 30;
@@ -113,7 +113,7 @@ class CommentDisplay extends React.PureComponent<
             </Box>
           )}
         </Box>
-        <CommentContent on={this.state.on}>
+        <CommentContent _on={this.state.on}>
           <ButtonTransparent
             style={{
               display: 'inline-block',

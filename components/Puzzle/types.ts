@@ -33,7 +33,7 @@ export type PuzzleWithAnyProps = {
 };
 
 export type CommentContentProps = {
-  on: boolean;
+  _on: boolean;
 };
 
 export type CommentDisplayProps = {
