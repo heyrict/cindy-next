@@ -9,8 +9,12 @@ import PuzzleDetail from 'components/Puzzle/Detail';
 import { connect } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
 
-import { useQuery } from '@apollo/client';
-import { PUZZLE_QUERY } from 'graphql/Queries/Puzzles';
+import { useApolloClient, useQuery } from '@apollo/client';
+import {
+  PUZZLES_SOLVED_QUERY,
+  PUZZLES_UNSOLVED_QUERY,
+  PUZZLE_QUERY,
+} from 'graphql/Queries/Puzzles';
 import { PUZZLE_SUB } from 'graphql/Subscriptions/Puzzles';
 
 import { FormattedMessage } from 'react-intl';
@@ -30,12 +34,27 @@ import {
   PuzzleQueryVariables,
 } from 'graphql/Queries/generated/PuzzleQuery';
 import { Status } from 'generated/globalTypes';
+import {
+  PuzzlesSolvedQuery,
+  PuzzlesSolvedQueryVariables,
+} from 'graphql/Queries/generated/PuzzlesSolvedQuery';
+import { upsertItem } from 'common/update';
+import {
+  DialogueHintQuery,
+  DialogueHintQueryVariables,
+} from 'graphql/Queries/generated/DialogueHintQuery';
+import { DIALOGUE_HINT_QUERY } from 'graphql/Queries/Dialogues';
+import {
+  PuzzlesUnsolvedQuery,
+  PuzzlesUnsolvedQueryVariables,
+} from 'graphql/Queries/generated/PuzzlesUnsolvedQuery';
 
 const PuzzleRenderer = ({
   puzzleId,
   formatMessage,
   pushNotification,
 }: PuzzleRendererProps) => {
+  const apolloClient = useApolloClient();
   const { loading, error, data, refetch, subscribeToMore } = useQuery<
     PuzzleQuery,
     PuzzleQueryVariables
@@ -85,6 +104,74 @@ const PuzzleRenderer = ({
               puzzle: oldPuzzle.title,
             }),
           );
+
+          // Update queries in /puzzles page
+          // * Solved puzzles
+          const solvedData = apolloClient.readQuery<
+            PuzzlesSolvedQuery,
+            PuzzlesSolvedQueryVariables
+          >({
+            query: PUZZLES_SOLVED_QUERY,
+          });
+          if (solvedData) {
+            const dhs = apolloClient.readQuery<
+              DialogueHintQuery,
+              DialogueHintQueryVariables
+            >({
+              query: DIALOGUE_HINT_QUERY,
+              variables: {
+                puzzleId: oldPuzzle.id,
+              },
+            }) || { puzzleLogs: [] };
+            const dialogues = dhs.puzzleLogs.filter(
+              item => item.__typename === 'Dialogue',
+            );
+            const dialogueCount = dialogues.length;
+            const dialogueNewCount = dialogues.filter(
+              item => item.__typename === 'Dialogue' && item.answer !== '',
+            ).length;
+
+            apolloClient.writeQuery<
+              PuzzlesSolvedQuery,
+              PuzzlesSolvedQueryVariables
+            >({
+              query: PUZZLES_SOLVED_QUERY,
+              data: {
+                puzzles: upsertItem(solvedData.puzzles, {
+                  ...oldPuzzle,
+                  ...newPuzzle,
+                  __typename: 'Puzzle',
+                  starSum: 0,
+                  starCount: 0,
+                  commentCount: 0,
+                  bookmarkCount: 0,
+                  dialogueCount,
+                  dialogueNewCount,
+                }),
+              },
+            });
+          }
+
+          // * Unsolved puzzles
+          const unsolvedData = apolloClient.readQuery<
+            PuzzlesUnsolvedQuery,
+            PuzzlesUnsolvedQueryVariables
+          >({
+            query: PUZZLES_UNSOLVED_QUERY,
+          });
+          if (unsolvedData) {
+            apolloClient.writeQuery<
+              PuzzlesUnsolvedQuery,
+              PuzzlesUnsolvedQueryVariables
+            >({
+              query: PUZZLES_UNSOLVED_QUERY,
+              data: {
+                puzzles: unsolvedData.puzzles.filter(
+                  puzzle => puzzle.id !== oldPuzzle.id,
+                ),
+              },
+            });
+          }
         }
         return { puzzle: { ...oldPuzzle, ...newPuzzle.data } };
       },
