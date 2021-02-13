@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { googleAdClientToken, isUserPatron } from 'settings';
+import { enableGoogleAds, googleAdClientToken, isUserPatron } from 'settings';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -56,6 +56,6 @@ export const registerGoogleAd = ({ clientToken }: { clientToken: string }) => (
 ) => (props: Omit<GoogleAdProps, 'client'>) =>
   clientToken ? <Wrapped client={clientToken} {...props} /> : null;
 
-export default withRedux(
+export default enableGoogleAds ? withRedux(
   registerGoogleAd({ clientToken: googleAdClientToken })(GoogleAd),
-);
+) : () => null;

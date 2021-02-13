@@ -193,9 +193,9 @@ export const PUZZLE_GENRE_GROUPS_QUERY = gql`
   }
 `;
 
-export const PUZZLE_STAR_COUNT_GROUPS_QUERY = gql`
-  query PuzzleStarCountGroupsQuery($userId: Int!) {
-    puzzleStarCountGroups(userId: $userId) {
+export const PUZZLE_STAR_SUM_GROUPS_QUERY = gql`
+  query PuzzleStarSumGroupsQuery($userId: Int!) {
+    puzzleStarSumGroups(userId: $userId) {
       group
       puzzleCount
     }

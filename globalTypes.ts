@@ -8,16 +8,16 @@ export type CindyJWTDeclaration = {
 export type CindyJWTClaims = {
   exp: number;
   iat: number;
-  name: string;
-  sub: string;
   'https://www.cindythink.com/jwt/claims': {
     'x-hasura-allowed-roles': Array<CindyRole>;
     'x-hasura-default-role': CindyRole;
     'x-hasura-user-id': string;
   };
-  user?: {
+  user: {
     id: number;
+    icon: string;
     nickname: string;
     username: string;
   };
+  role: string;
 };

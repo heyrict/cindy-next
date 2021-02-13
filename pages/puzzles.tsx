@@ -361,7 +361,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
     props: {
       initialApolloState: apolloClient.cache.extract(),
       serverSideContext: {
-        cookie: ctx.req.cookies || null,
+        cookie: ctx.req.headers.cookie || null,
         route: ctx.resolvedUrl,
       },
     },
