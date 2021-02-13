@@ -31,7 +31,6 @@ import logoInline from 'svgs/logoInline.svg';
 import countryJPIcon from 'svgs/countries/ja_JP.svg';
 import countryUSIcon from 'svgs/countries/en_US.svg';
 import twitterIcon from 'svgs/Twitter_Social_Icon_Circle_Color.svg';
-import githubIcon from 'svgs/GitHub-Mark.svg';
 
 import {
   StateType,
@@ -147,13 +146,6 @@ const Toolbar = ({
                 height={1}
               >
                 <Img p={1} src={twitterIcon} height="xs" />
-              </ButtonTransparentA>
-              <ButtonTransparentA
-                href="https://github.com/heyrict/cindy-next"
-                target="_blank"
-                height={1}
-              >
-                <Img p={1} src={githubIcon} height="xs" />
               </ButtonTransparentA>
               <Flex flexGrow={1} alignItems="center" justifyContent="center">
                 <ActiveUserCounter />
