@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import multiavatar from '@multiavatar/multiavatar';
 
 import { FormattedMessage } from 'react-intl';
 import userPageMessages from 'messages/pages/user';
@@ -65,22 +66,51 @@ const ProfileInfoRenderer = ({
   return (
     <React.Fragment>
       <Box width={1} py={3}>
-        <Box mx={1} px={2} py={4} bg="orange.2" borderRadius={2}>
-          <Box width={1} fontSize={4}>
-            <FormattedMessage
-              {...userPageMessages.profileOf}
-              values={{ nickname: user.nickname }}
-            />
+        <Flex
+          mx={1}
+          px={2}
+          py={4}
+          bg="orange.2"
+          borderRadius={2}
+          flexDirection="row"
+        >
+          {user.icon &&
+            (user.icon.startsWith('multiavatar://') ? (
+              <Box
+                mx={3}
+                size="md"
+                border="1px solid"
+                borderRadius={4}
+                dangerouslySetInnerHTML={{
+                  __html: multiavatar(user.icon.slice(14), true),
+                }}
+              />
+            ) : (
+              <Img
+                mx={3}
+                size="md"
+                border="1px solid"
+                borderRadius={4}
+                src={user.icon}
+              />
+            ))}
+          <Box mr="auto">
+            <Box width={1} fontSize={4}>
+              <FormattedMessage
+                {...userPageMessages.profileOf}
+                values={{ nickname: user.nickname }}
+              />
+            </Box>
+            <Box width={1} fontSize={2} mt={1}>
+              <ButtonTransparent
+                p={1}
+                onClick={() => directChatWithUser(user.id)}
+              >
+                <Img height="xxs" src={messageIcon} alt="profile" />
+              </ButtonTransparent>
+            </Box>
           </Box>
-          <Box width={1} fontSize={2} mt={1}>
-            <ButtonTransparent
-              p={1}
-              onClick={() => directChatWithUser(user.id)}
-            >
-              <Img height="xxs" src={messageIcon} alt="profile" />
-            </ButtonTransparent>
-          </Box>
-        </Box>
+        </Flex>
       </Box>
       <ProfileSubbar
         hideBookmark={currentUser.id !== user.id && user.hideBookmark}

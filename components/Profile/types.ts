@@ -21,6 +21,7 @@ type UserAward = {
 
 export type ProfileUserType = {
   id: number;
+  icon: string | null;
   profile: string;
   nickname: string;
   username: string;

@@ -159,6 +159,7 @@
   "components.replay.milestone_name": "名称",
   "components.replay.original": "元問題",
   "components.user.anonymousUser": "謎の料理人",
+  "components.user.avatar": "アバター",
   "components.user.commentCount": "コメント数",
   "components.user.dialogueCount": "質問数",
   "components.user.goodQuestionCount": "良い質問数",

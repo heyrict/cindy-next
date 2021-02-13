@@ -1,6 +1,7 @@
 import React from 'react';
+import multiavatar from '@multiavatar/multiavatar';
 
-import { Img, Flex, Anchor, EditTimeSpan } from 'components/General';
+import { Img, Flex, Box, Anchor, EditTimeSpan } from 'components/General';
 import UserBriefProfile from './UserBriefProfile';
 import CurrentUserAward from './CurrentUserAward';
 
@@ -27,13 +28,25 @@ const UserInline = ({ user, timestamp, ...props }: UserInlineProps) => {
 
   return user.icon ? (
     <UserInlineBase alignItems="center" {...props}>
-      <Img
-        mr={1}
-        size="xs"
-        border="1px solid"
-        borderRadius={4}
-        src={user.icon}
-      />
+      {user.icon.startsWith('multiavatar://') ? (
+        <Box
+          mr={1}
+          size="xs"
+          border="1px solid"
+          borderRadius={4}
+          dangerouslySetInnerHTML={{
+            __html: multiavatar(user.icon.slice(14), true),
+          }}
+        />
+      ) : (
+        <Img
+          mr={1}
+          size="xs"
+          border="1px solid"
+          borderRadius={4}
+          src={user.icon}
+        />
+      )}
       {timestamp ? (
         <Flex flexDirection="column">
           {NicknameBlock}

@@ -159,6 +159,7 @@
   "components.replay.milestone_name": "Name",
   "components.replay.original": "Original Puzzle",
   "components.user.anonymousUser": "Anonymous User",
+  "components.user.avatar": "Avatar",
   "components.user.commentCount": "Comments",
   "components.user.dialogueCount": "Dialogues",
   "components.user.goodQuestionCount": "Good Questions",
