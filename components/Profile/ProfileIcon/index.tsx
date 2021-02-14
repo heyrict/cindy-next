@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import multiavatar from '@multiavatar/multiavatar';
 import { randomUUID } from 'common/random';
 
@@ -27,6 +27,10 @@ const ProfileIcon = ({ user, userId, icon, setUserIcon }: ProfileIconProps) => {
   const [updateIcon] = useMutation<EditIconMutation, EditIconMutationVariables>(
     EDIT_ICON_MUTATION,
   );
+
+  useEffect(() => {
+    setAvatar(icon);
+  }, [userId])
 
   return userId === user.id ? (
     <Flex mx={1} mt={2} pt={2}>
