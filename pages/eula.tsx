@@ -41,7 +41,11 @@ const withRedux = connect(mapStateToProps);
 
 export async function getStaticProps() {
   return {
-    props: {},
+    props: {
+      serverSideContext: {
+        route: '/eula',
+      },
+    },
   };
 }
 

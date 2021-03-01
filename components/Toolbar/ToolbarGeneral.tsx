@@ -28,7 +28,6 @@ import userIcon from 'svgs/user.svg';
 import countryJPIcon from 'svgs/countries/ja_JP.svg';
 import countryUSIcon from 'svgs/countries/en_US.svg';
 import twitterIcon from 'svgs/Twitter_Social_Icon_Circle_Color.svg';
-import githubIcon from 'svgs/GitHub-Mark.svg';
 
 import { StateType, ActionContentType } from 'reducers/types';
 import { ToolbarProps } from './types';
@@ -245,15 +244,6 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
             height={1}
           >
             <Img px={1} src={twitterIcon} height="xs" />
-          </ButtonTransparentA>
-        </Box>
-        <Box minWidth="sm" overflow="hidden" bg="transparent">
-          <ButtonTransparentA
-            href="https://github.com/heyrict/cindy-next"
-            target="_blank"
-            height={1}
-          >
-            <Img px={1} src={githubIcon} height="xs" />
           </ButtonTransparentA>
         </Box>
         <Flex

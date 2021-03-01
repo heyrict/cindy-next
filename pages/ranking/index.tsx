@@ -89,10 +89,14 @@ const Ranking = () => {
   );
 };
 
-export async function getStaticProps() {
+export const getStaticProps = async () => {
   return {
-    props: {},
+    props: {
+      serverSideContext: {
+        route: '/ranking',
+      },
+    },
   };
-}
+};
 
 export default Ranking;

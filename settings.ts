@@ -103,6 +103,8 @@ export const SCRIPTS = isDev
       //'(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-7445097696449097",enable_page_level_ads:true});',
     ];
 
+export const enableGoogleAds = false;
+
 export const googleAdClientToken = 'ca-pub-7445097696449097';
 export const googleAnalyticsTrackingID = 'UA-117095987-1';
 

@@ -5,6 +5,7 @@ import userMessages from 'messages/components/user';
 import authMessages from 'messages/components/auth';
 
 import { Flex, Box } from 'components/General';
+import ProfileIcon from './ProfileIcon';
 import ProfileContent from './ProfileContent';
 import ProfileUserAwards from './ProfileUserAwards';
 
@@ -136,6 +137,10 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => (
               )}
           </Flex>
         </Flex>
+        <ProfileIcon
+          userId={user.id}
+          icon={user.icon}
+        />
         <Flex mx={1} my={2} py={2}>
           <ProfileUserAwards
             currentUserAward={user.currentAward}

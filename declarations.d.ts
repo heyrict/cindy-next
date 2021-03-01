@@ -50,3 +50,8 @@ declare module 'markdown-it-emoji/light' {
   const returns: any;
   export default returns;
 }
+
+declare module '@multiavatar/multiavatar' {
+  const multiavatar = (obj, trans = false) => any;
+  export default multiavatar;
+}

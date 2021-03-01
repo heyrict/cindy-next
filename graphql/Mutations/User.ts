@@ -11,6 +11,15 @@ export const EDIT_PROFILE_MUTATION = gql`
   }
 `;
 
+export const EDIT_ICON_MUTATION = gql`
+  mutation EditIconMutation($userId: Int!, $icon: String) {
+    updateUser(id: $userId, set: { icon: $icon }) {
+      id
+      icon
+    }
+  }
+`;
+
 export const CHANGE_CURRERNT_USERAWARD_MUTATION = gql`
   mutation ChangeCurrentUserawardMutation($userId: Int!, $userawardId: Int) {
     updateUser(id: $userId, set: { currentAwardId: $userawardId }) {

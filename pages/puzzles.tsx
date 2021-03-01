@@ -346,7 +346,7 @@ const Puzzles = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ctx => {
   const apolloClient: ApolloClient<object> = initializeApollo();
 
   await Promise.all([
@@ -360,6 +360,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
+      serverSideContext: {
+        cookie: ctx.req.headers.cookie || null,
+        route: ctx.resolvedUrl,
+      },
     },
   };
 };

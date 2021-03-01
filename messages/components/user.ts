@@ -19,6 +19,10 @@ export const messages = defineMessages({
     id: `${scope}.useraward`,
     defaultMessage: 'Award',
   },
+  avatar: {
+    id: `${scope}.avatar`,
+    defaultMessage: 'Avatar',
+  },
   puzzleCount: {
     id: `${scope}.puzzleCount`,
     defaultMessage: 'Puzzles',

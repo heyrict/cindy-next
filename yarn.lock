@@ -1414,6 +1414,11 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@multiavatar/multiavatar@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@multiavatar/multiavatar/-/multiavatar-1.0.5.tgz#65e011c8d5bd5651fcd3b254b01b468622afbac1"
+  integrity sha512-S+SQ3LggafLfZxIYbFLvqXUCWr2Ql35g/+t+tCfnW4O9ly8xA9MRoUm8tkfdy31doFGNbmXm6dczXBvKV2G8xg==
+
 "@next/env@10.0.4":
   version "10.0.4"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-10.0.4.tgz#ac759094d021853616af56a7bd6720e44a92a303"

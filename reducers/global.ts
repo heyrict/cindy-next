@@ -16,6 +16,7 @@ export enum actionTypes {
   ASIDE = 'global.ASIDE',
   CHANNEL = 'global.CHANNEL',
   SETUSER = 'global.SETUSER',
+  UPDATE_ICON = 'global.UPDATE_ICON',
   APPINIT = 'global.APPINIT',
   ROUTECHANGE = 'global.ROUTECHANGE',
   TOOLBAR_MENU = 'global.TOOLBAR_MENU',
@@ -27,6 +28,7 @@ export type ActionPayloadType = {
   ASIDE: ReturnType<ValueOf<bool.HelperActionType>>;
   CHANNEL: ReturnType<ValueOf<base.HelperActionType<string>>>;
   SETUSER: GlobalUserType;
+  UPDATE_ICON: { icon: string | null };
   ROUTECHANGE: { url: string };
   TOOLBAR_MENU: ReturnType<
     ValueOf<enumerate.HelperActionType<ToolbarResponsiveMenuType>>
@@ -64,6 +66,11 @@ export const actions = {
     ({
       type: actionTypes.SETUSER,
       payload: user,
+    } as const),
+  updateIcon: (icon: string | null) =>
+    ({
+      type: actionTypes.UPDATE_ICON,
+      payload: { icon },
     } as const),
   deauth: () =>
     ({
@@ -108,6 +115,14 @@ export const reducer = (
       return {
         ...state,
         user: action.payload,
+      };
+    case actionTypes.UPDATE_ICON:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          icon: action.payload.icon,
+        },
       };
     case actionTypes.TOOLBAR_MENU:
       return {

@@ -11,7 +11,7 @@ import { useQuery } from '@apollo/client';
 import { ALL_AWARDS_QUERY } from 'graphql/Queries/Awards';
 import {
   PUZZLE_GENRE_GROUPS_QUERY,
-  PUZZLE_STAR_COUNT_GROUPS_QUERY,
+  PUZZLE_STAR_SUM_GROUPS_QUERY,
   USER_MAX_YAMI_DIALOGUE_COUNT_QUERY,
 } from 'graphql/Queries/Puzzles';
 
@@ -35,9 +35,9 @@ import {
 } from 'components/AwardChecker/constants';
 import { AllAwardsProps, AwardStatusType } from './types';
 import {
-  PuzzleStarCountGroupsQuery,
-  PuzzleStarCountGroupsQueryVariables,
-} from 'graphql/Queries/generated/PuzzleStarCountGroupsQuery';
+  PuzzleStarSumGroupsQuery,
+  PuzzleStarSumGroupsQueryVariables,
+} from 'graphql/Queries/generated/PuzzleStarSumGroupsQuery';
 import {
   UserMaxYamiDialogueCountQuery,
   UserMaxYamiDialogueCountQueryVariables,
@@ -249,10 +249,10 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
       >
         {userInfo ? (
           <Query<
-            PuzzleStarCountGroupsQuery,
-            PuzzleStarCountGroupsQueryVariables
+            PuzzleStarSumGroupsQuery,
+            PuzzleStarSumGroupsQueryVariables
           >
-            query={PUZZLE_STAR_COUNT_GROUPS_QUERY}
+            query={PUZZLE_STAR_SUM_GROUPS_QUERY}
             variables={{ userId: userInfo.id }}
           >
             {({ error, data, loading }) => {
@@ -264,10 +264,10 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
                 if (loading) return <Loading centered />;
                 return null;
               }
-              const groups = data.puzzleStarCountGroups;
-              let totalStarCount = 0;
+              const groups = data.puzzleStarSumGroups;
+              let totalStarSum = 0;
               groups.forEach(grp => {
-                totalStarCount += grp.group * grp.puzzleCount;
+                totalStarSum += grp.group * grp.puzzleCount;
               });
 
               return (
@@ -320,7 +320,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
                         return AwardStatusType.GET;
                       }
 
-                      if (totalStarCount >= awardObj) {
+                      if (totalStarSum >= awardObj) {
                         return AwardStatusType.REACH;
                       }
                       return AwardStatusType.WAIT;

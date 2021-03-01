@@ -1,4 +1,5 @@
 import React from 'react';
+import multiavatar from '@multiavatar/multiavatar';
 
 import { Img, Anchor, Box } from 'components/General';
 import { UserColBase } from './shared';
@@ -19,15 +20,26 @@ const UserCol = ({ user, timestamp, ...props }: UserColProps) => {
 
   return (
     <UserColBase {...props}>
-      {user.icon && (
-        <Img
-          mr={1}
-          size="sm"
-          border="1px solid"
-          borderRadius={4}
-          src={user.icon}
-        />
-      )}
+      {user.icon &&
+        (user.icon.startsWith('multiavatar://') ? (
+          <Box
+            mr={1}
+            size="sm"
+            border="1px solid"
+            borderRadius={4}
+            dangerouslySetInnerHTML={{
+              __html: multiavatar(user.icon.slice(14), true),
+            }}
+          />
+        ) : (
+          <Img
+            mr={1}
+            size="sm"
+            border="1px solid"
+            borderRadius={4}
+            src={user.icon}
+          />
+        ))}
       {NicknameBlock}
       {user.currentAward && (
         <Box fontSize="0.9em">
