@@ -30,14 +30,18 @@ const withLogin = Wrapped =>
               .then(res => {
                 const { data, error } = res;
                 if (!error) {
-                  setCookie(
-                    'cindy-jwt-token',
-                    data.auth_token,
-                    30 * 24 * 60 * 60,
-                  );
-                  const user = getUser();
-                  if (user) {
-                    props.auth(user);
+                  try {
+                    setCookie(
+                      'cindy-jwt-token',
+                      data.auth_token,
+                      30 * 24 * 60 * 60,
+                    );
+                    const user = getUser();
+                    if (user) {
+                      props.auth(user);
+                    }
+                  } catch(e) {
+                    toast.error(JSON.stringify(e))
                   }
                 } else {
                   toast.error(error);
