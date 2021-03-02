@@ -196,7 +196,7 @@ const CommentModalAddPanelRenderer = ({
             if (!inputRef.current) return;
             const content = inputRef.current.value.trim();
 
-            if (comments.length === 0) {
+            if (comments.length === 0 && content.length > 0) {
               addComment({
                 variables: {
                   puzzleId,
