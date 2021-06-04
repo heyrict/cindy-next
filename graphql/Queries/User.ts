@@ -64,8 +64,13 @@ export const USERAWARD_CHECKER_QUERY = gql`
 `;
 
 export const USER_LIST_QUERY = gql`
-  query UserListQuery($limit: Int, $offset: Int) {
-    users(limit: $limit, offset: $offset, order: { id: DESC }) {
+  query UserListQuery($limit: Int, $offset: Int, $nickname: String) {
+    users(
+      limit: $limit
+      offset: $offset
+      order: { id: DESC }
+      filter: { nickname: { like: $nickname } }
+    ) {
       id
       ...UserBrief
       profile
