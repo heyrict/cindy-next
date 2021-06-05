@@ -59,6 +59,25 @@ function TagsPageContents({ variables }: { variables: TagsVariablesStates }) {
   if (loading) return <Loading centered />;
   if (!data || !data.tags) return null;
 
+  const fetchNextPage = () =>
+    fetchMore({
+      query: TAGS_PAGE_QUERY,
+      variables: {
+        ...variables,
+        limit: TAGS_PER_PAGE,
+        offset: data.tags.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return {
+          ...prev,
+          tags: concatList(prev.tags, fetchMoreResult.tags),
+        };
+      },
+    }).then(({ data }) => {
+      if (data.tags.length < TAGS_PER_PAGE) setHasMore(false);
+    });
+
   const { tags } = data;
   return (
     <Flex flexWrap="wrap" alignItems="center">
@@ -82,26 +101,7 @@ function TagsPageContents({ variables }: { variables: TagsVariablesStates }) {
         </PuzzleTagBubbleBox>
       ))}
       {tags.length >= TAGS_PER_PAGE && hasMore && (
-        <LoadMoreVis
-          loadMore={() =>
-            fetchMore({
-              query: TAGS_PAGE_QUERY,
-              variables: {
-                ...variables,
-                offset: data.tags.length,
-              },
-              updateQuery: (prev, { fetchMoreResult }) => {
-                if (!fetchMoreResult) return prev;
-                return {
-                  ...prev,
-                  tags: concatList(prev.tags, fetchMoreResult.tags),
-                };
-              },
-            }).then(({ data }) => {
-              if (data.tags.length < TAGS_PER_PAGE) setHasMore(false);
-            })
-          }
-        />
+        <LoadMoreVis loadMore={fetchNextPage} />
       )}
     </Flex>
   );
@@ -115,7 +115,7 @@ const Tags = () => {
 
   const [variables, setVariables] = useState({
     name: null,
-    orderBy: [{ id: Ordering.DESC_NULLS_LAST }],
+    orderBy: [{ puzzleTagCount: Ordering.DESC_NULLS_LAST }],
   } as TagsVariablesStates);
 
   return (
@@ -128,7 +128,7 @@ const Tags = () => {
         <FormattedMessage {...tagsPageMessages.header} />
       </Heading>
       <PuzzleSubbar />
-      <Panel flexWrap="wrap">
+      <Panel style={{ minHeight: 'auto' }} flexWrap="wrap">
         <SearchVarSetPanel
           ref={searchRef}
           filters={[
@@ -141,24 +141,19 @@ const Tags = () => {
         />
         <SortVarSetPanel
           ref={sortRef}
-          initialField="id"
-          defaultValue={[{ id: Ordering.DESC_NULLS_LAST }]}
+          initialField="puzzleTagCount"
+          defaultValue={[{ puzzleTagCount: Ordering.DESC_NULLS_LAST }]}
           fields={[
             {
               key: 'id',
               fieldName: <FormattedMessage {...tagsPageMessages.tagCreated} />,
             },
-            /*
             {
-              key: 'puzzle_tag_count',
-              getValue: order => ({
-                puzzle_tags_aggregate: { count: order },
-              }),
+              key: 'puzzleTagCount',
               fieldName: (
                 <FormattedMessage {...tagsPageMessages.tagPuzzleCount} />
               ),
             },
-             */
           ]}
         />
         <Flex width={1}>
@@ -171,7 +166,9 @@ const Tags = () => {
                 searchRef.current.reset();
                 sortRef.current.reset();
                 newVariables.name = null;
-                newVariables.orderBy = [{ id: Ordering.DESC_NULLS_LAST }];
+                newVariables.orderBy = [
+                  { puzzleTagCount: Ordering.DESC_NULLS_LAST },
+                ];
 
                 setVariables(newVariables);
               }}

@@ -23,10 +23,11 @@ export const TAG_QUERY = gql`
 export const PUZZLE_TAGS_SEARCH_QUERY = gql`
   query PuzzleTagsSearchQuery($search: String, $limit: Int!) {
     tags(filter: { name: { like: $search } }, limit: $limit) {
-      ...Tag
+      id
+      name
+      created
     }
   }
-  ${TAG_FRAGMENT}
 `;
 
 export const TAGS_PAGE_QUERY = gql`
@@ -34,7 +35,7 @@ export const TAGS_PAGE_QUERY = gql`
     $name: String
     $limit: Int!
     $offset: Int!
-    $orderBy: [TagOrder!]
+    $orderBy: [TagAggrOrder!]
   ) {
     tags(
       filter: { name: { like: $name } }
@@ -42,9 +43,10 @@ export const TAGS_PAGE_QUERY = gql`
       limit: $limit
       offset: $offset
     ) {
-      ...Tag
+      id
+      name
+      created
       puzzleTagCount
     }
   }
-  ${TAG_FRAGMENT}
 `;

@@ -45,7 +45,7 @@ const Users = () => {
       <Heading>
         <FormattedMessage {...messages.header} />
       </Heading>
-      <Panel flexWrap="wrap">
+      <Panel style={{ minHeight: 'auto' }} flexWrap="wrap">
         <SearchVarSetPanel
           ref={searchRef}
           filters={[

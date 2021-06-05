@@ -4,7 +4,7 @@ import * as settingReducer from 'reducers/setting';
 import {
   Genre,
   PuzzleOrder,
-  PuzzleTagOrder,
+  PuzzleTagAggrOrder,
   Yami,
 } from 'generated/globalTypes';
 import { CommentsQueryVariables } from 'graphql/Queries/generated/CommentsQuery';
@@ -31,7 +31,7 @@ export type EULAProps = {
 
 export type TagsVariablesStates = {
   name: null | string;
-  orderBy: Array<PuzzleTagOrder>;
+  orderBy: Array<PuzzleTagAggrOrder>;
 };
 
 export type CommentsRendererProps = {
