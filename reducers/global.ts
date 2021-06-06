@@ -7,7 +7,6 @@ import {
   GlobalUserType,
   ToolbarResponsiveMenuType,
   ValueOf,
-  YandexUserReportType,
 } from './types';
 
 export const scope = 'global';
@@ -20,8 +19,6 @@ export enum actionTypes {
   APPINIT = 'global.APPINIT',
   ROUTECHANGE = 'global.ROUTECHANGE',
   TOOLBAR_MENU = 'global.TOOLBAR_MENU',
-  YANDEX_USERS_REPORT = 'global.YANDEX_USERS_REPORT',
-  FETCH_YANDEX_USERS_REPORT = 'global.FETCH_YANDEX_USERS_REPORT',
 }
 
 export type ActionPayloadType = {
@@ -33,9 +30,6 @@ export type ActionPayloadType = {
   TOOLBAR_MENU: ReturnType<
     ValueOf<enumerate.HelperActionType<ToolbarResponsiveMenuType>>
   >;
-  YANDEX_USERS_REPORT: ReturnType<
-    ValueOf<base.HelperActionType<YandexUserReportType>>
-  >;
 };
 
 export const actions = {
@@ -44,16 +38,9 @@ export const actions = {
   toolbarMenu: enumerate.wrapActions<ToolbarResponsiveMenuType>(
     actionTypes.TOOLBAR_MENU,
   ),
-  yandexUsersReport: base.wrapActions<YandexUserReportType>(
-    actionTypes.YANDEX_USERS_REPORT,
-  ),
   appInit: () =>
     ({
       type: actionTypes.APPINIT,
-    } as const),
-  fetchYandexUsersReport: () =>
-    ({
-      type: actionTypes.FETCH_YANDEX_USERS_REPORT,
     } as const),
   routeChange: (url: string) =>
     ({
@@ -93,7 +80,6 @@ export const initialState = {
   } as GlobalUserType,
   route: '',
   toolbarMenu: ToolbarResponsiveMenuType.NULL,
-  yandexUsersReport: null as YandexUserReportType,
 };
 
 export const reducer = (
@@ -128,11 +114,6 @@ export const reducer = (
       return {
         ...state,
         toolbarMenu: enumerate.helper(state.toolbarMenu, action.payload),
-      };
-    case actionTypes.YANDEX_USERS_REPORT:
-      return {
-        ...state,
-        yandexUsersReport: base.helper(state.yandexUsersReport, action.payload),
       };
     case actionTypes.ROUTECHANGE:
       return {

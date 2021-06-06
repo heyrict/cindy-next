@@ -75,7 +75,7 @@ function TagsPageContents({ variables }: { variables: TagsVariablesStates }) {
         };
       },
     }).then(({ data }) => {
-      if (data.tags.length < TAGS_PER_PAGE) setHasMore(false);
+      if (!data || data.tags.length < TAGS_PER_PAGE) setHasMore(false);
     });
 
   const { tags } = data;

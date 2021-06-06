@@ -95,32 +95,6 @@ export enum SendMessageTriggerType {
   ON_SHIFT_ENTER = 0b1000,
 }
 
-export type YandexAPIResponseType = {
-  query: any;
-  data: Array<{
-    dimensions: Array<{ id?: string; name: string }>;
-    metrics: Array<number>;
-  }>;
-  total_rows: number;
-  total_rows_rounded: boolean;
-  sampled: boolean;
-  sample_share: number;
-  sample_size: number;
-  sample_space: number;
-  data_lag: number;
-  totals: Array<number>;
-  min: Array<number>;
-  max: Array<number>;
-};
-
-export type YandexAPIErrorType = {
-  errors: Array<{ error_type: string; message: string }>;
-  code: number;
-  message: string;
-};
-
-export type YandexUserReportType = YandexAPIResponseType | null;
-
 export type TokenizeServerTokenType = {
   text: string;
   poc: string;
