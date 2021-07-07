@@ -12,7 +12,6 @@ import * as settingReducer from 'reducers/setting';
 import * as directReducer from 'reducers/direct';
 
 import { Flex, ButtonTransparent, Img, Box, RedDot } from 'components/General';
-import ActiveUserCounter from 'components/ActiveUserCounter';
 import {
   ToolbarFlex,
   ToolbarButton,
@@ -147,9 +146,6 @@ const Toolbar = ({
               >
                 <Img p={1} src={twitterIcon} height="xs" />
               </ButtonTransparentA>
-              <Flex flexGrow={1} alignItems="center" justifyContent="center">
-                <ActiveUserCounter />
-              </Flex>
             </Flex>
           </ToolbarResponsiveContents>
         </Portal>
