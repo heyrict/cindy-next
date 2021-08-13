@@ -6,14 +6,14 @@ export const getRankingDate = (d?: Date) => {
   if (date.getDate() > 15) {
     date.setMonth(date.getMonth() - 1);
     return {
-      year: date.getUTCFullYear(),
-      month: date.getUTCMonth(),
+      year: date.getFullYear(),
+      month: date.getMonth(),
     };
   } else {
     date.setMonth(date.getMonth() - 2);
     return {
-      year: date.getUTCFullYear(),
-      month: date.getUTCMonth(),
+      year: date.getFullYear(),
+      month: date.getMonth(),
     };
   }
 };
