@@ -63,7 +63,7 @@ export const PuzzleAddFormInner = ({
   const [anonymous, setAnonymous] = useState(false);
   const [grotesque, setGrotesque] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [license, setLicense] = useState<null | number>(null);
+  const [licenseId, setLicenseId] = useState<null | number>(null);
 
   const now = new Date();
   const dazedTimeOffset = getMaxDazedDays({
@@ -87,6 +87,7 @@ export const PuzzleAddFormInner = ({
         yami,
         anonymous,
         grotesque,
+        licenseId,
       };
     }
   };
@@ -239,7 +240,7 @@ export const PuzzleAddFormInner = ({
         <FormattedMessage {...puzzleMessages.license} />
       </Box>
       <Box {...fieldContentStyle}>
-        <LicenseButtons selected={license} onChange={setLicense} />
+        <LicenseButtons selected={licenseId} onChange={setLicenseId} />
       </Box>
       <Box {...inputFieldNameStyle}>
         <FormattedMessage {...puzzleMessages.content} />

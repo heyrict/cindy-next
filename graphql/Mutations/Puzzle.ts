@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 import { PUZZLE_SHARED_FRAGMENT } from '../Fragments/Puzzles';
+import { LICENSE_BRIEF_FRAGMENT } from 'graphql/Fragments/License';
 
 export const ADD_PUZZLE_MUTATION = gql`
   mutation AddPuzzleMutation(
@@ -11,6 +12,7 @@ export const ADD_PUZZLE_MUTATION = gql`
     $solution: String!
     $anonymous: Boolean!
     $grotesque: Boolean!
+    $licenseId: Int
   ) {
     createPuzzle(
       data: {
@@ -21,15 +23,20 @@ export const ADD_PUZZLE_MUTATION = gql`
         solution: $solution
         anonymous: $anonymous
         grotesque: $grotesque
+        licenseId: $licenseId
       }
     ) {
       ...PuzzleShared
       content
       solution
       memo
+      license {
+        ...LicenseBrief
+      }
     }
   }
   ${PUZZLE_SHARED_FRAGMENT}
+  ${LICENSE_BRIEF_FRAGMENT}
 `;
 
 export const EDIT_SOLUTION_MUTATION = gql`
