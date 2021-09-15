@@ -188,6 +188,19 @@ export const puzzleMessages = defineMessages({
     id: `${scope}.gotoConfirm`,
     defaultMessage: 'Go to confirm page',
   },
+  license: {
+    id: `${scope}.license`,
+    defaultMessage: 'License',
+  },
+  nolicenseHint: {
+    id: `${scope}.nolicenseHint`,
+    defaultMessage:
+      'No one is permitted to re-distribute the contents in any form without your permission',
+  },
+  licenseSummary: {
+    id: `${scope}.licenseSummary`,
+    defaultMessage: 'The content is published under the terms of {license}.',
+  },
 });
 
 export default puzzleMessages;

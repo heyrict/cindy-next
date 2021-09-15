@@ -94,12 +94,8 @@ class RightAsideBox extends React.Component<
     process.browser && window.removeEventListener('scroll', this.handleScroll);
   };
   render() {
-    const {
-      rightAside,
-      setRightAside,
-      puzzleMemo,
-      puzzleMemoHasnew,
-    } = this.props;
+    const { rightAside, setRightAside, puzzleMemo, puzzleMemoHasnew } =
+      this.props;
 
     return (
       <RightAsideBoxBase

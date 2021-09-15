@@ -32,7 +32,7 @@ const CurrentUserAward = ({ user_award }: CurrentUserAwardProps) => {
   return (
     <Manager>
       <Reference>
-        {({ ref }) => (
+        {({ ref }: any) => (
           <AnchorButton
             style={{ userSelect: 'none' }}
             ref={(r: HTMLButtonElement | null) => {
@@ -59,7 +59,7 @@ const CurrentUserAward = ({ user_award }: CurrentUserAwardProps) => {
               p={2}
               maxWidth="300px"
               ref={(r: HTMLDivElement | null) => {
-                ref(r);
+                (ref as any)(r);
                 popupRef.current = r;
               }}
               style={{

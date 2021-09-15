@@ -183,6 +183,7 @@ const AddQuestionInput = ({
                 nickname: '...',
                 username: '...',
                 currentAward: null,
+                defaultLicenseId: null,
               },
               modified: Date.now(),
             },

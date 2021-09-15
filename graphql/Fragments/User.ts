@@ -11,6 +11,7 @@ export const USER_BRIEF_FRAGMENT = gql`
     currentAward {
       ...UserAward
     }
+    defaultLicenseId
   }
   ${USER_AWARD_FRAGMENT}
 `;

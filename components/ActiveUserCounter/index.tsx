@@ -1,10 +1,10 @@
 import { FormattedMessage } from 'react-intl';
 import toolbarMessages from 'messages/components/toolbar';
 
-import {useQuery} from '@apollo/client';
-import {ONLINE_USERS_QUERY} from 'graphql/Queries/Misc';
+import { useQuery } from '@apollo/client';
+import { ONLINE_USERS_QUERY } from 'graphql/Queries/Misc';
 
-import {OnlineUsersQuery} from 'graphql/Queries/generated/OnlineUsersQuery';
+import { OnlineUsersQuery } from 'graphql/Queries/generated/OnlineUsersQuery';
 
 const ActiveUserCounter = () => {
   const { data } = useQuery<OnlineUsersQuery>(ONLINE_USERS_QUERY, {

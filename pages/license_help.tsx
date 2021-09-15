@@ -10,18 +10,18 @@ import eulaMessages from 'messages/pages/eula';
 
 import Box from 'components/General/Box';
 
-import { EULAProps } from 'pageTypes';
+import { LicenseHelpProps } from 'pageTypes';
 import { DEFAULT_LOCALE } from 'settings';
 import { StateType } from 'reducers/types';
 
-const getEULA = (locale: string) =>
-  require(`markdown/EULA/${locale}.md`).default;
+const getLicenseHelp = (locale: string) =>
+  require(`markdown/LicenseHelp/${locale}.md`).default;
 
-const EULA = ({ language }: EULAProps) => {
+const LicenseHelp = ({ language }: LicenseHelpProps) => {
   const { formatMessage: _ } = useIntl();
 
   const locale = language || DEFAULT_LOCALE;
-  const eulaText = getEULA(locale);
+  const eulaText = getLicenseHelp(locale);
 
   return (
     <React.Fragment>
@@ -53,4 +53,4 @@ export async function getStaticProps() {
   };
 }
 
-export default withRedux(EULA);
+export default withRedux(LicenseHelp);

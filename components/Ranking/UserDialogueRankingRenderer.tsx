@@ -117,6 +117,7 @@ const UserDialogueRankingRenderer = ({
   return null;
 };
 
-UserDialogueRankingRenderer.defaultProps = UserDialogueRankingRendererDefaultProps;
+UserDialogueRankingRenderer.defaultProps =
+  UserDialogueRankingRendererDefaultProps;
 
 export default UserDialogueRankingRenderer;

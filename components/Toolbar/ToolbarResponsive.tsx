@@ -131,6 +131,15 @@ const Toolbar = ({
             </Box>
             <Box width={1 / 2}>
               <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
+                <Link href="/license_help" passHref>
+                  <ButtonTransparentA height={1} width={1} color="orange.9">
+                    <FormattedMessage {...toolbarMessages.licenseHelp} />
+                  </ButtonTransparentA>
+                </Link>
+              </ToolbarResponsiveButton>
+            </Box>
+            <Box width={1 / 2}>
+              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
                 <Link href="/eula" passHref>
                   <ButtonTransparentA height={1} width={1} color="orange.9">
                     <FormattedMessage {...toolbarMessages.eula} />

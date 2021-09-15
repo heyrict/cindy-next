@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client';
 
+import { LICENSE_BRIEF_FRAGMENT } from 'graphql/Fragments/License';
+
 import {
   PUZZLE_SHARED_FRAGMENT,
   PUZZLE_AGGREGATE_FRAGMENT,
@@ -13,9 +15,13 @@ export const PUZZLE_QUERY = gql`
       dazedOn
       content
       memo
+      license {
+        ...LicenseBrief
+      }
     }
   }
   ${PUZZLE_SHARED_FRAGMENT}
+  ${LICENSE_BRIEF_FRAGMENT}
 `;
 
 export const PUZZLE_SOLUTION_QUERY = gql`

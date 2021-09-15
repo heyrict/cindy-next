@@ -46,8 +46,11 @@ class KeepBottom extends React.Component<KeepBottomProps> {
   // {{{1 shouldComponentUpdate
   shouldComponentUpdate(nextProps: KeepBottomProps, _nextState: any) {
     if (nextProps.watch.some((o, i) => o.value !== this.props.watch[i].value)) {
-      const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = this
-        .scrollerRef.current as any;
+      const {
+        scrollHeight: sh,
+        scrollTop: st,
+        clientHeight: ch,
+      } = this.scrollerRef.current as any;
       this.prevState = {
         scrollHeight: sh,
         scrollTop: st,

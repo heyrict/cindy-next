@@ -72,7 +72,7 @@ const BookmarkPanel = ({ puzzleId, userId }: BookmarkPanelProps) => {
                 <Box px={2}>
                   <Manager>
                     <Reference>
-                      {({ ref }) => (
+                      {({ ref }: any) => (
                         <BookmarkButton
                           ref={(r: HTMLButtonElement | null) => {
                             ref(r);

@@ -102,7 +102,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
         </ToolbarButton>
         <Manager>
           <Reference>
-            {({ ref }) => (
+            {({ ref }: any) => (
               <ToolbarButton
                 ref={(r: HTMLDivElement | null) => {
                   ref(r);
@@ -132,7 +132,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
           {comDropDown && (
             <Portal>
               <Popper placement="bottom-end">
-                {({ ref, style, placement }) => (
+                {({ ref, style, placement }: any) => (
                   <ToolbarDropdownContents
                     ref={(r: HTMLDivElement | null) => {
                       ref(r);
@@ -170,7 +170,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
         </Manager>
         <Manager>
           <Reference>
-            {({ ref }) => (
+            {({ ref }: any) => (
               <ToolbarButton
                 ref={(r: HTMLDivElement | null) => {
                   ref(r);
@@ -200,7 +200,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
           {helpDropDown && (
             <Portal>
               <Popper placement="bottom-end">
-                {({ ref, style, placement }) => (
+                {({ ref, style, placement }: any) => (
                   <ToolbarDropdownContents
                     ref={(r: HTMLDivElement | null) => {
                       ref(r);
@@ -230,6 +230,13 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                         </ButtonTransparentA>
                       </Link>
                     </ToolbarButton>
+                    <ToolbarButton bg="orange.5" fontWeight="bold">
+                      <Link href="/license_help" passHref>
+                        <ButtonTransparentA height={1} width={1} color="gray.1">
+                          <FormattedMessage {...toolbarMessages.licenseHelp} />
+                        </ButtonTransparentA>
+                      </Link>
+                    </ToolbarButton>
                   </ToolbarDropdownContents>
                 )}
               </Popper>
@@ -248,7 +255,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
       </ToolbarFlex>
       <Manager>
         <Reference>
-          {({ ref }) => (
+          {({ ref }: any) => (
             <ToolbarButton
               ref={(r: HTMLDivElement | null) => {
                 ref(r);
@@ -283,7 +290,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
         {dropDown && (
           <Portal>
             <Popper placement="bottom-end">
-              {({ ref, style, placement }) => (
+              {({ ref, style, placement }: any) => (
                 <ToolbarDropdownContents
                   ref={(r: HTMLDivElement | null) => {
                     ref(r);

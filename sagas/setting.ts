@@ -6,8 +6,8 @@ import * as settingReducer from 'reducers/setting';
 import { StateType } from 'reducers/types';
 
 function* saveSettings() {
-  const settings = yield select((state: StateType) =>
-    settingReducer.rootSelector(state),
+  const settings: typeof settingReducer.initialState = yield select(
+    (state: StateType) => settingReducer.rootSelector(state),
   );
   settingReducer.saveState(settings);
 }

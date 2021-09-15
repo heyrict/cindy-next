@@ -238,6 +238,7 @@ const MessageGroupChatInner = ({
             nickname: user.nickname || '...',
             username: user.username || '...',
             currentAward: null,
+            defaultLicenseId: null,
           },
           receiver: {
             __typename: 'User',
@@ -246,6 +247,7 @@ const MessageGroupChatInner = ({
             nickname: '...',
             username: '...',
             currentAward: null,
+            defaultLicenseId: null,
           },
         },
       },
@@ -414,8 +416,8 @@ const MessageGroupChat = ({
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,
   directGroupUser: directReducer.rootSelector(state).directGroupUser,
-  sendDirectmessageTrigger: settingReducer.rootSelector(state)
-    .sendDirectmessageTrigger,
+  sendDirectmessageTrigger:
+    settingReducer.rootSelector(state).sendDirectmessageTrigger,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({

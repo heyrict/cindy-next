@@ -27,7 +27,8 @@ describe('normPuzzleQjump()', () => {
   const window = new JSDOM('').window;
   const DOMPurify = createDOMPurify(window);
   const config = {
-    ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|chat):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+    ALLOWED_URI_REGEXP:
+      /^(?:(?:(?:f|ht)tps?|mailto|chat):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
     FORCE_BODY: true,
   };
   DOMPurify.addHook('afterSanitizeAttributes', normLinkHook);

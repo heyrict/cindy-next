@@ -71,27 +71,21 @@ const ChatRoomMessagesBody = ({
   const [hasMore, setHasMore] = useState(false);
 
   const client = useApolloClient();
-  const {
-    loading,
-    error,
-    data,
-    fetchMore,
-    subscribeToMore,
-    refetch,
-  } = useQuery<ChatroomChatmessages, ChatroomChatmessagesVariables>(
-    CHATROOM_CHATMESSAGES_QUERY,
-    {
-      variables: {
-        chatroomId,
-        limit: CHATMESSAGES_PER_PAGE,
+  const { loading, error, data, fetchMore, subscribeToMore, refetch } =
+    useQuery<ChatroomChatmessages, ChatroomChatmessagesVariables>(
+      CHATROOM_CHATMESSAGES_QUERY,
+      {
+        variables: {
+          chatroomId,
+          limit: CHATMESSAGES_PER_PAGE,
+        },
+        onCompleted: ({ chatmessages }) => {
+          if (chatmessages.length >= CHATMESSAGES_PER_PAGE) setHasMore(true);
+          if (chatmessages.length > 0)
+            chatmessageUpdate(chatroomId, chatmessages[0].id);
+        },
       },
-      onCompleted: ({ chatmessages }) => {
-        if (chatmessages.length >= CHATMESSAGES_PER_PAGE) setHasMore(true);
-        if (chatmessages.length > 0)
-          chatmessageUpdate(chatroomId, chatmessages[0].id);
-      },
-    },
-  );
+    );
 
   useEffect(
     () =>

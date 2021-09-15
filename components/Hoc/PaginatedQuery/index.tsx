@@ -16,7 +16,7 @@ import { Query } from '@apollo/client/react/components';
 
 class PaginatedQuery<
   TData = any,
-  TVariables = OperationVariables
+  TVariables = OperationVariables,
 > extends React.Component<
   PaginatedQueryProps<TData, TVariables>,
   PaginatedQueryStates
@@ -63,7 +63,7 @@ class PaginatedQuery<
       <React.Fragment>
         <div ref={this.topRef} />
         {Boolean(position & PaginatorBarPosition.TOP) && paginatorBar}
-        <Query<TData>
+        <Query<TData, any>
           {...queryProps}
           variables={{
             ...variables,

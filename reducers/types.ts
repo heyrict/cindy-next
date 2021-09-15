@@ -10,20 +10,18 @@ export type StateType = {
 
 export type ActionContentType<
   T extends object = { [K: string]: string }, // action types
-  P extends { [K in keyof T]?: any } = {} // payload types
-> = ValueOf<
-  {
-    [K in keyof T]: K extends keyof P
-      ? {
-          type: T[K];
-          payload: P[K];
-        }
-      : {
-          type: T[K];
-          payload?: any;
-        };
-  }
->;
+  P extends { [K in keyof T]?: any } = {}, // payload types
+> = ValueOf<{
+  [K in keyof T]: K extends keyof P
+    ? {
+        type: T[K];
+        payload: P[K];
+      }
+    : {
+        type: T[K];
+        payload?: any;
+      };
+}>;
 
 export interface ActionSetType {
   [actionName: string]: (...params: any) => ActionContentType;
@@ -105,7 +103,8 @@ export type TokenizeServerDialogueTokensType = {
   tokens: Array<TokenizeServerTokenType>;
 };
 
-export type TokenizeServerResponseType = Array<TokenizeServerDialogueTokensType>;
+export type TokenizeServerResponseType =
+  Array<TokenizeServerDialogueTokensType>;
 
 export type MilestoneType = {
   handle: string;

@@ -7,12 +7,10 @@ export type HelperPayloadType = {
 
 export type WrappedActionSubsetType<
   T = { [K: string]: string },
-  P = { [K in keyof T]: any }
-> = ValueOf<
-  {
-    [K in keyof T]: {
-      type: T[K];
-      payload: K extends keyof P ? P[K] : any;
-    };
-  }
->;
+  P = { [K in keyof T]: any },
+> = ValueOf<{
+  [K in keyof T]: {
+    type: T[K];
+    payload: K extends keyof P ? P[K] : any;
+  };
+}>;

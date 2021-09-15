@@ -1,12 +1,7 @@
 import { IntlShape } from 'react-intl';
 import * as settingReducer from 'reducers/setting';
 
-import {
-  Genre,
-  PuzzleOrder,
-  TagAggrOrder,
-  Yami,
-} from 'generated/globalTypes';
+import { Genre, PuzzleOrder, TagAggrOrder, Yami } from 'generated/globalTypes';
 import { CommentsQueryVariables } from 'graphql/Queries/generated/CommentsQuery';
 import { GlobalUserType } from 'reducers/types';
 
@@ -26,6 +21,10 @@ export type AddReplayProps = {
 };
 
 export type EULAProps = {
+  language: typeof settingReducer.initialState.language;
+};
+
+export type LicenseHelpProps = {
   language: typeof settingReducer.initialState.language;
 };
 

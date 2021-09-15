@@ -59,6 +59,10 @@ export const settingMessages = defineMessages({
     id: `${scope}.showGrotesqueWarning`,
     defaultMessage: 'Show Grotesque Warning',
   },
+  defaultLicense: {
+    id: `${scope}.defaultLicense`,
+    defaultMessage: 'Default License',
+  },
 });
 
 export default settingMessages;

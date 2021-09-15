@@ -65,7 +65,7 @@ const StarPanelInner = ({ puzzleId, canAddStar }: StarPanelProps) => {
       <Box px={2}>
         <Manager>
           <Reference>
-            {({ ref }) => (
+            {({ ref }: any) => (
               <StarButton
                 ref={(r: HTMLButtonElement | null) => {
                   ref(r);

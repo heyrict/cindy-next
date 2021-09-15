@@ -303,6 +303,13 @@ export const globalStyle = css`
       url('//db.onlinewebfonts.com/t/60376796f383e61ee182772be6ca20a9.svg#DejaVu Sans')
         format('svg');
   }
+  html {
+    min-height: 100%;
+  }
+  body,
+  div#__next {
+    min-height: calc(100vh - ${theme.sizes.toolbar});
+  }
   body {
     height: 100%;
     width: 100%;
@@ -439,7 +446,7 @@ const Layout = ({
         <Toolbar />
       </ToolbarBox>
       <Page>
-        {children}
+        <Box flexGrow={1}>{children}</Box>
         {!isChannelPage && (
           <Footer>
             <Patrons />

@@ -137,10 +137,7 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => (
               )}
           </Flex>
         </Flex>
-        <ProfileIcon
-          userId={user.id}
-          icon={user.icon}
-        />
+        <ProfileIcon userId={user.id} icon={user.icon} />
         <Flex mx={1} my={2} py={2}>
           <ProfileUserAwards
             currentUserAward={user.currentAward}

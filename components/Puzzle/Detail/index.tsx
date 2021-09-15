@@ -130,6 +130,7 @@ const PuzzleDetail = ({
         />
         <JumpButtons puzzleId={puzzle.id} />
         <ContentsFrame
+          title={puzzle.title}
           text={puzzleContent}
           anonymous={puzzle.anonymous}
           status={puzzle.status}
@@ -138,6 +139,7 @@ const PuzzleDetail = ({
           solved={
             puzzle.status === Status.UNDERGOING ? undefined : puzzle.modified
           }
+          license={puzzle.license}
         />
         {shouldShowShare && (
           <ShareFrame
@@ -249,8 +251,8 @@ const mapStateToProps = (state: StateType) => ({
   userId: globalReducer.rootSelector(state).user.id,
   solvedLongtermYami: puzzleReducer.rootSelector(state).solvedLongtermYami,
   showGrotesqueWarning: settingReducer.rootSelector(state).showGrotesqueWarning,
-  ignoredGrotesquePuzzles: settingReducer.rootSelector(state)
-    .ignoredGrotesquePuzzles,
+  ignoredGrotesquePuzzles:
+    settingReducer.rootSelector(state).ignoredGrotesquePuzzles,
 });
 
 const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({

@@ -72,9 +72,9 @@ export const actions = {
     actionTypes.LANGUAGE,
   ),
   multicol: bool.wrapActions(actionTypes.MULTICOL),
-  setState: (
-    state: { [key in keyof typeof initialState]?: typeof initialState[key] },
-  ) =>
+  setState: (state: {
+    [key in keyof typeof initialState]?: typeof initialState[key];
+  }) =>
     ({
       type: actionTypes.SET_STATE,
       payload: state,

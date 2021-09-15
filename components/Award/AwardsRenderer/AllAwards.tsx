@@ -248,10 +248,7 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
         }
       >
         {userInfo ? (
-          <Query<
-            PuzzleStarSumGroupsQuery,
-            PuzzleStarSumGroupsQueryVariables
-          >
+          <Query<PuzzleStarSumGroupsQuery, PuzzleStarSumGroupsQueryVariables>
             query={PUZZLE_STAR_SUM_GROUPS_QUERY}
             variables={{ userId: userInfo.id }}
           >

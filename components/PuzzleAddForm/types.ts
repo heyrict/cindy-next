@@ -30,3 +30,9 @@ export type PostPuzzleDetailProps = {
 export type PreviewPuzzleDetailProps = {
   getData: () => PostPuzzleDetailType;
 };
+
+export type LicenseButtonsProps = {
+  userId?: number;
+  selected: null | number;
+  onChange: (select: number | null) => any;
+};

@@ -22,7 +22,7 @@ class PuzzleTagInput extends React.PureComponent {
     return (
       <ApolloConsumer>
         {client => (
-          <AsyncCreatableSelect<PuzzleTagInputOptionType>
+          <AsyncCreatableSelect<PuzzleTagInputOptionType, false>
             isClearable
             theme={reactSelectTheme}
             styles={{

@@ -30,7 +30,7 @@ const ProfileIcon = ({ user, userId, icon, setUserIcon }: ProfileIconProps) => {
 
   useEffect(() => {
     setAvatar(icon);
-  }, [userId])
+  }, [userId]);
 
   return userId === user.id ? (
     <Flex mx={1} mt={2} pt={2}>
@@ -64,7 +64,7 @@ const ProfileIcon = ({ user, userId, icon, setUserIcon }: ProfileIconProps) => {
               size="md"
               border="1px solid"
               borderRadius={4}
-              src={avatar}
+              src={avatar || undefined}
             />
           )}
           <Flex width={1} justifyContent="space-around">

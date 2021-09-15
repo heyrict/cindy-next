@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styled from 'theme/styled';
-import { Box, Panel } from 'components/General';
+import { Box, Panel, ButtonTransparent } from 'components/General';
 import UserInline from 'components/User/UserInline';
 import { AnonymousUserInline } from 'components/User/Anonymous';
 
@@ -14,6 +14,23 @@ import { widthSplits } from './constants';
 
 import { ContentsFrameType } from './types';
 import { Status } from 'generated/globalTypes';
+import QuoteBox from './QuoteBox';
+import Tooltip from 'components/Hoc/Tooltip';
+
+const QuoteDetails = styled.details`
+  margin-top: ${styles => styles.theme.space[2]}px;
+  background: rgba(0, 0, 0, 0.1);
+  font-size: 0.8em;
+  border-radius: ${styles => styles.theme.radii[2]}px;
+`;
+
+const QuoteSummary = styled.summary`
+  ::marker {
+    content: '“';
+    font-size: 2em;
+  }
+  cursor: help;
+`;
 
 const Label = styled.span`
   padding: 5px;
@@ -29,8 +46,11 @@ const ContentBox = styled(Box)`
   font-size: 1.2em;
 `;
 
+const ButtonTransparentA = ButtonTransparent.withComponent('a');
+
 function ContentsFrame(props: ContentsFrameType) {
-  const { text, anonymous, status, user, created, solved } = props;
+  const { title, text, anonymous, status, user, created, solved, license } =
+    props;
   const shouldHideIdentity = anonymous && status === Status.UNDERGOING;
 
   return (
@@ -82,6 +102,45 @@ function ContentsFrame(props: ContentsFrameType) {
           </Label>
         </RightBox>
       ) : null}
+      {license && title && created && user && (
+        <QuoteDetails>
+          <QuoteSummary>
+            <FormattedMessage
+              {...puzzleMessages.licenseSummary}
+              values={{
+                license: (
+                  <Tooltip
+                    referenceStyles={{ display: 'inline-block' }}
+                    reference={
+                      license.url ? (
+                        <ButtonTransparentA href={license.url}>
+                          {license.name}
+                        </ButtonTransparentA>
+                      ) : (
+                        license.name
+                      )
+                    }
+                    tooltip={
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: text2md(license.description),
+                        }}
+                      />
+                    }
+                    delay={800}
+                  />
+                ),
+              }}
+            />
+          </QuoteSummary>
+          <QuoteBox
+            title={title}
+            created={created}
+            user={user}
+            license={license}
+          />
+        </QuoteDetails>
+      )}
     </Panel>
   );
 }

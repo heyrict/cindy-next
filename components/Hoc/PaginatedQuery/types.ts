@@ -23,7 +23,7 @@ type QueryPropsWithoutChildren<TData, TVariables> = {
 
 export type PaginatedQueryProps<
   TData = any,
-  TVariables = OperationVariables
+  TVariables = OperationVariables,
 > = {
   getItemCount: (data: TData) => number;
   renderItems: (data: TData) => JSX.Element | null;

@@ -21,7 +21,7 @@ export const AnonymousUserInline = ({
     <FormattedMessage {...userMessages.anonymousUser}>
       {msg => (
         <UserInline
-          user={{ ...anonymousUser, nickname: msg as string }}
+          user={{ ...anonymousUser, nickname: msg as unknown as string }}
           {...props}
         />
       )}
@@ -35,7 +35,7 @@ export const AnonymousUserCol = ({ nickname, ...props }: AnonymousUserProps) =>
     <FormattedMessage {...userMessages.anonymousUser}>
       {msg => (
         <UserCol
-          user={{ ...anonymousUser, nickname: msg as string }}
+          user={{ ...anonymousUser, nickname: msg as unknown as string }}
           {...props}
         />
       )}

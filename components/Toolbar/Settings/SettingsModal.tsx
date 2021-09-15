@@ -11,13 +11,19 @@ import {
 } from 'components/Modal';
 import { Flex, Box } from 'components/General';
 import ButtonSelectStateful from 'components/ButtonSelect/stateful';
+import LicenseButtons from 'components/PuzzleAddForm/LicensesButtons';
 
 import { FormattedMessage } from 'react-intl';
 import settingMessages from 'messages/components/setting';
 import commonMessages from 'messages/common';
 
-import { connect } from 'react-redux';
+import { useMutation, useQuery } from '@apollo/client';
+import { USER_BRIEF_QUERY } from 'graphql/Queries/User';
+
+import { connect, useDispatch } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
+import { useSelector } from 'react-redux';
+import * as globalReducer from 'reducers/global';
 
 import {
   StateType,
@@ -26,6 +32,12 @@ import {
 } from 'reducers/types';
 import { SettingsModalProps } from './types';
 import { ArgumentsType } from 'utilities';
+import { UserBriefQuery } from 'graphql/Queries/generated/UserBriefQuery';
+import { UPDATE_DEFAULT_LICENSE_MUTATION } from 'graphql/Mutations/License';
+import {
+  UpdateDefaultLicenseMutation,
+  UpdateDefaultLicenseMutationVariables,
+} from 'graphql/Mutations/generated/UpdateDefaultLicenseMutation';
 
 const booleanOptions = [
   {
@@ -65,8 +77,6 @@ const sendMessageTriggerOptions = [
 
 const SettingsModal = ({
   settingsModal,
-  setFalseSettingsModal,
-  setState,
   confirmCreatePuzzle,
   showGrotesqueWarning,
   editQuestionTrigger,
@@ -92,6 +102,24 @@ const SettingsModal = ({
   const rightAsideMiniRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const pushNotificationRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const multicolRef = useRef<ButtonSelectStateful<boolean>>(null!);
+  const dispatch = useDispatch<(action: ActionContentType) => void>();
+  const setFalseSettingsModal = () =>
+    dispatch(settingReducer.actions.settingsModal.setFalse());
+  const setState = (
+    state: ArgumentsType<typeof settingReducer.actions.setState>[0],
+  ) => dispatch(settingReducer.actions.setState(state));
+
+  const userId = useSelector(
+    (state: StateType) => globalReducer.rootSelector(state).user.id,
+  );
+  const { data: userQueryData } = useQuery<UserBriefQuery>(USER_BRIEF_QUERY, {
+    variables: { id: userId },
+    fetchPolicy: 'cache-first',
+  });
+  const [setDefaultLicense, _] = useMutation<
+    UpdateDefaultLicenseMutation,
+    UpdateDefaultLicenseMutationVariables
+  >(UPDATE_DEFAULT_LICENSE_MUTATION);
 
   return (
     <Modal show={settingsModal} closefn={() => setFalseSettingsModal()}>
@@ -241,6 +269,29 @@ const SettingsModal = ({
           <Box width={1} borderBottom="2px solid" borderColor="orange.7" mb={2}>
             <FormattedMessage {...commonMessages.others} />
           </Box>
+          {userQueryData && (
+            <>
+              <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
+                <FormattedMessage {...settingMessages.defaultLicense}>
+                  {msg => <label>{msg}</label>}
+                </FormattedMessage>
+              </Box>
+              <Box width={[1, 2 / 3, 4 / 5]} mb={2}>
+                <LicenseButtons
+                  selected={userQueryData.user.defaultLicenseId}
+                  onChange={licenseId => {
+                    if (licenseId != userQueryData.user.defaultLicenseId)
+                      setDefaultLicense({
+                        variables: {
+                          userId: userQueryData.user.id,
+                          licenseId,
+                        },
+                      });
+                  }}
+                />
+              </Box>
+            </>
+          )}
           <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
             <FormattedMessage {...settingMessages.confirmCreatePuzzle}>
               {msg => <label>{msg}</label>}

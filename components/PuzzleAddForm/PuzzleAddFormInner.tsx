@@ -13,6 +13,7 @@ import ButtonSelect from 'components/ButtonSelect';
 import { LegacyEditor } from 'components/PreviewEditor';
 import PostPuzzleButton from './PostPuzzleButton';
 import PreviewPuzzleDetail from './PreviewPuzzleDetail';
+import LicenseButtons from './LicensesButtons';
 
 import { StateType } from 'reducers/types';
 import { stampNamespaces } from 'stamps/types';
@@ -62,6 +63,7 @@ export const PuzzleAddFormInner = ({
   const [anonymous, setAnonymous] = useState(false);
   const [grotesque, setGrotesque] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [license, setLicense] = useState<null | number>(null);
 
   const now = new Date();
   const dazedTimeOffset = getMaxDazedDays({
@@ -232,6 +234,12 @@ export const PuzzleAddFormInner = ({
             },
           ]}
         />
+      </Box>
+      <Box {...selectFieldNameStyle}>
+        <FormattedMessage {...puzzleMessages.license} />
+      </Box>
+      <Box {...fieldContentStyle}>
+        <LicenseButtons selected={license} onChange={setLicense} />
       </Box>
       <Box {...inputFieldNameStyle}>
         <FormattedMessage {...puzzleMessages.content} />

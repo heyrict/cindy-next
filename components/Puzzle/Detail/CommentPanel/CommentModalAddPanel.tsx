@@ -216,6 +216,7 @@ const CommentModalAddPanelRenderer = ({
                       currentAward: null,
                       nickname: '...',
                       username: '...',
+                      defaultLicenseId: null,
                     },
                   },
                 },

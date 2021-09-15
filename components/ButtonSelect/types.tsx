@@ -2,6 +2,7 @@ export type ButtonSelectOptionType<TValue = any> = {
   key: string | number;
   value: TValue;
   label?: React.ReactNode;
+  hint?: React.ReactNode;
 };
 
 export const buttonSelectDefaultProps = {

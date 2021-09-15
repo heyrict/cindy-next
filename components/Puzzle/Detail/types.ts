@@ -1,5 +1,6 @@
 import { InlineUser } from 'components/User/types';
 import { Genre, Yami, Status } from 'generated/globalTypes';
+import { LicenseBrief } from 'graphql/Fragments/generated/LicenseBrief';
 
 export type PuzzleType = {
   id: number;
@@ -15,6 +16,7 @@ export type PuzzleType = {
   user: InlineUser;
   created: string;
   modified: string;
+  license?: LicenseBrief | null;
 };
 
 export type QuestionInputWidgetProps = {
@@ -33,12 +35,14 @@ export type ReplayPanelProps = {
 };
 
 export type ContentsFrameType = {
+  title?: string;
   text: React.ReactNode;
   anonymous?: boolean;
   status?: Status;
   user?: InlineUser;
   created?: string;
   solved?: string;
+  license?: LicenseBrief | null;
 };
 
 export type MemoFrameType = {

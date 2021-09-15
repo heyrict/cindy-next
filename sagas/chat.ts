@@ -26,7 +26,7 @@ function* setChatHasnew(action: ActionContentType) {
   };
   lastPayload = innerAction;
 
-  const aside = yield select(
+  const aside: boolean = yield select(
     (state: StateType) => globalReducer.rootSelector(state).aside,
   );
   const chatStatStore = getHashStore(
@@ -57,7 +57,7 @@ function* readChat() {
   const chatStatStore = getHashStore(
     CHAT_HASNEW_HASH_STORE_KEY,
   ) as ChatStoreType;
-  const aside = yield select(
+  const aside: boolean = yield select(
     (state: StateType) => globalReducer.rootSelector(state).aside,
   );
 

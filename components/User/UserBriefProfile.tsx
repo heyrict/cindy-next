@@ -58,7 +58,7 @@ const UserBriefProfile = ({
         {({ ref }) => (
           <AnchorButton
             ref={(r: HTMLButtonElement | null) => {
-              ref(r);
+              (ref as any)(r);
               btnRef.current = r;
             }}
             maxWidth="12em"
@@ -78,7 +78,7 @@ const UserBriefProfile = ({
               p={2}
               maxWidth="500px"
               ref={(r: HTMLDivElement | null) => {
-                ref(r);
+                (ref as any)(r);
                 popupRef.current = r;
               }}
               style={{

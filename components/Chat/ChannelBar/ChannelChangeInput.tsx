@@ -40,7 +40,7 @@ const ChannelChangeInput = ({
           <Input
             type="text"
             style={{ flexGrow: 5 }}
-            placeholder={msg as string}
+            placeholder={msg as unknown as string}
             value={channelChangeInput}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               if (waitHandle.current) {

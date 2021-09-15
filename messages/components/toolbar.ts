@@ -27,6 +27,10 @@ export const messages = defineMessages({
     id: `${scope}.eula`,
     defaultMessage: 'EULA',
   },
+  licenseHelp: {
+    id: `${scope}.licenseHelp`,
+    defaultMessage: 'About license',
+  },
   usersOnline: {
     id: `${scope}.usersOnline`,
     defaultMessage: 'Online Users: {count}',

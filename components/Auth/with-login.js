@@ -40,8 +40,8 @@ const withLogin = Wrapped =>
                     if (user) {
                       props.auth(user);
                     }
-                  } catch(e) {
-                    toast.error(JSON.stringify(e))
+                  } catch (e) {
+                    toast.error(JSON.stringify(e));
                   }
                 } else {
                   toast.error(error);

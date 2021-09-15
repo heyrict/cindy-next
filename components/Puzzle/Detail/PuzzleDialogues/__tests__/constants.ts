@@ -7,6 +7,7 @@ export const users = {
     nickname: 'Foo',
     username: 'Foo',
     currentAward: null,
+    defaultLicenseId: null,
     __typename: 'User' as 'User',
   },
   bar: {
@@ -15,6 +16,7 @@ export const users = {
     nickname: 'Bar',
     username: 'Bar',
     currentAward: null,
+    defaultLicenseId: null,
     __typename: 'User' as 'User',
   },
   carrot: {
@@ -23,6 +25,7 @@ export const users = {
     nickname: 'Carrot',
     username: 'last_scene',
     currentAward: null,
+    defaultLicenseId: null,
     __typename: 'User' as 'User',
   },
 };

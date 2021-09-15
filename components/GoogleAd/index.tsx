@@ -51,11 +51,12 @@ const mapStateToProps = (state: StateType) => ({
 
 const withRedux = connect(mapStateToProps);
 
-export const registerGoogleAd = ({ clientToken }: { clientToken: string }) => (
-  Wrapped: React.FC<any>,
-) => (props: Omit<GoogleAdProps, 'client'>) =>
-  clientToken ? <Wrapped client={clientToken} {...props} /> : null;
+export const registerGoogleAd =
+  ({ clientToken }: { clientToken: string }) =>
+  (Wrapped: React.FC<any>) =>
+  (props: Omit<GoogleAdProps, 'client'>) =>
+    clientToken ? <Wrapped client={clientToken} {...props} /> : null;
 
-export default enableGoogleAds ? withRedux(
-  registerGoogleAd({ clientToken: googleAdClientToken })(GoogleAd),
-) : () => null;
+export default enableGoogleAds
+  ? withRedux(registerGoogleAd({ clientToken: googleAdClientToken })(GoogleAd))
+  : () => null;
