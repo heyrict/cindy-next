@@ -201,6 +201,14 @@ export const puzzleMessages = defineMessages({
     id: `${scope}.licenseSummary`,
     defaultMessage: 'The content is published under the terms of {license}.',
   },
+  allRightsReserved: {
+    id: `${scope}.allRightsReserved`,
+    defaultMessage: '© {year} {user}',
+  },
+  quotePlain: {
+    id: `${scope}.quotePlain`,
+    defaultMessage: '{title}. Created by {user} at Cindy. (URL: {url}).',
+  },
 });
 
 export default puzzleMessages;

@@ -6,7 +6,7 @@ import QuotePlain from './QuotePlain';
 
 import { QuoteBoxProps, QuoteTabs } from './types';
 
-const QuoteBox = ({ user, created, title, license }: QuoteBoxProps) => {
+const QuoteBox = ({ user, created, title }: QuoteBoxProps) => {
   const [tab, setTab] = useState(QuoteTabs.PLAIN);
 
   const currentTab = (() => {
@@ -17,7 +17,6 @@ const QuoteBox = ({ user, created, title, license }: QuoteBoxProps) => {
             user={user}
             created={created}
             title={title}
-            license={license}
           />
         );
       case QuoteTabs.BIBTEX:
@@ -26,7 +25,6 @@ const QuoteBox = ({ user, created, title, license }: QuoteBoxProps) => {
             user={user}
             created={created}
             title={title}
-            license={license}
           />
         );
     }
