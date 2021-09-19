@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_LOCALE } from 'settings';
 
 import { useSelector } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
@@ -26,7 +27,7 @@ const QuoteBiblatex = ({ user, created, title }: QuoteBiblatexProps) => {
     process.browser && window && window.location ? window.location.href : ''
   }},
   urldate = {${now.toISOString().slice(0, 10)}},
-  langid = {${language}},
+  langid = {${language || DEFAULT_LOCALE}},
   organization = {{Cindy (https://www.cindythink.com/)}}
 }`}
       </code>

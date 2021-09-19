@@ -248,6 +248,7 @@ const ChatRoomMessagesBody = ({
             )}
             {hasMore && (
               <LoadMoreVis
+                wait={800}
                 loadMore={() => {
                   fetchMore({
                     variables: {
