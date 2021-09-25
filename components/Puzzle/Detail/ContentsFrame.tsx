@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styled from 'theme/styled';
-import { Box, Panel, ButtonTransparent } from 'components/General';
+import { Box, Panel, ButtonTransparent, Img } from 'components/General';
 import UserInline from 'components/User/UserInline';
 import { AnonymousUserInline } from 'components/User/Anonymous';
 
@@ -51,11 +51,6 @@ const ImageBox = styled(Box)`
   justify-content: center;
 `;
 
-const ResponsiveImg = styled.img`
-  max-width: 100%;
-  max-height: 100%;
-`;
-
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
 function ContentsFrame(props: ContentsFrameType) {
@@ -83,7 +78,7 @@ function ContentsFrame(props: ContentsFrameType) {
     <Panel display="block" width={1} mx={widthSplits[2]} my={3}>
       {imgBase64 ? (
         <ImageBox>
-          <ResponsiveImg src={imgBase64} />
+          <Img src={imgBase64} />
         </ImageBox>
       ) : null}
       {typeof text === 'string' ? (
