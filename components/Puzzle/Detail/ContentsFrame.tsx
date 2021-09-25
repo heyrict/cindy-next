@@ -46,21 +46,46 @@ const ContentBox = styled(Box)`
   font-size: 1.2em;
 `;
 
+const ImageBox = styled(Box)`
+  display: flex;
+  justify-content: center;
+`;
+
+const ResponsiveImg = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+`;
+
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
 function ContentsFrame(props: ContentsFrameType) {
-  const { title, text, anonymous, status, user, created, solved, license, contentImage } =
-    props;
+  const {
+    title,
+    text,
+    anonymous,
+    status,
+    user,
+    created,
+    solved,
+    license,
+    contentImage,
+  } = props;
   const shouldHideIdentity = anonymous && status === Status.UNDERGOING;
 
   let imgBase64 = '';
-  if(contentImage) {
+  if (contentImage) {
     const buffer = new Uint8Array(contentImage);
-    imgBase64 = 'data:image/png;base64,' + Buffer.from(buffer).toString('base64');  
+    imgBase64 =
+      'data:image/png;base64,' + Buffer.from(buffer).toString('base64');
   }
 
   return (
     <Panel display="block" width={1} mx={widthSplits[2]} my={3}>
+      {imgBase64 ? (
+        <ImageBox>
+          <ResponsiveImg src={imgBase64} />
+        </ImageBox>
+      ) : null}
       {typeof text === 'string' ? (
         <ContentBox
           px={2}
@@ -69,12 +94,6 @@ function ContentsFrame(props: ContentsFrameType) {
       ) : (
         text
       )}
-
-      {imgBase64 ? (
-        <img 
-          src={imgBase64} />
-      ): null}
-
       <br />
       {user && (
         <RightBox>
@@ -156,11 +175,7 @@ function ContentsFrame(props: ContentsFrameType) {
               />
             )}
           </QuoteSummary>
-          <QuoteBox
-            title={title}
-            created={created}
-            user={user}
-          />
+          <QuoteBox title={title} created={created} user={user} />
         </QuoteDetails>
       )}
     </Panel>

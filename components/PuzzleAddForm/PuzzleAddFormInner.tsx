@@ -90,7 +90,7 @@ export const PuzzleAddFormInner = ({
         anonymous,
         grotesque,
         licenseId,
-        contentImage
+        contentImage,
       };
     }
   };
@@ -263,18 +263,18 @@ export const PuzzleAddFormInner = ({
           {...fieldInputStyle}
           src={contentImageStr}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            if(e.target.files && e.target.files[0]) {
+            if (e.target.files && e.target.files[0]) {
               const file = e.target.files[0];
               const bytesReader = new FileReader();
               const dataReader = new FileReader();
               bytesReader.onload = (e: any) => {
                 const bytes = new Uint8Array(e.target.result);
-                if(bytes) setContentImage([...bytes]);
-              }
+                if (bytes) setContentImage([...bytes]);
+              };
               dataReader.onload = (e: any) => {
-                console.log(e.target.result)
-                setContentImageStr(e.target.result)
-              }
+                console.log(e.target.result);
+                setContentImageStr(e.target.result);
+              };
               dataReader.readAsDataURL(file);
               bytesReader.readAsArrayBuffer(file);
             }

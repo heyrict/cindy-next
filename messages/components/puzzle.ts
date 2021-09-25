@@ -211,8 +211,8 @@ export const puzzleMessages = defineMessages({
   },
   puzzleImage: {
     id: `${scope}.puzzleImage`,
-    defaultMessage: 'Puzzle Image'
-  }
+    defaultMessage: 'Puzzle Image',
+  },
 });
 
 export default puzzleMessages;
