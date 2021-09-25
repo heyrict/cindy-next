@@ -209,6 +209,10 @@ export const puzzleMessages = defineMessages({
     id: `${scope}.quotePlain`,
     defaultMessage: '{title}. Created by {user} at Cindy. (URL: {url}).',
   },
+  puzzleImage: {
+    id: `${scope}.puzzleImage`,
+    defaultMessage: 'Puzzle Image'
+  }
 });
 
 export default puzzleMessages;

@@ -13,6 +13,7 @@ export const ADD_PUZZLE_MUTATION = gql`
     $anonymous: Boolean!
     $grotesque: Boolean!
     $licenseId: Int
+    $contentImage: [Int!]
   ) {
     createPuzzle(
       data: {
@@ -24,6 +25,7 @@ export const ADD_PUZZLE_MUTATION = gql`
         anonymous: $anonymous
         grotesque: $grotesque
         licenseId: $licenseId
+        contentImage: $contentImage
       }
     ) {
       ...PuzzleShared

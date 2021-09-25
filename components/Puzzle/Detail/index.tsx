@@ -140,6 +140,7 @@ const PuzzleDetail = ({
             puzzle.status === Status.UNDERGOING ? undefined : puzzle.modified
           }
           license={puzzle.license}
+          contentImage={puzzle.contentImage}
         />
         {shouldShowShare && (
           <ShareFrame

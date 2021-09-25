@@ -18,6 +18,7 @@ export const PUZZLE_QUERY = gql`
       license {
         ...LicenseBrief
       }
+      contentImage
     }
   }
   ${PUZZLE_SHARED_FRAGMENT}

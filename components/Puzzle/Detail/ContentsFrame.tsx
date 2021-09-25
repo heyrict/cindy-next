@@ -49,9 +49,15 @@ const ContentBox = styled(Box)`
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
 function ContentsFrame(props: ContentsFrameType) {
-  const { title, text, anonymous, status, user, created, solved, license } =
+  const { title, text, anonymous, status, user, created, solved, license, contentImage } =
     props;
   const shouldHideIdentity = anonymous && status === Status.UNDERGOING;
+
+  let imgBase64 = '';
+  if(contentImage) {
+    const buffer = new Uint8Array(contentImage);
+    imgBase64 = 'data:image/png;base64,' + Buffer.from(buffer).toString('base64');  
+  }
 
   return (
     <Panel display="block" width={1} mx={widthSplits[2]} my={3}>
@@ -63,6 +69,12 @@ function ContentsFrame(props: ContentsFrameType) {
       ) : (
         text
       )}
+
+      {imgBase64 ? (
+        <img 
+          src={imgBase64} />
+      ): null}
+
       <br />
       {user && (
         <RightBox>
@@ -102,6 +114,7 @@ function ContentsFrame(props: ContentsFrameType) {
           </Label>
         </RightBox>
       ) : null}
+
       {license !== undefined && title && created && user && (
         <QuoteDetails>
           <QuoteSummary>

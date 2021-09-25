@@ -64,6 +64,8 @@ export const PuzzleAddFormInner = ({
   const [grotesque, setGrotesque] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [licenseId, setLicenseId] = useState<null | number>(null);
+  const [contentImage, setContentImage] = useState<null | number[]>(null);
+  const [contentImageStr, setContentImageStr] = useState('');
 
   const now = new Date();
   const dazedTimeOffset = getMaxDazedDays({
@@ -88,6 +90,7 @@ export const PuzzleAddFormInner = ({
         anonymous,
         grotesque,
         licenseId,
+        contentImage
       };
     }
   };
@@ -250,6 +253,34 @@ export const PuzzleAddFormInner = ({
           useNamespaces={[stampNamespaces.puzzle]}
           ref={contentEditor}
         />
+      </Box>
+      <Box {...inputFieldNameStyle}>
+        <FormattedMessage {...puzzleMessages.puzzleImage} />
+      </Box>
+      <Box {...fieldContentStyle}>
+        <Input
+          type="file"
+          {...fieldInputStyle}
+          src={contentImageStr}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            if(e.target.files && e.target.files[0]) {
+              const file = e.target.files[0];
+              const bytesReader = new FileReader();
+              const dataReader = new FileReader();
+              bytesReader.onload = (e: any) => {
+                const bytes = new Uint8Array(e.target.result);
+                if(bytes) setContentImage([...bytes]);
+              }
+              dataReader.onload = (e: any) => {
+                console.log(e.target.result)
+                setContentImageStr(e.target.result)
+              }
+              dataReader.readAsDataURL(file);
+              bytesReader.readAsArrayBuffer(file);
+            }
+          }}
+        />
+        <img src={contentImageStr}></img>
       </Box>
       <Box {...inputFieldNameStyle}>
         <FormattedMessage {...puzzleMessages.solution} />

@@ -43,6 +43,7 @@ export type ContentsFrameType = {
   created?: string;
   solved?: string;
   license?: LicenseBrief | null;
+  contentImage?: number[] | null;
 };
 
 export type MemoFrameType = {
