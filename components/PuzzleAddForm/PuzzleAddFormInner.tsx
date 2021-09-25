@@ -8,7 +8,7 @@ import { FormattedMessage, FormattedDate } from 'react-intl';
 import commonMessages from 'messages/common';
 import puzzleMessages from 'messages/components/puzzle';
 
-import { Flex, Box, Input, ButtonTransparent } from 'components/General';
+import { Flex, Box, Input, ButtonTransparent, Img } from 'components/General';
 import ButtonSelect from 'components/ButtonSelect';
 import { LegacyEditor } from 'components/PreviewEditor';
 import PostPuzzleButton from './PostPuzzleButton';
@@ -280,7 +280,9 @@ export const PuzzleAddFormInner = ({
             }
           }}
         />
-        <img src={contentImageStr}></img>
+      {contentImageStr ? (
+        <Img src={contentImageStr}></Img>
+      ): null}
       </Box>
       <Box {...inputFieldNameStyle}>
         <FormattedMessage {...puzzleMessages.solution} />
