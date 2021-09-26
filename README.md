@@ -14,7 +14,7 @@ which comes from the popular original character of [Cindy](http://sui-hei.net/ap
 
 *Cindy-Next* is designed to be run in parallel with *Cindy-Next-Rust*. Make sure you have set it up following [the instructions there](https://github.com/heyrict/cindy-next-rust/blob/master/README.md#dependencies)
 
-- Postgresql
+- Postgresql ≥ 12
 
     ```bash
     # Debian-based systems
@@ -35,6 +35,26 @@ which comes from the popular original character of [Cindy](http://sui-hei.net/ap
   You also need to install the required packages with `pip install -r ./python/requirements.txt`.
 
 Also, there are some sample configs for `systemd` and `nginx`, which are used in production in *Cindy*. You can find then in `./config` folder. Useful scripts for automatic updates written in python are stored in `./config/cron`.
+
+## Dev-Requisitories
+
+In addition to [the requirements above](#requisitories), some extra tools are needed for development.
+
+- dev packages
+
+    ```bash
+    yarn
+    ```
+
+- global binaries
+
+    ```bash
+    yarn global add graphqurl apollo
+    ```
+
+For convenience, configs for some other tools are available in this repository.
+
+- Graphql Playground
 
 ## Environment Variables
 ### For next server
