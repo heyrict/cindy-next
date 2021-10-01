@@ -102,54 +102,54 @@ function ContentsFrame(props: ContentsFrameType) {
           </Label>
         </RightBox>
       ) : null}
-      {license !== undefined && title && created && user && (
-        <QuoteDetails>
-          <QuoteSummary>
-            {license ? (
-              <FormattedMessage
-                {...puzzleMessages.licenseSummary}
-                values={{
-                  license: (
-                    <Tooltip
-                      referenceStyles={{ display: 'inline-block' }}
-                      reference={
-                        license.url ? (
-                          <ButtonTransparentA href={license.url}>
-                            {license.name}
-                          </ButtonTransparentA>
-                        ) : (
-                          license.name
-                        )
-                      }
-                      tooltip={
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: text2md(license.description),
-                          }}
-                        />
-                      }
-                      delay={800}
-                    />
-                  ),
-                }}
-              />
-            ) : (
-              <FormattedMessage
-                {...puzzleMessages.allRightsReserved}
-                values={{
-                  year: new Date(created).getFullYear(),
-                  user: user.nickname,
-                }}
-              />
-            )}
-          </QuoteSummary>
-          <QuoteBox
-            title={title}
-            created={created}
-            user={user}
-          />
-        </QuoteDetails>
-      )}
+      {license !== undefined &&
+        !shouldHideIdentity &&
+        title &&
+        created &&
+        user && (
+          <QuoteDetails>
+            <QuoteSummary>
+              {license ? (
+                <FormattedMessage
+                  {...puzzleMessages.licenseSummary}
+                  values={{
+                    license: (
+                      <Tooltip
+                        referenceStyles={{ display: 'inline-block' }}
+                        reference={
+                          license.url ? (
+                            <ButtonTransparentA href={license.url}>
+                              {license.name}
+                            </ButtonTransparentA>
+                          ) : (
+                            license.name
+                          )
+                        }
+                        tooltip={
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: text2md(license.description),
+                            }}
+                          />
+                        }
+                        delay={800}
+                      />
+                    ),
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  {...puzzleMessages.allRightsReserved}
+                  values={{
+                    year: new Date(created).getFullYear(),
+                    user: user.nickname,
+                  }}
+                />
+              )}
+            </QuoteSummary>
+            <QuoteBox title={title} created={created} user={user} />
+          </QuoteDetails>
+        )}
     </Panel>
   );
 }
