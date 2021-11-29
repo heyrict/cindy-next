@@ -1,7 +1,7 @@
 import { ApolloConsumer } from '@apollo/client';
 import { connect } from 'react-redux';
 import { setCookie } from 'common/cookie';
-import { getUser } from 'common/auth';
+import { getUser, parseAuthToken } from 'common/auth';
 import { toast } from 'react-toastify';
 
 import * as globalReducer from 'reducers/global';
@@ -36,7 +36,7 @@ const withLogin = Wrapped =>
                       data.auth_token,
                       30 * 24 * 60 * 60,
                     );
-                    const user = getUser();
+                    const user = parseAuthToken(data.auth_token).clm.user;
                     if (user) {
                       props.auth(user);
                     }
