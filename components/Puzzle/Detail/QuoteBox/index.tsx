@@ -12,21 +12,9 @@ const QuoteBox = ({ user, created, title }: QuoteBoxProps) => {
   const currentTab = (() => {
     switch (tab) {
       case QuoteTabs.PLAIN:
-        return (
-          <QuotePlain
-            user={user}
-            created={created}
-            title={title}
-          />
-        );
+        return <QuotePlain user={user} created={created} title={title} />;
       case QuoteTabs.BIBTEX:
-        return (
-          <QuoteBiblatex
-            user={user}
-            created={created}
-            title={title}
-          />
-        );
+        return <QuoteBiblatex user={user} created={created} title={title} />;
     }
   })();
 

@@ -28,3 +28,9 @@ export type StyledTagProps = {
   fontSize?: string;
   size?: string;
 };
+
+export type ImageListProps = {
+  userId: number;
+  puzzleId?: number | null;
+  onClick: (src: string) => void;
+};

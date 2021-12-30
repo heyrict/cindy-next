@@ -17,6 +17,7 @@ const ButtonTransparent = styled<
   SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
 >('button')`
   background-color: transparent;
+  cursor: pointer;
   overflow: hidden;
   border: none;
   display: inline-flex;

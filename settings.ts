@@ -38,6 +38,9 @@ export const TOKENIZE_SERVER = isDev
 export const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
 export const APPLOCALES: Array<'en' | 'ja'> = ['en', 'ja'];
 
+// Client-side mage stock limits
+export const MAX_IMAGE_STOCK = 10;
+
 export const addLocaleDatas = () => {
   if (!('PluralRules' in Intl)) {
     require('@formatjs/intl-pluralrules/polyfill');

@@ -52,10 +52,12 @@ const PuzzleEditPanel = ({
     update: (proxy, { data }) => {
       if (!data || !data.updatePuzzle) return;
 
+      // When puzzle is solved
       if (
         data.updatePuzzle.status !== Status.UNDERGOING &&
         status === Status.UNDERGOING
       ) {
+        // Update Puzzle List Cache
         let prevQuery = proxy.readQuery<
           PuzzlesSolvedQuery,
           PuzzlesSolvedQueryVariables

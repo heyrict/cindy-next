@@ -22,6 +22,10 @@ server {
         proxy_set_header X-Real_IP $remote_addr;
     }
 
+    location /images {
+        location /path/to/upload_images;
+    }
+
     location /subscriptions {
         proxy_pass http://localhost:3001/;
 

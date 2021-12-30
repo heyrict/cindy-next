@@ -29,14 +29,18 @@ export type SimpleLegacyEditorStates = {
 export const LegacyEditorDefaultProps = {
   placeholder: '',
   initialValue: '',
+  showImages: false,
 };
 
 export type LegacyEditorProps = {
   useNamespaces?: Array<stampNamespaces>;
+  userId?: number;
+  puzzleId?: number | null;
 } & typeof LegacyEditorDefaultProps &
   TextareaProps;
 
 export type LegacyEditorStates = {
   preview: boolean;
   stampToolbar: boolean;
+  imageToolbar: boolean;
 };

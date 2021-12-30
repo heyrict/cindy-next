@@ -11,6 +11,7 @@ import {
 } from 'components/General';
 import Tooltip from 'components/Hoc/Tooltip';
 import StampList from '../StampList';
+import ImageList from '../ImageList';
 import { ButtonFont, ButtonCircle } from '../components';
 
 import { FormattedMessage } from 'react-intl';
@@ -36,6 +37,7 @@ class LegacyEditor extends React.Component<
 
   togglePreview: () => void;
   toggleStampToolbar: () => void;
+  toggleImageToolbar: () => void;
   incHeight: (inc: number) => void;
   editor: React.RefObject<HTMLTextAreaElement>;
 
@@ -45,13 +47,22 @@ class LegacyEditor extends React.Component<
     this.state = {
       preview: false,
       stampToolbar: false,
+      imageToolbar: false,
     };
     this.editor = React.createRef<HTMLTextAreaElement>();
     this.onClickWrap = this.onClickWrap.bind(this);
     this.onClickStamp = this.onClickStamp.bind(this);
     this.togglePreview = () => this.setState(p => ({ preview: !p.preview }));
     this.toggleStampToolbar = () =>
-      this.setState(p => ({ stampToolbar: !p.stampToolbar }));
+      this.setState(p => ({
+        stampToolbar: !p.stampToolbar,
+        imageToolbar: false,
+      }));
+    this.toggleImageToolbar = () =>
+      this.setState(p => ({
+        stampToolbar: false,
+        imageToolbar: !p.imageToolbar,
+      }));
     this.incHeight = (inc: number) => {
       if (!this.editor.current) return;
       this.editor.current.style.height = `${
@@ -180,7 +191,12 @@ class LegacyEditor extends React.Component<
               <ButtonTransparent
                 height="2.2em"
                 onClick={(e: React.MouseEvent) =>
-                  this.onClickInsert(e, '![Image](https://foo.bar/image.png)')
+                  this.props.showImages
+                    ? this.toggleImageToolbar()
+                    : this.onClickInsert(
+                        e,
+                        '![Image](https://foo.bar/image.png)',
+                      )
                 }
               >
                 <Img src={photoIcon} height="1.2em" />
@@ -252,6 +268,15 @@ class LegacyEditor extends React.Component<
             onClick={({ key, src }) => this.onClickStamp({ key, src })}
           />
         )}
+        {this.props.showImages &&
+          this.props.userId &&
+          this.state.imageToolbar && (
+            <ImageList
+              userId={this.props.userId}
+              puzzleId={this.props.puzzleId}
+              onClick={src => this.onClickImage(src)}
+            />
+          )}
         <Box display={this.state.preview ? 'none' : 'block'}>
           <Textarea
             width={1}
@@ -318,6 +343,17 @@ class LegacyEditor extends React.Component<
       0,
       editor.selectionStart,
     )} :${key}: ${editor.value.substring(editor.selectionEnd)}`;
+  };
+  // }}}
+
+  // {{{1 onClickImage
+  onClickImage = (src: string) => {
+    if (!this.editor.current) return;
+    const editor = this.editor.current;
+    editor.value = `${editor.value.substring(
+      0,
+      editor.selectionStart,
+    )} ![image](${src}) ${editor.value.substring(editor.selectionEnd)}`;
   };
   // }}}
 

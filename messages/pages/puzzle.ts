@@ -105,6 +105,10 @@ export const messages = defineMessages({
     defaultMessage:
       'Your are going to delete this tag "{tag}". This operation cannot be reverted. Are you sure?',
   },
+  deleteImageConfirm: {
+    id: `${scope}.deleteImageConfirm`,
+    defaultMessage: 'Your are attempting to delete this image. Continue?',
+  },
 });
 
 export default messages;

@@ -17,6 +17,7 @@ type PuzzleAddFormOnSubmitType = (
 export type PuzzleAddFormInnerProps = {
   onSubmit: PuzzleAddFormOnSubmitType;
   confirmCreatePuzzle: boolean;
+  userId?: number;
 };
 
 export type PostPuzzleDetailType = undefined | AddPuzzleMutationVariables;

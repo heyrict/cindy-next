@@ -50,7 +50,12 @@ function ButtonSelect<TValue = any>(props: ButtonSelectProps<TValue>) {
           );
 
         return option.hint ? (
-          <Tooltip reference={button} tooltip={option.hint} delay={800} />
+          <Tooltip
+            key={option.key}
+            reference={button}
+            tooltip={option.hint}
+            delay={800}
+          />
         ) : (
           button
         );

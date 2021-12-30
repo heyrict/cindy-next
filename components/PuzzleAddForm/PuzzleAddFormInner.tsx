@@ -3,6 +3,7 @@ import { getMaxDazedDays } from 'settings';
 
 import { connect } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
+import * as globalReducer from 'reducers/global';
 
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import commonMessages from 'messages/common';
@@ -54,6 +55,7 @@ const fieldInputStyle = {
 export const PuzzleAddFormInner = ({
   onSubmit,
   confirmCreatePuzzle,
+  userId,
 }: PuzzleAddFormInnerProps) => {
   const contentEditor = useRef<LegacyEditor>(null);
   const solutionEditor = useRef<LegacyEditor>(null);
@@ -247,6 +249,9 @@ export const PuzzleAddFormInner = ({
       </Box>
       <Box {...fieldContentStyle}>
         <LegacyEditor
+          showImages
+          userId={userId}
+          puzzleId={null}
           useNamespaces={[stampNamespaces.puzzle]}
           ref={contentEditor}
         />
@@ -256,6 +261,9 @@ export const PuzzleAddFormInner = ({
       </Box>
       <Box {...fieldContentStyle}>
         <LegacyEditor
+          showImages
+          userId={userId}
+          puzzleId={null}
           useNamespaces={[stampNamespaces.puzzle]}
           ref={solutionEditor}
         />
@@ -311,6 +319,7 @@ export const PuzzleAddFormInner = ({
 
 const mapStateToProps = (state: StateType) => ({
   confirmCreatePuzzle: settingReducer.rootSelector(state).confirmCreatePuzzle,
+  userId: globalReducer.rootSelector(state).user.id,
 });
 
 const withRedux = connect(mapStateToProps);

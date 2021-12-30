@@ -9,12 +9,16 @@ import {
   EditSolutionMutationVariables,
 } from 'graphql/Mutations/generated/EditSolutionMutation';
 
+import { connect } from 'react-redux';
+import * as globalReducer from 'reducers/global';
+
 import { ButtonTransparent, Flex, Box, Img } from 'components/General';
 import { LegacyEditor } from 'components/PreviewEditor';
 import pencilIcon from 'svgs/pencil.svg';
 import tickIcon from 'svgs/tick.svg';
 import crossIcon from 'svgs/cross.svg';
 
+import { StateType } from 'reducers/types';
 import { SolutionEditPanelProps } from './types';
 import { Status, Yami } from 'generated/globalTypes';
 
@@ -23,6 +27,7 @@ const SolutionEditPanel = ({
   solution,
   status,
   yami,
+  userId,
 }: SolutionEditPanelProps) => {
   const [editing, setEditing] = useState(false);
   const editorRef = useRef<LegacyEditor>(null);
@@ -56,7 +61,13 @@ const SolutionEditPanel = ({
       {editing ? (
         <React.Fragment>
           <Box width={1}>
-            <LegacyEditor ref={editorRef} initialValue={solution} />
+            <LegacyEditor
+              showImages
+              userId={userId}
+              puzzleId={null}
+              ref={editorRef}
+              initialValue={solution}
+            />
           </Box>
           <ButtonTransparent
             width={1 / 2}
@@ -109,4 +120,10 @@ const SolutionEditPanel = ({
   );
 };
 
-export default SolutionEditPanel;
+const mapStateToProps = (state: StateType) => ({
+  userId: globalReducer.rootSelector(state).user.id,
+});
+
+const withRedux = connect(mapStateToProps);
+
+export default withRedux(SolutionEditPanel);
