@@ -188,6 +188,7 @@
   "home.start": "ゲームスタート",
   "home.title": "みんなで遊ぶ水平思考ゲーム「ウミガメのスープ」",
   "puzzle.creator": "出題者",
+  "puzzle.deleteImageConfirm": "削除した画像を元に戻すことはできません。続けますか？",
   "puzzle.deleteTagConfirm": "あなたはこのタグ「{tag}」を削除しようとしています。この操作は撤回することができません。続けますか？",
   "puzzle.description": "問題の詳細情報",
   "puzzle.forbiddenContents": "この問題は Cindy のルールを違反しています。管理人によって閉鎖されました。",
