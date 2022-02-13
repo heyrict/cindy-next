@@ -1,7 +1,8 @@
 import React from 'react';
+import theme from 'theme/theme';
 import { toast } from 'react-toastify';
 
-import { text2md } from 'common/markdown';
+import { line2md, text2md } from 'common/markdown';
 
 import {
   Flex,
@@ -10,7 +11,7 @@ import {
   Img,
   Textarea,
 } from 'components/General';
-import theme from 'theme/theme';
+import { Modal } from 'components/Modal';
 import Tooltip from 'components/Hoc/Tooltip';
 import StampList from '../StampList';
 import { ButtonFont } from '../components';
@@ -29,9 +30,9 @@ import {
   SimpleLegacyEditorProps,
   SimpleLegacyEditorStates,
   SimpleLegacyEditorDefaultProps,
+  LegacyEditorPreviewMode,
 } from './types';
 import { StampType } from 'stamps';
-import { Modal } from 'components/Modal';
 
 class SimpleLegacyEditor extends React.Component<
   SimpleLegacyEditorProps,
@@ -89,6 +90,16 @@ class SimpleLegacyEditor extends React.Component<
     }
     if (this.inlineEditor.current) {
       this.inlineEditor.current.value = this.props.initialValue;
+    }
+  }
+
+  // {{{1 previewRender
+  previewRender(text: string): string {
+    switch (this.props.previewMode) {
+      case LegacyEditorPreviewMode.line2md:
+        return line2md(text);
+      case LegacyEditorPreviewMode.text2md:
+        return text2md(text);
     }
   }
 
@@ -297,7 +308,7 @@ class SimpleLegacyEditor extends React.Component<
                 }
                 style={{ overflow: 'auto' }}
                 dangerouslySetInnerHTML={{
-                  __html: text2md(
+                  __html: this.previewRender(
                     this.modalEditor.current
                       ? this.modalEditor.current.value
                       : '',

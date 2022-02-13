@@ -1,10 +1,16 @@
 import { stampNamespaces } from 'stamps/types';
 
+export enum LegacyEditorPreviewMode {
+  line2md,
+  text2md,
+}
+
 export const SimpleLegacyEditorDefaultProps = {
   placeholder: '',
   height: 16,
   initialValue: '',
   canExpand: true,
+  previewMode: LegacyEditorPreviewMode.text2md,
 };
 
 export type TextareaProps = Omit<

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import styled from 'theme/styled';
 import { toast } from 'react-toastify';
+import { upsertItem } from 'common/update';
 
 import ButtonTransparent from 'components/General/ButtonTransparent';
 
@@ -34,7 +35,7 @@ import {
   ChatroomChatmessagesVariables,
 } from 'graphql/Queries/generated/ChatroomChatmessages';
 import { stampNamespaces } from 'stamps';
-import { upsertItem } from 'common/update';
+import { LegacyEditorPreviewMode } from 'components/PreviewEditor/Legacy/types';
 
 const LoginRequiredBlock = styled.div`
   height: ${p => p.theme.sizes.chatinput};
@@ -166,6 +167,7 @@ const ChatRoomInput = ({
         }
       }}
       onSubmit={handleSubmit}
+      previewMode={LegacyEditorPreviewMode.line2md}
     />
   ) : (
     <LoginRequiredBlock>
