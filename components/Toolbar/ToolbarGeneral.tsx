@@ -13,7 +13,8 @@ import * as directReducer from 'reducers/direct';
 
 import { Portal } from 'react-portal';
 import { Manager, Reference, Popper } from 'react-popper';
-import { Box, ButtonTransparent, Img, RedDot } from 'components/General';
+import { Flex, Box, ButtonTransparent, Img, RedDot } from 'components/General';
+import ActiveUserCounter from 'components/ActiveUserCounter';
 import ChatroomButton from './ChatroomButton';
 import LoginButton from './Login/LoginButton';
 import LogoutButton from './LogoutButton';
@@ -252,6 +253,14 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
             <Img px={1} src={twitterIcon} height="xs" />
           </ButtonTransparentA>
         </Box>
+        <Flex
+          ml={1}
+          minWidth="max-content"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <ActiveUserCounter />
+        </Flex>
       </ToolbarFlex>
       <Manager>
         <Reference>
