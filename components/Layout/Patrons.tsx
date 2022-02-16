@@ -9,20 +9,20 @@ import userMessages from 'messages/components/user';
 import { Box, Flex } from 'components/General';
 
 const WhiteAnchor = styled.a`
-  color: ${p => p.theme.colors.gray[1]};
+  color: ${p => p.theme.colors.gray[3]};
   margin-right: ${p => p.theme.space[1]}px;
   &:hover {
-    color: ${p => p.theme.colors.gray[2]};
+    color: ${p => p.theme.colors.gray[5]};
   }
   &:active {
-    color: ${p => p.theme.colors.gray[3]};
+    color: ${p => p.theme.colors.gray[5]};
   }
 `;
 
 const WhiteSpan = WhiteAnchor.withComponent('span');
 
 const Patrons = () => (
-  <Flex flexWrap="wrap" alignItems="center" color="gray.1">
+  <Flex flexWrap="wrap" alignItems="center" color="gray.4">
     <Box mx={1}>
       <FormattedMessage {...commonMessages.patron} />:
     </Box>

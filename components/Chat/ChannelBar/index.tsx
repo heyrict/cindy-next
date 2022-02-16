@@ -21,6 +21,8 @@ import moreIcon from 'svgs/threeDotsVertical.svg';
 
 import { ChannelBarProps } from './types';
 import { StateType, ActionContentType } from 'reducers/types';
+import {useTheme} from 'emotion-theming';
+import {themeType} from 'theme/types';
 
 const currentChannelSelector = createSelector(
   (state: StateType) => globalReducer.rootSelector(state).channel,
@@ -36,9 +38,11 @@ const ChannelBar = ({
   setTrueDescriptionModal,
   relatedPuzzleId,
 }: ChannelBarProps) => {
+  const theme: themeType = useTheme();
+
   return (
     <Box width={1} height="channelbar">
-      <Flex bg="orange.5">
+      <Flex bg={theme.colorthemes.light.orange[5]}>
         {chatroomId && (
           <FavChatManipulateButton chatroomId={chatroomId} compact />
         )}

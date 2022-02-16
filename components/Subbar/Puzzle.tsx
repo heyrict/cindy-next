@@ -30,7 +30,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         p={1}
       >
         <Link href="/puzzles" passHref>
-          <ButtonTransparentA color="red.9" height={1} width={1}>
+          <ButtonTransparentA color="light.red.9" height={1} width={1}>
             <FormattedMessage {...puzzlesMessage.header} />
           </ButtonTransparentA>
         </Link>
@@ -44,7 +44,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         p={1}
       >
         <Link href="/add/puzzle" passHref>
-          <ButtonTransparentA color="red.9" height={1} width={1}>
+          <ButtonTransparentA color="light.red.9" height={1} width={1}>
             <FormattedMessage {...addPuzzleMessage.header} />
           </ButtonTransparentA>
         </Link>
@@ -58,7 +58,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         p={1}
       >
         <Link href="/ranking" passHref>
-          <ButtonTransparentA color="red.9" height={1} width={1}>
+          <ButtonTransparentA color="light.red.9" height={1} width={1}>
             <FormattedMessage {...rankingMessage.header} />
           </ButtonTransparentA>
         </Link>
@@ -72,7 +72,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         p={1}
       >
         <Link href="/awards" passHref>
-          <ButtonTransparentA color="red.9" height={1} width={1}>
+          <ButtonTransparentA color="light.red.9" height={1} width={1}>
             <FormattedMessage {...awardsMessages.header} />
           </ButtonTransparentA>
         </Link>
@@ -86,7 +86,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         p={1}
       >
         <Link href="/search" passHref>
-          <ButtonTransparentA color="red.9" height={1} width={1}>
+          <ButtonTransparentA color="light.red.9" height={1} width={1}>
             <FormattedMessage {...searchMessages.header} />
           </ButtonTransparentA>
         </Link>
@@ -100,7 +100,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         p={1}
       >
         <Link href="/tags" passHref>
-          <ButtonTransparentA color="red.9" height={1} width={1}>
+          <ButtonTransparentA color="light.red.9" height={1} width={1}>
             <FormattedMessage {...tagsPageMessages.header} />
           </ButtonTransparentA>
         </Link>
@@ -114,7 +114,7 @@ const PuzzleSubbar = ({ route }: PuzzleSubbarProps) => (
         p={1}
       >
         <Link href="/comments" passHref>
-          <ButtonTransparentA color="red.9" height={1} width={1}>
+          <ButtonTransparentA color="light.red.9" height={1} width={1}>
             <FormattedMessage {...commentsPageMessages.header} />
           </ButtonTransparentA>
         </Link>

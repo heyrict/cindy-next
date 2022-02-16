@@ -2,6 +2,10 @@
   "base": "#c46243",
   "white": "#faf9f8",
   "black": "#483c39",
+  "solarized": {
+    "white": "#fcf4dc",
+    "black": "#002b36"
+  },
   "gray": [
     "#faf9f8",
     "#f0eceb",

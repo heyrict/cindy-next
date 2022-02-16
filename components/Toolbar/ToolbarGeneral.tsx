@@ -90,13 +90,13 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
     <ToolbarFlex alignItems="center" justifyContent="center">
       <ToolbarFlex>
         <Link href="/" passHref>
-          <ButtonTransparentA px={3} height={1} width={1} color="orange.9">
+          <ButtonTransparentA px={3} height={1} width={1} color="light.orange.9">
             <Img height="xs" src={logoInline} />
           </ButtonTransparentA>
         </Link>
         <ToolbarButton bg="orange.4" mr="1px">
           <Link href="/puzzles" passHref>
-            <ButtonTransparentA height={1} width={1} color="orange.9">
+            <ButtonTransparentA height={1} width={1} color="light.orange.9">
               <FormattedMessage {...toolbarMessages.puzzle} />
             </ButtonTransparentA>
           </Link>
@@ -116,7 +116,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                   style={{ position: 'relative' }}
                   height={1}
                   width={1}
-                  color="orange.9"
+                  color="light.orange.9"
                   onClick={() => setComDropDown(!comDropDown)}
                 >
                   <FormattedMessage {...toolbarMessages.communication} />
@@ -184,7 +184,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                   style={{ position: 'relative' }}
                   height={1}
                   width={1}
-                  color="orange.9"
+                  color="light.orange.9"
                   onClick={() => setHelpDropDown(!helpDropDown)}
                 >
                   <FormattedMessage {...toolbarMessages.help} />
@@ -254,6 +254,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
           </ButtonTransparentA>
         </Box>
         <Flex
+          color="light.orange.9"
           ml={1}
           minWidth="max-content"
           alignItems="center"

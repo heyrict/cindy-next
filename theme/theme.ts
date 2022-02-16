@@ -1,14 +1,17 @@
 // Color Palette from https://palx.jxnblk.com/c46243
 import palxColor from './palx.json';
+import palxDarkColor from './palx-dark.json';
+
+export const colorthemes = {
+  light: palxColor,
+  dark: palxDarkColor,
+};
 
 const breakpoints = ['40em', '52em', '64em', '90em'];
 
 const colors = {
   ...palxColor,
-  solarized: {
-    white: '#fcf4dc',
-    black: '#002b36',
-  },
+  ...colorthemes,
 };
 
 const fontSizes = [12, 14, 16, 20, 24, 32, 42, 56];
@@ -44,6 +47,7 @@ const sizes = {
 const theme = {
   breakpoints,
   colors,
+  colorthemes,
   fontSizes,
   mediaQueries,
   radii,

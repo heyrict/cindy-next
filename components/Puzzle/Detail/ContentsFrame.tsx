@@ -54,7 +54,7 @@ function ContentsFrame(props: ContentsFrameType) {
   const shouldHideIdentity = anonymous && status === Status.UNDERGOING;
 
   return (
-    <Panel display="block" width={1} mx={widthSplits[2]} my={3}>
+    <Panel color="light.gray.9" display="block" width={1} mx={widthSplits[2]} my={3}>
       {typeof text === 'string' ? (
         <ContentBox
           px={2}

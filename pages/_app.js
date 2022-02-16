@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Router from 'next/router';
 import { ApolloProvider } from '@apollo/client';
-import { ThemeProvider } from 'emotion-theming';
+import ThemeSwitchProvider from 'theme/ThemeSwitchProvider';
 import { Provider as ReduxProvider } from 'react-redux';
 import { changeTabularTab } from 'common/markdown/plugin-tabs';
 import { domainFilter, addLocaleDatas, DEFAULT_LOCALE } from 'settings';
@@ -87,16 +87,16 @@ export default function MyApp({ Component, pageProps }) {
   const locale = DEFAULT_LOCALE || 'ja';
 
   return (
-    <ThemeProvider theme={theme}>
-      <ApolloProvider client={apolloClient}>
-        <ReduxProvider store={reduxStore}>
+    <ReduxProvider store={reduxStore}>
+      <ThemeSwitchProvider>
+        <ApolloProvider client={apolloClient}>
           <LanguageProvider initLocale={locale}>
             <GlobalLayout>
               <Component {...pageProps} />
             </GlobalLayout>
           </LanguageProvider>
-        </ReduxProvider>
-      </ApolloProvider>
-    </ThemeProvider>
+        </ApolloProvider>
+      </ThemeSwitchProvider>
+    </ReduxProvider>
   );
 }

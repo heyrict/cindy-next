@@ -9,8 +9,8 @@ const ChatBubble = styled.div<ChatBubbleProps>`
   padding: 0.8em;
   display: block;
   position: relative;
-  background-color: lightyellow;
-  border: 0.4em solid #666;
+  background-color: ${p => p.theme.colors.orange[1]};
+  border: 0.4em solid ${p => p.theme.colors.orange[4]};
   &:before {
     content: ' ';
     position: absolute;
@@ -21,8 +21,8 @@ const ChatBubble = styled.div<ChatBubbleProps>`
     border: 0.8em solid;
     border-color: ${p =>
       p.orientation == 'left'
-        ? '#666 transparent transparent #666'
-        : '#666 #666 transparent transparent'};
+        ? `${p.theme.colors.orange[4]} transparent transparent ${p.theme.colors.orange[4]}`
+        : `${p.theme.colors.orange[4]} ${p.theme.colors.orange[4]} transparent transparent`};
   }
   &:after {
     content: ' ';
@@ -34,8 +34,8 @@ const ChatBubble = styled.div<ChatBubbleProps>`
     border: 0.5em solid;
     border-color: ${p =>
       p.orientation == 'left'
-        ? 'lightyellow transparent transparent lightyellow'
-        : 'lightyellow lightyellow transparent transparent'};
+        ? `${p.theme.colors.orange[1]} transparent transparent ${p.theme.colors.orange[1]}`
+        : `${p.theme.colors.orange[1]} ${p.theme.colors.orange[1]} transparent transparent`};
   }
 `;
 

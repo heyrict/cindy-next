@@ -47,7 +47,7 @@ export const ToolbarResponsiveContents = styled.div`
   left: calc(${p => p.theme.sizes.chatXL});
   width: ${p => `calc(100% - ${p.theme.sizes.chatXL} - 4px)`};
   right: 0;
-  background: ${p => p.theme.colors.orange[2]};
+  background: ${p => p.theme.colors.light.orange[2]};
   display: flex;
   flex-wrap: wrap;
   z-index: 190;

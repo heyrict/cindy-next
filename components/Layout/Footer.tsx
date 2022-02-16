@@ -9,11 +9,11 @@ import logoInline from 'svgs/logoInlineLight.svg';
 
 const FooterContents = styled.div`
   position: relative;
-  background: ${p => p.theme.colors.gray[9]};
-  color: ${p => p.theme.colors.gray[1]};
+  background: ${p => p.theme.colorthemes.light.gray[9]};
+  color: ${p => p.theme.colorthemes.light.gray[1]};
   padding: ${p => p.theme.space[3]}px;
   min-height: 140px;
-  box-shadow: 0 -12px 8px 5px ${p => p.theme.colors.gray[9]};
+  box-shadow: 0 -12px 8px 5px ${p => p.theme.colorthemes.light.gray[9]};
   margin-top: 4em;
 `;
 

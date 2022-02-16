@@ -23,6 +23,7 @@ ModalCloseBtn.defaultProps = {
 
 export const ModalHeader = styled.div`
   background: ${p => p.theme.colors.orange[5]};
+  color: ${p => p.theme.colors.light.gray[9]};
   border-radius: 5px 5px 0 0;
   font-size: 1.6em;
   padding: 10px 20px;
@@ -30,6 +31,7 @@ export const ModalHeader = styled.div`
 
 export const ModalBody = styled.div`
   padding: 10px 20px;
+  background: ${p => p.theme.colors.orange[2]};
 `;
 
 export const ModalFooter = styled.div`

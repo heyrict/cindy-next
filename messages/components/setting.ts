@@ -63,6 +63,10 @@ export const settingMessages = defineMessages({
     id: `${scope}.defaultLicense`,
     defaultMessage: 'Default License',
   },
+  theme: {
+    id: `${scope}.theme`,
+    defaultMessage: 'Color Theme',
+  },
 });
 
 export default settingMessages;

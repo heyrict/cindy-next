@@ -3,12 +3,14 @@ import * as array from './helpers/array';
 import * as base from './helpers/base';
 import * as bool from './helpers/bool';
 import * as mask from './helpers/mask';
+import * as enumerate from './helpers/enumerate';
 import {
   StateType,
   ActionContentType,
   SendMessageTriggerType,
   ValueOf,
 } from './types';
+import { ThemesEnum } from 'theme/types';
 import { APPLOCALES } from 'settings';
 
 export const scope = 'setting';
@@ -28,6 +30,7 @@ export enum actionTypes {
   PUSH_NOTIFICATION = 'setting.PUSH_NOTIFICATION',
   SET_STATE = 'setting.SET_STATE',
   LANGUAGE = 'setting.LANGUAGE',
+  THEME = 'setting.THEME',
   MULTICOL = 'setting.MULTICOL',
 }
 
@@ -44,6 +47,7 @@ export type ActionPayloadType = {
   EDIT_QUESTION_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
   SEND_ANSWER_TRIGGER: ReturnType<ValueOf<mask.HelperActionType>>;
   PUSH_NOTIFICATION: ReturnType<ValueOf<bool.HelperActionType>>;
+  THEME: ReturnType<ValueOf<enumerate.HelperActionType<ThemesEnum>>>;
   SET_STATE: { state: typeof initialState };
   LANGUAGE: ReturnType<
     ValueOf<base.HelperActionType<typeof APPLOCALES[0] | undefined>>
@@ -68,6 +72,7 @@ export const actions = {
   sendQuestionTrigger: mask.wrapActions(actionTypes.SEND_QUESTION_TRIGGER),
   sendAnswerTrigger: mask.wrapActions(actionTypes.SEND_ANSWER_TRIGGER),
   pushNotification: bool.wrapActions(actionTypes.PUSH_NOTIFICATION),
+  theme: enumerate.wrapActions(actionTypes.THEME),
   language: base.wrapActions<typeof APPLOCALES[0] | undefined>(
     actionTypes.LANGUAGE,
   ),
@@ -97,6 +102,7 @@ export const initialState = {
   sendAnswerTrigger: SendMessageTriggerType.ON_ENTER as number,
   rightAsideMini: false,
   pushNotification: true,
+  theme: ThemesEnum.LIGHT,
   language: undefined as typeof APPLOCALES[0] | undefined,
   multicol: true,
 };
@@ -228,6 +234,11 @@ export const reducer = (
       return {
         ...state,
         pushNotification: bool.helper(state.pushNotification, action.payload),
+      };
+    case actionTypes.THEME:
+      return {
+        ...state,
+        theme: enumerate.helper(state.theme, action.payload),
       };
     case actionTypes.LANGUAGE:
       return {

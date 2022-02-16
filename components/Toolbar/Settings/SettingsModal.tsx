@@ -38,6 +38,8 @@ import {
   UpdateDefaultLicenseMutation,
   UpdateDefaultLicenseMutationVariables,
 } from 'graphql/Mutations/generated/UpdateDefaultLicenseMutation';
+import {ThemesEnum, themeType} from 'theme/types';
+import {useTheme} from 'emotion-theming';
 
 const booleanOptions = [
   {
@@ -89,6 +91,8 @@ const SettingsModal = ({
   pushNotification,
   multicol,
 }: SettingsModalProps) => {
+  const theme: themeType = useTheme();
+
   const confirmCreatePuzzleRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const showGrotesqueWarningRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const sendChatTriggerRef = useRef<ButtonSelectStateful<number>>(null!);
@@ -102,6 +106,8 @@ const SettingsModal = ({
   const rightAsideMiniRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const pushNotificationRef = useRef<ButtonSelectStateful<boolean>>(null!);
   const multicolRef = useRef<ButtonSelectStateful<boolean>>(null!);
+  const colorThemeRef = useRef<ButtonSelectStateful<ThemesEnum>>(null!);
+
   const dispatch = useDispatch<(action: ActionContentType) => void>();
   const setFalseSettingsModal = () =>
     dispatch(settingReducer.actions.settingsModal.setFalse());
@@ -266,6 +272,30 @@ const SettingsModal = ({
               ]}
             />
           </Box>
+          <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
+            <FormattedMessage {...settingMessages.rightAsideMini}>
+              {msg => <label>{msg}</label>}
+            </FormattedMessage>
+          </Box>
+          <Box width={[1, 2 / 3, 4 / 5]} mb={2}>
+            <ButtonSelectStateful<ThemesEnum>
+              ref={colorThemeRef}
+              flexProps={{ px: 2 }}
+              initialValue={theme.theme}
+              options={[
+                {
+                  key: 'theme-light',
+                  value: ThemesEnum.LIGHT,
+                  label: 'Light',
+                },
+                {
+                  key: 'theme-dark',
+                  value: ThemesEnum.DARK,
+                  label: 'Dark',
+                },
+              ]}
+            />
+          </Box>
           <Box width={1} borderBottom="2px solid" borderColor="orange.7" mb={2}>
             <FormattedMessage {...commonMessages.others} />
           </Box>
@@ -322,7 +352,7 @@ const SettingsModal = ({
       </ModalBody>
       <ModalFooter>
         <FooterButton
-          bg="cyan.6"
+          bg="cyan.5"
           color="cyan.0"
           onClick={() =>
             setState({
@@ -339,6 +369,7 @@ const SettingsModal = ({
               rightAsideMini: rightAsideMiniRef.current.state.value,
               pushNotification: pushNotificationRef.current.state.value,
               multicol: multicolRef.current.state.value,
+              theme: colorThemeRef.current.state.value,
             })
           }
         >
@@ -346,7 +377,7 @@ const SettingsModal = ({
         </FooterButton>
         <FooterButton
           bg="orange.5"
-          color="black"
+          color="orange.0"
           onClick={() => setFalseSettingsModal()}
         >
           <FormattedMessage {...commonMessages.close} />

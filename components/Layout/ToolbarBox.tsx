@@ -13,8 +13,8 @@ const ToolbarBoxBase = styled.nav<ToolbarBoxBaseProps>`
   left: calc(${p => p.theme.sizes.chatXL});
   height: ${p => p.theme.sizes.toolbar};
   width: ${p => `calc(100% - ${p.theme.sizes.chatXL} - 4px)`};
-  background: ${p => p.theme.colors.orange[3]};
-  border: 2px solid ${p => p.theme.colors.orange[5]};
+  background: ${p => p.theme.colorthemes.light.orange[3]};
+  border: 2px solid ${p => p.theme.colorthemes.light.orange[5]};
   overflow-x: auto;
   overflow-y: hidden;
   z-index: 100;

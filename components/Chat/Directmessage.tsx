@@ -74,7 +74,7 @@ const Directmessage = ({
             <SimpleLegacyEditor
               useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}
               initialValue={directMessage.content}
-              canExpand={false}
+              canExpand={true}
               onSubmit={text => {
                 if (text === directMessage.content) {
                   setMode(DirectmessageModeType.NORMAL);
