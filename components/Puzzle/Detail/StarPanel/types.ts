@@ -4,7 +4,7 @@ export type StarPanelProps = {
 };
 
 export type StarPopupContentProps = {
-  userId?: number;
+  userId: number | null;
   puzzleId: number;
   starCount: number;
   setShow: (show: boolean) => void;

@@ -6,7 +6,7 @@ export type ChatProps = {
 
 export type DirectmessageProps = {
   directMessage: DirectMessageBrief;
-  currentUserId?: number;
+  currentUserId: number | null;
 };
 
 export enum DirectmessageModeType {

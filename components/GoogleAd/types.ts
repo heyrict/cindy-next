@@ -5,7 +5,7 @@ export type GoogleAdProps = {
   wrapperDivStyle?: React.CSSProperties;
   layoutKey?: string;
   layout?: string;
-  userId?: number;
+  userId: number | null;
   children?: (ads: React.ReactElement) => React.ReactElement;
 };
 

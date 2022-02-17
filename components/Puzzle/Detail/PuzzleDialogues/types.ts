@@ -20,7 +20,7 @@ export type PuzzleDialoguesProps = {
   puzzleUser: InlineUser;
   puzzleStatus: Status;
   puzzleYami: Yami;
-  userId?: number;
+  userId: number | null;
   anonymous: boolean;
   setTrueSolvedLongtermYami: () => void;
 };
@@ -29,7 +29,7 @@ export type PuzzleDialoguesUserDeduplicatorProps = {
   puzzleId: number;
   puzzleUser: InlineUser;
   puzzleStatus: Status;
-  userId?: number;
+  userId: number | null;
   anonymous: boolean;
   shouldSubscribe: boolean;
 };
@@ -88,5 +88,5 @@ export const UserFilterSwitcherDefaltProps = {
 
 export type UserFilterSwitcherProps = {
   users: Array<UserFilterSwitcherUserType>;
-  activeUserId?: number;
+  activeUserId?: number | null;
 } & typeof UserFilterSwitcherDefaltProps;

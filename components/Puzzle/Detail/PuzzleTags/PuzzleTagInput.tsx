@@ -2,7 +2,7 @@ import React from 'react';
 import getReactSelectTheme from 'theme/react-select';
 import { toast } from 'react-toastify';
 import { asSearch } from 'common/search';
-import { withTheme } from '@storybook/theming';
+import { ThemeContext } from '@emotion/core';
 
 import AsyncCreatableSelect from 'react-select/async-creatable';
 
@@ -16,70 +16,74 @@ import {
 import { PuzzleTagInputOptionType } from './types';
 import { themeType } from 'theme/types';
 
-class PuzzleTagInput extends React.PureComponent<{ theme: themeType }> {
+class PuzzleTagInput extends React.PureComponent {
   value: PuzzleTagInputOptionType | undefined;
   waitHandle: number | null = null;
 
   render() {
     return (
-      <ApolloConsumer>
-        {client => (
-          <AsyncCreatableSelect<PuzzleTagInputOptionType, false>
-            isClearable
-            theme={getReactSelectTheme(this.props.theme)}
-            styles={{
-              input: provided => ({
-                ...provided,
-                minWidth: 100,
-                cursor: 'text',
-              }),
-            }}
-            onChange={(value, { action }) => {
-              console.log(value);
-              if (action === 'clear') {
-                this.value = undefined;
-                return;
-              }
-              if (!value) return;
-              this.value = value as PuzzleTagInputOptionType;
-            }}
-            loadOptions={inputValue =>
-              new Promise(resolve => {
-                if (this.waitHandle) window.clearTimeout(this.waitHandle);
-                this.waitHandle = window.setTimeout(() => {
-                  resolve(
-                    client
-                      .query<
-                        PuzzleTagsSearchQuery,
-                        PuzzleTagsSearchQueryVariables
-                      >({
-                        query: PUZZLE_TAGS_SEARCH_QUERY,
-                        variables: {
-                          search: asSearch(inputValue),
-                          limit: 8,
-                        },
-                        fetchPolicy: 'network-only',
-                      })
-                      .then(({ data, errors }) => {
-                        if (errors) {
-                          toast.error(JSON.stringify(errors));
-                          return [];
-                        }
-                        if (!data || !data.tags) return [];
-                        return data.tags.map(tag => ({
-                          id: tag.id,
-                          value: tag.name,
-                          label: tag.name,
-                          created: tag.created,
-                        }));
-                      }),
-                  );
-                }, 1000);
-              })
-            }
-          />
+      <ThemeContext.Consumer>
+        {theme => (
+          <ApolloConsumer>
+            {client => (
+              <AsyncCreatableSelect<PuzzleTagInputOptionType, false>
+                isClearable
+                theme={getReactSelectTheme(theme as themeType)}
+                styles={{
+                  input: provided => ({
+                    ...provided,
+                    minWidth: 100,
+                    cursor: 'text',
+                  }),
+                }}
+                onChange={(value, { action }) => {
+                  console.log(value);
+                  if (action === 'clear') {
+                    this.value = undefined;
+                    return;
+                  }
+                  if (!value) return;
+                  this.value = value as PuzzleTagInputOptionType;
+                }}
+                loadOptions={inputValue =>
+                  new Promise(resolve => {
+                    if (this.waitHandle) window.clearTimeout(this.waitHandle);
+                    this.waitHandle = window.setTimeout(() => {
+                      resolve(
+                        client
+                          .query<
+                            PuzzleTagsSearchQuery,
+                            PuzzleTagsSearchQueryVariables
+                          >({
+                            query: PUZZLE_TAGS_SEARCH_QUERY,
+                            variables: {
+                              search: asSearch(inputValue),
+                              limit: 8,
+                            },
+                            fetchPolicy: 'network-only',
+                          })
+                          .then(({ data, errors }) => {
+                            if (errors) {
+                              toast.error(JSON.stringify(errors));
+                              return [];
+                            }
+                            if (!data || !data.tags) return [];
+                            return data.tags.map(tag => ({
+                              id: tag.id,
+                              value: tag.name,
+                              label: tag.name,
+                              created: tag.created,
+                            }));
+                          }),
+                      );
+                    }, 1000);
+                  })
+                }
+              />
+            )}
+          </ApolloConsumer>
         )}
-      </ApolloConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -88,4 +92,4 @@ class PuzzleTagInput extends React.PureComponent<{ theme: themeType }> {
   }
 }
 
-export default withTheme(PuzzleTagInput);
+export default PuzzleTagInput;

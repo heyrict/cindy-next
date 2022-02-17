@@ -4,7 +4,7 @@ import { PreviousCommentValueQuery_comments } from 'graphql/Queries/generated/Pr
 export type CommentPanelProps = {
   puzzleId: number;
   canAddComment: boolean;
-  userId?: number;
+  userId: number | null;
 };
 
 export type CommentModalCommentsProps = {

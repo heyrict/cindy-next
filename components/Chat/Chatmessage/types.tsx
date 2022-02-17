@@ -9,7 +9,7 @@ export type ChatBubbleProps = {
 export type ChatmessageProps = {
   chatmessage: Chatmessage;
   anonymous?: boolean;
-  currentUserId?: number;
+  currentUserId: number | null;
 };
 
 export enum ChatmessageModeType {

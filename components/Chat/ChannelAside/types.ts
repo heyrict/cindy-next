@@ -25,5 +25,5 @@ export type ChatroomEditableDescriptionProps = {
 
 export type ChatroomDescriptionInnerProps = {
   chatroom: ChatroomDescription_chatroom;
-  userId?: number;
+  userId: number | null;
 };

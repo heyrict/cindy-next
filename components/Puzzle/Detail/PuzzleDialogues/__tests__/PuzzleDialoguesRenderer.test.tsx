@@ -28,9 +28,10 @@ describe.skip('<PuzzleDialoguesRenderer />', () => {
       puzzleId: puzzle.id,
     },
     user: {
-      id: undefined,
-      nickname: undefined,
-      username: undefined,
+      id: null,
+      icon: null,
+      nickname: null,
+      username: null,
     },
     puzzleUser: puzzle.user,
     puzzleStatus: puzzle.status,

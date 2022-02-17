@@ -3,7 +3,7 @@ import { PuzzleTag } from 'graphql/Fragments/generated/PuzzleTag';
 export type PuzzleTagsProps = {
   puzzleId: number;
   puzzleUserId: number;
-  userId?: number;
+  userId: number | null;
 };
 
 export type PuzzleTagBubbleProps = {

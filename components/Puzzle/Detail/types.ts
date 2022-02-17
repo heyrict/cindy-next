@@ -26,7 +26,7 @@ export type QuestionInputWidgetProps = {
 
 export type AddQuestionInputProps = {
   puzzleId: number;
-  userId?: number;
+  userId: number | null;
   incDialogues: () => void;
 };
 
@@ -58,7 +58,7 @@ export type PuzzleTitleProps = {
 
 export type PuzzleDetailProps = {
   puzzle: PuzzleType;
-  userId?: number;
+  userId: number | null;
   solvedLongtermYami: boolean;
   showGrotesqueWarning: boolean;
   ignoredGrotesquePuzzles: Array<number>;

@@ -20,7 +20,7 @@ export type SetPanelToolbarProps = {
 
 export type SolutionEditPanelProps = {
   puzzleId: number;
-  userId?: number;
+  userId: number | null;
   solution: string;
   status: Status;
   yami: Yami;

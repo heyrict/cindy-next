@@ -1,3 +1,4 @@
+import { DeepNonNullable } from 'globalTypes';
 import { GlobalUserType, SendMessageTriggerType } from 'reducers/types';
 
 export type MessageBoxProps = {
@@ -14,7 +15,7 @@ export type MessageGroupSelectProps = {
 };
 
 export type MessageGroupChatInnerProps = {
-  user: Required<GlobalUserType>;
+  user: DeepNonNullable<GlobalUserType>;
   directGroupUser: number;
   sendDirectmessageTrigger: SendMessageTriggerType;
 };

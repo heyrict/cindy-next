@@ -167,7 +167,7 @@ const MessageGroupSelectInner = ({
 
 const MessageGroupSelect = (
   props: Omit<MessageGroupSelectProps, 'userId'> & {
-    userId: number | undefined;
+    userId: number | null;
   },
 ) => {
   return typeof props.userId === 'number' ? (

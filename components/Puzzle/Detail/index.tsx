@@ -169,7 +169,7 @@ const PuzzleDetail = ({
         {shouldShowAddQuestionInput && (
           <AddQuestionInput
             puzzleId={puzzle.id}
-            userId={queryWithCurrentUserOnly ? userId : undefined}
+            userId={queryWithCurrentUserOnly ? userId : null}
           />
         )}
         {shouldShowAnswer && (

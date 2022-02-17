@@ -1,6 +1,6 @@
 export type BookmarkPanelProps = {
   puzzleId: number;
-  userId?: number;
+  userId: number | null;
 };
 
 export type BookmarkPopoverContentProps = {

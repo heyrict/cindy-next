@@ -47,6 +47,7 @@ import {
 } from 'graphql/Queries/generated/DmReadAllQuery';
 import { USER_BRIEF_FRAGMENT } from 'graphql/Fragments/User';
 import { UserBrief } from 'graphql/Fragments/generated/UserBrief';
+import { DeepNonNullable } from 'globalTypes';
 
 const DIRECT_MESSAGES_PER_PAGE = 20;
 
@@ -383,7 +384,7 @@ const MessageGroupChat = ({
 }: MessageGroupChatProps) =>
   directGroupUser && user.id ? (
     <MessageGroupChatInner
-      user={user as Required<GlobalUserType>}
+      user={user as DeepNonNullable<GlobalUserType>}
       directGroupUser={directGroupUser}
       sendDirectmessageTrigger={sendDirectmessageTrigger}
     />

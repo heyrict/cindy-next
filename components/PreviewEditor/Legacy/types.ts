@@ -40,7 +40,7 @@ export const LegacyEditorDefaultProps = {
 
 export type LegacyEditorProps = {
   useNamespaces?: Array<stampNamespaces>;
-  userId?: number;
+  userId?: number | null;
   puzzleId?: number | null;
 } & typeof LegacyEditorDefaultProps &
   TextareaProps;
