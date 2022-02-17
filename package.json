@@ -22,9 +22,7 @@
     "export-graphql-types": "apollo codegen:generate -c ./apollo.config.js --target typescript generated",
     "clean-graphql-types": "rm -r `find graphql -name generated`",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "storybook": "start-storybook -s . -p 6006",
-    "build-storybook": "build-storybook"
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
@@ -69,10 +67,6 @@
     "@babel/core": "^7.4.5",
     "@babel/node": "^7.5.0",
     "@babel/register": "^7.4.4",
-    "@storybook/addon-actions": "^5.1.9",
-    "@storybook/addon-links": "^5.1.9",
-    "@storybook/addons": "^5.1.9",
-    "@storybook/react": "^5.1.9",
     "@types/cookie": "^0.3.3",
     "@types/dompurify": "^0.0.33",
     "@types/enzyme": "^3.9.3",
@@ -86,7 +80,6 @@
     "@types/react-portal": "^4.0.2",
     "@types/react-redux": "^7.1.0",
     "@types/react-select": "^3.0.0",
-    "@types/storybook__react": "^4.0.2",
     "@types/styled-system": "^5.0.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-react-intl": "^3.0.1",
