@@ -10,8 +10,8 @@ export const BookmarkBase = styled.div`
   margin-right: 6px;
   margin-bottom: 3px;
   font-size: 0.9em;
-  color: ${p => p.theme.colors.white};
-  background: ${p => p.theme.colors.lime[6]};
+  color: ${p => p.theme.colors.preset.puzzle.bookmark.fg};
+  background: ${p => p.theme.colors.preset.puzzle.bookmark.bg};
   display: inline-flex;
   align-items: center;
 `;

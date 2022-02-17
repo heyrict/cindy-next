@@ -13,11 +13,11 @@ import { AsideContentsProps, AsideContentsInnerProps } from './types';
 import Box from 'components/General/Box';
 
 const PuzzleRightAsideTitle = styled.h1`
-  color: ${p => p.theme.colors.grape[8]};
+  color: ${p => p.theme.colors.black};
   font-size: 2em;
   text-align: center;
   margin: 0;
-  border-bottom: 0.3em double ${p => p.theme.colors.grape[7]};
+  border-bottom: 0.3em double ${p => p.theme.colors.black};
 `;
 
 const PuzzleRightAsideShader = styled.div<AsideContentsInnerProps>`
@@ -45,8 +45,8 @@ const PuzzleRightAsideBase = styled.aside`
   overflow: hidden;
   overflow-y: auto;
   flex-shrink: 0;
-  background-color: ${p => p.theme.colors.solarized.white};
-  border-right: 2px solid ${p => p.theme.colors.orange[5]};
+  background-color: ${p => p.theme.colors.white};
+  border-right: 2px solid ${p => p.theme.colors.preset.menubar.bg};
   height: 100%;
   z-index: 210;
   width: ${p => p.theme.sizes.chatXL};
@@ -66,7 +66,7 @@ const ResponsivePuzzleRightAside = styled(
   transition-timing-function: ease-in-out;
   ${p => p.theme.mediaQueries.medium} {
     width: 62%;
-    background-color: ${p => p.theme.colors.solarized.white};
+    background-color: ${p => p.theme.colors.white};
   }
   ${p => p.theme.mediaQueries.small} {
     width: 80%;

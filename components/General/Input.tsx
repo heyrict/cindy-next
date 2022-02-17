@@ -16,6 +16,7 @@ const Input = styled<
 >('input')`
   box-sizing: 'border-box';
   border-width: 1px;
+  color: ${p => p.theme.colors.black};
   border-color: ${p => p.theme.colors.orange[5]};
   border-style: solid;
   background-color: ${p => p.theme.colors.white};

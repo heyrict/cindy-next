@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
+import { initializeStore } from 'reducers';
 
 import { initializeApollo } from 'lib/apollo';
 import { ApolloClient } from '@apollo/client';
@@ -34,14 +35,15 @@ const UserPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async context => {
+export const getServerSideProps: GetServerSideProps = async ctx => {
   const serverSideContext = {
-    route: context.resolvedUrl,
-    cookie: context.req.headers.cookie || null,
+    route: ctx.resolvedUrl,
+    cookie: ctx.req.headers.cookie || null,
   };
+  const reduxStore = initializeStore({}, serverSideContext);
 
   const apolloClient: ApolloClient<object> = initializeApollo();
-  let { id } = context.query;
+  let { id } = ctx.query;
   const userId = parseInt(id as string, 10);
 
   await apolloClient.query<UserQuery, UserQueryVariables>({
@@ -54,6 +56,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
+      initializeStore: reduxStore.getState(),
       serverSideContext,
     },
   };

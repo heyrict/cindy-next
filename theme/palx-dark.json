@@ -1,10 +1,65 @@
 {
+  "dark_theme": false,
   "base": "#c46243",
   "white": "#483c39",
-  "black": "#faf9f8",
+  "black": "#e0c097",
   "solarized": {
-    "white": "#806a2b",
-    "black": "#fcf4dc"
+    "white": "rgb(68, 52, 6)",
+    "black": "#e0c097"
+  },
+  "preset": {
+    "chatbutton": {
+      "normal": "#5a2c1e",
+      "hover": "#7f3f2b"
+    },
+    "menubar": {
+      "fg": "#e0c097",
+      "bg": "rgb(105, 86, 33)",
+      "ac": "rgb(68, 52, 6)"
+    },
+    "modal": {
+      "fg": "#e0c097",
+      "bg": "rgb(68, 52, 6)",
+      "ac": "rgb(105, 86, 33)"
+    },
+    "tooltip": {
+      "fg": "#e0c097",
+      "bg": "rgb(105, 86, 33)"
+    },
+    "bubble": {
+      "fg": "inherit",
+      "bg": "#5c4c1f",
+      "ac": "#806a2b"
+    },
+    "button": {
+      "fg": "#f7f2e6",
+      "bg": "#9b8035",
+      "ac": "#b1923c"
+    },
+    "puzzle": {
+      "bookmark": {
+        "fg": "#faf9f8",
+        "bg": "#5bb13c"
+      },
+      "star": {
+        "fg": "#f5ebf8",
+        "bg": "#923cb0"
+      },
+      "comment": {
+        "fg": "#e8f4f7",
+        "bg": "#43a6c4"
+      },
+      "process": {
+        "fg": "#bac6e9",
+        "bg": "rgba(143, 214, 225, 0.4)",
+        "ac": "#4365c4"
+      },
+      "panel": {
+        "fg": "#e0c097",
+        "bg": "rgba(255, 255, 255, 0.15)",
+        "ac": "rgb(105, 86, 33)"
+      }
+    }
   },
   "gray": [
     "#483c39",

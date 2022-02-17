@@ -19,8 +19,9 @@ const Panel = styled<
   box-sizing: 'border-box';
   min-width: 0;
   display: flex;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-color: ${p => p.theme.colors.red[4]};
+  color: ${p => p.theme.colors.preset.puzzle.panel.fg};
+  background-color: ${p => p.theme.colors.preset.puzzle.panel.bg};
+  border-color: ${p => p.theme.colors.preset.puzzle.panel.ac};
   border-radius: ${p => p.theme.radii[2]}px;
   border-width: ${p => p.theme.space[1]}px;
   border-style: groove;

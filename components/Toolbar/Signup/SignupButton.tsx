@@ -16,7 +16,7 @@ const SignupButton = ({ setTrueSignupModal }: SignupButtonProps) => (
       width={1}
       height={1}
       p={0}
-      color="gray.1"
+      color="preset.menubar.fg"
       style={{
         fontWeight: 'bold',
       }}

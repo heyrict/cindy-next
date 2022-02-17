@@ -46,7 +46,7 @@ export const Container = styled.div<ModalComponentsProps>`
   opacity: ${p => (p.show ? 1 : 0)};
   overflow-y: auto;
   box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
-  background: ${p => p.theme.colors.orange[4]};
+  background: ${p => p.theme.colors.preset.modal.ac};
   border-radius: 5px;
   padding: 0;
   display: flex;

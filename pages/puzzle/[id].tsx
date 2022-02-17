@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { googleAdInfo } from 'settings';
+import { initializeStore } from 'reducers';
 
 import { ApolloClient } from '@apollo/client';
 import { initializeApollo } from 'lib/apollo';
@@ -58,14 +59,15 @@ const PuzzlePage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async context => {
+export const getServerSideProps: GetServerSideProps = async ctx => {
   const serverSideContext = {
-    route: context.resolvedUrl,
-    cookie: context.req.headers.cookie || null,
+    route: ctx.resolvedUrl,
+    cookie: ctx.req.headers.cookie || null,
   };
+  const reduxStore = initializeStore({}, serverSideContext);
 
   const apolloClient: ApolloClient<object> = initializeApollo();
-  let { id } = context.query;
+  let { id } = ctx.query;
   const puzzleId = parseInt(id as string, 10);
 
   if (!isNaN(puzzleId)) {
@@ -106,6 +108,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
+      initializeStore: reduxStore.getState(),
       serverSideContext,
     },
   };

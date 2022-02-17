@@ -47,18 +47,20 @@ export const ToolbarResponsiveContents = styled.div`
   left: calc(${p => p.theme.sizes.chatXL});
   width: ${p => `calc(100% - ${p.theme.sizes.chatXL} - 4px)`};
   right: 0;
-  background: ${p => p.theme.colors.light.orange[2]};
-  display: flex;
+  background: ${p => p.theme.colors.preset.menubar.bg};
+  display: none;
   flex-wrap: wrap;
   z-index: 190;
   ${p => p.theme.mediaQueries.large} {
     left: calc(${p => p.theme.sizes.chatLG});
     width: ${p => `calc(100% - ${p.theme.sizes.chatLG} - 4px)`};
+    display: flex;
   }
   ${p => p.theme.mediaQueries.medium} {
     left: 0;
     margin-left: 0;
     width: 100%;
+    display: flex;
   }
 `;
 
@@ -72,9 +74,9 @@ export const ToolbarDropdownContents = styled.div`
   top: ${p => p.theme.sizes.toolbar};
   min-width: ${p => p.theme.sizes.toolbuttonMin};
   max-width: ${p => p.theme.sizes.toolbuttonMax};
-  background: ${p => p.theme.colors.orange[4]};
+  background: ${p => p.theme.colors.preset.menubar.bg};
   display: flex;
   flex-direction: column;
   z-index: 190;
-  box-shadow: 3px 3px 4px 0 ${p => p.theme.colors.gray[8]};
+  box-shadow: 3px 3px 4px 0 ${p => p.theme.colors.preset.menubar.ac};
 `;

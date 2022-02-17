@@ -2,6 +2,7 @@ export type ValueOf<T> = T[keyof T];
 
 export interface ExtendedStore {
   sagaTask: any;
+  getState: () => any;
 }
 
 export type StateType = {
@@ -54,10 +55,10 @@ export type AddReplayDialogueType = Pick<
 >;
 
 export type GlobalUserType = {
-  id?: number;
-  icon?: string | null;
-  username?: string;
-  nickname?: string;
+  id: number | null;
+  icon: string | null;
+  username: string | null;
+  nickname: string | null;
 };
 
 export enum RightAsideType {

@@ -157,9 +157,16 @@ const Tags = () => {
           ]}
         />
         <Flex width={1}>
-          <Box width={1 / 2} p={1} mx={1} bg="orange.4" borderRadius={2}>
+          <Box
+            width={1 / 2}
+            p={1}
+            mx={1}
+            bg="preset.button.bg"
+            borderRadius={2}
+          >
             <ButtonTransparent
               width={1}
+              color="preset.button.fg"
               onClick={() => {
                 const newVariables = { ...variables };
 
@@ -176,9 +183,16 @@ const Tags = () => {
               <FormattedMessage {...commonMessages.reset} />
             </ButtonTransparent>
           </Box>
-          <Box width={1 / 2} p={1} mx={1} bg="orange.4" borderRadius={2}>
+          <Box
+            width={1 / 2}
+            p={1}
+            mx={1}
+            bg="preset.button.bg"
+            borderRadius={2}
+          >
             <ButtonTransparent
               width={1}
+              color="preset.button.fg"
               onClick={() => {
                 const newVariables = { ...variables };
 

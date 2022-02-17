@@ -16,12 +16,12 @@ const Button = styled<
   'button',
   SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
 >('button')`
-  background-color: ${p => p.theme.colors.orange[6]};
-  color: ${p => p.theme.colors.gray[1]};
+  color: ${p => p.theme.colors.preset.button.fg};
+  background: ${p => p.theme.colors.preset.button.bg};
   overflow: hidden;
   &:hover,
   &:active {
-    background-color: ${p => p.theme.colors.orange[7]};
+    background-color: ${p => p.theme.colors.preset.button.ac};
   }
   display: inline-flex;
   align-items: center;

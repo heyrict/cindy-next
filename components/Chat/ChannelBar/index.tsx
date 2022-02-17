@@ -21,8 +21,8 @@ import moreIcon from 'svgs/threeDotsVertical.svg';
 
 import { ChannelBarProps } from './types';
 import { StateType, ActionContentType } from 'reducers/types';
-import {useTheme} from 'emotion-theming';
-import {themeType} from 'theme/types';
+import { useTheme } from 'emotion-theming';
+import { themeType } from 'theme/types';
 
 const currentChannelSelector = createSelector(
   (state: StateType) => globalReducer.rootSelector(state).channel,
@@ -42,12 +42,12 @@ const ChannelBar = ({
 
   return (
     <Box width={1} height="channelbar">
-      <Flex bg={theme.colorthemes.light.orange[5]}>
+      <Flex bg={theme.colors.preset.menubar.bg}>
         {chatroomId && (
           <FavChatManipulateButton chatroomId={chatroomId} compact />
         )}
         <Box
-          color="white"
+          color="preset.menubar.fg"
           alignSelf="center"
           overflow="hidden"
           flexGrow={1}
@@ -68,7 +68,7 @@ const ChannelBar = ({
           reference={
             <ButtonTransparent
               px={[2, 2, 1, 2]}
-              color="white"
+              color="preset.menubar.fg"
               height="channelbar"
               onClick={() => chatroomId && setTrueDescriptionModal()}
             >
@@ -82,7 +82,7 @@ const ChannelBar = ({
           reference={
             <ButtonTransparent
               px={[2, 2, 1, 2]}
-              color="white"
+              color="preset.menubar.fg"
               height="channelbar"
               onClick={() => setTrueChannelChangeModal()}
             >

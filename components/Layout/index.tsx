@@ -31,7 +31,7 @@ import * as settingReducer from 'reducers/setting';
 import { LayoutProps } from './types';
 import { NotificationPermissionType } from 'common/types';
 import { StateType, ActionContentType } from 'reducers/types';
-import {useTheme} from 'emotion-theming';
+import { useTheme } from 'emotion-theming';
 import { themeType } from 'theme/types';
 
 const ChannelAside = dynamic<Pick<ChannelAsideProps, never>>(
@@ -359,7 +359,7 @@ const Layout = ({
       border-bottom: 1px solid ${theme.colors.gray[5]};
     }
     table tbody tr:nth-child(even) {
-      background-color: ${theme.colors.gray[1]};
+      background-color: ${theme.colors.gray[0]};
       color: ${theme.colors.gray[8]};
     }
     table tbody td:first-of-type {

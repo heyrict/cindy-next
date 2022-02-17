@@ -1,7 +1,8 @@
 import React from 'react';
-import reactSelectTheme from 'theme/react-select';
+import getReactSelectTheme from 'theme/react-select';
 import { toast } from 'react-toastify';
 import { asSearch } from 'common/search';
+import { withTheme } from '@storybook/theming';
 
 import AsyncCreatableSelect from 'react-select/async-creatable';
 
@@ -13,8 +14,9 @@ import {
   PuzzleTagsSearchQueryVariables,
 } from 'graphql/Queries/generated/PuzzleTagsSearchQuery';
 import { PuzzleTagInputOptionType } from './types';
+import { themeType } from 'theme/types';
 
-class PuzzleTagInput extends React.PureComponent {
+class PuzzleTagInput extends React.PureComponent<{ theme: themeType }> {
   value: PuzzleTagInputOptionType | undefined;
   waitHandle: number | null = null;
 
@@ -24,7 +26,7 @@ class PuzzleTagInput extends React.PureComponent {
         {client => (
           <AsyncCreatableSelect<PuzzleTagInputOptionType, false>
             isClearable
-            theme={reactSelectTheme}
+            theme={getReactSelectTheme(this.props.theme)}
             styles={{
               input: provided => ({
                 ...provided,
@@ -86,4 +88,4 @@ class PuzzleTagInput extends React.PureComponent {
   }
 }
 
-export default PuzzleTagInput;
+export default withTheme(PuzzleTagInput);

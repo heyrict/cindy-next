@@ -38,8 +38,8 @@ import {
   UpdateDefaultLicenseMutation,
   UpdateDefaultLicenseMutationVariables,
 } from 'graphql/Mutations/generated/UpdateDefaultLicenseMutation';
-import {ThemesEnum, themeType} from 'theme/types';
-import {useTheme} from 'emotion-theming';
+import { ThemesEnum, themeType } from 'theme/types';
+import { useTheme } from 'emotion-theming';
 
 const booleanOptions = [
   {
@@ -273,7 +273,7 @@ const SettingsModal = ({
             />
           </Box>
           <Box width={[1, 1 / 3, 1 / 5]} mb={[0, 2]}>
-            <FormattedMessage {...settingMessages.rightAsideMini}>
+            <FormattedMessage {...settingMessages.theme}>
               {msg => <label>{msg}</label>}
             </FormattedMessage>
           </Box>

@@ -18,7 +18,7 @@ const SettingsButton = ({ setTrueSettingsModal }: SettingsButtonProps) => (
     <ButtonTransparent
       height={1}
       width={1}
-      color="gray.1"
+      color="preset.menubar.fg"
       onClick={() => setTrueSettingsModal()}
     >
       <Img mr={1} src={gearIcon} height="xs" />

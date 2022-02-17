@@ -16,6 +16,7 @@ const ButtonTransparent = styled<
   'button',
   SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
 >('button')`
+  color: ${p => p.theme.colors.black};
   background-color: transparent;
   cursor: pointer;
   overflow: hidden;
@@ -30,10 +31,16 @@ const ButtonTransparent = styled<
   ${border}
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: ${p =>
+      p.theme.colors.dark_theme
+        ? 'rgba(0, 0, 0, 0.05)'
+        : 'rgba(255, 255, 255, 0.05)'};
   }
   &:active {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: ${p =>
+      p.theme.colors.dark_theme
+        ? 'rgba(0, 0, 0, 0.1)'
+        : 'rgba(255, 255, 255, 0.1)'};
   }
 `;
 

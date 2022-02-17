@@ -22,8 +22,8 @@ ModalCloseBtn.defaultProps = {
 };
 
 export const ModalHeader = styled.div`
-  background: ${p => p.theme.colors.orange[5]};
-  color: ${p => p.theme.colors.light.gray[9]};
+  background: ${p => p.theme.colors.preset.modal.ac};
+  color: ${p => p.theme.colors.preset.modal.fg};
   border-radius: 5px 5px 0 0;
   font-size: 1.6em;
   padding: 10px 20px;
@@ -31,11 +31,12 @@ export const ModalHeader = styled.div`
 
 export const ModalBody = styled.div`
   padding: 10px 20px;
-  background: ${p => p.theme.colors.orange[2]};
+  background: ${p => p.theme.colors.preset.modal.bg};
+  color: ${p => p.theme.colors.preset.modal.fg};
 `;
 
 export const ModalFooter = styled.div`
-  border-top: 2px solid ${p => p.theme.colors.orange[5]};
+  border-top: 2px solid ${p => p.theme.colors.preset.modal.ac};
   padding: 5px 10px;
   text-align: right;
 `;

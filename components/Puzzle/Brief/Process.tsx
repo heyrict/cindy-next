@@ -10,8 +10,9 @@ export const ProcessBase = styled.div`
   margin-right: 6px;
   margin-bottom: 3px;
   font-size: 0.9em;
-  color: ${p => p.theme.colors.blue[6]};
-  border: 1px solid ${p => p.theme.colors.blue[6]};
+  color: ${p => p.theme.colors.preset.puzzle.process.fg};
+  border: 1px solid ${p => p.theme.colors.preset.puzzle.process.fg};
+  background: ${p => p.theme.colors.preset.puzzle.process.bg};
   display: inline-flex;
   align-items: center;
 `;
@@ -25,9 +26,9 @@ export const ProcessBaseLeft = styled(ProcessBase)`
 export const ProcessBaseRight = styled(ProcessBase)`
   padding: 0 6px 0 3px;
   border-radius: 0 10px 10px 0;
-  background: ${p => p.theme.colors.blue[5]};
-  border: 1px solid ${p => p.theme.colors.blue[5]};
-  color: ${p => p.theme.colors.blue[1]};
+  background: ${p => p.theme.colors.preset.puzzle.process.fg};
+  border: 1px solid ${p => p.theme.colors.preset.puzzle.process.fg};
+  color: ${p => p.theme.colors.preset.puzzle.process.ac};
   font-weight: bold;
 `;
 

@@ -10,8 +10,8 @@ export const StarBase = styled.div`
   margin-right: 6px;
   margin-bottom: 3px;
   font-size: 0.9em;
-  color: ${p => p.theme.colors.white};
-  background: ${p => p.theme.colors.violet[6]};
+  color: ${p => p.theme.colors.preset.puzzle.star.fg};
+  background: ${p => p.theme.colors.preset.puzzle.star.bg};
   display: inline-flex;
   align-items: center;
 `;

@@ -17,9 +17,10 @@ const PuzzlePane = styled(Panel)<PuzzlePaneProps>`
       case Status.FORCE_HIDDEN:
         return p.theme.colors.gray[1];
       default:
-        return 'rgba(255, 255, 255, 0.5)';
+        return p.theme.colors.preset.puzzle.panel.bg;
     }
   }};
+  color: ${p => p.theme.colors.preset.puzzle.panel.fg};
 `;
 
 export default PuzzlePane;

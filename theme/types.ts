@@ -8,4 +8,5 @@ export enum ThemesEnum {
 export type themeType = typeof theme &
   typeof colorthemes.light & {
     theme: ThemesEnum;
+    [key: string]: any;
   };

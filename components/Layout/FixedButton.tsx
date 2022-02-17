@@ -14,8 +14,7 @@ const FixedButtonBase = styled(Button)<FixedButtonBaseProps>`
     height: 5em;
     ${p => p.position || 'left'}: 2em;
     bottom: ${p => p.bottom || '2em'};
-    background-color: ${p => p.theme.colors.red[9]};
-    color: ${p => p.theme.colors.gray[8]};
+    background-color: ${p => p.theme.colors.preset.chatbutton.normal};
     z-index: 180;
     visibility: ${p => (p.show ? 'visible' : 'hidden')};
     transform: ${p => (p.show ? 'none' : 'translateX(-100%)')};
@@ -23,11 +22,9 @@ const FixedButtonBase = styled(Button)<FixedButtonBaseProps>`
     transition-duration: 150ms;
     transition-timing-function: ease-in-out;
 
+    &:active,
     &:hover {
-      background-color: ${p => p.theme.colors.red[8]};
-    }
-    &:active {
-      background-color: ${p => p.theme.colors.red[7]};
+      background-color: ${p => p.theme.colors.preset.chatbutton.hover};
     }
   }
 `;

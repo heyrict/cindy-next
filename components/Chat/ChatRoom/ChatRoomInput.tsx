@@ -40,8 +40,8 @@ import { LegacyEditorPreviewMode } from 'components/PreviewEditor/Legacy/types';
 const LoginRequiredBlock = styled.div`
   height: ${p => p.theme.sizes.chatinput};
   padding: ${p => p.theme.space[1]}px ${p => p.theme.space[2]}px;
-  background-color: ${p => p.theme.colors.orange[5]};
-  color: ${p => p.theme.colors.white};
+  background-color: ${p => p.theme.colors.preset.menubar.bg};
+  color: ${p => p.theme.colors.preset.menubar.fg};
   font-weight: bold;
 `;
 
@@ -176,7 +176,7 @@ const ChatRoomInput = ({
         values={{
           login: (
             <ButtonTransparent
-              color="blue.0"
+              color="blue.7"
               px={1}
               onClick={() => setTrueLoginModal()}
             >
@@ -185,7 +185,7 @@ const ChatRoomInput = ({
           ),
           signup: (
             <ButtonTransparent
-              color="blue.0"
+              color="blue.7"
               px={1}
               onClick={() => setTrueSignupModal()}
             >

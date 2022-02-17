@@ -46,8 +46,8 @@ const Tooltip = ({
           <Popper {...popperProps}>
             {({ ref, style, placement }) => (
               <Box
-                color="gray.1"
-                bg="gray.9"
+                color="preset.tooltip.fg"
+                bg="preset.tooltip.bg"
                 borderRadius={2}
                 p={1}
                 ref={ref}

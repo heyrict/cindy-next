@@ -17,7 +17,7 @@ const ProfileSubbar = ({ tab, setTab, hideBookmark }: ProfileSubbarProps) => (
         ml={1}
       >
         <ButtonTransparent
-          color="red.9"
+          color="light.red.9"
           height={1}
           width={1}
           onClick={() => setTab(ProfileTabType.INFO)}
@@ -33,7 +33,7 @@ const ProfileSubbar = ({ tab, setTab, hideBookmark }: ProfileSubbarProps) => (
         ml={1}
       >
         <ButtonTransparent
-          color="red.9"
+          color="light.red.9"
           height={1}
           width={1}
           onClick={() => setTab(ProfileTabType.FOOTPRINTS)}
@@ -49,7 +49,7 @@ const ProfileSubbar = ({ tab, setTab, hideBookmark }: ProfileSubbarProps) => (
         ml={1}
       >
         <ButtonTransparent
-          color="red.9"
+          color="light.red.9"
           height={1}
           width={1}
           onClick={() => setTab(ProfileTabType.PUZZLES)}
@@ -65,7 +65,7 @@ const ProfileSubbar = ({ tab, setTab, hideBookmark }: ProfileSubbarProps) => (
         ml={1}
       >
         <ButtonTransparent
-          color="red.9"
+          color="light.red.9"
           height={1}
           width={1}
           onClick={() => setTab(ProfileTabType.STARS)}
@@ -81,7 +81,7 @@ const ProfileSubbar = ({ tab, setTab, hideBookmark }: ProfileSubbarProps) => (
         ml={1}
       >
         <ButtonTransparent
-          color="red.9"
+          color="light.red.9"
           height={1}
           width={1}
           onClick={() => setTab(ProfileTabType.COMMENTS)}
@@ -98,7 +98,7 @@ const ProfileSubbar = ({ tab, setTab, hideBookmark }: ProfileSubbarProps) => (
           ml={1}
         >
           <ButtonTransparent
-            color="red.9"
+            color="light.red.9"
             height={1}
             width={1}
             onClick={() => setTab(ProfileTabType.BOOKMARKS)}

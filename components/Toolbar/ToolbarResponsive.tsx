@@ -83,7 +83,6 @@ const Toolbar = ({
         <ButtonTransparent
           height={1}
           width={1}
-          color="orange.9"
           onClick={() =>
             toggleToolbarMenu(ToolbarResponsiveMenuType.GENERAL_MENU)
           }
@@ -95,54 +94,54 @@ const Toolbar = ({
         <Portal>
           <ToolbarResponsiveContents>
             <Box width={1 / 2}>
-              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
+              <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
                 <Link href="/puzzles" passHref>
-                  <ButtonTransparentA height={1} width={1} color="orange.9">
+                  <ButtonTransparentA height={1} width={1} color="black">
                     <FormattedMessage {...toolbarMessages.puzzle} />
                   </ButtonTransparentA>
                 </Link>
               </ToolbarResponsiveButton>
             </Box>
             <Box width={1 / 2}>
-              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
-                <ChatroomButton color="orange.9" />
+              <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
+                <ChatroomButton color="black" />
               </ToolbarResponsiveButton>
             </Box>
             <Box width={1 / 2}>
-              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
+              <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
                 <Link href="/users" passHref>
-                  <ButtonTransparentA height={1} width={1} color="orange.9">
+                  <ButtonTransparentA height={1} width={1} color="black">
                     <FormattedMessage {...toolbarMessages.users} />
                   </ButtonTransparentA>
                 </Link>
               </ToolbarResponsiveButton>
             </Box>
             <Box width={1 / 2}>
-              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
+              <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
                 <ButtonTransparentA
                   href="https://wiki3.jp/cindy-lat"
                   target="_blank"
                   height={1}
                   width={1}
-                  color="orange.9"
+                  color="black"
                 >
                   <FormattedMessage {...toolbarMessages.wiki} />
                 </ButtonTransparentA>
               </ToolbarResponsiveButton>
             </Box>
             <Box width={1 / 2}>
-              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
+              <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
                 <Link href="/license_help" passHref>
-                  <ButtonTransparentA height={1} width={1} color="orange.9">
+                  <ButtonTransparentA height={1} width={1} color="black">
                     <FormattedMessage {...toolbarMessages.licenseHelp} />
                   </ButtonTransparentA>
                 </Link>
               </ToolbarResponsiveButton>
             </Box>
             <Box width={1 / 2}>
-              <ToolbarResponsiveButton bg="orange.4" mr="1px" mb="1px">
+              <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
                 <Link href="/eula" passHref>
-                  <ButtonTransparentA height={1} width={1} color="orange.9">
+                  <ButtonTransparentA height={1} width={1} color="black">
                     <FormattedMessage {...toolbarMessages.eula} />
                   </ButtonTransparentA>
                 </Link>
@@ -165,7 +164,7 @@ const Toolbar = ({
       )}
       <ToolbarButton mx="auto">
         <Link href="/" passHref>
-          <ButtonTransparentA height={1} width={1} color="orange.9">
+          <ButtonTransparentA height={1} width={1}>
             <Img height="xs" src={logoInline} />
           </ButtonTransparentA>
         </Link>
@@ -175,7 +174,6 @@ const Toolbar = ({
           style={{ position: 'relative' }}
           height={1}
           width={1}
-          color="orange.9"
           onClick={() => toggleToolbarMenu(ToolbarResponsiveMenuType.USER_MENU)}
         >
           <Img height="xs" src={userIcon} />
@@ -187,9 +185,13 @@ const Toolbar = ({
           <ToolbarResponsiveContents>
             {user.id && (
               <Box width={1 / 2}>
-                <ToolbarResponsiveButton mr="1px" mb="1px" bg="orange.5">
+                <ToolbarResponsiveButton
+                  mr="1px"
+                  mb="1px"
+                  bg="preset.menubar.ac"
+                >
                   <Link href="/user/[id]" as={`/user/${user.id}`} passHref>
-                    <ButtonTransparentA height={1} width={1} color="gray.1">
+                    <ButtonTransparentA height={1} width={1} color="black">
                       {user.nickname}
                     </ButtonTransparentA>
                   </Link>
@@ -201,8 +203,8 @@ const Toolbar = ({
                 <ToolbarResponsiveButton
                   mr="1px"
                   mb="1px"
-                  bg="orange.5"
-                  color="gray.1"
+                  bg="preset.menubar.ac"
+                  color="white"
                 >
                   <MessageBoxButton />
                   {directHasnew && <RedDot right={20} top={8} />}
@@ -214,8 +216,7 @@ const Toolbar = ({
                 <ToolbarResponsiveButton
                   mr="1px"
                   mb="1px"
-                  bg="orange.5"
-                  color="gray.1"
+                  bg="preset.menubar.ac"
                   fontWeight="bold"
                 >
                   <LogoutButton />
@@ -227,8 +228,7 @@ const Toolbar = ({
                 <ToolbarResponsiveButton
                   mr="1px"
                   mb="1px"
-                  bg="orange.5"
-                  color="gray.1"
+                  bg="preset.menubar.ac"
                   fontWeight="bold"
                 >
                   <LoginButton />
@@ -238,8 +238,7 @@ const Toolbar = ({
             {!user.id && (
               <Box width={1 / 2}>
                 <ToolbarResponsiveButton
-                  bg="orange.5"
-                  color="gray.1"
+                  bg="preset.menubar.ac"
                   mr="1px"
                   mb="1px"
                 >
@@ -248,19 +247,13 @@ const Toolbar = ({
               </Box>
             )}
             <Box width={1 / 2}>
-              <ToolbarResponsiveButton
-                mx="1px"
-                mb="1px"
-                bg="orange.5"
-                color="gray.1"
-              >
+              <ToolbarResponsiveButton mx="1px" mb="1px" bg="preset.menubar.ac">
                 <SettingsButton />
               </ToolbarResponsiveButton>
             </Box>
             <ToolbarResponsiveButton
               width={1 / 2}
               bg="transparent"
-              color="gray.1"
               onClick={() => closeToolbarMenu()}
             >
               <ButtonTransparent height={1} onClick={() => setLanguage('ja')}>

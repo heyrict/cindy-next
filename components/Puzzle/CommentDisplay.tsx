@@ -54,11 +54,12 @@ class CommentDisplay extends React.PureComponent<
 
     return (
       <Flex
-        bg="blanchedalmond"
+        bg="white"
+        border="2px solid"
+        borderColor="solarized.white"
         style={{
           overflow: 'hidden',
           position: 'relative',
-          border: '2px solid burlywood',
           minHeight: '100px',
         }}
       >

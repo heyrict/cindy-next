@@ -90,13 +90,18 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
     <ToolbarFlex alignItems="center" justifyContent="center">
       <ToolbarFlex>
         <Link href="/" passHref>
-          <ButtonTransparentA px={3} height={1} width={1} color="light.orange.9">
+          <ButtonTransparentA
+            px={3}
+            height={1}
+            width={1}
+            color="preset.menubar.fg"
+          >
             <Img height="xs" src={logoInline} />
           </ButtonTransparentA>
         </Link>
-        <ToolbarButton bg="orange.4" mr="1px">
+        <ToolbarButton bg="preset.menubar.ac" mr="1px">
           <Link href="/puzzles" passHref>
-            <ButtonTransparentA height={1} width={1} color="light.orange.9">
+            <ButtonTransparentA height={1} width={1} color="preset.menubar.fg">
               <FormattedMessage {...toolbarMessages.puzzle} />
             </ButtonTransparentA>
           </Link>
@@ -110,13 +115,13 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                   comBtnRef.current = r;
                 }}
                 mr="1px"
-                bg="orange.4"
+                bg="preset.menubar.ac"
               >
                 <ButtonTransparentA
                   style={{ position: 'relative' }}
                   height={1}
                   width={1}
-                  color="light.orange.9"
+                  color="preset.menubar.fg"
                   onClick={() => setComDropDown(!comDropDown)}
                 >
                   <FormattedMessage {...toolbarMessages.communication} />
@@ -146,22 +151,26 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                     data-placement={placement}
                   >
                     <ToolbarButton
-                      bg="orange.5"
-                      color="gray.1"
+                      bg="preset.menubar.bg"
+                      color="preset.menubar.fg"
                       fontWeight="bold"
                     >
                       <Link href="/users" passHref>
-                        <ButtonTransparentA height={1} width={1} color="gray.1">
+                        <ButtonTransparentA
+                          height={1}
+                          width={1}
+                          color="preset.menubar.fg"
+                        >
                           <FormattedMessage {...toolbarMessages.users} />
                         </ButtonTransparentA>
                       </Link>
                     </ToolbarButton>
                     <ToolbarButton
-                      bg="orange.5"
-                      color="gray.1"
+                      bg="preset.menubar.bg"
+                      color="preset.menubar.fg"
                       fontWeight="bold"
                     >
-                      <ChatroomButton />
+                      <ChatroomButton color="preset.menubar.fg" />
                     </ToolbarButton>
                   </ToolbarDropdownContents>
                 )}
@@ -178,13 +187,13 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                   helpBtnRef.current = r;
                 }}
                 mr="1px"
-                bg="orange.4"
+                bg="preset.menubar.ac"
               >
                 <ButtonTransparentA
                   style={{ position: 'relative' }}
                   height={1}
                   width={1}
-                  color="light.orange.9"
+                  color="preset.menubar.fg"
                   onClick={() => setHelpDropDown(!helpDropDown)}
                 >
                   <FormattedMessage {...toolbarMessages.help} />
@@ -213,27 +222,35 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                     }}
                     data-placement={placement}
                   >
-                    <ToolbarButton bg="orange.5" fontWeight="bold">
+                    <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">
                       <ButtonTransparentA
                         href="https://wiki3.jp/cindy-lat"
                         target="_blank"
                         height={1}
                         width={1}
-                        color="gray.1"
+                        color="preset.menubar.fg"
                       >
                         <FormattedMessage {...toolbarMessages.wiki} />
                       </ButtonTransparentA>
                     </ToolbarButton>
-                    <ToolbarButton bg="orange.5" fontWeight="bold">
+                    <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">
                       <Link href="/eula" passHref>
-                        <ButtonTransparentA height={1} width={1} color="gray.1">
+                        <ButtonTransparentA
+                          height={1}
+                          width={1}
+                          color="preset.menubar.fg"
+                        >
                           <FormattedMessage {...toolbarMessages.eula} />
                         </ButtonTransparentA>
                       </Link>
                     </ToolbarButton>
-                    <ToolbarButton bg="orange.5" fontWeight="bold">
+                    <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">
                       <Link href="/license_help" passHref>
-                        <ButtonTransparentA height={1} width={1} color="gray.1">
+                        <ButtonTransparentA
+                          height={1}
+                          width={1}
+                          color="preset.menubar.fg"
+                        >
                           <FormattedMessage {...toolbarMessages.licenseHelp} />
                         </ButtonTransparentA>
                       </Link>
@@ -254,7 +271,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
           </ButtonTransparentA>
         </Box>
         <Flex
-          color="light.orange.9"
+          color="preset.menubar.fg"
           ml={1}
           minWidth="max-content"
           alignItems="center"
@@ -272,13 +289,13 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                 userBtnRef.current = r;
               }}
               ml="auto"
-              bg="orange.5"
+              bg="preset.menubar.ac"
             >
               <ButtonTransparentA
                 style={{ position: 'relative' }}
                 height={1}
                 width={1}
-                color="gray.1"
+                color="preset.menubar.fg"
                 onClick={() => setDropDown(!dropDown)}
               >
                 {user.id ? (
@@ -314,15 +331,15 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                 >
                   {user.id && (
                     <ToolbarButton
-                      bg="orange.5"
-                      color="gray.1"
+                      bg="preset.menubar.bg"
+                      color="preset.menubar.fg"
                       fontWeight="bold"
                     >
                       <Link href="/user/[id]" as={`/user/${user.id}`} passHref>
                         <ButtonTransparentA
                           height={1}
                           width={1}
-                          color="gray.1"
+                          color="preset.menubar.fg"
                           onClick={() => setDropDown(!dropDown)}
                         >
                           <FormattedMessage {...userMessages.profile} />
@@ -333,8 +350,8 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                   {user.id && (
                     <ToolbarButton
                       style={{ position: 'relative' }}
-                      bg="orange.5"
-                      color="gray.1"
+                      bg="preset.menubar.bg"
+                      color="preset.menubar.fg"
                       fontWeight="bold"
                     >
                       <MessageBoxButton />
@@ -343,8 +360,8 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                   )}
                   {user.id && (
                     <ToolbarButton
-                      bg="orange.5"
-                      color="gray.1"
+                      bg="preset.menubar.bg"
+                      color="preset.menubar.fg"
                       fontWeight="bold"
                     >
                       <LogoutButton />
@@ -352,22 +369,31 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                   )}
                   {!user.id && (
                     <ToolbarButton
-                      bg="orange.5"
-                      color="gray.1"
+                      bg="preset.menubar.bg"
+                      color="preset.menubar.fg"
                       fontWeight="bold"
                     >
                       <LoginButton />
                     </ToolbarButton>
                   )}
                   {!user.id && (
-                    <ToolbarButton bg="orange.5" color="gray.1">
+                    <ToolbarButton
+                      bg="preset.menubar.bg"
+                      color="preset.menubar.fg"
+                    >
                       <SignupButton />
                     </ToolbarButton>
                   )}
-                  <ToolbarButton bg="orange.5" color="gray.1">
+                  <ToolbarButton
+                    bg="preset.menubar.bg"
+                    color="preset.menubar.fg"
+                  >
                     <SettingsButton />
                   </ToolbarButton>
-                  <ToolbarButton bg="orange.5" color="gray.1">
+                  <ToolbarButton
+                    bg="preset.menubar.bg"
+                    color="preset.menubar.fg"
+                  >
                     <ButtonTransparent
                       height={1}
                       onClick={() => setLanguage('ja')}

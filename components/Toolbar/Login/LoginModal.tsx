@@ -37,11 +37,7 @@ const LoginModal = ({
     </ModalBody>
     <ModalFooter>
       <OKButton login={login} />
-      <FooterButton
-        bg="orange.5"
-        color="black"
-        onClick={() => setFalseLoginModal()}
-      >
+      <FooterButton onClick={() => setFalseLoginModal()}>
         <FormattedMessage {...commonMessages.close} />
       </FooterButton>
     </ModalFooter>

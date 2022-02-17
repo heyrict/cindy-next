@@ -31,7 +31,7 @@ import { StateType } from 'reducers/types';
 import { Status as StatusEnum } from 'generated/globalTypes';
 
 export const Hr = styled.hr`
-  color: ${p => p.theme.colors.gray[6]};
+  color: ${p => p.theme.colors.black};
 `;
 
 export const Time = styled(Box)`

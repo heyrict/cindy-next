@@ -16,6 +16,7 @@ const Textarea = styled<
 >('textarea')`
   box-sizing: 'border-box';
   border-width: 1px;
+  color: ${p => p.theme.colors.black};
   border-color: ${p => p.theme.colors.orange[5]};
   background-color: ${p => p.theme.colors.white};
   min-height: 5em;

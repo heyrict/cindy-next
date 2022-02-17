@@ -1,13 +1,6 @@
-import theme from './theme';
+import { themeType } from './types';
 
-export const colors = {
-  primary: '#2684FF',
-  primary75: '#4C9AFF',
-  primary50: '#B2D4FF',
-  primary25: '#DEEBFF',
-};
-
-const reactSelectTheme = {
+const getReactSelectTheme = (theme: themeType) => ({
   spacing: {
     baseUnit: 4,
     controlHeight: 0,
@@ -35,6 +28,6 @@ const reactSelectTheme = {
     neutral90: theme.colors.gray[9],
   },
   borderRadius: 4,
-};
+});
 
-export default reactSelectTheme;
+export default getReactSelectTheme;

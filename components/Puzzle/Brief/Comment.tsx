@@ -31,7 +31,7 @@ export const CommentBase = styled.div`
   border-radius: 10px;
   margin-right: 6px;
   margin-bottom: 3px;
-  background: ${p => p.theme.colors.cyan[6]};
+  background: ${p => p.theme.colors.preset.puzzle.comment.bg};
   display: inline-flex;
   align-items: center;
 `;
@@ -48,7 +48,7 @@ const Comment = ({ count, puzzleId }: CommentProps) => {
         width={1}
         onClick={() => setShow(true)}
         fontSize="0.9em"
-        color="white"
+        color="preset.puzzle.comment.fg"
       >
         <Img size="1.25em" pr={1} src={C} />
         {count}

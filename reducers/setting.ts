@@ -50,7 +50,7 @@ export type ActionPayloadType = {
   THEME: ReturnType<ValueOf<enumerate.HelperActionType<ThemesEnum>>>;
   SET_STATE: { state: typeof initialState };
   LANGUAGE: ReturnType<
-    ValueOf<base.HelperActionType<typeof APPLOCALES[0] | undefined>>
+    ValueOf<base.HelperActionType<typeof APPLOCALES[0] | null>>
   >;
   MULTICOL: ReturnType<ValueOf<bool.HelperActionType>>;
 };
@@ -73,9 +73,7 @@ export const actions = {
   sendAnswerTrigger: mask.wrapActions(actionTypes.SEND_ANSWER_TRIGGER),
   pushNotification: bool.wrapActions(actionTypes.PUSH_NOTIFICATION),
   theme: enumerate.wrapActions(actionTypes.THEME),
-  language: base.wrapActions<typeof APPLOCALES[0] | undefined>(
-    actionTypes.LANGUAGE,
-  ),
+  language: base.wrapActions<typeof APPLOCALES[0] | null>(actionTypes.LANGUAGE),
   multicol: bool.wrapActions(actionTypes.MULTICOL),
   setState: (state: {
     [key in keyof typeof initialState]?: typeof initialState[key];
@@ -103,7 +101,7 @@ export const initialState = {
   rightAsideMini: false,
   pushNotification: true,
   theme: ThemesEnum.LIGHT,
-  language: undefined as typeof APPLOCALES[0] | undefined,
+  language: null as typeof APPLOCALES[0] | null,
   multicol: true,
 };
 

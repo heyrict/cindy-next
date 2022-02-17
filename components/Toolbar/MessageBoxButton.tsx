@@ -17,7 +17,7 @@ const MessageBoxButton = ({ setTrueDirectModal }: MessageBoxButtonProps) => (
       width={1}
       height={1}
       p={0}
-      color="gray.1"
+      color="preset.menubar.fg"
       fontWeight="bold"
       onClick={setTrueDirectModal}
     >

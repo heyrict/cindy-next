@@ -60,7 +60,12 @@ export const initializeStore = (
     {
       ...initialState,
       global: { ...globalReducer.initialState, route, user: globalUser },
-      setting: { ...settingReducer.initialState, ...settingsState },
+      setting: {
+        ...settingReducer.initialState,
+        ...settingsState,
+        // Only set theme at client side
+        theme: null,
+      },
     },
     composeEnhancers(applyMiddleware(sagaMiddleware)),
   );
