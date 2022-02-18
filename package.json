@@ -42,7 +42,7 @@
     "intl": "^1.2.5",
     "isomorphic-unfetch": "^3.0.0",
     "jsdom": "^15.1.1",
-    "markdown-it": "^8.4.2",
+    "markdown-it": "^12.3.2",
     "markdown-it-emoji": "^1.4.0",
     "next": "^12.1",
     "react": "^16.8.6",
