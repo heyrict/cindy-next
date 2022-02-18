@@ -41,6 +41,7 @@ export const initializeStore = (
   appContext?: ReduxServerSideCtx,
 ) => {
   let settingsState;
+  let themeOverrideState;
 
   const route = (appContext && appContext.route) || '';
   const cookies = (appContext && appContext.cookie) || undefined;
@@ -55,6 +56,16 @@ export const initializeStore = (
     getUser(process.browser ? document.cookie : cookies) ||
     globalReducer.initialState.user;
   const sagaMiddleware = createSagaMiddleware();
+
+  // Preload theme from cookies only in SSR pages
+  if (
+    ['/puzzles', '/puzzle/', '/user/'].some(match => route.startsWith(match))
+  ) {
+    themeOverrideState = {};
+  } else {
+    themeOverrideState = { theme: null };
+  }
+
   const store: ExtendedStore = createStore(
     reducer,
     {
@@ -63,8 +74,7 @@ export const initializeStore = (
       setting: {
         ...settingReducer.initialState,
         ...settingsState,
-        // Only set theme at client side
-        theme: null,
+        ...themeOverrideState,
       },
     },
     composeEnhancers(applyMiddleware(sagaMiddleware)),

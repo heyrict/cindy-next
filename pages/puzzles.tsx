@@ -40,7 +40,6 @@ import { UnsolvedPuzzlePuzzleLogsSub } from 'graphql/Subscriptions/generated/Uns
 import { UNSOLVED_PUZZLE_PUZZLE_LOGS_SUB } from 'graphql/Subscriptions/PuzzleLog';
 import { PUZZLE_UNSOLVED_EXTRA_FRAGMENT } from 'graphql/Fragments/Puzzles';
 import { PuzzleUnsolvedExtra } from 'graphql/Fragments/generated/PuzzleUnsolvedExtra';
-import { initializeStore } from 'reducers';
 
 const PUZZLES_PER_PAGE = 20;
 const puzzleLoadingPanel = (
@@ -348,7 +347,6 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
     route: ctx.resolvedUrl,
     cookie: ctx.req.headers.cookie || null,
   };
-  const reduxStore = initializeStore({}, serverSideContext);
 
   await Promise.all([
     apolloClient.query<PuzzlesSolvedQuery, PuzzlesSolvedQueryVariables>({
@@ -361,7 +359,6 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
-      initializeStore: reduxStore.getState(),
       serverSideContext,
     },
   };
