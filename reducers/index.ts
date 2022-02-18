@@ -30,6 +30,8 @@ const composeEnhancers =
   //  (process.browser && isDev && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   (process.browser && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
+const THEME_PREFIX_REGEX = RegExp('^/[0-9]+');
+
 let store: ExtendedStore | undefined;
 
 export type ReduxServerSideCtx = {
@@ -45,7 +47,8 @@ export const initStore = (
 ) => {
   let settingsState;
 
-  const route = (appContext && appContext.route) || '';
+  let route = (appContext && appContext.route) || '';
+  route = route.replace(THEME_PREFIX_REGEX, '');
   const cookies = (appContext && appContext.cookie) || undefined;
   try {
     settingsState =
