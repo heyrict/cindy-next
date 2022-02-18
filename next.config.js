@@ -19,5 +19,5 @@ module.exports = {
     });
     return config;
   },
-  experimental: { publicDirectory: true },
+  swcMinity: true,
 };
