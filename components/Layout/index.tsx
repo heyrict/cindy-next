@@ -24,7 +24,7 @@ import ToolbarBox from './ToolbarBox';
 import Footer from './Footer';
 import Patrons from './Patrons';
 
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as settingReducer from 'reducers/setting';
 
@@ -39,15 +39,21 @@ const ChannelAside = dynamic<Pick<ChannelAsideProps, never>>(
   { ssr: false },
 );
 
-const Layout = ({
-  children,
-  route,
-  pushNotification,
-  setFalsePushNotification,
-}: LayoutProps) => {
+const Layout = ({ children }: LayoutProps) => {
   const notifHdlRef = useRef<React.ReactText | null>(null);
   const waitPushHdlRef = useRef<number | null>(null);
   const theme: themeType = useTheme();
+
+  const pushNotification = useSelector(
+    (state: StateType) => settingReducer.rootSelector(state).pushNotification,
+  );
+  const route = useSelector(
+    (state: StateType) => globalReducer.rootSelector(state).route,
+  );
+  const dispatch = useDispatch<(action: ActionContentType) => void>();
+  const setFalsePushNotification = () => {
+    dispatch(settingReducer.actions.pushNotification.setFalse());
+  };
 
   // Request notification permission
   useEffect(() => {

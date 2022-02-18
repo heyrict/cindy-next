@@ -2,7 +2,7 @@ import React from 'react';
 import { ThemeProvider } from 'emotion-theming';
 import defaultTheme, { colorthemes } from './theme';
 
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
 
 export const ThemesEnum = {
@@ -10,7 +10,8 @@ export const ThemesEnum = {
   DARK: 1,
 };
 
-const ThemeSwitchProvider = ({ theme, children }) => {
+const ThemeSwitchProvider = ({ children }) => {
+  const theme = useSelector(state => settingReducer.rootSelector(state).theme);
   let currentTheme = { ...defaultTheme, theme };
   switch (theme) {
     case ThemesEnum.LIGHT:
@@ -27,10 +28,4 @@ const ThemeSwitchProvider = ({ theme, children }) => {
   return <ThemeProvider theme={currentTheme}>{children}</ThemeProvider>;
 };
 
-const mapStateToProps = state => ({
-  theme: settingReducer.rootSelector(state).theme,
-});
-
-const withRedux = connect(mapStateToProps);
-
-export default withRedux(ThemeSwitchProvider);
+export default ThemeSwitchProvider;

@@ -30,6 +30,8 @@ const composeEnhancers =
   //  (process.browser && isDev && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   (process.browser && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
+let store: ExtendedStore | undefined;
+
 export type ReduxServerSideCtx = {
   route: string;
   cookie: string | null;
@@ -37,7 +39,7 @@ export type ReduxServerSideCtx = {
 };
 
 /* eslint-disable no-underscore-dangle */
-export const initializeStore = (
+export const initStore = (
   initialState: StateType,
   appContext?: ReduxServerSideCtx,
 ) => {
@@ -76,4 +78,32 @@ export const initializeStore = (
   store.sagaTask = sagaMiddleware.run(sagas);
 
   return store;
+};
+
+export const initializeStore = (
+  initialState: StateType,
+  appContext?: ReduxServerSideCtx,
+) => {
+  let _store = store ?? initStore(initialState, appContext);
+
+  // After navigating to a page with an initial Redux state, merge that state
+  // with the current state in the store, and create a new store
+  if (initialState && store) {
+    _store = initStore(
+      {
+        ...store.getState(),
+        ...initialState,
+      },
+      appContext,
+    );
+    // Reset the current store
+    store = undefined;
+  }
+
+  // For SSG and SSR always create a new store
+  if (typeof window === 'undefined') return _store;
+  // Create the store once in the client
+  if (!store) store = _store;
+
+  return _store;
 };

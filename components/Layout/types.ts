@@ -31,9 +31,6 @@ export type ToolbarBoxBaseProps = {
 
 export type LayoutProps = {
   children: React.ReactElement;
-  pushNotification: boolean;
-  route: string;
-  setFalsePushNotification: () => void;
   appInit: () => void;
   [prop: string]: any;
 };
