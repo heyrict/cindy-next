@@ -7,6 +7,8 @@ import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, ButtonTransparent, Box } from 'components/General';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
+import { GetStaticProps } from 'next';
+import { themeStaticPaths } from 'theme';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -89,14 +91,15 @@ const Ranking = () => {
   );
 };
 
-export const getStaticProps = async () => {
-  return {
-    props: {
-      serverSideContext: {
-        route: '/ranking',
-      },
+export const getStaticPaths = themeStaticPaths;
+
+export const getStaticProps: GetStaticProps = async ctx => ({
+  props: {
+    serverSideContext: {
+      route: '/ranking',
+      theme: ctx.params?.theme,
     },
-  };
-};
+  },
+});
 
 export default Ranking;

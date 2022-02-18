@@ -8,6 +8,8 @@ import PuzzleSubbar from 'components/Subbar/Puzzle';
 import { useIntl, FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/awards';
 import awardsMessages from 'messages/pages/awards';
+import { GetStaticProps } from 'next';
+import { themeStaticPaths } from 'theme';
 
 const Awards = () => {
   const { formatMessage: _ } = useIntl();
@@ -27,14 +29,15 @@ const Awards = () => {
   );
 };
 
-export async function getStaticProps() {
-  return {
-    props: {
-      serverSideContext: {
-        route: '/awards',
-      },
+export const getStaticPaths = themeStaticPaths;
+
+export const getStaticProps: GetStaticProps = async ctx => ({
+  props: {
+    serverSideContext: {
+      route: '/awards',
+      theme: ctx.params?.theme,
     },
-  };
-}
+  },
+});
 
 export default Awards;

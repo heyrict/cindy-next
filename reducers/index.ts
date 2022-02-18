@@ -33,6 +33,7 @@ const composeEnhancers =
 export type ReduxServerSideCtx = {
   route: string;
   cookie: string | null;
+  theme?: string;
 };
 
 /* eslint-disable no-underscore-dangle */
@@ -41,7 +42,6 @@ export const initializeStore = (
   appContext?: ReduxServerSideCtx,
 ) => {
   let settingsState;
-  let themeOverrideState;
 
   const route = (appContext && appContext.route) || '';
   const cookies = (appContext && appContext.cookie) || undefined;
@@ -52,19 +52,14 @@ export const initializeStore = (
     console.error(e);
     settingsState = {};
   }
+  if (appContext?.theme) {
+    settingsState.theme = parseInt(appContext.theme);
+  }
+
   const globalUser =
     getUser(process.browser ? document.cookie : cookies) ||
     globalReducer.initialState.user;
   const sagaMiddleware = createSagaMiddleware();
-
-  // Preload theme from cookies only in SSR pages
-  if (
-    ['/puzzles', '/puzzle/', '/user/'].some(match => route.startsWith(match))
-  ) {
-    themeOverrideState = {};
-  } else {
-    themeOverrideState = { theme: null };
-  }
 
   const store: ExtendedStore = createStore(
     reducer,
@@ -74,7 +69,6 @@ export const initializeStore = (
       setting: {
         ...settingReducer.initialState,
         ...settingsState,
-        ...themeOverrideState,
       },
     },
     composeEnhancers(applyMiddleware(sagaMiddleware)),

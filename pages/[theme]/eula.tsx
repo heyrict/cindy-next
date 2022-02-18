@@ -13,6 +13,8 @@ import Box from 'components/General/Box';
 import { EULAProps } from 'pageTypes';
 import { DEFAULT_LOCALE } from 'settings';
 import { StateType } from 'reducers/types';
+import { GetStaticProps } from 'next';
+import { themeStaticPaths } from 'theme';
 
 const getEULA = (locale: string) =>
   require(`markdown/EULA/${locale}.md`).default;
@@ -43,14 +45,15 @@ const mapStateToProps = (state: StateType) => ({
 
 const withRedux = connect(mapStateToProps);
 
-export async function getStaticProps() {
-  return {
-    props: {
-      serverSideContext: {
-        route: '/eula',
-      },
+export const getStaticPaths = themeStaticPaths;
+
+export const getStaticProps: GetStaticProps = async ctx => ({
+  props: {
+    serverSideContext: {
+      route: '/eula',
+      theme: ctx.params?.theme,
     },
-  };
-}
+  },
+});
 
 export default withRedux(EULA);

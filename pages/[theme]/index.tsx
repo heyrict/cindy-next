@@ -9,6 +9,8 @@ import PuzzleShowcase from 'components/Showcase/Puzzle';
 import logoInline from 'svgs/logoInlineLight.svg';
 
 import messages from 'messages/pages/home';
+import { GetStaticProps } from 'next';
+import { themeStaticPaths } from 'theme';
 
 const PurpleBg = styled(Flex)`
   background: linear-gradient(
@@ -120,14 +122,15 @@ const HomePage = () => {
   );
 };
 
-export async function getStaticProps() {
-  return {
-    props: {
-      serverSideContext: {
-        route: '/',
-      },
+export const getStaticPaths = themeStaticPaths;
+
+export const getStaticProps: GetStaticProps = async ctx => ({
+  props: {
+    serverSideContext: {
+      route: '/',
+      theme: ctx.params?.theme,
     },
-  };
-}
+  },
+});
 
 export default HomePage;

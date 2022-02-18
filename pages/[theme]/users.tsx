@@ -25,6 +25,8 @@ import {
 import SearchVarSetPanel from 'components/Search/SearchVarSetPanel';
 import { FilterFieldTypeEnum } from 'components/Search/types';
 import commonMessages from 'messages/common';
+import { GetStaticProps } from 'next';
+import { themeStaticPaths } from 'theme';
 
 const Users = () => {
   const intl = useIntl();
@@ -114,14 +116,15 @@ const Users = () => {
   );
 };
 
-export async function getStaticProps() {
-  return {
-    props: {
-      serverSideContext: {
-        route: '/users',
-      },
+export const getStaticPaths = themeStaticPaths;
+
+export const getStaticProps: GetStaticProps = async ctx => ({
+  props: {
+    serverSideContext: {
+      route: '/users',
+      theme: ctx.params?.theme,
     },
-  };
-}
+  },
+});
 
 export default Users;

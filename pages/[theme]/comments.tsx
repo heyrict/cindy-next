@@ -21,6 +21,8 @@ import {
   CommentsQueryVariables,
 } from 'graphql/Queries/generated/CommentsQuery';
 import { CommentsRendererProps } from 'pageTypes';
+import { GetStaticProps } from 'next';
+import { themeStaticPaths } from 'theme';
 
 const COMMENTS_PER_PAGE = 20;
 const commentLoadingPanel = (
@@ -128,14 +130,15 @@ const Comments = () => {
   );
 };
 
-export async function getStaticProps() {
-  return {
-    props: {
-      serverSideContext: {
-        route: '/comments',
-      },
+export const getStaticPaths = themeStaticPaths;
+
+export const getStaticProps: GetStaticProps = async ctx => ({
+  props: {
+    serverSideContext: {
+      route: '/comments',
+      theme: ctx.params?.theme,
     },
-  };
-}
+  },
+});
 
 export default Comments;

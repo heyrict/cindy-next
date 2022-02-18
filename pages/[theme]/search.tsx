@@ -30,6 +30,8 @@ import {
 } from 'graphql/Queries/generated/SolvedPuzzlesSearchQuery';
 import { FilterFieldTypeEnum } from 'components/Search/types';
 import { SearchVariablesStates } from 'pageTypes';
+import { GetStaticProps } from 'next';
+import { themeStaticPaths } from 'theme';
 
 const Search = () => {
   const { formatMessage: _ } = useIntl();
@@ -286,14 +288,15 @@ const Search = () => {
   );
 };
 
-export async function getStaticProps() {
-  return {
-    props: {
-      serverSideContext: {
-        route: '/search',
-      },
+export const getStaticPaths = themeStaticPaths;
+
+export const getStaticProps: GetStaticProps = async ctx => ({
+  props: {
+    serverSideContext: {
+      route: '/search',
+      theme: ctx.params?.theme,
     },
-  };
-}
+  },
+});
 
 export default Search;

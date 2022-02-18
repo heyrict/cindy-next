@@ -33,6 +33,8 @@ import {
   TagsPageQueryVariables,
   TagsPageQuery,
 } from 'graphql/Queries/generated/TagsPageQuery';
+import { GetStaticProps } from 'next';
+import { themeStaticPaths } from 'theme';
 
 const TAGS_PER_PAGE = 50;
 
@@ -215,14 +217,15 @@ const Tags = () => {
   );
 };
 
-export async function getStaticProps() {
-  return {
-    props: {
-      serverSideContext: {
-        route: '/tags',
-      },
+export const getStaticPaths = themeStaticPaths;
+
+export const getStaticProps: GetStaticProps = async ctx => ({
+  props: {
+    serverSideContext: {
+      route: '/tags',
+      theme: ctx.params?.theme,
     },
-  };
-}
+  },
+});
 
 export default Tags;
