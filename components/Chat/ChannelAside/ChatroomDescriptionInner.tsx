@@ -59,7 +59,13 @@ const ChatroomDescriptionInner = ({
       )}
     </Mutation>
   ) : (
-    <Box overflow="auto" flexGrow={1} bg="orange.2" color="orange.9" py={2}>
+    <Box
+      overflow="auto"
+      flexGrow={1}
+      bg="solarized.white"
+      color="solarized.black"
+      py={2}
+    >
       {chatroom.description ? (
         <div
           style={{ minHeight: '3em' }}

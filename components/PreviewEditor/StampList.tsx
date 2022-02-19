@@ -20,7 +20,7 @@ const StampList = ({ useNamespaces, onClick }: StampListProps) => {
 
   return (
     <React.Fragment>
-      <StampRow width={1} bg="orange.3">
+      <StampRow width={1} bg="preset.editor.menu1">
         {useNamespaces.map(namespc => (
           <ButtonTransparent
             onClick={() => setNamespace(namespc)}
@@ -30,6 +30,7 @@ const StampList = ({ useNamespaces, onClick }: StampListProps) => {
             borderLeft="none"
             borderRight="none"
             borderColor={namespc === namespace ? 'red.4' : 'transparent'}
+            color="preset.editor.menufg"
           >
             <FormattedMessage
               {...messages[stampMessageIds[namespc] as keyof typeof messages]}
@@ -37,7 +38,7 @@ const StampList = ({ useNamespaces, onClick }: StampListProps) => {
           </ButtonTransparent>
         ))}
       </StampRow>
-      <StampRow width={1} bg="orange.2">
+      <StampRow width={1} bg="preset.editor.menu2">
         {Object.entries(stamps[namespace]).map(([key, src]) => (
           <ButtonTransparent
             key={key}

@@ -289,18 +289,18 @@ export const PuzzleAddFormInner = ({
             <FormattedMessage {...commonMessages.back} />
           </ButtonTransparent>
         </Box>
-        <Box bg="orange.6" width={1} borderRadius={2}>
+        <Box bg="preset.button.bg" width={1} borderRadius={2}>
           <PostPuzzleButton onSubmit={onSubmit} getData={_handleGetData} />
         </Box>
       </Flex>
     </Flex>
   ) : (
     <>
-      <Box bg="orange.6" my={3} width={1} borderRadius={2}>
+      <Box bg="preset.button.bg" my={3} width={1} borderRadius={2}>
         <ButtonTransparent
           py={2}
           width={1}
-          color="orange.1"
+          color="preset.button.fg"
           onClick={() => setShowConfirm(true)}
         >
           <FormattedMessage {...puzzleMessages.gotoConfirm} />

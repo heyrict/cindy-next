@@ -52,8 +52,17 @@
     },
     "button": {
       "fg": "#f7f2e6",
+      "fg2": "#5c4c1f",
       "bg": "#9b8035",
       "ac": "#b1923c"
+    },
+    "editor": {
+      "fg": "#5c3d2e",
+      "bg": "#efe5cc",
+      "ac": "#d1b66c",
+      "menu1": "#dcc890",
+      "menu2": "#e6d7af",
+      "menufg": "inherit"
     },
     "puzzle": {
       "bookmark": {

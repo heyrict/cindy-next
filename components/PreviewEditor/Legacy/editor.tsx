@@ -82,8 +82,13 @@ class LegacyEditor extends React.Component<
   render() {
     const { initialValue, useNamespaces, ...textareaProps } = this.props;
     return (
-      <Box bg="orange.1">
-        <Flex flexWrap="wrap" alignItems="flex-start" width={1} bg="orange.3">
+      <Box bg="preset.editor.bg">
+        <Flex
+          flexWrap="wrap"
+          alignItems="flex-start"
+          width={1}
+          bg="preset.editor.menu1"
+        >
           <Tooltip
             reference={
               <ButtonTransparent

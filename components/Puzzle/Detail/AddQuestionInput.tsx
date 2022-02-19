@@ -56,9 +56,9 @@ export const QuestionInputWidget = compose(withTrigger)(
         my={2}
         borderRadius={1}
         borderStyle="solid"
-        borderColor="orange.6"
+        borderColor="preset.editor.ac"
         borderWidth={2}
-        bg="orange.1"
+        bg="preset.editor.bg"
       >
         <Textarea
           ref={editorRef}
@@ -92,7 +92,12 @@ export const QuestionInputWidget = compose(withTrigger)(
           border="none"
           bg="transparent"
         />
-        <Button onClick={handleSubmit} px={2} minWidth="50px">
+        <Button
+          bg="preset.editor.ac"
+          onClick={handleSubmit}
+          px={2}
+          minWidth="50px"
+        >
           <FormattedMessage {...messages.putQuestion} />
         </Button>
       </Flex>

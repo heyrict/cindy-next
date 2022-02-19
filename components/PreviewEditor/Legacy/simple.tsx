@@ -143,16 +143,16 @@ class SimpleLegacyEditor extends React.Component<
       <React.Fragment>
         <Modal show={this.state.showModal}>
           <Box
-            bg="orange.1"
+            bg="preset.editor.bg"
             borderStyle="solid"
-            borderColor="orange.3"
+            borderColor="preset.editor.menu1"
             borderWidth={1}
           >
             <Flex
               flexWrap="wrap"
               alignItems="flex-start"
               width={1}
-              bg="orange.3"
+              bg="preset.editor.menu1"
             >
               <Tooltip
                 reference={
@@ -285,22 +285,29 @@ class SimpleLegacyEditor extends React.Component<
               </ButtonTransparent>
             </Flex>
             {this.state.stampToolbar && (
-              <StampList
-                useNamespaces={useNamespaces}
-                onClick={({ key, src }) => this.onClickStamp({ key, src })}
-              />
+              <Box bg="preset.editor.menu1" px={'6px'}>
+                <StampList
+                  useNamespaces={useNamespaces}
+                  onClick={({ key, src }) => this.onClickStamp({ key, src })}
+                />
+              </Box>
             )}
             <Box
               display={this.state.preview ? 'none' : 'block'}
-              borderLeft="3px solid"
-              borderRight="3px solid"
-              borderColor="orange.3"
+              borderLeft="6px solid"
+              borderRight="6px solid"
+              borderBottom="6px solid"
+              borderColor="preset.editor.menu1"
             >
               {modalEditor}
             </Box>
             {this.state.preview && (
               <Box
-                mx={2}
+                borderLeft="6px solid"
+                borderRight="6px solid"
+                borderTop="2px solid"
+                borderBottom="7px solid"
+                borderColor="preset.editor.menu1"
                 height={
                   this.modalEditor.current
                     ? `${this.modalEditor.current.clientHeight}px`
@@ -318,7 +325,7 @@ class SimpleLegacyEditor extends React.Component<
             )}
           </Box>
           <ButtonTransparent
-            bg="orange.4"
+            bg="preset.editor.ac"
             color="black"
             py={2}
             onClick={() => this.toggleShowModal()}
@@ -329,7 +336,7 @@ class SimpleLegacyEditor extends React.Component<
         <Flex
           alignItems="center"
           width={1}
-          bg="orange.3"
+          bg="preset.editor.menu1"
           style={{
             fontSize: 12,
             display: this.state.showModal ? 'none' : 'flex',
@@ -340,12 +347,8 @@ class SimpleLegacyEditor extends React.Component<
               m={1}
               flexDirection="column"
               flexWrap="nowrap"
-              bg="orange.4"
-              height={theme.sizes.chatinput}
+              height={`calc(${theme.sizes.chatinput} + 2px)`}
               width={1}
-              borderWidth="1px"
-              borderStyle="solid"
-              borderColor="gray.6"
             >
               <StampList
                 onClick={({ key, src }) => {
@@ -368,7 +371,7 @@ class SimpleLegacyEditor extends React.Component<
             borderWidth="1px"
             borderStyle="solid"
             borderColor="gray.6"
-            bg="orange.1"
+            bg="preset.editor.bg"
           >
             {inlineEditor}
           </Box>

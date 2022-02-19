@@ -37,12 +37,6 @@ export type CommentsRendererProps = {
   variables: CommentsQueryVariables;
 };
 
-export type ChannelPageProps = {
-  chatroom: string;
-  toggleAside: () => void;
-  intl: IntlShape;
-};
-
 export type AddPuzzleProps = {
   user: GlobalUserType;
   intl: IntlShape;

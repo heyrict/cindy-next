@@ -27,7 +27,8 @@ const PostPuzzleButton = ({
     <ButtonTransparent
       py={2}
       width={1}
-      color="orange.1"
+      color="preset.button.fg"
+      borderRadius={2}
       onClick={() => {
         const data = getData();
         if (data) {

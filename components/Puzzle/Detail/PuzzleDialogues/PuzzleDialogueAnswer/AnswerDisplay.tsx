@@ -1,7 +1,7 @@
 import React from 'react';
 import { line2md } from 'common/markdown';
 import { normPuzzleQjump } from 'common/markdown/plugin-puzzle-qjump';
-import {useTheme} from 'emotion-theming';
+import { useTheme } from 'emotion-theming';
 
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/puzzle';
@@ -15,7 +15,7 @@ import bulbLight from 'svgs/bulbLight.svg';
 import crackerLight from 'svgs/crackerLight.svg';
 
 import { AnswerDisplayProps } from './types';
-import {ThemesEnum, themeType} from 'theme/types';
+import { ThemesEnum, themeType } from 'theme/types';
 
 const AnswerDisplay = ({
   answer,
@@ -45,6 +45,6 @@ const AnswerDisplay = ({
       )}
     </React.Fragment>
   );
-}
+};
 
 export default AnswerDisplay;

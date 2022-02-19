@@ -62,8 +62,8 @@ const ChannelAside = ({
       <Box fontSize={2} width={1} height="channelbar">
         <Flex
           justifyContent="center"
-          bg="orange.5"
-          color="orange.1"
+          bg="preset.menubar.bg"
+          color="preset.menubar.fg"
           py={1}
           height={1}
         >
@@ -93,7 +93,11 @@ const ChannelAside = ({
           return chatroomId === null ? null : (
             <>
               <Flex width={1} justifyContent="center" height="channelbar">
-                <Box width={1 / 3} bg="orange.4" color="orange.0">
+                <Box
+                  width={1 / 3}
+                  bg="preset.menubar.ac"
+                  color="preset.menubar.fg"
+                >
                   <ButtonTransparent
                     onClick={() => setTrueDescriptionModal()}
                     width={1}
@@ -102,7 +106,11 @@ const ChannelAside = ({
                     <FormattedMessage {...chatMessages.log} />
                   </ButtonTransparent>
                 </Box>
-                <Box width={1 / 3} bg="orange.3" color="orange.0">
+                <Box
+                  width={1 / 3}
+                  bg="preset.menubar.ac"
+                  color="preset.menubar.fg"
+                >
                   <ButtonTransparent
                     onClick={() => setTrueChannelChangeModal()}
                     width={1}
@@ -111,7 +119,11 @@ const ChannelAside = ({
                     <FormattedMessage {...commonMessages.change} />
                   </ButtonTransparent>
                 </Box>
-                <Box width={1 / 3} bg="orange.4" color="orange.0">
+                <Box
+                  width={1 / 3}
+                  bg="preset.menubar.ac"
+                  color="preset.menubar.fg"
+                >
                   <ButtonTransparent
                     onClick={() => setTrueChatroomCreateModal()}
                     width={1}

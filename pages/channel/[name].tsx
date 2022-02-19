@@ -6,24 +6,23 @@ import { toast } from 'react-toastify';
 import { Query } from '@apollo/client/react/components';
 import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
-import { compose } from 'redux';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import ChatRoomMessages from 'components/Chat/ChatRoom/ChatRoomMessages';
 import ChatRoomInput from 'components/Chat/ChatRoom/ChatRoomInput';
 
-import { ChannelPageProps } from 'pageTypes';
 import {
   ChatroomId,
   ChatroomIdVariables,
 } from 'graphql/Queries/generated/ChatroomId';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import chatMessages from 'messages/components/chat';
 import channelPageMessages from 'messages/pages/channel';
 
 import { ActionContentType } from 'reducers/types';
+import { useRouter } from 'next/router';
 
 const PuzzleChatRegex = /^puzzle-(\d+)$/;
 
@@ -52,88 +51,86 @@ const OpenAsideButton = styled(ButtonTransparent)`
   }
 `;
 
-class ChannelPage extends React.Component<ChannelPageProps> {
-  static async getInitialProps({ query }: { query: { name: string } }) {
-    return { chatroom: query && query.name };
-  }
+const ChannelPage = () => {
+  const intl = useIntl();
+  const _ = intl.formatMessage;
+  const dispatch = useDispatch<(action: ActionContentType) => void>();
+  const toggleAside = () => dispatch(globalReducer.actions.aside.toggle());
+  const Router = useRouter();
+  const chatroom = Router.query?.name as string | undefined;
 
-  render() {
-    const _ = this.props.intl.formatMessage;
-    const { chatroom } = this.props;
-    if (!chatroom) {
-      return <div>Choose a chatroom</div>;
-    }
-    const puzzleChatMatch = PuzzleChatRegex.exec(chatroom);
-    const relatedPuzzleId = puzzleChatMatch && parseInt(puzzleChatMatch[1], 10);
-    return (
-      <ChannelContentBox>
-        <Query<ChatroomId, ChatroomIdVariables>
-          query={CHATROOM_ID_QUERY}
-          variables={{
-            chatroomName: chatroom,
-          }}
-        >
-          {({ data, error }) => {
-            let chatroomId = null;
-            if (data && data.chatrooms && data.chatrooms[0]) {
-              chatroomId = data.chatrooms[0].id;
-            }
-            if (error) {
-              toast.error(error.message);
-            }
-            return (
-              <React.Fragment>
-                <Head>
-                  <title>
-                    {_(channelPageMessages.title, { name: chatroom })} | Cindy
-                  </title>
-                  <meta
-                    name="description"
-                    content={_(channelPageMessages.description)}
-                  />
-                </Head>
-                <Flex overflow="auto" flexWrap="nowrap" flexDirection="column">
-                  <Box width={1} height="channelbar">
-                    <Flex
-                      bg="orange.2"
-                      borderBottom="1px solid"
-                      borderColor="orange.3"
+  if (!chatroom) {
+    return <div>Choose a chatroom</div>;
+  }
+  const puzzleChatMatch = PuzzleChatRegex.exec(chatroom);
+  const relatedPuzzleId = puzzleChatMatch && parseInt(puzzleChatMatch[1], 10);
+  return (
+    <ChannelContentBox>
+      <Query<ChatroomId, ChatroomIdVariables>
+        query={CHATROOM_ID_QUERY}
+        variables={{
+          chatroomName: chatroom,
+        }}
+      >
+        {({ data, error }) => {
+          let chatroomId = null;
+          if (data && data.chatrooms && data.chatrooms[0]) {
+            chatroomId = data.chatrooms[0].id;
+          }
+          if (error) {
+            toast.error(error.message);
+          }
+          return (
+            <React.Fragment>
+              <Head>
+                <title>
+                  {_(channelPageMessages.title, { name: chatroom })} | Cindy
+                </title>
+                <meta
+                  name="description"
+                  content={_(channelPageMessages.description)}
+                />
+              </Head>
+              <Flex
+                overflow="auto"
+                flexWrap="nowrap"
+                flexDirection="column"
+                height="100%"
+              >
+                <Box width={1} height="channelbar">
+                  <Flex
+                    bg="orange.2"
+                    borderBottom="1px solid"
+                    borderColor="orange.3"
+                  >
+                    <OpenAsideButton
+                      color="orange.6"
+                      height="channelbar"
+                      mr="auto"
+                      onClick={() => toggleAside()}
                     >
-                      <OpenAsideButton
-                        color="orange.6"
-                        height="channelbar"
-                        mr="auto"
-                        onClick={() => this.props.toggleAside()}
-                      >
-                        <FormattedMessage {...chatMessages.channels} /> &gt;&gt;
-                      </OpenAsideButton>
-                    </Flex>
-                  </Box>
-                  {chatroomId ? (
-                    <ChatRoomMessages
-                      chatroomId={chatroomId}
-                      relatedPuzzleId={relatedPuzzleId}
-                    />
-                  ) : (
-                    <h1 style={{ margin: '1em' }}>
-                      <FormattedMessage {...chatMessages.notExistDescription} />
-                    </h1>
-                  )}
-                  {chatroomId && <ChatRoomInput chatroomId={chatroomId} />}
-                </Flex>
-              </React.Fragment>
-            );
-          }}
-        </Query>
-      </ChannelContentBox>
-    );
-  }
-}
+                      <FormattedMessage {...chatMessages.channels} /> &gt;&gt;
+                    </OpenAsideButton>
+                  </Flex>
+                </Box>
+                {chatroomId ? (
+                  <ChatRoomMessages
+                    chatroomId={chatroomId}
+                    relatedPuzzleId={relatedPuzzleId}
+                  />
+                ) : (
+                  <h1 style={{ margin: '1em' }}>
+                    <FormattedMessage {...chatMessages.notExistDescription} />
+                  </h1>
+                )}
+                {chatroomId && <ChatRoomInput chatroomId={chatroomId} />}
+              </Flex>
+            </React.Fragment>
+          );
+        }}
+      </Query>
+    </ChannelContentBox>
+  );
+};
 
-const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  toggleAside: () => dispatch(globalReducer.actions.aside.toggle()),
-});
-
-const withRedux = connect(null, mapDispatchToProps);
-
-export default compose(injectIntl, withRedux)(ChannelPage);
+export default ChannelPage;

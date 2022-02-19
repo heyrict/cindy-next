@@ -5,6 +5,7 @@ import { StyledTagProps, ButtonFontProps } from './types';
 export const ButtonFont = styled.span<ButtonFontProps>`
   background-color: ${p =>
     p.switchon ? 'rgba(255, 255, 255, 0.3)' : 'initial'};
+  color: ${p => p.theme.colors.preset.editor.menufg};
   border-radius: 2em;
   font-size: 1.2em;
   padding: 4px;
