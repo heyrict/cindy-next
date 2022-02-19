@@ -13,7 +13,6 @@ import Box from 'components/General/Box';
 import { LicenseHelpProps } from 'pageTypes';
 import { DEFAULT_LOCALE } from 'settings';
 import { StateType } from 'reducers/types';
-import { GetStaticProps } from 'next';
 
 const getLicenseHelp = (locale: string) =>
   require(`markdown/LicenseHelp/${locale}.md`).default;
@@ -43,13 +42,5 @@ const mapStateToProps = (state: StateType) => ({
 });
 
 const withRedux = connect(mapStateToProps);
-
-export const getStaticProps: GetStaticProps = async () => ({
-  props: {
-    serverSideContext: {
-      route: '/license_help',
-    },
-  },
-});
 
 export default withRedux(LicenseHelp);

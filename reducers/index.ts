@@ -59,8 +59,15 @@ export const initStore = (
     console.error(e);
     settingsState = {};
   }
-  if (appContext?.theme) {
-    settingsState.theme = parseInt(appContext.theme);
+  if (
+    // Pages without SSR always renders the default theme.
+    // Setting this to default so that redux will be aware of the update
+    // from user preference store load.
+    !['/puzzle/', '/puzzles', '/user/', '/channel/'].some(path =>
+      route.startsWith(path),
+    )
+  ) {
+    settingsState.theme = 0;
   }
 
   const globalUser =
@@ -76,7 +83,6 @@ export const initStore = (
       setting: {
         ...settingReducer.initialState,
         ...settingsState,
-        theme: 0,
       },
     },
     composeEnhancers(applyMiddleware(sagaMiddleware)),
