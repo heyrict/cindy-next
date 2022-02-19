@@ -1,62 +1,60 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'components.user';
-
 export const messages = defineMessages({
   anonymousUser: {
-    id: `${scope}.anonymousUser`,
+    id: `components.user.anonymousUser`,
     defaultMessage: 'Anonymous User',
   },
   withAnonymousPatrons: {
-    id: `${scope}.withAnonymousPatrons`,
+    id: `components.user.withAnonymousPatrons`,
     defaultMessage: ', with {count} anonymous patrons.',
   },
   profile: {
-    id: `${scope}.profile`,
+    id: `components.user.profile`,
     defaultMessage: 'Profile',
   },
   useraward: {
-    id: `${scope}.useraward`,
+    id: `components.user.useraward`,
     defaultMessage: 'Award',
   },
   avatar: {
-    id: `${scope}.avatar`,
+    id: `components.user.avatar`,
     defaultMessage: 'Avatar',
   },
   puzzleCount: {
-    id: `${scope}.puzzleCount`,
+    id: `components.user.puzzleCount`,
     defaultMessage: 'Puzzles',
   },
   dialogueCount: {
-    id: `${scope}.dialogueCount`,
+    id: `components.user.dialogueCount`,
     defaultMessage: 'Dialogues',
   },
   goodQuestionCount: {
-    id: `${scope}.goodQuestionCount`,
+    id: `components.user.goodQuestionCount`,
     defaultMessage: 'Good Questions',
   },
   trueAnswerCount: {
-    id: `${scope}.trueAnswerCount`,
+    id: `components.user.trueAnswerCount`,
     defaultMessage: 'True Answers',
   },
   commentCount: {
-    id: `${scope}.commentCount`,
+    id: `components.user.commentCount`,
     defaultMessage: 'Comments',
   },
   recvCommentCount: {
-    id: `${scope}.recvCommentCount`,
+    id: `components.user.recvCommentCount`,
     defaultMessage: 'Comments Received',
   },
   starCount: {
-    id: `${scope}.starCount`,
+    id: `components.user.starCount`,
     defaultMessage: 'Stars',
   },
   recvStarCount: {
-    id: `${scope}.recvStarCount`,
+    id: `components.user.recvStarCount`,
     defaultMessage: 'Stars Received',
   },
   hideBookmark: {
-    id: `${scope}.hideBookmark`,
+    id: `components.user.hideBookmark`,
     defaultMessage: 'Hide Bookmark',
   },
 });

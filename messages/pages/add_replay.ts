@@ -1,26 +1,24 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'add_replay';
-
 export const addReplayPageMessages = defineMessages({
   title: {
-    id: `${scope}.title`,
+    id: `add_replay.title`,
     defaultMessage: 'Replay Create Page',
   },
   description: {
-    id: `${scope}.description`,
+    id: `add_replay.description`,
     defaultMessage: 'Create replay from puzzle in Cindy!',
   },
   header: {
-    id: `${scope}.header`,
+    id: `add_replay.header`,
     defaultMessage: 'Create Replay',
   },
   autoDel: {
-    id: `${scope}.autoDel`,
+    id: `add_replay.autoDel`,
     defaultMessage: 'Auto Delete',
   },
   autoSaved: {
-    id: `${scope}.autoSaved`,
+    id: `add_replay.autoSaved`,
     defaultMessage: 'Auto Saved',
   },
 });

@@ -1,58 +1,56 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'tooltip';
-
 export const tooltipMessages = defineMessages({
   bold: {
-    id: `${scope}.bold`,
+    id: `tooltip.bold`,
     defaultMessage: 'Bold',
   },
   italic: {
-    id: `${scope}.italic`,
+    id: `tooltip.italic`,
     defaultMessage: 'Italic',
   },
   underline: {
-    id: `${scope}.underline`,
+    id: `tooltip.underline`,
     defaultMessage: 'Underline',
   },
   delete: {
-    id: `${scope}.delete`,
+    id: `tooltip.delete`,
     defaultMessage: 'Delete',
   },
   picture: {
-    id: `${scope}.picture`,
+    id: `tooltip.picture`,
     defaultMessage: 'Picture',
   },
   href: {
-    id: `${scope}.href`,
+    id: `tooltip.href`,
     defaultMessage: 'Link',
   },
   stamp: {
-    id: `${scope}.stamp`,
+    id: `tooltip.stamp`,
     defaultMessage: 'Stamp',
   },
   tab: {
-    id: `${scope}.tab`,
+    id: `tooltip.tab`,
     defaultMessage: 'Tab',
   },
   preview: {
-    id: `${scope}.preview`,
+    id: `tooltip.preview`,
     defaultMessage: 'Preview',
   },
   expand: {
-    id: `${scope}.expand`,
+    id: `tooltip.expand`,
     defaultMessage: 'Expand',
   },
   collapse: {
-    id: `${scope}.collapse`,
+    id: `tooltip.collapse`,
     defaultMessage: 'Collapse',
   },
   scrollToTop: {
-    id: `${scope}.scrollToTop`,
+    id: `tooltip.scrollToTop`,
     defaultMessage: 'Scroll To Top',
   },
   scrollToBottom: {
-    id: `${scope}.scrollToBottom`,
+    id: `tooltip.scrollToBottom`,
     defaultMessage: 'Scroll To Bottom',
   },
 });

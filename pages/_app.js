@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { ApolloProvider } from '@apollo/client';
 import ThemeSwitchProvider from 'theme/ThemeSwitchProvider';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -12,14 +12,8 @@ import LanguageProvider from 'components/LanguageProvider';
 
 import { useApollo } from '../lib/apollo';
 import { useRedux } from '../lib/redux';
-import theme from 'theme';
 
 import { actions as globalActions } from 'reducers/global';
-
-if (process.browser) {
-  const smoothscroll = require('smoothscroll-polyfill');
-  smoothscroll.polyfill();
-}
 
 // Register React Intl's locale data for the user's locale in the browser. This
 // locale data was added to the page by `pages/_document.js`. This only happens
@@ -28,6 +22,7 @@ addLocaleDatas();
 
 export default function MyApp({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState);
+  const Router = useRouter();
   const reduxStore = useRedux(
     pageProps.initialReduxState,
     pageProps.serverSideContext,

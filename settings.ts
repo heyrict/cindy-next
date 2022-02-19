@@ -14,7 +14,8 @@ const defaultLocation = {
   host: 'localhost:8000',
 };
 
-const { protocol, host } = process.browser ? window.location : defaultLocation;
+const { protocol, host } =
+  typeof window !== 'undefined' ? window.location : defaultLocation;
 const wsProtocol = protocol === 'https:' ? 'wss:' : 'ws:';
 
 export const GRAPHQL_CLIENT = {

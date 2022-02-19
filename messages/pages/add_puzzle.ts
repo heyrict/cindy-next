@@ -1,34 +1,32 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'add_puzzle';
-
 export const messages = defineMessages({
   title: {
-    id: `${scope}.title`,
+    id: `add_puzzle.title`,
     defaultMessage: 'Puzzle Create Page',
   },
   description: {
-    id: `${scope}.description`,
+    id: `add_puzzle.description`,
     defaultMessage: 'Create puzzles in Cindy!',
   },
   header: {
-    id: `${scope}.header`,
+    id: `add_puzzle.header`,
     defaultMessage: 'Create Puzzle',
   },
   publishPuzzle: {
-    id: `${scope}.publishPuzzle`,
+    id: `add_puzzle.publishPuzzle`,
     defaultMessage: 'Publish this puzzle',
   },
   emptyTitle: {
-    id: `${scope}.emptyTitle`,
+    id: `add_puzzle.emptyTitle`,
     defaultMessage: 'Title is empty!',
   },
   emptyContent: {
-    id: `${scope}.emptyContent`,
+    id: `add_puzzle.emptyContent`,
     defaultMessage: 'Content is empty!',
   },
   emptySolution: {
-    id: `${scope}.emptySolution`,
+    id: `add_puzzle.emptySolution`,
     defaultMessage: 'Solution is empty!',
   },
 });

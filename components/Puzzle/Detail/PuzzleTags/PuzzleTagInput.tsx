@@ -45,7 +45,7 @@ class PuzzleTagInput extends React.PureComponent {
                   if (!value) return;
                   this.value = value as PuzzleTagInputOptionType;
                 }}
-                loadOptions={inputValue =>
+                loadOptions={(inputValue: string) =>
                   new Promise(resolve => {
                     if (this.waitHandle) window.clearTimeout(this.waitHandle);
                     this.waitHandle = window.setTimeout(() => {

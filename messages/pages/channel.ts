@@ -1,14 +1,12 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'channel';
-
 const channelPageMessages = defineMessages({
   title: {
-    id: `${scope}.title`,
+    id: `channel.title`,
     defaultMessage: 'Channel: {name}',
   },
   description: {
-    id: `${scope}.description`,
+    id: `channel.description`,
     defaultMessage: ' A place for users to communicate in Cindy.',
   },
 });

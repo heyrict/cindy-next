@@ -1,54 +1,52 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'ranking';
-
 export const messages = defineMessages({
   title: {
-    id: `${scope}.title`,
+    id: `ranking.title`,
     defaultMessage: 'Ranking',
   },
   description: {
-    id: `${scope}.description`,
+    id: `ranking.description`,
     defaultMessage: 'Ranking board for users',
   },
   header: {
-    id: `${scope}.header`,
+    id: `ranking.header`,
     defaultMessage: 'Ranking',
   },
   rank: {
-    id: `${scope}.rank`,
+    id: `ranking.rank`,
     defaultMessage: 'Rank {rank}',
   },
   monthlyRanking: {
-    id: `${scope}.monthlyRanking`,
+    id: `ranking.monthlyRanking`,
     defaultMessage: 'Monthly Ranking',
   },
   weeklyRanking: {
-    id: `${scope}.weeklyRanking`,
+    id: `ranking.weeklyRanking`,
     defaultMessage: 'Weekly Ranking',
   },
   puzzleStarRankingWithMonth: {
-    id: `${scope}.puzzleStarRankingWithMonth`,
+    id: `ranking.puzzleStarRankingWithMonth`,
     defaultMessage: 'Puzzles with most stars in {date}',
   },
   puzzleStarRanking: {
-    id: `${scope}.puzzleStarRanking`,
+    id: `ranking.puzzleStarRanking`,
     defaultMessage: 'Puzzle Ranking by Stars',
   },
   userDialogueRankingWithMonth: {
-    id: `${scope}.userDialogueRankingWithMonth`,
+    id: `ranking.userDialogueRankingWithMonth`,
     defaultMessage: 'Users with most questions in {date}',
   },
   userDialogueRanking: {
-    id: `${scope}.userDialogueRanking`,
+    id: `ranking.userDialogueRanking`,
     defaultMessage: 'User Ranking by Questions',
   },
   userPuzzleRankingWithMonth: {
-    id: `${scope}.userPuzzleRankingWithMonth`,
+    id: `ranking.userPuzzleRankingWithMonth`,
     defaultMessage: 'Users with most puzzles in {date}',
   },
   userPuzzleRanking: {
-    id: `${scope}.userPuzzleRanking`,
+    id: `ranking.userPuzzleRanking`,
     defaultMessage: 'User Ranking by Puzzles',
   },
 });

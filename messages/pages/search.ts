@@ -1,34 +1,32 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'search';
-
 export const searchMessages = defineMessages({
   title: {
-    id: `${scope}.title`,
+    id: `search.title`,
     defaultMessage: 'Search old puzzles',
   },
   description: {
-    id: `${scope}.description`,
+    id: `search.description`,
     defaultMessage: 'Search old puzzles in Cindy',
   },
   header: {
-    id: `${scope}.header`,
+    id: `search.header`,
     defaultMessage: 'Search Puzzles',
   },
   order_bookmarkCount: {
-    id: `${scope}.order_bookmarkCount`,
+    id: `search.order_bookmarkCount`,
     defaultMessage: 'Bookmark Count',
   },
   order_commentCount: {
-    id: `${scope}.order_commentCount`,
+    id: `search.order_commentCount`,
     defaultMessage: 'Comment Count',
   },
   order_starCount: {
-    id: `${scope}.order_starCount`,
+    id: `search.order_starCount`,
     defaultMessage: 'Star Count',
   },
   order_starSum: {
-    id: `${scope}.order_starSum`,
+    id: `search.order_starSum`,
     defaultMessage: 'Star Sum',
   },
 });

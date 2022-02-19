@@ -1,38 +1,36 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'auth';
-
 export const messages = defineMessages({
   login: {
-    id: `${scope}.login`,
+    id: `auth.login`,
     defaultMessage: 'Login',
   },
   logout: {
-    id: `${scope}.logout`,
+    id: `auth.logout`,
     defaultMessage: 'Logout',
   },
   signup: {
-    id: `${scope}.signup`,
+    id: `auth.signup`,
     defaultMessage: 'Signup',
   },
   username: {
-    id: `${scope}.username`,
+    id: `auth.username`,
     defaultMessage: 'Username',
   },
   nickname: {
-    id: `${scope}.nickname`,
+    id: `auth.nickname`,
     defaultMessage: 'Nickname',
   },
   password: {
-    id: `${scope}.password`,
+    id: `auth.password`,
     defaultMessage: 'Password',
   },
   lastLogin: {
-    id: `${scope}.lastLogin`,
+    id: `auth.lastLogin`,
     defaultMessage: 'Last Login',
   },
   dateJoined: {
-    id: `${scope}.dateJoined`,
+    id: `auth.dateJoined`,
     defaultMessage: 'Date Joined',
   },
 });

@@ -1,10 +1,8 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'dm';
-
 export const messages = defineMessages({
   directMessage: {
-    id: `${scope}.directMessage`,
+    id: `dm.directMessage`,
     defaultMessage: 'Direct Message',
   },
 });

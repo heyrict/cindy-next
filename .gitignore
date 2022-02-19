@@ -11,7 +11,9 @@ stats.json
 schema.json
 generated
 storybook-static
+compiled-lang
 *.log
+tsconfig.tsbuildinfo
 # Nextjs build output
 dist
 .next

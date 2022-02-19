@@ -1,78 +1,76 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'components.chat';
-
 export const chatMessages = defineMessages({
   channelAsDefault: {
-    id: `${scope}.channelAsDefault`,
+    id: `components.chat.channelAsDefault`,
     defaultMessage: 'Default ({channelName})',
   },
   changeChannel: {
-    id: `${scope}.changeChannel`,
+    id: `components.chat.changeChannel`,
     defaultMessage: 'Change Channel',
   },
   currentChannel: {
-    id: `${scope}.currentChannel`,
+    id: `components.chat.currentChannel`,
     defaultMessage: 'Current: {name}',
   },
   changeToDefaultChannel: {
-    id: `${scope}.changeToDefaultChannel`,
+    id: `components.chat.changeToDefaultChannel`,
     defaultMessage: 'Change To Default Channel',
   },
   notExistDescription: {
-    id: `${scope}.notExistDescription`,
+    id: `components.chat.notExistDescription`,
     defaultMessage: 'This chatroom does not exist!',
   },
   addToFavoriteChatrooms: {
-    id: `${scope}.addToFavoriteChatrooms`,
+    id: `components.chat.addToFavoriteChatrooms`,
     defaultMessage: 'Add To Favorite Chatrooms',
   },
   deleteFromFavoriteChatrooms: {
-    id: `${scope}.deleteFromFavoriteChatrooms`,
+    id: `components.chat.deleteFromFavoriteChatrooms`,
     defaultMessage: 'Delete From Favorite Chatrooms',
   },
   favoriteChatrooms: {
-    id: `${scope}.favoriteChatrooms`,
+    id: `components.chat.favoriteChatrooms`,
     defaultMessage: 'My Favorite Chatrooms',
   },
   publicChatrooms: {
-    id: `${scope}.publicChatrooms`,
+    id: `components.chat.publicChatrooms`,
     defaultMessage: 'Public Chatrooms',
   },
   noDescription: {
-    id: `${scope}.noDescription`,
+    id: `components.chat.noDescription`,
     defaultMessage: 'This chatroom does not have a description.',
   },
   noSelfDM: {
-    id: `${scope}.noSelfDM`,
+    id: `components.chat.noSelfDM`,
     defaultMessage: 'You cannot send message to yourself.',
   },
   noLogs: {
-    id: `${scope}.noLogs`,
+    id: `components.chat.noLogs`,
     defaultMessage: 'There are no logs here',
   },
   log: {
-    id: `${scope}.log`,
+    id: `components.chat.log`,
     defaultMessage: 'Logs',
   },
   chatroomName: {
-    id: `${scope}.chatroomName`,
+    id: `components.chat.chatroomName`,
     defaultMessage: 'Chatroom Name',
   },
   chatroomDescription: {
-    id: `${scope}.chatroomDescription`,
+    id: `components.chat.chatroomDescription`,
     defaultMessage: 'Chatroom Description',
   },
   chatroomCreated: {
-    id: `${scope}.chatroomCreated`,
+    id: `components.chat.chatroomCreated`,
     defaultMessage: 'Successfully created chatroom {name}',
   },
   channels: {
-    id: `${scope}.channels`,
+    id: `components.chat.channels`,
     defaultMessage: 'Channels',
   },
   createChannel: {
-    id: `${scope}.createChannel`,
+    id: `components.chat.createChannel`,
     defaultMessage: 'Create Channel',
   },
 });

@@ -1,18 +1,16 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'stamp';
-
 export const messages = defineMessages({
   namespace_kameo: {
-    id: `${scope}.namespace_kameo`,
+    id: `stamp.namespace_kameo`,
     defaultMessage: 'Kameo',
   },
   namespace_chef: {
-    id: `${scope}.namespace_chef`,
+    id: `stamp.namespace_chef`,
     defaultMessage: 'Chef',
   },
   namespace_puzzle: {
-    id: `${scope}.namespace_puzzle`,
+    id: `stamp.namespace_puzzle`,
     defaultMessage: 'Puzzle',
   },
 });

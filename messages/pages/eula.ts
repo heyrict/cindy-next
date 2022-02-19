@@ -1,18 +1,16 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'eula';
-
 export const eulaMessages = defineMessages({
   title: {
-    id: `${scope}.title`,
+    id: `eula.title`,
     defaultMessage: 'EULA',
   },
   description: {
-    id: `${scope}.description`,
+    id: `eula.description`,
     defaultMessage: 'End User License Aggrement',
   },
   header: {
-    id: `${scope}.header`,
+    id: `eula.header`,
     defaultMessage: 'EULA',
   },
 });

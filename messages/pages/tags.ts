@@ -1,30 +1,28 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'tags';
-
 export const tagsPageMessages = defineMessages({
   title: {
-    id: `${scope}.title`,
+    id: `tags.title`,
     defaultMessage: 'Tags',
   },
   description: {
-    id: `${scope}.description`,
+    id: `tags.description`,
     defaultMessage: 'Puzzle tags in Cindy!',
   },
   header: {
-    id: `${scope}.header`,
+    id: `tags.header`,
     defaultMessage: 'Tags',
   },
   tagName: {
-    id: `${scope}.tagName`,
+    id: `tags.tagName`,
     defaultMessage: 'Tag Name',
   },
   tagCreated: {
-    id: `${scope}.tagCreated`,
+    id: `tags.tagCreated`,
     defaultMessage: 'Created Time',
   },
   tagPuzzleCount: {
-    id: `${scope}.tagPuzzleCount`,
+    id: `tags.tagPuzzleCount`,
     defaultMessage: 'Puzzle Count',
   },
 });

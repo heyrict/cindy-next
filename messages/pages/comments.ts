@@ -1,19 +1,17 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'comments';
-
 export const messages = defineMessages({
   title: {
-    id: `${scope}.title`,
+    id: `comments.title`,
     defaultMessage: 'Comments',
   },
   description: {
-    id: `${scope}.description`,
+    id: `comments.description`,
     defaultMessage:
       'Discover interesting puzzles with comments by users in Cindy!',
   },
   header: {
-    id: `${scope}.header`,
+    id: `comments.header`,
     defaultMessage: 'Comments List',
   },
 });

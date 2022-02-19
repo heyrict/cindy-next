@@ -1,50 +1,48 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'toolbar';
-
 export const messages = defineMessages({
   home: {
-    id: `${scope}.home`,
+    id: `toolbar.home`,
     defaultMessage: 'Home',
   },
   puzzle: {
-    id: `${scope}.puzzle`,
+    id: `toolbar.puzzle`,
     defaultMessage: 'Puzzle',
   },
   wiki: {
-    id: `${scope}.wiki`,
+    id: `toolbar.wiki`,
     defaultMessage: 'Wiki',
   },
   users: {
-    id: `${scope}.users`,
+    id: `toolbar.users`,
     defaultMessage: 'Users',
   },
   settings: {
-    id: `${scope}.settings`,
+    id: `toolbar.settings`,
     defaultMessage: 'Settings',
   },
   eula: {
-    id: `${scope}.eula`,
+    id: `toolbar.eula`,
     defaultMessage: 'EULA',
   },
   licenseHelp: {
-    id: `${scope}.licenseHelp`,
+    id: `toolbar.licenseHelp`,
     defaultMessage: 'About license',
   },
   usersOnline: {
-    id: `${scope}.usersOnline`,
+    id: `toolbar.usersOnline`,
     defaultMessage: 'Online Users: {count}',
   },
   communication: {
-    id: `${scope}.communication`,
+    id: `toolbar.communication`,
     defaultMessage: 'Society',
   },
   chatroom: {
-    id: `${scope}.chatroom`,
+    id: `toolbar.chatroom`,
     defaultMessage: 'Chatroom',
   },
   help: {
-    id: `${scope}.help`,
+    id: `toolbar.help`,
     defaultMessage: 'Help',
   },
 });

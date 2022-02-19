@@ -1,23 +1,21 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'puzzles';
-
 export const messages = defineMessages({
   title: {
-    id: `${scope}.title`,
+    id: `puzzles.title`,
     defaultMessage: 'Puzzles',
   },
   description: {
-    id: `${scope}.description`,
+    id: `puzzles.description`,
     defaultMessage:
       'Playing lateral thinking puzzles online, and browsering all kinds of lateral thinking puzzles. Tons of lateral thinking puzzles are waiting for you!',
   },
   header: {
-    id: `${scope}.header`,
+    id: `puzzles.header`,
     defaultMessage: 'Puzzle List',
   },
   newPuzzle: {
-    id: `${scope}.newPuzzle`,
+    id: `puzzles.newPuzzle`,
     defaultMessage: 'New puzzle',
   },
 });

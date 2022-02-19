@@ -1,22 +1,20 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'replay';
-
 export const replayPageMessages = defineMessages({
   title: {
-    id: `${scope}.title`,
+    id: `replay.title`,
     defaultMessage: 'Puzzle Replay',
   },
   description: {
-    id: `${scope}.description`,
+    id: `replay.description`,
     defaultMessage: 'Replay Puzzle in Cindy',
   },
   notExistDescription: {
-    id: `${scope}.notExistDescription`,
+    id: `replay.notExistDescription`,
     defaultMessage: 'This replay does not exist!',
   },
   puzzleNotSolved: {
-    id: `${scope}.puzzleNotSolved`,
+    id: `replay.puzzleNotSolved`,
     defaultMessage: 'You cannot create a replay out of an unsolved puzzle!',
   },
 });

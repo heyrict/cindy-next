@@ -28,7 +28,9 @@ const reducer = combineReducers({
 
 const composeEnhancers =
   //  (process.browser && isDev && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
-  (process.browser && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+  (typeof window !== 'undefined' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
 
 const THEME_PREFIX_REGEX = RegExp('^/[0-9]+');
 
@@ -62,7 +64,7 @@ export const initStore = (
   }
 
   const globalUser =
-    getUser(process.browser ? document.cookie : cookies) ||
+    getUser(typeof window !== 'undefined' ? document.cookie : cookies) ||
     globalReducer.initialState.user;
   const sagaMiddleware = createSagaMiddleware();
 

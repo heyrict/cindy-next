@@ -1,18 +1,16 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'users';
-
 export const usersMessages = defineMessages({
   title: {
-    id: `${scope}.title`,
+    id: `users.title`,
     defaultMessage: 'Users Page',
   },
   description: {
-    id: `${scope}.description`,
+    id: `users.description`,
     defaultMessage: 'Recently registered users in Cindy',
   },
   header: {
-    id: `${scope}.header`,
+    id: `users.header`,
     defaultMessage: 'Users',
   },
 });

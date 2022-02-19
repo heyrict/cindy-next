@@ -1,70 +1,68 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'setting';
-
 export const settingMessages = defineMessages({
   settings: {
-    id: `${scope}.settings`,
+    id: `setting.settings`,
     defaultMessage: 'Settings',
   },
   puzzleGenreImg: {
-    id: `${scope}.puzzleGenreImg`,
+    id: `setting.puzzleGenreImg`,
     defaultMessage: 'Display Genre Image',
   },
   sendMessageTrigger: {
-    id: `${scope}.sendMessageTrigger`,
+    id: `setting.sendMessageTrigger`,
     defaultMessage: 'Send Message Trigger',
   },
   sendChatTrigger: {
-    id: `${scope}.sendChatTrigger`,
+    id: `setting.sendChatTrigger`,
     defaultMessage: 'Send Chat Message',
   },
   sendDirectmessageTrigger: {
-    id: `${scope}.sendDirectmessageTrigger`,
+    id: `setting.sendDirectmessageTrigger`,
     defaultMessage: 'Send Direct Message',
   },
   sendQuestionTrigger: {
-    id: `${scope}.sendQuestionTrigger`,
+    id: `setting.sendQuestionTrigger`,
     defaultMessage: 'Send Question',
   },
   editQuestionTrigger: {
-    id: `${scope}.editQuestionTrigger`,
+    id: `setting.editQuestionTrigger`,
     defaultMessage: 'Edit Question',
   },
   sendAnswerTrigger: {
-    id: `${scope}.sendAnswerTrigger`,
+    id: `setting.sendAnswerTrigger`,
     defaultMessage: 'Send Answer',
   },
   multicol: {
-    id: `${scope}.multicol`,
+    id: `setting.multicol`,
     defaultMessage: 'Prefer Multiple Columns',
   },
   rightAsideMini: {
-    id: `${scope}.rightAsideMini`,
+    id: `setting.rightAsideMini`,
     defaultMessage: '(Puzzle Page) Floating box size',
   },
   notification: {
-    id: `${scope}.notification`,
+    id: `setting.notification`,
     defaultMessage: 'Notification',
   },
   pushNotification: {
-    id: `${scope}.pushNotification`,
+    id: `setting.pushNotification`,
     defaultMessage: 'Push Notification',
   },
   confirmCreatePuzzle: {
-    id: `${scope}.confirmCreatePuzzle`,
+    id: `setting.confirmCreatePuzzle`,
     defaultMessage: 'Confirm Before Create Puzzle',
   },
   showGrotesqueWarning: {
-    id: `${scope}.showGrotesqueWarning`,
+    id: `setting.showGrotesqueWarning`,
     defaultMessage: 'Show Grotesque Warning',
   },
   defaultLicense: {
-    id: `${scope}.defaultLicense`,
+    id: `setting.defaultLicense`,
     defaultMessage: 'Default License',
   },
   theme: {
-    id: `${scope}.theme`,
+    id: `setting.theme`,
     defaultMessage: 'Color Theme',
   },
 });

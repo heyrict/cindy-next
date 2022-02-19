@@ -1,170 +1,168 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'common';
-
 export const commonMessages = defineMessages({
   close: {
-    id: `${scope}.close`,
+    id: `common.close`,
     defaultMessage: 'Close',
   },
   change: {
-    id: `${scope}.change`,
+    id: `common.change`,
     defaultMessage: 'Change',
   },
   default: {
-    id: `${scope}.default`,
+    id: `common.default`,
     defaultMessage: 'Default',
   },
   apply: {
-    id: `${scope}.apply`,
+    id: `common.apply`,
     defaultMessage: 'Apply',
   },
   confirm: {
-    id: `${scope}.confirm`,
+    id: `common.confirm`,
     defaultMessage: 'Confirm',
   },
   applyToAll: {
-    id: `${scope}.applyToAll`,
+    id: `common.applyToAll`,
     defaultMessage: 'Apply To All',
   },
   editTimes: {
-    id: `${scope}.editTimes`,
+    id: `common.editTimes`,
     defaultMessage: '[Edited ({count})]',
   },
   none: {
-    id: `${scope}.none`,
+    id: `common.none`,
     defaultMessage: 'None',
   },
   all: {
-    id: `${scope}.all`,
+    id: `common.all`,
     defaultMessage: 'All',
   },
   notExist: {
-    id: `${scope}.notExist`,
+    id: `common.notExist`,
     defaultMessage: 'Page Not Exists',
   },
   loadMore: {
-    id: `${scope}.loadMore`,
+    id: `common.loadMore`,
     defaultMessage: 'Load More',
   },
   back: {
-    id: `${scope}.back`,
+    id: `common.back`,
     defaultMessage: 'Back',
   },
   continue: {
-    id: `${scope}.continue`,
+    id: `common.continue`,
     defaultMessage: 'Continue',
   },
   patron: {
-    id: `${scope}.patron`,
+    id: `common.patron`,
     defaultMessage: 'Patron',
   },
   prev: {
-    id: `${scope}.prev`,
+    id: `common.prev`,
     defaultMessage: 'Prev',
   },
   next: {
-    id: `${scope}.next`,
+    id: `common.next`,
     defaultMessage: 'Next',
   },
   jump: {
-    id: `${scope}.jump`,
+    id: `common.jump`,
     defaultMessage: 'Jump',
   },
   reset: {
-    id: `${scope}.reset`,
+    id: `common.reset`,
     defaultMessage: 'Reset',
   },
   search: {
-    id: `${scope}.search`,
+    id: `common.search`,
     defaultMessage: 'Search',
   },
   sort: {
-    id: `${scope}.sort`,
+    id: `common.sort`,
     defaultMessage: 'Sort',
   },
   desc: {
-    id: `${scope}.desc`,
+    id: `common.desc`,
     defaultMessage: 'Descending',
   },
   asc: {
-    id: `${scope}.asc`,
+    id: `common.asc`,
     defaultMessage: 'Ascending',
   },
   save: {
-    id: `${scope}.save`,
+    id: `common.save`,
     defaultMessage: 'Save',
   },
   saved: {
-    id: `${scope}.saved`,
+    id: `common.saved`,
     defaultMessage: 'Saved!',
   },
   deleted: {
-    id: `${scope}.deleted`,
+    id: `common.deleted`,
     defaultMessage: 'Deleted',
   },
   submitted: {
-    id: `${scope}.submitted`,
+    id: `common.submitted`,
     defaultMessage: 'Submitted!',
   },
   saving: {
-    id: `${scope}.saving`,
+    id: `common.saving`,
     defaultMessage: 'Saving...',
   },
   send: {
-    id: `${scope}.send`,
+    id: `common.send`,
     defaultMessage: 'Send',
   },
   others: {
-    id: `${scope}.others`,
+    id: `common.others`,
     defaultMessage: 'Others',
   },
   display: {
-    id: `${scope}.display`,
+    id: `common.display`,
     defaultMessage: 'Display',
   },
   big: {
-    id: `${scope}.big`,
+    id: `common.big`,
     defaultMessage: 'Big',
   },
   small: {
-    id: `${scope}.small`,
+    id: `common.small`,
     defaultMessage: 'Small',
   },
   doNotNotifyAgain: {
-    id: `${scope}.doNotNotifyAgain`,
+    id: `common.doNotNotifyAgain`,
     defaultMessage: 'Do not notify me again',
   },
   enable: {
-    id: `${scope}.enable`,
+    id: `common.enable`,
     defaultMessage: 'Enable',
   },
   loginOrSignup: {
-    id: `${scope}.loginOrSignup`,
+    id: `common.loginOrSignup`,
     defaultMessage: 'Please {login} or {signup} to join',
   },
   create: {
-    id: `${scope}.create`,
+    id: `common.create`,
     defaultMessage: 'Create',
   },
   noMoreWarning: {
-    id: `${scope}.noMoreWarning`,
+    id: `common.noMoreWarning`,
     defaultMessage: 'Do not show this warning any more',
   },
   info: {
-    id: `${scope}.info`,
+    id: `common.info`,
     defaultMessage: 'Information',
   },
   filter: {
-    id: `${scope}.filter`,
+    id: `common.filter`,
     defaultMessage: 'Filter',
   },
   cannotBeEmptyErr: {
-    id: `${scope}.cannotBeEmptyErr`,
+    id: `common.cannotBeEmptyErr`,
     defaultMessage: '{name} cannot be empty!',
   },
   reload: {
-    id: `${scope}.reload`,
+    id: `common.reload`,
     defaultMessage: 'Reload',
   },
 });

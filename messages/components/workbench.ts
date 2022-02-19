@@ -1,42 +1,40 @@
 import { defineMessages } from 'react-intl';
 
-const scope = 'workbench';
-
 export const messages = defineMessages({
   keywords: {
-    id: `${scope}.keywords`,
+    id: `workbench.keywords`,
     defaultMessage: 'Keywords',
   },
   roughMode: {
-    id: `${scope}.roughMode`,
+    id: `workbench.roughMode`,
     defaultMessage: 'Batch Editing',
   },
   oneByOneMode: {
-    id: `${scope}.oneByOneMode`,
+    id: `workbench.oneByOneMode`,
     defaultMessage: 'One-by-One Editing',
   },
   milestonesMode: {
-    id: `${scope}.milestonesMode`,
+    id: `workbench.milestonesMode`,
     defaultMessage: 'Milestone Editing',
   },
   dependencyMode: {
-    id: `${scope}.dependencyMode`,
+    id: `workbench.dependencyMode`,
     defaultMessage: 'Dependency Editing',
   },
   puzzleMode: {
-    id: `${scope}.puzzleMode`,
+    id: `workbench.puzzleMode`,
     defaultMessage: 'Puzzle Information',
   },
   selectPanel: {
-    id: `${scope}.selectPanel`,
+    id: `workbench.selectPanel`,
     defaultMessage: 'Select Keywords',
   },
   mergePanel: {
-    id: `${scope}.mergePanel`,
+    id: `workbench.mergePanel`,
     defaultMessage: 'Merge Keywords',
   },
   renamePanel: {
-    id: `${scope}.renamePanel`,
+    id: `workbench.renamePanel`,
     defaultMessage: 'Rename Keywords',
   },
 });
