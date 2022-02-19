@@ -23,13 +23,13 @@ export const rankingPanelProps = {
   flexWrap: 'wrap' as 'wrap',
   borderRadius: 2,
   border: '5px double',
-  borderColor: 'yellow.8',
-  bg: 'yellow.1',
+  borderColor: 'preset.rankingpanel.ac',
+  bg: 'preset.rankingpanel.bg',
 };
 
 export const rankingPanelTitleProps = {
   p: 2,
   fontSize: '1.2em',
-  bg: 'yellow.6',
-  color: 'yellow.1',
+  bg: 'preset.rankingpaneltitle.bg',
+  color: 'preset.rankingpaneltitle.fg',
 };

@@ -27,8 +27,9 @@ const Ranking = () => {
         py={2}
         my={2}
         border="1em double"
-        borderColor="orange.6"
-        bg="orange.4"
+        borderColor="preset.rankingheader.ac"
+        bg="preset.rankingheader.bg"
+        color="preset.rankingheader.fg"
         justifyContent="center"
       >
         <Box fontSize={4}>
@@ -37,12 +38,12 @@ const Ranking = () => {
       </Flex>
       <Flex width={1} flexWrap="wrap">
         <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
-          <Box m={2} bg="yellow.7" borderRadius={2}>
+          <Box m={2} bg="preset.rankingbutton.bg" borderRadius={2}>
             <Link href="/ranking/puzzleStar" passHref>
               <ButtonTransparentA
                 width={1}
                 py={2}
-                color="yellow.1"
+                color="preset.rankingbutton.fg"
                 textAlign="center"
                 minHeight="5em"
                 fontSize="1.4em"
@@ -53,12 +54,12 @@ const Ranking = () => {
           </Box>
         </Box>
         <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
-          <Box m={2} bg="yellow.7" borderRadius={2}>
+          <Box m={2} bg="preset.rankingbutton.bg" borderRadius={2}>
             <Link href="/ranking/userDialogue" passHref>
               <ButtonTransparentA
                 width={1}
                 py={2}
-                color="yellow.1"
+                color="preset.rankingbutton.fg"
                 textAlign="center"
                 minHeight="5em"
                 fontSize="1.4em"
@@ -69,12 +70,12 @@ const Ranking = () => {
           </Box>
         </Box>
         <Box width={[1, 1 / 2, 1, 1 / 2]} mb={3}>
-          <Box m={2} bg="yellow.7" borderRadius={2}>
+          <Box m={2} bg="preset.rankingbutton.bg" borderRadius={2}>
             <Link href="/ranking/userPuzzle" passHref>
               <ButtonTransparentA
                 width={1}
                 py={2}
-                color="yellow.1"
+                color="preset.rankingbutton.fg"
                 textAlign="center"
                 minHeight="5em"
                 fontSize="1.4em"

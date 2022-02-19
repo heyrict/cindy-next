@@ -53,8 +53,9 @@ const FavoriteChatroomsList = ({
               <Box
                 key={fc.id}
                 border="2px solid"
-                borderColor="yellow.6"
-                bg="orange.2"
+                borderColor="preset.channelbutton.ac"
+                bg="preset.channelbutton.bg"
+                color="preset.channelbutton.fg"
                 borderRadius={2}
                 m={1}
               >

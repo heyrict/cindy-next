@@ -38,11 +38,11 @@ const RankedPuzzle = ({
     <Panel width={1} minHeight="8em">
       <Flex
         width={[1 / 4, 1 / 6]}
-        bg="orange.6"
+        bg="preset.rankingpaneltitle.bg"
         borderRadius={2}
         alignItems="center"
         justifyContent="center"
-        color="orange.1"
+        color="preset.rankingpaneltitle.fg"
         flexDirection="column"
       >
         <Box fontSize="1.3em" fontWeight="bold">

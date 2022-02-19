@@ -1,6 +1,7 @@
 import React from 'react';
 import { line2md } from 'common/markdown';
 import { normPuzzleQjump } from 'common/markdown/plugin-puzzle-qjump';
+import {useTheme} from 'emotion-theming';
 
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/puzzle';
@@ -8,18 +9,24 @@ import commonMessages from 'messages/common';
 
 import EditTimeSpan from 'components/General/EditTimeSpan';
 import { IndicatorIcon } from './components';
-import goodIcon from 'svgs/bulb.svg';
-import trueIcon from 'svgs/cracker.svg';
+import bulb from 'svgs/bulb.svg';
+import cracker from 'svgs/cracker.svg';
+import bulbLight from 'svgs/bulbLight.svg';
+import crackerLight from 'svgs/crackerLight.svg';
 
 import { AnswerDisplayProps } from './types';
+import {ThemesEnum, themeType} from 'theme/types';
 
 const AnswerDisplay = ({
   answer,
   answerEditTimes,
   trueAns,
   goodAns,
-}: AnswerDisplayProps) =>
-  answer === '' ? (
+}: AnswerDisplayProps) => {
+  const theme: themeType = useTheme();
+  const goodIcon = theme.theme == ThemesEnum.DARK ? bulbLight : bulb;
+  const trueIcon = theme.theme == ThemesEnum.DARK ? crackerLight : cracker;
+  return answer === '' ? (
     <FormattedMessage {...messages.waitForAnswer} />
   ) : (
     <React.Fragment>
@@ -38,5 +45,6 @@ const AnswerDisplay = ({
       )}
     </React.Fragment>
   );
+}
 
 export default AnswerDisplay;

@@ -12,6 +12,29 @@
       "normal": "#5a2c1e",
       "hover": "#7f3f2b"
     },
+    "channelbutton": {
+      "fg": "#e0c097",
+      "bg": "inherit",
+      "ac": "rgb(105, 86, 33)"
+    },
+    "rankingheader": {
+      "fg": "#806a2b",
+      "bg": "#d1b66c",
+      "ac": "#b1923c"
+    },
+    "rankingbutton": {
+      "fg": "#e6eeca",
+      "bg": "#839b35"
+    },
+    "rankingpaneltitle": {
+      "fg": "#d8e5ad",
+      "bg": "#6d812c"
+    },
+    "rankingpanel": {
+      "fg": "inherit",
+      "bg": "rgb(68, 52, 6)",
+      "ac": "#6d812c"
+    },
     "menubar": {
       "fg": "#e0c097",
       "bg": "rgb(105, 86, 33)",

@@ -12,6 +12,25 @@
       "normal": "#5a2c1e",
       "hover": "#7f3f2b"
     },
+    "channelbutton": {
+      "fg": "#483c39",
+      "bg": "inherit",
+      "ac": "#96b13c"
+    },
+    "rankingheader": {
+      "fg": "inherit",
+      "bg": "#d1b66c",
+      "ac": "#b1923c"
+    },
+    "rankingpaneltitle": {
+      "fg": "#e6eeca",
+      "bg": "#96b13c"
+    },
+    "rankingpanel": {
+      "fg": "inherit",
+      "bg": "#e6eeca",
+      "ac": "#6d812c"
+    },
     "menubar": {
       "fg": "#483c39",
       "bg": "#d1b66c",

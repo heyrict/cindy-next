@@ -61,11 +61,11 @@ const UserPuzzleRankingRenderer = ({
         <Panel width={1} minHeight="4em">
           <Flex
             width={[2 / 5, 1 / 4]}
-            bg="orange.6"
+            bg="preset.rankingpaneltitle.bg"
             borderRadius={2}
             alignItems="center"
             justifyContent="center"
-            color="orange.1"
+            color="preset.rankingpaneltitle.fg"
             flexDirection="row"
           >
             <Box fontSize="1.3em" fontWeight="bold">
