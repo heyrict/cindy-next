@@ -82,100 +82,103 @@ const PuzzleRenderer = ({
     </React.Fragment>
   );
 
-  useEffect(() =>
-    subscribeToMore<PuzzleSub, PuzzleSubVariables>({
-      document: PUZZLE_SUB,
-      variables: { id: puzzleId },
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!prev || !prev.puzzle) return prev;
-        const newPuzzle = subscriptionData.data.puzzleSub;
-        const oldPuzzle = prev.puzzle;
-        if (!newPuzzle) return prev;
-        if (
-          pushNotification &&
-          document.hidden &&
-          oldPuzzle.status !== Status.SOLVED &&
-          newPuzzle.data.status === Status.SOLVED &&
-          !hasNotifiedSolvedRef.current
-        ) {
-          hasNotifiedSolvedRef.current = true;
-          maybeSendNotification(
-            _(webNotifyMessages.puzzleSolved, {
-              puzzle: oldPuzzle.title,
-            }),
-          );
-
-          // Update queries in /puzzles page
-          // * Solved puzzles
-          const solvedData = apolloClient.readQuery<
-            PuzzlesSolvedQuery,
-            PuzzlesSolvedQueryVariables
-          >({
-            query: PUZZLES_SOLVED_QUERY,
-          });
-          if (solvedData) {
-            const dhs = apolloClient.readQuery<
-              DialogueHintQuery,
-              DialogueHintQueryVariables
-            >({
-              query: DIALOGUE_HINT_QUERY,
-              variables: {
-                puzzleId: oldPuzzle.id,
-              },
-            }) || { puzzleLogs: [] };
-            const dialogues = dhs.puzzleLogs.filter(
-              item => item.__typename === 'Dialogue',
+  useEffect(
+    () =>
+      subscribeToMore<PuzzleSub, PuzzleSubVariables>({
+        document: PUZZLE_SUB,
+        variables: { id: puzzleId },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!prev || !prev.puzzle) return prev;
+          const newPuzzle = subscriptionData.data.puzzleSub;
+          const oldPuzzle = prev.puzzle;
+          console.log(subscriptionData);
+          if (!newPuzzle) return prev;
+          if (
+            pushNotification &&
+            document.hidden &&
+            oldPuzzle.status !== Status.SOLVED &&
+            newPuzzle.data.status === Status.SOLVED &&
+            !hasNotifiedSolvedRef.current
+          ) {
+            hasNotifiedSolvedRef.current = true;
+            maybeSendNotification(
+              _(webNotifyMessages.puzzleSolved, {
+                puzzle: oldPuzzle.title,
+              }),
             );
-            const dialogueCount = dialogues.length;
-            const dialogueNewCount = dialogues.filter(
-              item => item.__typename === 'Dialogue' && item.answer !== '',
-            ).length;
 
-            apolloClient.writeQuery<
+            // Update queries in /puzzles page
+            // * Solved puzzles
+            const solvedData = apolloClient.readQuery<
               PuzzlesSolvedQuery,
               PuzzlesSolvedQueryVariables
             >({
               query: PUZZLES_SOLVED_QUERY,
-              data: {
-                puzzles: upsertItem(solvedData.puzzles, {
-                  ...oldPuzzle,
-                  ...newPuzzle,
-                  __typename: 'Puzzle',
-                  starSum: 0,
-                  starCount: 0,
-                  commentCount: 0,
-                  bookmarkCount: 0,
-                  dialogueCount,
-                  dialogueNewCount,
-                }),
-              },
             });
-          }
+            if (solvedData) {
+              const dhs = apolloClient.readQuery<
+                DialogueHintQuery,
+                DialogueHintQueryVariables
+              >({
+                query: DIALOGUE_HINT_QUERY,
+                variables: {
+                  puzzleId: oldPuzzle.id,
+                },
+              }) || { puzzleLogs: [] };
+              const dialogues = dhs.puzzleLogs.filter(
+                item => item.__typename === 'Dialogue',
+              );
+              const dialogueCount = dialogues.length;
+              const dialogueNewCount = dialogues.filter(
+                item => item.__typename === 'Dialogue' && item.answer !== '',
+              ).length;
 
-          // * Unsolved puzzles
-          const unsolvedData = apolloClient.readQuery<
-            PuzzlesUnsolvedQuery,
-            PuzzlesUnsolvedQueryVariables
-          >({
-            query: PUZZLES_UNSOLVED_QUERY,
-          });
-          if (unsolvedData) {
-            apolloClient.writeQuery<
+              apolloClient.writeQuery<
+                PuzzlesSolvedQuery,
+                PuzzlesSolvedQueryVariables
+              >({
+                query: PUZZLES_SOLVED_QUERY,
+                data: {
+                  puzzles: upsertItem(solvedData.puzzles, {
+                    ...oldPuzzle,
+                    ...newPuzzle,
+                    __typename: 'Puzzle',
+                    starSum: 0,
+                    starCount: 0,
+                    commentCount: 0,
+                    bookmarkCount: 0,
+                    dialogueCount,
+                    dialogueNewCount,
+                  }),
+                },
+              });
+            }
+
+            // * Unsolved puzzles
+            const unsolvedData = apolloClient.readQuery<
               PuzzlesUnsolvedQuery,
               PuzzlesUnsolvedQueryVariables
             >({
               query: PUZZLES_UNSOLVED_QUERY,
-              data: {
-                puzzles: unsolvedData.puzzles.filter(
-                  puzzle => puzzle.id !== oldPuzzle.id,
-                ),
-              },
             });
+            if (unsolvedData) {
+              apolloClient.writeQuery<
+                PuzzlesUnsolvedQuery,
+                PuzzlesUnsolvedQueryVariables
+              >({
+                query: PUZZLES_UNSOLVED_QUERY,
+                data: {
+                  puzzles: unsolvedData.puzzles.filter(
+                    puzzle => puzzle.id !== oldPuzzle.id,
+                  ),
+                },
+              });
+            }
           }
-        }
-        return { puzzle: { ...oldPuzzle, ...newPuzzle.data } };
-      },
-    }),
+          return { puzzle: { ...oldPuzzle, ...newPuzzle.data } };
+        },
+      }),
+    [puzzleId],
   );
 
   if (error) {

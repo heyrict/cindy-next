@@ -131,175 +131,181 @@ const PuzzlesUnsolvedRenderer = () => {
       fetchPolicy: 'cache-and-network',
     });
 
-  useEffect(() =>
-    subscribeToMore<UnsolvedPuzzlePuzzleLogsSub>({
-      document: UNSOLVED_PUZZLE_PUZZLE_LOGS_SUB,
-      updateQuery: (prev, { subscriptionData }) => {
-        const data = subscriptionData.data.unsolvedPuzzleStatsSub;
-        if (!data) return prev;
+  useEffect(
+    () =>
+      subscribeToMore<UnsolvedPuzzlePuzzleLogsSub>({
+        document: UNSOLVED_PUZZLE_PUZZLE_LOGS_SUB,
+        updateQuery: (prev, { subscriptionData }) => {
+          const data = subscriptionData.data.unsolvedPuzzleStatsSub;
+          if (!data) return prev;
 
-        const {
-          dialogueCount,
-          dialogueCountAnswered,
-          dialogueMaxAnsweredTime,
-        } = data;
-
-        client.writeFragment<PuzzleUnsolvedExtra>({
-          id: `Puzzle:${data.puzzleId}`,
-          fragment: PUZZLE_UNSOLVED_EXTRA_FRAGMENT,
-          data: {
-            __typename: 'Puzzle',
+          const {
             dialogueCount,
-            dialogueNewCount: dialogueCount - dialogueCountAnswered,
+            dialogueCountAnswered,
             dialogueMaxAnsweredTime,
-          },
-        });
+          } = data;
 
-        return prev;
-      },
-    }),
+          client.writeFragment<PuzzleUnsolvedExtra>({
+            id: `Puzzle:${data.puzzleId}`,
+            fragment: PUZZLE_UNSOLVED_EXTRA_FRAGMENT,
+            data: {
+              __typename: 'Puzzle',
+              dialogueCount,
+              dialogueNewCount: dialogueCount - dialogueCountAnswered,
+              dialogueMaxAnsweredTime,
+            },
+          });
+
+          return prev;
+        },
+      }),
+    [],
   );
 
-  useEffect(() =>
-    subscribeToMore<PuzzlesUnsolvedSub>({
-      document: PUZZLES_UNSOLVED_SUB,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data || !prev || !prev.puzzles) return prev;
+  useEffect(
+    () =>
+      subscribeToMore<PuzzlesUnsolvedSub>({
+        document: PUZZLES_UNSOLVED_SUB,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data || !prev || !prev.puzzles) return prev;
 
-        const newUnsolved = subscriptionData.data.puzzleSub;
-        const maxModified = Math.max(
-          ...prev.puzzles.map(({ modified }: { modified: string }) =>
-            new Date(modified).getTime(),
-          ),
-        );
-        const newModified = newUnsolved
-          ? new Date(newUnsolved.data.modified).getTime()
-          : null;
+          const newUnsolved = subscriptionData.data.puzzleSub;
+          const maxModified = Math.max(
+            ...prev.puzzles.map(({ modified }: { modified: string }) =>
+              new Date(modified).getTime(),
+            ),
+          );
+          const newModified = newUnsolved
+            ? new Date(newUnsolved.data.modified).getTime()
+            : null;
 
-        if (newModified && maxModified < newModified) {
-          // Update received
-          client
-            .query<PuzzlesUnsolvedQuery, PuzzlesUnsolvedQueryVariables>({
-              query: PUZZLES_UNSOLVED_QUERY,
-              variables: {
-                since:
-                  maxModified < 0
-                    ? undefined
-                    : new Date(maxModified).toISOString(),
-              },
-              fetchPolicy: 'network-only',
-            })
-            .then(({ data }) => {
-              const solvedPuzzles = data.puzzles.filter(
-                puzzle => puzzle.status !== Status.UNDERGOING,
-              );
-              const unsolvedPuzzles = data.puzzles.filter(
-                puzzle => puzzle.status === Status.UNDERGOING,
-              );
+          if (newModified && maxModified <= newModified) {
+            // Update received
+            client
+              .query<PuzzlesUnsolvedQuery, PuzzlesUnsolvedQueryVariables>({
+                query: PUZZLES_UNSOLVED_QUERY,
+                variables: {
+                  since:
+                    maxModified < 0
+                      ? undefined
+                      : new Date(maxModified).toISOString(),
+                },
+                fetchPolicy: 'network-only',
+              })
+              .then(({ data }) => {
+                const solvedPuzzles = data.puzzles.filter(
+                  puzzle => puzzle.status !== Status.UNDERGOING,
+                );
+                const unsolvedPuzzles = data.puzzles.filter(
+                  puzzle => puzzle.status === Status.UNDERGOING,
+                );
 
-              if (solvedPuzzles.length > 0) {
-                // Status Changed
-                const puzzleSolvedQueryResult = client.readQuery<
-                  PuzzlesSolvedQuery,
-                  PuzzlesSolvedQueryVariables
-                >({
-                  query: PUZZLES_SOLVED_QUERY,
-                });
-                if (puzzleSolvedQueryResult !== null) {
-                  const { puzzles } = puzzleSolvedQueryResult;
-                  client.writeQuery({
+                if (solvedPuzzles.length > 0) {
+                  // Status Changed
+                  const puzzleSolvedQueryResult = client.readQuery<
+                    PuzzlesSolvedQuery,
+                    PuzzlesSolvedQueryVariables
+                  >({
                     query: PUZZLES_SOLVED_QUERY,
-                    data: {
-                      puzzle: upsertMultipleItem(
-                        puzzles,
-                        solvedPuzzles.map(puzzle => ({
-                          ...puzzle,
-                          starCount: 0,
-                          starSum: 0,
-                          bookmarkCount: 0,
-                          commentCount: 0,
-                        })),
-                        'id',
-                        'desc',
-                      ),
-                    },
                   });
+                  if (puzzleSolvedQueryResult !== null) {
+                    const { puzzles } = puzzleSolvedQueryResult;
+                    client.writeQuery({
+                      query: PUZZLES_SOLVED_QUERY,
+                      data: {
+                        puzzle: upsertMultipleItem(
+                          puzzles,
+                          solvedPuzzles.map(puzzle => ({
+                            ...puzzle,
+                            starCount: 0,
+                            starSum: 0,
+                            bookmarkCount: 0,
+                            commentCount: 0,
+                          })),
+                          'id',
+                          'desc',
+                        ),
+                      },
+                    });
+                  }
                 }
-              }
 
-              if (unsolvedPuzzles.length > 0) {
-                const puzzleUnsolvedQueryResult = client.readQuery<
-                  PuzzlesUnsolvedQuery,
-                  PuzzlesUnsolvedQueryVariables
-                >({
-                  query: PUZZLES_UNSOLVED_QUERY,
-                });
-
-                // Notify user that a new puzzle's added
-                if (puzzleUnsolvedQueryResult !== null) {
-                  // New puzzles are puzzles with no exact ids in previous query
-                  const newPuzzles = unsolvedPuzzles.filter(
-                    puzzle =>
-                      puzzleUnsolvedQueryResult.puzzles.findIndex(
-                        p => p.id === puzzle.id,
-                      ) === -1,
-                  );
-
-                  newPuzzles.forEach(puzzle => {
-                    let genreMessage = '';
-                    switch (puzzle.genre) {
-                      case Genre.CLASSIC:
-                        genreMessage = _(puzzleMessages.genre_classic);
-                        break;
-                      case Genre.TWENTY_QUESTIONS:
-                        genreMessage = _(puzzleMessages.genre_twentyQuestions);
-                        break;
-                      case Genre.LITTLE_ALBAT:
-                        genreMessage = _(puzzleMessages.genre_littleAlbat);
-                        break;
-                      case Genre.OTHERS:
-                        genreMessage = _(puzzleMessages.genre_others);
-                        break;
-                    }
-                    if (document.hidden) {
-                      const user = puzzle.anonymous
-                        ? _(userMessages.anonymousUser)
-                        : puzzle.user.nickname;
-
-                      maybeSendNotification(
-                        _(webNotifyMessages.newPuzzleAdded),
-                        {
-                          body: _(webNotifyMessages.newPuzzleAddedDetail, {
-                            user,
-                            puzzle: puzzle.title,
-                            genre: genreMessage,
-                          }),
-                          renotify: true,
-                        },
-                      );
-                    }
-                  });
-
-                  // Updates the original query
-                  client.writeQuery<PuzzlesUnsolvedQuery>({
+                if (unsolvedPuzzles.length > 0) {
+                  const puzzleUnsolvedQueryResult = client.readQuery<
+                    PuzzlesUnsolvedQuery,
+                    PuzzlesUnsolvedQueryVariables
+                  >({
                     query: PUZZLES_UNSOLVED_QUERY,
-                    data: {
-                      puzzles: upsertMultipleItem(
-                        puzzleUnsolvedQueryResult.puzzles,
-                        data.puzzles,
-                        'id',
-                        'desc',
-                      ).filter(puzzle => puzzle.status === Status.UNDERGOING),
-                    },
                   });
-                }
-              }
-            });
-        }
 
-        return prev;
-      },
-    }),
+                  // Notify user that a new puzzle's added
+                  if (puzzleUnsolvedQueryResult !== null) {
+                    // New puzzles are puzzles with no exact ids in previous query
+                    const newPuzzles = unsolvedPuzzles.filter(
+                      puzzle =>
+                        puzzleUnsolvedQueryResult.puzzles.findIndex(
+                          p => p.id === puzzle.id,
+                        ) === -1,
+                    );
+
+                    newPuzzles.forEach(puzzle => {
+                      let genreMessage = '';
+                      switch (puzzle.genre) {
+                        case Genre.CLASSIC:
+                          genreMessage = _(puzzleMessages.genre_classic);
+                          break;
+                        case Genre.TWENTY_QUESTIONS:
+                          genreMessage = _(
+                            puzzleMessages.genre_twentyQuestions,
+                          );
+                          break;
+                        case Genre.LITTLE_ALBAT:
+                          genreMessage = _(puzzleMessages.genre_littleAlbat);
+                          break;
+                        case Genre.OTHERS:
+                          genreMessage = _(puzzleMessages.genre_others);
+                          break;
+                      }
+                      if (document.hidden) {
+                        const user = puzzle.anonymous
+                          ? _(userMessages.anonymousUser)
+                          : puzzle.user.nickname;
+
+                        maybeSendNotification(
+                          _(webNotifyMessages.newPuzzleAdded),
+                          {
+                            body: _(webNotifyMessages.newPuzzleAddedDetail, {
+                              user,
+                              puzzle: puzzle.title,
+                              genre: genreMessage,
+                            }),
+                            renotify: true,
+                          },
+                        );
+                      }
+                    });
+
+                    // Updates the original query
+                    client.writeQuery<PuzzlesUnsolvedQuery>({
+                      query: PUZZLES_UNSOLVED_QUERY,
+                      data: {
+                        puzzles: upsertMultipleItem(
+                          puzzleUnsolvedQueryResult.puzzles,
+                          data.puzzles,
+                          'id',
+                          'desc',
+                        ).filter(puzzle => puzzle.status === Status.UNDERGOING),
+                      },
+                    });
+                  }
+                }
+              });
+          }
+
+          return prev;
+        },
+      }),
+    [],
   );
 
   if (loading && (!data || !data.puzzles || data.puzzles.length === 0))

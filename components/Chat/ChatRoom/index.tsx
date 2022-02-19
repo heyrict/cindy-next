@@ -15,6 +15,7 @@ import {
 } from 'graphql/Queries/generated/ChatroomId';
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/components/chat';
+import Loading from 'components/General/Loading';
 
 const PuzzleChatRegex = /^puzzle-(\d+)$/;
 
@@ -34,7 +35,7 @@ class ChatRoom extends React.Component<ChatRoomProps> {
         }}
         fetchPolicy="cache-first"
       >
-        {({ data, error, refetch }) => {
+        {({ data, error, loading, refetch }) => {
           let chatroomId = null;
           if (data && data.chatrooms && data.chatrooms[0]) {
             chatroomId = data.chatrooms[0].id;
@@ -49,7 +50,9 @@ class ChatRoom extends React.Component<ChatRoomProps> {
                 chatroomId={chatroomId}
                 relatedPuzzleId={relatedPuzzleId}
               />
-              {chatroomId ? (
+              {loading ? (
+                <Loading />
+              ) : chatroomId ? (
                 <ChatRoomMessages
                   chatroomId={chatroomId}
                   relatedPuzzleId={relatedPuzzleId}
