@@ -9,7 +9,6 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/awards';
 import awardsMessages from 'messages/pages/awards';
 import { GetStaticProps } from 'next';
-import { themeStaticPaths } from 'theme';
 
 const Awards = () => {
   const { formatMessage: _ } = useIntl();
@@ -29,13 +28,10 @@ const Awards = () => {
   );
 };
 
-export const getStaticPaths = themeStaticPaths;
-
-export const getStaticProps: GetStaticProps = async ctx => ({
+export const getStaticProps: GetStaticProps = async () => ({
   props: {
     serverSideContext: {
       route: '/awards',
-      theme: ctx.params?.theme,
     },
   },
 });

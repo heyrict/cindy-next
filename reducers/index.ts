@@ -76,6 +76,7 @@ export const initStore = (
       setting: {
         ...settingReducer.initialState,
         ...settingsState,
+        theme: 0,
       },
     },
     composeEnhancers(applyMiddleware(sagaMiddleware)),

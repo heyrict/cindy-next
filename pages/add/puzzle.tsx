@@ -18,8 +18,6 @@ import authMessages from 'messages/components/auth';
 
 import { StateType, ActionContentType } from 'reducers/types';
 import { AddPuzzleProps } from 'pageTypes';
-import { GetStaticProps } from 'next';
-import { themeStaticPaths } from 'theme';
 
 class AddPuzzle extends React.Component<AddPuzzleProps> {
   render() {
@@ -78,16 +76,5 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
 });
 
 const withRedux = connect(mapStateToProps, mapDispatchToProps);
-
-export const getStaticPaths = themeStaticPaths;
-
-export const getStaticProps: GetStaticProps = async ctx => ({
-  props: {
-    serverSideContext: {
-      route: '/add/puzzle',
-      theme: ctx.params?.theme,
-    },
-  },
-});
 
 export default compose(injectIntl, withRedux)(AddPuzzle);

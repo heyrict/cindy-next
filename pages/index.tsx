@@ -10,7 +10,6 @@ import logoInline from 'svgs/logoInlineLight.svg';
 
 import messages from 'messages/pages/home';
 import { GetStaticProps } from 'next';
-import { themeStaticPaths } from 'theme';
 
 const PurpleBg = styled(Flex)`
   background: linear-gradient(
@@ -122,13 +121,10 @@ const HomePage = () => {
   );
 };
 
-export const getStaticPaths = themeStaticPaths;
-
-export const getStaticProps: GetStaticProps = async ctx => ({
+export const getStaticProps: GetStaticProps = async () => ({
   props: {
     serverSideContext: {
       route: '/',
-      theme: ctx.params?.theme,
     },
   },
 });

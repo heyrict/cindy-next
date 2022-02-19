@@ -31,7 +31,6 @@ import {
 import { FilterFieldTypeEnum } from 'components/Search/types';
 import { SearchVariablesStates } from 'pageTypes';
 import { GetStaticProps } from 'next';
-import { themeStaticPaths } from 'theme';
 
 const Search = () => {
   const { formatMessage: _ } = useIntl();
@@ -288,13 +287,10 @@ const Search = () => {
   );
 };
 
-export const getStaticPaths = themeStaticPaths;
-
-export const getStaticProps: GetStaticProps = async ctx => ({
+export const getStaticProps: GetStaticProps = async () => ({
   props: {
     serverSideContext: {
       route: '/search',
-      theme: ctx.params?.theme,
     },
   },
 });
