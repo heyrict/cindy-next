@@ -33,7 +33,7 @@ const LoginModal = ({
       <ModalCloseBtn onClick={() => setFalseLoginModal()} />
     </ModalHeader>
     <ModalBody>
-      <LoginForm />
+      <LoginForm login={login} />
     </ModalBody>
     <ModalFooter>
       <OKButton login={login} />

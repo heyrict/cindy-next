@@ -14,7 +14,8 @@ export type LoginFormProps = {
   password: string;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
-};
+  resetForm: () => void;
+} & WithLoginProps;
 
 export type OKButtonProps = {
   username: string;

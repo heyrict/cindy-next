@@ -16,7 +16,8 @@ export type SignupFormProps = {
   setNickname: (nickname: string) => void;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
-};
+  resetForm: () => void;
+} & WithSignupProps;
 
 export type OKButtonProps = {
   nickname: string;

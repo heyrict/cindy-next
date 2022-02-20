@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 import { FormattedMessage } from 'react-intl';
 import { Flex, Box, Input } from 'components/General';
 
@@ -16,6 +17,8 @@ const SignupForm = ({
   setNickname,
   setUsername,
   setPassword,
+  signup,
+  resetForm,
 }: SignupFormProps) => {
   return (
     <Flex flexWrap="wrap" alignItems="center">
@@ -66,6 +69,20 @@ const SignupForm = ({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPassword(e.target.value)
           }
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.nativeEvent.key === 'Enter') {
+              signup(nickname, username, password).then(res => {
+                const { error } = res;
+                if (error) {
+                  toast.error(error);
+                } else {
+                  resetForm();
+                }
+              });
+              e.preventDefault();
+              return;
+            }
+          }}
           width={[1, 0.9] as any}
           borderRadius={1}
         />
@@ -87,6 +104,7 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(loginReducer.actions.username.set(username)),
   setPassword: (password: string) =>
     dispatch(loginReducer.actions.password.set(password)),
+  resetForm: () => dispatch(loginReducer.actions.resetForm()),
 });
 
 const withRedux = connect(mapStateToProps, mapDispatchToProps);

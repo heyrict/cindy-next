@@ -86,7 +86,7 @@ const Chatmessage = ({
         )}
       </ChatBubbleTop>
       <ChatBubble orientation={isCreator ? 'right' : 'left'}>
-        <div style={{ overflowX: 'auto', width: '100%' }}>
+        <div style={{ overflowX: 'auto', overflowY: 'clip', width: '100%' }}>
           {mode === ChatmessageModeType.EDIT && (
             <SimpleLegacyEditor
               useNamespaces={[stampNamespaces.chef, stampNamespaces.kameo]}

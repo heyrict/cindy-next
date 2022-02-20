@@ -33,7 +33,7 @@ const SignupModal = ({
       <ModalCloseBtn onClick={() => setFalseSignupModal()} />
     </ModalHeader>
     <ModalBody>
-      <SignupForm />
+      <SignupForm signup={signup} />
     </ModalBody>
     <ModalFooter>
       <OKButton signup={signup} />

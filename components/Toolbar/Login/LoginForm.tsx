@@ -8,12 +8,15 @@ import * as loginReducer from 'reducers/login';
 import messages from 'messages/components/auth';
 import { StateType, ActionContentType } from 'reducers/types';
 import { LoginFormProps } from './types';
+import {toast} from 'react-toastify';
 
 const LoginForm = ({
   username,
   password,
   setUsername,
   setPassword,
+  login,
+  resetForm,
 }: LoginFormProps) => {
   return (
     <Flex flexWrap="wrap" alignItems="center">
@@ -47,6 +50,22 @@ const LoginForm = ({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPassword(e.target.value)
           }
+          onKeyDown={(e: React.KeyboardEvent) => {
+              if (
+                e.nativeEvent.key === 'Enter'
+              ) {
+                login(username, password).then(res => {
+                  const { error } = res;
+                  if (error) {
+                    toast.error(error);
+                  } else {
+                    resetForm();
+                  }
+                });
+                e.preventDefault();
+                return;
+              }
+          }}
           width={[1, 0.9] as any}
           borderRadius={1}
         />
@@ -65,6 +84,7 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
     dispatch(loginReducer.actions.username.set(username)),
   setPassword: (password: string) =>
     dispatch(loginReducer.actions.password.set(password)),
+  resetForm: () => dispatch(loginReducer.actions.resetForm()),
 });
 
 const withRedux = connect(mapStateToProps, mapDispatchToProps);
