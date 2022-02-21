@@ -5,6 +5,7 @@ export const PUZZLES_UNSOLVED_SUB = gql`
     puzzleSub(filter: { status: { eq: UNDERGOING } }) {
       data {
         id
+        status
         modified
       }
     }

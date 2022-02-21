@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { maybeSendNotification } from 'common/web-notify';
-import { mergeList, upsertMultipleItem } from 'common/update';
+import { mergeList, upsertMultipleItem, upsertItem } from 'common/update';
 
 import { FormattedMessage, useIntl } from 'react-intl';
 import messages from 'messages/pages/puzzles';
@@ -169,18 +169,56 @@ const PuzzlesUnsolvedRenderer = () => {
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data || !prev || !prev.puzzles) return prev;
 
-          const newUnsolved = subscriptionData.data.puzzleSub;
+          const newUnsolved = subscriptionData.data.puzzleSub?.data;
           const maxModified = Math.max(
             ...prev.puzzles.map(({ modified }: { modified: string }) =>
               new Date(modified).getTime(),
             ),
           );
-          const newModified = newUnsolved
-            ? new Date(newUnsolved.data.modified).getTime()
-            : null;
+          if (!newUnsolved) return prev;
+          const newModified = new Date(newUnsolved.modified).getTime();
 
-          if (newModified && maxModified <= newModified) {
-            // Update received
+          if (newUnsolved.status !== Status.UNDERGOING) {
+            // Puzzle status changed
+            // (`modified` is unreliable for status change as cache updates it
+            // before updateQuery)
+
+            // Move puzzle from unsolved -> solved list
+            const puzzleSolvedQueryResult = client.readQuery<
+              PuzzlesSolvedQuery,
+              PuzzlesSolvedQueryVariables
+            >({
+              query: PUZZLES_SOLVED_QUERY,
+            });
+            if (puzzleSolvedQueryResult !== null) {
+              const { puzzles } = puzzleSolvedQueryResult;
+              const prevPuzzle = prev.puzzles.find(
+                puzzle => puzzle.id === newUnsolved.id,
+              );
+              if (prevPuzzle) {
+                client.writeQuery({
+                  query: PUZZLES_SOLVED_QUERY,
+                  data: {
+                    puzzles: upsertItem(
+                      puzzles,
+                      {
+                        ...prevPuzzle,
+                        ...newUnsolved,
+                        starCount: 0,
+                        starSum: 0,
+                        bookmarkCount: 0,
+                        commentCount: 0,
+                      },
+                      'modified',
+                      'desc',
+                    ),
+                  },
+                });
+              }
+            }
+          } else if (maxModified < newModified) {
+            // New puzzle added
+            // Fetch new data from remote
             client
               .query<PuzzlesUnsolvedQuery, PuzzlesUnsolvedQueryVariables>({
                 query: PUZZLES_UNSOLVED_QUERY,
@@ -193,44 +231,7 @@ const PuzzlesUnsolvedRenderer = () => {
                 fetchPolicy: 'network-only',
               })
               .then(({ data }) => {
-                const solvedPuzzles = data.puzzles.filter(
-                  puzzle => puzzle.status !== Status.UNDERGOING,
-                );
-                const unsolvedPuzzles = data.puzzles.filter(
-                  puzzle => puzzle.status === Status.UNDERGOING,
-                );
-
-                if (solvedPuzzles.length > 0) {
-                  // Status Changed
-                  const puzzleSolvedQueryResult = client.readQuery<
-                    PuzzlesSolvedQuery,
-                    PuzzlesSolvedQueryVariables
-                  >({
-                    query: PUZZLES_SOLVED_QUERY,
-                  });
-                  if (puzzleSolvedQueryResult !== null) {
-                    const { puzzles } = puzzleSolvedQueryResult;
-                    client.writeQuery({
-                      query: PUZZLES_SOLVED_QUERY,
-                      data: {
-                        puzzle: upsertMultipleItem(
-                          puzzles,
-                          solvedPuzzles.map(puzzle => ({
-                            ...puzzle,
-                            starCount: 0,
-                            starSum: 0,
-                            bookmarkCount: 0,
-                            commentCount: 0,
-                          })),
-                          'id',
-                          'desc',
-                        ),
-                      },
-                    });
-                  }
-                }
-
-                if (unsolvedPuzzles.length > 0) {
+                if (data.puzzles.length > 0) {
                   const puzzleUnsolvedQueryResult = client.readQuery<
                     PuzzlesUnsolvedQuery,
                     PuzzlesUnsolvedQueryVariables
@@ -241,7 +242,7 @@ const PuzzlesUnsolvedRenderer = () => {
                   // Notify user that a new puzzle's added
                   if (puzzleUnsolvedQueryResult !== null) {
                     // New puzzles are puzzles with no exact ids in previous query
-                    const newPuzzles = unsolvedPuzzles.filter(
+                    const newPuzzles = data.puzzles.filter(
                       puzzle =>
                         puzzleUnsolvedQueryResult.puzzles.findIndex(
                           p => p.id === puzzle.id,
@@ -285,7 +286,7 @@ const PuzzlesUnsolvedRenderer = () => {
                       }
                     });
 
-                    // Updates the original query
+                    // Append new puzzles updated after max modified puzzles in unsolved list
                     client.writeQuery<PuzzlesUnsolvedQuery>({
                       query: PUZZLES_UNSOLVED_QUERY,
                       data: {
