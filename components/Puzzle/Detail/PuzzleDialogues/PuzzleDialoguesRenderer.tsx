@@ -48,7 +48,7 @@ import {
   PuzzleLogWithUserSub,
   PuzzleLogWithUserSubVariables,
 } from 'graphql/Subscriptions/generated/PuzzleLogWithUserSub';
-import { Status, Yami } from 'generated/globalTypes';
+import { DbOp, Status, Yami } from 'generated/globalTypes';
 
 type Dialogue = DialogueHintQuery_puzzleLogs_Dialogue;
 
@@ -99,12 +99,11 @@ export const PuzzleDialoguesRenderer = ({
   updateSolvedLongTermYamiOnSubscribe,
 }: PuzzleDialoguesRendererProps) => {
   const client = useApolloClient();
-  const { loading, error, data, subscribeToMore } = useQuery<
+  const { loading, error, data, subscribeToMore, refetch } = useQuery<
     DialogueHintQuery,
     DialogueHintQueryVariables
   >(DIALOGUE_HINT_QUERY, {
     variables,
-    fetchPolicy: 'cache-and-network',
     onCompleted: ({ puzzleLogs }) => {
       if (!puzzleLogs) return;
       if (
@@ -122,6 +121,11 @@ export const PuzzleDialoguesRenderer = ({
   );
 
   const { formatMessage: _ } = useIntl();
+
+  // Refetches whole query on initial loading
+  useEffect(() => {
+    refetch();
+  }, [variables && variables.puzzleId, user.id]);
 
   useEffect(() => {
     if (shouldSubscribe) {
@@ -146,7 +150,8 @@ export const PuzzleDialoguesRenderer = ({
         );
         const newModified = new Date(puzzleLogSub.data.modified).getTime();
 
-        if (maxModified >= newModified) return prev;
+        if (maxModified >= newModified && puzzleLogSub.op != DbOp.UPDATED)
+          return prev;
 
         client
           .query<DialogueHintQuery, DialogueHintQueryVariables>({
