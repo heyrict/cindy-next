@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as awardCheckerReducer from 'reducers/awardChecker';
 import * as settingReducer from 'reducers/setting';
 
@@ -26,90 +25,83 @@ import {
   DialogueHintQuery,
   DialogueHintQueryVariables,
 } from 'graphql/Queries/generated/DialogueHintQuery';
-import {
-  ActionContentType,
-  SendMessageTriggerType,
-  StateType,
-} from 'reducers/types';
+import { SendMessageTriggerType, StateType } from 'reducers/types';
 
-const withTrigger = connect((state: StateType) => ({
-  sendQuestionTrigger: settingReducer.rootSelector(state).sendQuestionTrigger,
-}));
+export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
+  const editorRef = useRef<HTMLTextAreaElement>(null!);
+  const sendQuestionTrigger = useSelector(
+    (state: StateType) =>
+      settingReducer.rootSelector(state).sendQuestionTrigger,
+  );
 
-export const QuestionInputWidget = compose(withTrigger)(
-  ({ onSubmit, sendQuestionTrigger }: QuestionInputWidgetProps) => {
-    const editorRef = useRef<HTMLTextAreaElement>(null!);
+  const handleSubmit = () => {
+    const input = editorRef.current.value;
+    onSubmit(input).catch((error: ApolloError) => {
+      toast.error(error.message);
+      editorRef.current.value = input;
+    });
+    editorRef.current.value = '';
+  };
 
-    const handleSubmit = () => {
-      const input = editorRef.current.value;
-      onSubmit(input).catch((error: ApolloError) => {
-        toast.error(error.message);
-        editorRef.current.value = input;
-      });
-      editorRef.current.value = '';
-    };
-
-    return (
-      <Flex
-        width={1}
-        mx={widthSplits[1]}
-        my={2}
-        borderRadius={1}
-        borderStyle="solid"
-        borderColor="preset.editor.ac"
-        borderWidth={2}
-        bg="preset.editor.bg"
+  return (
+    <Flex
+      width={1}
+      mx={widthSplits[1]}
+      my={2}
+      borderRadius={1}
+      borderStyle="solid"
+      borderColor="preset.editor.ac"
+      borderWidth={2}
+      bg="preset.editor.bg"
+    >
+      <Textarea
+        ref={editorRef}
+        onKeyDown={(e: React.KeyboardEvent) => {
+          if (sendQuestionTrigger & SendMessageTriggerType.ON_ENTER) {
+            if (
+              e.nativeEvent.key === 'Enter' &&
+              !e.nativeEvent.shiftKey &&
+              !e.nativeEvent.ctrlKey
+            ) {
+              handleSubmit();
+              e.preventDefault();
+              return;
+            }
+          }
+          if (sendQuestionTrigger & SendMessageTriggerType.ON_CTRL_ENTER) {
+            if (e.nativeEvent.key === 'Enter' && e.nativeEvent.ctrlKey) {
+              handleSubmit();
+              e.preventDefault();
+              return;
+            }
+          }
+          if (sendQuestionTrigger & SendMessageTriggerType.ON_SHIFT_ENTER) {
+            if (e.nativeEvent.key === 'Enter' && e.nativeEvent.shiftKey) {
+              handleSubmit();
+              e.preventDefault();
+              return;
+            }
+          }
+        }}
+        border="none"
+        bg="transparent"
+      />
+      <Button
+        bg="preset.editor.ac"
+        onClick={handleSubmit}
+        px={2}
+        minWidth="50px"
       >
-        <Textarea
-          ref={editorRef}
-          onKeyDown={(e: React.KeyboardEvent) => {
-            if (sendQuestionTrigger & SendMessageTriggerType.ON_ENTER) {
-              if (
-                e.nativeEvent.key === 'Enter' &&
-                !e.nativeEvent.shiftKey &&
-                !e.nativeEvent.ctrlKey
-              ) {
-                handleSubmit();
-                e.preventDefault();
-                return;
-              }
-            }
-            if (sendQuestionTrigger & SendMessageTriggerType.ON_CTRL_ENTER) {
-              if (e.nativeEvent.key === 'Enter' && e.nativeEvent.ctrlKey) {
-                handleSubmit();
-                e.preventDefault();
-                return;
-              }
-            }
-            if (sendQuestionTrigger & SendMessageTriggerType.ON_SHIFT_ENTER) {
-              if (e.nativeEvent.key === 'Enter' && e.nativeEvent.shiftKey) {
-                handleSubmit();
-                e.preventDefault();
-                return;
-              }
-            }
-          }}
-          border="none"
-          bg="transparent"
-        />
-        <Button
-          bg="preset.editor.ac"
-          onClick={handleSubmit}
-          px={2}
-          minWidth="50px"
-        >
-          <FormattedMessage {...messages.putQuestion} />
-        </Button>
-      </Flex>
-    );
-  },
-);
+        <FormattedMessage {...messages.putQuestion} />
+      </Button>
+    </Flex>
+  );
+};
 
-const AddQuestionInput = ({
-  puzzleId,
-  userId,
-  incDialogues,
-}: AddQuestionInputProps) => {
+const AddQuestionInput = ({ puzzleId, userId }: AddQuestionInputProps) => {
+  const dispatch = useDispatch();
+  const incDialogues = () =>
+    dispatch(awardCheckerReducer.actions.dialogues.inc());
   const [addQuestion] = useMutation<
     AddQuestionMutation,
     AddQuestionMutationVariables
@@ -199,10 +191,4 @@ const AddQuestionInput = ({
   );
 };
 
-const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  incDialogues: () => dispatch(awardCheckerReducer.actions.dialogues.inc()),
-});
-
-const withRedux = connect(null, mapDispatchToProps);
-
-export default withRedux(AddQuestionInput);
+export default AddQuestionInput;

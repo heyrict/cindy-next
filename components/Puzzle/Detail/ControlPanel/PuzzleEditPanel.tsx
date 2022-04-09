@@ -9,7 +9,7 @@ import {
   UPDATE_PUZZLE_MUTATION,
   UPDATE_PUZZLE_DAZED_ON_MUTATION,
 } from 'graphql/Mutations/Puzzle';
-import { PUZZLE_SHARED_FRAGMENT } from 'graphql/Fragments/Puzzles';
+import { PUZZLE_AGGREGATE_FRAGMENT } from 'graphql/Fragments/Puzzles';
 
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import messages from 'messages/pages/puzzle';
@@ -28,7 +28,7 @@ import {
   PuzzlesSolvedQuery,
   PuzzlesSolvedQueryVariables,
 } from 'graphql/Queries/generated/PuzzlesSolvedQuery';
-import { PuzzleShared } from 'graphql/Fragments/generated/PuzzleShared';
+import { PuzzleAggregate } from 'graphql/Fragments/generated/PuzzleAggregate';
 import {
   UpdatePuzzleMutation,
   UpdatePuzzleMutationVariables,
@@ -65,9 +65,9 @@ const PuzzleEditPanel = ({
           query: PUZZLES_SOLVED_QUERY,
         });
 
-        let prevPuzzle = proxy.readFragment<PuzzleShared>({
-          fragment: PUZZLE_SHARED_FRAGMENT,
-          fragmentName: 'PuzzleShared',
+        let prevPuzzle = proxy.readFragment<PuzzleAggregate>({
+          fragment: PUZZLE_AGGREGATE_FRAGMENT,
+          fragmentName: 'PuzzleAggregate',
           id: `Puzzle:${data.updatePuzzle.id}`,
         });
 
@@ -80,11 +80,6 @@ const PuzzleEditPanel = ({
                 {
                   ...prevPuzzle,
                   ...data.updatePuzzle,
-                  starCount: 0,
-                  starSum: 0,
-                  commentCount: 0,
-                  bookmarkCount: 0,
-                  dialogueCount: 0,
                   dialogueNewCount: 0,
                 },
                 'modified',

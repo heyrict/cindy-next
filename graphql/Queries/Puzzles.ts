@@ -55,16 +55,11 @@ export const PUZZLES_SOLVED_QUERY = gql`
       limit: $limit
       offset: $offset
     ) @connection(key: "puzzles", filter: ["order", "filter"]) {
-      ...PuzzleShared
-      starCount
-      starSum
-      commentCount
-      bookmarkCount
-      dialogueCount
+      ...PuzzleAggregate
       dialogueNewCount: dialogueCount(answered: false)
     }
   }
-  ${PUZZLE_SHARED_FRAGMENT}
+  ${PUZZLE_AGGREGATE_FRAGMENT}
 `;
 
 export const PUZZLE_UNIQUE_PARTICIPANTS_QUERY = gql`

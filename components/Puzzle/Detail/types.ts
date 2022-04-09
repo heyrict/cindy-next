@@ -21,13 +21,11 @@ export type PuzzleType = {
 
 export type QuestionInputWidgetProps = {
   onSubmit: (text: string) => Promise<any>;
-  sendQuestionTrigger: number;
 };
 
 export type AddQuestionInputProps = {
   puzzleId: number;
   userId: number | null;
-  incDialogues: () => void;
 };
 
 export type ReplayPanelProps = {
