@@ -52,6 +52,8 @@ import { DbOp, Status, Yami } from 'generated/globalTypes';
 
 type Dialogue = DialogueHintQuery_puzzleLogs_Dialogue;
 
+let prevUpdateTime = new Date().getTime();
+
 export const PuzzleDialoguesRendererInner = ({
   puzzleLogs,
   puzzleUser,
@@ -143,14 +145,9 @@ export const PuzzleDialoguesRenderer = ({
         const { puzzleLogSub } = subscriptionData.data;
         if (!puzzleLogSub) return prev;
 
-        const maxModified = Math.max(
-          ...prev.puzzleLogs.map(({ modified }: { modified: string }) =>
-            new Date(modified).getTime(),
-          ),
-        );
         const newModified = new Date(puzzleLogSub.data.modified).getTime();
 
-        if (maxModified >= newModified && puzzleLogSub.op != DbOp.UPDATED)
+        if (prevUpdateTime >= newModified && puzzleLogSub.op != DbOp.UPDATED)
           return prev;
 
         client
@@ -158,10 +155,7 @@ export const PuzzleDialoguesRenderer = ({
             query: DIALOGUE_HINT_QUERY,
             variables: {
               ...variables,
-              since:
-                maxModified < 0
-                  ? undefined
-                  : new Date(maxModified).toISOString(),
+              since: new Date(prevUpdateTime).toISOString(),
             },
             fetchPolicy: 'network-only',
           })
@@ -216,18 +210,28 @@ export const PuzzleDialoguesRenderer = ({
             }
 
             // Updates the original query
+            const puzzleLogs = upsertMultipleItem(
+              prev.puzzleLogs,
+              data.puzzleLogs,
+              'created',
+              'asc',
+            );
             client.writeQuery<DialogueHintQuery, DialogueHintQueryVariables>({
               query: DIALOGUE_HINT_QUERY,
               variables,
               data: {
-                puzzleLogs: upsertMultipleItem(
-                  prev.puzzleLogs,
-                  data.puzzleLogs,
-                  'created',
-                  'asc',
-                ),
+                puzzleLogs,
               },
             });
+
+            // Update last updated time
+            const maxModified = Math.max(
+              ...puzzleLogs.map(({ modified }: { modified: string }) =>
+                new Date(modified).getTime(),
+              ),
+            );
+            prevUpdateTime =
+              maxModified > 0 ? maxModified : new Date().getTime();
           });
 
         return prev;

@@ -61,6 +61,8 @@ const ChannelContent = styled.div`
   flex-direction: column-reverse;
 `;
 
+let prevUpdateTime = new Date().getTime();
+
 const ChatRoomMessagesBody = ({
   chatroomId,
   user,
@@ -103,13 +105,8 @@ const ChatRoomMessagesBody = ({
           } = subscriptionData;
           if (!prev || !prev.chatmessages || !chatmessageSub) return prev;
 
-          const maxModified = Math.max(
-            ...prev.chatmessages.map(({ modified }: { modified: string }) =>
-              new Date(modified).getTime(),
-            ),
-          );
           const newModified = new Date(chatmessageSub.data.modified).getTime();
-          if (maxModified > newModified) return prev;
+          if (prevUpdateTime > newModified) return prev;
 
           const newMessageId = chatmessageSub.data.id;
 
@@ -118,10 +115,7 @@ const ChatRoomMessagesBody = ({
               query: CHATROOM_CHATMESSAGES_QUERY,
               variables: {
                 chatroomId,
-                since:
-                  maxModified < 0
-                    ? undefined
-                    : new Date(maxModified).toISOString(),
+                since: new Date(prevUpdateTime).toISOString(),
               },
               fetchPolicy: 'network-only',
             })
@@ -129,20 +123,30 @@ const ChatRoomMessagesBody = ({
               chatmessageUpdate(chatroomId, newMessageId);
 
               // Updates the original query
+              const chatmessages = upsertMultipleItem(
+                prev.chatmessages,
+                data.chatmessages,
+                'id',
+                'desc',
+              );
               client.writeQuery<ChatroomChatmessages>({
                 query: CHATROOM_CHATMESSAGES_QUERY,
                 variables: {
                   chatroomId,
                 },
                 data: {
-                  chatmessages: upsertMultipleItem(
-                    prev.chatmessages,
-                    data.chatmessages,
-                    'id',
-                    'desc',
-                  ),
+                  chatmessages,
                 },
               });
+
+              // Update last updated time
+              const maxModified = Math.max(
+                ...chatmessages.map(({ modified }: { modified: string }) =>
+                  new Date(modified).getTime(),
+                ),
+              );
+              prevUpdateTime =
+                maxModified > 0 ? maxModified : new Date().getTime();
             });
           return prev;
         },
