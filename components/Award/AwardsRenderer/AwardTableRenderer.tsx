@@ -39,6 +39,10 @@ function AwardTableRenderer<T = number>({
   userInfo,
   getStatusLabel,
 }: AwardTableRendererProps<T>) {
+  const _getSortKey = ([k, v]: [string, any]) => (typeof v === 'number' ? v : parseInt(k));
+  const awardsEntries = Object.entries(awardsObj).sort(
+    (a, b) => _getSortKey(a) - _getSortKey(b)
+  );
   const [addAward] = useMutation<AddAwardMutation, AddAwardMutationVariables>(
     ADD_AWARD_MUTATION,
     {
@@ -86,7 +90,7 @@ function AwardTableRenderer<T = number>({
       <AwardTable>
         <tbody>
           {userInfo
-            ? Object.entries(awardsObj).map(([key, awardObj]) => {
+            ? awardsEntries.map(([key, awardObj]) => {
                 let awardStatusContent = null;
                 const awardId = parseInt(key);
                 const award = awardsDefs.find(a => a.id === awardId);
@@ -157,7 +161,7 @@ function AwardTableRenderer<T = number>({
                   </tr>
                 );
               })
-            : Object.entries(awardsObj).map(([key, awardObj]) => {
+            : awardsEntries.map(([key, awardObj]) => {
                 const awardId = parseInt(key);
                 const award = awardsDefs.find(a => a.id === awardId);
                 if (!award) return null;
