@@ -4,7 +4,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
-import { Global, css } from '@emotion/core';
+import { useTheme, Global, css } from '@emotion/react';
 import { toast, ToastContainer, Slide } from 'react-toastify';
 import { requestNotificationPermission } from 'common/web-notify';
 
@@ -31,8 +31,7 @@ import * as settingReducer from 'reducers/setting';
 import { LayoutProps } from './types';
 import { NotificationPermissionType } from 'common/types';
 import { StateType, ActionContentType } from 'reducers/types';
-import { useTheme } from 'emotion-theming';
-import { ThemesEnum, themeType } from 'theme/types';
+import { ThemesEnum } from 'theme/types';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -44,7 +43,7 @@ const ChannelAside = dynamic<Pick<ChannelAsideProps, never>>(
 const Layout = ({ children }: LayoutProps) => {
   const notifHdlRef = useRef<React.ReactText | null>(null);
   const waitPushHdlRef = useRef<number | null>(null);
-  const theme: themeType = useTheme();
+  const theme = useTheme();
 
   const pushNotification = useSelector(
     (state: StateType) => settingReducer.rootSelector(state).pushNotification,

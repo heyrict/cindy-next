@@ -12,17 +12,16 @@ import {
   LayoutProps,
 } from 'styled-system';
 
-const Flex = styled<
-  'div',
+const Flex = styled.div<
   SpaceProps & FlexboxProps & BorderProps & ColorProps & LayoutProps
->('div')`
+>`
   box-sizing: 'border-box';
   min-width: 0;
   display: flex;
   ${flexbox}
+  ${color}
   ${space}
   ${border}
-  ${color}
   ${layout}
 `;
 

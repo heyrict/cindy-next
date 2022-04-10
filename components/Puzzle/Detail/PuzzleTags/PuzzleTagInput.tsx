@@ -2,7 +2,7 @@ import React from 'react';
 import getReactSelectTheme from 'theme/react-select';
 import { toast } from 'react-toastify';
 import { asSearch } from 'common/search';
-import { ThemeContext } from '@emotion/core';
+import { ThemeContext } from '@emotion/react';
 
 import AsyncCreatableSelect from 'react-select/async-creatable';
 

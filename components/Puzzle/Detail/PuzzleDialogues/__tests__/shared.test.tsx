@@ -1,9 +1,16 @@
 import React from 'react';
 import { render } from 'enzyme';
 
-import theme from 'theme';
+import defaultTheme from 'theme';
 import IndexLabel from '../IndexLabel';
 import FilterButton from '../FilterButton';
+import {ThemesEnum} from 'theme/types';
+
+const theme = {
+  ...defaultTheme,
+  ...defaultTheme.colorthemes.light,
+  theme: ThemesEnum.LIGHT,
+};
 
 describe('<IndexLabel />', () => {
   it('Should render properly in current theme', () => {

@@ -29,8 +29,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
-    "@emotion/core": "^10.0.10",
-    "@emotion/styled": "^10.0.10",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
     "@formatjs/intl-pluralrules": "^4.0.3",
     "@formatjs/intl-relativetimeformat": "^8.0.3",
     "@multiavatar/multiavatar": "^1.0.5",
@@ -38,7 +38,6 @@
     "apollo-upload-client": "^17.0.0",
     "deepmerge": "^4.2.2",
     "dompurify": "^2.3.6",
-    "emotion-theming": "^10.0.10",
     "fnv-plus": "^1.2.12",
     "graphql": "^15.4.0",
     "hoist-non-react-statics": "^3.3.0",

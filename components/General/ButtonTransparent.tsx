@@ -12,10 +12,9 @@ import {
   LayoutProps,
 } from 'styled-system';
 
-const ButtonTransparent = styled<
-  'button',
+const ButtonTransparent = styled.button<
   SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
->('button')`
+>`
   color: ${p => p.theme.colors.black};
   background-color: transparent;
   cursor: pointer;

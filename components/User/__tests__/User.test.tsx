@@ -1,12 +1,19 @@
 import React from 'react';
 import { shallow, render } from 'enzyme';
 
-import theme from 'theme';
+import defaultTheme from 'theme';
 import { Img } from 'components/General';
 import UserCol from '../UserCol';
 import UserInline from '../UserInline';
 import { InlineUser } from '../types';
 import { UserInlineBase, UserColBase } from '../shared';
+import {ThemesEnum} from 'theme/types';
+
+const theme = {
+  ...defaultTheme,
+  ...defaultTheme.colorthemes.light,
+  theme: ThemesEnum.LIGHT,
+};
 
 const user: InlineUser = {
   id: 1,

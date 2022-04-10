@@ -1,7 +1,7 @@
 import React from 'react';
 import { line2md } from 'common/markdown';
 import { normPuzzleQjump } from 'common/markdown/plugin-puzzle-qjump';
-import { useTheme } from 'emotion-theming';
+import { useTheme } from '@emotion/react';
 
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages/pages/puzzle';

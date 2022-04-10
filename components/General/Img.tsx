@@ -8,7 +8,7 @@ import {
   LayoutProps,
 } from 'styled-system';
 
-const Img = styled<'img', SpaceProps & BorderProps & LayoutProps>('img')`
+const Img = styled.img<SpaceProps & BorderProps & LayoutProps>`
   overflow: hidden;
   vertical-align: middle;
   ${layout}

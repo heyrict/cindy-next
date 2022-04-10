@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'enzyme';
 
-import theme from 'theme';
+import defaultTheme from 'theme';
 import {
   FooterButton,
   ModalCloseBtn,
@@ -9,8 +9,15 @@ import {
   ModalBody,
   ModalFooter,
 } from '../index';
+import {ThemesEnum} from 'theme/types';
 
 describe('<ModalComponents />', () => {
+  const theme = {
+    ...defaultTheme,
+    ...defaultTheme.colorthemes.light,
+    theme: ThemesEnum.LIGHT,
+  };
+
   it('<FooterButton /> should work in current theme', () => {
     const node = render(<FooterButton theme={theme} />);
     expect(node.attr('class')).toBeTruthy();

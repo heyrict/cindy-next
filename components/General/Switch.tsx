@@ -2,7 +2,7 @@ import styled from 'theme/styled';
 
 import { SwitchProps } from './types';
 
-export const Switch = styled<'button', SwitchProps>('button')`
+export const Switch = styled.button<SwitchProps>`
   margin: 2px 5px;
   background-color: ${p =>
     p.selected ? p.theme.colors.blue[6] : p.theme.colors.blue[0]};

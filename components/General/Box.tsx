@@ -16,8 +16,7 @@ import {
   OverflowProps,
 } from 'styled-system';
 
-const Box = styled<
-  'div',
+const Box = styled.div<
   SpaceProps &
     ColorProps &
     TypographyProps &
@@ -25,7 +24,7 @@ const Box = styled<
     FlexboxProps &
     LayoutProps &
     OverflowProps
->('div')`
+>`
   box-sizing: 'border-box';
   min-width: 0;
   ${space}

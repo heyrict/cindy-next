@@ -2,13 +2,20 @@ import React from 'react';
 import { shallow, render } from 'enzyme';
 
 import { Status, StatusBase, StatusText } from '../Status';
-import theme from 'theme';
+import defaultTheme from 'theme';
 
 import { Status as StatusEnum } from 'generated/globalTypes';
+import {ThemesEnum} from 'theme/types';
 
 const status = StatusEnum.UNDERGOING;
 
 describe('<Status />', () => {
+  const theme = {
+    ...defaultTheme,
+    ...defaultTheme.colorthemes.light,
+    theme: ThemesEnum.LIGHT,
+  };
+
   it('component should render', () => {
     const node = shallow(<Status status={status} />);
     expect(node.find(StatusBase).prop('status')).toBe(status);

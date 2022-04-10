@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import { IntlProvider } from 'react-intl';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import theme from 'theme/theme';
 
 import CurrentUserAward from '../CurrentUserAward';

@@ -10,10 +10,9 @@ import {
   ColorProps,
 } from 'styled-system';
 
-const Textarea = styled<
-  'textarea',
+const Textarea = styled.textarea<
   SpaceProps & LayoutProps & BorderProps & ColorProps
->('textarea')`
+>`
   box-sizing: 'border-box';
   border-width: 1px;
   color: ${p => p.theme.colors.black};

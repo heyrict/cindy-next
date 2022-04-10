@@ -1,10 +1,16 @@
 import React from 'react';
 import { shallow, render } from 'enzyme';
 
-import theme from 'theme';
+import defaultTheme from 'theme';
 import Modal, { Shader, ModalContainer, Container } from '../Modal';
+import { ThemesEnum } from 'theme/types';
 
 describe.each([false, true])('<Modal show={%s} />', show => {
+  const theme = {
+    ...defaultTheme,
+    ...defaultTheme.colorthemes.light,
+    theme: ThemesEnum.LIGHT,
+  };
   it('<Shader /> should work in current theme', () => {
     const node = render(<Shader show={show} theme={theme} />);
     expect(node.attr('class')).toBeTruthy();

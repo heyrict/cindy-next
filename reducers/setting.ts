@@ -108,7 +108,7 @@ export const initialState = {
 type SettingsStateType = typeof initialState;
 
 export const loadInitialState = (): SettingsStateType => {
-  if (!process.browser) return initialState;
+  if (typeof window === undefined) return initialState;
   const storedItem = window.localStorage.getItem(`reducer:${scope}`);
   if (storedItem) {
     let parsedStoredItem: SettingsStateType;
@@ -137,7 +137,7 @@ const getStateToSave = (state: SettingsStateType): SettingsStateType => {
 };
 
 export const saveState = (state: SettingsStateType): void => {
-  if (!process.browser) return;
+  if (typeof window === undefined) return;
   const storedItem = JSON.stringify(getStateToSave(state));
   window.localStorage.setItem(`reducer:${scope}`, storedItem);
 

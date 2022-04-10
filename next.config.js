@@ -4,9 +4,6 @@ module.exports = {
     locales: ['en', 'ja'],
     defaultLocale: 'ja',
   },
-  experimental: {
-    reactRoot: true,
-  },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     /*
      * Disabled for babel requirements

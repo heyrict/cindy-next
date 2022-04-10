@@ -12,10 +12,9 @@ import {
   BorderProps,
 } from 'styled-system';
 
-const LinkButton = styled<
-  'a',
+const LinkButton = styled.a<
   SpaceProps & ColorProps & LayoutProps & TypographyProps & BorderProps
->('a')`
+>`
   display: block;
   background-color: ${p => p.theme.colors.blue[6]};
   ${space}

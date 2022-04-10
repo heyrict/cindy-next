@@ -52,7 +52,6 @@ export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
       borderStyle="solid"
       borderColor="preset.editor.ac"
       borderWidth={2}
-      bg="preset.editor.bg"
     >
       <Textarea
         ref={editorRef}
@@ -84,7 +83,7 @@ export const QuestionInputWidget = ({ onSubmit }: QuestionInputWidgetProps) => {
           }
         }}
         border="none"
-        bg="transparent"
+        bg="preset.editor.bg"
       />
       <Button
         bg="preset.editor.ac"

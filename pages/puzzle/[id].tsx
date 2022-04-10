@@ -64,6 +64,12 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
     cookie: ctx.req.headers.cookie || null,
   };
 
+  if (!ctx.req.headers['user-agent']?.search(/[Bb]ot/)) {
+    return {
+      props: {},
+    }
+  }
+
   const apolloClient: ApolloClient<object> = initializeApollo();
   let { id } = ctx.query;
   const puzzleId = parseInt(id as string, 10);

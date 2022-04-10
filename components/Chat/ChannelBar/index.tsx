@@ -21,8 +21,7 @@ import moreIcon from 'svgs/threeDotsVertical.svg';
 
 import { ChannelBarProps } from './types';
 import { StateType, ActionContentType } from 'reducers/types';
-import { useTheme } from 'emotion-theming';
-import { themeType } from 'theme/types';
+import { useTheme } from '@emotion/react';
 
 const currentChannelSelector = createSelector(
   (state: StateType) => globalReducer.rootSelector(state).channel,
@@ -38,7 +37,7 @@ const ChannelBar = ({
   setTrueDescriptionModal,
   relatedPuzzleId,
 }: ChannelBarProps) => {
-  const theme: themeType = useTheme();
+  const theme = useTheme();
 
   return (
     <Box width={1} height="channelbar">

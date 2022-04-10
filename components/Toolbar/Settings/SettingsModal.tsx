@@ -39,7 +39,7 @@ import {
   UpdateDefaultLicenseMutationVariables,
 } from 'graphql/Mutations/generated/UpdateDefaultLicenseMutation';
 import { ThemesEnum, themeType } from 'theme/types';
-import { useTheme } from 'emotion-theming';
+import { useTheme } from '@emotion/react';
 
 const booleanOptions = [
   {

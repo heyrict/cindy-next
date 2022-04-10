@@ -10,10 +10,9 @@ import {
   ColorProps,
 } from 'styled-system';
 
-const Input = styled<
-  'input',
+const Input = styled.input<
   SpaceProps & LayoutProps & BorderProps & ColorProps
->('input')`
+>`
   box-sizing: 'border-box';
   border-width: 1px;
   color: ${p => p.theme.colors.black};

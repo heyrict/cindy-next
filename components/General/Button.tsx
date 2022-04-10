@@ -12,10 +12,9 @@ import {
   LayoutProps,
 } from 'styled-system';
 
-const Button = styled<
-  'button',
+const Button = styled.button<
   SpaceProps & ColorProps & TypographyProps & BorderProps & LayoutProps
->('button')`
+>`
   color: ${p => p.theme.colors.preset.button.fg};
   background: ${p => p.theme.colors.preset.button.bg};
   overflow: hidden;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'theme/styled';
-import { keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 
 import Flex from './Flex';
 

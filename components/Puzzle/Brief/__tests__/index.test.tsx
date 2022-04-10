@@ -3,7 +3,7 @@ import { shallow, render } from 'enzyme';
 
 import { Hr, Time, PuzzleBrief } from '../index';
 
-import theme from 'theme';
+import defaultTheme from 'theme';
 import Bookmark from '../Bookmark';
 import Comment from '../Comment';
 import Genre from '../Genre';
@@ -17,6 +17,13 @@ import {
   Yami as YamiEnum,
   Status as StatusEnum,
 } from 'generated/globalTypes';
+import {ThemesEnum} from 'theme/types';
+
+const theme = {
+  ...defaultTheme,
+  ...defaultTheme.colorthemes.light,
+  theme: ThemesEnum.LIGHT,
+};
 
 const puzzleMinimal = {
   id: 1,
