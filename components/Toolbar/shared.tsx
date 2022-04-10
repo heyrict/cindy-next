@@ -71,7 +71,7 @@ export const ToolbarResponsiveButton = styled(Box)`
 
 export const ToolbarDropdownContents = styled.div`
   position: fixed;
-  top: ${p => p.theme.sizes.toolbar};
+  padding: ${p => p.theme.space[1]}px;
   min-width: ${p => p.theme.sizes.toolbuttonMin};
   max-width: ${p => p.theme.sizes.toolbuttonMax};
   background: ${p => p.theme.colors.preset.menubar.bg};

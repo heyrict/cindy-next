@@ -9,5 +9,5 @@ export type TooltipProps = {
   tooltip: React.ReactNode;
   referenceStyles?: React.CSSProperties;
   popperStyles?: React.CSSProperties;
-} & Omit<PopperProps, 'children'> &
+} & Omit<PopperProps<any>, 'children'> &
   typeof TooltipDefaultProps;

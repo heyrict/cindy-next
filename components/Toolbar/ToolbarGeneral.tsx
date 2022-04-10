@@ -137,17 +137,14 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
           </Reference>
           {comDropDown && (
             <Portal>
-              <Popper placement="bottom-end">
+              <Popper placement="bottom-end" strategy="fixed">
                 {({ ref, style, placement }: any) => (
                   <ToolbarDropdownContents
                     ref={(r: HTMLDivElement | null) => {
                       ref(r);
                       comDropDownRef.current = r;
                     }}
-                    style={{
-                      ...style,
-                      top: undefined,
-                    }}
+                    style={style}
                     data-placement={placement}
                   >
                     <ToolbarButton
@@ -209,17 +206,14 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
           </Reference>
           {helpDropDown && (
             <Portal>
-              <Popper placement="bottom-end">
+              <Popper placement="bottom-end" strategy="fixed">
                 {({ ref, style, placement }: any) => (
                   <ToolbarDropdownContents
                     ref={(r: HTMLDivElement | null) => {
                       ref(r);
                       helpDropDownRef.current = r;
                     }}
-                    style={{
-                      ...style,
-                      top: undefined,
-                    }}
+                    style={style}
                     data-placement={placement}
                   >
                     <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">
@@ -316,17 +310,14 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
         </Reference>
         {dropDown && (
           <Portal>
-            <Popper placement="bottom-end">
+            <Popper placement="bottom-end" strategy="fixed">
               {({ ref, style, placement }: any) => (
                 <ToolbarDropdownContents
                   ref={(r: HTMLDivElement | null) => {
                     ref(r);
                     dropDownRef.current = r;
                   }}
-                  style={{
-                    ...style,
-                    top: undefined,
-                  }}
+                  style={style}
                   data-placement={placement}
                 >
                   {user.id && (

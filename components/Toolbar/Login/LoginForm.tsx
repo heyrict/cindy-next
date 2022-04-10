@@ -8,7 +8,7 @@ import * as loginReducer from 'reducers/login';
 import messages from 'messages/components/auth';
 import { StateType, ActionContentType } from 'reducers/types';
 import { LoginFormProps } from './types';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const LoginForm = ({
   username,
@@ -51,20 +51,18 @@ const LoginForm = ({
             setPassword(e.target.value)
           }
           onKeyDown={(e: React.KeyboardEvent) => {
-              if (
-                e.nativeEvent.key === 'Enter'
-              ) {
-                login(username, password).then(res => {
-                  const { error } = res;
-                  if (error) {
-                    toast.error(error);
-                  } else {
-                    resetForm();
-                  }
-                });
-                e.preventDefault();
-                return;
-              }
+            if (e.nativeEvent.key === 'Enter') {
+              login(username, password).then(res => {
+                const { error } = res;
+                if (error) {
+                  toast.error(error);
+                } else {
+                  resetForm();
+                }
+              });
+              e.preventDefault();
+              return;
+            }
           }}
           width={[1, 0.9] as any}
           borderRadius={1}

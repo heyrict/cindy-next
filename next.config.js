@@ -1,7 +1,11 @@
+/** @type {import('next').NextConfig} */
 module.exports = {
   i18n: {
     locales: ['en', 'ja'],
     defaultLocale: 'ja',
+  },
+  experimental: {
+    reactRoot: true,
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     /*
