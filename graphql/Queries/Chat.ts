@@ -88,11 +88,26 @@ export const FAVORITE_CHATROOMS_QUERY = gql`
   }
 `;
 
-export const PUBLIC_CHATROOMS_QUERY = gql`
-  query PublicChatroomsQuery {
-    chatrooms(filter: { private: false }, order: { id: ASC }) {
+export const OFFICIAL_CHATROOMS_QUERY = gql`
+  query OfficialChatroomsQuery {
+    chatrooms(filter: { official: true }, order: { id: ASC }) {
       id
       name
     }
   }
+`;
+
+export const PUBLIC_CHATROOMS_QUERY = gql`
+  query PublicChatroomsQuery($limit: Int!, $offset: Int!) {
+    chatrooms(
+      filter: { public: true }
+      order: { id: DESC }
+      limit: $limit
+      offset: $offset
+    ) {
+      id
+      ...Chatroom
+    }
+  }
+  ${CHATROOM_FRAGMENT}
 `;

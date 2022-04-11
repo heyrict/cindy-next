@@ -9,20 +9,20 @@ import { Flex, Box, ButtonTransparent } from 'components/General';
 import Loading from 'components/General/Loading';
 
 import { Query } from '@apollo/client/react/components';
-import { PUBLIC_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
+import { OFFICIAL_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
 
 import { FormattedMessage } from 'react-intl';
 import chatMessages from 'messages/components/chat';
 
-import { PublicChatroomsQuery } from 'graphql/Queries/generated/PublicChatroomsQuery';
+import { PublicChatroomsQuery as OfficialChatroomsQuery } from 'graphql/Queries/generated/PublicChatroomsQuery';
 import { ActionContentType } from 'reducers/types';
-import { PublicChatroomsListProps } from './types';
+import { PublicChatroomsListProps as OfficialChatroomsListProps } from './types';
 
-const PublicChatroomsList = ({
+const OfficialChatroomsList = ({
   setChannel,
   setFalseChannelChangeModal,
-}: PublicChatroomsListProps) => (
-  <Query<PublicChatroomsQuery> query={PUBLIC_CHATROOMS_QUERY}>
+}: OfficialChatroomsListProps) => (
+  <Query<OfficialChatroomsQuery> query={OFFICIAL_CHATROOMS_QUERY}>
     {({ loading, error, data }) => {
       if (error) {
         toast.error(error.message);
@@ -35,7 +35,7 @@ const PublicChatroomsList = ({
       return (
         <Flex flexWrap="wrap">
           <Box mt={2} width={1} borderBottom="3px solid" borderColor="orange.6">
-            <FormattedMessage {...chatMessages.publicChatrooms} />
+            <FormattedMessage {...chatMessages.officialChatrooms} />
           </Box>
           {data.chatrooms.map(chatroom => (
             <Box
@@ -73,4 +73,4 @@ const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
 
 const withRedux = connect(null, mapDispatchToProps);
 
-export default withRedux(PublicChatroomsList);
+export default withRedux(OfficialChatroomsList);

@@ -28,7 +28,8 @@ const defaultData = {
   name: 'Loading...',
   description: 'Loading...',
   created: '1901-01-01T00:00:00Z',
-  private: false,
+  official: false,
+  public: true,
 };
 
 const DescriptionModal = ({

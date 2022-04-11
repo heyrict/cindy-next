@@ -22,7 +22,8 @@ export const CHATROOM_FRAGMENT = gql`
     name
     description
     created
-    private
+    official
+    public
     user {
       ...UserBrief
     }

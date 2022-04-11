@@ -33,6 +33,10 @@ export const chatMessages = defineMessages({
     id: `components.chat.favoriteChatrooms`,
     defaultMessage: 'My Favorite Chatrooms',
   },
+  officialChatrooms: {
+    id: `components.chat.officialChatrooms`,
+    defaultMessage: 'Official Chatrooms',
+  },
   publicChatrooms: {
     id: `components.chat.publicChatrooms`,
     defaultMessage: 'Public Chatrooms',
