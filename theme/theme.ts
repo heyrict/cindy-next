@@ -7,7 +7,7 @@ export const colorthemes = {
   dark: palxDarkColor,
 };
 
-const breakpoints = ['40em', '52em', '64em', '90em'];
+const breakpoints = ['40em', '52em', '68em', '90em'];
 
 const colors = {
   ...palxColor,

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { line2md } from 'common/markdown';
 
@@ -13,7 +14,7 @@ import { CHATROOM_EDIT_MESSAGE_MUTATION } from 'graphql/Mutations/Chat';
 
 import UserInline from 'components/User/UserInline';
 import { AnonymousUserInline } from 'components/User/Anonymous';
-import { ButtonTransparent, Img, EditTimeSpan } from 'components/General';
+import { ButtonTransparent, Img, EditTimeSpan, Box } from 'components/General';
 import { SimpleLegacyEditor } from 'components/PreviewEditor';
 
 import ChatBubble from './ChatBubble';
@@ -28,8 +29,11 @@ import {
 } from 'graphql/Mutations/generated/ChatroomEditMessage';
 import { stampNamespaces } from 'stamps';
 
+const ButtonTransparentA = ButtonTransparent.withComponent('a');
+
 const Chatmessage = ({
   chatmessage,
+  chatroom,
   anonymous,
   currentUserId,
 }: ChatmessageProps) => {
@@ -83,6 +87,17 @@ const Chatmessage = ({
               )
             }
           />
+        )}
+        {chatroom && (
+          <Box ml="auto">
+            <Link
+              href="/channel/[id]"
+              as={`/channel/${chatroom.name}`}
+              passHref
+            >
+              <ButtonTransparentA p={1}>{chatroom.name}</ButtonTransparentA>
+            </Link>
+          </Box>
         )}
       </ChatBubbleTop>
       <ChatBubble orientation={isCreator ? 'right' : 'left'}>

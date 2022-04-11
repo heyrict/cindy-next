@@ -27,6 +27,4 @@ export const ChatroomButtonDefaultProps = {
   color: 'gray.1',
 };
 
-export type ChatroomButtonProps = {
-  channel: string;
-} & typeof ChatroomButtonDefaultProps;
+export type ChatroomButtonProps = typeof ChatroomButtonDefaultProps;

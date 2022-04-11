@@ -105,9 +105,22 @@ export const PUBLIC_CHATROOMS_QUERY = gql`
       limit: $limit
       offset: $offset
     ) {
-      id
       ...Chatroom
+    }
+    chatroomCount(filter: { public: true })
+  }
+  ${CHATROOM_FRAGMENT}
+`;
+
+export const RECENT_CHATMESSAGES_QUERY = gql`
+  query RecentChatsQuery($userId: Int!, $limit: Int!, $offset: Int!) {
+    recentChatmessages(userId: $userId, limit: $limit, offset: $offset) {
+      chatroom {
+        ...Chatroom
+      }
+      ...Chatmessage
     }
   }
   ${CHATROOM_FRAGMENT}
+  ${CHATMESSAGE_FRAGMENT}
 `;
