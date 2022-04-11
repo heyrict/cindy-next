@@ -73,6 +73,7 @@ const ChannelsPage = () => {
                 {msg}
               </Heading>
             )}
+            linkChange
           />
           <FavoriteChatroomsList
             header={msg => (
@@ -80,6 +81,7 @@ const ChannelsPage = () => {
                 {msg}
               </Heading>
             )}
+            linkChange
           />
           <Heading fontSize={4}>
             <FormattedMessage {...messages.publicChannels} />

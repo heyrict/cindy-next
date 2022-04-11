@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
 import { connect } from 'react-redux';
@@ -23,8 +24,11 @@ const FavoriteChatroomsList = ({
   setChannel,
   setFalseChannelChangeModal,
   header,
-}: FavoriteChatroomsListProps) =>
-  user.id ? (
+  linkChange,
+}: FavoriteChatroomsListProps) => {
+  const router = useRouter();
+
+  return user.id ? (
     <Query<FavoriteChatroomsQuery>
       query={FAVORITE_CHATROOMS_QUERY}
       variables={{
@@ -67,8 +71,12 @@ const FavoriteChatroomsList = ({
                 <ButtonTransparent
                   height={24}
                   onClick={() => {
-                    setChannel(fc.chatroom.name);
-                    setFalseChannelChangeModal();
+                    if (linkChange) {
+                      router.push("/channel/[name]", `/channel/${fc.chatroom.name}`)
+                    } else {
+                      setChannel(fc.chatroom.name);
+                      setFalseChannelChangeModal();
+                    }
                   }}
                 >
                   {fc.chatroom.name}
@@ -80,6 +88,7 @@ const FavoriteChatroomsList = ({
       }}
     </Query>
   ) : null;
+};
 
 const mapStateToProps = (state: StateType) => ({
   user: globalReducer.rootSelector(state).user,

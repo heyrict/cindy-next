@@ -108,7 +108,7 @@
   "components.chat.noSelfDM": "あなたは自分にダイレクトメッセージを送信することはできません",
   "components.chat.notExistDescription": "このチャットルームは存在しません",
   "components.chat.officialChatrooms": "公式チャンネル",
-  "components.chat.openToPublic": "チャンネルを公開",
+  "components.chat.openToPublic": "チャンネル公開",
   "components.chat.publicChatrooms": "公開チャンネル",
   "components.dialogue.answer": "回答",
   "components.dialogue.question": "質問",

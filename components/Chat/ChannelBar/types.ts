@@ -53,6 +53,7 @@ export type FavoriteChatroomsListProps = {
   setChannel: (channel: string) => void;
   setFalseChannelChangeModal: () => void;
   header?: (msg: ReactNode) => ReactNode;
+  linkChange?: boolean;
 };
 
 export type ChatroomLogsProps = {
@@ -64,4 +65,5 @@ export type OfficialChatroomsListProps = {
   setChannel: (channel: string) => void;
   setFalseChannelChangeModal: () => void;
   header?: (msg: ReactNode) => ReactNode;
+  linkChange?: boolean;
 };
