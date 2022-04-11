@@ -29,8 +29,14 @@ const MultiColBox = (
     BorderProps &
     LayoutProps &
     OverflowProps &
-    MultiColBoxProps & { children: React.ReactElement },
-) => <Box width={props.multicol ? multicolWidth : 1} {...props} />;
+    MultiColBoxProps & { children: React.ReactElement; innerRef?: any },
+) => (
+  <Box
+    ref={props.innerRef}
+    width={props.multicol ? multicolWidth : 1}
+    {...props}
+  />
+);
 
 const mapStateToProps = (state: StateType) => ({
   multicol: settingReducer.rootSelector(state).multicol,

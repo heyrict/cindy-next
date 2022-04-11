@@ -23,7 +23,6 @@ import ErrorReload from 'components/General/ErrorReload';
 import PuzzleSubbar from 'components/Subbar/Puzzle';
 import SearchVarSetPanel from 'components/Search/SearchVarSetPanel';
 import SortVarSetPanel from 'components/Search/SortVarSetPanel';
-import LoadMoreVis from 'components/Hoc/LoadMoreVis';
 import { PuzzleTagBubbleBox } from 'components/Puzzle/Detail/PuzzleTags/shared';
 
 import { Ordering } from 'generated/globalTypes';
@@ -102,7 +101,13 @@ function TagsPageContents({ variables }: { variables: TagsVariablesStates }) {
         </PuzzleTagBubbleBox>
       ))}
       {tags.length >= TAGS_PER_PAGE && hasMore && (
-        <LoadMoreVis loadMore={fetchNextPage} />
+        <PuzzleTagBubbleBox>
+          <Box fontSize="1.2em">
+            <ButtonTransparent onClick={fetchNextPage} px={3} py={1} borderRadius={2}>
+              <FormattedMessage {...commonMessages.loadMore} />
+            </ButtonTransparent>
+          </Box>
+        </PuzzleTagBubbleBox>
       )}
     </Flex>
   );
