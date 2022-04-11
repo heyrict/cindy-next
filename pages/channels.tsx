@@ -22,6 +22,9 @@ import Chatmessage from 'components/Chat/Chatmessage';
 import Loading from 'components/General/Loading';
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
 import FavChatManipulateButton from 'components/Chat/ChannelBar/FavChatManipulateButton';
+import UserInline from 'components/User/UserInline';
+import FavoriteChatroomsList from 'components/Chat/ChannelBar/FavoriteChatroomsList';
+import OfficialChatroomsList from 'components/Chat/ChannelBar/OfficialChatroomsList';
 
 import { useQuery } from '@apollo/client';
 import {
@@ -38,7 +41,6 @@ import {
   PublicChatroomsQueryVariables,
 } from 'graphql/Queries/generated/PublicChatroomsQuery';
 import { StateType } from 'reducers/types';
-import UserInline from 'components/User/UserInline';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -65,6 +67,20 @@ const ChannelsPage = () => {
           <RecentChatsRenderer userId={userId} />
         </Box>
         <Box width={[1, 5 / 8, 1, 5 / 8, 2 / 3]}>
+          <OfficialChatroomsList
+            header={msg => (
+              <Heading style={{ width: '100%' }} fontSize={4}>
+                {msg}
+              </Heading>
+            )}
+          />
+          <FavoriteChatroomsList
+            header={msg => (
+              <Heading style={{ width: '100%' }} fontSize={4}>
+                {msg}
+              </Heading>
+            )}
+          />
           <Heading fontSize={4}>
             <FormattedMessage {...messages.publicChannels} />
           </Heading>
@@ -120,7 +136,11 @@ const PublicChatroomsRenderer = () => {
           return (
             <>
               {data.chatrooms.map(chatroom => (
-                <Panel key={chatroom.id} flexDirection="column" justifyContent="center">
+                <Panel
+                  key={chatroom.id}
+                  flexDirection="column"
+                  justifyContent="center"
+                >
                   <Flex>
                     <Box fontSize={2} fontWeight="bold">
                       <Link

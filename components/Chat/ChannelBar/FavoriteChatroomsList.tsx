@@ -22,6 +22,7 @@ const FavoriteChatroomsList = ({
   user,
   setChannel,
   setFalseChannelChangeModal,
+  header,
 }: FavoriteChatroomsListProps) =>
   user.id ? (
     <Query<FavoriteChatroomsQuery>
@@ -41,14 +42,18 @@ const FavoriteChatroomsList = ({
         }
         return (
           <Flex flexWrap="wrap">
-            <Box
-              mt={2}
-              width={1}
-              borderBottom="3px solid"
-              borderColor="orange.6"
-            >
-              <FormattedMessage {...chatMessages.favoriteChatrooms} />
-            </Box>
+            {header ? (
+              header(<FormattedMessage {...chatMessages.favoriteChatrooms} />)
+            ) : (
+              <Box
+                mt={2}
+                width={1}
+                borderBottom="3px solid"
+                borderColor="orange.6"
+              >
+                <FormattedMessage {...chatMessages.favoriteChatrooms} />
+              </Box>
+            )}
             {data.favchats.map(fc => (
               <Box
                 key={fc.id}

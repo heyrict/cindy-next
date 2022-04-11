@@ -14,13 +14,14 @@ import { OFFICIAL_CHATROOMS_QUERY } from 'graphql/Queries/Chat';
 import { FormattedMessage } from 'react-intl';
 import chatMessages from 'messages/components/chat';
 
-import { PublicChatroomsQuery as OfficialChatroomsQuery } from 'graphql/Queries/generated/PublicChatroomsQuery';
+import { OfficialChatroomsQuery } from 'graphql/Queries/generated/OfficialChatroomsQuery';
 import { ActionContentType } from 'reducers/types';
-import { PublicChatroomsListProps as OfficialChatroomsListProps } from './types';
+import { OfficialChatroomsListProps } from './types';
 
 const OfficialChatroomsList = ({
   setChannel,
   setFalseChannelChangeModal,
+  header,
 }: OfficialChatroomsListProps) => (
   <Query<OfficialChatroomsQuery> query={OFFICIAL_CHATROOMS_QUERY}>
     {({ loading, error, data }) => {
@@ -34,9 +35,18 @@ const OfficialChatroomsList = ({
       }
       return (
         <Flex flexWrap="wrap">
-          <Box mt={2} width={1} borderBottom="3px solid" borderColor="orange.6">
-            <FormattedMessage {...chatMessages.officialChatrooms} />
-          </Box>
+          {header ? (
+            header(<FormattedMessage {...chatMessages.officialChatrooms} />)
+          ) : (
+            <Box
+              mt={2}
+              width={1}
+              borderBottom="3px solid"
+              borderColor="orange.6"
+            >
+              <FormattedMessage {...chatMessages.officialChatrooms} />
+            </Box>
+          )}
           {data.chatrooms.map(chatroom => (
             <Box
               key={chatroom.id}

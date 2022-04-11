@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalCloseBtn, ModalBody } from 'components/Modal';
 import ChannelChangeInput from './ChannelChangeInput';
 import FavoriteChatroomsList from './FavoriteChatroomsList';
-import OfficialChatroomsList from './PublicChatroomsList';
+import OfficialChatroomsList from './OfficialChatroomsList';
 
 import * as chatReducer from 'reducers/chat';
 

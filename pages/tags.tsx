@@ -103,7 +103,12 @@ function TagsPageContents({ variables }: { variables: TagsVariablesStates }) {
       {tags.length >= TAGS_PER_PAGE && hasMore && (
         <PuzzleTagBubbleBox>
           <Box fontSize="1.2em">
-            <ButtonTransparent onClick={fetchNextPage} px={3} py={1} borderRadius={2}>
+            <ButtonTransparent
+              onClick={fetchNextPage}
+              px={3}
+              py={1}
+              borderRadius={2}
+            >
               <FormattedMessage {...commonMessages.loadMore} />
             </ButtonTransparent>
           </Box>

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { GlobalUserType } from 'reducers/types';
 
 export type ChannelChangeModalProps = {
@@ -51,6 +52,7 @@ export type FavoriteChatroomsListProps = {
   user: GlobalUserType;
   setChannel: (channel: string) => void;
   setFalseChannelChangeModal: () => void;
+  header?: (msg: ReactNode) => ReactNode;
 };
 
 export type ChatroomLogsProps = {
@@ -58,7 +60,8 @@ export type ChatroomLogsProps = {
   relatedPuzzleId?: number | null;
 };
 
-export type PublicChatroomsListProps = {
+export type OfficialChatroomsListProps = {
   setChannel: (channel: string) => void;
   setFalseChannelChangeModal: () => void;
+  header?: (msg: ReactNode) => ReactNode;
 };
