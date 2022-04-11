@@ -3,7 +3,7 @@ import { shallow, render } from 'enzyme';
 
 import Bookmark, { BookmarkBase } from '../Bookmark';
 import defaultTheme from 'theme';
-import {ThemesEnum} from 'theme/types';
+import { ThemesEnum } from 'theme/types';
 
 const count = 42;
 

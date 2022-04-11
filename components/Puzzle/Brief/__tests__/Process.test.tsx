@@ -3,7 +3,7 @@ import { shallow, render } from 'enzyme';
 
 import Process, { ProcessBase } from '../Process';
 import defaultTheme from 'theme';
-import {ThemesEnum} from 'theme/types';
+import { ThemesEnum } from 'theme/types';
 
 const count = 42;
 

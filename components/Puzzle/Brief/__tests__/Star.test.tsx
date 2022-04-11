@@ -3,7 +3,7 @@ import { shallow, render } from 'enzyme';
 
 import Star, { StarBase } from '../Star';
 import defaultTheme from 'theme';
-import {ThemesEnum} from 'theme/types';
+import { ThemesEnum } from 'theme/types';
 
 const count = 42;
 const sum = 67;

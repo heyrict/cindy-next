@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { line2md } from 'common/markdown';
 
@@ -10,7 +11,13 @@ import chatMessages from 'messages/components/chat';
 import { useSelector } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
-import { Box, Flex, Heading, Panel } from 'components/General';
+import {
+  Box,
+  ButtonTransparent,
+  Flex,
+  Heading,
+  Panel,
+} from 'components/General';
 import Chatmessage from 'components/Chat/Chatmessage';
 import Loading from 'components/General/Loading';
 import PaginatedQuery from 'components/Hoc/PaginatedQuery';
@@ -32,6 +39,8 @@ import {
 } from 'graphql/Queries/generated/PublicChatroomsQuery';
 import { StateType } from 'reducers/types';
 import UserInline from 'components/User/UserInline';
+
+const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
 const ChannelsPage = () => {
   const { formatMessage: _ } = useIntl();
@@ -111,13 +120,21 @@ const PublicChatroomsRenderer = () => {
           return (
             <>
               {data.chatrooms.map(chatroom => (
-                <Panel flexDirection="column" justifyContent="center">
+                <Panel key={chatroom.id} flexDirection="column" justifyContent="center">
                   <Flex>
                     <Box fontSize={2} fontWeight="bold">
-                      {chatroom.name}
+                      <Link
+                        href="/channel/[name]"
+                        as={`/channel/${chatroom.name}`}
+                        passHref
+                      >
+                        <ButtonTransparentA p={1}>
+                          {chatroom.name}
+                        </ButtonTransparentA>
+                      </Link>
                     </Box>
                     <Box mx={2} py={1}>
-                    by
+                      by
                     </Box>
                     <UserInline user={chatroom.user} />
                     <Box ml="auto">

@@ -9,7 +9,7 @@ import {
   ModalBody,
   ModalFooter,
 } from '../index';
-import {ThemesEnum} from 'theme/types';
+import { ThemesEnum } from 'theme/types';
 
 describe('<ModalComponents />', () => {
   const theme = {

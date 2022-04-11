@@ -77,6 +77,10 @@ export const chatMessages = defineMessages({
     id: `components.chat.createChannel`,
     defaultMessage: 'Create Channel',
   },
+  openToPublic: {
+    id: `components.chat.openToPublic`,
+    defaultMessage: 'Open to public',
+  },
 });
 
 export default chatMessages;

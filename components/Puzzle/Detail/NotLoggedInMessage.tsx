@@ -17,12 +17,7 @@ const NotLoggedInMessage = ({
   setTrueLoginModal,
   setTrueSignupModal,
 }: NotLoggedInMessageProps) => (
-  <Flex
-    justifyContent="center"
-    width={1}
-    mx={widthSplits[1]}
-    my={2}
-  >
+  <Flex justifyContent="center" width={1} mx={widthSplits[1]} my={2}>
     <Box display="inline-flex">
       <FormattedMessage
         {...commonMessages.loginOrSignup}

@@ -472,7 +472,11 @@ const AllAwards = ({ userInfo }: AllAwardsProps) => {
         userInfo={userInfo}
         header={<FormattedMessage {...awardsMessages.group_age} />}
         getStatusLabel={age => (
-          <FormattedRelativeTime value={Math.round(age / 365)} unit="year" style="narrow" />
+          <FormattedRelativeTime
+            value={Math.round(age / 365)}
+            unit="year"
+            style="narrow"
+          />
         )}
         awardsObj={AgeAwards}
         checker={(awardId, age) => {

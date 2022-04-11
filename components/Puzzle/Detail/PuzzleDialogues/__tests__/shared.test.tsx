@@ -4,7 +4,7 @@ import { render } from 'enzyme';
 import defaultTheme from 'theme';
 import IndexLabel from '../IndexLabel';
 import FilterButton from '../FilterButton';
-import {ThemesEnum} from 'theme/types';
+import { ThemesEnum } from 'theme/types';
 
 const theme = {
   ...defaultTheme,

@@ -67,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   if (!ctx.req.headers['user-agent']?.search(/[Bb]ot/)) {
     return {
       props: {},
-    }
+    };
   }
 
   const apolloClient: ApolloClient<object> = initializeApollo();

@@ -17,7 +17,7 @@ import {
   Yami as YamiEnum,
   Status as StatusEnum,
 } from 'generated/globalTypes';
-import {ThemesEnum} from 'theme/types';
+import { ThemesEnum } from 'theme/types';
 
 const theme = {
   ...defaultTheme,

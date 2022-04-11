@@ -5,7 +5,7 @@ import { Status, StatusBase, StatusText } from '../Status';
 import defaultTheme from 'theme';
 
 import { Status as StatusEnum } from 'generated/globalTypes';
-import {ThemesEnum} from 'theme/types';
+import { ThemesEnum } from 'theme/types';
 
 const status = StatusEnum.UNDERGOING;
 

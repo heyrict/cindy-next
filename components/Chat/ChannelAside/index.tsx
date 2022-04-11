@@ -3,7 +3,7 @@ import styled from 'theme/styled';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as chatReducer from 'reducers/chat';
 
 import Box from 'components/General/Box';
@@ -22,7 +22,6 @@ import chatMessages from 'messages/components/chat';
 import commonMessages from 'messages/common';
 
 import { ChannelAsideProps } from './types';
-import { ActionContentType } from 'reducers/types';
 import {
   ChatroomId,
   ChatroomIdVariables,
@@ -46,13 +45,17 @@ const ChannelAsideBox = styled.div`
 
 const PuzzleChatRegex = /^puzzle-(\d+)$/;
 
-const ChannelAside = ({
-  setTrueDescriptionModal,
-  setTrueChannelChangeModal,
-  setTrueChatroomCreateModal,
-}: ChannelAsideProps) => {
+const ChannelAside = ({}: ChannelAsideProps) => {
   const router = useRouter();
   const { name: chatroom } = router.query as { name: string };
+
+  const dispatch = useDispatch();
+  const setTrueDescriptionModal = () =>
+    dispatch(chatReducer.actions.descriptionModal.setTrue());
+  const setTrueChannelChangeModal = () =>
+    dispatch(chatReducer.actions.channelChangeModal.setTrue());
+  const setTrueChatroomCreateModal = () =>
+    dispatch(chatReducer.actions.chatroomCreateModal.setTrue());
 
   const puzzleChatMatch = PuzzleChatRegex.exec(chatroom);
   const relatedPuzzleId = puzzleChatMatch && parseInt(puzzleChatMatch[1], 10);
@@ -84,7 +87,7 @@ const ChannelAside = ({
       >
         {({ data, error }) => {
           let chatroomId: number | null = null;
-          if (data && data.chatrooms && data.chatrooms[0]) {
+          if (data && data.chatrooms && data.chatrooms.length > 0) {
             chatroomId = data.chatrooms[0].id;
           }
           if (error) {
@@ -148,15 +151,4 @@ const ChannelAside = ({
   );
 };
 
-const mapDispatchToProps = (dispatch: (action: ActionContentType) => void) => ({
-  setTrueDescriptionModal: () =>
-    dispatch(chatReducer.actions.descriptionModal.setTrue()),
-  setTrueChannelChangeModal: () =>
-    dispatch(chatReducer.actions.channelChangeModal.setTrue()),
-  setTrueChatroomCreateModal: () =>
-    dispatch(chatReducer.actions.chatroomCreateModal.setTrue()),
-});
-
-const withRedux = connect(null, mapDispatchToProps);
-
-export default withRedux(ChannelAside);
+export default ChannelAside;

@@ -53,10 +53,15 @@ export const UPDATE_CHATROOM_DESCRIPTION_MUTATION = gql`
   mutation UpdateChatroomDescriptionMutation(
     $chatroomId: Int!
     $description: String!
+    $public: Boolean!
   ) {
-    updateChatroom(id: $chatroomId, set: { description: $description }) {
+    updateChatroom(
+      id: $chatroomId
+      set: { description: $description, public: $public }
+    ) {
       id
       description
+      public
     }
   }
 `;

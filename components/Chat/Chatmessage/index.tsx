@@ -91,7 +91,7 @@ const Chatmessage = ({
         {chatroom && (
           <Box ml="auto">
             <Link
-              href="/channel/[id]"
+              href="/channel/[name]"
               as={`/channel/${chatroom.name}`}
               passHref
             >

@@ -1,10 +1,6 @@
 import { ChatroomDescription_chatroom } from 'graphql/Queries/generated/ChatroomDescription';
 
-export type ChannelAsideProps = {
-  setTrueDescriptionModal: () => void;
-  setTrueChannelChangeModal: () => void;
-  setTrueChatroomCreateModal: () => void;
-};
+export type ChannelAsideProps = {};
 
 export type ChatroomLogsModalProps = {
   chatroomId: number;
@@ -25,5 +21,4 @@ export type ChatroomEditableDescriptionProps = {
 
 export type ChatroomDescriptionInnerProps = {
   chatroom: ChatroomDescription_chatroom;
-  userId: number | null;
 };

@@ -7,7 +7,7 @@ import UserCol from '../UserCol';
 import UserInline from '../UserInline';
 import { InlineUser } from '../types';
 import { UserInlineBase, UserColBase } from '../shared';
-import {ThemesEnum} from 'theme/types';
+import { ThemesEnum } from 'theme/types';
 
 const theme = {
   ...defaultTheme,

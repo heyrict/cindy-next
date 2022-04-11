@@ -41,13 +41,17 @@ for (const locale of APPLOCALES) {
       );
       for (const messageKey of messageKeys) {
         if (!(messageKey in oldLocaleMappings)) {
-          oldLocaleMappings[messageKey] = messages[messageKey];
+          oldLocaleMappings[messageKey] = localeMappings[messageKey];
         }
       }
       // Update translation file
       fs.writeFileSync(
         translationFileName,
-        JSON.stringify(oldLocaleMappings, null, 2),
+        JSON.stringify(
+          oldLocaleMappings,
+          Object.keys(oldLocaleMappings).sort(),
+          2,
+        ),
       );
     } catch (error) {
       if (error.code !== 'ENOENT') {
