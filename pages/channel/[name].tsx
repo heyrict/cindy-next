@@ -8,6 +8,7 @@ import { CHATROOM_ID_QUERY } from 'graphql/Queries/Chat';
 
 import { useDispatch } from 'react-redux';
 import * as globalReducer from 'reducers/global';
+import * as chatReducer from 'reducers/chat';
 
 import { Flex, Box, ButtonTransparent } from 'components/General';
 import ChatRoomMessages from 'components/Chat/ChatRoom/ChatRoomMessages';
@@ -23,6 +24,7 @@ import channelPageMessages from 'messages/pages/channel';
 
 import { ActionContentType } from 'reducers/types';
 import { useRouter } from 'next/router';
+import commonMessages from 'messages/common';
 
 const PuzzleChatRegex = /^puzzle-(\d+)$/;
 
@@ -43,11 +45,13 @@ const ChannelContentBox = styled.div`
 `;
 
 const OpenAsideButton = styled(ButtonTransparent)`
-  min-width: 6em;
-  max-width: 10pm;
-  display: none;
+  min-width: 8em;
+  max-width: 14pm;
   ${p => p.theme.mediaQueries.medium} {
-    display: inline-box;
+    display: inline-box !important;
+  }
+  @media screen and (min-width: ${p => p.theme.breakpoints[1]}) {
+    display: none;
   }
 `;
 
@@ -56,8 +60,10 @@ const ChannelPage = () => {
   const _ = intl.formatMessage;
   const dispatch = useDispatch<(action: ActionContentType) => void>();
   const toggleAside = () => dispatch(globalReducer.actions.aside.toggle());
-  const Router = useRouter();
-  const chatroom = Router.query?.name as string | undefined;
+  const setTrueChannelChangeModal = () =>
+    dispatch(chatReducer.actions.channelChangeModal.setTrue());
+  const router = useRouter();
+  const chatroom = router.query?.name as string | undefined;
 
   if (!chatroom) {
     return <div>Choose a chatroom</div>;
@@ -106,10 +112,24 @@ const ChannelPage = () => {
                     <OpenAsideButton
                       color="orange.6"
                       height="channelbar"
-                      mr="auto"
+                      onClick={router.back}
+                    >
+                      <FormattedMessage {...commonMessages.back} />
+                    </OpenAsideButton>
+                    <OpenAsideButton
+                      color="orange.6"
+                      height="channelbar"
+                      mx="auto"
+                      onClick={() => setTrueChannelChangeModal()}
+                    >
+                      {chatroom}
+                    </OpenAsideButton>
+                    <OpenAsideButton
+                      color="orange.6"
+                      height="channelbar"
                       onClick={() => toggleAside()}
                     >
-                      <FormattedMessage {...chatMessages.channels} /> &gt;&gt;
+                      <FormattedMessage {...chatMessages.channels} />
                     </OpenAsideButton>
                   </Flex>
                 </Box>
