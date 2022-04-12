@@ -145,8 +145,9 @@ const ChatRoomMessagesBody = ({
                   new Date(modified).getTime(),
                 ),
               );
+              // take ceiling of update time as javascript crops nanoseconds
               prevUpdateTime =
-                maxModified > 0 ? maxModified : new Date().getTime();
+                maxModified > 0 ? maxModified + 1 : new Date().getTime();
             });
           return prev;
         },
