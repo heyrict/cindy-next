@@ -72,7 +72,10 @@ const FavoriteChatroomsList = ({
                   height={24}
                   onClick={() => {
                     if (linkChange) {
-                      router.push("/channel/[name]", `/channel/${fc.chatroom.name}`)
+                      router.push(
+                        '/channel/[name]',
+                        `/channel/${fc.chatroom.name}`,
+                      );
                     } else {
                       setChannel(fc.chatroom.name);
                       setFalseChannelChangeModal();

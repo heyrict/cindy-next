@@ -125,7 +125,7 @@ const Layout = ({ children }: LayoutProps) => {
     }, 5000);
   }, [pushNotification]);
 
-  const isChannelPage = route.startsWith('/channel');
+  const isChannelPage = route.startsWith('/channel/');
 
   const scrollbarStyle = css`
     ::-webkit-scrollbar {

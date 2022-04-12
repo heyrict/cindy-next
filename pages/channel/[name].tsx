@@ -120,14 +120,14 @@ const ChannelPage = () => {
                       color="orange.6"
                       height="channelbar"
                       mx="auto"
-                      onClick={() => setTrueChannelChangeModal()}
+                      onClick={() => toggleAside()}
                     >
                       {chatroom}
                     </OpenAsideButton>
                     <OpenAsideButton
                       color="orange.6"
                       height="channelbar"
-                      onClick={() => toggleAside()}
+                      onClick={() => setTrueChannelChangeModal()}
                     >
                       <FormattedMessage {...chatMessages.channels} />
                     </OpenAsideButton>

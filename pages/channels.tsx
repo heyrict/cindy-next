@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
@@ -7,12 +7,14 @@ import { line2md } from 'common/markdown';
 import { FormattedMessage, useIntl } from 'react-intl';
 import messages from 'messages/pages/channels';
 import chatMessages from 'messages/components/chat';
+import commonMessages from 'messages/common';
 
 import { useSelector } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 import {
   Box,
+  Button,
   ButtonTransparent,
   Flex,
   Heading,
@@ -25,6 +27,7 @@ import FavChatManipulateButton from 'components/Chat/ChannelBar/FavChatManipulat
 import UserInline from 'components/User/UserInline';
 import FavoriteChatroomsList from 'components/Chat/ChannelBar/FavoriteChatroomsList';
 import OfficialChatroomsList from 'components/Chat/ChannelBar/OfficialChatroomsList';
+import NotLoggedInMessage from 'components/Puzzle/Detail/NotLoggedInMessage';
 
 import { useQuery } from '@apollo/client';
 import {
@@ -41,6 +44,8 @@ import {
   PublicChatroomsQueryVariables,
 } from 'graphql/Queries/generated/PublicChatroomsQuery';
 import { StateType } from 'reducers/types';
+
+const RECENT_MESSAGES_PAGESIZE = 10;
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -64,7 +69,13 @@ const ChannelsPage = () => {
           <Heading fontSize={4}>
             <FormattedMessage {...messages.recentChats} />
           </Heading>
-          <RecentChatsRenderer userId={userId} />
+          {userId ? (
+            <RecentChatsRenderer userId={userId} />
+          ) : (
+            <Flex>
+              <NotLoggedInMessage />
+            </Flex>
+          )}
         </Box>
         <Box width={[1, 5 / 8, 1, 5 / 8, 2 / 3]}>
           <OfficialChatroomsList
@@ -94,17 +105,24 @@ const ChannelsPage = () => {
 };
 
 const RecentChatsRenderer = ({ userId }: { userId: number }) => {
-  const { loading, error, data } = useQuery<
+  const [hasNextPage, setHasNextPage] = useState(true);
+  const { loading, error, data, fetchMore } = useQuery<
     RecentChatsQuery,
     RecentChatsQueryVariables
   >(RECENT_CHATMESSAGES_QUERY, {
     variables: {
       userId,
-      limit: 20,
+      limit: RECENT_MESSAGES_PAGESIZE,
       offset: 0,
     },
     fetchPolicy: 'cache-and-network',
   });
+
+  useEffect(() => {
+    if (data && data.recentChatmessages.length < RECENT_MESSAGES_PAGESIZE) {
+      setHasNextPage(false);
+    }
+  }, [data]);
 
   if (loading && (!data || !data.recentChatmessages)) return <Loading />;
   if (error) {
@@ -121,6 +139,31 @@ const RecentChatsRenderer = ({ userId }: { userId: number }) => {
             chatroom={chatmessage.chatroom}
           />
         ))}
+        {hasNextPage && (
+          <Button
+            borderRadius={2}
+            width={1}
+            onClick={() => {
+              fetchMore({
+                variables: {
+                  limit: RECENT_MESSAGES_PAGESIZE,
+                  offset: data.recentChatmessages.length,
+                },
+              }).then(({ data }) => {
+                if (
+                  data &&
+                  data.recentChatmessages.length >= RECENT_MESSAGES_PAGESIZE
+                ) {
+                  setHasNextPage(true);
+                } else {
+                  setHasNextPage(false);
+                }
+              });
+            }}
+          >
+            <FormattedMessage {...commonMessages.loadMore} />
+          </Button>
+        )}
       </React.Fragment>
     );
   }
