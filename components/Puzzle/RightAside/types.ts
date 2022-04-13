@@ -12,6 +12,7 @@ export type RightAsideBoxButtonProps = {
 };
 
 export type RightAsideBoxProps = {
+  puzzleId: number | null;
   puzzleMemo: string;
   puzzleMemoHasnew: boolean;
   rightAside: RightAsideType;

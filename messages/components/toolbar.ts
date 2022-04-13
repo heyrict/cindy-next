@@ -33,6 +33,10 @@ export const messages = defineMessages({
     id: `toolbar.usersOnline`,
     defaultMessage: 'Online Users: {count}',
   },
+  viewersOnline: {
+    id: `toolbar.viewersOnline`,
+    defaultMessage: 'Viewers: {count}',
+  },
   communication: {
     id: `toolbar.communication`,
     defaultMessage: 'Society',

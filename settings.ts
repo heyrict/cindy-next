@@ -14,8 +14,10 @@ const defaultLocation = {
   host: 'localhost:8000',
 };
 
-const { protocol, host } =
-  typeof window !== 'undefined' ? window.location : defaultLocation;
+export const isBrowser = typeof window !== 'undefined';
+export const isServer = !isBrowser;
+
+const { protocol, host } = isBrowser ? window.location : defaultLocation;
 const wsProtocol = protocol === 'https:' ? 'wss:' : 'ws:';
 
 export const GRAPHQL_CLIENT = {
@@ -29,7 +31,7 @@ export const GRAPHQL_CLIENT = {
 
 export const SUBSCRIPTION_BATCH_LIMIT = 2;
 
-export const ONLINE_USER_POLL_INTERVAL = 30; // refetch online user count every 30 seconds
+export const ONLINE_USER_POLL_INTERVAL = 60; // refetch online user count every 60 seconds
 
 export const WEBHOOK_SERVER = isDev ? 'http://localhost:8000' : '';
 

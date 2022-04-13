@@ -302,6 +302,7 @@
   "toolbar.settings": "設定",
   "toolbar.users": "ユーザー",
   "toolbar.usersOnline": "現在閲覧者数: {count}",
+  "toolbar.viewersOnline": "閲覧者数: {count}",
   "toolbar.wiki": "Cindy+Wiki",
   "tooltip.bold": "太文字",
   "tooltip.collapse": "縮小表示",

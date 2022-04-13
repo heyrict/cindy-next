@@ -302,6 +302,7 @@
   "toolbar.settings": "Settings",
   "toolbar.users": "Users",
   "toolbar.usersOnline": "Online Users: {count}",
+  "toolbar.viewersOnline": "Viewers: {count}",
   "toolbar.wiki": "Wiki",
   "tooltip.bold": "Bold",
   "tooltip.collapse": "Collapse",

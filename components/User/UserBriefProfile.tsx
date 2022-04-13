@@ -83,7 +83,7 @@ const UserBriefProfile = ({
               }}
               style={{
                 ...style,
-                zIndex: 12,
+                zIndex: 250,
               }}
               data-placement={placement}
             >

@@ -1,16 +1,23 @@
 import React from 'react';
 import styled from 'theme/styled';
+import { ONLINE_USER_POLL_INTERVAL } from 'settings';
+
+import { useQuery } from '@apollo/client';
+import { PUZZLE_ONLINE_USERS_QUERY } from 'graphql/Queries/Misc';
 
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import * as puzzleReducer from 'reducers/puzzle';
 import * as settingReducer from 'reducers/setting';
+import * as globalReducer from 'reducers/global';
 
 import { FormattedMessage } from 'react-intl';
 import puzzleMessages from 'messages/components/puzzle';
 import tooltipMessages from 'messages/tooltip';
+import toolbarMessages from 'messages/components/toolbar';
 
 import Tooltip from 'components/Hoc/Tooltip';
-import { Img, RedDot } from 'components/General';
+import { Flex, Img, RedDot } from 'components/General';
 import soupIcon from 'svgs/soup.svg';
 import memoIcon from 'svgs/memo.svg';
 import toTopIcon from 'svgs/toTop.svg';
@@ -25,6 +32,20 @@ import {
   RightAsideBoxState,
   RightAsideBoxButtonProps,
 } from './types';
+import { isBrowser } from 'settings';
+import {
+  PuzzleOnlineUsersQuery,
+  PuzzleOnlineUsersQueryVariables,
+} from 'graphql/Queries/generated/PuzzleOnlineUsersQuery';
+
+const PUZZLE_ID_REGEX = new RegExp('^/puzzle/(?<id>[0-9]+)');
+const puzzleIdSelector = createSelector(
+  (state: StateType) => globalReducer.rootSelector(state).route,
+  (route: string) => {
+    let puzzleId = PUZZLE_ID_REGEX.exec(route)?.groups?.id;
+    return puzzleId ? parseInt(puzzleId, 10) : null;
+  },
+);
 
 const RightAsideBoxBase = styled.div<RightAsideBoxBaseProps>`
   display: flex;
@@ -62,6 +83,43 @@ const RightAsideBoxButton = styled.button<RightAsideBoxButtonProps>`
   }
 `;
 
+const PuzzleActiveUserCounter = ({
+  mini,
+  puzzleId,
+}: {
+  mini: boolean;
+  puzzleId: number;
+}) => {
+  const { data } = useQuery<
+    PuzzleOnlineUsersQuery,
+    PuzzleOnlineUsersQueryVariables
+  >(PUZZLE_ONLINE_USERS_QUERY, {
+    variables: {
+      puzzleId,
+    },
+    pollInterval: ONLINE_USER_POLL_INTERVAL * 1000,
+  });
+  const count = data ? data.puzzleOnlineUsersCount : '...';
+
+  return mini ? (
+    <Flex
+      border="1px solid"
+      borderRadius={4}
+      minWidth="1em"
+      alignItems="center"
+      justifyContent="center"
+      color="#282828"
+      borderColor="#282828"
+    >
+      {count}
+    </Flex>
+  ) : (
+    <span style={{ color: '#282828' }}>
+      <FormattedMessage {...toolbarMessages.viewersOnline} values={{ count }} />
+    </span>
+  );
+};
+
 class RightAsideBox extends React.Component<
   RightAsideBoxProps,
   RightAsideBoxState
@@ -74,7 +132,7 @@ class RightAsideBox extends React.Component<
     };
   }
 
-  lastScrollTop = process.browser
+  lastScrollTop = isBrowser
     ? window.pageYOffset || document.documentElement.scrollTop
     : 0;
   handleScroll = () => {
@@ -88,10 +146,10 @@ class RightAsideBox extends React.Component<
     this.lastScrollTop = scrollY <= 0 ? 0 : scrollY;
   };
   componentDidMount = () => {
-    process.browser && window.addEventListener('scroll', this.handleScroll);
+    isBrowser && window.addEventListener('scroll', this.handleScroll);
   };
   componentWillUnmount = () => {
-    process.browser && window.removeEventListener('scroll', this.handleScroll);
+    isBrowser && window.removeEventListener('scroll', this.handleScroll);
   };
   render() {
     const { rightAside, setRightAside, puzzleMemo, puzzleMemoHasnew } =
@@ -166,6 +224,19 @@ class RightAsideBox extends React.Component<
             tooltip={<FormattedMessage {...puzzleMessages.memo} />}
             delay={800}
           />
+        )}
+        {this.props.puzzleId && (
+          <Flex
+            width="100%"
+            height={this.state.mini ? '2em' : '3em'}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <PuzzleActiveUserCounter
+              mini={this.state.mini}
+              puzzleId={this.props.puzzleId}
+            />
+          </Flex>
         )}
         <Tooltip
           referenceStyles={{
@@ -247,6 +318,7 @@ class RightAsideBox extends React.Component<
 }
 
 const mapStateToProps = (state: StateType) => ({
+  puzzleId: puzzleIdSelector(state),
   puzzleMemo: puzzleReducer.rootSelector(state).puzzleMemo,
   puzzleMemoHasnew: puzzleReducer.rootSelector(state).puzzleMemoHasnew,
   rightAside: puzzleReducer.rootSelector(state).rightAside,

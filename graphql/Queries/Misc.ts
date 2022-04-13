@@ -5,3 +5,9 @@ export const ONLINE_USERS_QUERY = gql`
     onlineUsersCount
   }
 `;
+
+export const PUZZLE_ONLINE_USERS_QUERY = gql`
+  query PuzzleOnlineUsersQuery($puzzleId: Int!) {
+    puzzleOnlineUsersCount(puzzleId: $puzzleId)
+  }
+`;
