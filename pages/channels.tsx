@@ -74,7 +74,7 @@ const ChannelsPage = () => {
         <FormattedMessage {...messages.title} />
       </Heading>
       <Flex flexWrap="wrap">
-        <Box width={[1, 3 / 8, 1, 3 / 8, 1 / 3]}>
+        <Box width={[1, 0.372, 1, 0.372, 0.372]}>
           <Heading fontSize={4}>
             <FormattedMessage {...messages.recentChats} />
           </Heading>
@@ -86,7 +86,7 @@ const ChannelsPage = () => {
             </Flex>
           )}
         </Box>
-        <Box width={[1, 5 / 8, 1, 5 / 8, 2 / 3]}>
+        <Box width={[1, 0.618, 1, 0.618, 0.618]}>
           <OfficialChatroomsList
             header={msg => (
               <Heading style={{ width: '100%' }} fontSize={4}>
