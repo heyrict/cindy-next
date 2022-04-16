@@ -9,12 +9,6 @@ export type ChatroomLogsModalProps = {
   relatedPuzzleId?: number | null;
 };
 
-export type ChatroomCreateModalProps = {
-  chatroomCreateModal: boolean;
-  setFalseChatroomCreateModal: () => void;
-  setChannel: (channelName: string) => void;
-};
-
 export type ChatroomEditableDescriptionProps = {
   chatroomId: number;
 };

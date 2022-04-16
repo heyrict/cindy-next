@@ -9,8 +9,9 @@ import messages from 'messages/pages/channels';
 import chatMessages from 'messages/components/chat';
 import commonMessages from 'messages/common';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as globalReducer from 'reducers/global';
+import * as chatReducer from 'reducers/chat';
 
 import {
   Box,
@@ -18,6 +19,7 @@ import {
   ButtonTransparent,
   Flex,
   Heading,
+  Img,
   Panel,
 } from 'components/General';
 import Chatmessage from 'components/Chat/Chatmessage';
@@ -28,6 +30,9 @@ import UserInline from 'components/User/UserInline';
 import FavoriteChatroomsList from 'components/Chat/ChannelBar/FavoriteChatroomsList';
 import OfficialChatroomsList from 'components/Chat/ChannelBar/OfficialChatroomsList';
 import NotLoggedInMessage from 'components/Puzzle/Detail/NotLoggedInMessage';
+import ChatroomCreateModal from 'components/Chat/ChannelAside/ChatroomCreateModal';
+
+import plusImg from 'svgs/plusPlain.svg';
 
 import { useQuery } from '@apollo/client';
 import {
@@ -54,6 +59,10 @@ const ChannelsPage = () => {
   const userId = useSelector(
     (state: StateType) => globalReducer.rootSelector(state).user.id,
   )!;
+
+  const dispatch = useDispatch();
+  const setTrueChatroomCreateModal = () =>
+    dispatch(chatReducer.actions.chatroomCreateModal.setTrue());
 
   return (
     <>
@@ -94,12 +103,25 @@ const ChannelsPage = () => {
             )}
             linkChange
           />
+          <Heading mb={0} mt={3} fontSize={4}>
+            <Flex alignItems="center">
+              <FormattedMessage {...chatMessages.createChannel} />
+              <ButtonTransparent
+                ml={3}
+                borderRadius={4}
+                onClick={() => setTrueChatroomCreateModal()}
+              >
+                <Img src={plusImg} size="xs" />
+              </ButtonTransparent>
+            </Flex>
+          </Heading>
           <Heading fontSize={4}>
             <FormattedMessage {...messages.publicChannels} />
           </Heading>
           <PublicChatroomsRenderer />
         </Box>
       </Flex>
+      <ChatroomCreateModal />
     </>
   );
 };
