@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-import { CHATMESSAGE_FRAGMENT } from '../Fragments/Chat';
+import { CHATMESSAGE_FRAGMENT, CHATROOM_FRAGMENT } from '../Fragments/Chat';
 
 export const CHATROOM_SEND_MESSAGE_MUTATION = gql`
   mutation ChatroomSendMessage($content: String!, $chatroomId: Int!) {
@@ -41,12 +41,18 @@ export const DELETE_FAVORITE_CHATROOM_MUTATION = gql`
 `;
 
 export const CREATE_CHATROOM_MUTATION = gql`
-  mutation CreateChatroomMutation($name: String!, $description: String!) {
-    createChatroom(data: { name: $name, description: $description }) {
-      id
-      name
+  mutation CreateChatroomMutation(
+    $name: String!
+    $description: String!
+    $public: Boolean!
+  ) {
+    createChatroom(
+      data: { name: $name, description: $description, public: $public }
+    ) {
+      ...Chatroom
     }
   }
+  ${CHATROOM_FRAGMENT}
 `;
 
 export const UPDATE_CHATROOM_DESCRIPTION_MUTATION = gql`

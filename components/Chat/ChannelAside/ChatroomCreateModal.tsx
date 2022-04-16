@@ -102,6 +102,7 @@ const ChatroomCreateModal = () => {
                   variables: {
                     name,
                     description,
+                    public: publicVal,
                   },
                 })
                   .then(() => {
