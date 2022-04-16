@@ -170,64 +170,62 @@ const RecentChatsRenderer = ({ userId }: { userId: number }) => {
   return null;
 };
 
-const PublicChatroomsRenderer = () => {
-  return (
-    <React.Fragment>
-      <PaginatedQuery<PublicChatroomsQuery, PublicChatroomsQueryVariables>
-        query={PUBLIC_CHATROOMS_QUERY}
-        getItemCount={data => data.chatroomCount}
-        renderItems={data => {
-          if (!data.chatrooms) return null;
-          return (
-            <>
-              {data.chatrooms.map(chatroom => (
-                <Panel
-                  key={chatroom.id}
-                  flexDirection="column"
-                  justifyContent="center"
-                >
-                  <Flex>
-                    <Box fontSize={2} fontWeight="bold">
-                      <Link
-                        href="/channel/[name]"
-                        as={`/channel/${chatroom.name}`}
-                        passHref
-                      >
-                        <ButtonTransparentA p={1}>
-                          {chatroom.name}
-                        </ButtonTransparentA>
-                      </Link>
-                    </Box>
-                    <Box mx={2} py={1}>
-                      by
-                    </Box>
-                    <UserInline user={chatroom.user} />
-                    <Box ml="auto">
-                      <FavChatManipulateButton chatroomId={chatroom.id} />
-                    </Box>
-                  </Flex>
-                  <hr />
-                  {chatroom.description ? (
-                    <Box
-                      style={{ minHeight: '3em' }}
-                      mb={4}
-                      dangerouslySetInnerHTML={{
-                        __html: line2md(chatroom.description),
-                      }}
-                    />
-                  ) : (
-                    <Box mb={4}>
-                      <FormattedMessage {...chatMessages.noDescription} />
-                    </Box>
-                  )}
-                </Panel>
-              ))}
-            </>
-          );
-        }}
-      />
-    </React.Fragment>
-  );
-};
+const PublicChatroomsRenderer = () => (
+  <div>
+    <PaginatedQuery<PublicChatroomsQuery, PublicChatroomsQueryVariables>
+      query={PUBLIC_CHATROOMS_QUERY}
+      getItemCount={data => data.chatroomCount}
+      renderItems={data => {
+        if (!data.chatrooms) return null;
+        return (
+          <>
+            {data.chatrooms.map(chatroom => (
+              <Panel
+                key={chatroom.id}
+                flexDirection="column"
+                justifyContent="center"
+              >
+                <Flex>
+                  <Box fontSize={2} fontWeight="bold">
+                    <Link
+                      href="/channel/[name]"
+                      as={`/channel/${chatroom.name}`}
+                      passHref
+                    >
+                      <ButtonTransparentA p={1}>
+                        {chatroom.name}
+                      </ButtonTransparentA>
+                    </Link>
+                  </Box>
+                  <Box mx={2} py={1}>
+                    by
+                  </Box>
+                  <UserInline user={chatroom.user} />
+                  <Box ml="auto">
+                    <FavChatManipulateButton chatroomId={chatroom.id} />
+                  </Box>
+                </Flex>
+                <hr />
+                {chatroom.description ? (
+                  <Box
+                    style={{ minHeight: '3em' }}
+                    mb={4}
+                    dangerouslySetInnerHTML={{
+                      __html: line2md(chatroom.description),
+                    }}
+                  />
+                ) : (
+                  <Box mb={4}>
+                    <FormattedMessage {...chatMessages.noDescription} />
+                  </Box>
+                )}
+              </Panel>
+            ))}
+          </>
+        );
+      }}
+    />
+  </div>
+);
 
 export default ChannelsPage;
