@@ -36,7 +36,7 @@ const DOMPurifyParamsLine = {
 };
 
 let DOMPurify = createDOMPurify;
-if (!process.browser) {
+if (typeof window === 'undefined') {
   const { JSDOM } = require('jsdom');
   const window = new JSDOM('').window;
   DOMPurify = createDOMPurify(window) as any;
@@ -54,7 +54,7 @@ const md = MarkdownIt({
   typographer: true,
 })
   .enable(['table', 'strikethrough'])
-  .use(mdEmoji, {
+  .use(mdEmoji as any, {
     defs: Object.assign({}, mdEmojiLight, stampDefs),
   });
 
