@@ -10,6 +10,7 @@ import normTabs from './plugin-tabs';
 import { normLinkHook } from './plugin-link';
 //import normCountdown from './plugin-countdown';
 import normNewline from './plugin-newline';
+import { isServer } from 'settings';
 
 export { changeTabularTab } from './plugin-tabs';
 
@@ -36,7 +37,7 @@ const DOMPurifyParamsLine = {
 };
 
 let DOMPurify = createDOMPurify;
-if (!process.browser) {
+if (isServer) {
   const { JSDOM } = require('jsdom');
   const window = new JSDOM('').window;
   DOMPurify = createDOMPurify(window) as any;
@@ -54,7 +55,7 @@ const md = MarkdownIt({
   typographer: true,
 })
   .enable(['table', 'strikethrough'])
-  .use(mdEmoji, {
+  .use(mdEmoji as any, {
     defs: Object.assign({}, mdEmojiLight, stampDefs),
   });
 
