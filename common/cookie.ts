@@ -1,6 +1,8 @@
+import { isBrowser } from 'settings';
+
 export function getCookie(
   c_name: string,
-  c_str = process.browser ? document.cookie : '',
+  c_str = isBrowser ? document.cookie : '',
 ) {
   var c_start, c_end;
   if (c_str.length > 0) {
@@ -28,7 +30,7 @@ export function setCookie(
     expiry_date.setTime(expiry_date.getTime() + c_expiry * 1000);
     expiry_str = `;expires=${expiry_date.toUTCString()};max-age=${c_expiry};SameSite=strict`;
   }
-  if (process.browser) {
+  if (isBrowser) {
     expiry_str = `${expiry_str};domain=${window.location.hostname}`;
   }
   document.cookie = `${c_name}=${c_value}${expiry_str}${path_str}`;

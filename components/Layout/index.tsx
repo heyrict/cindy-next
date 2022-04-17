@@ -126,6 +126,7 @@ const Layout = ({ children }: LayoutProps) => {
   }, [pushNotification]);
 
   const isChannelPage = route.startsWith('/channel/');
+  const isAdminPage = route.startsWith('/admin');
 
   const scrollbarStyle = css`
     ::-webkit-scrollbar {
@@ -304,7 +305,14 @@ const Layout = ({ children }: LayoutProps) => {
   ${scrollbarStyle}
   `;
 
-  return (
+  return isAdminPage ? (
+    <>
+      <Box flexGrow={1}>{children}</Box>
+      <Footer>
+        <Patrons />
+      </Footer>
+    </>
+  ) : (
     <React.Fragment>
       <Global styles={globalStyle} />
       <ChatBox>{isChannelPage ? <ChannelAside /> : <Chat />}</ChatBox>

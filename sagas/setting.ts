@@ -4,6 +4,7 @@ import * as globalReducer from 'reducers/global';
 import * as settingReducer from 'reducers/setting';
 
 import { StateType } from 'reducers/types';
+import { isBrowser } from 'settings';
 
 function* saveSettings() {
   const settings: typeof settingReducer.initialState = yield select(
@@ -15,6 +16,9 @@ function* saveSettings() {
 function* loadSettings() {
   const settings = settingReducer.loadInitialState();
   yield put(settingReducer.actions.setState(settings));
+  if (isBrowser) {
+    yield put(globalReducer.actions.routeChange(window.location.pathname));
+  }
 }
 
 function* authRootSaga() {

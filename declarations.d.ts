@@ -1,3 +1,6 @@
+import '@emotion/react';
+import { themeType } from './theme/types';
+
 declare namespace NodeJS {
   interface Process {
     browser: boolean;
@@ -54,4 +57,12 @@ declare module 'markdown-it-emoji/light' {
 declare module '@multiavatar/multiavatar' {
   const multiavatar = (obj, trans = false) => any;
   export default multiavatar;
+}
+
+declare module '@emotion/react' {
+  export interface Theme extends themeType {}
+}
+
+declare module 'graphql-ast-types-browser' {
+  export default any;
 }
