@@ -61,7 +61,6 @@ export const PuzzleEdit = () => (
         choices={PuzzleYamiChoices}
         validate={required()}
       />
-      <BooleanInput source="yami" validate={required()} />
       <BooleanInput source="grotesque" validate={required()} />
       <TextInput multiline source="content" validate={required()} />
       <TextInput multiline source="solution" validate={required()} />

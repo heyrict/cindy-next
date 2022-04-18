@@ -1,6 +1,5 @@
 import { getCookie } from './cookie';
 import { CindyJWTDeclaration, CindyJWTClaims } from 'globalTypes';
-import { isBrowser } from 'settings';
 import { Buffer } from 'buffer';
 
 export const getAuthToken = (cookie?: string) =>
@@ -17,24 +16,8 @@ export const parseAuthToken = (
     throw Error('Invalid auth token');
   }
   let dcl, clm;
-  if (isBrowser) {
-    dcl = JSON.parse(Buffer.from(parsed[0], 'base64').toString());
-    clm = JSON.parse(
-      decodeURIComponent(
-        Buffer.from(parsed[1].replace(/-/g, '+').replace(/_/g, '/'), 'base64')
-          .toString()
-          .split('')
-          .map(
-            (c: string) =>
-              '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2),
-          )
-          .join(''),
-      ),
-    );
-  } else {
-    dcl = JSON.parse(Buffer.from(parsed[0], 'base64').toString());
-    clm = JSON.parse(Buffer.from(parsed[1], 'base64').toString());
-  }
+  dcl = JSON.parse(Buffer.from(parsed[0], 'base64').toString());
+  clm = JSON.parse(Buffer.from(parsed[1], 'base64').toString());
   const sig = parsed[2];
   return { dcl, clm, sig };
 };
