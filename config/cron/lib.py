@@ -3,7 +3,6 @@ import os
 import pytz
 import requests
 import yaml
-from twitter import OAuth, Twitter
 
 FILEDIR = os.path.dirname(os.path.abspath(__file__))
 ENDPOINT = 'http://localhost:8000/graphql'
@@ -17,7 +16,8 @@ def post(data):
         headers={
             'content-type': 'application/json',
             'x-cindy-admin-secret': ADMIN_SECRET,
-        }).json()
+        }
+    ).json()
     if response.get('errors'):
         raise Exception(response.get('errors'))
     return response['data']
@@ -37,6 +37,7 @@ def argmax(values):
 
 
 def tweeter_auth():
+    from twitter import OAuth, Twitter
     TOKEN = os.environ.get("TOKEN")
     TOKEN_SECRET = os.environ.get("TOKEN_SECRET")
     CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
@@ -47,6 +48,6 @@ def tweeter_auth():
 
 
 with open(os.path.join(FILEDIR, "settings.yml")) as f:
-    settings = yaml.load(f.read())
+    settings = yaml.safe_load(f)
 
 timezone = pytz.timezone(settings.get('timezone', 'UTC'))

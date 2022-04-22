@@ -21,13 +21,16 @@ mutation($date: NaiveDate!) {
 def mark_dazed_puzzles():
     now = datetime.now()
 
-    dazed_puzzles = query(MARK_DAZED_PUZZZLES_MUTATION, {
-        'date': now.date().isoformat(),
-    })
+    dazed_puzzles = query(
+        MARK_DAZED_PUZZZLES_MUTATION, {
+            'date': now.date().isoformat(),
+        }
+    )['updateManyPuzzle']
     for puzzle in dazed_puzzles:
         lgr.debug(
             "[INFO]: [mark_dazed_puzzles]: [ID: %(id)d] '%(title)s' is marked as dazed",
-            puzzle)
+            puzzle
+        )
 
 
 if __name__ == "__main__":

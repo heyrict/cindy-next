@@ -1,1 +1,11 @@
 timezone: Asia/Tokyo
+
+# Cleanup outdated messages in given chatrooms.
+# Example:
+# chatroom_cleaup_days:
+#   # Cleanup messages created 14 days before
+#   - chatroom_id: 1
+#     days: 14
+#   # Cleanup all messages (same as {days: 0})
+#   - chatroom_id: 2
+chatroom_cleaup_days: []
