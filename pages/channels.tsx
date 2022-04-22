@@ -128,6 +128,7 @@ const ChannelsPage = () => {
 
 const RecentChatsRenderer = ({ userId }: { userId: number }) => {
   const [hasNextPage, setHasNextPage] = useState(true);
+  const [moreLoading, setMoreLoading] = useState(false);
   const { loading, error, data, fetchMore } = useQuery<
     RecentChatsQuery,
     RecentChatsQueryVariables
@@ -161,11 +162,14 @@ const RecentChatsRenderer = ({ userId }: { userId: number }) => {
             chatroom={chatmessage.chatroom}
           />
         ))}
-        {hasNextPage && (
+        {hasNextPage && moreLoading ? (
+          <Loading />
+        ) : (
           <Button
             borderRadius={2}
             width={1}
             onClick={() => {
+              setMoreLoading(true);
               fetchMore({
                 variables: {
                   limit: RECENT_MESSAGES_PAGESIZE,
@@ -180,6 +184,7 @@ const RecentChatsRenderer = ({ userId }: { userId: number }) => {
                 } else {
                   setHasNextPage(false);
                 }
+                setMoreLoading(false);
               });
             }}
           >
