@@ -57,6 +57,10 @@ export const messages = defineMessages({
     id: `components.user.hideBookmark`,
     defaultMessage: 'Hide Bookmark',
   },
+  adminConsole: {
+    id: `components.user.adminConsole`,
+    defaultMessage: 'Admin Console',
+  },
 });
 
 export default messages;

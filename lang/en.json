@@ -169,6 +169,7 @@
   "components.replay.milestone_handle": "Handle",
   "components.replay.milestone_name": "Name",
   "components.replay.original": "Original Puzzle",
+  "components.user.adminConsole": "Admin Console",
   "components.user.anonymousUser": "Anonymous User",
   "components.user.avatar": "Avatar",
   "components.user.commentCount": "Comments",

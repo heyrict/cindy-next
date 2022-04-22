@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { APPLOCALES } from 'settings';
+import { getClaims } from 'common/auth';
 
 import { FormattedMessage } from 'react-intl';
 import toolbarMessages from 'messages/components/toolbar';
@@ -47,6 +48,18 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
   const [comDropDown, setComDropDown] = useState(false);
   const comBtnRef = useRef<HTMLDivElement | null>(null);
   const comDropDownRef = useRef<HTMLDivElement | null>(null);
+
+  let isStaff = false;
+  if (user.id) {
+    const claims = getClaims();
+    if (
+      claims &&
+      Array.isArray(claims.allowed_roles) &&
+      claims.allowed_roles.some(role => role === 'Staff')
+    ) {
+      isStaff = true;
+    }
+  }
 
   const hasnew = directHasnew;
 
@@ -373,6 +386,24 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                       color="preset.menubar.fg"
                     >
                       <SignupButton />
+                    </ToolbarButton>
+                  )}
+                  {isStaff && (
+                    <ToolbarButton
+                      bg="preset.menubar.bg"
+                      color="preset.menubar.fg"
+                      fontWeight="bold"
+                    >
+                      <Link href="/admin" passHref>
+                        <ButtonTransparentA
+                          height={1}
+                          width={1}
+                          color="preset.menubar.fg"
+                          onClick={() => setDropDown(!dropDown)}
+                        >
+                          <FormattedMessage {...userMessages.adminConsole} />
+                        </ButtonTransparentA>
+                      </Link>
                     </ToolbarButton>
                   )}
                   <ToolbarButton

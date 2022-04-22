@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useLogin, useNotify } from 'react-admin';
 import { getClaims } from 'common/auth';
-import styled from 'theme/styled';
+import styled from '@emotion/styled';
 
 const Container = styled.div`
   display: flex;
