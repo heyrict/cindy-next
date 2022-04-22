@@ -18,7 +18,19 @@ import buildQuery from './buildQuery';
 import authProvider from './auth';
 
 import LoginPage from './LoginPage';
-import { UserList } from './resources/users';
+import { UserList, UserShow } from './resources/users';
+import {
+  UserAwardCreate,
+  UserAwardEdit,
+  UserAwardList,
+  UserAwardShow,
+} from './resources/userAwards';
+import {
+  AwardCreate,
+  AwardEdit,
+  AwardList,
+  AwardShow,
+} from './resources/awards';
 import { PuzzleList, PuzzleEdit } from './resources/puzzle';
 
 const App = () => {
@@ -31,18 +43,14 @@ const App = () => {
       client: createApolloClient() as any,
       introspection: {
         operationNames: {
-          [GET_LIST]: (resource: any) =>
-            camelcase(plural(resource.name) as string),
-          [GET_ONE]: (resource: any) => resource.name.toLowerCase(),
-          [GET_MANY]: (resource: any) =>
-            camelcase(plural(resource.name) as string),
-          [GET_MANY_REFERENCE]: (resource: any) =>
-            camelcase(plural(resource.name) as string),
-          [CREATE]: (resource: any) => `create${resource.name}`,
-          [UPDATE]: (resource: any) => `update${resource.name}`,
-          [DELETE]: (resource: any) => `delete${resource.name}`,
+          [GET_LIST]: resource => camelcase(plural(resource.name)),
+          [GET_ONE]: resource => camelcase(resource.name),
+          [GET_MANY]: resource => camelcase(plural(resource.name)),
+          [GET_MANY_REFERENCE]: resource => camelcase(plural(resource.name)),
+          [CREATE]: resource => `create${resource.name}`,
+          [UPDATE]: resource => `update${resource.name}`,
+          [DELETE]: resource => `delete${resource.name}`,
         },
-        exclude: ['password'],
       },
     }).then(graphQlDataProvider => setDataProvider(() => graphQlDataProvider));
   }, []);
@@ -58,8 +66,22 @@ const App = () => {
       authProvider={authProvider}
       requireAuth
     >
-      <Resource name="User" list={UserList} />
+      <Resource name="User" list={UserList} show={UserShow} />
       <Resource name="Puzzle" list={PuzzleList} edit={PuzzleEdit} />
+      <Resource
+        name="Award"
+        list={AwardList}
+        create={AwardCreate}
+        edit={AwardEdit}
+        show={AwardShow}
+      />
+      <Resource
+        name="UserAward"
+        list={UserAwardList}
+        show={UserAwardShow}
+        edit={UserAwardEdit}
+        create={UserAwardCreate}
+      />
     </Admin>
   );
 };

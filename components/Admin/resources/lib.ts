@@ -1,5 +1,14 @@
 import { Genre, Yami, Status } from 'generated/globalTypes';
 
+export const ilikeFilter = (key: string) => (search: string) =>
+  search.length > 0
+    ? {
+        [key]: {
+          ilike: `%${search}%`,
+        },
+      }
+    : {};
+
 export let PuzzleStatusChoices = [
   { id: Status.UNDERGOING, name: 'UNDERGOING' },
   { id: Status.SOLVED, name: 'SOLVED' },

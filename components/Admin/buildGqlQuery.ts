@@ -1,4 +1,4 @@
-import { singular } from 'pluralize';
+import { singular, isPlural } from 'pluralize';
 import { GET_LIST, GET_MANY, GET_MANY_REFERENCE, DELETE } from 'ra-core';
 import {
   QUERY_TYPES,
@@ -120,6 +120,20 @@ export const buildFields =
         const type = getFinalType(field.type);
 
         if (type.name.startsWith('_')) {
+          return acc;
+        }
+
+        // Also excludes aggregation fields
+        if (
+          field.name.search('Count') > 0 ||
+          field.name.search('Sum') > 0 ||
+          field.name.search('Max') > 0
+        ) {
+          return acc;
+        }
+
+        // Also excludes related fields (in plural form)
+        if (isPlural(field.name)) {
           return acc;
         }
 

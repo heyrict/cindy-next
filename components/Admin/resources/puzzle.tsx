@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { useSelector } from 'react-redux';
+import * as settingReducer from 'reducers/setting';
 import {
   Datagrid,
   DateField,
@@ -14,6 +17,7 @@ import {
   BooleanInput,
   Toolbar,
   SaveButton,
+  ReferenceField,
 } from 'react-admin';
 import {
   PuzzleGenreChoices,
@@ -21,19 +25,32 @@ import {
   PuzzleYamiChoices,
 } from './lib';
 
-export const PuzzleList = () => (
-  <List>
-    <Datagrid>
-      <NumberField source="id" />
-      <TextField source="title" />
-      <TextField source="genre" />
-      <TextField source="status" />
-      <TextField source="yami" />
-      <DateField source="created" />
-      <EditButton />
-    </Datagrid>
-  </List>
-);
+export const PuzzleList = () => {
+  const language = useSelector(
+    state => settingReducer.rootSelector(state).language,
+  );
+  return (
+    <List>
+      <Datagrid>
+        <NumberField source="id" />
+        <TextField source="title" />
+        <TextField source="genre" />
+        <TextField source="status" />
+        <TextField source="yami" />
+        <DateField locales={language || undefined} source="created" />
+        <ReferenceField
+          label="User"
+          source="userId"
+          reference="User"
+          link="show"
+        >
+          <TextField source="nickname" />
+        </ReferenceField>
+        <EditButton />
+      </Datagrid>
+    </List>
+  );
+};
 
 const EditToolbar = () => (
   <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>

@@ -43,7 +43,7 @@ export default (introspectionResults: IntrospectionResult) =>
       }
       case GET_MANY:
         return {
-          filter: { id: { _in: preparedParams.ids } },
+          filter: { id: { eqAny: preparedParams.ids } },
         };
       case GET_MANY_REFERENCE: {
         let variables = buildGetListVariables(introspectionResults)(
@@ -64,9 +64,16 @@ export default (introspectionResults: IntrospectionResult) =>
         return {
           id: preparedParams.id,
         };
-      case CREATE:
+      case CREATE: {
+        return buildCreateVariables(introspectionResults)(
+          resource,
+          raFetchMethod,
+          preparedParams,
+          queryType,
+        );
+      }
       case UPDATE: {
-        return buildCreateUpdateVariables(introspectionResults)(
+        return buildUpdateVariables(introspectionResults)(
           resource,
           raFetchMethod,
           preparedParams,
@@ -286,7 +293,7 @@ const buildGetListVariables =
     return variables;
   };
 
-const buildCreateUpdateVariables =
+const buildUpdateVariables =
   (introspectionResults: IntrospectionResult) =>
   (
     resource: IntrospectedResource,
@@ -298,10 +305,46 @@ const buildCreateUpdateVariables =
     const args = introspectionResults.types.find(
       item => item.name === setArgType,
     ) as IntrospectionInputObjectType;
-    console.log(setArgType, args);
     return {
       id,
       set: Object.keys(data).reduce((acc, key) => {
+        if (!args.inputFields.some(field => field.name === key)) {
+          return acc;
+        }
+
+        if (Array.isArray(data[key])) {
+          /*TODO: Array update not implemented for "${key}"*/
+          return acc;
+        }
+
+        if (typeof data[key] === 'object') {
+          /*TODO: Array update not implemented for "${key}"*/
+          return acc;
+        }
+
+        return {
+          ...acc,
+          [key]: data[key],
+        };
+      }, {}),
+    };
+  };
+
+const buildCreateVariables =
+  (introspectionResults: IntrospectionResult) =>
+  (
+    resource: IntrospectedResource,
+    _raFetchMethod: any,
+    { id, data }: any,
+    _queryType: IntrospectionField,
+  ) => {
+    const setArgType = `Create${resource.type.name}Input`;
+    const args = introspectionResults.types.find(
+      item => item.name === setArgType,
+    ) as IntrospectionInputObjectType;
+    return {
+      id,
+      data: Object.keys(data).reduce((acc, key) => {
         if (!args.inputFields.some(field => field.name === key)) {
           return acc;
         }
