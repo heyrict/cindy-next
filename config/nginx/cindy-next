@@ -13,6 +13,18 @@ server {
     proxy_send_timeout 4h;
     proxy_connect_timeout 4h;
 
+    location /images {
+        location /path/to/upload_images;
+        autoindex off;
+        gzip on;
+    }
+
+    location /static {
+        location /path/to/cindy-next/public/static;
+        autoindex off;
+        gzip on;
+    }
+
     location / {
         proxy_pass http://localhost:3000/;
 
@@ -22,12 +34,8 @@ server {
         proxy_set_header X-Real_IP $remote_addr;
     }
 
-    location /images {
-        location /path/to/upload_images;
-    }
-
-    location /subscriptions {
-        proxy_pass http://localhost:3001/;
+    location ~ ^/(graphql|login|signup|role_switch) {
+        proxy_pass http://localhost:8000;
 
         proxy_http_version 1.1;
         proxy_redirect off;
@@ -37,15 +45,6 @@ server {
         proxy_set_header X-Real_IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Host $server_name;
-    }
-
-    location ~ ^/webhook/(getcurrent|login|signup|activeUsers) {
-        proxy_pass http://localhost:3001;
-
-        proxy_http_version 1.1;
-        proxy_redirect off;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real_IP $remote_addr;
     }
 
     location ~ ^/(v1|console|v1alpha1) {
