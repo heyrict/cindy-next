@@ -37,6 +37,7 @@
   "channel.description": "ユーザー交流の場",
   "channel.title": "チャンネル：{name}",
   "channels.description": "Cindy ユーザー交流の場",
+  "channels.emptyRecentChannelMsg": "お気に入りチャンネルを追加すると、最新のメッセージが表示されます",
   "channels.publicChannels": "公開チャンネル",
   "channels.recentChats": "最新のチャット",
   "channels.title": "チャットルーム",

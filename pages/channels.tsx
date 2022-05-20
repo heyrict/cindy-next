@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
@@ -139,20 +139,22 @@ const RecentChatsRenderer = ({ userId }: { userId: number }) => {
       offset: 0,
     },
     fetchPolicy: 'cache-and-network',
+    onCompleted: data => {
+      if (data.recentChatmessages.length < RECENT_MESSAGES_PAGESIZE) {
+        setHasNextPage(false);
+      }
+    },
   });
-
-  useEffect(() => {
-    if (data && data.recentChatmessages.length < RECENT_MESSAGES_PAGESIZE) {
-      setHasNextPage(false);
-    }
-  }, [data]);
 
   if (loading && (!data || !data.recentChatmessages)) return <Loading />;
   if (error) {
     toast.error(error.message);
     return null;
   }
-  if (data && data.recentChatmessages) {
+  if (data && data.recentChatmessages !== null) {
+    if (data.recentChatmessages.length == 0) {
+      return <FormattedMessage {...messages.emptyRecentChannelMsg} />
+    }
     return (
       <React.Fragment>
         {data.recentChatmessages.map(chatmessage => (
@@ -164,7 +166,7 @@ const RecentChatsRenderer = ({ userId }: { userId: number }) => {
         ))}
         {hasNextPage && moreLoading ? (
           <Loading />
-        ) : (
+        ) : hasNextPage ? (
           <Button
             borderRadius={2}
             width={1}
@@ -190,7 +192,7 @@ const RecentChatsRenderer = ({ userId }: { userId: number }) => {
           >
             <FormattedMessage {...commonMessages.loadMore} />
           </Button>
-        )}
+        ) : null}
       </React.Fragment>
     );
   }

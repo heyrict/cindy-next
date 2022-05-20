@@ -37,6 +37,7 @@
   "channel.description": "A place for users to communicate in Cindy.",
   "channel.title": "Channel: {name}",
   "channels.description": "Communication square for users",
+  "channels.emptyRecentChannelMsg": "Add favorite channels to get latest updates here.",
   "channels.publicChannels": "Public Channels",
   "channels.recentChats": "Recent Messages",
   "channels.title": "Channels",
