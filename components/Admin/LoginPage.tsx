@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useLogin, useNotify } from 'react-admin';
 import { getClaims } from 'common/auth';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 
 const Container = styled.div`
   display: flex;
@@ -31,6 +32,7 @@ const SwitchRoleBtn = styled.button`
 const LoginPage = () => {
   const login = useLogin();
   const notify = useNotify();
+  const router = useRouter();
 
   const handleLogin = () => {
     login({ role: 'Staff' }).catch(() => notify('Invalid email or password'));
@@ -53,6 +55,7 @@ const LoginPage = () => {
         >
           {isStaff ? 'Login' : 'No permission'}
         </SwitchRoleBtn>
+        <SwitchRoleBtn onClick={() => router.push('/')}>Back to Homepage</SwitchRoleBtn>
       </StaffCard>
     </Container>
   );
