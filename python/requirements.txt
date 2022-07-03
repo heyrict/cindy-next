@@ -2,3 +2,8 @@ Pillow>3.0
 beautifulsoup4==4.5.3
 twitter>=1.18.0,<2.0
 gql>=3.0.0a5,<4.0
+websockets==10.3
+typing_extensions==4.2.0
+pytz>=2022.1
+requests>=2.27.1
+pyyaml>=6.0
