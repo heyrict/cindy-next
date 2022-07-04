@@ -1,5 +1,5 @@
 Pillow>3.0
-beautifulsoup4==4.5.3
+beautifulsoup4>=4.11.1
 twitter>=1.18.0,<2.0
 gql>=3.0.0a5,<4.0
 websockets==10.3
