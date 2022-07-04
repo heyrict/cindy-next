@@ -1,0 +1,13 @@
+{
+  "include": ["python", "config/cron"],
+  "executionEnvironments": [
+    {
+      "root": "config/cron",
+      "extraPaths": ["config/cron"]
+    },
+    {
+      "root": "python",
+      "extraPaths": ["python"]
+    }
+  ]
+}

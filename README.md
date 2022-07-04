@@ -34,6 +34,8 @@ which comes from the popular original character of [Cindy](http://sui-hei.net/ap
 
   You also need to install the required packages with `pip install -r ./python/requirements.txt`.
 
+- NotoSansCJK Font (optional, required if you need scheduled update or twitter feature)
+
 Also, there are some sample configs for `systemd` and `nginx`, which are used in production in *Cindy*. You can find then in `./config` folder. Useful scripts for automatic updates written in python are stored in `./config/cron`.
 
 ## Dev-Requisitories

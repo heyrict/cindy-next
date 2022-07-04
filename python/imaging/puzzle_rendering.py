@@ -34,26 +34,29 @@ def _split_lines(text, stop):
     return output
 
 
-def render(title,
-           content,
-           appends=APPENDS,
-           canvas_width=CANVAS_WIDTH,
-           font_path=FONT_PATH,
-           title_fontsize=TITLE_FONTSIZE,
-           title_split=TITLE_SPLIT,
-           content_fontsize=CONTENT_FONTSIZE,
-           content_split=CONTENT_SPLIT,
-           appends_indent=APPENDS_INDENT,
-           appends_fontsize=APPENDS_FONTSIZE,
-           line_height=LINE_HEIGHT,
-           output_image_name=OUTPUT_IMAGE_NAME):
+def render(
+    title,
+    content,
+    appends=APPENDS,
+    canvas_width=CANVAS_WIDTH,
+    font_path=FONT_PATH,
+    title_fontsize=TITLE_FONTSIZE,
+    title_split=TITLE_SPLIT,
+    content_fontsize=CONTENT_FONTSIZE,
+    content_split=CONTENT_SPLIT,
+    appends_indent=APPENDS_INDENT,
+    appends_fontsize=APPENDS_FONTSIZE,
+    line_height=LINE_HEIGHT,
+    output_image_name=OUTPUT_IMAGE_NAME
+):
     title = _split_lines(title, title_split)
     content = _split_lines(content, content_split)
     hTitle = len(title) * line_height + line_height // 2
-    hContent = len(content) * line_height + line_height // 2
+    hContent = max(len(content), 9) * line_height + line_height // 2
     hAppends = int(line_height * 1.2)
-    img = Image.new('RGB', (canvas_width, hTitle + hContent + hAppends),
-                    "#fcf4dc")
+    img = Image.new(
+        'RGB', (canvas_width, hTitle + hContent + hAppends), "#fcf4dc"
+    )
     draw = ImageDraw.Draw(img)
     title_font = ImageFont.truetype(font_path, title_fontsize)
     content_font = ImageFont.truetype(font_path, content_fontsize)
@@ -63,30 +66,35 @@ def render(title,
     draw.rectangle((0, 0, 2, hTitle + hContent), fill="#c6aa4b")
     draw.rectangle(
         (canvas_width - 3, 0, canvas_width - 1, hTitle + hContent),
-        fill="#c6aa4b")
+        fill="#c6aa4b"
+    )
     draw.rectangle(
         (0, hTitle + hContent, canvas_width, hTitle + hContent + 2),
-        fill="#c6aa4b")
+        fill="#c6aa4b"
+    )
 
     # Drawing Title background
     draw.rectangle((0, 0, canvas_width, hTitle), fill="#c6aa4b")
 
     for i, txt in enumerate(title):
         draw.text(
-            (5, i * line_height + 5), txt, font=title_font, fill="#fcf4dc")
+            (5, i * line_height + 5), txt, font=title_font, fill="#fcf4dc"
+        )
 
     for i, txt in enumerate(content):
         draw.text(
             (5, i * line_height + hTitle + 5),
             txt,
             font=content_font,
-            fill="#c6aa4b")
+            fill="#c6aa4b"
+        )
 
     draw.text(
         (appends_indent, hTitle + hContent + 5),
         appends,
         font=appends_font,
-        fill="#888")
+        fill="#888"
+    )
 
     img.save(output_image_name)
     return output_image_name
