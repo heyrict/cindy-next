@@ -1,5 +1,23 @@
 import styled from 'theme/styled';
-import { Box, Flex } from 'components/General';
+import multiavatar from '@multiavatar/multiavatar';
+
+import { Box, Flex, Img } from 'components/General';
+import UserInline from 'components/User/UserInline';
+import userIcon from 'svgs/user.svg';
+
+import { useQuery } from '@apollo/client';
+import { USER_BRIEF_QUERY } from 'graphql/Queries/User';
+import {
+  UserBriefQuery,
+  UserBriefQueryVariables,
+} from 'graphql/Queries/generated/UserBriefQuery';
+
+import { InlineUser } from 'components/User/types';
+import {
+  IconDisplayDefaultProps,
+  IconDisplayProps,
+  UserIconDisplayProps,
+} from './types';
 
 export const ToolbarFlex = styled(Flex)`
   height: ${p => p.theme.sizes.toolbar};
@@ -80,3 +98,64 @@ export const ToolbarDropdownContents = styled.div`
   z-index: 190;
   box-shadow: 3px 3px 4px 0 ${p => p.theme.colors.preset.menubar.ac};
 `;
+
+export const IconDisplay = ({ user, iconOnly }: IconDisplayProps) => {
+  return iconOnly ? (
+    user.id && user.nickname ? (
+      <UserIconDisplay user={user as InlineUser} iconOnly />
+    ) : (
+      <Img height="xs" src={userIcon} />
+    )
+  ) : user.id && user.nickname ? (
+    <Box px={1} maxWidth="100px" overflowX="hidden">
+      <UserIconDisplay user={user as InlineUser} />
+    </Box>
+  ) : (
+    <Img ml={2} mr={1} src={userIcon} maxHeight="xxs" />
+  );
+};
+
+IconDisplay.defaultProps = IconDisplayDefaultProps;
+
+export const UserIconDisplay = ({ user, iconOnly }: UserIconDisplayProps) => {
+  const { data } = useQuery<UserBriefQuery, UserBriefQueryVariables>(
+    USER_BRIEF_QUERY,
+    {
+      variables: {
+        id: user.id,
+      },
+      fetchPolicy: 'cache-first',
+    },
+  );
+  const userWithIcon = data ? { ...user, ...data.user } : user;
+
+  return iconOnly ? (
+    userWithIcon.icon ? (
+      userWithIcon.icon.startsWith('multiavatar://') ? (
+        <Box
+          mr={1}
+          size="xs"
+          border="1px solid"
+          borderRadius={4}
+          dangerouslySetInnerHTML={{
+            __html: multiavatar(userWithIcon.icon.slice(14), true),
+          }}
+        />
+      ) : (
+        <Img
+          mr={1}
+          size="xs"
+          border="1px solid"
+          borderRadius={4}
+          src={userWithIcon.icon}
+        />
+      )
+    ) : (
+      <Img height="xs" src={userIcon} />
+    )
+  ) : (
+    <UserInline user={userWithIcon} clickable={false} />
+  );
+};
+
+UserIconDisplay.defaultProps = IconDisplayDefaultProps;

@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { APPLOCALES } from 'settings';
 import { getClaims } from 'common/auth';
-import multiavatar from '@multiavatar/multiavatar';
 
 import { FormattedMessage } from 'react-intl';
 import toolbarMessages from 'messages/components/toolbar';
@@ -21,6 +20,7 @@ import {
   ToolbarButton,
   ToolbarResponsiveContents,
   ToolbarResponsiveButton,
+  IconDisplay,
 } from './shared';
 import ChatroomButton from './ChatroomButton';
 import LoginButton from './Login/LoginButton';
@@ -28,9 +28,7 @@ import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
 import SettingsButton from './Settings/SettingsButton';
 import MessageBoxButton from './MessageBoxButton';
-import UserInline from 'components/User/UserInline';
 import menuIcon from 'svgs/menu.svg';
-import userIcon from 'svgs/user.svg';
 import logoInline from 'svgs/logoInline.svg';
 import countryJPIcon from 'svgs/countries/ja_JP.svg';
 import countryUSIcon from 'svgs/countries/en_US.svg';
@@ -43,7 +41,6 @@ import {
 } from 'reducers/types';
 import { PortalProps } from 'react-portal';
 import { ToolbarResponsiveProps } from './types';
-import { InlineUser } from 'components/User/types';
 
 const Portal = dynamic<PortalProps>(
   () => import('react-portal').then(mod => mod.Portal),
@@ -193,29 +190,7 @@ const Toolbar = ({
           width={1}
           onClick={() => toggleToolbarMenu(ToolbarResponsiveMenuType.USER_MENU)}
         >
-          {user && user.icon ? (
-            user.icon.startsWith('multiavatar://') ? (
-              <Box
-                mr={1}
-                size="xs"
-                border="1px solid"
-                borderRadius={4}
-                dangerouslySetInnerHTML={{
-                  __html: multiavatar(user.icon.slice(14), true),
-                }}
-              />
-            ) : (
-              <Img
-                mr={1}
-                size="xs"
-                border="1px solid"
-                borderRadius={4}
-                src={user.icon}
-              />
-            )
-          ) : (
-            <Img height="xs" src={userIcon} />
-          )}
+          <IconDisplay user={user} iconOnly />
           {hasnew && <RedDot right={20} top={8} />}
         </ButtonTransparent>
       </ToolbarButton>
@@ -231,7 +206,7 @@ const Toolbar = ({
                 >
                   <Link href="/user/[id]" as={`/user/${user.id}`} passHref>
                     <ButtonTransparentA height={1} width={1} color="black">
-                      <UserInline user={user as InlineUser} clickable={false} />
+                      <IconDisplay user={user} />
                     </ButtonTransparentA>
                   </Link>
                 </ToolbarResponsiveButton>

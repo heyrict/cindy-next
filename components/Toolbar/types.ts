@@ -1,6 +1,7 @@
 import { GlobalUserType, ToolbarResponsiveMenuType } from 'reducers/types';
 import { WithLogoutProps } from 'components/Auth/types';
 import { APPLOCALES } from 'settings';
+import { InlineUser } from 'components/User/types';
 
 export type ToolbarProps = {
   user: GlobalUserType;
@@ -28,3 +29,15 @@ export const ChatroomButtonDefaultProps = {
 };
 
 export type ChatroomButtonProps = typeof ChatroomButtonDefaultProps;
+
+export const IconDisplayDefaultProps = {
+  iconOnly: false,
+};
+
+export type IconDisplayProps = {
+  user: GlobalUserType;
+} & typeof IconDisplayDefaultProps;
+
+export type UserIconDisplayProps = {
+  user: InlineUser;
+} & typeof IconDisplayDefaultProps;
