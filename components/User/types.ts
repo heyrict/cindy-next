@@ -40,7 +40,7 @@ export type InlineUserExtra = {
 };
 
 export const UserInlineDefaultProps = {
-  clickable: false,
+  unclickable: false,
 };
 
 export type UserInlineProps = {

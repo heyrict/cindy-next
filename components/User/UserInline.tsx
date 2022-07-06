@@ -13,12 +13,12 @@ const AnchorDiv = Anchor.withComponent('span');
 const UserInline = ({
   user,
   timestamp,
-  clickable,
+  unclickable,
   ...props
 }: UserInlineProps) => {
   const NicknameBlock = (
     <Flex flexWrap="wrap" alignItems="baseline" ml={1}>
-      {user.id > 0 && clickable ? (
+      {user.id > 0 && !unclickable ? (
         <React.Fragment>
           <UserBriefProfile user={user} />
           {user.currentAward && (

@@ -154,7 +154,7 @@ export const UserIconDisplay = ({ user, iconOnly }: UserIconDisplayProps) => {
       <Img height="xs" src={userIcon} />
     )
   ) : (
-    <UserInline user={userWithIcon} clickable={false} />
+    <UserInline user={userWithIcon} unclickable />
   );
 };
 
