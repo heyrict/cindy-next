@@ -22,6 +22,9 @@ const Footer = ({ children }: FooterProps) => (
     <Flex flexWrap="wrap" justifyContent="center">
       {children}
     </Flex>
+    <Flex pt={3} justifyContent="center">
+      Avatars by Multiavatar.com
+    </Flex>
     <Flex justifyContent="center">
       <Img
         style={{ position: 'absolute', bottom: '20px' }}
