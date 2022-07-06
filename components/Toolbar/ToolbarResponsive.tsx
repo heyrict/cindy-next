@@ -2,9 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { APPLOCALES } from 'settings';
+import { getClaims } from 'common/auth';
+import multiavatar from '@multiavatar/multiavatar';
 
 import { FormattedMessage } from 'react-intl';
 import toolbarMessages from 'messages/components/toolbar';
+import userMessages from 'messages/components/user';
 
 import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
@@ -25,6 +28,7 @@ import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
 import SettingsButton from './Settings/SettingsButton';
 import MessageBoxButton from './MessageBoxButton';
+import UserInline from 'components/User/UserInline';
 import menuIcon from 'svgs/menu.svg';
 import userIcon from 'svgs/user.svg';
 import logoInline from 'svgs/logoInline.svg';
@@ -39,6 +43,7 @@ import {
 } from 'reducers/types';
 import { PortalProps } from 'react-portal';
 import { ToolbarResponsiveProps } from './types';
+import { InlineUser } from 'components/User/types';
 
 const Portal = dynamic<PortalProps>(
   () => import('react-portal').then(mod => mod.Portal),
@@ -59,6 +64,18 @@ const Toolbar = ({
 }: ToolbarResponsiveProps) => {
   const toolbarRef = useRef<HTMLDivElement | null>(null);
   const toolbarMenuRef = useRef<HTMLDivElement | null>(null);
+
+  let isStaff = false;
+  if (user.id) {
+    const claims = getClaims();
+    if (
+      claims &&
+      Array.isArray(claims.allowed_roles) &&
+      claims.allowed_roles.some(role => role === 'Staff')
+    ) {
+      isStaff = true;
+    }
+  }
 
   const hasnew = directHasnew;
 
@@ -176,7 +193,29 @@ const Toolbar = ({
           width={1}
           onClick={() => toggleToolbarMenu(ToolbarResponsiveMenuType.USER_MENU)}
         >
-          <Img height="xs" src={userIcon} />
+          {user && user.icon ? (
+            user.icon.startsWith('multiavatar://') ? (
+              <Box
+                mr={1}
+                size="xs"
+                border="1px solid"
+                borderRadius={4}
+                dangerouslySetInnerHTML={{
+                  __html: multiavatar(user.icon.slice(14), true),
+                }}
+              />
+            ) : (
+              <Img
+                mr={1}
+                size="xs"
+                border="1px solid"
+                borderRadius={4}
+                src={user.icon}
+              />
+            )
+          ) : (
+            <Img height="xs" src={userIcon} />
+          )}
           {hasnew && <RedDot right={20} top={8} />}
         </ButtonTransparent>
       </ToolbarButton>
@@ -192,7 +231,7 @@ const Toolbar = ({
                 >
                   <Link href="/user/[id]" as={`/user/${user.id}`} passHref>
                     <ButtonTransparentA height={1} width={1} color="black">
-                      {user.nickname}
+                      <UserInline user={user as InlineUser} clickable={false} />
                     </ButtonTransparentA>
                   </Link>
                 </ToolbarResponsiveButton>
@@ -220,6 +259,22 @@ const Toolbar = ({
                   fontWeight="bold"
                 >
                   <LogoutButton />
+                </ToolbarResponsiveButton>
+              </Box>
+            )}
+            {user.id && isStaff && (
+              <Box width={1 / 2}>
+                <ToolbarResponsiveButton
+                  mr="1px"
+                  mb="1px"
+                  bg="preset.menubar.ac"
+                  fontWeight="bold"
+                >
+                  <Link href="/admin" passHref>
+                    <ButtonTransparentA height={1} width={1} color="black">
+                      <FormattedMessage {...userMessages.adminConsole} />
+                    </ButtonTransparentA>
+                  </Link>
                 </ToolbarResponsiveButton>
               </Box>
             )}

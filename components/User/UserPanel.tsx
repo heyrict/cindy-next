@@ -1,6 +1,7 @@
 import React from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
+import multiavatar from '@multiavatar/multiavatar';
 import { text2raw } from 'common/markdown';
 
 import { connect } from 'react-redux';
@@ -12,6 +13,7 @@ import {
   ButtonTransparent,
   Img,
   EditTimeSpan,
+  Flex,
 } from 'components/General';
 import homeIcon from 'svgs/home.svg';
 import messageIcon from 'svgs/message.svg';
@@ -31,7 +33,30 @@ const UserPanel = ({ user, maxLength, directChatWithUser }: UserPanelProps) => (
     alignItems="center"
     justifyContent="center"
   >
-    <Box minWidth="50%" style={{ flexGrow: 1 }} mb={1}>
+    <Flex minWidth="50%" flexGrow={1} alignItems="center" mb={1}>
+      {user.icon && (
+        <Box mx={1} display="inline-block">
+          {user.icon.startsWith('multiavatar://') ? (
+            <Box
+              mr={1}
+              size="sm"
+              border="1px solid"
+              borderRadius={4}
+              dangerouslySetInnerHTML={{
+                __html: multiavatar(user.icon.slice(14), true),
+              }}
+            />
+          ) : (
+            <Img
+              mr={1}
+              size="sm"
+              border="1px solid"
+              borderRadius={4}
+              src={user.icon}
+            />
+          )}
+        </Box>
+      )}
       <Box mx={1} display="inline-block">
         {user.nickname}
       </Box>
@@ -43,7 +68,7 @@ const UserPanel = ({ user, maxLength, directChatWithUser }: UserPanelProps) => (
       <ButtonTransparent p={1} onClick={() => directChatWithUser(user.id)}>
         <Img height="xxs" src={messageIcon} alt="Message" />
       </ButtonTransparent>
-    </Box>
+    </Flex>
     <Box minWidth="50%" style={{ flexGrow: 1 }} mb={1}>
       <EditTimeSpan>
         <FormattedMessage {...authMessages.dateJoined} />:

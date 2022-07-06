@@ -153,7 +153,7 @@ const RecentChatsRenderer = ({ userId }: { userId: number }) => {
   }
   if (data && data.recentChatmessages !== null) {
     if (data.recentChatmessages.length == 0) {
-      return <FormattedMessage {...messages.emptyRecentChannelMsg} />
+      return <FormattedMessage {...messages.emptyRecentChannelMsg} />;
     }
     return (
       <React.Fragment>

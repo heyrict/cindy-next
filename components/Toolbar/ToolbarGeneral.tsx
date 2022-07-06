@@ -22,6 +22,7 @@ import LogoutButton from './LogoutButton';
 import SignupButton from './Signup/SignupButton';
 import SettingsButton from './Settings/SettingsButton';
 import MessageBoxButton from './MessageBoxButton';
+import UserInline from 'components/User/UserInline';
 import logoInline from 'svgs/logoInline.svg';
 import chevronUpIcon from 'svgs/chevronUp.svg';
 import chevronDownIcon from 'svgs/chevronDown.svg';
@@ -33,6 +34,7 @@ import twitterIcon from 'svgs/Twitter_Social_Icon_Circle_Color.svg';
 import { StateType, ActionContentType } from 'reducers/types';
 import { ToolbarProps } from './types';
 import { ToolbarFlex, ToolbarButton, ToolbarDropdownContents } from './shared';
+import { InlineUser } from 'components/User/types';
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
@@ -306,7 +308,9 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                 onClick={() => setDropDown(!dropDown)}
               >
                 {user.id ? (
-                  user.nickname
+                  <Box px={2} maxWidth="100px" overflowX="hidden">
+                    <UserInline user={user as InlineUser} clickable={false} />
+                  </Box>
                 ) : (
                   <Img ml={2} mr={1} src={userIcon} height="xs" />
                 )}

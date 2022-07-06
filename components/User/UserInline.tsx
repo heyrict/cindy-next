@@ -6,14 +6,19 @@ import UserBriefProfile from './UserBriefProfile';
 import CurrentUserAward from './CurrentUserAward';
 
 import { UserInlineBase } from './shared';
-import { UserInlineProps } from './types';
+import { UserInlineDefaultProps, UserInlineProps } from './types';
 
 const AnchorDiv = Anchor.withComponent('span');
 
-const UserInline = ({ user, timestamp, ...props }: UserInlineProps) => {
+const UserInline = ({
+  user,
+  timestamp,
+  clickable,
+  ...props
+}: UserInlineProps) => {
   const NicknameBlock = (
     <Flex flexWrap="wrap" alignItems="baseline" ml={1}>
-      {user.id > 0 ? (
+      {user.id > 0 && clickable ? (
         <React.Fragment>
           <UserBriefProfile user={user} />
           {user.currentAward && (
@@ -63,5 +68,7 @@ const UserInline = ({ user, timestamp, ...props }: UserInlineProps) => {
     </UserInlineBase>
   );
 };
+
+UserInline.defaultProps = UserInlineDefaultProps;
 
 export default UserInline;

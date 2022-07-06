@@ -39,11 +39,15 @@ export type InlineUserExtra = {
   lastLogin: string | null;
 };
 
+export const UserInlineDefaultProps = {
+  clickable: false,
+};
+
 export type UserInlineProps = {
   user: InlineUser;
   timestamp?: React.ReactNode;
   [styleProp: string]: any;
-};
+} & typeof UserInlineDefaultProps;
 
 export type UserColProps = {
   user: InlineUser;

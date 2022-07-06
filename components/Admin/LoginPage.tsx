@@ -55,7 +55,9 @@ const LoginPage = () => {
         >
           {isStaff ? 'Login' : 'No permission'}
         </SwitchRoleBtn>
-        <SwitchRoleBtn onClick={() => router.push('/')}>Back to Homepage</SwitchRoleBtn>
+        <SwitchRoleBtn onClick={() => router.push('/')}>
+          Back to Homepage
+        </SwitchRoleBtn>
       </StaffCard>
     </Container>
   );
