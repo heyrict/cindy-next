@@ -47,7 +47,7 @@ export type UserInlineProps = {
   user: InlineUser;
   timestamp?: React.ReactNode;
   [styleProp: string]: any;
-} & typeof UserInlineDefaultProps;
+} & Partial<typeof UserInlineDefaultProps>; // Default props won't work here
 
 export type UserColProps = {
   user: InlineUser;
