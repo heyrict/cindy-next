@@ -55,6 +55,7 @@ const PuzzleRenderer = ({
   pushNotification,
 }: PuzzleRendererProps) => {
   const apolloClient = useApolloClient();
+  const hasNotifiedSolvedRef = useRef<boolean>(false);
   const { loading, error, data, refetch, subscribeToMore } = useQuery<
     PuzzleQuery,
     PuzzleQueryVariables
@@ -68,7 +69,6 @@ const PuzzleRenderer = ({
     },
   });
 
-  const hasNotifiedSolvedRef = useRef<boolean>(false);
   const _ = formatMessage;
   const puzzleNotExistElement = (
     <React.Fragment>
