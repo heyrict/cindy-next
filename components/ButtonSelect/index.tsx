@@ -14,6 +14,13 @@ function ButtonSelect<TValue = any>(props: ButtonSelectProps<TValue>) {
   return (
     <Flex flexWrap="wrap" {...flexProps}>
       {props.options.map(option => {
+        let valueDisplay =
+          option.label ||
+          (typeof option.value == 'string' ||
+          typeof option.value == 'number' ||
+          typeof option.value == 'boolean'
+            ? option.value.toString()
+            : '');
         let button =
           option.value === props.value ? (
             <Button
@@ -31,7 +38,7 @@ function ButtonSelect<TValue = any>(props: ButtonSelectProps<TValue>) {
               {...buttonProps}
               onClick={() => typeof onChange === 'function' && onChange(option)}
             >
-              {option.label || option.value}
+              {valueDisplay}
             </Button>
           ) : (
             <ButtonTransparent
@@ -48,7 +55,7 @@ function ButtonSelect<TValue = any>(props: ButtonSelectProps<TValue>) {
               {...buttonProps}
               onClick={() => typeof onChange === 'function' && onChange(option)}
             >
-              {option.label || option.value}
+              {valueDisplay}
             </ButtonTransparent>
           );
 

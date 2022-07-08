@@ -111,7 +111,7 @@ export const IconDisplay = ({ user, iconOnly }: IconDisplayProps) => {
       <UserIconDisplay user={user as InlineUser} />
     </Box>
   ) : (
-    <Img ml={2} mr={1} src={userIcon} maxHeight="xxs" />
+    <Img ml={2} mr={1} src={userIcon} maxHeight="xs" />
   );
 };
 
