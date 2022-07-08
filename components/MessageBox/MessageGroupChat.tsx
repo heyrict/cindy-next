@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { upsertItem } from 'common/update';
 import { toast } from 'react-toastify';
 
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 import * as directReducer from 'reducers/direct';
 import * as settingReducer from 'reducers/setting';
@@ -58,6 +58,9 @@ const MessageGroupChatInner = ({
 }: MessageGroupChatInnerProps) => {
   const [hasMore, setHasMore] = useState(false);
   const editorRef = useRef<SimpleLegacyEditor>(null!);
+  const dispatch = useDispatch<(action: ActionContentType) => void>();
+  const setDirectHasnew = (hasnew: boolean) =>
+    dispatch(directReducer.actions.directHasnew.set(hasnew));
 
   const { id: userId } = user;
 
@@ -147,6 +150,28 @@ const MessageGroupChatInner = ({
           fragmentName: 'UserBrief',
           id: `User:${directGroupUser}`,
         });
+        let dmReadAllUpdated = upsertItem(
+          dmReadAll,
+          {
+            __typename: 'DmReadAllEntry',
+            dmId: directMessage.id,
+            directMessageId: directMessage.id,
+            withUserId: directGroupUser,
+            withUser: {
+              __typename: 'User',
+              id: directGroupUser,
+              nickname: user?.nickname || '...',
+            },
+          },
+          'directMessageId',
+          'desc',
+        );
+        // update directHasNew
+        if (dmReadAll.some(entry => entry.dmId !== entry.directMessageId)) {
+          setDirectHasnew(true);
+        } else {
+          setDirectHasnew(false);
+        }
         cache.writeQuery<
           DmReadAllQuery,
           Omit<DmReadAllQueryVariables, 'limit' | 'offset'>
@@ -156,22 +181,7 @@ const MessageGroupChatInner = ({
             userId,
           },
           data: {
-            dmReadAll: upsertItem(
-              dmReadAll,
-              {
-                __typename: 'DmReadAllEntry',
-                dmId: directMessage.id,
-                directMessageId: directMessage.id,
-                withUserId: directGroupUser,
-                withUser: {
-                  __typename: 'User',
-                  id: directGroupUser,
-                  nickname: user?.nickname || '...',
-                },
-              },
-              'directMessageId',
-              'desc',
-            ),
+            dmReadAll: dmReadAllUpdated,
           },
         });
       }
