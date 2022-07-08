@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as globalReducer from 'reducers/global';
 
 import { StateType, ToolbarResponsiveMenuType } from 'reducers/types';
+import { isBrowser } from 'settings';
 
 const ToolbarBoxBase = styled.nav<ToolbarBoxBaseProps>`
   position: fixed;
@@ -39,7 +40,7 @@ class ToolbarBox extends React.Component<ToolbarBoxProps> {
   state = {
     showToolbar: true,
   };
-  lastScrollTop = process.browser
+  lastScrollTop = isBrowser
     ? window.pageYOffset || document.documentElement.scrollTop
     : 0;
   handleScroll = () => {
@@ -52,10 +53,10 @@ class ToolbarBox extends React.Component<ToolbarBoxProps> {
     this.lastScrollTop = scrollY <= 0 ? 0 : scrollY;
   };
   componentDidMount = () => {
-    process.browser && window.addEventListener('scroll', this.handleScroll);
+    isBrowser && window.addEventListener('scroll', this.handleScroll);
   };
   componentWillUnmount = () => {
-    process.browser && window.removeEventListener('scroll', this.handleScroll);
+    isBrowser && window.removeEventListener('scroll', this.handleScroll);
   };
   render() {
     return (

@@ -72,7 +72,7 @@ const HomePage = () => {
   return (
     <PurpleBg flexWrap="wrap" pb={4}>
       <Head>
-        <title>Cindy - {_(messages.title)}</title>
+        <title>{_(messages.title)} | Cindy</title>
         <meta name="description" content={_(messages.description)} />
       </Head>
       <Flex width={1} justifyContent="center">

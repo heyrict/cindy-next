@@ -9,15 +9,22 @@ export const GRAPHQL_SERVER = {
   SUBSCRIPTION: 'ws://localhost:8000/graphql',
 };
 
-const defaultLocation = {
-  protocol: 'http:',
-  host: 'localhost:8000',
-};
-
 export const isBrowser = typeof window !== 'undefined';
 export const isServer = !isBrowser;
 
-const { protocol, host } = isBrowser ? window.location : defaultLocation;
+export const defaultLocation = isBrowser
+  ? window.location
+  : isDev
+  ? {
+      protocol: 'http:',
+      host: 'localhost:3000',
+    }
+  : {
+      protocol: 'https:',
+      host: 'www.cindythink.com',
+    };
+
+const { protocol, host } = defaultLocation;
 const wsProtocol = protocol === 'https:' ? 'wss:' : 'ws:';
 
 export const GRAPHQL_CLIENT = {
