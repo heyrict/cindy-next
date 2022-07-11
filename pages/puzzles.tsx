@@ -156,7 +156,11 @@ const PuzzlesUnsolvedRenderer = () => {
             },
           });
 
-          return prev;
+          return (
+            client.readQuery<PuzzlesUnsolvedQuery>({
+              query: PUZZLES_UNSOLVED_QUERY,
+            }) || prev
+          );
         },
       }),
     [],
