@@ -18,8 +18,7 @@ import {
 
 const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
-function JumpButtons(props: JumpButtonsProps) {
-  const { puzzleId } = props;
+function JumpButtons({ puzzleId }: JumpButtonsProps) {
   const { data, error, loading } = useQuery<
     PuzzleJumpButtonsQuery,
     PuzzleJumpButtonsQueryVariables
