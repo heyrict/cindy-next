@@ -49,6 +49,10 @@ export const messages = defineMessages({
     id: `toolbar.help`,
     defaultMessage: 'Help',
   },
+  kanichat: {
+    id: `toolbar.kanichat`,
+    defaultMessage: 'External Chatroom',
+  },
 });
 
 export default messages;

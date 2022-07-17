@@ -245,6 +245,17 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                       </ButtonTransparentA>
                     </ToolbarButton>
                     <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">
+                      <ButtonTransparentA
+                        href="http://chat.kanichat.com/chat?roomid=Cindychat"
+                        target="_blank"
+                        height={1}
+                        width={1}
+                        color="preset.menubar.fg"
+                      >
+                        <FormattedMessage {...toolbarMessages.kanichat} />
+                      </ButtonTransparentA>
+                    </ToolbarButton>
+                    <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">
                       <Link href="/eula" passHref>
                         <ButtonTransparentA
                           height={1}

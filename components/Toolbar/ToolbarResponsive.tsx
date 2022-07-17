@@ -145,6 +145,19 @@ const Toolbar = ({
             </Box>
             <Box width={1 / 2}>
               <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
+                <ButtonTransparentA
+                  href="http://chat.kanichat.com/chat?roomid=Cindychat"
+                  target="_blank"
+                  height={1}
+                  width={1}
+                  color="black"
+                >
+                  <FormattedMessage {...toolbarMessages.kanichat} />
+                </ButtonTransparentA>
+              </ToolbarResponsiveButton>
+            </Box>
+            <Box width={1 / 2}>
+              <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
                 <Link href="/license_help" passHref>
                   <ButtonTransparentA height={1} width={1} color="black">
                     <FormattedMessage {...toolbarMessages.licenseHelp} />
