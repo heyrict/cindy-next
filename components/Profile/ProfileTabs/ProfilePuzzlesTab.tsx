@@ -11,7 +11,7 @@ import {
   ProfilePuzzlesQuery,
   ProfilePuzzlesQueryVariables,
 } from 'graphql/Queries/generated/ProfilePuzzlesQuery';
-import { Ordering } from 'generated/globalTypes';
+import { Ordering, Status } from 'generated/globalTypes';
 
 const ProfilePuzzlesTab = ({ userId }: ProfilePuzzlesTabProps) => (
   <PaginatedQuery<ProfilePuzzlesQuery, ProfilePuzzlesQueryVariables>
@@ -25,11 +25,13 @@ const ProfilePuzzlesTab = ({ userId }: ProfilePuzzlesTabProps) => (
       if (!data.puzzles) return null;
       return (
         <>
-          {data.puzzles.map(puzzle => (
-            <MultiColBox key={puzzle.id}>
-              <PuzzleBrief puzzle={puzzle} />
-            </MultiColBox>
-          ))}
+          {data.puzzles.map(puzzle =>
+            puzzle.status === Status.UNDERGOING && puzzle.anonymous ? null : (
+              <MultiColBox key={puzzle.id}>
+                <PuzzleBrief puzzle={puzzle} />
+              </MultiColBox>
+            ),
+          )}
         </>
       );
     }}
