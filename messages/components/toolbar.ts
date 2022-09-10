@@ -53,6 +53,10 @@ export const messages = defineMessages({
     id: `toolbar.kanichat`,
     defaultMessage: 'External Chatroom',
   },
+  utakata: {
+    id: `toolbar.utakata`,
+    defaultMessage: 'Realtime Quiz',
+  },
 });
 
 export default messages;

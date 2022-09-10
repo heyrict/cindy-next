@@ -207,6 +207,11 @@ export const puzzleMessages = defineMessages({
     id: `components.puzzle.quotePlain`,
     defaultMessage: '{title}. Created by {user} at Cindy. (URL: {url}).',
   },
+  noneOrigWarn: {
+    id: `components.puzzle.noneOrigWarn`,
+    defaultMessage:
+      'WARNING: Creating puzzles that has been published elsewere is strictly prohibited in our {eula}. If you would like to play existing puzzles, it is recommended to use {quiz} service.',
+  },
 });
 
 export default puzzleMessages;

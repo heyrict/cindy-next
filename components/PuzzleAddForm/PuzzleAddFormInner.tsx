@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import Link from 'next/link';
 import { getMaxDazedDays } from 'settings';
 
 import { connect } from 'react-redux';
@@ -6,6 +7,7 @@ import * as settingReducer from 'reducers/setting';
 import * as globalReducer from 'reducers/global';
 
 import { FormattedMessage, FormattedDate } from 'react-intl';
+import toolbarMessages from 'messages/components/toolbar';
 import commonMessages from 'messages/common';
 import puzzleMessages from 'messages/components/puzzle';
 
@@ -20,6 +22,8 @@ import { StateType } from 'reducers/types';
 import { stampNamespaces } from 'stamps/types';
 import { PuzzleAddFormInnerProps, PostPuzzleDetailType } from './types';
 import { Genre, Yami } from 'generated/globalTypes';
+
+const ButtonTransparentA = ButtonTransparent.withComponent('a');
 
 const fieldNameStyle = {
   width: [1, 1 / 6],
@@ -309,8 +313,33 @@ export const PuzzleAddFormInner = ({
     </>
   );
 
+  const ExtraInfoDef = (
+    <Box px={2} my={3} width={1} textAlign="center">
+      <FormattedMessage
+        values={{
+          eula: (
+            <Link href="/eula" passHref>
+              <ButtonTransparentA color="cyan.6">
+                <FormattedMessage {...toolbarMessages.eula} />
+              </ButtonTransparentA>
+            </Link>
+          ),
+          quiz: (
+            <Link href="https://realtimequiz-alpha.netlify.app/" passHref>
+              <ButtonTransparentA color="cyan.6">
+                <FormattedMessage {...toolbarMessages.utakata} />
+              </ButtonTransparentA>
+            </Link>
+          ),
+        }}
+        {...puzzleMessages.noneOrigWarn}
+      />
+    </Box>
+  );
+
   return (
     <Box>
+      {ExtraInfoDef}
       {FormDef}
       {PostDef}
     </Box>
