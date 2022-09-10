@@ -28,7 +28,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.6",
+    "@apollo/client": "^3.6.9",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.9.0",
     "@formatjs/intl-pluralrules": "^4.0.3",

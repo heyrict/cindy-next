@@ -111,28 +111,10 @@ const ImageList = ({ userId, onClick }: ImageListProps) => {
         if (!data) return;
         if (data.deleteImage === null) return;
         const delImage = data.deleteImage;
-        const cachedResult = cache.readQuery<ImagesQuery, ImagesQueryVariables>(
-          {
-            query: IMAGES_QUERY,
-            variables: {
-              userId,
-              puzzleNull: true,
-            },
-          },
-        );
-        if (cachedResult === null) return;
-        const { images } = cachedResult;
-        let deletedIndex = images.findIndex(im => im.id == delImage.id);
-        cache.writeQuery({
-          query: IMAGES_QUERY,
-          variables: {
-            userId,
-            puzzleNull: true,
-          },
-          data: {
-            images: images
-              .slice(0, deletedIndex)
-              .concat(images.slice(deletedIndex + 1)),
+        cache.modify({
+          fields: {
+            images: (prev: any[], { readField }) =>
+              prev.filter(taskRef => delImage.id !== readField('id', taskRef)),
           },
         });
       },
@@ -243,11 +225,6 @@ const ImageList = ({ userId, onClick }: ImageListProps) => {
                             deleteImage({
                               variables: {
                                 id: im.id,
-                              },
-                              optimisticResponse: {
-                                deleteImage: {
-                                  ...im,
-                                },
                               },
                             });
                           }}
