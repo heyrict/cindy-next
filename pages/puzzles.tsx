@@ -150,14 +150,21 @@ const PuzzlesUnsolvedRenderer = () => {
             dialogueMaxAnsweredTime,
           } = data;
 
+          const prevFrag: Partial<PuzzleUnsolvedExtra> = client.readFragment<PuzzleUnsolvedExtra | null>({
+            id: `Puzzle:${data.puzzleId}`,
+            fragment: PUZZLE_UNSOLVED_EXTRA_FRAGMENT,
+          }) || {};
+
           client.writeFragment<PuzzleUnsolvedExtra>({
             id: `Puzzle:${data.puzzleId}`,
             fragment: PUZZLE_UNSOLVED_EXTRA_FRAGMENT,
             data: {
+              ...prevFrag,
               __typename: 'Puzzle',
               dialogueCount,
               dialogueNewCount: dialogueCount - dialogueCountAnswered,
-              dialogueMaxAnsweredTime,
+              // Server may return null dialogueMaxAnsweredTime if not updated
+              dialogueMaxAnsweredTime: dialogueMaxAnsweredTime || prevFrag.dialogueMaxAnsweredTime,
             },
           });
 
