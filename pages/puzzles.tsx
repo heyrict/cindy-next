@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { maybeSendNotification } from 'common/web-notify';
-import { mergeList, upsertMultipleItem, upsertItem } from 'common/update';
+import { mergeList, upsertMultipleItem } from 'common/update';
 
 import { FormattedMessage, useIntl } from 'react-intl';
 import messages from 'messages/pages/puzzles';
@@ -38,8 +38,13 @@ import { PuzzlesUnsolvedSub } from 'graphql/Subscriptions/generated/PuzzlesUnsol
 import { Status, Genre } from 'generated/globalTypes';
 import { UnsolvedPuzzlePuzzleLogsSub } from 'graphql/Subscriptions/generated/UnsolvedPuzzlePuzzleLogsSub';
 import { UNSOLVED_PUZZLE_PUZZLE_LOGS_SUB } from 'graphql/Subscriptions/PuzzleLog';
-import { PUZZLE_UNSOLVED_EXTRA_FRAGMENT } from 'graphql/Fragments/Puzzles';
+import {
+  PUZZLE_AGGREGATE_FRAGMENT,
+  PUZZLE_SHARED_FRAGMENT,
+  PUZZLE_UNSOLVED_EXTRA_FRAGMENT,
+} from 'graphql/Fragments/Puzzles';
 import { PuzzleUnsolvedExtra } from 'graphql/Fragments/generated/PuzzleUnsolvedExtra';
+import { matchGqlArgs, parseGqlArgs } from 'common/graphql';
 
 const PUZZLES_PER_PAGE = 20;
 const puzzleLoadingPanel = (
@@ -69,9 +74,9 @@ const PuzzlesSolvedRenderer = () => {
           if (!fetchMoreResult || !fetchMoreResult.puzzles) return prev;
           return {
             ...prev,
-            puzzle: mergeList(
-              prev.puzzles,
-              fetchMoreResult.puzzles,
+            puzzles: mergeList(
+              prev.puzzles || [],
+              fetchMoreResult.puzzles || [],
               'id',
               'desc',
             ),
@@ -188,38 +193,72 @@ const PuzzlesUnsolvedRenderer = () => {
             // before updateQuery)
 
             // Move puzzle from unsolved -> solved list
-            const puzzleSolvedQueryResult = client.readQuery<
-              PuzzlesSolvedQuery,
-              PuzzlesSolvedQueryVariables
-            >({
-              query: PUZZLES_SOLVED_QUERY,
-            });
-            if (puzzleSolvedQueryResult !== null) {
-              const { puzzles } = puzzleSolvedQueryResult;
-              const prevPuzzle = prev.puzzles.find(
-                puzzle => puzzle.id === newUnsolved.id,
-              );
-              if (prevPuzzle) {
-                client.writeQuery({
-                  query: PUZZLES_SOLVED_QUERY,
-                  data: {
-                    puzzles: upsertItem(
-                      puzzles,
-                      {
-                        ...prevPuzzle,
+            // 1. Add puzzle to solved list as a side effect
+            client.cache.modify({
+              fields: {
+                puzzles: (prev: any[], { storeFieldName, readField }) => {
+                  const gqlArgs = parseGqlArgs(storeFieldName);
+                  if (
+                    matchGqlArgs(gqlArgs, {
+                      // PUZZLES_UNSOLVED_QUERY
+                      order: { id: 'DESC' },
+                      filter: { modified: {}, status: { eq: 'UNDERGOING' } },
+                    })
+                  ) {
+                    return prev;
+                  }
+                  if (
+                    matchGqlArgs(gqlArgs, {
+                      // PUZZLES_SOLVED_QUERY
+                      order: { modified: 'DESC' },
+                      filter: {
+                        status: { neAll: ['UNDERGOING', 'FORCE_HIDDEN'] },
+                      },
+                    })
+                  ) {
+                    const newUnsolvedData: any = client.cache.readFragment({
+                      fragment: PUZZLE_SHARED_FRAGMENT,
+                      fragmentName: 'PuzzleShared',
+                      id: `Puzzle:${newUnsolved.id}`,
+                    });
+                    const newUnsolvedExtra: any = client.cache.readFragment({
+                      fragment: PUZZLE_UNSOLVED_EXTRA_FRAGMENT,
+                      fragmentName: 'PuzzleUnsolvedExtra',
+                      id: `Puzzle:${newUnsolved.id}`,
+                    });
+                    const newUnsolvedRef = client.cache.writeFragment({
+                      fragment: PUZZLE_AGGREGATE_FRAGMENT,
+                      fragmentName: 'PuzzleAggregate',
+                      id: `Puzzle:${newUnsolved.id}`,
+                      data: {
+                        ...newUnsolvedData,
                         ...newUnsolved,
                         starCount: 0,
                         starSum: 0,
                         bookmarkCount: 0,
                         commentCount: 0,
+                        dialogueCount: 0,
+                        ...newUnsolvedExtra,
                       },
-                      'modified',
-                      'desc',
-                    ),
-                  },
-                });
-              }
-            }
+                    });
+                    if (
+                      prev.some(ref => readField('id', ref) === newUnsolved.id)
+                    ) {
+                      return prev;
+                    }
+                    return [newUnsolvedRef, ...prev];
+                  }
+                },
+              },
+            });
+            // 2. Update unsolved list with removed puzzle
+            const puzzles = prev.puzzles.filter(
+              puzzle => puzzle.id !== newUnsolved.id,
+            );
+            return {
+              ...prev,
+              puzzles,
+            };
           } else if (maxModified < newModified) {
             // New puzzle added
             // Fetch new data from remote

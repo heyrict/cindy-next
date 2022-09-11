@@ -37,6 +37,7 @@
     "@popperjs/core": "^2.11.5",
     "apollo-upload-client": "^17.0.0",
     "deepmerge": "^4.2.2",
+    "dequal": "^2.0.3",
     "dompurify": "^2.3.6",
     "fnv-plus": "^1.2.12",
     "graphql": "^15.4.0",
