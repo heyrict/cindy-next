@@ -5,7 +5,7 @@ import os
 from gql import gql, Client
 from gql.transport.websockets import WebsocketsTransport
 
-from twitter import OAuth, Twitter
+import tweepy
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 logger = logging.getLogger(__name__)
@@ -13,10 +13,11 @@ logger = logging.getLogger(__name__)
 WS_ENDPOINT = os.environ.get("WS_ENDPOINT", "ws://127.0.0.1:8000/graphql")
 
 LOCALE = "ja"
-TOKEN = os.environ.get("TOKEN")
-TOKEN_SECRET = os.environ.get("TOKEN_SECRET")
-CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
-CONSUMER_SECRET = os.environ.get("CONSUMER_SECRET")
+API_KEY = os.environ.get("API_KEY")
+API_KEY_SECRET = os.environ.get("API_KEY_SECRET")
+BEARER_TOKEN = os.environ.get("BEARER_TOKEN")
+ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
+ACCESS_TOKEN_SECRET = os.environ.get("ACCESS_TOKEN_SECRET")
 ANONYMOUS_USER_DISPLAY = os.environ.get(
     "ANONYMOUS_USER_DISPLAY", "Anonymous User"
 )
@@ -56,21 +57,23 @@ def add_puzzle_callback(puzzle):
         "Puzzle Added with id=%d title=%s", puzzle["id"], puzzle["title"]
     )
 
-    auth = OAuth(TOKEN, TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
-    t = Twitter(auth=auth)
+    t = tweepy.Client(BEARER_TOKEN, API_KEY, API_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+    auth = tweepy.OAuth1UserHandler(API_KEY, API_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+    tapi = tweepy.API(auth)
 
-    params = {'status': msg}
+    params = {'text': msg}
 
     if TWEET_WITH_PICTURE:
         from imaging.puzzle_rendering import render, textify
 
         imgpath = render(puzzle["title"], textify(puzzle["content"]))
-        with open(imgpath, 'rb') as f:
-            imgdata = f.read()
-        params['media[]'] = imgdata
-        t.statuses.update_with_media(**params)
-    else:
-        t.statuses.update(**params)
+        media = tapi.media_upload(imgpath)
+        if media is not None:
+            params['media_ids'] = [media.media_id]
+        else:
+            raise RuntimeError("Failed to upload image to twitter")
+
+    t.create_tweet(**params)
 
 
 if __name__ == '__main__':

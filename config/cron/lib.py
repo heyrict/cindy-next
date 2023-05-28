@@ -37,14 +37,17 @@ def argmax(values):
 
 
 def tweeter_auth():
-    from twitter import OAuth, Twitter
-    TOKEN = os.environ.get("TOKEN")
-    TOKEN_SECRET = os.environ.get("TOKEN_SECRET")
-    CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
-    CONSUMER_SECRET = os.environ.get("CONSUMER_SECRET")
+    import tweepy
+    API_KEY = os.environ.get("API_KEY")
+    API_KEY_SECRET = os.environ.get("API_KEY_SECRET")
+    BEARER_TOKEN = os.environ.get("BEARER_TOKEN")
+    ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
+    ACCESS_TOKEN_SECRET = os.environ.get("ACCESS_TOKEN_SECRET")
 
-    auth = OAuth(TOKEN, TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
-    return Twitter(auth=auth)
+    t = tweepy.Client(BEARER_TOKEN, API_KEY, API_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+    auth = tweepy.OAuth1UserHandler(API_KEY, API_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+    tapi = tweepy.API(auth)
+    return (t, tapi)
 
 
 with open(os.path.join(FILEDIR, "settings.yml")) as f:

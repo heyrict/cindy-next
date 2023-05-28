@@ -6,10 +6,9 @@ After=network.target
 User=heyrict
 Group=www-data
 WorkingDirectory=/path/to/cindy-next
-#Environment=TOKEN=
-#Environment=TOKEN_SECRET=
-#Environment=CONSUMER_KEY=
-#Environment=CONSUMER_SECRET=
+#Environment=API_KEY=
+#Environment=API_KEY_SECRET=
+#Environment=BEARER_TOKEN=
 Environment=ANONYMOUS_USER_DISPLAY=謎の料理人
 Environment=TWEET_WITH_PICTURE=True
 ExecStart=/path/to/python /path/to/cindy-next/python/twitterServer.py

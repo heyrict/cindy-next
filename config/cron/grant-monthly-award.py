@@ -110,14 +110,14 @@ def grant_collection_award(user):
             print('[Error]: [grant_collection_award]: %s' % e)
 
         params = {
-            'status': MESSAGES.BOM_COLLECTION_ADD_MESSAGE % {
+            'text': MESSAGES.BOM_COLLECTION_ADD_MESSAGE % {
                 'nickname': user['nickname'],
                 'count': monthly_award_count,
                 'award_name': award_data['name'],
             }
         }
-        t = tweeter_auth()
-        t.statuses.update(**params)
+        t, tapi = tweeter_auth()
+        t.create_tweet(**params)
 
 
 def grant_monthly_award():
@@ -181,13 +181,10 @@ def grant_monthly_award():
     print('[Info]: [grant_monthly_award]: %s' % status_message)
     status_messages = status_message.split('\n\n', 1)
     imgpath = render(*status_messages)
-    with open(imgpath, 'rb') as f:
-        imgdata = f.read()
     params = {
-        'status': MESSAGES.BOM_TWEET_MESSAGE_SHORT % {
+        'text': MESSAGES.BOM_TWEET_MESSAGE_SHORT % {
             'header': status_messages[0]
         },
-        'media[]': imgdata,
     }
 
     # grant awards
@@ -205,8 +202,13 @@ def grant_monthly_award():
 
         grant_collection_award(user)
 
-    t = tweeter_auth()
-    t.statuses.update_with_media(**params)
+    t, tapi = tweeter_auth()
+    media = tapi.media_upload(imgpath)
+    if media is not None:
+        params['media_ids'] = [media.media_id]
+    else:
+        raise RuntimeError("Failed to upload image to twitter")
+    t.create_tweet(**params)
 
 
 if __name__ == "__main__":
