@@ -51,6 +51,10 @@ export const messages = defineMessages({
   },
   kanichat: {
     id: `toolbar.kanichat`,
+    defaultMessage: 'External Chatroom (Deprecated)',
+  },
+  xfeeder: {
+    id: `toolbar.xfeeder`,
     defaultMessage: 'External Chatroom',
   },
   utakata: {

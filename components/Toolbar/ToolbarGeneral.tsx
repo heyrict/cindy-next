@@ -246,13 +246,13 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                     </ToolbarButton>
                     <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">
                       <ButtonTransparentA
-                        href="http://chat.kanichat.com/chat?roomid=Cindychat"
+                        href="https://www.x-feeder.info/Cindychat/"
                         target="_blank"
                         height={1}
                         width={1}
                         color="preset.menubar.fg"
                       >
-                        <FormattedMessage {...toolbarMessages.kanichat} />
+                        <FormattedMessage {...toolbarMessages.xfeeder} />
                       </ButtonTransparentA>
                     </ToolbarButton>
                     <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">

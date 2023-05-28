@@ -10,14 +10,9 @@ import HintAddPanel from './HintAddPanel';
 
 import { ControlPanelProps, ControlPanelPanelType } from './types';
 import { PuzzleType } from '../types';
-import { Status, Yami } from 'generated/globalTypes';
 
-const getInitialPanel = (puzzle: PuzzleType): ControlPanelPanelType => {
-  if (puzzle.status === Status.UNDERGOING) {
-    if (puzzle.yami === Yami.LONGTERM) return ControlPanelPanelType.MEMO_EDIT;
-    return ControlPanelPanelType.SOLUTION_EDIT;
-  }
-  return ControlPanelPanelType.MEMO_EDIT;
+const getInitialPanel = (_puzzle: PuzzleType): ControlPanelPanelType => {
+  return ControlPanelPanelType.PUZZLE_EDIT;
 };
 
 const ControlPanel = ({ puzzle }: ControlPanelProps) => {
