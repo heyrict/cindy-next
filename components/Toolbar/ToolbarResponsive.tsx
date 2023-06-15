@@ -146,6 +146,19 @@ const Toolbar = ({
             <Box width={1 / 2}>
               <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
                 <ButtonTransparentA
+                  href="https://wiki3.jp/cindy-lat/page/40"
+                  target="_blank"
+                  height={1}
+                  width={1}
+                  color="black"
+                >
+                  <FormattedMessage {...toolbarMessages.goldPuzzles} />
+                </ButtonTransparentA>
+              </ToolbarResponsiveButton>
+            </Box>
+            <Box width={1 / 2}>
+              <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
+                <ButtonTransparentA
                   href="https://www.x-feeder.info/Cindychat/"
                   target="_blank"
                   height={1}

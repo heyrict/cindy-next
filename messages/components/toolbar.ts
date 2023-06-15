@@ -61,6 +61,10 @@ export const messages = defineMessages({
     id: `toolbar.utakata`,
     defaultMessage: 'Realtime Quiz',
   },
+  goldPuzzles: {
+    id: `toolbar.goldPuzzles`,
+    defaultMessage: 'Gold Puzzles (JP)',
+  },
 });
 
 export default messages;

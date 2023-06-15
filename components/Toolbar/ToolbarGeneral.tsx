@@ -246,6 +246,17 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                     </ToolbarButton>
                     <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">
                       <ButtonTransparentA
+                        href="https://wiki3.jp/cindy-lat/page/40"
+                        target="_blank"
+                        height={1}
+                        width={1}
+                        color="preset.menubar.fg"
+                      >
+                        <FormattedMessage {...toolbarMessages.goldPuzzles} />
+                      </ButtonTransparentA>
+                    </ToolbarButton>
+                    <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">
+                      <ButtonTransparentA
                         href="https://www.x-feeder.info/Cindychat/"
                         target="_blank"
                         height={1}
