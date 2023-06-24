@@ -107,6 +107,11 @@ export const messages = defineMessages({
     id: `puzzle.deleteImageConfirm`,
     defaultMessage: 'Your are attempting to delete this image. Continue?',
   },
+  fewDialogueHint: {
+    id: `puzzle.fewDialogueHint`,
+    defaultMessage:
+      'Depending on the date and time, it may take minutes to hours before your puzzle could get enough participants. Take your time, get a cup of tea, or maybe try to share it with your friends on social networks :)',
+  },
 });
 
 export default messages;

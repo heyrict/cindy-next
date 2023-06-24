@@ -3,8 +3,9 @@ import { toast } from 'react-toastify';
 import { upsertMultipleItem } from 'common/update';
 import { maybeSendNotification } from 'common/web-notify';
 
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import webNotifyMessages from 'messages/webNotify';
+import puzzlePageMessages from 'messages/pages/puzzle';
 
 import { connect } from 'react-redux';
 import * as puzzleReducer from 'reducers/puzzle';
@@ -19,7 +20,7 @@ import {
   PUZZLE_LOG_SUB,
 } from 'graphql/Subscriptions/PuzzleLog';
 
-import { Flex } from 'components/General';
+import { Flex, Panel } from 'components/General';
 import Loading from 'components/General/Loading';
 import PuzzleDialogue from './PuzzleDialogue';
 import PuzzleHint from './PuzzleHint';
@@ -303,6 +304,27 @@ export const PuzzleDialoguesRenderer = ({
     puzzleLogs = data.puzzleLogs;
   }
 
+  let fewDialogueHint = null;
+  if (user.id == puzzleUser.id) {
+    let num_participants = new Set(
+      puzzleLogs
+        .map(node => (node.__typename === 'Dialogue' ? node.user.id : null))
+        .filter(value => value !== null) as Array<number>,
+    ).size;
+    if (num_participants <= 2 && puzzleStatus == Status.UNDERGOING) {
+      fewDialogueHint = (
+        <Panel
+          minHeight="2em"
+          alignItems="center"
+          justifyContent="center"
+          width={1}
+        >
+          <FormattedMessage {...puzzlePageMessages.fewDialogueHint} />
+        </Panel>
+      );
+    }
+  }
+
   return (
     <Flex mx={widthSplits[0]} width={1} flexWrap="wrap">
       {applyUserFilter && users && (
@@ -312,6 +334,7 @@ export const PuzzleDialoguesRenderer = ({
           onClick={setUserFilterId}
         />
       )}
+      {fewDialogueHint}
       <PuzzleDialoguesRendererInner
         puzzleLogs={puzzleLogs}
         puzzleUser={puzzleUser}
