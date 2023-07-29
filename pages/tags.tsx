@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { asSearch } from 'common/search';
@@ -41,6 +41,10 @@ const ButtonTransparentA = ButtonTransparent.withComponent('a');
 function TagsPageContents({ variables }: { variables: TagsVariablesStates }) {
   const [hasMore, setHasMore] = useState(true);
 
+  useEffect(() => {
+    setHasMore(true);
+  }, [variables]);
+
   const { data, loading, error, refetch, fetchMore } = useQuery<
     TagsPageQuery,
     TagsPageQueryVariables
@@ -51,6 +55,9 @@ function TagsPageContents({ variables }: { variables: TagsVariablesStates }) {
       offset: 0,
     },
     fetchPolicy: 'cache-first',
+    onCompleted: data => {
+      if (data.tags.length < TAGS_PER_PAGE) setHasMore(false);
+    },
   });
 
   if (error) {
