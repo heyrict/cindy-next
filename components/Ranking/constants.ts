@@ -4,12 +4,14 @@ export const getRankingDate = (d?: Date) => {
   let date = d ? new Date(d) : new Date();
 
   if (date.getDate() > 15) {
+    date.setDate(1);
     date.setMonth(date.getMonth() - 1);
     return {
       year: date.getFullYear(),
       month: date.getMonth(),
     };
   } else {
+    date.setDate(1);
     date.setMonth(date.getMonth() - 2);
     return {
       year: date.getFullYear(),
