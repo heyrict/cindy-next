@@ -167,6 +167,10 @@ const Tags = () => {
               fieldName: <FormattedMessage {...tagsPageMessages.tagCreated} />,
             },
             {
+              key: 'name',
+              fieldName: <FormattedMessage {...tagsPageMessages.tagName} />,
+            },
+            {
               key: 'puzzleTagCount',
               fieldName: (
                 <FormattedMessage {...tagsPageMessages.tagPuzzleCount} />
