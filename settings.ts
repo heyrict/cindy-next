@@ -49,6 +49,14 @@ export const TOKENIZE_SERVER = isDev
 // Locale
 export const DEFAULT_LOCALE = isDev ? 'en' : 'ja';
 export const APPLOCALES: Array<'en' | 'ja'> = ['en', 'ja'];
+export const getFnsLocale = (locale: typeof APPLOCALES[0]) => {
+  switch (locale) {
+    case 'en':
+      return () => require('date-fns/locale/en-US').default;
+    case 'ja':
+      return () => require('date-fns/locale/ja').default;
+  }
+};
 
 // Client-side mage stock limits
 export const MAX_IMAGE_STOCK = 10;

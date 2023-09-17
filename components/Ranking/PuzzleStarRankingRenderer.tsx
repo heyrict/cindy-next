@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import Panel from 'components/General/Panel';
@@ -32,8 +32,6 @@ const PuzzleStarRankingRenderer = ({
   month: propmonth,
 }: PuzzleStarRankingRendererProps) => {
   let { year, month } = getRankingDate();
-  year = propyear || year;
-  month = propmonth || month;
 
   const { loading, error, data, refetch, fetchMore } = useQuery<
     PuzzleStarRankingQuery,
@@ -42,11 +40,20 @@ const PuzzleStarRankingRenderer = ({
     variables: {
       limit: ITEMS_PER_PAGE,
       offset: 0,
-      year,
-      month: month + 1,
+      year: propyear || year,
+      month: propmonth || month,
     },
   });
   const [hasMore, setHasMore] = useState(true);
+
+  useEffect(() => {
+    refetch({
+      limit: ITEMS_PER_PAGE,
+      offset: 0,
+      year: propyear || year,
+      month: propmonth || month,
+    })
+  }, [propyear, propmonth]);
 
   if (error) {
     toast.error(error.message);

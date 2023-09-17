@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import * as settingReducer from 'reducers/setting';
 
-import { FormattedMessage, FormattedDate, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import rankingMessages from 'messages/pages/ranking';
 
 import { Heading, Flex, Box, Button } from 'components/General';
@@ -16,19 +16,22 @@ import {
   rankingPanelTitleProps,
 } from 'components/Ranking/constants';
 import DatePicker from 'react-datepicker';
-import { ja } from 'date-fns/locale';
 
-import { MIN_RANKING_DATE } from 'settings';
+import { getFnsLocale, MIN_RANKING_DATE } from 'settings';
 
 const PuzzleStarRanking = () => {
-  const { formatMessage: _ } = useIntl();
   const { year, month } = getRankingDate();
+  const [date, setDate] = useState(() => {
+    return new Date(year, month);
+  });
+  let selectedYear = date.getFullYear();
+  let selectedMonth = date.getMonth();
   const language = useSelector(
     state => settingReducer.rootSelector(state).language,
   );
-  const [date, setDate] = useState(new Date(year, month));
+  const { formatMessage: _ } = useIntl();
 
-  const CustomDateInput = forwardRef<any, any>(({ value, onClick }, ref) => (
+  const CustomDateInput = forwardRef<any, any>(({ onClick }, ref) => (
     <Button
       fontSize={2}
       backgroundColor="preset.rankingpaneltitle.bg"
@@ -72,7 +75,7 @@ const PuzzleStarRanking = () => {
                     onChange={date => setDate(date || new Date(year, month))}
                     minDate={MIN_RANKING_DATE}
                     maxDate={new Date(year, month)}
-                    locale={(language as string) || undefined}
+                    locale={getFnsLocale(language || 'en')()}
                     customInput={<CustomDateInput />}
                     showMonthYearPicker
                   />
@@ -81,8 +84,8 @@ const PuzzleStarRanking = () => {
             />
           </Box>
           <PuzzleStarRankingRenderer
-            year={date.getFullYear()}
-            month={date.getMonth()}
+            year={selectedYear}
+            month={selectedMonth + 1}
             shouldLoadMore
           />
         </Flex>
