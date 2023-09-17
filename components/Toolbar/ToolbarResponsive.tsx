@@ -203,7 +203,7 @@ const Toolbar = ({
         </Portal>
       )}
       <ToolbarButton mx="auto">
-        <Link href="/" passHref>
+        <Link href="/" passHref legacyBehavior>
           <ButtonTransparentA height={1} width={1}>
             <Img height="xs" src={logoInline} />
           </ButtonTransparentA>

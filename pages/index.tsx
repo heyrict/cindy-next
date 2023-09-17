@@ -101,7 +101,7 @@ const HomePage = () => {
           />
         </Flex>
       </Flex>
-      <Link href="/puzzles" passHref>
+      <Link href="/puzzles" passHref legacyBehavior>
         <StartBox>
           <FormattedMessage {...messages.start} />
         </StartBox>

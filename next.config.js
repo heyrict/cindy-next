@@ -34,5 +34,5 @@ module.exports = {
     });
     return config;
   },
-  swcMinity: true,
+  swcMinify: true,
 };

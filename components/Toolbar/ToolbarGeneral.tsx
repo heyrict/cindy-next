@@ -106,7 +106,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
   return (
     <ToolbarFlex alignItems="center" justifyContent="center">
       <ToolbarFlex>
-        <Link href="/" passHref>
+        <Link href="/" passHref legacyBehavior>
           <ButtonTransparentA
             px={3}
             height={1}
