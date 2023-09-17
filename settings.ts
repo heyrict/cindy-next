@@ -84,6 +84,9 @@ export const getMaxDazedDays = (puzzle: {
     ? MAX_DAZED_DAYS_LONGTERM_YAMI
     : MAX_DAZED_DAYS_BY_GENRE[puzzle.genre];
 
+// Minimal date in ranking
+export const MIN_RANKING_DATE = new Date(2017, 12);
+
 // Same site domain filter
 export const DOMAIN_REGEXP = new RegExp(
   /^https?:\/\/(localhost(:\d+)?|127.0.0.1(:\d+)?|(www\.)?cindythink\.com)(.*)/,

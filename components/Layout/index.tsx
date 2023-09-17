@@ -34,6 +34,8 @@ import { StateType, ActionContentType } from 'reducers/types';
 import { ThemesEnum } from 'theme/types';
 
 import 'react-toastify/dist/ReactToastify.css';
+import "react-datepicker/dist/react-datepicker.css";
+import { ja } from 'date-fns/locale';
 
 const ChannelAside = dynamic<Pick<ChannelAsideProps, never>>(
   () => import('components/Chat/ChannelAside').then(mod => mod.default),

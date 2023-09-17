@@ -2,8 +2,10 @@ export const PuzzleStarRankingRendererDefaultProps = {
   shouldLoadMore: false,
 };
 
-export type PuzzleStarRankingRendererProps =
-  typeof PuzzleStarRankingRendererDefaultProps;
+export type PuzzleStarRankingRendererProps = {
+  year: number | null;
+  month: number | null;
+} & typeof PuzzleStarRankingRendererDefaultProps;
 
 export const UserDialogueRankingRendererDefaultProps = {
   shouldLoadMore: false,

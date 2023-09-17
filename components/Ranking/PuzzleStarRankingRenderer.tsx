@@ -28,8 +28,13 @@ const loadingPanel = (
 
 const PuzzleStarRankingRenderer = ({
   shouldLoadMore,
+  year: propyear,
+  month: propmonth,
 }: PuzzleStarRankingRendererProps) => {
-  const { year, month } = getRankingDate();
+  let { year, month } = getRankingDate();
+  year = propyear || year;
+  month = propmonth || month;
+
   const { loading, error, data, refetch, fetchMore } = useQuery<
     PuzzleStarRankingQuery,
     PuzzleStarRankingQueryVariables
