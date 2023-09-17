@@ -238,6 +238,12 @@ const Layout = ({ children }: LayoutProps) => {
     }
   `;
 
+  const reactDatepickerStyle = css`
+    .react-datepicker__tab-loop {
+      display: inline-block;
+    }
+  `;
+
   const globalStyle = css`
     @font-face {
       font-family: 'DejaVu Sans';
@@ -302,8 +308,9 @@ const Layout = ({ children }: LayoutProps) => {
     }
     ${tabsStyle}
     ${stampStyle}
-  ${tableStyle}
-  ${scrollbarStyle}
+    ${tableStyle}
+    ${scrollbarStyle}
+    ${reactDatepickerStyle}
   `;
 
   return isAdminPage ? (
