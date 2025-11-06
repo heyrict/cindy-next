@@ -45,8 +45,8 @@ subscription _PuzzleSub {
 def add_puzzle_callback(puzzle):
     puzzle_user = puzzle["user"]
     # Fix puzzle title overflow
-    if len(puzzle["title"]) > 50:
-        title = puzzle["title"][:50] + MESSAGES.ADD_PUZZLE_OMIT
+    if len(puzzle["title"]) > 60:
+        title = puzzle["title"][:60] + MESSAGES.ADD_PUZZLE_OMIT
     else:
         title = puzzle["title"]
 
