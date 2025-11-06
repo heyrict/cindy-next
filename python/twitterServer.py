@@ -18,9 +18,7 @@ API_KEY_SECRET = os.environ.get("API_KEY_SECRET")
 BEARER_TOKEN = os.environ.get("BEARER_TOKEN")
 ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
 ACCESS_TOKEN_SECRET = os.environ.get("ACCESS_TOKEN_SECRET")
-ANONYMOUS_USER_DISPLAY = os.environ.get(
-    "ANONYMOUS_USER_DISPLAY", "Anonymous User"
-)
+ANONYMOUS_USER_DISPLAY = os.environ.get("ANONYMOUS_USER_DISPLAY", "Anonymous User")
 TWEET_WITH_PICTURE = os.environ.get("TWEET_WITH_PICTURE", False)
 
 MESSAGES = getattr(__import__("templates"), LOCALE)
@@ -46,22 +44,30 @@ subscription _PuzzleSub {
 
 def add_puzzle_callback(puzzle):
     puzzle_user = puzzle["user"]
+    # Fix puzzle title overflow
+    if len(puzzle["title"]) > 50:
+        title = puzzle["title"][:50] + MESSAGES.ADD_PUZZLE_OMIT
+    else:
+        title = puzzle["title"]
+
     msg = MESSAGES.ADD_PUZZLE_TWEET % {
         "id": puzzle["id"],
-        "title": puzzle["title"],
+        "title": title,
         "user_nickname": ANONYMOUS_USER_DISPLAY if puzzle["anonymous"]\
                     else puzzle_user["nickname"],
-    } # yapf: disable
+    }  # yapf: disable
 
-    logger.info(
-        "Puzzle Added with id=%d title=%s", puzzle["id"], puzzle["title"]
+    logger.info("Puzzle Added with id=%d title=%s", puzzle["id"], puzzle["title"])
+
+    t = tweepy.Client(
+        BEARER_TOKEN, API_KEY, API_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
     )
-
-    t = tweepy.Client(BEARER_TOKEN, API_KEY, API_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-    auth = tweepy.OAuth1UserHandler(API_KEY, API_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+    auth = tweepy.OAuth1UserHandler(
+        API_KEY, API_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
+    )
     tapi = tweepy.API(auth)
 
-    params = {'text': msg}
+    params = {"text": msg}
 
     if TWEET_WITH_PICTURE:
         from imaging.puzzle_rendering import render, textify
@@ -69,14 +75,14 @@ def add_puzzle_callback(puzzle):
         imgpath = render(puzzle["title"], textify(puzzle["content"]))
         media = tapi.media_upload(imgpath)
         if media is not None:
-            params['media_ids'] = [media.media_id]
+            params["media_ids"] = [media.media_id]
         else:
             raise RuntimeError("Failed to upload image to twitter")
 
     t.create_tweet(**params)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     transport = WebsocketsTransport(url=WS_ENDPOINT)
 
     client = Client(
@@ -87,7 +93,7 @@ if __name__ == '__main__':
     query = gql(PUZZLE_SUBSCRIPTION)
 
     for data in client.subscribe(query):
-        op = data['puzzleSub'].get("op")
+        op = data["puzzleSub"].get("op")
         logger.info(f"Puzzle <{data['puzzleSub']['data']['id']}> is {op}")
-        if op == 'CREATED':
-            add_puzzle_callback(data['puzzleSub']["data"])
+        if op == "CREATED":
+            add_puzzle_callback(data["puzzleSub"]["data"])
