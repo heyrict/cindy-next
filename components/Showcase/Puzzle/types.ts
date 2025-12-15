@@ -1,14 +1,7 @@
-export const PuzzleShowcaseDefaultProps = {
-  wait: 2000,
-};
-
-export type PuzzleShowcaseProps = {
+export interface PuzzleShowcaseProps {
   key?: string;
-} & typeof PuzzleShowcaseDefaultProps;
-
-export type PuzzleShowcaseStates = {
-  stage: PuzzleShowcaseStages;
-};
+  wait?: number;
+}
 
 export enum PuzzleShowcaseStages {
   ONLY_CONTENT = 0,
