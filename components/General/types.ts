@@ -13,7 +13,10 @@ export type SwitchProps = {
   selected: boolean;
 };
 
-export interface HeadingProps extends TypographyProps, SpaceProps {
+export interface HeadingProps
+  extends TypographyProps,
+    SpaceProps,
+    React.HTMLAttributes<HTMLDivElement> {
   fontSize?: number;
 }
 
