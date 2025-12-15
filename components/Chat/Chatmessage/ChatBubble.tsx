@@ -23,9 +23,9 @@ const ChatBubble = styled.div<ChatBubbleProps>`
     bottom: -1.6em;
     border: 0.8em solid;
     border-color: ${p =>
-        p.orientation == 'left'
-            ? `${p.theme.colors.preset.bubble.ac} transparent transparent ${p.theme.colors.preset.bubble.ac}`
-            : `${p.theme.colors.preset.bubble.ac} ${p.theme.colors.preset.bubble.ac} transparent transparent`};
+      p.orientation == 'left'
+        ? `${p.theme.colors.preset.bubble.ac} transparent transparent ${p.theme.colors.preset.bubble.ac}`
+        : `${p.theme.colors.preset.bubble.ac} ${p.theme.colors.preset.bubble.ac} transparent transparent`};
   }
   &:after {
     content: ' ';
@@ -36,14 +36,14 @@ const ChatBubble = styled.div<ChatBubbleProps>`
     bottom: -0.9em;
     border: 0.5em solid;
     border-color: ${p =>
-        p.orientation == 'left'
-            ? `${p.theme.colors.preset.bubble.bg} transparent transparent ${p.theme.colors.preset.bubble.bg}`
-            : `${p.theme.colors.preset.bubble.bg} ${p.theme.colors.preset.bubble.bg} transparent transparent`};
+      p.orientation == 'left'
+        ? `${p.theme.colors.preset.bubble.bg} transparent transparent ${p.theme.colors.preset.bubble.bg}`
+        : `${p.theme.colors.preset.bubble.bg} ${p.theme.colors.preset.bubble.bg} transparent transparent`};
   }
 `;
 
 ChatBubble.defaultProps = {
-    orientation: 'left',
+  orientation: 'left',
 };
 
 export default ChatBubble;

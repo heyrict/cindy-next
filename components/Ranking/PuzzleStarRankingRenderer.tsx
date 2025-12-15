@@ -52,7 +52,7 @@ const PuzzleStarRankingRenderer = ({
       offset: 0,
       year: propyear || year,
       month: propmonth || month,
-    })
+    });
   }, [propyear, propmonth]);
 
   if (error) {

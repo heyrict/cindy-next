@@ -110,13 +110,18 @@ const HomePage = () => {
         bg="solarized.white"
         borderRadius={2}
         p={2}
-        mt={4}
         mx={2}
+        my={4}
         width={1}
         minHeight="700px"
       >
         <PuzzleShowcase />
       </Box>
+      <Link href="/puzzles" passHref legacyBehavior>
+        <StartBox>
+          <FormattedMessage {...messages.start} />
+        </StartBox>
+      </Link>
     </PurpleBg>
   );
 };

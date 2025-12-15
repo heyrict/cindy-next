@@ -109,7 +109,7 @@ const Toolbar = ({
           <ToolbarResponsiveContents>
             <Box width={1 / 2}>
               <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
-                <Link href="/puzzles" passHref>
+                <Link href="/puzzles" passHref legacyBehavior>
                   <ButtonTransparentA height={1} width={1} color="black">
                     <FormattedMessage {...toolbarMessages.puzzle} />
                   </ButtonTransparentA>
@@ -123,7 +123,7 @@ const Toolbar = ({
             </Box>
             <Box width={1 / 2}>
               <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
-                <Link href="/users" passHref>
+                <Link href="/users" passHref legacyBehavior>
                   <ButtonTransparentA height={1} width={1} color="black">
                     <FormattedMessage {...toolbarMessages.users} />
                   </ButtonTransparentA>
@@ -171,7 +171,7 @@ const Toolbar = ({
             </Box>
             <Box width={1 / 2}>
               <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
-                <Link href="/license_help" passHref>
+                <Link href="/license_help" passHref legacyBehavior>
                   <ButtonTransparentA height={1} width={1} color="black">
                     <FormattedMessage {...toolbarMessages.licenseHelp} />
                   </ButtonTransparentA>
@@ -180,7 +180,7 @@ const Toolbar = ({
             </Box>
             <Box width={1 / 2}>
               <ToolbarResponsiveButton bg="preset.menubar.ac" mr="1px" mb="1px">
-                <Link href="/eula" passHref>
+                <Link href="/eula" passHref legacyBehavior>
                   <ButtonTransparentA height={1} width={1} color="black">
                     <FormattedMessage {...toolbarMessages.eula} />
                   </ButtonTransparentA>
@@ -230,7 +230,12 @@ const Toolbar = ({
                   mb="1px"
                   bg="preset.menubar.ac"
                 >
-                  <Link href="/user/[id]" as={`/user/${user.id}`} passHref>
+                  <Link
+                    href="/user/[id]"
+                    as={`/user/${user.id}`}
+                    passHref
+                    legacyBehavior
+                  >
                     <ButtonTransparentA height={1} width={1} color="black">
                       <IconDisplay user={user} />
                     </ButtonTransparentA>
@@ -271,7 +276,7 @@ const Toolbar = ({
                   bg="preset.menubar.ac"
                   fontWeight="bold"
                 >
-                  <Link href="/admin" passHref>
+                  <Link href="/admin" passHref legacyBehavior>
                     <ButtonTransparentA height={1} width={1} color="black">
                       <FormattedMessage {...userMessages.adminConsole} />
                     </ButtonTransparentA>

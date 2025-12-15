@@ -117,7 +117,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
           </ButtonTransparentA>
         </Link>
         <ToolbarButton bg="preset.menubar.ac" mr="1px">
-          <Link href="/puzzles" passHref>
+          <Link href="/puzzles" passHref legacyBehavior>
             <ButtonTransparentA height={1} width={1} color="preset.menubar.fg">
               <FormattedMessage {...toolbarMessages.puzzle} />
             </ButtonTransparentA>
@@ -169,7 +169,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                       color="preset.menubar.fg"
                       fontWeight="bold"
                     >
-                      <Link href="/users" passHref>
+                      <Link href="/users" passHref legacyBehavior>
                         <ButtonTransparentA
                           height={1}
                           width={1}
@@ -267,7 +267,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                       </ButtonTransparentA>
                     </ToolbarButton>
                     <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">
-                      <Link href="/eula" passHref>
+                      <Link href="/eula" passHref legacyBehavior>
                         <ButtonTransparentA
                           height={1}
                           width={1}
@@ -278,7 +278,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                       </Link>
                     </ToolbarButton>
                     <ToolbarButton bg="preset.menubar.bg" fontWeight="bold">
-                      <Link href="/license_help" passHref>
+                      <Link href="/license_help" passHref legacyBehavior>
                         <ButtonTransparentA
                           height={1}
                           width={1}
@@ -361,7 +361,12 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                       color="preset.menubar.fg"
                       fontWeight="bold"
                     >
-                      <Link href="/user/[id]" as={`/user/${user.id}`} passHref>
+                      <Link
+                        href="/user/[id]"
+                        as={`/user/${user.id}`}
+                        passHref
+                        legacyBehavior
+                      >
                         <ButtonTransparentA
                           height={1}
                           width={1}
@@ -416,7 +421,7 @@ const Toolbar = ({ user, setLanguage, directHasnew }: ToolbarProps) => {
                       color="preset.menubar.fg"
                       fontWeight="bold"
                     >
-                      <Link href="/admin" passHref>
+                      <Link href="/admin" passHref legacyBehavior>
                         <ButtonTransparentA
                           height={1}
                           width={1}
