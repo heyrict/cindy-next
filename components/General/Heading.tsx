@@ -1,8 +1,8 @@
 import styled from 'theme/styled';
-import { typography, space, SpaceProps, TypographyProps } from 'styled-system';
-import { HeadingDefaultProps } from './types';
+import { typography, space } from 'styled-system';
+import { HeadingProps } from './types';
 
-const Heading = styled.div<TypographyProps & SpaceProps>`
+const StyledHeading = styled.div<HeadingProps>`
   color: ${p => p.theme.colors.black};
   margin-left: 50px;
   margin-bottom: 20px;
@@ -16,6 +16,8 @@ const Heading = styled.div<TypographyProps & SpaceProps>`
   ${space}
 `;
 
-Heading.defaultProps = HeadingDefaultProps;
+const Heading = ({ fontSize = 6, ...props }: HeadingProps) => (
+  <StyledHeading fontSize={fontSize} {...props} />
+);
 
 export default Heading;

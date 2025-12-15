@@ -1,4 +1,5 @@
 import { ApolloError } from '@apollo/client';
+import { TypographyProps, SpaceProps } from 'styled-system';
 
 export type OuterBarProps = {
   percentage: number;
@@ -12,15 +13,13 @@ export type SwitchProps = {
   selected: boolean;
 };
 
-export const HeadingDefaultProps = {
-  fontSize: 6,
-};
+export interface HeadingProps extends TypographyProps, SpaceProps {
+  fontSize?: number;
+}
 
-export const LoadingDefaultProps = {
-  centered: false,
-};
-
-export type LoadingProps = typeof LoadingDefaultProps;
+export interface LoadingProps {
+  centered?: boolean;
+}
 
 export type ErrorReloadProps = {
   error: ApolloError;

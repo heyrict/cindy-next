@@ -3,8 +3,7 @@ import styled from 'theme/styled';
 import { keyframes } from '@emotion/react';
 
 import Flex from './Flex';
-
-import { LoadingProps, LoadingDefaultProps } from './types';
+import { LoadingProps } from './types';
 
 const LoadingBlock = styled.div`
   display: inline-block;
@@ -72,7 +71,7 @@ const LoadingChildD = styled(LoadingDot)`
   animation: ${LoadingKeyframeSqueeze} 0.6s infinite;
 `;
 
-const Loading = ({ centered }: LoadingProps) => {
+const Loading = ({ centered = false }: LoadingProps) => {
   const spinner = (
     <LoadingBlock>
       <LoadingChildA />
@@ -92,7 +91,5 @@ const Loading = ({ centered }: LoadingProps) => {
 
   return spinner;
 };
-
-Loading.defaultProps = LoadingDefaultProps;
 
 export default Loading;
