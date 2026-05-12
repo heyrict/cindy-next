@@ -33,6 +33,8 @@ import logoInline from 'svgs/logoInline.svg';
 import countryJPIcon from 'svgs/countries/ja_JP.svg';
 import countryUSIcon from 'svgs/countries/en_US.svg';
 import twitterIcon from 'svgs/Twitter_Social_Icon_Circle_Color.svg';
+import rssIcon from 'svgs/rss.svg';
+import atomIcon from 'svgs/atom.svg';
 
 import {
   StateType,
@@ -194,6 +196,20 @@ const Toolbar = ({
                 height={1}
               >
                 <Img p={1} src={twitterIcon} height="xs" />
+              </ButtonTransparentA>
+              <ButtonTransparentA
+                href="https://www.cindythink.com/feed/feed.xml"
+                target="_blank"
+                height={1}
+              >
+                <Img px={1} src={rssIcon} height="xs" />
+              </ButtonTransparentA>
+              <ButtonTransparentA
+                href="https://www.cindythink.com/feed/feed.atom"
+                target="_blank"
+                height={1}
+              >
+                <Img px={1} src={atomIcon} height="xs" />
               </ButtonTransparentA>
               <Flex flexGrow={1} alignItems="center" justifyContent="center">
                 <ActiveUserCounter />
