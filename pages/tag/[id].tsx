@@ -42,7 +42,6 @@ const TagPage = () => {
           content={_(tagMessages.description)}
         />
       </Head>
-      <PuzzleSubbar />
       <Query<TagQuery, TagQueryVariables>
         query={TAG_QUERY}
         variables={{
@@ -92,6 +91,7 @@ const TagPage = () => {
           );
         }}
       </Query>
+      <PuzzleSubbar />
       <Flex flexWrap="wrap">
         <PaginatedQuery<TagPuzzlesQuery, TagPuzzlesQueryVariables>
           query={TAG_PUZZLES_QUERY}
