@@ -34,6 +34,12 @@ server {
         proxy_set_header X-Real_IP $remote_addr;
     }
 
+    location /feed {
+        alias /home/heyrict/cindy-next/public/feed;
+        autoindex off;
+        gzip on;
+    }
+
     location ~ ^/(graphql|login|signup|role_switch) {
         proxy_pass http://localhost:8000;
 
