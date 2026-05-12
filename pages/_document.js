@@ -17,6 +17,8 @@ export default class IntlDocument extends Document {
             async
             src="https://unpkg.com/share-api-polyfill/dist/share-min.js"
           />
+          <link rel="feed" type="application/atom+xml" href="/feed/feed.atom" title="Atom Feed" />
+          <link rel="feed" type="application/rss+xml" href="/feed/feed.xml" title="RSS Feed" />
           {SCRIPTS.map(s => (
             <script key={hash(s)} dangerouslySetInnerHTML={{ __html: s }} />
           ))}
