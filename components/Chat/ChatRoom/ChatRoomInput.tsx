@@ -114,6 +114,7 @@ const ChatRoomInput = ({
               icon: null,
               nickname: '...',
               username: '...',
+              isActive: true,
               currentAward: null,
               defaultLicenseId: null,
             },

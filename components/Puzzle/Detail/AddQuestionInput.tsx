@@ -178,6 +178,7 @@ const AddQuestionInput = ({ puzzleId, userId }: AddQuestionInputProps) => {
                 icon: null,
                 nickname: '...',
                 username: '...',
+                isActive: false,
                 currentAward: null,
                 defaultLicenseId: null,
               },

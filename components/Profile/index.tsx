@@ -101,44 +101,52 @@ const ProfileInfoRenderer = ({
                 values={{ nickname: user.nickname }}
               />
             </Box>
-            <Box width={1} fontSize={2} mt={1}>
-              <ButtonTransparent
-                p={1}
-                onClick={() => directChatWithUser(user.id)}
-              >
-                <Img height="xxs" src={messageIcon} alt="profile" />
-              </ButtonTransparent>
-            </Box>
+            {user.isActive && (
+              <Box width={1} fontSize={2} mt={1}>
+                <ButtonTransparent
+                  p={1}
+                  onClick={() => directChatWithUser(user.id)}
+                >
+                  <Img height="xxs" src={messageIcon} alt="profile" />
+                </ButtonTransparent>
+              </Box>
+            )}
           </Box>
         </Flex>
       </Box>
-      <ProfileSubbar
-        hideBookmark={currentUser.id !== user.id && user.hideBookmark}
-        tab={tab}
-        setTab={setTab}
-      />
-      <Flex flexWrap="wrap">
-        {tab === ProfileTabType.INFO && <ProfileInfo user={user} />}
-        {tab === ProfileTabType.FOOTPRINTS && (
-          <ProfileFootprintsTab userId={user.id} />
-        )}
-        {tab === ProfileTabType.PUZZLES && (
-          <ProfilePuzzlesTab userId={user.id} />
-        )}
-        {tab === ProfileTabType.STARS && <ProfileStarsTab userId={user.id} />}
-        {tab === ProfileTabType.BOOKMARKS && currentUser.id === user.id && (
-          <ProfileHideBookmarksToggle
-            userId={user.id}
-            hideBookmark={user.hideBookmark}
+      {user.isActive && (
+        <>
+          <ProfileSubbar
+            hideBookmark={currentUser.id !== user.id && user.hideBookmark}
+            tab={tab}
+            setTab={setTab}
           />
-        )}
-        {tab === ProfileTabType.BOOKMARKS && (
-          <ProfileBookmarksTab userId={user.id} />
-        )}
-        {tab === ProfileTabType.COMMENTS && (
-          <ProfileCommentsTab userId={user.id} />
-        )}
-      </Flex>
+          <Flex flexWrap="wrap">
+            {tab === ProfileTabType.INFO && <ProfileInfo user={user} />}
+            {tab === ProfileTabType.FOOTPRINTS && (
+              <ProfileFootprintsTab userId={user.id} />
+            )}
+            {tab === ProfileTabType.PUZZLES && (
+              <ProfilePuzzlesTab userId={user.id} />
+            )}
+            {tab === ProfileTabType.STARS && (
+              <ProfileStarsTab userId={user.id} />
+            )}
+            {tab === ProfileTabType.BOOKMARKS && currentUser.id === user.id && (
+              <ProfileHideBookmarksToggle
+                userId={user.id}
+                hideBookmark={user.hideBookmark}
+              />
+            )}
+            {tab === ProfileTabType.BOOKMARKS && (
+              <ProfileBookmarksTab userId={user.id} />
+            )}
+            {tab === ProfileTabType.COMMENTS && (
+              <ProfileCommentsTab userId={user.id} />
+            )}
+          </Flex>
+        </>
+      )}
     </React.Fragment>
   );
 };

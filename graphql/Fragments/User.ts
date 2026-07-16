@@ -8,6 +8,7 @@ export const USER_BRIEF_FRAGMENT = gql`
     icon
     nickname
     username
+    isActive
     currentAward {
       ...UserAward
     }

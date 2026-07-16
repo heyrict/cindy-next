@@ -127,6 +127,7 @@ const HintAddPanel = ({ puzzleId, yami }: HintAddPanelProps) => {
                         icon: null,
                         nickname: '...',
                         username: '...',
+                        isActive: false,
                         currentAward: null,
                         defaultLicenseId: null,
                       },
